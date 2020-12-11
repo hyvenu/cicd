@@ -7,7 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { User } from '../Models/user';
+import { User } from '../models/User';
 
 
 @Injectable({

@@ -7,8 +7,9 @@ from rest_framework import viewsets, permissions
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from security.serializer import UserSerializer, GroupSerializer
+from security.serializer import UserSerializer, GroupSerializer, CustomTokenObtainPairSerializer
 
 User = get_user_model()
 
@@ -36,3 +37,8 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+    token_obtain_pair = TokenObtainPairView
