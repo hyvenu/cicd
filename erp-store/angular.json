@@ -30,7 +30,6 @@
             "styles": [
               "src/styles.scss",
               "node_modules/@nebular/theme/styles/prebuilt/default.css"
-
             ],
             "scripts": []
           },
@@ -125,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "erp-store"
+    }
+  },
+  "defaultProject": "erp-store",
+  "cli": {
+    "analytics": "3a4d6447-2d99-4b81-b993-027b99abb8d9"
+  }
 }
