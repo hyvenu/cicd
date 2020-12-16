@@ -1,0 +1,18 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+<p>
+    <a class="btn btn-light" href="{% url 'inventory_ProductSubCategory_list' %}">
+    ProductSubCategory Listing
+    </a>
+</p>
+    
+<table class="table">
+    <tr><td>sub_category_name</td><td>{{ object.sub_category_name }}</td></tr>
+    <tr><td>sub_category_code</td><td>{{ object.sub_category_code }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
+
+{% endblock %}

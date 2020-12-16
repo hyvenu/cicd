@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+<p>
+    <a class="btn btn-light" href="{% url 'inventory_ProductSubCategory_list' %}">
+    ProductSubCategory Listing
+    </a>
+</p>
+    
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{form.errors}}
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="sub_category_name">sub_category_name: </label>
+  <input class="form-control col-sm-10" id="sub_category_name" type="text" name="sub_category_name" value="{{ object.sub_category_name }}">
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="sub_category_code">sub_category_code: </label>
+  <input class="form-control col-sm-10" id="sub_category_code" type="text" name="sub_category_code" value="{{ object.sub_category_code }}">
+  </div>
+  <input type="submit" value="Save" class="btn btn-primary">
+</form>
+
+{% endblock %}

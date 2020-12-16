@@ -1,0 +1,18 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+<p>
+    <a class="btn btn-light" href="{% url 'inventory_UnitMaster_list' %}">
+    UnitMaster Listing
+    </a>
+</p>
+    
+<table class="table">
+    <tr><td>PrimaryUnit</td><td>{{ object.PrimaryUnit }}</td></tr>
+    <tr><td>SecondaryUnit</td><td>{{ object.SecondaryUnit }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+<p>
+    <a class="btn btn-light" href="{% url 'inventory_ProductMaster_list' %}">
+    ProductMaster Listing
+    </a>
+</p>
+    
+<table class="table">
+    <tr><td>hsn_code</td><td>{{ object.hsn_code }}</td></tr>
+    <tr><td>product_code</td><td>{{ object.product_code }}</td></tr>
+    <tr><td>product_image</td><td>{{ object.product_image }}</td></tr>
+    <tr><td>description</td><td>{{ object.description }}</td></tr>
+    <tr><td>product_name</td><td>{{ object.product_name }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
+
+{% endblock %}

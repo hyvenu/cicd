@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!--<p>-->
+<!--    <a class="btn btn-light" href="{% url 'store_Store_list' %}">-->
+<!--    Store Listing-->
+<!--    </a>-->
+<!--</p>-->
+<section class="testimonial py-5" id="testimonial">
+    <div class="container shadow bg-white rounded">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.errors}}
+
+       <div class="row">
+           <div class="col-md-4">
+                {{ form.store_name }}
+           </div>
+        </div><br>
+        <div class="row">
+           <div class="col-md-4">
+                {{ form.address }}
+           </div>
+           <div class="col-md-4">
+                {{ form.city }}
+           </div>
+        </div><br>
+        <div class="row">
+           <div class="col-md-4">
+                {{ form.pin_code }}
+           </div>
+           <div class="col-md-4">
+                {{ form.is_main_branch }}
+           </div>
+        </div>
+
+        <input type="submit" value="Add Store" class="btn btn-primary">
+      </form>
+    </div>
+</section>
+{% endblock %}

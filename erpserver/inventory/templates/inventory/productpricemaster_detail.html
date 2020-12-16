@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+<p>
+    <a class="btn btn-light" href="{% url 'inventory_ProductPriceMaster_list' %}">
+    ProductPriceMaster Listing
+    </a>
+</p>
+    
+<table class="table">
+    <tr><td>primaryunit_price_buy</td><td>{{ object.primaryunit_price_buy }}</td></tr>
+    <tr><td>primaryunit_price_sell</td><td>{{ object.primaryunit_price_sell }}</td></tr>
+    <tr><td>secondaryunit_price_sell</td><td>{{ object.secondaryunit_price_sell }}</td></tr>
+    <tr><td>secondaryunit_price_buy</td><td>{{ object.secondaryunit_price_buy }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
+
+{% endblock %}
