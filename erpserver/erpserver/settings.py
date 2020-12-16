@@ -40,9 +40,16 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'security'
+    'view_breadcrumbs',
+    'crispy_forms',
+    'security',
+    'store',
+    'inventory',
 
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 
 ]
 
@@ -63,13 +71,20 @@ AUTO_LOGOUT_DELAY = 5 #equivalent to 5 minutes
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
+LOGIN_REDIRECT_URL = '/'
+
+LOGIN_URL = '/security/accounts/login'
+
+LOGOUT_URL = '/logout'
+
+USE_DJANGO_JQUERY = True
 
 ROOT_URLCONF = 'erpserver.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -183,4 +198,11 @@ APPEND_SLASH = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = str(BASE_DIR) + '/static/'
+STATIC_ROOT = ''
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static') ,)
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+BREADCRUMBS_HOME_LABEL = 'Home'

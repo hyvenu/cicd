@@ -3,16 +3,20 @@
 {% load static %}
 {% block content %}
     
-<p>
-    <a class="btn btn-light" href="{% url 'inventory_UnitMaster_list' %}">
-    UnitMaster Listing
+<div class="alert alert-primary">
+    <a class="btn btn-outline-primary" href="{% url 'inventory_UnitMaster_list' %}">
+    Unit Master List
     </a>
-</p>
-    
+</div>
+<section class="testimonial py-5" id="testimonial">
+<div class="container shadow bg-white rounded">
 <table class="table">
-    <tr><td>PrimaryUnit</td><td>{{ object.PrimaryUnit }}</td></tr>
-    <tr><td>SecondaryUnit</td><td>{{ object.SecondaryUnit }}</td></tr>
+    <tr><td>Primary Unit</td><td>{{ object.PrimaryUnit }}</td></tr>
+    <tr><td>Secondary Unit</td><td>{{ object.SecondaryUnit }}</td></tr>
 </table>
-<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
 
+<a class="btn btn-outline-primary" href="{{object.get_update_url}}">Edit</a>
+<br>
+</div>
+</section>
 {% endblock %}

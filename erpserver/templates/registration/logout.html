@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<section class="testimonial py-5" id="testimonial">
+    <div class="container shadow bg-white rounded">
+        <div class="row">
+            <div class="col-md-8 py-5 border">
+                <h3>Logged Out successfully</h3>
+                <p>click here <a href="/accounts/login"> login </a></p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

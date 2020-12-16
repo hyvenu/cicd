@@ -16,8 +16,17 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from erpserver import views
 
 urlpatterns = [
+    url(r'^$', views.index, name='index'),
+    url('accounts/', include('django.contrib.auth.urls')),
+    url('logout/', views.user_logout, name='user_logout'),
     path('admin/', admin.site.urls),
-    url('authentication/', include('security.urls'))
-]
+    url('authentication/', include('security.urls')),
+    url('manage_store/', include('store.urls')),
+    url('manage_inventory/', include('inventory.urls')),
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

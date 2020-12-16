@@ -1,8 +1,26 @@
 
 {% extends "base.html" %}
 {% block content %}
+<div class="alert alert-primary">
+  <a class="btn btn-outline-primary" href="{% url 'inventory_UnitMaster_create' %}">Create a new Unit Master</a>
+</div>
+<section class="testimonial py-5" id="testimonial">
+<div class="container shadow bg-white rounded">
+<table class="table table-hover">
+<thead>
+<th> Primary Unit</th>
+<th> Secondary Unit</th>
+</thead>
+<tbody>
 {% for object in object_list %}
-  <div class="m-2"><a href="{{object.get_absolute_url}}">{{object}}</a></div>
+ <tr>
+   <td><a href="{{object.get_absolute_url}}">{{object.PrimaryUnit}}</a></td>
+   <td>{{object.SecondaryUnit}}</td>
+ </tr>
+<!--  <div class="m-2"><a href="{{object.get_absolute_url}}">{{object}}</a></div>-->
 {% endfor %}
-<div><a class="btn btn-primary" href="{% url 'inventory_UnitMaster_create' %}">Create a new UnitMaster</a></div>
+</tbody>
+</table>
+</div>
+</section>
 {% endblock %}

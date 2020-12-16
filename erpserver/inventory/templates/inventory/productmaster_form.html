@@ -4,35 +4,74 @@
 {% block content %}
     
 <p>
-    <a class="btn btn-light" href="{% url 'inventory_ProductMaster_list' %}">
-    ProductMaster Listing
+    <a class="btn btn-outline-primary" href="{% url 'inventory_ProductMaster_list' %}">
+    Product Master List
     </a>
 </p>
-    
-<form method="post" enctype="multipart/form-data">
+<section class="testimonial py-5" id="testimonial">
+<div class="container shadow bg-white rounded"><br>
+<form id="form_product_master" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{form.errors}}
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="hsn_code">hsn_code: </label>
-  <input class="form-control col-sm-10" id="hsn_code" type="text" name="hsn_code" value="{{ object.hsn_code }}">
+    <div class="form-group row">
+      <p class="col-sm-2 col-form-label">{{ form.category.label_tag  }}</p>
+      {{ form.category  }}
+      <p class="col-sm-2 col-form-label">{{ form.sub_category.label_tag  }}</p>
+      {{ form.sub_category  }}
   </div>
   <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="product_code">product_code: </label>
-  <input class="form-control col-sm-10" id="product_code" type="text" name="product_code" value="{{ object.product_code }}">
+  <label class="col-sm-2 col-form-label" for="product_name">Product Name: </label>
+  <input class="form-control col-sm-4" id="product_name" type="text" name="product_name" value="{{ object.product_name }}">
   </div>
   <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="product_image">product_image: </label>
-  <input class="form-control col-sm-10" id="product_image" type="file" name="product_image" value="{{ object.product_image }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="description">description: </label>
-  <input class="form-control col-sm-10" id="description" type="text" name="description" value="{{ object.description }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="product_name">product_name: </label>
-  <input class="form-control col-sm-10" id="product_name" type="text" name="product_name" value="{{ object.product_name }}">
-  </div>
-  <input type="submit" value="Save" class="btn btn-primary">
-</form>
+  <label class="col-sm-2 col-form-label" for="product_code">Product Code: </label>
+  <input class="form-control col-sm-4" id="product_code" type="text" name="product_code" value="{{ object.product_code }}">
 
+  <label class="col-sm-2 col-form-label" for="hsn_code">HSN Code: </label>
+  <input class="form-control col-sm-4" id="hsn_code" type="text" name="hsn_code" value="{{ object.hsn_code }}">
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label" for="description">Description: </label>
+    <input class="form-control col-sm-4" id="description" type="text" name="description" value="{{ object.description }}">
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label" for="product_image">Upload Image: </label>
+    <input class="form-control col-sm-4" id="product_image" type="file" name="product_image" value="{{ object.product_image }}">
+  </div>
+
+
+  <input type="submit" value="Save" class="btn btn-outline-primary">
+</form>
+  <br>
+</div>
+</section>
+<script>
+  $('#category_id').click(function(e){
+    $.ajax({
+        type:'GET',
+        url:'{% url "create" %}',
+        data:{
+            title:$('#title').val(),
+            description:$('#description').val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post'
+        },
+        success:function(json){
+            document.getElementById("post-form").reset();
+            $(".posts").prepend('<div class="col-md-6">'+
+                '<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">' +
+                    '<div class="col p-4 d-flex flex-column position-static">' +
+                        '<h3 class="mb-0">' + json.title + '</h3>' +
+                        '<p class="mb-auto">' + json.description + '</p>' +
+                    '</div>' +
+                '</div>' +
+            '</div>'
+            )
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+    }
+    });
+});
+</script>
 {% endblock %}

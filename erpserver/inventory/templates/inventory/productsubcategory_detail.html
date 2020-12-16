@@ -3,16 +3,21 @@
 {% load static %}
 {% block content %}
     
-<p>
-    <a class="btn btn-light" href="{% url 'inventory_ProductSubCategory_list' %}">
-    ProductSubCategory Listing
+<div class="alert alert-primary">
+    <a class="btn btn-outline-primary" href="{% url 'inventory_ProductSubCategory_list' %}">
+    Product Sub-Category List
     </a>
-</p>
-    
+</div>
+<section class="testimonial py-5" id="testimonial">
+<div class="container shadow bg-white rounded">
 <table class="table">
-    <tr><td>sub_category_name</td><td>{{ object.sub_category_name }}</td></tr>
-    <tr><td>sub_category_code</td><td>{{ object.sub_category_code }}</td></tr>
+    <tr><td>Parent Category Name</td><td>{{ object.category }}</td></tr>
+    <tr><td>Sub Category Code</td><td>{{ object.sub_category_code }}</td></tr>
+    <tr><td>Sub Category Code</td><td>{{ object.sub_category_code }}</td></tr>
 </table>
-<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
+</div>
+<a class="btn btn-outline-primary" href="{{object.get_update_url}}">Edit</a>
+</section>
+
 
 {% endblock %}
