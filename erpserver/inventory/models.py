@@ -39,7 +39,7 @@ class ProductSubCategory(AuditUuidModelMixin):
         pass
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.sub_category_name)
 
     def get_absolute_url(self):
         return reverse("inventory_ProductSubCategory_detail", args=(self.pk,))
@@ -51,14 +51,14 @@ class ProductSubCategory(AuditUuidModelMixin):
 class ProductBrandMaster(AuditUuidModelMixin):
 
     # Fields
-    brand_image = models.ImageField(upload_to="upload/product/brands", unique=True)
+    brand_image = models.ImageField(upload_to="static/upload/product/brands", unique=True)
     brand_name = models.CharField(max_length=100)
 
     class Meta:
         pass
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.brand_name)
 
     def get_absolute_url(self):
         return reverse("inventory_ProductBrandMaster_detail", args=(self.pk,))
@@ -77,7 +77,7 @@ class UnitMaster(AuditUuidModelMixin):
         pass
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.PrimaryUnit) + "-" + str(self.SecondaryUnit)
 
     def get_absolute_url(self):
         return reverse("inventory_UnitMaster_detail", args=(self.pk,))
@@ -91,7 +91,7 @@ class ProductMaster(AuditUuidModelMixin):
     # Fields
     hsn_code = models.CharField(max_length=30)
     product_code = models.CharField(max_length=30)
-    product_image = models.ImageField(upload_to="upload/product/products", unique=True)
+    product_image = models.ImageField(upload_to="static/upload/product/products", unique=True)
     description = models.CharField(max_length=2000)
     product_name = models.CharField(max_length=30)
 
@@ -103,7 +103,7 @@ class ProductMaster(AuditUuidModelMixin):
         pass
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.product_code) + " / " + str(self.product_name)
 
     def get_absolute_url(self):
         return reverse("inventory_ProductMaster_detail", args=(self.pk,))

@@ -1,8 +1,45 @@
 
 {% extends "base.html" %}
+{% load static %}
+{% load render_table from django_tables2 %}
 {% block content %}
-{% for object in object_list %}
-  <div class="m-2"><a href="{{object.get_absolute_url}}">{{object}}</a></div>
-{% endfor %}
-<div><a class="btn btn-primary" href="{% url 'inventory_ProductMaster_create' %}">Create a new ProductMaster</a></div>
+<div class="alert alert-primary">
+  <a class="btn btn-outline-primary btn-sm" href="{% url 'inventory_ProductMaster_create' %}">Create a new ProductMaster</a>
+</div>
+<section class="testimonial py-5" id="testimonial">
+<div class=" shadow bg-white rounded">
+ <h4><u> Product Catalog</u></h4>
+<table class="table table-hover">
+  <thead>
+   <th></th>
+   <th>Product Code</th>
+   <th>Product Name</th>
+   <th>Description</th>
+   <th>HSN Code</th>
+   <th>Category</th>
+   <th>Sub Category</th>
+   <th>Brand</th>
+  </thead>
+  <tbody>
+  {% for object in object_list %}
+    <tr>
+      <td><a href="{% url 'inventory_ProductMaster_update' object.id %}" class="btn btn-outline-primary btn-sm">Edit</a></td>
+      <td> {{ object.product_code }}</td>
+      <td> {{ object.product_name }}</td>
+      <td> {{ object.description }}</td>
+      <td> {{ object.hsn_code }}</td>
+      <td> {{ object.category }}</td>
+      <td> {{ object.sub_category }}</td>
+      <td> {{ object.brand }}</td>
+      <td> <img src="{% static object.product_image  %}" alt="Product Image" width="50" height="50" /> </td>
+
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<!--{% render_table table %}-->
+<!--  <div class="m-2"><a href="{{object.get_absolute_url}}">{{object}}</a></div>-->
+
+</div>
+
 {% endblock %}

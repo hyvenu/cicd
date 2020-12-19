@@ -4,8 +4,13 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views import generic
+from django_filters.views import FilterView
+from django_tables2 import SingleTableView, LazyPaginator, SingleTableMixin
+
 from . import models
 from . import forms
+from .tables import ProductTable
+
 
 @login_required
 def inventory_dashboard(request):
@@ -81,6 +86,7 @@ class ProductSubCategoryListView(generic.ListView):
     form_class = forms.ProductSubCategoryForm
 
 
+
 class ProductSubCategoryCreateView(generic.CreateView):
     model = models.ProductSubCategory
     form_class = forms.ProductSubCategoryForm
@@ -97,9 +103,13 @@ class ProductSubCategoryUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
-class ProductMasterListView(generic.ListView):
+class ProductMasterListView(SingleTableView):
     model = models.ProductMaster
-    form_class = forms.ProductMasterForm
+    # form_class = forms.ProductMasterForm
+    table_class = ProductTable
+    table_data = models.ProductMaster.objects.all()
+    paginator_class = LazyPaginator
+
 
 
 class ProductMasterCreateView(generic.CreateView):

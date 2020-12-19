@@ -3,11 +3,11 @@
 {% load static %}
 {% block content %}
     
-<p>
+<div class="alert alert-primary">
     <a class="btn btn-outline-primary" href="{% url 'inventory_ProductMaster_list' %}">
     Product Master List
     </a>
-</p>
+</div>
 <section class="testimonial py-5" id="testimonial">
 <div class="container shadow bg-white rounded"><br>
 <form id="form_product_master" method="post" enctype="multipart/form-data">
@@ -38,6 +38,12 @@
     <label class="col-sm-2 col-form-label" for="product_image">Upload Image: </label>
     <input class="form-control col-sm-4" id="product_image" type="file" name="product_image" value="{{ object.product_image }}">
   </div>
+  <div class="form-group row">
+     <p class="col-sm-2 col-form-label">{{ form.brand.label_tag  }}</p>
+      {{ form.brand  }}
+
+  </div>
+  <hr>
 
 
   <input type="submit" value="Save" class="btn btn-outline-primary">
@@ -46,27 +52,19 @@
 </div>
 </section>
 <script>
-  $('#category_id').click(function(e){
+
+  $('#id_category').click(function(e){
+    console.log("clicked");
     $.ajax({
         type:'GET',
-        url:'{% url "create" %}',
+        url:'{% url "inventory_ProductSubCategory_list" %}',
         data:{
-            title:$('#title').val(),
-            description:$('#description').val(),
+            category_id:$('#id_category').val(),
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
             action: 'post'
         },
         success:function(json){
-            document.getElementById("post-form").reset();
-            $(".posts").prepend('<div class="col-md-6">'+
-                '<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">' +
-                    '<div class="col p-4 d-flex flex-column position-static">' +
-                        '<h3 class="mb-0">' + json.title + '</h3>' +
-                        '<p class="mb-auto">' + json.description + '</p>' +
-                    '</div>' +
-                '</div>' +
-            '</div>'
-            )
+            $("#sub_category_id").html(json)
         },
         error : function(xhr,errmsg,err) {
         console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console

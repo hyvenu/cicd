@@ -1,9 +1,28 @@
 from django import forms
+
+from store.models import Store
 from . import models
-from .models import ProductCategory, ProductSubCategory, ProductBrandMaster
+from .models import ProductCategory, ProductSubCategory, ProductBrandMaster, ProductMaster, UnitMaster
 
 
 class ProductPriceMasterForm(forms.ModelForm):
+    product = forms.ModelChoiceField(ProductMaster.objects.all(),
+                                      widget=forms.Select(
+                                          attrs={'class': 'form-control col-sm-4',
+                                                 'placeholder': ' Product',
+                                                 }))
+
+    unit = forms.ModelChoiceField(UnitMaster.objects.all(),
+                                     widget=forms.Select(
+                                         attrs={'class': 'form-control col-sm-4',
+                                                'placeholder': ' Unit',
+                                                }))
+
+    store = forms.ModelChoiceField(Store.objects.all(),
+                                  widget=forms.Select(
+                                      attrs={'class': 'form-control col-sm-4',
+                                             'placeholder': ' Unit',
+                                             }))
     class Meta:
         model = models.ProductPriceMaster
         fields = [
@@ -11,6 +30,14 @@ class ProductPriceMasterForm(forms.ModelForm):
             "primaryunit_price_sell",
             "secondaryunit_price_sell",
             "secondaryunit_price_buy",
+            "product",
+            "unit",
+            "tax",
+            "batch_number",
+            "batch_expiry",
+            "store",
+            "ob_qty"
+
         ]
 
 
@@ -51,7 +78,7 @@ class ProductMasterForm(forms.ModelForm):
                                       widget=forms.Select(
                                           attrs={'class': 'form-control col-sm-4',
                                                  'placeholder': ' Product Category',
-                                                 'onchange': 'document.getElementById("form_product_master").submit()'}))
+                                                }))
     sub_category = forms.ModelChoiceField(ProductSubCategory.objects.all(),
                                       widget=forms.Select(
                                           attrs={'class': 'form-control col-sm-4', 'placeholder': ' Product Sub Category'}))

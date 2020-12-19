@@ -1,8 +1,43 @@
 
 {% extends "base.html" %}
 {% block content %}
-{% for object in object_list %}
-  <div class="m-2"><a href="{{object.get_absolute_url}}">{{object}}</a></div>
-{% endfor %}
-<div><a class="btn btn-primary" href="{% url 'inventory_ProductPriceMaster_create' %}">Create a new ProductPriceMaster</a></div>
+<div class="alert alert-primary">
+    <a class="btn btn-primary" href="{% url 'inventory_ProductPriceMaster_create' %}">Create a new ProductPriceMaster</a>
+</div>
+<section class="shadow py-1" id="testimonial">
+<div class="shadow bg-white rounded"><br>
+<table class="table table-hover btn-sm">
+  <thead>
+  <th></th>
+  <th>Store</th>
+  <th>Product</th>
+  <th> Primary Unit Buy</th>
+  <th> Primary Unit Sell</th>
+  <th> Secondary Unit Buy</th>
+  <th> Secondary Unit Sell</th>
+  <th> Tax</th>
+  <th> Batch Number</th>
+  <th> Batch Expiry </th>
+  <th> OB qty </th>
+  </thead>
+  <tbody>
+  {% for object in object_list %}
+    <tr>
+      <td><a class="btn btn-outline-primary btn-sm  " href="{{object.get_update_url}}">Edit</a></td>
+      <td>{{ object.store }}</td>
+      <td>{{ object.product }}</td>
+      <td>{{ object.primaryunit_price_buy }}</td>
+      <td>{{ object.primaryunit_price_sell }}</td>
+      <td>{{ object.secondaryunit_price_buy }}</td>
+      <td>{{ object.secondaryunit_price_sell }}</td>
+      <td>{{ object.tax }}</td>
+      <td>{{ object.batch_number }}</td>
+      <td>{{ object.batch_expiry }}</td>
+      <td>{{ object.ob_qty }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+</div>
 {% endblock %}
