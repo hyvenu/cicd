@@ -1,3 +1,4 @@
+import { ProductListComponent } from './product-list/product-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,11 +10,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule,NbButtonModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SharedModule } from './shared/shared.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatCardModule } from '@angular/material/card'
+import { MatGridListModule } from '@angular/material/grid-list';
+import { ProductViewComponent } from './product-view/product-view.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    ProductViewComponent,
+    ProductListComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +35,9 @@ import { SharedModule } from './shared/shared.module';
     NbButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FlexLayoutModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

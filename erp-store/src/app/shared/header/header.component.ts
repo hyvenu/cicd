@@ -1,4 +1,6 @@
+import { SharedService } from './../shared.service';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +9,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  isAuthenticated = false;
+  userSub:Subscription;
+
+  constructor(private sharedservice:SharedService) { }
 
   ngOnInit(): void {
+
+
+      this.userSub =  this.sharedservice.userSubject.subscribe(user=>
+        {
+
+          this.isAuthenticated = !!user;
+        });
+
+    // else
+    // {
+    //   this.userSub =  this.sharedservice.userSubject.subscribe(user=>
+    //     {
+
+    //       this.isAuthenticated = this.sharedservice.checkLogin();
+    //     });
+    // }
+  }
+
+  logout()
+  {
+    this.sharedservice.logout();
   }
 
 }

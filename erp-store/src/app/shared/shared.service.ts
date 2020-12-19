@@ -1,13 +1,11 @@
-
-
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { User } from '../Models/user';
+import { User } from '../models/User';
 
 
 @Injectable({
@@ -15,15 +13,15 @@ import { User } from '../Models/user';
 })
 export class SharedService {
 
-  private userSubject: BehaviorSubject<User>;
-  public user: Observable<User>;
+  public userSubject: BehaviorSubject<any>;
+  public user: Observable<any>;
 
   constructor(
     private router: Router,
     private cookie: CookieService,
     private http: HttpClient
   ) {
-    this.userSubject = new BehaviorSubject<User>(null);
+    this.userSubject = new BehaviorSubject<any>(null);
     this.user = this.userSubject.asObservable();
   }
 
@@ -34,7 +32,9 @@ export class SharedService {
   loginUser(userInfo): Observable<any> {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/authentication/api/token/`, userInfo)
       .pipe(map(user => {
-        this.userSubject.next(user);
+      this.userSubject.next(user);
+      this.cookie.set('isLoggedIn',"true");
+      this.cookie.set('access_token',user.access);
         this.startRefreshTokenTimer();
         return user;
       }));
