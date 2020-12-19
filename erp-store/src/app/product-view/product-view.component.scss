@@ -1,0 +1,10 @@
+#inputDiv {
+    display: flex;
+    width: 40%;
+}
+
+@media screen and (max-width: 600px) {
+    #inputDiv {
+        width: 100%;
+    }
+}

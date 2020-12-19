@@ -1,45 +1,96 @@
 <div class="container">
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-          <img src="../../assets/banner_img/img_1.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="../../assets/banner_img/img_2.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="../../assets/banner_img/img_3.jpg" class="d-block w-100" alt="...">
-      </div>
-    </div>
-</div>
-<br>
-<div class="row">
-    <div class="col-sm">
-        <div class="card" style="width: 18rem;">
-            <img src="../../assets/banner_img/img_3.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h6 class="card-title">Card title</h6>
-                <a href="#" class="btn btn-outline-primary btn-sm">Add to cart</a>
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../../assets/banner_img/img_1.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="../../assets/banner_img/img_2.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="../../assets/banner_img/img_3.jpg" class="d-block w-100" alt="...">
             </div>
         </div>
     </div>
-    <div class="col-sm">
-        <div class="card" style="width: 18rem;">
-            <img src="../../assets/banner_img/img_2.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <a href="#" class="btn btn-outline-primary btn-sm">Add to cart</a>
+    <br>
+
+    <!-- Product Lists -->
+    <div id="product-name">Oils</div>
+    <br>
+    <div class="content">
+        <div fxLayout="row wrap" fxLayoutGap="16px grid">
+            <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let num of [1,2,3,4]">
+                <mat-card class="mat-elevation-z4">
+                    <div (click)="GotoProductview(num)" id="product">
+                        <mat-card-header>
+                            <mat-card-title>Product Name</mat-card-title>
+                        </mat-card-header>
+                        <img mat-card-image src="../../assets/banner_img/img_3.jpg">
+                        <mat-card-content>
+                            <p>
+                                Description
+                            </p>
+                        </mat-card-content>
+                    </div>
+                    <mat-card-actions>
+                        <form>
+                            <div class="form-group" style="display: flex;">
+                                <input type="number" min="1" class="form-control" id="exampleFormControlInput1" placeholder="Quantity" required> &nbsp;
+                                <select class="form-control" id="exampleFormControlSelect1" required>
+          <option>kg</option>
+          <option>ltr</option>
+        </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button>
+
+                        </form>
+                    </mat-card-actions>
+                </mat-card>
             </div>
         </div>
     </div>
-    <div class="col-sm">
-        <div class="card" style="width: 18rem;">
-            <img src="../../assets/banner_img/img_1.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <a href="#" class="btn btn-outline-primary btn-sm">Add to cart</a>
+    <br>
+    <div id="view-button"><button type="button" (click)="GoToProductList()" class="btn btn-primary">View All <i class="fa fa-arrow-right" aria-hidden="true"></i></button></div>
+    <br><br>
+
+
+    <div id="product-name">Vegetables</div>
+    <br>
+    <div class="content">
+        <div fxLayout="row wrap" fxLayoutGap="16px grid">
+            <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let num of [1,2,3,4]">
+                <mat-card class="mat-elevation-z4">
+                    <div (click)="GotoProductview(num)" id="product">
+                        <mat-card-header>
+                            <mat-card-title>Product Name</mat-card-title>
+                        </mat-card-header>
+                        <img mat-card-image src="../../assets/banner_img/img_3.jpg">
+                        <mat-card-content>
+                            <p>
+                                Description
+                            </p>
+                        </mat-card-content>
+                    </div>
+                    <mat-card-actions>
+                        <form>
+                            <div class="form-group" style="display: flex;">
+                                <input type="number" min="1" class="form-control" id="exampleFormControlInput1" placeholder="Quantity" required> &nbsp;
+                                <select class="form-control" id="exampleFormControlSelect1" required>
+        <option>kg</option>
+        <option>ltr</option>
+      </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button>
+
+                        </form>
+                    </mat-card-actions>
+                </mat-card>
             </div>
         </div>
     </div>
-</div>
+    <br>
+    <div id="view-button"><button type="button" class="btn btn-primary">View All <i class="fa fa-arrow-right" aria-hidden="true"></i></button></div>
+    <br><br>
 </div>

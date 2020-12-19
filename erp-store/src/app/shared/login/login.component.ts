@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { SharedService } from './../shared.service';
 import { User } from '../../models/User';
 import { Component, OnInit } from '@angular/core';
@@ -10,8 +11,9 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   LoginForm:FormGroup;
-  Invalid:any;
-  constructor(private Service:SharedService) { }
+  Invalid=false;
+
+  constructor(private Service:SharedService,private router:Router) { }
 
   ngOnInit(): void {
     this.LoginForm = new FormGroup(
@@ -19,7 +21,7 @@ export class LoginComponent implements OnInit {
         'username' :new FormControl(null,Validators.required),
         'password' : new FormControl(null,Validators.required)
       }
-    )
+    );
   }
 
   onSubmit()
@@ -34,7 +36,11 @@ export class LoginComponent implements OnInit {
 
       this.Service.loginUser(user).subscribe((data)=>
       {
-        console.log(data);
+       localStorage.setItem("accessToken",data.access);
+       this.router.navigate(["/Home"]);
+      },(error)=>
+      {
+        this.Invalid = true;
       });
 
     }

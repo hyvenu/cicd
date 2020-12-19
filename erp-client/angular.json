@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "erp-client"
+    }
+  },
+  "defaultProject": "erp-client",
+  "cli": {
+    "analytics": "0b9699a5-7157-4f78-985c-c082834f63ca"
+  }
 }

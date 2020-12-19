@@ -1,0 +1,23 @@
+#product-name {
+    font-weight: 600;
+    text-align: center;
+    font-size: 25px;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    width: auto;
+    filter: invert(100%);
+}
+
+#view-button {
+    float: right;
+}
+
+@media screen and (max-width: 600px) {
+    #view-button {
+        float: none;
+        display: flex;
+        justify-content: center;
+    }
+}
