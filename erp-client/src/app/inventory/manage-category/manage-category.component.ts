@@ -14,19 +14,24 @@ export class ManageCategoryComponent implements OnInit {
 
   categories;
 
+  createFlag = true;
+
+  category_id;
+
   constructor(private formBuilder: FormBuilder,
               private inventoryService: InventoryService,
               private nbtoastService: NbToastrService,
               private routes: Router) {
-                this.categoryFrom  =  this.formBuilder.group({
-                  categoryNameFormControl: ['', [Validators.required]],
-                  categoryDescFormControl: ['', [Validators.required]],      
-                  categoryCodeFormControl: ['', [Validators.required]],   
-                });
+               
                }
 
   ngOnInit(): void {
-    
+    this.categoryFrom  =  this.formBuilder.group({
+      categoryNameFormControl: ['', [Validators.required]],
+      categoryDescFormControl: ['', [Validators.required]],      
+      categoryCodeFormControl: ['', [Validators.required]],   
+    });
+    this.createFlag = true;
     this.inventoryService.getCategoryList().subscribe(
       (data) => {
           this.categories = data;
@@ -55,7 +60,33 @@ export class ManageCategoryComponent implements OnInit {
         }
       )    
     }
+    };
+    update_category(): void{
+    
+      if( this.categoryFrom.dirty && this.categoryFrom.valid){
+        let data = {
+              category_name: this.categoryFrom.get(['categoryNameFormControl']).value,
+              description: this.categoryFrom.get(['categoryDescFormControl']).value,
+              category_code: this.categoryFrom.get(['categoryCodeFormControl']).value,
+        }
+        this.inventoryService.updateCategory(this.category_id, data).subscribe(
+          (data) => {
+            this.nbtoastService.success("Saved Successfully");
+            this.ngOnInit();
+          },
+          (error) =>{
+            this.nbtoastService.danger(error);
+          }
+        )    
+      }
+      };
 
-  }
+    selected_category(data): any{
+        this.categoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
+        this.categoryFrom.controls['categoryDescFormControl'].setValue(data.description);
+        this.categoryFrom.controls['categoryCodeFormControl'].setValue(data.category_code);
+        this.createFlag = !this.createFlag;
+        this.category_id = data.id
+    }
 
 }

@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { NbThemeModule, NbLayoutModule,NbButtonModule ,NbCardModule,NbListModule} from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule,NbUserModule,NbButtonModule ,NbCardModule,NbListModule,NbContextMenuModule,NbMenuModule,NbMenuService} from '@nebular/theme';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { StoreSelectComponent } from './store-select/store-select.component';
@@ -24,9 +24,13 @@ const routes: Routes = [
     NbCardModule,
     NbListModule,
     FormsModule,
+    NbMenuModule.forRoot(),
+    NbUserModule,
+    NbContextMenuModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
   ],
+  providers:[NbMenuService],
   exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent]
 })
 export class SharedModule { }

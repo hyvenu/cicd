@@ -30,6 +30,7 @@ class ProductBrandMasterSerializer(serializers.ModelSerializer):
         fields = [
             "brand_image",
             "brand_name",
+            "id",
         ]
 
 class UnitMasterSerializer(serializers.ModelSerializer):
@@ -39,6 +40,7 @@ class UnitMasterSerializer(serializers.ModelSerializer):
         fields = [
             "PrimaryUnit",
             "SecondaryUnit",
+            "id",
         ]
 
 class ProductSubCategorySerializer(serializers.ModelSerializer):
@@ -49,6 +51,7 @@ class ProductSubCategorySerializer(serializers.ModelSerializer):
             "sub_category_name",
             "sub_category_code",
             "category",
+            "id",
         ]
 
 class ProductMasterSerializer(serializers.ModelSerializer):
@@ -65,6 +68,7 @@ class ProductMasterSerializer(serializers.ModelSerializer):
             "category",
             "sub_category",
             "brand",
+            "id",
         ]
 
 class ProductCategorySerializer(serializers.ModelSerializer):
@@ -75,4 +79,5 @@ class ProductCategorySerializer(serializers.ModelSerializer):
             "category_code",
             "category_name",
             "description",
+            "id",
         ]

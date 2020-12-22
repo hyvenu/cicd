@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
       {
        localStorage.setItem("accessToken",data.access);
        localStorage.setItem("user_id",data.user_id);
+       localStorage.setItem("first_name",data.first_name);
        this.router.navigate(["/StoreSelect"]);
       },(error)=>
       {
