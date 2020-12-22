@@ -81,3 +81,4 @@ class StoreSelectView(LoginRequiredMixin,View):
             return HttpResponseRedirect('/')
         return HttpResponseRedirect(reverse_lazy('store_select'))
 
+

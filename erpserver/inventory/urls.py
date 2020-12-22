@@ -1,21 +1,23 @@
 from django.urls import path, include
 from rest_framework import routers
 
-# from . import api
+from . import api
 from . import views
 
 
-# router = routers.DefaultRouter()
-# router.register("ProductPriceMaster", api.ProductPriceMasterViewSet)
-# router.register("ProductBrandMaster", api.ProductBrandMasterViewSet)
-# router.register("UnitMaster", api.UnitMasterViewSet)
-# router.register("ProductSubCategory", api.ProductSubCategoryViewSet)
-# router.register("ProductMaster", api.ProductMasterViewSet)
-# router.register("ProductCategory", api.ProductCategoryViewSet)
+router = routers.DefaultRouter()
+router.register("ProductPriceMaster", api.ProductPriceMasterViewSet)
+router.register("ProductBrandMaster", api.ProductBrandMasterViewSet)
+router.register("UnitMaster", api.UnitMasterViewSet)
+router.register("ProductSubCategory", api.ProductSubCategoryViewSet)
+router.register("ProductMaster", api.ProductMasterViewSet)
+router.register("ProductCategory", api.ProductCategoryViewSet)
 
 urlpatterns = (
-    # path("api/v1/", include(router.urls)),
+    path("api/v1/", include(router.urls)),
     path("inventory/dashboard",views.inventory_dashboard, name="inventory_dashboard"),
+
+    path('inventory/ProductMaster/get_product_code', views.get_product_code, name="get_product_code"),
 
     path("inventory/ProductPriceMaster/", views.ProductPriceMasterListView.as_view(), name="inventory_ProductPriceMaster_list"),
     path("inventory/ProductPriceMaster/create/", views.ProductPriceMasterCreateView.as_view(), name="inventory_ProductPriceMaster_create"),

@@ -1,6 +1,9 @@
 import os
-import pwd
 
+try:
+    import pwd
+except ImportError:
+    pass
 from django.db.models import CharField
 from django.utils.translation import ugettext as _
 
@@ -14,7 +17,10 @@ class UserField(CharField):
         CharField.__init__(self, *args, **kwargs)
 
     def get_os_username(self):
-        return pwd.getpwuid(os.getuid()).pw_name
+        if os.name == 'nt':
+            return os.environ['username']
+        else:    
+            return pwd.getpwuid(os.getuid()).pw_name
 
     def pre_save(self, model_instance, add):
         """Updates username created on ADD only."""

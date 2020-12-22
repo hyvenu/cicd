@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -9,12 +9,24 @@ from django_tables2 import SingleTableView, LazyPaginator, SingleTableMixin
 
 from . import models
 from . import forms
+from .service import InventoryService
 from .tables import ProductTable
 
 
 @login_required
 def inventory_dashboard(request):
     return HttpResponse(render(request, 'inventory/inventory_dashboard.html'))
+
+
+@login_required
+def get_product_code(request):
+    category = request.POST['category_code']
+    sub_category = request.POST['sub_category_code']
+    brand = request.POST['brand']
+    inventory_service = InventoryService()
+    code = inventory_service.generate_product_code(category,sub_category,brand)
+    return JsonResponse(code, safe=False)
+
 
 
 class ProductPriceMasterListView(generic.ListView):

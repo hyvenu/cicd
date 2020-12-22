@@ -43,10 +43,12 @@ INSTALLED_APPS = [
     'view_breadcrumbs',
     'easy_thumbnails',
     'django_tables2',
+    'sequences.apps.SequencesConfig',
     'crispy_forms',
     'security',
     'store',
     'inventory',
+    'ecommerce',
 
 ]
 

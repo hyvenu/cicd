@@ -1,0 +1,11 @@
+<nb-card [size]="'medium'">
+    <nb-card-header>Store List</nb-card-header>
+    <nb-card-body>
+      <nb-list>
+        <nb-list-item *ngFor="let store of stores">
+          <i class="mr-auto mt-2 mt-lg-0">{{ store.store.store_name }} - {{store.store.city }}</i>
+          <button nbButton (click)="selected_store(store.store)" size="small">Select</button>
+        </nb-list-item>
+      </nb-list>
+    </nb-card-body>
+  </nb-card>
