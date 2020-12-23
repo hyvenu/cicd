@@ -51,7 +51,7 @@ class ProductSubCategory(AuditUuidModelMixin):
 class ProductBrandMaster(AuditUuidModelMixin):
 
     # Fields
-    brand_image = models.ImageField(upload_to="upload/product/brands", unique=True)
+    brand_image = models.ImageField(upload_to="static/upload/product/brands", unique=True)
     brand_name = models.CharField(max_length=100)
 
     class Meta:
@@ -91,7 +91,7 @@ class ProductMaster(AuditUuidModelMixin):
     # Fields
     hsn_code = models.CharField(max_length=30)
     product_code = models.CharField(max_length=30)
-    product_image = models.ImageField(upload_to="upload/product/products", unique=True)
+    product_image = models.ImageField(upload_to="static/upload/product/products", unique=True)
     description = models.CharField(max_length=2000)
     product_name = models.CharField(max_length=30)
 
