@@ -53,7 +53,7 @@ export class SharedService {
     this.userSubject.next(null);
     this.router.navigate(['/Login']);
     this.cookie.deleteAll();
-    localStorage.clear();
+    sessionStorage.clear();
   }
 
   refreshToken(): any {

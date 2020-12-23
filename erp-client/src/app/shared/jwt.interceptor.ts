@@ -8,8 +8,8 @@ export class JwtInterceptor implements HttpInterceptor {
     constructor(private cookieService: CookieService){}
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        const currentUser = localStorage.getItem('user_id');
-        const token = localStorage.getItem('accessToken');
+        const currentUser = sessionStorage.getItem('user_id');
+        const token = sessionStorage.getItem('accessToken');
         console.log("access");
         if (currentUser && token) {
             request = request.clone({

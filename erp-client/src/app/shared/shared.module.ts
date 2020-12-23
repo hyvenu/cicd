@@ -8,6 +8,8 @@ import { NbThemeModule, NbLayoutModule,NbUserModule,NbButtonModule ,NbCardModule
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { StoreSelectComponent } from './store-select/store-select.component';
+import { AuthGuard } from './auth.gaurd';
+
 
 
 const routes: Routes = [

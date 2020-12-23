@@ -25,4 +25,16 @@ export class InventoryService {
   public updateCategory(id,data) {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/` + id + '/', data)
   }
+
+  public getSubCategoryList(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductSubCategory/`, {})
+  }
+
+  public saveSubCategory(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductSubCategory/`, data)
+  }
+
+  public updateSubCategory(id,data) {
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductSubCategory/` + id + '/', data)
+  }
 }

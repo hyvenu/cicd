@@ -27,12 +27,16 @@ export class HeaderComponent implements OnInit {
         filter(({ tag }) => tag === 'my-context-menu'),
         map(({ item: { title } }) => title),
       )
-      .subscribe(title => this.window.alert(`${title} was clicked!`));
+      .subscribe(title => 
+        {
+          if (title == 'Log Out'){
+            this.logout();
+          }
+        });
 
-    this.store_name = localStorage.getItem('store_name');
-      this.store_name = localStorage.getItem('store_name');          
-    this.store_name = localStorage.getItem('store_name');
-    this.user_name = localStorage.getItem('first_name');
+            
+    this.store_name = sessionStorage.getItem('store_name');
+    this.user_name = sessionStorage.getItem('first_name');
     this.userSub = this.sharedservice.userSubject.subscribe(user => {
 
       this.isAuthenticated = !!user;

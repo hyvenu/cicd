@@ -45,7 +45,14 @@ class EcomService:
         return list(category_list)
 
     def get_sub_category(self):
-        sub_category_list = ProductSubCategory.objects.select_related('category').all()
+        sub_category_list = ProductSubCategory.objects.all().values(
+            "id",
+            "sub_category_name",
+            "sub_category_code",
+            "category__id",
+            "category__category_name",
+            "category__category_code",
+        )
         return list(sub_category_list)
 
     def get_cart_detail(self, user_id):

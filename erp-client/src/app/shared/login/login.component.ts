@@ -3,6 +3,7 @@ import { SharedService } from './../shared.service';
 import { User } from '../../models/User';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,9 @@ export class LoginComponent implements OnInit {
   LoginForm:FormGroup;
   Invalid=false;
 
-  constructor(private Service:SharedService,private router:Router) { }
+  constructor(private Service:SharedService,
+    private router:Router,
+    private nbtoastService: NbToastrService,) { }
 
   ngOnInit(): void {
     this.LoginForm = new FormGroup(
@@ -37,15 +40,21 @@ export class LoginComponent implements OnInit {
 
       this.Service.loginUser(user).subscribe((data)=>
       {
-       localStorage.setItem("accessToken",data.access);
-       localStorage.setItem("user_id",data.user_id);
-       localStorage.setItem("first_name",data.first_name);
+       sessionStorage.setItem('user_id',data.user_id);
+       sessionStorage.setItem("accessToken",data.access);
+      //  sessionStorage.setItem("user_id",data.user_id);
+       sessionStorage.setItem("first_name",data.first_name);
        this.router.navigate(["/StoreSelect"]);
       },(error)=>
       {
         this.Invalid = true;
+        console.log(error.error.detail);
+        this.nbtoastService.danger(error.error.detail);
+
       });
 
+    }else{
+      this.nbtoastService.warning("Email and Password cannot be blank!");
     }
 
 

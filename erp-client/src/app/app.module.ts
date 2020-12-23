@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbToastrModule, NbToastrService } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SharedModule } from './shared/shared.module';
 import { InventoryModule } from './inventory/inventory.module';
@@ -27,13 +27,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     InventoryModule,
     HttpClientModule,
+    NbToastrModule.forRoot(),
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
-  }],
+  },NbToastrService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

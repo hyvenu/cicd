@@ -10,6 +10,14 @@ export class AppComponent implements OnInit {
   store_name;
 
   ngOnInit(): void {
-        this.store_name = localStorage.getItem('store_name');          
+        this.store_name = sessionStorage.getItem('store_name');          
+  }
+
+  checkLogin():any {
+    if(sessionStorage.getItem('user_id')){
+      return true;
+    }else{
+      return false;
+    }
   }
 }
