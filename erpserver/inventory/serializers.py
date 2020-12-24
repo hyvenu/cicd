@@ -3,6 +3,17 @@ from rest_framework import serializers
 from . import models
 from .models import ProductPriceMaster
 
+class ProductCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.ProductCategory
+        fields = [
+            "category_code",
+            "category_name",
+            "description",
+            "id",
+        ]
+
 
 class ProductPriceMasterSerializer(serializers.ModelSerializer):
     # product_name = serializers.RelatedField(source='product', read_only=True)
@@ -44,7 +55,7 @@ class UnitMasterSerializer(serializers.ModelSerializer):
         ]
 
 class ProductSubCategorySerializer(serializers.ModelSerializer):
-
+    category = ProductCategorySerializer(read_only=True)
     class Meta:
         model = models.ProductSubCategory
         fields = [
@@ -71,13 +82,3 @@ class ProductMasterSerializer(serializers.ModelSerializer):
             "id",
         ]
 
-class ProductCategorySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.ProductCategory
-        fields = [
-            "category_code",
-            "category_name",
-            "description",
-            "id",
-        ]

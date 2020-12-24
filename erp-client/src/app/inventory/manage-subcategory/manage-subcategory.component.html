@@ -1,9 +1,10 @@
 <div id="" [formGroup]="subcategoryFrom" >
-    <div class="col-md-3"> 
-        <label for="categoryName">Category Name</label>
-        <input nbInput formControlName="categoryNameFormControl" name="categoryName" placeholder="Category Name" (keypress)="open(dialog)" />
-    </div>
+    
     <div class="row">
+        <div class="col-md-3"> 
+            <label for="categoryName">Category Name</label>
+            <input nbInput formControlName="categoryNameFormControl" name="categoryName" placeholder="Category Name" (keypress)="open(dialog)" readonly />
+        </div><br>
         <div class="col-md-3"> 
             <label for="subcategoryName">Sub Category Name</label>
             <input nbInput formControlName="subcategoryNameFormControl" name="subcategoryName" placeholder="Sub Category Name" />
@@ -13,12 +14,7 @@
             <input nbInput formControlName="subcategoryCodeFormControl" name="subcategoryCode" placeholder="SUb Category Code"/>
         </div>
     </div><br>
-    <div class="row">
-        <div class="col-md-3">
-            <label for="subcategoryDesc">Sub Category Description</label>
-            <input nbInput formControlName="subcategoryDescFormControl" name="subcategoryDesc" placeholder="Sub Category Desc"/>
-        </div> 
-    </div><br>
+   
     <div class="row">
         <div class="col-md-4"> 
             <button nbButton *ngIf="createFlag" (click)="save_sub_category();" status="success">Save</button>
@@ -31,25 +27,25 @@
         <nb-card-header>Sub Category List</nb-card-header>
         <nb-card-body>
             <nb-list-item *ngFor="let subcategory of sub_categories">
-                <i class="mr-auto mt-2 mt-lg-0">{{ subcategory.sub_category_code }} - {{ subcategory.sub_category_name }}</i>
-                <button nbButton size="small" (click)="selected_sub_category(category)" >Select</button>
+                <i class="mr-auto mt-2 mt-lg-0">{{ subcategory.category.category_name  }} / {{ subcategory.sub_category_code }} / {{ subcategory.sub_category_name }}</i>
+                <button nbButton size="small" (click)="selected_sub_category(subcategory)" >Select</button>
               </nb-list-item>
         </nb-card-body>
     </nb-card>
 </div>
-<ng-template #dialog let-data let-ref="dialogRef">
+<ng-template #dialog let-data let-ref="dialogRef" >
     <nb-card>
       <nb-card-header>Category List </nb-card-header>
       <nb-card-body>
         <nb-list>
             <nb-list-item *ngFor="let item of data">
               <i class="mr-auto mt-2 mt-lg-0">{{ item.category_name }} - {{item.category_code }}</i>
-              <button nbButton (click)="selected_category(item)" size="small">Select</button>
+              <button nbButton (click)="ref.close(item)" size="small">Select</button>
             </nb-list-item>
           </nb-list>
       </nb-card-body>
       <nb-card-footer>
-        <button nbButton (click)="ref.close()">Close Dialog</button>
+        <button nbButton (click)="ref.close()">Close</button>
       </nb-card-footer>
     </nb-card>
   </ng-template>

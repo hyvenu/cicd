@@ -63,6 +63,7 @@ class EcomService:
             'product__description',
             'qty',
             'sub_total',
+            'id',
         )
         return list(cart_list)
 

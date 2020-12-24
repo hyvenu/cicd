@@ -37,4 +37,26 @@ export class InventoryService {
   public updateSubCategory(id,data) {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductSubCategory/` + id + '/', data)
   }
+
+  public getUnitMasterList(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/UnitMaster/`, {})
+  }
+
+  public saveUnit(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/UnitMaster/`, data)
+  }
+
+  public updateUnit(id,data) {
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/UnitMaster/` + id + '/', data)
+  }
+
+  public getBrandMasterList(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductBrandMaster/`, {})
+  }
+  public saveBrand(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductBrandMaster/`, data)
+  }
+  public updateBrand(id,data) {
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductBrandMaster/` + id + '/', data)
+  }
 }

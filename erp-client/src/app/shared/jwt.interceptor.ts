@@ -1,11 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-    constructor(private cookieService: CookieService){}
+    constructor(private cookieService: CookieService,private router: Router){}
+
+    private handleError(err: HttpErrorResponse): Observable<any> {
+        //handle your auth error or rethrow
+        if (err.status === 401 || err.status === 403) {
+            //navigate /delete cookies or whatever
+            sessionStorage.clear();
+            console.log('clear');
+            this.router.navigateByUrl(`/Login`);
+            // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
+            return of(err.message); // or EMPTY may be appropriate here
+        }
+        return throwError(err);
+    }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
         const currentUser = sessionStorage.getItem('user_id');
@@ -19,6 +34,13 @@ export class JwtInterceptor implements HttpInterceptor {
             });
         }
 
-        return next.handle(request);
+        return next.handle(request).pipe(
+            catchError((err: HttpErrorResponse) => {
+              if (err.status === 401) {
+                this.router.navigate(['Login'], { queryParams: { returnUrl: request.url } });
+              }
+              return throwError(err);
+            })
+        )
     }
 }

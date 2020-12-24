@@ -1,7 +1,9 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
+from rest_framework.response import Response
 
 from . import serializers
 from . import models
+from .service import InventoryService
 
 
 class ProductPriceMasterViewSet(viewsets.ModelViewSet):
@@ -34,6 +36,16 @@ class ProductSubCategoryViewSet(viewsets.ModelViewSet):
     queryset = models.ProductSubCategory.objects.all()
     serializer_class = serializers.ProductSubCategorySerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # self.perform_create(serializer)
+        inventoryService = InventoryService()
+        inventoryService.save_sub_category(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 
 
 class ProductMasterViewSet(viewsets.ModelViewSet):

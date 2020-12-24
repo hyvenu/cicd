@@ -1,8 +1,8 @@
-import { TemplateRef } from '@angular/core';
+import { Optional, TemplateRef, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NbDialogService, NbToastrService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { InventoryService } from '../inventory.service';
 
 @Component({
@@ -20,17 +20,20 @@ export class ManageSubcategoryComponent implements OnInit {
 
   subcategory_id;
 
-  category;
+  selected_category;
 
   categories_list;
 
   dailog_ref;
+
+  // @ViewChild('#dialog') public model: TemplateRef<any>;
   
   constructor(private formBuilder: FormBuilder,
     private inventoryService: InventoryService,
     private nbtoastService: NbToastrService,
     private dialogService: NbDialogService,
-    private routes: Router) {
+    private routes: Router,
+    @Optional() protected ref: NbDialogRef<any>) {
      
      }
 
@@ -38,9 +41,9 @@ export class ManageSubcategoryComponent implements OnInit {
   ngOnInit(): void {
 
     this.subcategoryFrom  =  this.formBuilder.group({
-      subcategoryNameFormControl: ['', [Validators.required]],
-      subcategoryDescFormControl: ['', [Validators.required]],      
+      subcategoryNameFormControl: ['', [Validators.required]],      
       subcategoryCodeFormControl: ['', [Validators.required]],   
+      categoryNameFormControl: ['', [Validators.required]],
     });
     
     this.createFlag = true;
@@ -62,10 +65,14 @@ export class ManageSubcategoryComponent implements OnInit {
       }
     )
   }
-  
+
   open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.categories_list })
-    .onClose.subscribe(data => this.category = data
+    .onClose.subscribe(data => {
+       this.selected_category = data       
+       this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
+       
+    }
     );
   }
   
@@ -73,9 +80,9 @@ export class ManageSubcategoryComponent implements OnInit {
     
     if( this.subcategoryFrom.dirty && this.subcategoryFrom.valid){
       let data = {
-            sub_category_name: this.subcategoryFrom.get(['subcategoryNameFormControl']).value,
-            description: this.subcategoryFrom.get(['subcategoryDescFormControl']).value,
+            sub_category_name: this.subcategoryFrom.get(['subcategoryNameFormControl']).value,            
             sub_category_code: this.subcategoryFrom.get(['subcategoryCodeFormControl']).value,
+            category_id: this.selected_category.id,
       }
       this.inventoryService.saveSubCategory(data).subscribe(
         (data) => {
@@ -88,13 +95,13 @@ export class ManageSubcategoryComponent implements OnInit {
       )    
     }
     };
-    update_category(): void{
+    update_sub_category(): void{
     
       if( this.subcategoryFrom.dirty && this.subcategoryFrom.valid){
         let data = {
-              sub_category_name: this.subcategoryFrom.get(['subcategoryNameFormControl']).value,
-              description: this.subcategoryFrom.get(['subcategoryDescFormControl']).value,
+              sub_category_name: this.subcategoryFrom.get(['subcategoryNameFormControl']).value,              
               sub_category_code: this.subcategoryFrom.get(['subcategoryCodeFormControl']).value,
+              category_id: this.selected_category.id,
         }
         this.inventoryService.updateSubCategory(this.subcategory_id, data).subscribe(
           (data) => {
@@ -109,16 +116,18 @@ export class ManageSubcategoryComponent implements OnInit {
       };
 
     selected_sub_category(data): any{
-        this.subcategoryFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);
-        this.subcategoryFrom.controls['subcategoryDescFormControl'].setValue(data.description);
+        this.subcategoryFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);        
         this.subcategoryFrom.controls['subcategoryCodeFormControl'].setValue(data.sub_category_code);
+        this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category.category_name);
         this.createFlag = !this.createFlag;
         this.subcategory_id = data.id
+        this.selected_category = data.category
     }
 
-    selected_category(data): any{
-      this.nbtoastService.show(data);
+    // selected_category(data,ref): any{
+    //   this.nbtoastService.show(data);    
       
-    }
+      
+    // }
 
 }
