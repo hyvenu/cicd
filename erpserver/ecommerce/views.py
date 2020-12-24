@@ -4,14 +4,17 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from ecommerce.service import EcomService
 
 
+@api_view(['POST'])
+@permission_classes([AllowAny,])
 def get_product_list(request):
+    data = request.data
     ecom_service = EcomService()
-    product_list = ecom_service.get_product_list()
+    product_list = ecom_service.get_product_list(data)
     return JsonResponse(product_list,safe=False)
 
 def get_category(request):

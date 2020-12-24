@@ -5,16 +5,21 @@ from store.models import Store
 
 class EcomService:
 
-    def get_product_list(self,**kwargs):
+    def get_product_list(self, kwargs):
 
-        if 'category' in kwargs.keys():
-            pass
-        if 'brand' in kwargs.keys():
-            pass
-        if 'sub_category' in kwargs.keys():
-            pass
+        if 'category_name' in kwargs:
+            category_name = kwargs['category_name']
+            product_object = ProductMaster.objects.filter(category__category_name=category_name).all()
+        elif 'brand_name' in kwargs.keys():
+            brand_name =  kwargs['brand_name']
+            product_object = ProductMaster.objects.filter(brand__brand_name=brand_name).all()
+        elif 'sub_category_name' in kwargs:
+            sub_category_name = kwargs['sub_category_name']
+            product_object = ProductMaster.objects.filter(sub_category__sub_category_name=sub_category_name).all()
+        else:
+            product_object = ProductMaster.objects.all()
 
-        product_list = ProductMaster.objects.all().values(
+        product_list = product_object.values(
             'id',
             'product_code',
             'product_name',
