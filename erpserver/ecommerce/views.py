@@ -35,7 +35,7 @@ def get_sub_category(request):
 def get_cart_details(request):
     ecom_service = EcomService()
     cart_list = ecom_service.get_cart_detail(request.user.id)
-    return JsonResponse(cart_list)
+    return JsonResponse(cart_list,safe=True)
 
 
 @api_view(['POST'])
