@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { StoreSelectComponent } from './store-select/store-select.component';
 import { AuthGuard } from './auth.gaurd';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 
@@ -19,7 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent],
   imports: [
     CommonModule,
     NbButtonModule,
@@ -33,6 +34,6 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
   ],
   providers:[NbMenuService],
-  exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent]
+  exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent,DashboardComponent]
 })
 export class SharedModule { }

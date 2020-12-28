@@ -6,6 +6,8 @@ from django.shortcuts import render
 from django.views import generic
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView, LazyPaginator, SingleTableMixin
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 from . import models
 from . import forms
@@ -18,15 +20,15 @@ def inventory_dashboard(request):
     return HttpResponse(render(request, 'inventory/inventory_dashboard.html'))
 
 
-@login_required
+@api_view(['POST'])
+@permission_classes([IsAuthenticated,])
 def get_product_code(request):
-    category = request.POST['category_code']
-    sub_category = request.POST['sub_category_code']
-    brand = request.POST['brand']
+    category = request.data['category_code']
+    sub_category = request.data['sub_category_code']
+    brand = request.data['brand']
     inventory_service = InventoryService()
-    code = inventory_service.generate_product_code(category,sub_category,brand)
+    code = inventory_service.generate_product_code(category, sub_category, brand)
     return JsonResponse(code, safe=False)
-
 
 
 class ProductPriceMasterListView(generic.ListView):
@@ -37,7 +39,6 @@ class ProductPriceMasterListView(generic.ListView):
 class ProductPriceMasterCreateView(generic.CreateView):
     model = models.ProductPriceMaster
     form_class = forms.ProductPriceMasterForm
-
 
 
 class ProductPriceMasterDetailView(generic.DetailView):
@@ -98,7 +99,6 @@ class ProductSubCategoryListView(generic.ListView):
     form_class = forms.ProductSubCategoryForm
 
 
-
 class ProductSubCategoryCreateView(generic.CreateView):
     model = models.ProductSubCategory
     form_class = forms.ProductSubCategoryForm
@@ -121,7 +121,6 @@ class ProductMasterListView(SingleTableView):
     table_class = ProductTable
     table_data = models.ProductMaster.objects.all()
     paginator_class = LazyPaginator
-
 
 
 class ProductMasterCreateView(generic.CreateView):

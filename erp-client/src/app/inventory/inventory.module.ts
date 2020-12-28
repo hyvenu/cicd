@@ -4,22 +4,26 @@ import { ManageProductComponent } from './manage-product/manage-product.componen
 import { ManageCategoryComponent } from './manage-category/manage-category.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NbThemeModule, NbLayoutModule,NbButtonModule ,NbCardModule,NbListModule,NbInputModule, NbToastrModule, NbDialogModule, NbDialogService, NbUserModule} from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule,NbButtonModule ,NbCardModule,NbListModule,NbInputModule, NbToastrModule, NbDialogModule, NbDialogService, NbUserModule, NbTabsetModule} from '@nebular/theme';
 import { NbToastrService } from '@nebular/theme';
 import { ManageSubcategoryComponent } from './manage-subcategory/manage-subcategory.component';
 import { ManageUnitmasterComponent } from './manage-unitmaster/manage-unitmaster.component';
 import { ManageStockComponent } from './manage-stock/manage-stock.component';
 import { AuthGuard } from '../shared/auth.gaurd';
 import { ManageBrandComponent } from './manage-brand/manage-brand.component';
+import { ProductListComponent } from './product-list/product-list.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 const routes: Routes = [
   { path: 'ManageCategory' , component: ManageCategoryComponent,canActivate:[AuthGuard]},
   { path: 'ManageSubCategory' , component: ManageSubcategoryComponent,canActivate:[AuthGuard]},
   { path: 'ManageUnitMaster' , component: ManageUnitmasterComponent,canActivate:[AuthGuard]},
   { path: 'ManageBrandMaster' , component: ManageBrandComponent,canActivate:[AuthGuard]},
+  { path: 'ManageProductMaster' , component: ProductListComponent,canActivate:[AuthGuard]},
+  { path: 'ManageProduct' , component: ManageProductComponent,canActivate:[AuthGuard]},
 ];
 @NgModule({
-  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent],
+  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -33,9 +37,11 @@ const routes: Routes = [
     NbToastrModule.forRoot(),
     NbDialogModule.forRoot(),
     NbUserModule,
+    NbTabsetModule,
+    Ng2SmartTableModule,
 
   ],
   providers:[NbToastrService, NbDialogService],
-  exports:[ ManageCategoryComponent,]
+  exports:[ ManageCategoryComponent,ProductListComponent]
 })
 export class InventoryModule { }

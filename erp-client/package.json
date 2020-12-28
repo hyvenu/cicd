@@ -23,6 +23,8 @@
     "@nebular/eva-icons": "6.2.1",
     "@nebular/theme": "^6.2.1",
     "eva-icons": "^1.1.2",
+    "ng2-completer": "^9.0.1",
+    "ng2-smart-table": "^1.7.2",
     "ngx-cookie-service": "^11.0.2",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",

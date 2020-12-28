@@ -3,9 +3,14 @@
   <nb-layout-header *ngIf="checkLogin()" fixed>
      <app-header></app-header>    
   </nb-layout-header>
-
+  <nb-sidebar tag="left" state="compacted" *ngIf="checkLogin()">
+    
+    <nb-menu [items]="items">
+    </nb-menu>
+  
+  </nb-sidebar>
   <nb-layout-column>    
-    <router-outlet></router-outlet>
+    <router-outlet ></router-outlet>
   </nb-layout-column>
 
 

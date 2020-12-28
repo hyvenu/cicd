@@ -91,13 +91,15 @@ class ProductMaster(AuditUuidModelMixin):
     # Fields
     hsn_code = models.CharField(max_length=30)
     product_code = models.CharField(max_length=30)
-    product_image = models.ImageField(upload_to="static/upload/product/products", unique=True)
+    product_image = models.ImageField(upload_to="static/upload/product/products",null=True,blank=True)
     description = models.CharField(max_length=2000)
     product_name = models.CharField(max_length=30)
 
     category = models.ForeignKey(ProductCategory,on_delete=models.CASCADE, related_name="product_category")
     sub_category = models.ForeignKey(ProductSubCategory,on_delete=models.CASCADE, related_name="product_sub_category")
     brand = models.ForeignKey(ProductBrandMaster, on_delete=models.CASCADE, related_name="product_brand", null=True)
+    product_attributes = models.CharField(max_length=2000, null=True,blank=True)
+    product_pack_types = models.CharField(max_length=2000,null=True,blank=True)
 
     class Meta:
         pass
@@ -114,26 +116,18 @@ class ProductMaster(AuditUuidModelMixin):
 
 class ProductPriceMaster(AuditUuidModelMixin):
     # Fields
-
-    primaryunit_price_buy = models.DecimalField(max_digits=10, decimal_places=2)
-    primaryunit_price_sell = models.DecimalField(max_digits=10, decimal_places=2)
-    secondaryunit_price_sell = models.DecimalField(max_digits=10, decimal_places=2)
-    secondaryunit_price_buy = models.DecimalField(max_digits=10, decimal_places=2)
-
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="product_product_master")
+    buy_price = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    sell_price = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="product_price")
     unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="product_unit_master")
-    tax = models.DecimalField(max_digits=10, decimal_places=2)
-    batch_number = models.CharField(max_length=30,null=True,blank=True)
-    batch_expiry = models.DateField(null=True)
-
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="store_product", null=True)
-    ob_qty = models.IntegerField(default=0,null=True)
+    tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    qty = models.DecimalField(max_digits=10,decimal_places=2, default=0)
 
     class Meta:
         pass
 
     def __str__(self):
-        return '%d: %s' % (self.product, self.primaryunit_price_sell)
+        return '%s of %d - %s Rs=%s /-' % (self.product, self.qty ,self.unit, self.sell_price)
 
     def get_absolute_url(self):
         return reverse("inventory_ProductPriceMaster_detail", args=(self.pk,))

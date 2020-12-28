@@ -59,4 +59,17 @@ export class InventoryService {
   public updateBrand(id,data) {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductBrandMaster/` + id + '/', data)
   }
+  public getProductCode(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_product_code`, data)
+  }
+  public saveProduct(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductMaster/`, data)
+  }
+
+  public getProductList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductMaster/`)
+  }
+  public getProduct(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductMaster/` + id + '/')
+  }
 }

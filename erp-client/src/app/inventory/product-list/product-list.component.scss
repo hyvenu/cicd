@@ -1,0 +1,124 @@
+
+/* ng2-smart-table*/
+:host::ng-deep ng2-smart-table table {
+    box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12) !important;
+    height: 310px;
+}
+
+:host::ng-deep  ng2-smart-table tbody > tr > td:first-child {
+    color: rgb(2, 2, 2);
+}
+
+:host::ng-deep  ng2-smart-table tbody > tr > td {
+    border-bottom: 1px solid grey;
+    font-size: .975em;
+    padding: .375em .75em;
+    border-top: 1px solid grey;
+}
+:host::ng-deep ng2-smart-action > ng2-smart-action-delete-delete > ng-star-inserted {
+    font-size: .475em;
+}
+:host::ng-deep  ng2-smart-row {
+    border-bottom: 1px solid black !important;
+}
+
+:host::ng-deep ng2-smart-row > tr {
+    border-bottom: 1px solid black !important;
+}
+
+:host::ng-deep ng2-smart-row > td {
+    border-bottom: 1px solid black !important;
+}
+
+:host::ng-deep ng2-smart-table_cell {
+    border-bottom: 1px solid red !important;
+}
+
+:host::ng-deep ng2-smart-table tbody > tr > td > a {
+    color: grey;
+    text-decoration: none;
+    font-size: .500em!important;
+    font-weight: bold;
+}
+
+:host::ng-deep ng2-smart-table tbody > tr > th > a {
+    color: grey;
+    text-decoration: none;
+    font-size: .500em!important;
+    font-weight: bold;
+}
+
+/* clickable paging number */
+:host::ng-deep a.ng2-smart-page-link.page-link {
+    height: 42px;
+    width: 80px;
+    text-align: center;
+    vertical-align: middle;
+    color: royalblue;
+    font-weight: bold;
+    line-height: 6px;
+}
+/* selected paging number */
+:host::ng-deep span.ng2-smart-page-link.page-link {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    font-weight: bold;
+    line-height: 6px;
+}
+
+:host::ng-deep span.ng2-smart-page-item.page-item.disabled {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: grey;
+    font-weight: bold;
+    line-height: 6px;
+}
+
+/* previous paging button */
+:host::ng-deep a.ng2-smart-page-link.page-link.page-link-prev {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: royalblue;
+    font-weight: bold;
+    line-height: 6px;
+}
+
+/* previous paging button disabled */
+:host::ng-deep span.ng2-smart-page-link.page-link.page-link-prev.disabled {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: grey;
+    font-weight: bold;
+    line-height: 6px;
+}
+
+/* next paging button */
+:host::ng-deep a.ng2-smart-page-link.page-link.page-link-next {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: royalblue;
+    font-weight: bold;
+    line-height: 6px;
+}
+
+/* next paging button */
+:host::ng-deep span.ng2-smart-page-link.page-link.page-link-next.disabled {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: grey;
+    font-weight: bold;
+    line-height: 6px;
+}

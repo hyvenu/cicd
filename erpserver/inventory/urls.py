@@ -15,10 +15,9 @@ router.register("ProductCategory", api.ProductCategoryViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),
+    path('api/v1/get_product_code', views.get_product_code, name="get_product_code"),
+
     path("inventory/dashboard",views.inventory_dashboard, name="inventory_dashboard"),
-
-    path('inventory/ProductMaster/get_product_code', views.get_product_code, name="get_product_code"),
-
     path("inventory/ProductPriceMaster/", views.ProductPriceMasterListView.as_view(), name="inventory_ProductPriceMaster_list"),
     path("inventory/ProductPriceMaster/create/", views.ProductPriceMasterCreateView.as_view(), name="inventory_ProductPriceMaster_create"),
     path("inventory/ProductPriceMaster/detail/<str:pk>/", views.ProductPriceMasterDetailView.as_view(), name="inventory_ProductPriceMaster_detail"),

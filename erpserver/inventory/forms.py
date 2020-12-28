@@ -26,17 +26,13 @@ class ProductPriceMasterForm(forms.ModelForm):
     class Meta:
         model = models.ProductPriceMaster
         fields = [
-            "primaryunit_price_buy",
-            "primaryunit_price_sell",
-            "secondaryunit_price_sell",
-            "secondaryunit_price_buy",
+            "buy_price",
+            "sell_price",
             "product",
             "unit",
             "tax",
-            "batch_number",
-            "batch_expiry",
+            "qty",
             "store",
-            "ob_qty"
 
         ]
 

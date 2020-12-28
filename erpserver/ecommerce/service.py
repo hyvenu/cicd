@@ -34,6 +34,7 @@ class EcomService:
             'sub_category__sub_category_code',
             'brand__brand_name',
             'brand__brand_image',
+            'product_attributes',
 
         )
 
