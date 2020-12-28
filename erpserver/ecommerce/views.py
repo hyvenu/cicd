@@ -30,6 +30,7 @@ def get_sub_category(request):
     sub_category_list = ecom_service.get_sub_category()
     return  JsonResponse(sub_category_list,safe=False)
 
+@api_view(['GET'])
 @login_required
 def get_cart_details(request):
     ecom_service = EcomService()
