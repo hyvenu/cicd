@@ -63,12 +63,18 @@ class ProductSubCategorySerializer(serializers.ModelSerializer):
             "id",
         ]
 
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ProductImages
+        fields = ['product_id','image']
+
 class ProductMasterSerializer(serializers.ModelSerializer):
     # product_product_master = serializers.PrimaryKeyRelatedField(many=True,read_only=True)
     product_price = ProductPriceMasterSerializer(many=True,read_only=True)
     category = ProductCategorySerializer(read_only=True)
     sub_category = ProductSubCategorySerializer(read_only=True)
-    brand =ProductBrandMasterSerializer(read_only=True)
+    brand = ProductBrandMasterSerializer(read_only=True)
+    product_images = ProductImageSerializer(read_only=True)
 
     class Meta:
         model = models.ProductMaster
@@ -86,5 +92,7 @@ class ProductMasterSerializer(serializers.ModelSerializer):
             "id",
             'product_attributes',
             "product_price",
+            "product_images",
+
         ]
 

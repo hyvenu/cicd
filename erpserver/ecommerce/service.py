@@ -1,12 +1,12 @@
 from ecommerce.models import Cart
-from inventory.models import ProductMaster, ProductCategory, ProductSubCategory
+from inventory.models import ProductMaster, ProductCategory, ProductSubCategory, ProductImages, ProductPriceMaster
 from store.models import Store
 
 
 class EcomService:
 
     def get_product_list(self, kwargs):
-
+        final_list = []
         if 'category_name' in kwargs:
             category_name = kwargs['category_name']
             product_object = ProductMaster.objects.filter(category__category_name=category_name).all()
@@ -20,25 +20,37 @@ class EcomService:
             product_object = ProductMaster.objects.all()
 
         product_list = product_object.values(
-            'id',
-            'product_code',
-            'product_name',
-            'product_image',
-            'category',
-            'sub_category',
-            'brand',
-            'category__category_code',
-            'category__category_name',
-            'category__description',
-            'sub_category__sub_category_name',
-            'sub_category__sub_category_code',
-            'brand__brand_name',
-            'brand__brand_image',
-            'product_attributes',
+                                                'id',
+                                                'product_code',
+                                                'product_name',
+                                                'product_image',
+                                                'category',
+                                                'sub_category',
+                                                'brand',
+                                                'category__category_code',
+                                                'category__category_name',
+                                                'category__description',
+                                                'sub_category__sub_category_name',
+                                                'sub_category__sub_category_code',
+                                                'brand__brand_name',
+                                                'brand__brand_image',
+                                                'product_attributes',
 
-        )
+                                            )
 
-        return list(product_list)
+        for prod in product_list:
+            prod['images'] = list(ProductImages.objects.filter(product_id=prod['id']).all().values(
+                'product_id',
+                'image'
+            ))
+            prod['price'] = list(ProductPriceMaster.objects.filter(product_id=prod['id']).all().values(
+                'sell_price',
+                'unit__PrimaryUnit',
+                'qty',
+
+            ))
+            final_list.append(prod)
+        return list(final_list)
 
 
     def get_locations(self):

@@ -13,6 +13,7 @@ import { AuthGuard } from '../shared/auth.gaurd';
 import { ManageBrandComponent } from './manage-brand/manage-brand.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ImageUploadModule } from 'angular2-image-upload';
 
 const routes: Routes = [
   { path: 'ManageCategory' , component: ManageCategoryComponent,canActivate:[AuthGuard]},
@@ -39,6 +40,7 @@ const routes: Routes = [
     NbUserModule,
     NbTabsetModule,
     Ng2SmartTableModule,
+    ImageUploadModule.forRoot(),
 
   ],
   providers:[NbToastrService, NbDialogService],

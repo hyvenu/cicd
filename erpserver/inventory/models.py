@@ -135,3 +135,10 @@ class ProductPriceMaster(AuditUuidModelMixin):
     def get_update_url(self):
         return reverse("inventory_ProductPriceMaster_update", args=(self.pk,))
 
+
+class ProductImages(AuditUuidModelMixin):
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,related_name="product_images")
+    image = models.ImageField(upload_to="static/upload/product/products", null=True,blank=True)
+
+    def __str__(self):
+        return str(self.product)

@@ -82,3 +82,25 @@ class ProductCategoryViewSet(viewsets.ModelViewSet):
     queryset = models.ProductCategory.objects.all()
     serializer_class = serializers.ProductCategorySerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class ProductImagesViewSet(viewsets.ModelViewSet):
+
+    queryset = models.ProductImages.objects.all()
+    serializer_class = serializers.ProductImageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        if 'product_id' in self.request.query_params:
+            product_id = self.request.query_params['product_id']
+            return self.queryset.filter(product_id=product_id)
+        else:
+            return self.queryset
+
+
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

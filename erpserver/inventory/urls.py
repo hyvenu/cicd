@@ -12,6 +12,7 @@ router.register("UnitMaster", api.UnitMasterViewSet)
 router.register("ProductSubCategory", api.ProductSubCategoryViewSet)
 router.register("ProductMaster", api.ProductMasterViewSet)
 router.register("ProductCategory", api.ProductCategoryViewSet)
+router.register("ProductImage", api.ProductImagesViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),

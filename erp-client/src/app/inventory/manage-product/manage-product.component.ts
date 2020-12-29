@@ -1,5 +1,5 @@
 import { isDefined } from '@angular/compiler/src/util';
-import { TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,6 +26,7 @@ export class ManageProductComponent implements OnInit {
   selected_sub_ategory: any;
   atrribute_name: any;
   product_id:any;
+  
 
   product_attributes = []
   product_packingtypes = []
@@ -35,8 +36,13 @@ export class ManageProductComponent implements OnInit {
   selected_product: any;
   selected_unit: any;
   unit_list: string | Partial<any>;
+  IsProductInfo: boolean;
+  IsProductImage: boolean;
 
-
+  todoForm: FormGroup = this.formBuilder.group({
+    
+    image: ['', Validators.required], //making the image required here  
+  })
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,10 +51,12 @@ export class ManageProductComponent implements OnInit {
     private dialogService: NbDialogService,
     private routes: Router,
     private route: ActivatedRoute,
+    private cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
-
+    this.IsProductImage = false;
+    this.IsProductInfo = true;
     this.productMasterFrom  =  this.formBuilder.group({        
       categoryNameFormControl: ['', [Validators.required]],
       subcategoryNameFormControl: ['', [Validators.required]],
@@ -230,7 +238,12 @@ export class ManageProductComponent implements OnInit {
     } 
   }
  
-
+  change_tab(){
+    if (this.productMasterFrom.valid) {
+        this.IsProductImage = !this.IsProductImage;
+        this.IsProductInfo = !this.IsProductInfo;
+    }
+  }
   getProductCode():void {
     try{
     if (this.selected_category['category_code'] && this.selected_sub_ategory['sub_category_code'] && this.selected_brand['brand_name']){
@@ -281,5 +294,46 @@ export class ManageProductComponent implements OnInit {
 
 
   }
+
+  onFileChange(event, field) {
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      // just checking if it is an image, ignore if you want
+      if (!file.type.startsWith('image')) {
+        this.todoForm.get(field).setErrors({
+          required: true
+        });
+        this.cd.markForCheck();
+      } else {
+        // unlike most tutorials, i am using the actual Blob/file object instead of the data-url
+        this.todoForm.patchValue({
+          [field]: file
+        });
+        // need to run CD since file load runs outside of zone
+        this.cd.markForCheck();
+      }
+    }
+  }
+  onSubmit() {
+    const formData = new FormData();
+    formData.append('product_id',this.product_id)
+    Object.entries(this.todoForm.value).forEach(
+      ([key, value]: any[]) => {
+        formData.set(key, value);
+      }
+      //submit the form using formData
+      // if you are using nodejs use something like multer
+    )
+    this.inventoryService.uploadImages(formData).subscribe(
+      (data) => {
+
+      },
+      (error) => {
+
+      }
+    )
+  }
+
+
 
 }
