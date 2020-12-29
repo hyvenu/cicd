@@ -66,7 +66,7 @@ class ProductSubCategorySerializer(serializers.ModelSerializer):
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ProductImages
-        fields = ['product_id','image']
+        fields = ['product','image']
 
 class ProductMasterSerializer(serializers.ModelSerializer):
     # product_product_master = serializers.PrimaryKeyRelatedField(many=True,read_only=True)
