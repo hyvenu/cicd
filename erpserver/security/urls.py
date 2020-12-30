@@ -9,10 +9,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from security.views import CreateUserAPIView, CustomTokenObtainPairView, CustomerAddressViewSet
 
 router = routers.DefaultRouter()
-router.register(r'api/customer', CustomerAddressViewSet)
+router.register(r'address', CustomerAddressViewSet)
 
 urlpatterns = [
-    # url('', include(router.urls)),
+    url(r'api/customer/', include(router.urls)),
     url(r'api/user/', CreateUserAPIView.as_view()),
     path(r'api-auth', include('rest_framework.urls', namespace='rest_framework')),
     path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
