@@ -64,9 +64,10 @@ class ProductSubCategorySerializer(serializers.ModelSerializer):
         ]
 
 class ProductImageSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = models.ProductImages
-        fields = ['product','image']
+        fields = ['id','product_id','image']
 
 class ProductMasterSerializer(serializers.ModelSerializer):
     # product_product_master = serializers.PrimaryKeyRelatedField(many=True,read_only=True)
@@ -74,14 +75,13 @@ class ProductMasterSerializer(serializers.ModelSerializer):
     category = ProductCategorySerializer(read_only=True)
     sub_category = ProductSubCategorySerializer(read_only=True)
     brand = ProductBrandMasterSerializer(read_only=True)
-    product_images = ProductImageSerializer(read_only=True)
+    product_images = ProductImageSerializer(read_only=True, many=True)
 
     class Meta:
         model = models.ProductMaster
         fields = [
             "hsn_code",
             "product_code",
-            "product_image",
             "description",
             "product_name",
             "category",

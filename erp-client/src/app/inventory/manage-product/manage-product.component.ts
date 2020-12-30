@@ -1,7 +1,7 @@
 import { isDefined } from '@angular/compiler/src/util';
 import { ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { InventoryService } from '../inventory.service';
@@ -39,10 +39,14 @@ export class ManageProductComponent implements OnInit {
   IsProductInfo: boolean;
   IsProductImage: boolean;
 
-  todoForm: FormGroup = this.formBuilder.group({
+  imageForm: FormGroup = this.formBuilder.group({
     
     image: ['', Validators.required], //making the image required here  
+    fileSource: new FormControl('', [Validators.required])
   })
+  image_list: any;
+  imgSrc: string;
+  selectedFiles= [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -68,6 +72,8 @@ export class ManageProductComponent implements OnInit {
       atrributeNameFormControl: [''],
       packtypeFormControl: [''],
       productsListFormControl: [''],
+      image: ['', Validators.required], //making the image required here  
+      fileSource: new FormControl('', [Validators.required])
     });
 
     this.product_attributes = [];
@@ -90,6 +96,7 @@ export class ManageProductComponent implements OnInit {
             this.selected_sub_ategory = data.sub_category;
             this.selected_brand = data.brand;
             this.product_id = data.id;
+            this.image_list = data.product_images
 
             data.product_price.forEach(element => {
               this.product_packingtypes.push(
@@ -280,6 +287,11 @@ export class ManageProductComponent implements OnInit {
     formData.append('description', this.productMasterFrom.controls['descFormControl'].value);
     formData.append('product_attributes', JSON.stringify(this.product_attributes));
     formData.append('product_pack_types', JSON.stringify(this.product_packingtypes));
+    // formData.append('product_images', this.productMasterFrom.controls['fileSource'].value);
+    if(this.selectedFiles.length){
+      for(let i=0 ; i < this.selectedFiles.length ; i++)
+        formData.append('files[]', this.selectedFiles[i],this.selectedFiles[i].name);
+    }
 
     this.inventoryService.saveProduct(formData).subscribe(
       (data) => {
@@ -296,28 +308,30 @@ export class ManageProductComponent implements OnInit {
   }
 
   onFileChange(event, field) {
+    const reader = new FileReader();
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
-      // just checking if it is an image, ignore if you want
-      if (!file.type.startsWith('image')) {
-        this.todoForm.get(field).setErrors({
-          required: true
-        });
-        this.cd.markForCheck();
-      } else {
-        // unlike most tutorials, i am using the actual Blob/file object instead of the data-url
-        this.todoForm.patchValue({
-          [field]: file
-        });
-        // need to run CD since file load runs outside of zone
-        this.cd.markForCheck();
+      // just checking if it is an image, ignore if you want      
+      for(let i=0 ; i < event.target.files.length ;i++){ 
+        this.selectedFiles.push(<File>event.target.files[i]);
       }
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+   
+        this.imgSrc = reader.result as string;
+     
+        this.productMasterFrom.patchValue({
+          fileSource: reader.result
+        });
+   
+      };
+      
     }
   }
   onSubmit() {
     const formData = new FormData();
     formData.append('product_id',this.product_id)
-    Object.entries(this.todoForm.value).forEach(
+    Object.entries(this.imageForm.value).forEach(
       ([key, value]: any[]) => {
         formData.set(key, value);
       }

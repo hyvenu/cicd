@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 from audit_fields.models import AuditUuidModelMixin
-from inventory.models import ProductMaster
+from inventory.models import ProductMaster, ProductPriceMaster
 
 User = get_user_model()
 
@@ -11,6 +11,8 @@ User = get_user_model()
 class Cart(AuditUuidModelMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE)
+    pack_unit = models.ForeignKey(ProductPriceMaster, on_delete=models.CASCADE)
+    unit_price = models.DecimalField(max_digits=10,decimal_places=2)
     qty = models.IntegerField(null=True, default=0)
     sub_total = models.IntegerField(null=True,default=0)
 

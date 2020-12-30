@@ -36,5 +36,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['user_id'] = self.user.id
         data['first_name'] = self.user.first_name
         data['phone_number'] = self.user.phone_number
+        data['permission'] = self.user.get_all_permissions()
 
         return data

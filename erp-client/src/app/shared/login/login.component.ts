@@ -48,8 +48,8 @@ export class LoginComponent implements OnInit {
       },(error)=>
       {
         this.Invalid = true;
-        console.log(error.error.detail);
-        this.nbtoastService.danger(error.error.detail);
+        console.log(error);
+        this.nbtoastService.danger(error);
 
       });
 

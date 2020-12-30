@@ -86,7 +86,9 @@ class EcomService:
         return list(cart_list)
 
     def add_cart(self,data, user_id):
-        cart = Cart(user_id=user_id, product_id=data['product_id'],qty=data['qty'],sub_total=data['sub_total'])
+        if "id" in data:
+            Cart.objects.filter(id=data["id"]).delete()
+        cart = Cart(user_id=user_id, product_id=data['product_id'],pack_unit_id=data["pack_unit_id"],unit_price=data["unit_price"],qty=data['qty'],sub_total=int(data['qty']) * float(data["unit_price"]) )
         cart.save()
         return True
 

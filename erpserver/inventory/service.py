@@ -1,6 +1,6 @@
 from django.db import transaction
 
-from inventory.models import ProductMaster, ProductSubCategory, ProductPriceMaster
+from inventory.models import ProductMaster, ProductSubCategory, ProductPriceMaster, ProductImages
 from sequences import get_next_value
 import ast
 
@@ -50,6 +50,12 @@ class InventoryService:
                 price_obj.qty = packs['qty']
                 price_obj.product = product_obj
                 price_obj.save()
+
+        if len(serializer.initial_data.getlist('files[]')) > 0:
+            for image in serializer.initial_data.getlist('files[]'):
+                product_image = ProductImages(product_id=product_obj.id,image=image)
+                product_image.save()
+
         return serializer
 
     def get_product_list(self):

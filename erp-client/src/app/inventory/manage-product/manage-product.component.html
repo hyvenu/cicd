@@ -1,5 +1,10 @@
+<div class="row">
+    <a nbButton href="ManageProductList" status="success" size="small" >Back to Product List </a>
+</div>  <br>
 <nb-tabset>
     <nb-tab tabTitle="Product Information" [active]="IsProductInfo">
+       
+      
         <div id="" [formGroup]="productMasterFrom">
             <div class="row">
                 <div class="col-md-3">
@@ -96,12 +101,31 @@
                 </div>
             </div>
             <div class="row">
-               
+                <div class="col-md-12">
+                    <nb-card accent="info">
+                        <nb-card-header>
+                            <b><u>Product Image: </u>&nbsp; </b>                                   
+                            <input type="file" formControlName="image" multiple (change)="onFileChange($event, 'image');"/>           
+                        </nb-card-header>
+                        <nb-card-body>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src={{imgSrc}} alt="Product Image " height="80" width="80"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <nb-list-item *ngFor="let img of image_list">
+                                    <img src={{img.image}} alt="" height="80" width="80"/>
+                                </nb-list-item>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                </div>    
             </div>
             <div class="row">
                 <div class="col-md-3">
                     <button nbButton status="success" (click)="saveProduct();" >Save</button>&nbsp;&nbsp;
-                    <button nbButton status="success" (click)="change_tab();" >Next</button>&nbsp;&nbsp;
+                    <!-- <button nbButton status="success" (click)="change_tab();" >Next</button>&nbsp;&nbsp; -->
                     
                 </div>
             </div>
@@ -121,17 +145,34 @@
             </div>
         </div>
     </nb-tab> -->
-    <nb-tab tabTitle="Product  Images" [active]="IsProductImage" >
-
-        <image-upload
-                [max]="100"
-                [url]="'http://127.0.0.1:8000/manage_inventory/api/v1/ProductImage/'"
-                
-                [uploadedFiles]="['http://127.0.0.1:8000/manage_inventory/api/v1/ProductImage/']"
-               >
-</image-upload>
+    <!-- <nb-tab tabTitle="Product  Images" [active]="IsProductImage" >
+        <form [formGroup]="imageForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="file" formControlName="image" (change)="onFileChange($event, 'image');"/>           
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src={{imgSrc}} alt="Product Image " height="80" width="80"/>
+                </div>
+            </div>
+            <nb-list>
+                <nb-list-item *ngFor="let img of image_list">
+                    <img src={{img.name}} alt="" height="40" width="40"/>
+                </nb-list-item>
+            </nb-list>
+            <div class="row">
+                <div class="col-md-3">
+                    <button nbButton status="success" (click)="saveProduct();" >Save</button>&nbsp;&nbsp;
+                    <button nbButton status="success" (click)="change_tab();" >Back</button>&nbsp;&nbsp;
+                    
+                </div>
+            </div>
+        </form>
         
-    </nb-tab>
+    </nb-tab> -->
 </nb-tabset>
 
 <ng-template #dialog let-data let-ref="dialogRef">

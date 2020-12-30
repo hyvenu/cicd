@@ -37,9 +37,14 @@ export class JwtInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             catchError((err: HttpErrorResponse) => {
               if (err.status === 401) {
+                sessionStorage.clear();  
                 this.router.navigate(['Login'], { queryParams: { returnUrl: request.url } });
+                return throwError(err.error.detail);
               }
-              return throwError(err);
+              if (err.status === 0) {
+                return throwError('Unable to Connect to the Server');
+              }
+              
             })
         )
     }

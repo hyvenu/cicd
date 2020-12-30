@@ -142,3 +142,7 @@ class ProductImages(AuditUuidModelMixin):
 
     def __str__(self):
         return str(self.product)
+
+
+class ProductStock(AuditUuidModelMixin):
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,related_name="product_stock")

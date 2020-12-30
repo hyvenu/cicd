@@ -89,7 +89,7 @@ export class ManageBrandComponent implements OnInit {
           this.ngOnInit();
         },
         (error) =>{
-          this.nbtoastService.danger(error);
+          this.nbtoastService.danger(error.error.detail);
         }
       )    
     }
@@ -108,7 +108,7 @@ export class ManageBrandComponent implements OnInit {
             this.ngOnInit();
           },
           (error) =>{
-            this.nbtoastService.danger(error);
+            this.nbtoastService.danger(error.error.detail);
           }
         )    
       }
