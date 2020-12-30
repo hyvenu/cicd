@@ -1,6 +1,6 @@
 import { Optional, TemplateRef, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { InventoryService } from '../inventory.service';
@@ -25,6 +25,8 @@ export class ManageSubcategoryComponent implements OnInit {
   categories_list;
 
   dailog_ref;
+  selectedFiles = [];
+  subcat_image: string;
 
   // @ViewChild('#dialog') public model: TemplateRef<any>;
   
@@ -44,6 +46,8 @@ export class ManageSubcategoryComponent implements OnInit {
       subcategoryNameFormControl: ['', [Validators.required]],      
       subcategoryCodeFormControl: ['', [Validators.required]],   
       categoryNameFormControl: ['', [Validators.required]],
+      subCatImageFormControl: ['',],        
+      fileSource: new FormControl('',) 
     });
     
     this.createFlag = true;
@@ -79,11 +83,22 @@ export class ManageSubcategoryComponent implements OnInit {
   save_sub_category(): void{
     
     if( this.subcategoryFrom.dirty && this.subcategoryFrom.valid){
-      let data = {
-            sub_category_name: this.subcategoryFrom.get(['subcategoryNameFormControl']).value,            
-            sub_category_code: this.subcategoryFrom.get(['subcategoryCodeFormControl']).value,
-            category_id: this.selected_category.id,
+      // let data = {
+      //       sub_category_name: this.subcategoryFrom.get(['subcategoryNameFormControl']).value,            
+      //       sub_category_code: this.subcategoryFrom.get(['subcategoryCodeFormControl']).value,
+      //       sub_category_image: '',
+      //       category_id: this.selected_category.id,
+      // }
+      let data = new FormData()
+      data.append('sub_category_name', this.subcategoryFrom.get(['subcategoryNameFormControl']).value)
+      data.append('sub_category_code', this.subcategoryFrom.get(['subcategoryCodeFormControl']).value)
+      data.append('category_id', this.selected_category.id)
+      if(this.selectedFiles.length){
+        for(let i=0 ; i < this.selectedFiles.length ; i++)
+          data.append('sub_category_image', this.selectedFiles[i],this.selectedFiles[i].name);
       }
+
+
       this.inventoryService.saveSubCategory(data).subscribe(
         (data) => {
           this.nbtoastService.success("Saved Successfully");
@@ -98,10 +113,13 @@ export class ManageSubcategoryComponent implements OnInit {
     update_sub_category(): void{
     
       if( this.subcategoryFrom.dirty && this.subcategoryFrom.valid){
-        let data = {
-              sub_category_name: this.subcategoryFrom.get(['subcategoryNameFormControl']).value,              
-              sub_category_code: this.subcategoryFrom.get(['subcategoryCodeFormControl']).value,
-              category_id: this.selected_category.id,
+        let data = new FormData()
+            data.append('sub_category_name', this.subcategoryFrom.get(['subcategoryNameFormControl']).value)
+            data.append('sub_category_code', this.subcategoryFrom.get(['subcategoryCodeFormControl']).value)
+            data.append('category_id', this.selected_category.id)
+        if(this.selectedFiles.length){
+          for(let i=0 ; i < this.selectedFiles.length ; i++)
+            data.append('sub_category_image', this.selectedFiles[i],this.selectedFiles[i].name);
         }
         this.inventoryService.updateSubCategory(this.subcategory_id, data).subscribe(
           (data) => {
@@ -119,11 +137,33 @@ export class ManageSubcategoryComponent implements OnInit {
         this.subcategoryFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);        
         this.subcategoryFrom.controls['subcategoryCodeFormControl'].setValue(data.sub_category_code);
         this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category.category_name);
+        this.subcat_image = data.sub_category_image;
         this.createFlag = !this.createFlag;
         this.subcategory_id = data.id
         this.selected_category = data.category
     }
 
+    onFileChange(event) {
+      const reader = new FileReader();
+      if (event.target.files && event.target.files.length) {
+        const [file] = event.target.files;
+        // just checking if it is an image, ignore if you want      
+        for(let i=0 ; i < event.target.files.length ;i++){ 
+          this.selectedFiles.push(<File>event.target.files[i]);
+        }
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+     
+          this.subcat_image = reader.result as string;
+       
+          this.subcategoryFrom.patchValue({
+            fileSource: reader.result
+          });
+     
+        };
+        
+      }
+    }
     // selected_category(data,ref): any{
     //   this.nbtoastService.show(data);    
       

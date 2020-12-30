@@ -14,7 +14,16 @@
             <input nbInput formControlName="subcategoryCodeFormControl" name="subcategoryCode" placeholder="SUb Category Code"/>
         </div>
     </div><br>
-   
+    <div class="row">
+    <div class="col-md-3">
+        <label for="subCatImage">Image</label>
+        <input nbInput type="file"  (change)="onFileChange($event)" name="subCatImage" />
+        
+    </div>
+    <div class="col-md-3" *ngIf="subcat_image">            
+        <img src="{{subcat_image}}" class="rounded"  width="80" height="80" />
+    </div>
+    </div>
     <div class="row">
         <div class="col-md-4"> 
             <button nbButton *ngIf="createFlag" (click)="save_sub_category();" status="success">Save</button>
@@ -28,6 +37,7 @@
         <nb-card-body>
             <nb-list-item *ngFor="let subcategory of sub_categories">
                 <i class="mr-auto mt-2 mt-lg-0">{{ subcategory.category.category_name  }} / {{ subcategory.sub_category_code }} / {{ subcategory.sub_category_name }}</i>
+                <img src="{{subcategory.sub_category_image}}" width="40" height="40"/>
                 <button nbButton size="small" (click)="selected_sub_category(subcategory)" >Select</button>
               </nb-list-item>
         </nb-card-body>
@@ -39,7 +49,7 @@
       <nb-card-body>
         <nb-list>
             <nb-list-item *ngFor="let item of data">
-              <i class="mr-auto mt-2 mt-lg-0">{{ item.category_name }} - {{item.category_code }}</i>
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.category_name }} - {{item.category_code }}</i>              
               <button nbButton (click)="ref.close(item)" size="small">Select</button>
             </nb-list-item>
           </nb-list>

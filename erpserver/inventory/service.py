@@ -15,7 +15,12 @@ class InventoryService:
 
     @classmethod
     def save_sub_category(cls,serializer):
-        sub_category = ProductSubCategory(**serializer.initial_data)
+        sub_category = ProductSubCategory()
+        sub_category.category_id = serializer.initial_data['category_id']
+        sub_category.sub_category_name = serializer.initial_data['sub_category_name']
+        sub_category.sub_category_code = serializer.initial_data['sub_category_code']
+        for image in serializer.initial_data.getlist('sub_category_image'):
+            sub_category.sub_category_image = image
         sub_category.save()
         return serializer
 

@@ -32,6 +32,7 @@ class ProductSubCategory(AuditUuidModelMixin):
     # Fields
     sub_category_name = models.CharField(max_length=50)
     sub_category_code = models.CharField(max_length=30)
+    sub_category_image = models.ImageField(upload_to="static/upload/products/sub_category", null=True, blank=True,default=None)
 
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE,related_name="category_sub_category")
 
