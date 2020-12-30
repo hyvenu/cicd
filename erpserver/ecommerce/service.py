@@ -67,6 +67,7 @@ class EcomService:
             "id",
             "sub_category_name",
             "sub_category_code",
+            "sub_category_image",
             "category__id",
             "category__category_name",
             "category__category_code",
