@@ -68,3 +68,22 @@ class User(AuditUuidModelMixin, AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.first_name + '(' + self.email + ')'
+
+
+class CustomerAddress(AuditUuidModelMixin):
+    customer = models.ForeignKey(User,on_delete=models.CASCADE, related_name="customer_address")
+    address_line1 = models.CharField(max_length=2000, null=True,blank=True)
+    address_line2 = models.CharField(max_length=2000, null=True, blank=True)
+    city = models.CharField(max_length=2000, null=True, blank=True)
+    state = models.CharField(max_length=2000, null=True, blank=True)
+    pin_code = models.CharField(max_length=30,null=True)
+    phone_number = models.CharField(max_length=20, null=True)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.customer) + '\n ' + self.address_line1 \
+               + '\n ' \
+               + self.address_line2 + ' \n ' + self.pin_code
+

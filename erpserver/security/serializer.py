@@ -4,6 +4,8 @@ from django.contrib.auth.models import Group
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from security.models import CustomerAddress
+
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
@@ -39,3 +41,33 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['permission'] = self.user.get_all_permissions()
 
         return data
+
+
+class CustomerAddressSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomerAddress
+        fields = [
+            'id',
+            "customer",
+            "address_line1",
+            "address_line2",
+            "city",
+            "state",
+            "pin_code",
+            "phone_number",
+        ]
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    customer_address = CustomerAddressSerializer()
+
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'first_name',
+            'email',
+            'customer_address',
+
+        ]

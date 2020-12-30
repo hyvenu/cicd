@@ -16,7 +16,11 @@ class EcomService:
         elif 'sub_category_name' in kwargs:
             sub_category_name = kwargs['sub_category_name']
             product_object = ProductMaster.objects.filter(sub_category__sub_category_name=sub_category_name).all()
+        elif 'product_code' in kwargs:
+            product_code = kwargs['product_code']
+            product_object = ProductMaster.objects.filter(product_code=product_code).all()
         else:
+
             product_object = ProductMaster.objects.all()
 
         product_list = product_object.values(

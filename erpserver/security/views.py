@@ -10,7 +10,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from security.serializer import UserSerializer, GroupSerializer, CustomTokenObtainPairSerializer
+from security.models import CustomerAddress
+from security.serializer import UserSerializer, GroupSerializer, CustomTokenObtainPairSerializer, CustomerSerializer, \
+    CustomerAddressSerializer
 
 User = get_user_model()
 
@@ -43,3 +45,17 @@ class GroupViewSet(viewsets.ModelViewSet):
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
     token_obtain_pair = TokenObtainPairView
+
+
+class CustomerViewSet(viewsets.ModelViewSet):
+
+    queryset = User.objects.all()
+    serializer_class = CustomerSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CustomerAddressViewSet(viewsets.ModelViewSet):
+
+    queryset = CustomerAddress.objects.all()
+    serializer_class = CustomerAddressSerializer
+    permission_classes = [permissions.IsAuthenticated]

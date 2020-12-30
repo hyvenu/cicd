@@ -6,10 +6,10 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from security.views import CreateUserAPIView, CustomTokenObtainPairView
+from security.views import CreateUserAPIView, CustomTokenObtainPairView, CustomerAddressViewSet
 
-# router = routers.DefaultRouter()
-# router.register(r'users', CreateUserAPIView)
+router = routers.DefaultRouter()
+router.register(r'api/customer', CustomerAddressViewSet)
 
 urlpatterns = [
     # url('', include(router.urls)),
