@@ -59,3 +59,6 @@ class CustomerAddressViewSet(viewsets.ModelViewSet):
     queryset = CustomerAddress.objects.all()
     serializer_class = CustomerAddressSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return self.queryset.filter(customer_id=self.request.user.id)
