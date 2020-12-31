@@ -50,6 +50,7 @@ class EcomService:
             prod['price'] = list(ProductPriceMaster.objects.filter(product_id=prod['id']).all().values(
                 'sell_price',
                 'unit__PrimaryUnit',
+                'id',
                 'qty',
 
             ))
@@ -84,6 +85,8 @@ class EcomService:
             'product__id',
             'product__product_code',
             'product__description',
+            'pack_unit__id',
+            'pack_unit__sell_price',
             'qty',
             'sub_total',
             'id',
