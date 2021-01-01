@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  BASE_SERVICE_URL:"http://103.145.51.11:8080"
+  BASE_SERVICE_URL:"http://103.146.177.164:8080"
 };
 
 /*

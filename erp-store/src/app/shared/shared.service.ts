@@ -33,6 +33,8 @@ export class SharedService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/authentication/api/token/`, userInfo)
       .pipe(map(user => {
       this.userSubject.next(user);
+      sessionStorage.setItem("accessToken",user.access);
+      sessionStorage.setItem("user_id",user.user_id);
       this.cookie.set('isLoggedIn',"true");
       this.cookie.set('access_token',user.access);
         this.startRefreshTokenTimer();
