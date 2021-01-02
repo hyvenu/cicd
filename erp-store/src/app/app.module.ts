@@ -15,6 +15,7 @@ import { MatCardModule } from '@angular/material/card'
 import { ProductViewComponent } from './product-view/product-view.component';
 import { CheckOutProductsComponent } from './check-out-products/check-out-products.component';
 import { JwtInterceptor } from './shared/jwt.interceptor';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { JwtInterceptor } from './shared/jwt.interceptor';
     ProductViewComponent,
     ProductListComponent,
     CheckOutProductsComponent,
+    CartComponent,
 
   ],
   imports: [

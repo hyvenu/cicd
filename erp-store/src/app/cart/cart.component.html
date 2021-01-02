@@ -1,0 +1,39 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div *ngIf="cartItems.length === 0" class="alert alert-info">Your Cart is Empty &nbsp;<a class="btn btn-outline-secondary" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md">Product Image</div>
+        <div class="col-md">ProductName</div>
+        
+        <div class="col-md">Quantity</div>
+        <div class="col-md">price</div>
+        <div class="col-md">Delete</div>
+    </div>
+
+</div>
+
+<ul *ngIf="cartItems.length > 0" class="list-group">
+    <li class="list-group-item" *ngFor="let cartItem of cartItems">
+        <!-- <app-cart-item [cartItem]=item></app-cart-item> -->
+        <div class="container-fluid">
+            <div *ngIf="!removeFromCart"  class="row">
+                <div class="col-md"><img [src]="BaseUrl + '/' +cartItem.image" height="" width="100px" alt="img">{{cartItem.product__description}}</div>
+                <div class="col-md">{{cartItem.product__product_name}}</div>
+                
+                <div class="col-md"><button class="btn btn-outline-primary btn-sm" (click)="inc(cartItem)" ><i class="fa fa-plus" ></i></button>&nbsp;{{cartItem.qty}}&nbsp;<button class="btn btn-outline-primary btn-sm" (click)="dec(cartItem)" ><i class="fa fa-minus" ></i></button></div>
+                <div class="col-md">{{cartItem.sub_total| currency:'INR'}}</div>
+                <div class="col-md remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><button (click)="handleRemoveFromCart()"><i class="fa fa-trash"></i></button></div>
+            </div>
+        
+        </div>
+    </li>
+    <!-- <li class="list-group-item active">
+    <strong>Total:</strong>{{ cartTotal | currency:'INR'}}
+    </li> -->
+    
+</ul>
+<div>
+    <div class="column text-lg btn btn-success">Subtotal: <span class="text-medium">{{ cartTotal | currency:'INR'}}</span></div><a class="btn btn-success float-right" href="#">Checkout</a>
+</div>

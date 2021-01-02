@@ -80,6 +80,7 @@ class EcomService:
         return list(sub_category_list)
 
     def get_cart_detail(self, user_id):
+        final_list =[]
         cart_list = Cart.objects.filter(user_id=user_id).all().values(
             'product__product_name',
             'product__id',
@@ -91,7 +92,15 @@ class EcomService:
             'sub_total',
             'id',
         )
-        return list(cart_list)
+
+        for cart in cart_list:
+            cart_obj = ProductImages.objects.filter(product_id=cart['product__id']).all().values(
+                'image'
+            )
+            if len(cart_obj) > 0 :
+                cart['image'] = cart_obj[0]['image']
+            final_list.append(cart)
+        return list(final_list)
 
     def add_cart(self,data, user_id):
         if "id" in data:
