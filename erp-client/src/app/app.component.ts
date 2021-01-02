@@ -49,6 +49,10 @@ export class AppComponent implements OnInit {
             title: 'Product Master',
             link: 'ManageProductMaster', // goes into angular `routerLink`
           },
+          {
+            title: 'Vendor Master',
+            link: 'ManageVendortMaster', // goes into angular `routerLink`
+          },
         ]
   
         },
