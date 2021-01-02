@@ -1,5 +1,5 @@
 import { ProductListComponent } from './product-list/product-list.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -12,17 +12,18 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SharedModule } from './shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card'
-import { MatGridListModule } from '@angular/material/grid-list';
 import { ProductViewComponent } from './product-view/product-view.component';
-
-
+import { CheckOutProductsComponent } from './check-out-products/check-out-products.component';
+import { JwtInterceptor } from './shared/jwt.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ProductViewComponent,
-    ProductListComponent
+    ProductListComponent,
+    CheckOutProductsComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -37,9 +38,14 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ReactiveFormsModule,
     HttpClientModule,
     FlexLayoutModule,
-    MatCardModule
+    MatCardModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

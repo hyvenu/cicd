@@ -3,18 +3,39 @@
     <div class="content" fxLayoutGap="16px grid" fxLayout="row" fxLayout.xs="column" fxFlexFill>
 
         <div fxFlex="40" fxFlex.xs="55">
-            <img width="100%" src="../../assets/banner_img/img_3.jpg">
+
+            <div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" *ngFor="let image of Product.images;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" attr.data-slide-to="{{i}}"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item" *ngFor="let image of Product.images;  let i=index" [ngClass]="(i === 0) ? 'active' : ''">
+                        <img height="300px" class="d-block w-100" src="{{BaseUrl+image.image}}" alt="First slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+
         </div>
         <div fxFlex="60" fxFlex.xs="45">
-            <h2>Product Name</h2>
+            <h2>{{Product.product_name}}</h2>
 
-            <form>
+            <form [formGroup]="CartForm" (ngSubmit)="AddToCart(Product)">
                 <div class="form-group" id="inputDiv">
-                    <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Quantity" required> &nbsp;
-                    <select class="form-control" id="exampleFormControlSelect1" required>
-<option>kg</option>
-<option>ltr</option>
-</select>
+                    <input type="number" min="1" class="form-control" id="exampleFormControlInput1" formControlName="Quantity" placeholder="Quantity" required> &nbsp;
+                    <select class="form-control" id="exampleFormControlSelect1" formControlName="packingType" required>
+                    <option *ngFor="let packingType of Product.price; let i = index"  value={{packingType}}  [attr.selected]="i == 0">
+                      {{packingType.qty+" "+packingType.unit__PrimaryUnit+" - "+packingType.sell_price}}
+                    </option>
+                  </select>
                 </div>
 
                 <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button>
@@ -28,8 +49,7 @@
     <br><br>
     <div>
         <h4> About the Product</h4>
-        Onion is a vegetable which is almost like a staple in Indian food. This is also known to be one of the essential ingredients of raw salads. They come in different colours like white, red or yellow and are quite in demand in cold salads and hot soups.
-        You can dice, slice or cut it in rings and put it in burgers and sandwiches. Onions emit a sharp flavour and fragrance once they are fried; it is due to the sulphur compound in the vegetable.
+        {{Product.category__description}}
     </div>
 </div>
 <br><br>

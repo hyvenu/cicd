@@ -33,13 +33,15 @@ export class LoginComponent implements OnInit {
         email:this.LoginForm.controls['username'].value,
         password:this.LoginForm.controls['password'].value
       };
-
+      console.log(user);
       this.Service.loginUser(user).subscribe((data)=>
       {
+        console.log(data);
        localStorage.setItem("accessToken",data.access);
        this.router.navigate(["/Home"]);
       },(error)=>
       {
+        console.log(error);
         this.Invalid = true;
       });
 

@@ -14,83 +14,33 @@
     </div>
     <br>
 
-    <!-- Product Lists -->
-    <div id="product-name">Oils</div>
-    <br>
-    <div class="content">
-        <div fxLayout="row wrap" fxLayoutGap="16px grid">
-            <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let num of [1,2,3,4]">
-                <mat-card class="mat-elevation-z4">
-                    <div (click)="GotoProductview(num)" id="product">
-                        <mat-card-header>
-                            <mat-card-title>Product Name</mat-card-title>
-                        </mat-card-header>
-                        <img mat-card-image src="../../assets/banner_img/img_3.jpg">
-                        <mat-card-content>
-                            <p>
-                                Description
-                            </p>
-                        </mat-card-content>
-                    </div>
-                    <mat-card-actions>
-                        <form>
-                            <div class="form-group" style="display: flex;">
-                                <input type="number" min="1" class="form-control" id="exampleFormControlInput1" placeholder="Quantity" required> &nbsp;
-                                <select class="form-control" id="exampleFormControlSelect1" required>
-          <option>kg</option>
-          <option>ltr</option>
-        </select>
-                            </div>
+    <!-- category Lists -->
+    <div *ngFor="let category of CategoryList">
+        <div id="category-name">{{category.category_name}}</div>
+        <br>
+        <div class="content">
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let subcategory of category.Subcatogories">
+                    <mat-card class="mat-elevation-z4">
+                        <div (click)="GoToCategoryList(subcategory.category__category_name)" id="category">
+                            <mat-card-header>
+                                <mat-card-title>{{subcategory.sub_category_name}}</mat-card-title>
+                            </mat-card-header>
 
-                            <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button>
-
-                        </form>
-                    </mat-card-actions>
-                </mat-card>
+                            <img height="200px" mat-card-image src="{{BaseUrl+subcategory.sub_category_image}}">
+                            <mat-card-content>
+                                <p>
+                                    Description
+                                </p>
+                            </mat-card-content>
+                        </div>
+                    </mat-card>
+                </div>
             </div>
         </div>
+        <br>
+        <div id="view-button"><button type="button" (click)="GoToCategoryList(category.category_name)" class="btn btn-primary">View All <i class="fa fa-arrow-right" aria-hidden="true"></i></button></div>
+        <br><br>
     </div>
-    <br>
-    <div id="view-button"><button type="button" (click)="GoToProductList()" class="btn btn-primary">View All <i class="fa fa-arrow-right" aria-hidden="true"></i></button></div>
-    <br><br>
 
-
-    <div id="product-name">Vegetables</div>
-    <br>
-    <div class="content">
-        <div fxLayout="row wrap" fxLayoutGap="16px grid">
-            <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let num of [1,2,3,4]">
-                <mat-card class="mat-elevation-z4">
-                    <div (click)="GotoProductview(num)" id="product">
-                        <mat-card-header>
-                            <mat-card-title>Product Name</mat-card-title>
-                        </mat-card-header>
-                        <img mat-card-image src="../../assets/banner_img/img_3.jpg">
-                        <mat-card-content>
-                            <p>
-                                Description
-                            </p>
-                        </mat-card-content>
-                    </div>
-                    <mat-card-actions>
-                        <form>
-                            <div class="form-group" style="display: flex;">
-                                <input type="number" min="1" class="form-control" id="exampleFormControlInput1" placeholder="Quantity" required> &nbsp;
-                                <select class="form-control" id="exampleFormControlSelect1" required>
-        <option>kg</option>
-        <option>ltr</option>
-      </select>
-                            </div>
-
-                            <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button>
-
-                        </form>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div id="view-button"><button type="button" class="btn btn-primary">View All <i class="fa fa-arrow-right" aria-hidden="true"></i></button></div>
-    <br><br>
 </div>
