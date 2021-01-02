@@ -100,5 +100,11 @@ class EcomService:
         cart.save()
         return True
 
+    def delete_cart(self,data, user_id):
+        if "id" in data:
+            Cart.objects.filter(id=data["id"]).delete()
+            return True
+        else:
+            return False
 
 

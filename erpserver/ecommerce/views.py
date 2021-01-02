@@ -48,3 +48,16 @@ def add_to_cart(request):
     return JsonResponse(cart_list,safe=False)
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated,])
+def delete_cart(request):
+    ecom_service = EcomService()
+    data = request.data
+    if ecom_service.delete_cart(data, request.user.id):
+        cart_list = ecom_service.get_cart_detail(request.user.id)
+        return JsonResponse(cart_list, safe=False)
+    else:
+        cart_list = ecom_service.get_cart_detail(request.user.id)
+        return JsonResponse(cart_list, safe=False)
+
+
