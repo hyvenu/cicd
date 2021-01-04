@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+<div class="alert alert-primary">
+    <a class="btn btn-outline-primary" href="{% url 'inventory_UnitMaster_list' %}">
+    Unit Master List
+    </a>
+</div>
+<section class="testimonial py-5" id="testimonial">
+<div class="container shadow bg-white rounded"><br>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{form.errors}}
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="PrimaryUnit">Primary Unit: </label>
+  <input class="form-control col-sm-4" id="PrimaryUnit" type="text" name="PrimaryUnit" value="{{ object.PrimaryUnit }}">
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="SecondaryUnit">Secondary Unit: </label>
+  <input class="form-control col-sm-4" id="SecondaryUnit" type="text" name="SecondaryUnit" value="{{ object.SecondaryUnit }}">
+  </div>
+  <input type="submit" value="Save" class="btn btn-outline-primary">
+</form> <br>
+</div>
+
+</section>
+{% endblock %}

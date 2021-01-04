@@ -1,0 +1,59 @@
+<!-- <nav class="navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand mr-auto mt-2 mt-lg-0" href="#" id="company"> <img src="../../../assets/images/Saffaran-Trade-Mark.png" width="150px"></a>
+        
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/Home">My Cart
+
+          </a>
+            </li>
+            <li class="nav-item" *ngIf="!isAuthenticated">
+                <a class="nav-link" href="/Login">Login
+
+          </a>
+            </li>
+            <li class="nav-item" *ngIf="!isAuthenticated">
+                <a class="nav-link" href="/Register">Sign Up
+
+          </a>
+                <li class="nav-item" *ngIf="isAuthenticated">
+                    <a class="nav-link" (click)="logout()">Logout</a>
+                </li>
+        </ul>
+
+
+
+    </div>
+</nav> -->
+<!-- <div class="col-md-10">
+    <img src="../../../assets/images/Saffaran-Trade-Mark.png" height="60px"  width="100px">
+    <nb-user nbButton name="{{ user_name}}"
+        title="Role"
+        [nbContextMenu]="items"
+        nbContextMenuTag="my-context-menu">
+    </nb-user>
+</div> -->
+<style>
+    .logo-container {
+    display: flex;
+    align-items: center;
+    /* width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)}); */
+  }
+   
+</style>
+<div class="header-container">
+    <div class="logo-container">
+        <img src="/assets/images/Saffaran-Trade-Mark.png" height="60px"  width="100px">
+        <h3>{{store_name}}</h3><span style="padding-right: 400px;"></span>
+        <nb-user nbButton name="{{ user_name}}"
+        title="Role"
+        [nbContextMenu]="items"
+        nbContextMenuTag="my-context-menu">
+    </nb-user>
+    </div>
+    
+</div>        

@@ -5,6 +5,7 @@ import { AuthGuard } from './shared/auth.gaurd';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { CartComponent } from './cart/cart.component';
 
 const routes: Routes = [
   { path:'', component:HomeComponent
@@ -13,7 +14,8 @@ const routes: Routes = [
 },
 {path:"category/:id",component:ProductListComponent,  canActivate:[AuthGuard]},
 {path:"productview/:id",component:ProductViewComponent, canActivate:[AuthGuard]},
-{path:"checkout",component:CheckOutProductsComponent, canActivate:[AuthGuard]}
+{path:"checkout",component:CheckOutProductsComponent, canActivate:[AuthGuard]},
+{path:"cart",component:CartComponent, canActivate:[AuthGuard]}
 
 
 ];

@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Dashboard</a>
+    </li>
+    {% if perms.store.view_store %}
+    <li class="nav-item dropdown active">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop_manage_store" data-toggle="dropdown">
+        Manage Store
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="{% url 'store_list'%}">Store list</a>
+        {% if perms.store.add_store %}
+            <a class="dropdown-item" href="{% url 'store_create'%}">Add</a>
+        {% endif %}
+        <a class="dropdown-item" href="{% url 'inventory_dashboard'%}">Manage Store Inventory</a>
+      </div>
+    </li>
+    {% endif %}
+<!--   <li class="nav-item dropdown">-->
+<!--      <a class="nav-link dropdown-toggle" href="#" id="navbardrop_Inventory" data-toggle="dropdown">-->
+<!--        Dropdown link-->
+<!--      </a>-->
+<!--      <div class="dropdown-menu">-->
+<!--        <a class="dropdown-item" href="#">Link 1</a>-->
+<!--        <a class="dropdown-item" href="#">Link 2</a>-->
+<!--        <a class="dropdown-item" href="#">Link 3</a>-->
+<!--      </div>-->
+<!--    </li>-->
+<!--     <li class="nav-item dropdown">-->
+<!--      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">-->
+<!--        Dropdown link-->
+<!--      </a>-->
+<!--      <div class="dropdown-menu">-->
+<!--        <a class="dropdown-item" href="#">Link 1</a>-->
+<!--        <a class="dropdown-item" href="#">Link 2</a>-->
+<!--        <a class="dropdown-item" href="#">Link 3</a>-->
+<!--      </div>-->
+<!--    </li>-->
+  </ul>
+</nav>

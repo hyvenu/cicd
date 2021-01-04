@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+<div class="alert alert-primary">
+    <a class="btn btn-outline-primary" href="{% url 'inventory_ProductSubCategory_list' %}">
+    Product Sub-Category List
+    </a>
+</div>
+<section class="testimonial py-5" id="testimonial">
+<div class="container shadow bg-white rounded">
+<table class="table">
+    <tr><td>Parent Category Name</td><td>{{ object.category }}</td></tr>
+    <tr><td>Sub Category Code</td><td>{{ object.sub_category_code }}</td></tr>
+    <tr><td>Sub Category Code</td><td>{{ object.sub_category_code }}</td></tr>
+</table>
+</div>
+<a class="btn btn-outline-primary" href="{{object.get_update_url}}">Edit</a>
+</section>
+
+
+{% endblock %}

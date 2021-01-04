@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!--<p>-->
+<!--    <a class="btn btn-light" href="{% url 'store_list' %}">-->
+<!--    Store Listing-->
+<!--    </a>-->
+<!--</p>-->
+<section class="testimonial py-5" id="testimonial">
+    <div class="container shadow bg-white rounded">
+      <br>
+      <div class="testimonial">
+          <h4>Setup your new store</h4>
+      </div>
+        <hr>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+          {% if form.errors %}
+          <div class="alert alert-warning" role="alert">
+              {{form.errors }}
+          </div>
+          {% endif %}
+
+          {% if messages %}
+                <div class="alert alert-success" role="alert">
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li style="color:green"  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                        {% endfor %}
+                    </ul>
+                 </div>
+           {% endif %}
+
+       <div class="row">
+           <div class="col-md-4">
+                {{ form.store_name.label_tag }}
+                {{ form.store_name }}
+           </div>
+        </div><br>
+        <div class="row">
+           <div class="col-md-4">
+                {{ form.address.label_tag }}
+                {{ form.address }}
+           </div>
+           <div class="col-md-4">
+                {{ form.city.label_tag }}
+                {{ form.city }}
+           </div>
+        </div><br>
+        <div class="row">
+           <div class="col-md-4">
+                {{ form.pin_code.label_tag }}
+                {{ form.pin_code }}
+           </div>&nbsp;
+           <div class="col-md-4">
+                {{ form.gst_no.label_tag }}
+                {{ form.gst_no }}
+           </div>
+        </div><br>
+
+        <input type="submit" value="Save Details" class="btn btn-primary">
+      </form>
+      <br>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,61 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="alert alert-primary">
+    <a class="btn btn-outline-primary" href="{% url 'inventory_ProductPriceMaster_list' %}">
+    ProductPriceMaster Listing
+    </a>
+</div>
+<section class="testimonial shadow py-5" id="testimonial">
+<div class="container shadow bg-white rounded"><br>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{form.errors}}
+  <div class="form-group row">
+     <p class="col-sm-2 col-form-label">{{ form.store.label_tag  }}</p>
+      {{ form.store  }}
+  </div>
+  <div class="form-group row">
+    <p class="col-sm-2 col-form-label">{{ form.product.label_tag  }}</p>
+      {{ form.product  }}
+    <p class="col-sm-2 col-form-label">{{ form.unit.label_tag  }}</p>
+      {{ form.unit  }}
+
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="primaryunit_price_buy">Primary unit price buy: </label>
+  <input class="form-control col-sm-4" id="primaryunit_price_buy" type="number" name="primaryunit_price_buy" value="{{ object.primaryunit_price_buy }}">
+
+  <label class="col-sm-2 col-form-label" for="primaryunit_price_sell">Primary unit price sell: </label>
+  <input class="form-control col-sm-4" id="primaryunit_price_sell" type="number" name="primaryunit_price_sell" value="{{ object.primaryunit_price_sell }}">
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="secondaryunit_price_sell">Secondary unit price sell: </label>
+  <input class="form-control col-sm-4" id="secondaryunit_price_sell" type="number" name="secondaryunit_price_sell" value="{{ object.secondaryunit_price_sell }}">
+
+  <label class="col-sm-2 col-form-label" for="secondaryunit_price_buy">Secondary unit price buy: </label>
+  <input class="form-control col-sm-4" id="secondaryunit_price_buy" type="number" name="secondaryunit_price_buy" value="{{ object.secondaryunit_price_buy }}">
+  </div>
+   <div class="form-group row">
+    <label class="col-sm-2 col-form-label" for="tax">Tax: </label>
+    <input class="form-control col-sm-4" id="tax" type="number" name="tax" value="{{ object.tax }}">
+
+    <label class="col-sm-2 col-form-label" for="batch_number">Batch Number: </label>
+    <input class="form-control col-sm-4" id="batch_number" type="text" name="batch_number" value="{{ object.batch_number }}">
+
+  </div>
+  <div class="form-group row">
+     <label class="col-sm-2 col-form-label" for="batch_expiry">Batch Expiry: </label>
+     <input class="form-control col-sm-4" id="batch_expiry" type="date" name="batch_expiry" value="{{ object.batch_expiry }}">
+     <label class="col-sm-2 col-form-label" for="ob_qty">OB Qty: </label>
+     <input class="form-control col-sm-4" id="ob_qty" type="number" name="ob_qty" value="{{ object.ob_qty }}">
+  </div>
+
+  <input type="submit" value="Save" class="btn btn-outline-primary">
+</form>
+</div>
+</section>
+{% endblock %}

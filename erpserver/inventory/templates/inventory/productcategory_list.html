@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="alert alert-primary">
+    <a href="{% url 'inventory_ProductCategory_create' %}" class="btn btn-outline-primary btn-sm">Add New </a>
+</div>
+<!--{% for object in object_list %}-->
+<!--  <div class="m-2"><a href="{{object.get_absolute_url}}">{{object}}</a></div>-->
+<!--{% endfor %}-->
+<section class="testimonial py-5" id="testimonial">
+<div class="container shadow bg-white rounded">
+    <table class="table table-hover btn-sm">
+        <thead class="thead-light">
+            <th></th>
+            <th>Category Name</th>
+            <th>Category Code</th>
+            <th>Description</th>
+
+
+        </thead>
+        <tbody>
+         {% for object in object_list %}
+            <tr>
+                <td><a href="{% url 'inventory_ProductCategory_update' object.id %}" class="btn btn-outline-primary btn-sm">Edit</a></td>
+                <td>{{ object.category_name }}</td>
+                <td>{{ object.category_code }}</td>
+                <td>{{ object.description }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</section>
+
+{% endblock %}

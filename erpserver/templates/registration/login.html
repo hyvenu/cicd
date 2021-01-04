@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="testimonial py-5" id="testimonial">
+    <div class="container shadow bg-white rounded">
+        <div class="row">
+            <div class="col-md-4 py-5 bg-primary text-white text-center ">
+                <div class=" ">
+                    <div class="card-body">
+                        <img src="{% static 'assets/image/Saffaran-LOGO.png' %}" style="width:60%" width="400" height="200"  >
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 py-5 border">
+                {% if form.errors %}
+                    <p style="color:red">Your username and password didn't match. Please try again.</p>
+                {% endif %}
+
+                {% if next %}
+                    {% if user.is_authenticated %}
+                    <p>Your account doesn't have access to this page. To proceed,
+                    please login with an account that has access.</p>
+                    {% else %}
+                    <p>Please login to see this page.</p>
+                    {% endif %}
+                {% endif %}
+                <h4 class="pb-2">Enter username and Password</h4>
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form.username }}
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form.password }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <button type="submit" class="btn btn-outline-primary" [disabled]="">Login</button>
+                            <input type="hidden" name="next" value="{{ next }}" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

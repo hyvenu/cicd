@@ -1,0 +1,261 @@
+<div class="row">
+    <a nbButton [routerLink]="['ManageProductList']" status="success" size="small" >Back to Product List </a>
+</div>  <br>
+<nb-tabset>
+    <nb-tab tabTitle="Product Information" [active]="IsProductInfo">
+       
+      
+        <div id="" [formGroup]="productMasterFrom">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="categoryName">Category Name</label>
+                    <input nbInput formControlName="categoryNameFormControl" name="categoryName"
+                        placeholder="Category Name" (keypress)="cat_open(dialog)" (click)="cat_open(dialog)" readonly />
+                </div><br>
+                <div class="col-md-3">
+                    <label for="subcategoryName">Sub Category </label>
+                    <input nbInput formControlName="subcategoryNameFormControl" name="subcategoryName"
+                        placeholder="Sub Category Name" (keypress)="sub_open(sub_cat_dialog)"
+                        (click)="sub_open(sub_cat_dialog)" readonly />
+                </div><br>
+                <div class="col-md-3">
+                    <label for="brandName">Brand Name </label>
+                    <input nbInput formControlName="brandNameFormControl" name="brandName" placeholder="Brand Name"
+                        (keypress)="brand_open(brand_dialog)" (click)="brand_open(brand_dialog)" readonly />
+                </div><br>
+
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="productName">Product Name</label>
+                    <input nbInput formControlName="productNameFormControl" name="productName"
+                        placeholder="Product Name" />
+                </div>
+                <div class="col-md-3">
+                    <label for="productCode">Product Code</label>
+                    <input nbInput formControlName="productCodeFormControl" name="productCode"
+                        placeholder="Product Code" readonly />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="hsnCode">HSN Code</label>
+                    <input nbInput formControlName="hsncodeFormControl" name="hsnCode" placeholder="HSN Code" />
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="description">Description</label>
+                    <input nbInput formControlName="descFormControl" type="text" name="description"
+                        placeholder="Description" />
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-md-10">
+                    
+                    <nb-card accent="info">
+                        <nb-card-header>
+                            <b><u>Product Attribute's: </u>&nbsp; </b>            
+                            <input nbInput type="text" name="cst_atrribute_name"
+                                formControlName="atrributeNameFormControl" placeholder="Atrribute Name"
+                                value=" " />&nbsp;
+                            <button nbButton (click)="add_attribute()" status="success">Add</button>
+                        </nb-card-header>
+                        <nb-card-body>
+                            <nb-list-item *ngFor="let atrribute of product_attributes">
+                                <label for="{{atrribute.name}}" class="col-md-2">{{atrribute.name}} : </label>
+                                <input nbInput type="text" name="{{atrribute.name}}" [(ngModel)]="atrribute.value" placeholder="Description"  [ngModelOptions]="{standalone: true}"
+                                    value="{{atrribute.value}}" />
+                                &nbsp;
+                                <button nbButton size="small" status="danger"
+                                    (click)="remove_attribute(atrribute)"><b>X</b></button>
+                            </nb-list-item>
+                        </nb-card-body>
+                    </nb-card>
+                    <!-- <button nbButton status="success" *ngIf="product_attributes.length > 0">Save</button>&nbsp;&nbsp; -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <nb-card accent="info">
+                        <nb-card-header>
+                            <b><u>Product Packing Types: </u>&nbsp; </b>                                   
+                            <button nbButton (click)="add_types()" status="success">Add</button>
+                        </nb-card-header>
+                        <nb-card-body>
+                            <!-- <input nbInput type="text" formControlName="productsListFormControl" (keypress)="product_open(product_dialog);"  /> -->
+                            <nb-list-item *ngFor="let type of product_packingtypes">                                                           
+                                <input nbInput type="text" name="{{type.qty}}" [(ngModel)]="type.qty" placeholder="Quantity"  [ngModelOptions]="{standalone: true}"
+                                value="{{type.qty}}" size="small" />&nbsp;
+                                <input nbInput type="text" name="{{type.unit}}" [(ngModel)]="type.unit" placeholder="Unit "  [ngModelOptions]="{standalone: true}"
+                                    value="{{type.unit}}" (keypress)="unit_open(unit_dialog,type)" size="small" />&nbsp;                                
+                                <input nbInput type="text" name="{{type.sell_price}}" [(ngModel)]="type.sell_price" placeholder="Sell Price"  [ngModelOptions]="{standalone: true}"
+                                value="{{type.sell_price}}" size="small" /> 
+                                &nbsp;
+                                <button nbButton size="small" status="danger"
+                                    (click)="remove_type(type)"><b>X</b></button>
+                            </nb-list-item>
+                        </nb-card-body>                       
+                    </nb-card>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <nb-card accent="info">
+                        <nb-card-header>
+                            <b><u>Product Image: </u>&nbsp; </b>                                   
+                            <input type="file" formControlName="image" multiple (change)="onFileChange($event, 'image');"/>           
+                        </nb-card-header>
+                        <nb-card-body>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src={{imgSrc}} alt="Product Image " height="80" width="80"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <nb-list-item *ngFor="let img of image_list">
+                                    <img src={{img.image}} alt="" height="80" width="80"/>
+                                </nb-list-item>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                </div>    
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <button nbButton status="success" (click)="saveProduct();" >Save</button>&nbsp;&nbsp;
+                    <!-- <button nbButton status="success" (click)="change_tab();" >Next</button>&nbsp;&nbsp; -->
+                    
+                </div>
+            </div>
+        </div>
+    </nb-tab>   
+    <!-- <nb-tab tabTitle="Packing Types">
+        <div class="row">
+            <div class="col-md-10">
+                
+               
+              
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+
+            </div>
+        </div>
+    </nb-tab> -->
+    <!-- <nb-tab tabTitle="Product  Images" [active]="IsProductImage" >
+        <form [formGroup]="imageForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="file" formControlName="image" (change)="onFileChange($event, 'image');"/>           
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src={{imgSrc}} alt="Product Image " height="80" width="80"/>
+                </div>
+            </div>
+            <nb-list>
+                <nb-list-item *ngFor="let img of image_list">
+                    <img src={{img.name}} alt="" height="40" width="40"/>
+                </nb-list-item>
+            </nb-list>
+            <div class="row">
+                <div class="col-md-3">
+                    <button nbButton status="success" (click)="saveProduct();" >Save</button>&nbsp;&nbsp;
+                    <button nbButton status="success" (click)="change_tab();" >Back</button>&nbsp;&nbsp;
+                    
+                </div>
+            </div>
+        </form>
+        
+    </nb-tab> -->
+</nb-tabset>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>Category List </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.category_name }} - {{item.category_code }}</i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+<ng-template #sub_cat_dialog let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>Sub Category List </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.sub_category_name }} - {{item.sub_category_code }}</i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+<ng-template #brand_dialog let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>Brand List </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.brand_name }} </i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+<ng-template #product_dialog let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>Product List </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.product_code }} - {{ item.product_name }}  </i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+<ng-template #unit_dialog let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>Unit Master List </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.PrimaryUnit }} - {{ item.SecondaryUnit }}  </i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
