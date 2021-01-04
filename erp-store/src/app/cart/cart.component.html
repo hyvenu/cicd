@@ -24,7 +24,7 @@
 
                 <div class="col-md"><button class="btn btn-outline-primary btn-sm" (click)="inc(cartItem)"><i class="fa fa-plus" ></i></button>&nbsp;{{cartItem.qty}}&nbsp;<button class="btn btn-outline-primary btn-sm" (click)="dec(cartItem)"><i class="fa fa-minus" ></i></button></div>
                 <div class="col-md">{{cartItem.sub_total| currency:'INR'}}</div>
-                <div class="col-md remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><button (click)="handleRemoveFromCart()"><i class="fa fa-trash"></i></button></div>
+                <div class="col-md remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><button><i class="fa fa-trash"></i></button></div>
             </div>
 
         </div>
