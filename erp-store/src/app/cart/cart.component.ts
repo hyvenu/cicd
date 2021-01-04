@@ -124,7 +124,7 @@ dec(cartItem){
     cartItem.qty -= 1;
   }
   this.handleAddToCart(cartItem);
-  
+
 }
 
 }

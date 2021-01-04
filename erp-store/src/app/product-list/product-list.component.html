@@ -4,7 +4,7 @@
             <mat-card class="mat-elevation-z4">
                 <div (click)="GotoProductview(Product.product_code)" id="product">
                     <mat-card-header style="justify-content: center;">
-                        <mat-card-title>{{Product.product_name}}</mat-card-title>
+                        <mat-card-title class="overflowText">{{Product.product_name}}</mat-card-title>
                     </mat-card-header>
                     <img height="200px" mat-card-image src="{{BaseUrl+Product.product_image}}">
                     <mat-card-content>
@@ -16,7 +16,7 @@
                 <mat-card-actions>
                     <form #crf="ngForm" (ngSubmit)="AddToCart(crf,Product)">
                         <div class="form-group">
-                            <select class="form-control" id="exampleFormControlSelect1" name="packingType" ngModel required>
+                            <select class="form-control" id="FormControlSelect" name="packingType" ngModel required>
                           <option *ngFor="let packingType of Product.price; let i = index"  value={{packingType.id}}  [attr.selected]="i == 0">
                             {{packingType.qty+" "+packingType.unit__PrimaryUnit+" - "+packingType.sell_price }} {{i}}
                           </option>
