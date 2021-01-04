@@ -1,4 +1,4 @@
-import { Optional, TemplateRef, ViewChild } from '@angular/core';
+import { Optional, Pipe, PipeTransform, TemplateRef, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,6 +23,8 @@ export class ManageSubcategoryComponent implements OnInit {
   selected_category;
 
   categories_list;
+
+  searchCatgory;
 
   dailog_ref;
   selectedFiles = [];

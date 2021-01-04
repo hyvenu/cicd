@@ -33,6 +33,18 @@ export class CartComponent implements OnInit {
 
 }
 
+handleRemoveFromCart(cartItem){
+  const data = {
+    "id" : cartItem.id
+  }
+  this.cartService.removeFromCart(data).subscribe(()=>{
+    this.refresh();
+  })
+}
+
+refresh(): void {
+  window.location.reload();
+}
 
 handelSubscription(){
     this.msg.getMsg().subscribe((product : Product) =>{
@@ -102,7 +114,7 @@ loadCartItems(){
 calculatCartTotal(){
   this.cartTotal=0;
   this.cartItems.forEach(item =>{
-    this.cartTotal += (item.qty * item.price)
+    this.cartTotal += (item.sub_total)
   })
 }
 
@@ -113,8 +125,16 @@ inc(cartItem){
 }
 
 handleAddToCart(cartItem){
-  this.cartService.addCartitemToCart(cartItem).subscribe(()=>{
-    this.msg.sendMsg(cartItem);
+  const data = {
+    'id':cartItem.id,
+    'product_id' : cartItem.product__id,
+    'pack_unit_id' : cartItem.pack_unit__id,
+    'unit_price' : cartItem.pack_unit__sell_price,
+    'qty' : cartItem.qty,
+    'user_id': sessionStorage.getItem('user_id')
+  }
+  this.cartService.addToCart(data).subscribe(()=>{
+    this.msg.sendMsg(data);
   })
 }
 

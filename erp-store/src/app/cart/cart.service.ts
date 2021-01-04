@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 import { CartItem } from '../models/cart-item';
 import { Product } from '../models/product';
@@ -17,15 +18,15 @@ export class CartService {
 
   getcartItem():Observable< CartItem[]>{
     //TODO: Mapping the obtained result to our CartItem props.(pipe and map)
-    return this.http.get<CartItem[]>(apiUrl)    
+    return this.http.get<CartItem[]>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/get_cart`)    
   }
 
   addProductToCart(product:Product):Observable<any>{
-    return this.http.post(apiUrl, {product});
+    return this.http.post(`${environment.BASE_SERVICE_URL}/ecom/api/v1/add_cart`, {product});
   }
 
-  removeFromCart(productId){
-    return this.http.delete(apiUrl +'/'+productId);
+  removeFromCart(data){
+    return this.http.post(`${environment.BASE_SERVICE_URL}/ecom/api/v1/delete_cart`, data);
   }
 
   getItem(id:string): number{
@@ -33,8 +34,8 @@ export class CartService {
     return cartCount[id]?.qty;
   }
 
-  addCartitemToCart(cartItem : CartItem): Observable<any> {
-    return this.http.post(apiUrl, {cartItem})
+  addToCart(cartItem): Observable<any> {
+    return this.http.post(`${environment.BASE_SERVICE_URL}/ecom/api/v1/add_cart`, cartItem)
 
   }
 }
