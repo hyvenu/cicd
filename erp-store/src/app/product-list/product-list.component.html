@@ -15,16 +15,19 @@
                 </div>
                 <mat-card-actions>
                     <form #crf="ngForm" (ngSubmit)="AddToCart(crf,Product)">
+                        <div class="form-group">
+                            <select class="form-control" id="exampleFormControlSelect1" name="packingType" ngModel required>
+                          <option *ngFor="let packingType of Product.price; let i = index"  value={{packingType.id}}  [attr.selected]="i == 0">
+                            {{packingType.qty+" "+packingType.unit__PrimaryUnit+" - "+packingType.sell_price }} {{i}}
+                          </option>
+                        </select>
+                        </div>
                         <div class="form-group" style="display: flex;">
                             <input type="number" min="1" class="form-control" id="exampleFormControlInput1" name="Quantity" placeholder="Quantity" ngModel required> &nbsp;
-                            <select class="form-control" id="exampleFormControlSelect1" name="packingType" ngModel required>
-                              <option *ngFor="let packingType of Product.price; let i = index"  value={{packingType.id}}  [attr.selected]="i == 0">
-                                {{packingType.qty+" "+packingType.unit__PrimaryUnit+" - "+packingType.sell_price }} {{i}}
-                              </option>
-                            </select>
+                            <button type="submit" class="btn btn-outline-primary btn-sm" style="width: -webkit-fill-available;">Add to cart</button>
+
                         </div>
 
-                        <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button>
 
                     </form>
                 </mat-card-actions>

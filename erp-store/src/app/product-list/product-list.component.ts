@@ -56,7 +56,6 @@ export class ProductListComponent implements OnInit {
 
   AddToCart(form:NgForm,product:any)
   {
-    console.log(form);
     if(form.valid)
     {
 
