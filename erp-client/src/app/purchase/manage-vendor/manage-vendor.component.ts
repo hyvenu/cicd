@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import { Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { InventoryService } from '../inventory.service';
+import { PurchaseService } from '../purchase.service';
 import { NbSelectModule } from '@nebular/theme';
 import { ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef, TemplateRef } from '@angular/core';
@@ -83,7 +83,7 @@ export class ManageVendorComponent implements OnInit {
   imgSrcGst: string;
 
   constructor(private formBuilder: FormBuilder,
-    private inventoryService: InventoryService,
+    private purchaseService: PurchaseService,
     private nbtoastService: NbToastrService,
     private routes: Router,
     private route: ActivatedRoute,
@@ -109,7 +109,7 @@ export class ManageVendorComponent implements OnInit {
               vendor_type: "FARMER",
             }
             
-            this.inventoryService.getVendorCode(data).subscribe(
+            this.purchaseService.getVendorCode(data).subscribe(
               (data) =>{
                 this.vendorMasterForm.controls['vendorCodeFormControl'].setValue(data)
               },
@@ -122,7 +122,7 @@ export class ManageVendorComponent implements OnInit {
               const data = {
                 vendor_type: "WHOLESELLER",
               }
-              this.inventoryService.getVendorCode(data).subscribe(
+              this.purchaseService.getVendorCode(data).subscribe(
                 (data) =>{
                   this.vendorMasterForm.controls['vendorCodeFormControl'].setValue(data)
                 },
@@ -186,7 +186,7 @@ export class ManageVendorComponent implements OnInit {
     let param1 = this.route.snapshot.queryParams["id"];
 
     if (param1) {
-      this.inventoryService.getVendor(param1).subscribe(
+      this.purchaseService.getVendor(param1).subscribe(
         (data) => {
           this.vendor_id = data.id;
           this.vendorMasterForm.controls['vendorCodeFormControl'].setValue(data.vendor_code);
@@ -349,7 +349,7 @@ export class ManageVendorComponent implements OnInit {
     }
 
 
-  this.inventoryService.saveVendor(formData).subscribe(
+  this.purchaseService.saveVendor(formData).subscribe(
     (data) => {
       this.nbtoastService.success("Vendor Details Saved Successfully")
       this.ngOnInit();

@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { InventoryService } from '../inventory.service';
+import { PurchaseService } from '../purchase.service';
 
 
 @Component({
@@ -49,13 +49,13 @@ export class VendorListComponent implements OnInit {
   ]
 
   constructor( private formBuilder: FormBuilder,
-    private inventoryService: InventoryService,
+    private purchaseService: PurchaseService,
     private nbtoastService: NbToastrService,
     private dialogService: NbDialogService,
     private routes: Router,) { }
 
   ngOnInit(): void {
-    this.inventoryService.getVendorList().subscribe(
+    this.purchaseService.getVendorList().subscribe(
       (data) => {
           this.data = data;
       },
