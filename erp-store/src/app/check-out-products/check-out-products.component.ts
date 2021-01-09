@@ -9,11 +9,17 @@ import { Component, OnInit } from '@angular/core';
 export class CheckOutProductsComponent implements OnInit {
   CarttList: any;
   Total = 0;
+  NewAddress :boolean;
+  AddressList: any;
+  CartTotalItems =0;
+  SelectedAddress: any;
 
   constructor(private Service:CheckoutService) { }
 
   ngOnInit(): void {
+    this.NewAddress = false;
     this.GetCartDetails();
+    this.GetAddress();
   }
 
 
@@ -23,14 +29,43 @@ export class CheckOutProductsComponent implements OnInit {
     this.Service.GetCartDetails().subscribe((CartList)=>
     {
       this.CarttList =CartList;
+      this.CartTotalItems = CartList.length;
       for(let i=0;i<CartList.length;i++)
       {
         this.Total += Number(CartList[i].sub_total);
-        console.log(CartList[i].sub_total);
       }
-      console.log(this.Total);
     }
     );
   }
+
+  GetAddress()
+  {
+
+    this.Service.GetAddress().subscribe((AddressList)=>
+    {
+      this.AddressList = AddressList;
+      console.log(AddressList);
+    }
+    );
+  }
+
+
+  ShowAddress()
+  {
+    if(this.NewAddress)
+    {
+      this.NewAddress = false;
+    }
+    else{
+      this.NewAddress = true;
+    }
+  }
+
+  AddressSelected(address)
+  {
+    this.SelectedAddress = address;
+  }
+
+
 
 }

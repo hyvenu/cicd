@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import * as $ from 'jquery';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-list',
@@ -15,6 +17,11 @@ export class ProductListComponent implements OnInit {
   ProductList:any[]=[];
   categoryName:any;
   CartForm:FormGroup;
+  FilterList: any[]=[];
+  FilteredList: any[]=[];
+  Filters = new Set();
+  min: any;
+  max: any;
 
   constructor(private route:Router, private Service:ProductlistService, private activatedRoute:ActivatedRoute) { }
 
@@ -30,7 +37,7 @@ export class ProductListComponent implements OnInit {
     this.activatedRoute.params.subscribe(paramsId => {
       this.categoryName = paramsId.id;
   });
-  this.GetCategories();
+  this.GetProducts();
   }
 
   GotoProductview(data:any)
@@ -39,7 +46,7 @@ export class ProductListComponent implements OnInit {
     this.route.navigate([routeTo]);
   }
 
-  GetCategories()
+  GetProducts()
   {
     let data =
     {
@@ -47,8 +54,43 @@ export class ProductListComponent implements OnInit {
     }
     this.Service.GetProducts(data).subscribe((Products)=>
     {
-      console.log(Products);
       this.ProductList =Products;
+      this.FilteredList = Products;
+
+      let subcategories = new Set();
+      let Brands = new Set();
+
+      for(let i=0;i<Products.length;i++)
+      {
+        let subcategoryname = Products[i].sub_category__sub_category_name;
+        let brandname = Products[i].brand__brand_name;
+        if(!subcategories.has(subcategoryname))
+        {
+          subcategories.add(subcategoryname);
+        }
+        if(!Brands.has(brandname))
+        {
+          Brands.add(brandname);
+        }
+
+      }
+
+      let categorydata =
+      {
+        header : "Categories",
+        filters : Array.from(subcategories)
+      };
+      let branddata =
+      {
+        header : "Brands",
+        filters : Array.from(Brands)
+      };
+
+      this.FilterList.push(categorydata);
+      this.FilterList.push(branddata);
+
+      console.log(this.FilterList);
+
     }
     );
   }
@@ -74,6 +116,82 @@ export class ProductListComponent implements OnInit {
         console.log(data);
       });
     }
+  }
+
+  FilterData(type:any,filter:any)
+  {
+    let data = type+","+filter;
+    if(this.Filters.has(data))
+    {
+      this.Filters.delete(data);
+    }
+    else{
+      this.Filters.add(data);
+    }
+
+    this.Filter();
+
+  }
+
+  PriceFilter(data:any,type:any)
+  {
+    if (type == "min")
+    {
+      this.min = data;
+    }
+    else
+    {
+      this.max = data;
+    }
+
+    this.Filter();
+
+  }
+
+
+  Filter()
+  {
+
+
+    let ProductList = this.ProductList;
+
+    //filter price
+    if( this.min != null &&  this.max != null)
+    {
+      ProductList =  ProductList.filter(data=> data.price.filter(data1=> Number(data1.sell_price)>=this.min && Number(data1.sell_price)<=this.max).length>0);
+    }
+    else if(this.min != null)
+    {
+      ProductList =  ProductList.filter(data=> data.price.filter(data1=> Number(data1.sell_price)>=this.min ).length>0);
+    }
+    else if(this.max != null)
+    {
+      ProductList =  ProductList.filter(data=> data.price.filter(data1=> Number(data1.sell_price)<=this.max).length>0);
+
+    }
+
+    //filter category and brand
+
+    if(ProductList.length>0)
+    {
+      for (let elements of this.Filters) {
+        if(ProductList.length>0)
+        {
+          let list = elements.toString().split(",");
+          if(list[0] == "Categories")
+          {
+            ProductList =  ProductList.filter(data=> data.sub_category__sub_category_name == list[1]);
+          }
+          else
+          {
+            ProductList = ProductList.filter(data=> data.brand__brand_name == list[1]);
+          }
+        }
+       // console.log(ProductList);
+      }
+    }
+    this.FilteredList = ProductList;
+
   }
 
 

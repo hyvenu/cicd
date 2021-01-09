@@ -1,38 +1,61 @@
-<div class="content">
-    <div fxLayout="row wrap" fxLayoutGap="16px grid">
-        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let Product of ProductList">
-            <mat-card class="mat-elevation-z4">
-                <div (click)="GotoProductview(Product.product_code)" id="product">
-                    <mat-card-header style="justify-content: center;">
-                        <mat-card-title class="overflowText">{{Product.product_name}}</mat-card-title>
-                    </mat-card-header>
-                    <img height="200px" width="100px" mat-card-image src="{{BaseUrl+Product.product_image}}">
-                    <mat-card-content>
-                        <p>
-                            {{Product.category__description}}
-                        </p>
-                    </mat-card-content>
+<div fxLayout="row wrap" fxLayoutGap="grid">
+    <div fxFlex="18%" fxFlex.xs="100%" fxFlex.sm="18%">
+
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div>
+                <div class="sidebar-heading">Price </div>
+                <div style="display: flex;">
+                    <div> Min <input type="number" min="1" (input)="PriceFilter($event.target.value,'min')" id="inputfilter" class="form-control" name="Minimum" placeholder="Minimum"> </div>&nbsp;
+                    <div> Max <input type="number" min="1" (input)="PriceFilter($event.target.value,'max')" id="inputfilter" class="form-control" name="Maximum" placeholder="Maximum" ngModel required> </div>
                 </div>
-                <mat-card-actions>
-                    <form #crf="ngForm" (ngSubmit)="AddToCart(crf,Product)">
-                        <div class="form-group">
-                            <select class="form-control" id="FormControlSelect" name="packingType" ngModel required>
-                          <option *ngFor="let packingType of Product.price; let i = index"  value={{packingType.id}}  [attr.selected]="i == 0">
-                            {{packingType.qty+" "+packingType.unit__PrimaryUnit+" - "+packingType.sell_price }} {{i}}
-                          </option>
-                        </select>
-                        </div>
-                        <div class="form-group" style="display: flex;">
-                            <input type="number" min="1" class="form-control" id="exampleFormControlInput1" name="Quantity" placeholder="Quantity" ngModel required> &nbsp;
-                            <button type="submit" class="btn btn-outline-primary btn-sm" style="width: -webkit-fill-available;">Add to cart</button>
+            </div>
+            <div *ngFor="let data of FilterList">
+                <div class="sidebar-heading">{{data.header}} </div>
+                <div *ngFor="let filter of data.filters">
+                    <mat-checkbox color="primary" (change)="FilterData(data.header,filter)">{{filter}}</mat-checkbox>
+                </div>
+            </div>
 
-                        </div>
-
-
-                    </form>
-                </mat-card-actions>
-            </mat-card>
         </div>
     </div>
+    <div fxFlex="80%" fxFlex.xs="100%" fxFlex.sm="80%" id="productdisplay">
+        <div class="content">
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let Product of FilteredList">
+                    <mat-card class="mat-elevation-z4">
+                        <div (click)="GotoProductview(Product.product_code)" id="product">
+                            <mat-card-header style="justify-content: center;">
+                                <mat-card-title class="overflowText">{{Product.product_name}}</mat-card-title>
+                            </mat-card-header>
+                            <img height="200px" width="100px" mat-card-image src="{{BaseUrl+Product.product_image}}">
+                            <mat-card-content>
+                                <p>
+                                    {{Product.category__description}}
+                                </p>
+                            </mat-card-content>
+                        </div>
+                        <mat-card-actions>
+                            <form #crf="ngForm" (ngSubmit)="AddToCart(crf,Product)">
+                                <div class="form-group">
+                                    <select class="form-control" id="FormControlSelect" name="packingType" ngModel required>
+            <option *ngFor="let packingType of Product.price; let i = index"  value={{packingType.id}}  [attr.selected]="i == 0">
+              {{packingType.qty+" "+packingType.unit__PrimaryUnit+" - "+packingType.sell_price }}
+            </option>
+          </select>
+                                </div>
+                                <div class="form-group" style="display: flex;">
+                                    <input type="number" min="1" class="form-control" id="exampleFormControlInput1" name="Quantity" placeholder="Quantity" ngModel required> &nbsp;
+                                    <button type="submit" class="btn btn-outline-primary btn-sm" style="width: -webkit-fill-available;">Add to cart</button>
+
+                                </div>
+
+
+                            </form>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
-<br><br>

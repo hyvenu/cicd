@@ -16,6 +16,8 @@ import { ProductViewComponent } from './product-view/product-view.component';
 import { CheckOutProductsComponent } from './check-out-products/check-out-products.component';
 import { JwtInterceptor } from './shared/jwt.interceptor';
 import { CartComponent } from './cart/cart.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { CartComponent } from './cart/cart.component';
     HttpClientModule,
     FlexLayoutModule,
     MatCardModule,
+    MatCheckboxModule,
   ],
   providers: [
     {
