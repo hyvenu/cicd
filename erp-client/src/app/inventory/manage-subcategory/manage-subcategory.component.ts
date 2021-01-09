@@ -25,6 +25,7 @@ export class ManageSubcategoryComponent implements OnInit {
   categories_list;
 
   searchCatgory;
+  searchSubCategory:any;
 
   dailog_ref;
   selectedFiles = [];

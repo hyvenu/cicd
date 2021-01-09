@@ -52,6 +52,16 @@ export class AppComponent implements OnInit {
         ]
   
         },
+        {
+          title: 'Manage Order',
+          expanded: false,
+          children: [
+            {
+              title: 'Orders',
+              link: 'OrderList', // goes into angular `routerLink`
+            },
+          ]
+        }
        
       ]
 

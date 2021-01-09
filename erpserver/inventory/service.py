@@ -1,8 +1,9 @@
 from django.db import transaction
 
-from inventory.models import ProductMaster, ProductSubCategory, ProductPriceMaster, ProductImages
+from inventory.models import ProductMaster, ProductSubCategory, ProductPriceMaster, ProductImages, ProductStock
 from sequences import get_next_value
 import ast
+
 
 class InventoryService:
 
@@ -14,7 +15,7 @@ class InventoryService:
         return code
 
     @classmethod
-    def save_sub_category(cls,serializer):
+    def save_sub_category(cls, serializer):
         sub_category = ProductSubCategory()
         sub_category.category_id = serializer.initial_data['category_id']
         sub_category.sub_category_name = serializer.initial_data['sub_category_name']
@@ -42,7 +43,7 @@ class InventoryService:
         product_obj.product_attributes = serializer.initial_data['product_attributes']
         product_obj.save()
 
-        if 'product_pack_types' in serializer.initial_data :
+        if 'product_pack_types' in serializer.initial_data:
             pack_types = serializer.initial_data['product_pack_types']
             pack_types = ast.literal_eval(pack_types)
             for packs in pack_types:
@@ -58,7 +59,7 @@ class InventoryService:
 
         if len(serializer.initial_data.getlist('files[]')) > 0:
             for image in serializer.initial_data.getlist('files[]'):
-                product_image = ProductImages(product_id=product_obj.id,image=image)
+                product_image = ProductImages(product_id=product_obj.id, image=image)
                 product_image.save()
 
         return serializer
@@ -84,3 +85,11 @@ class InventoryService:
         for prd in product_dict:
             pass
 
+    @classmethod
+    def check_stock(cls, store_id, product_id):
+
+        prod_stock = ProductStock.objects.filter(product_id=product_id, store_id=store_id).all()
+        if prod_stock.exits():
+            return prod_stock
+        else:
+            return None

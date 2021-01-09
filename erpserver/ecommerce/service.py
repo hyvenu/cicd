@@ -1,7 +1,7 @@
 from ecommerce.models import Cart
 from inventory.models import ProductMaster, ProductCategory, ProductSubCategory, ProductImages, ProductPriceMaster
 from store.models import Store
-
+import math
 
 class EcomService:
 
@@ -87,9 +87,12 @@ class EcomService:
             'product__product_code',
             'product__description',
             'pack_unit__id',
+            'pack_unit__unit__PrimaryUnit',
             'pack_unit__sell_price',
             'qty',
             'sub_total',
+            'tax',
+            'tax_amount',
             'id',
         )
 
@@ -105,7 +108,11 @@ class EcomService:
     def add_cart(self,data, user_id):
         if "id" in data:
             Cart.objects.filter(id=data["id"]).delete()
-        cart = Cart(user_id=user_id, product_id=data['product_id'],pack_unit_id=data["pack_unit_id"],unit_price=data["unit_price"],qty=data['qty'],sub_total=int(data['qty']) * float(data["unit_price"]) )
+        tax = ProductPriceMaster.objects.filter(id=data['pack_unit_id']).all().values('tax')[0]['tax']
+        sub_total = int(data['qty']) * float(data["unit_price"])
+        tax_amount = float((sub_total * float(tax)) / 100.00)
+        sub_total = sub_total + math.ceil(tax_amount)
+        cart = Cart(user_id=user_id, product_id=data['product_id'],tax=tax,tax_amount=tax_amount, pack_unit_id=data["pack_unit_id"],unit_price=data["unit_price"],qty=data['qty'],sub_total=sub_total)
         cart.save()
         return True
 

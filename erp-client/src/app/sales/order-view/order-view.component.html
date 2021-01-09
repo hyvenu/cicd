@@ -1,0 +1,80 @@
+<div id="" [formGroup]="orderFrom">
+<div class="row" > 
+<nb-card accent="info">
+    <nb-card-header>Order Information</nb-card-header>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-md-3">
+                <label for="orderNumberFormControl">Order Number #</label>
+                <input nbInput formControlName="orderNumberFormControl" name="orderNumberFormControl" readonly>
+            </div>
+            <div class="col-md-3">
+                <label for="orderDateFormControl">Order Date:</label>
+                <input nbInput formControlName="orderDateFormControl" name="orderDateFormControl" readonly>
+            </div>
+            <div class="col-md-3">
+                <label for="customerFormControl">Customer Name:</label>
+                <input nbInput formControlName="customerFormControl" name="customerFormControl" readonly>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-md-3">
+                <label for="shipAddressFormControl">Shipping Address:</label>
+                <textarea  nbInput   formControlName="shipAddressFormControl" name="shipAddressFormControl" ></textarea>
+            </div>
+            <div class="col-md-3">
+                <label for="billAddressFormControl">Billing Address:</label>
+                <textarea nbInput    formControlName="billAddressFormControl" name="billAddressFormControl" ></textarea>
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="row">
+            <div class="col-md-3">
+                <h6 style="color: brown;">Order Status : {{ order_data.order_status_text }}</h6> 
+            </div>
+            <div class="col-md-1" *ngFor="let status of order_data.order_flow">
+                <button nbButton status="success" size="small">{{status.text}}</button>
+            </div>
+        </div>
+    </nb-card-footer>
+</nb-card>
+</div>
+<div class="row">
+<nb-card accent="info">
+    <nb-card-header>Product Details</nb-card-header>
+    <nb-card-body>
+        <table class="table table-hovered">
+            <thead>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th>Product Pack Unit</th>
+                <th>Order Quantity</th>
+                <th>Unit Price</th>
+                <th>tax</th>
+                <th>Sub Total</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of order_data.order_details">
+                    <td>{{item.product.product_code}}</td>
+                    <td>{{item.product.product_name}}</td>
+                    <td>{{item.pack_unit.qty }} {{item.pack_unit.unit__PrimaryUnit }}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.unit_price}}</td>
+                    <td>{{item.tax}} %</td>
+                    <td>{{item.sub_total}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="row">
+            <div class="col-md-6">
+               <h5 style="color: brown;">Order Total : {{ order_data.order_amount | currency :'INR' }} </h5>
+            </div>
+        </div>
+    </nb-card-footer>
+</nb-card>
+
+
+</div>

@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from ecommerce.service import EcomService
+from orders.service import OrderService
 
 
 @api_view(['POST'])
@@ -61,3 +62,11 @@ def delete_cart(request):
         return JsonResponse(cart_list, safe=False)
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated,])
+def process_checkout(request):
+    data = request.data
+    order_service = OrderService()
+    user_id = request.user.id
+    order_res = order_service.process_order(data, user_id)
+    return JsonResponse(order_res, safe=False)

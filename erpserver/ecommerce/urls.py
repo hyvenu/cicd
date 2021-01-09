@@ -9,4 +9,5 @@ urlpatterns = [
     path('api/v1/add_cart', views.add_to_cart, name="ecom_add_cart"),
     path('api/v1/get_cart', views.get_cart_details, name="ecom_get_cart"),
     path('api/v1/delete_cart', views.delete_cart, name="ecom_delete_cart"),
+    path('api/v1/proceed_checkout', views.process_checkout, name="checkout"),
 ]

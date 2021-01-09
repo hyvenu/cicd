@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 # Create your models here.
@@ -147,3 +149,16 @@ class ProductImages(AuditUuidModelMixin):
 
 class ProductStock(AuditUuidModelMixin):
     product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,related_name="product_stock")
+    grn_number = models.CharField(max_length=50,default=0,blank=True)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE,null=True)
+    pack = models.ForeignKey(ProductPriceMaster, on_delete=models.CASCADE, null=True)
+    batch_number = models.CharField(max_length=255,null=True)
+    batch_expiry = models.DateField(null=True,default=datetime.datetime.now())
+
+    def __str__(self):
+        return self.product + 'available stock at ' + self.store + ' '
+
+
+
+
+
