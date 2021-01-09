@@ -102,7 +102,7 @@ class ProductMaster(AuditUuidModelMixin):
     sub_category = models.ForeignKey(ProductSubCategory,on_delete=models.CASCADE, related_name="product_sub_category")
     brand = models.ForeignKey(ProductBrandMaster, on_delete=models.CASCADE, related_name="product_brand", null=True)
     product_attributes = models.CharField(max_length=2000, null=True,blank=True)
-    product_pack_types = models.CharField(max_length=2000,null=True,blank=True)
+    product_pack_types = models.CharField(max_length=2000, null=True,blank=True)
 
     class Meta:
         pass
@@ -125,6 +125,7 @@ class ProductPriceMaster(AuditUuidModelMixin):
     unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="product_unit_master")
     tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     qty = models.DecimalField(max_digits=10,decimal_places=2, default=0)
+    bar_code = models.ImageField(upload_to="static/upload/product/barcodes")
 
     class Meta:
         pass
