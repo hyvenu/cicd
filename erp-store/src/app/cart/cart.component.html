@@ -6,9 +6,9 @@
     <div class="row">
         <div class="col-md">Product Image</div>
         <div class="col-md">ProductName</div>
-
+        <div class="col-md">Unit Price</div>
         <div class="col-md">Quantity</div>
-        <div class="col-md">price</div>
+        <div class="col-md">Total</div>
         <div class="col-md">Delete</div>
     </div>
 
@@ -18,13 +18,13 @@
     <li class="list-group-item" *ngFor="let cartItem of cartItems">
         <!-- <app-cart-item [cartItem]=item></app-cart-item> -->
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-md"><img [src]="BaseUrl + '/' +cartItem.image" height="" width="100px" alt="img">{{cartItem.product__description}}</div>
+            <div *ngIf="!removeFromCart" class="row">
+                <div class="col-md"><img [src]="BaseUrl + '/' +cartItem.image" height="80em" width="80em" alt="img">{{cartItem.product__description}}</div>
                 <div class="col-md">{{cartItem.product__product_name}}</div>
-
+                <div class="col-md">&nbsp;{{cartItem.pack_unit__sell_price}}&nbsp;</div>
                 <div class="col-md"><button class="btn btn-outline-primary btn-sm" (click)="inc(cartItem)"><i class="fa fa-plus" ></i></button>&nbsp;{{cartItem.qty}}&nbsp;<button class="btn btn-outline-primary btn-sm" (click)="dec(cartItem)"><i class="fa fa-minus" ></i></button></div>
                 <div class="col-md">{{cartItem.sub_total| currency:'INR'}}</div>
-                <div class="col-md remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><button><i class="fa fa-trash"></i></button></div>
+                <div class="col-md remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><button (click)="handleRemoveFromCart(cartItem)"><i class="fa fa-trash"></i></button></div>
             </div>
 
         </div>

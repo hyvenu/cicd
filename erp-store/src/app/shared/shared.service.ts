@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { User } from '../models/User';
@@ -73,5 +73,19 @@ export class SharedService {
   private stopRefreshTokenTimer() {
     clearTimeout(this.refreshTokenTimeout);
   }
+
+  registerUser(registerInfo): Observable<any>{
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/authentication/api/user/`, registerInfo)
+    // .pipe(map(registeruser =>{
+    //   this.userSubject.next(registeruser)
+    //   return registeruser;
+    
+    // }))
+  };
+  
+    handleError(error){
+      return throwError(error.message || "miss match")
+     };
+  
 
 }

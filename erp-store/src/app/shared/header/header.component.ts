@@ -17,12 +17,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
 
 
-      this.userSub =  this.sharedservice.userSubject.subscribe(user=>
-        {
+      // this.userSub =  this.sharedservice.userSubject.subscribe(user=>
+      //   {
 
-          this.isAuthenticated = !!user;
-        });
-
+      //     this.isAuthenticated = !!user;
+      //   });
+      if(sessionStorage.getItem("user_id")){
+        this.isAuthenticated = true;
+      }
     // else
     // {
     //   this.userSub =  this.sharedservice.userSubject.subscribe(user=>
@@ -36,6 +38,7 @@ export class HeaderComponent implements OnInit {
   logout()
   {
     this.sharedservice.logout();
+    sessionStorage.clear();
   }
 
 }
