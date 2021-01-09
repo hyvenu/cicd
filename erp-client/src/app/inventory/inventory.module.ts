@@ -31,8 +31,8 @@ const routes: Routes = [
 
 ];
 @NgModule({
-  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, SearchPipe],
-  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, VendorListComponent, ManageVendorComponent],
+  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, SearchPipe,VendorListComponent, ManageVendorComponent],
+  
   imports: [
     CommonModule,
     ReactiveFormsModule,

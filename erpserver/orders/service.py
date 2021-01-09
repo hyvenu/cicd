@@ -26,14 +26,13 @@ PAYMENT_METHOD_DICT = {
     '2': 'Credit Card',
     '3': 'Debit Card',
     '4': 'Net Banking',
+    '5': 'UPI',
 
 }
 DELIVERY_METHOD_DICT = {
-    '1': 'COD',
-    '2': 'Credit Card',
-    '3': 'Debit Card',
-    '4': 'Net Banking',
-
+    '1': 'Door Delivery',
+    '2': 'Self Pick',
+    '3': 'Logistic'
 }
 
 
