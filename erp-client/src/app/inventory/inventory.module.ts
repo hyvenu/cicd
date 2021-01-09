@@ -16,6 +16,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ImageUploadModule } from 'angular2-image-upload';
 import { SearchPipe } from './search.pipe';
 
+import { ManageVendorComponent } from './manage-vendor/manage-vendor.component';
+import { VendorListComponent } from './vendor-list/vendor-list.component';
 
 const routes: Routes = [
   { path: 'ManageCategory' , component: ManageCategoryComponent,canActivate:[AuthGuard]},
@@ -24,9 +26,13 @@ const routes: Routes = [
   { path: 'ManageBrandMaster' , component: ManageBrandComponent,canActivate:[AuthGuard]},
   { path: 'ManageProductMaster' , component: ProductListComponent,canActivate:[AuthGuard]},
   { path: 'ManageProduct' , component: ManageProductComponent,canActivate:[AuthGuard]},
+  { path: 'ManageVendor' , component: ManageVendorComponent,canActivate:[AuthGuard]},
+  { path: 'ManageVendortMaster' , component: VendorListComponent,canActivate:[AuthGuard]},
+
 ];
 @NgModule({
   declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, SearchPipe],
+  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, VendorListComponent, ManageVendorComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -47,6 +53,6 @@ const routes: Routes = [
 
   ],
   providers:[NbToastrService, NbDialogService],
-  exports:[ ManageCategoryComponent,ProductListComponent]
+  exports:[ ManageCategoryComponent,ProductListComponent, VendorListComponent]
 })
 export class InventoryModule { }
