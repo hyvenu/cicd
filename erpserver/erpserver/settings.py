@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'django_tables2',
     'sequences.apps.SequencesConfig',
-    'viewflow',
+    # 'viewflow',
     'crispy_forms',
     'security',
     'store',
