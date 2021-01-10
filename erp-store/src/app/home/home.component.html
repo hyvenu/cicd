@@ -23,8 +23,8 @@
                 <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let subcategory of category.Subcatogories">
                     <mat-card class="mat-elevation-z4">
                         <div (click)="GoToCategoryList(subcategory.category__category_name)" id="category">
-                            <mat-card-header>
-                                <mat-card-title>{{subcategory.sub_category_name}}</mat-card-title>
+                            <mat-card-header style="justify-content: center;">
+                                <mat-card-title class="overflowText">{{subcategory.sub_category_name}}</mat-card-title>
                             </mat-card-header>
 
                             <img height="200px" mat-card-image src="{{BaseUrl+subcategory.sub_category_image}}">

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { CartService } from './cart.service';
 import { MessengerService } from '../shared/messenger.service';
 import { Product,CartItem } from '../models/index';
@@ -144,7 +143,7 @@ dec(cartItem){
     cartItem.qty -= 1;
   }
   this.handleAddToCart(cartItem);
-  
+
 }
 
 }
