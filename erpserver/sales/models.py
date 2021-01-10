@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 # Create your models here.
-from viewflow.models import Process
+# from viewflow.models import Process
 
 from audit_fields.models import AuditUuidModelMixin
 from inventory.models import ProductMaster, ProductPriceMaster

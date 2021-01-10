@@ -126,7 +126,7 @@ class ProductPriceMaster(AuditUuidModelMixin):
     tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     qty = models.DecimalField(max_digits=10,decimal_places=2, default=0)
     bar_code = models.ImageField(upload_to="static/upload/product/barcodes",blank=True)
-    product_identifier = models.IntegerField(max_length=12,default=0)
+    product_identifier = models.CharField(max_length=12,default=0)
 
     class Meta:
         pass
