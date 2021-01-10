@@ -2,15 +2,16 @@ import datetime
 
 from django.db import transaction
 from django.db.models import Sum
+from django.utils import timezone
 from sequences import get_next_value
 
 from ecommerce.models import Cart
 from inventory.models import ProductMaster, ProductPriceMaster
-from orders.models import OrderRequest, OrderDetails, OrderEvents
+from sales.models import OrderRequest, OrderDetails, OrderEvents
 from security.models import CustomerAddress
 
 ORDER_STATUS_DICT = {
-    '1': 'Received',
+    '1': 'New Order',
     '2': 'Review',
     '3': 'Confirmed',
     '4': 'Packing',
@@ -92,6 +93,7 @@ class OrderService:
             'order_number',
         )
         for order in order_list:
+            order['order_status_text'] = ORDER_STATUS_DICT[str(order['order_status'])]
             order['shipping_address'] = CustomerAddress.objects.filter(id=order['shipping_address']).all().values()[0]
             order['billing_address'] = CustomerAddress.objects.filter(id=order['billing_address']).all().values()[0]
             final_list.append(order)
@@ -188,7 +190,7 @@ class OrderService:
         return self.get_order_details(order_id)
 
     def track_events(self,order_id,order_status, desc=''):
-        events = OrderEvents(order_id=order_id, order_status=order_status, description=desc)
+        events = OrderEvents(order_id=order_id, order_status=order_status,event_date=timezone.now() ,description=desc)
         events.save()
 
 

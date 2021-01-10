@@ -14,10 +14,10 @@ export class OrderService {
   ) { }
 
   public getOrderList(){
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_order/api/v1/get_order_list`, {})
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_order_list`, {})
   }
   public getOrderDetail(order_id){
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_order/api/v1/get_order_detail?id=${order_id}`, {})
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_order_detail?id=${order_id}`, {})
   }
 
 }

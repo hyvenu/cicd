@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
           
         },
         {
-          title: 'Manage Order',
+          title: 'Manage Sales',
           expanded: false,
           children: [
             {

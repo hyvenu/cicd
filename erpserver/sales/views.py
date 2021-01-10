@@ -5,7 +5,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
-from orders.service import OrderService
+from sales.service import OrderService
 
 
 @api_view(['POST'])

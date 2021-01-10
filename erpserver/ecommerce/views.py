@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from ecommerce.service import EcomService
-from orders.service import OrderService
+from sales.service import OrderService
 
 
 @api_view(['POST'])
