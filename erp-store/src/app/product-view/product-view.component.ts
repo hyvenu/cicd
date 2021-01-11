@@ -61,6 +61,7 @@ export class ProductViewComponent implements OnInit {
       qty:1,
       sub_total:80
     }
+    
     if(this.CartForm.valid)
     {
       console.log(Cart);

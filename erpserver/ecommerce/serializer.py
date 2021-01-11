@@ -6,7 +6,13 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Cart
-        fields = ['user','product','qty','sub_total']
+        fields = ['user', 'product', 'qty', 'sub_total']
 
+
+class WishListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        models = models.WishList
+        fields = ['user', 'product']
 
 # class ProductSerializer(serializers.)

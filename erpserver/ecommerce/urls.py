@@ -10,4 +10,7 @@ urlpatterns = [
     path('api/v1/get_cart', views.get_cart_details, name="ecom_get_cart"),
     path('api/v1/delete_cart', views.delete_cart, name="ecom_delete_cart"),
     path('api/v1/proceed_checkout', views.process_checkout, name="checkout"),
+    path('api/v1/add_wish_list', views.add_to_wish_list, name="ecom_add_wish_list"),
+    path('api/v1/get_wish_list', views.get_wish_list, name="get_wish_list"),
+    path('api/v1/delete_wish_list', views.delete_wish_list, name="ecom_delete_wish_list"),
 ]

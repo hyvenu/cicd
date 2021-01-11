@@ -1,4 +1,4 @@
-from ecommerce.models import Cart
+from ecommerce.models import Cart, WishList
 from inventory.models import ProductMaster, ProductCategory, ProductSubCategory, ProductImages, ProductPriceMaster
 from store.models import Store
 import math
@@ -54,6 +54,11 @@ class EcomService:
                 'qty',
 
             ))
+            #prod['wish_list_flag'] = 0
+            if WishList.objects.filter(product_id=prod["id"]).exists():
+                prod['wish_list_flag'] = 1
+            else:
+                prod['wish_list_flag'] = 0
             final_list.append(prod)
         return list(final_list)
 
@@ -87,6 +92,7 @@ class EcomService:
             'product__product_code',
             'product__description',
             'pack_unit__id',
+            'pack_unit__qty',
             'pack_unit__unit__PrimaryUnit',
             'pack_unit__sell_price',
             'qty',
@@ -119,6 +125,43 @@ class EcomService:
     def delete_cart(self,data, user_id):
         if "id" in data:
             Cart.objects.filter(id=data["id"]).delete()
+            return True
+        else:
+            return False
+
+    def clear_cart(self, user_id):
+        Cart.objects.filter(user_id=user_id).delete()
+        return True
+
+    def get_wish_list(self, user_id):
+        final_list = []
+        wish_list = WishList.objects.filter(user_id=user_id).all().values(
+            'product__product_name',
+            'product__id',
+            'product__product_code',
+            'product__description',
+            'id',
+        )
+
+        for wish in wish_list:
+            wish_obj = ProductImages.objects.filter(product_id=wish['product__id']).all().values(
+                'image'
+            )
+            if len(wish_obj) > 0:
+                wish['image'] = wish_obj[0]['image']
+            final_list.append(wish)
+        return list(final_list)
+
+    def add_wish_list(self,data, user_id):
+        if "id" in data:
+            WishList.objects.filter(id=data["id"]).delete()
+        wish_obj = WishList(user_id=user_id, product_id=data["product_id"])
+        wish_obj.save()
+        return True
+
+    def delete_wish_list(self, data, user_id):
+        if "product_id" in data:
+            WishList.objects.filter(product_id=data["product_id"],user_id=user_id).delete()
             return True
         else:
             return False
