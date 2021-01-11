@@ -92,16 +92,26 @@ export class ProductListComponent implements OnInit {
     
   }
 
-  AddToWishlist(){
-    this.wishlistservice.addToWishlist(this.product.id).subscribe(() =>{
-      this.addedToWishlist = true;
+  AddToWishlist(Product){
+    this.wishlistservice.addToWishlist(Product.id).subscribe(() =>{
+      this.ngOnInit();
     })
   }
 
-  RemoveFromWishlist(){
-    this.wishlistservice.removeFromWishlist(this.product.id).subscribe(() =>{
-      this.addedToWishlist = false;
+  RemoveFromWishlist(Product){
+    this.wishlistservice.removeFromWishlist(Product.id).subscribe(() =>{
+      this.ngOnInit();
     })
+  }
+
+  check_wishlist(product_id){
+     let data = this.wishlist.filter(id => id == product_id)
+     if (data.length){
+       return true;
+     }else{
+       return false;
+     }
+     
   }
 
 
