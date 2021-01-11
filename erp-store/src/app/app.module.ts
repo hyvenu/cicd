@@ -17,6 +17,7 @@ import { CheckOutProductsComponent } from './check-out-products/check-out-produc
 import { JwtInterceptor } from './shared/jwt.interceptor';
 import { CartComponent } from './cart/cart.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     ProductListComponent,
     CheckOutProductsComponent,
     CartComponent,
+    ThankYouPageComponent,
 
   ],
   imports: [
