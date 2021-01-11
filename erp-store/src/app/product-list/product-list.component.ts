@@ -1,8 +1,11 @@
 import { ProductlistService } from './productlist.service';
+import { WishlistService } from '../shared/wishlist.service'; 
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { from } from 'rxjs';
+import { Product } from '../models';
 
 @Component({
   selector: 'app-product-list',
@@ -15,8 +18,13 @@ export class ProductListComponent implements OnInit {
   ProductList:any[]=[];
   categoryName:any;
   CartForm:FormGroup;
+  product : Product;
+  addedToWishlist: boolean = false;
+  wishlist:any[]=[]
 
-  constructor(private route:Router, private Service:ProductlistService, private activatedRoute:ActivatedRoute) { }
+  
+
+  constructor(private route:Router, private Service:ProductlistService, private activatedRoute:ActivatedRoute,private wishlistservice:WishlistService ) { }
 
   ngOnInit(): void {
 
@@ -31,6 +39,7 @@ export class ProductListComponent implements OnInit {
       this.categoryName = paramsId.id;
   });
   this.GetCategories();
+  this.loadWishlist();
   }
 
   GotoProductview(data:any)
@@ -53,6 +62,11 @@ export class ProductListComponent implements OnInit {
     );
   }
 
+  loadWishlist(){
+    this.wishlistservice.getWishlist().subscribe(productIds =>{
+      this.wishlist = productIds
+    })
+  }
 
   AddToCart(form:NgForm,product:any)
   {
@@ -62,7 +76,7 @@ export class ProductListComponent implements OnInit {
 
       let user_id = sessionStorage.getItem("user_id");
       let price = product.price.filter(t=>t.id ===form.controls['packingType'].value)[0].sell_price;
-      let Cart=
+      var Cart=
       {
         product_id:product.id,
         user_id:user_id,
@@ -75,6 +89,19 @@ export class ProductListComponent implements OnInit {
         console.log(data);
       });
     }
+    
+  }
+
+  AddToWishlist(){
+    this.wishlistservice.addToWishlist(this.product.id).subscribe(() =>{
+      this.addedToWishlist = true;
+    })
+  }
+
+  RemoveFromWishlist(){
+    this.wishlistservice.removeFromWishlist(this.product.id).subscribe(() =>{
+      this.addedToWishlist = false;
+    })
   }
 
 

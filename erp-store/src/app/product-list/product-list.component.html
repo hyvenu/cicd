@@ -10,6 +10,7 @@
                     <mat-card-content>
                         <p>
                             {{Product.category__description}}
+                           
                         </p>
                     </mat-card-content>
                 </div>
@@ -24,7 +25,9 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button>
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button> 
+                        <i *ngIf="addedToWishlist"  class="fas fa-heart float-right" (click)="RemoveFromWishlist()"></i>
+                        <i *ngIf="!addedToWishlist" class="far fa-heart float-right" (click)="AddToWishlist()"></i>
 
                     </form>
                 </mat-card-actions>
