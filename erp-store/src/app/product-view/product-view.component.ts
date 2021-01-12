@@ -2,7 +2,7 @@ import { ProductviewService } from './productview.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-product-view',
@@ -17,14 +17,6 @@ export class ProductViewComponent implements OnInit {
   CartForm: FormGroup;
 
   constructor(private activatedRoute:ActivatedRoute, private Service:ProductviewService) {
-
-    this.CartForm = new FormGroup(
-      {
-        'Quantity' :new FormControl(null,Validators.required),
-        'packingType' : new FormControl(null,Validators.required)
-      }
-    );
-
     this.activatedRoute.params.subscribe(paramsId => {
       this.productcode = paramsId.id;
   });
@@ -51,25 +43,26 @@ export class ProductViewComponent implements OnInit {
   }
 
 
-  AddToCart(product:any)
+  AddToCart(form:NgForm,product:any)
   {
-    let user_id = sessionStorage.getItem("user_id");
-    let Cart=
+    if(form.valid)
     {
-      product_id:product.id,
-      user_id:user_id,
-      qty:1,
-      sub_total:80
-    }
-    if(this.CartForm.valid)
-    {
-      console.log(Cart);
+
+      let user_id = sessionStorage.getItem("user_id");
+      let price = product.price.filter(t=>t.id ===form.controls['packingType'].value)[0].sell_price;
+      let Cart=
+      {
+        product_id:product.id,
+        user_id:user_id,
+        qty:form.controls['Quantity'].value,
+        pack_unit_id:form.controls['packingType'].value,
+        unit_price:price
+      }
       this.Service.AddToCart(Cart).subscribe((data)=>
       {
         console.log(data);
       });
     }
   }
-
 
 }
