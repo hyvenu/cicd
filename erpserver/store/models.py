@@ -10,11 +10,11 @@ User = get_user_model()
 
 
 class Store(AuditUuidModelMixin):
-    store_name = models.CharField(max_length=255,null=False)
-    address = models.TextField(max_length=500,null=False)
-    city = models.CharField(max_length=100,null=True,blank=False)
-    pin_code = models.CharField(max_length=10,null=True,blank=False)
-    gst_no = models.CharField(max_length=50,null=True,blank=False)
+    store_name = models.CharField(max_length=255, null=False)
+    address = models.TextField(max_length=500, null=False)
+    city = models.CharField(max_length=100, null=True, blank=False)
+    pin_code = models.CharField(max_length=10, null=True, blank=False)
+    gst_no = models.CharField(max_length=50, null=True, blank=False)
 
     class Meta:
         pass
@@ -35,3 +35,8 @@ class StoreUser(AuditUuidModelMixin):
 
     class Meta:
         pass
+
+
+class AppSettings(AuditUuidModelMixin):
+    app_key = models.CharField(max_length=50)
+    app_value = models.CharField(max_length=1000)

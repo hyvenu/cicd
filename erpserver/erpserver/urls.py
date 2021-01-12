@@ -28,6 +28,8 @@ urlpatterns = [
     url('authentication/', include('security.urls')),
     url('manage_store/', include('store.urls')),
     url('manage_inventory/', include('inventory.urls')),
+    url('manage_vendor/', include('vendor.urls')),
     url('ecom/', include('ecommerce.urls')),
+    url('manage_sales/', include('sales.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -14,7 +14,8 @@ import { ManageBrandComponent } from './manage-brand/manage-brand.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ImageUploadModule } from 'angular2-image-upload';
-import { SearchPipe } from './search.pipe';
+import { SearchPipe } from '../search.pipe';
+
 
 
 const routes: Routes = [
@@ -24,9 +25,11 @@ const routes: Routes = [
   { path: 'ManageBrandMaster' , component: ManageBrandComponent,canActivate:[AuthGuard]},
   { path: 'ManageProductMaster' , component: ProductListComponent,canActivate:[AuthGuard]},
   { path: 'ManageProduct' , component: ManageProductComponent,canActivate:[AuthGuard]},
+
 ];
 @NgModule({
   declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, SearchPipe],
+  
   imports: [
     CommonModule,
     ReactiveFormsModule,

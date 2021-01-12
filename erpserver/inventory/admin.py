@@ -5,6 +5,7 @@ from django.contrib.admin import ModelAdmin
 
 from inventory.models import ProductCategory, ProductSubCategory, ProductBrandMaster, ProductMaster, ProductPriceMaster, \
     ProductImages
+from vendor.models import VendorMaster
 
 
 class ProductCategoryForm(ModelAdmin):
@@ -31,3 +32,4 @@ admin.site.register(ProductBrandMaster)
 admin.site.register(ProductMaster)
 admin.site.register(ProductPriceMaster)
 admin.site.register(ProductImages)
+admin.site.register(VendorMaster)

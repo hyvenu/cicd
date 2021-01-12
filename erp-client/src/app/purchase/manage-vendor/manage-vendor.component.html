@@ -1,0 +1,260 @@
+<div class="row">
+    <a nbButton href="ManageVendorList" status="success" size="small" >Back to Vendor List </a>
+</div>  <br>
+<nb-tabset>
+    <nb-tab tabTitle="Vendor Information" [active]="IsVendorInfo">
+
+        <div id="" [formGroup]="vendorMasterForm">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="vendorCode">Vendor Code</label>
+                    <input nbInput formControlName="vendorCodeFormControl" name="vendorCode"
+                        placeholder="Vendor Code " [readonly]="true"                        />
+                </div>
+                <div class="col-md-3">
+                    <label for="vendorName">Farmer/Company name </label>
+                    <input nbInput formControlName="vendorNameFormControl" name="vendorName"
+                        placeholder="Vendor Name" />
+                </div>
+                <div class="col-md-3">
+                    <label for="vendorType">Vendor Type</label>
+                    <nb-select name="vendorType" formControlName="vendorTypeFormControl" [(selected)]="selectedOption" (ngModelChange)="onVendorTypeChange($event)">
+                        <nb-option *ngFor="let o of options" value="{{o.value}}">
+                            {{ o.name }}
+                        </nb-option>
+                    </nb-select>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="vendorStateCode">State Code</label>
+                    <input nbInput formControlName="vendorStateCodeFormControl" name="vendorStateCode"
+                        placeholder="State Code " />
+                </div>
+                <div class="col-md-3">
+                    <label for="vendorStateName">State </label>
+                    <input nbInput formControlName="vendorStateNameFormControl" name="vendorStateName"
+                        placeholder="State" />
+                </div>
+                <div class="col-md-3">
+                    <label for="vendorRegion">Region </label>
+                    <input nbInput formControlName="vendorRegionFormControl" name="vendorRegion" placeholder="Region" />
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="vendorAddress">Address</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="corporateOffice">Corporate Office</label>
+                    <textarea nbInput formControlName="corporateOfficeFormControl" name="corporateOffice"
+                        placeholder="Corporate Office"></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label for="branchOffice">Branch Offices </label>
+                    <textarea nbInput formControlName="branchOfficeFormControl" name="branchOffice"
+                        placeholder="Branch Office"> </textarea>
+                </div>
+
+            </div><br>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="postalCode">Postal Code</label>
+                    <input nbInput formControlName="postalCode" name="postalCode" placeholder="Postal Code" />
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="col-md-9">
+                    <label for="vendorPanNo">Company Pan/ Indiviudual Pan</label>
+                    <input nbInput formControlName="vendorPanNo" name="vendorPanNo" placeholder="Pan Number" />
+                    <input type="file" formControlName="imageVendorPanNo" multiple
+                        (change)="onFileChangePan($event, 'image');" />
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-md-9">
+                    <label for="vendorAadharNo">Aadhar Number</label>
+                    <input nbInput formControlName="vendorAadharNo" name="vendorAadharNo" placeholder="Aadhar Number" />
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-md-9">
+                    <label for="vendorGSTNo">GST Number</label>
+                    <input nbInput formControlName="vendorGSTNo" name="vendorGSTNo" placeholder="GST Number" />
+                    <input type="file" formControlName="imageVendorGSTNo" multiple
+                        (change)="onFileChangeGst($event, 'image');" />
+                </div>
+            </div><br>
+
+            <nb-card accent="info">
+                <nb-card-header>
+                    <b><u>Point of Contact</u>&nbsp; </b>
+                    <!-- <div class="row">
+        <div class="col-md-3">
+            <label for="vendorPointOfContact">Point of Contact</label>
+        </div>
+    </div><br> -->
+                </nb-card-header>
+                <nb-card-body>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="vendorPOCName">Name</label>
+                            <input nbInput formControlName="vendorPOCName" name="vendorPOCName" placeholder="Name" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="vendorDesignation">Designation</label>
+                            <input nbInput formControlName="vendorDesignation" name="vendorDesignation"
+                                placeholder="Designation" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="vendorMobileNo">Mobile No.</label>
+                            <input nbInput formControlName="vendorMobileNo" name="vendorMobileNo"
+                                placeholder="Mobile No." />
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="vendorLandLine">Land line No.</label>
+                            <input nbInput formControlName="vendorLandLine" name="vendorLandLine"
+                                placeholder="Land line" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="emailId">Email Address</label>
+                            <input nbInput formControlName="emailId" name="emailId" placeholder="Email Address" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="alternative">Alternative</label>
+                            <input nbInput formControlName="alternative" name="alternative" placeholder="Alternative" />
+                        </div>
+                    </div><br>
+                </nb-card-body>
+            </nb-card>
+
+            <nb-card accent="info">
+                <nb-card-header>
+                    <b><u>Referal</u>&nbsp; </b>
+
+                </nb-card-header>
+                <nb-card-body>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="paymentTerms">Payment Terms</label>
+                            <nb-select name="paymentTerms" formControlName="paymentTermsFormControl"
+                                [(selected)]="paymentTermsSelected">
+                                <nb-option *ngFor="let o of paymentTermsOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="creditDays">Credit Days</label>
+                            <nb-select name="creditDays" formControlName="creditDaysFormControl"
+                                [(selected)]="creditDaysSelected">
+                                <nb-option *ngFor="let o of creditDaysOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="approvedTransporter">Approved Transporter</label>
+                            <nb-select name="approvedTransporter" formControlName="approvedTransporterFormControl"
+                                [(selected)]="approvedTransporterSelected">
+                                <nb-option *ngFor="let o of approvedTransporterOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+
+                    </div><br>
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="tdsApplicable">TDS Applicable</label>
+                            <nb-select name="tdsApplicable" formControlName="tdsApplicableFormControl"
+                                [(selected)]="tdsApplicableSelected">
+                                <nb-option *ngFor="let o of tdsApplicableOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="accountType">Account Type</label>
+                            <nb-select name="accountType" formControlName="accountTypeFormControl"
+                                [(selected)]="accountTypeSelected">
+                                <nb-option *ngFor="let o of accountTypeOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="dedcuteeType">Dedcutee Type</label>
+                            <nb-select name="dedcuteeType" formControlName="dedcuteeTypeFormControl"
+                                [(selected)]="dedcuteeTypeSelected">
+                                <nb-option *ngFor="let o of dedcuteeTypeOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+                    </div><br>
+                </nb-card-body>
+            </nb-card>
+            <nb-card accent="info">
+                <nb-card-header>
+                    <b><u>Bank Details</u>&nbsp; </b>
+
+                </nb-card-header>
+                <nb-card-body>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="bankName">Bank Name</label>
+                            <input nbInput formControlName="bankNameFormControl" name="bankName"
+                                placeholder="Bank Name" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="ifscCode">IFSC Code</label>
+                            <input nbInput formControlName="ifscCodeFormControl" name="ifscCode"
+                                placeholder="IFSC Code" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="micrCode">MICR Code</label>
+                            <input nbInput formControlName="micrCodeFormControl" name="micrCode"
+                                placeholder="MICR Code" />
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="accountNumber">Account Number</label>
+                            <input nbInput formControlName="accountNumberFormControl" name="accountNumber"
+                                placeholder="Account Number" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="beneficiaryName">Beneficiary Name</label>
+                            <input nbInput formControlName="beneficiaryNameFormControl" name="beneficiaryName"
+                                placeholder="Beneficary Name" />
+                        </div>
+                    </div><br>
+                </nb-card-body>
+            </nb-card>
+            <div class="row">
+                <div class="col-md-3">
+                    <button nbButton status="success" (click)="saveProduct();" >Save</button>&nbsp;&nbsp;
+                    
+                </div>
+            </div>
+        </div>
+    </nb-tab>
+</nb-tabset>

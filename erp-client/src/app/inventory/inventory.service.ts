@@ -78,5 +78,5 @@ export class InventoryService {
   public getImages(product_id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductImage/?product_id=${product_id}`)
   }
-  
+
 }

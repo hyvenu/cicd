@@ -26,6 +26,8 @@ export class ManageProductComponent implements OnInit {
   selected_sub_ategory: any;
   atrribute_name: any;
   product_id:any;
+  searchCategory:any;
+  searchSubCategory:any;
   
 
   product_attributes = []
@@ -106,6 +108,7 @@ export class ManageProductComponent implements OnInit {
                   qty: element.qty,
                   unit:element.unit.PrimaryUnit,
                   sell_price:element.sell_price,
+                  bar_code: element.bar_code,
                 }
               )
             });

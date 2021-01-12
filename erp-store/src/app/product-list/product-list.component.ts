@@ -38,6 +38,7 @@ export class ProductListComponent implements OnInit {
       this.categoryName = paramsId.id;
   });
   this.GetProducts();
+  // this.loadWishlist();
   }
 
   GotoProductview(data:any)
@@ -192,6 +193,29 @@ export class ProductListComponent implements OnInit {
     }
     this.FilteredList = ProductList;
 
+  }
+
+  AddToWishlist(product){
+    let data ={
+      product_id : product.id
+    }
+    this.Service.AddToWishList(data).subscribe(
+      (data) => {
+        product.wish_list_flag = 1    
+      }
+    )
+  }
+
+
+  RemoveFromWishlist(product){
+    let data ={
+      product_id : product.id
+    }
+    this.Service.RemoveWishList(data).subscribe(
+      (data) => {
+        product.wish_list_flag = 0         
+      }
+    )
   }
 
 

@@ -21,4 +21,11 @@ export class ProductlistService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/add_cart`,data);
   }
 
+  AddToWishList(data): any {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/add_wish_list`,data);
+  }
+  RemoveWishList(data): any {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/delete_wish_list`,data);
+  }
+
 }

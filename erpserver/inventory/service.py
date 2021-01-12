@@ -1,20 +1,26 @@
+from io import BytesIO
+
+from django.core.files import File
 from django.db import transaction
 
-from inventory.models import ProductMaster, ProductSubCategory, ProductPriceMaster, ProductImages
+from inventory.models import ProductMaster, ProductSubCategory, ProductPriceMaster, ProductImages, ProductStock
 from sequences import get_next_value
 import ast
+import barcode
+from barcode.writer import ImageWriter
+
 
 class InventoryService:
 
     @classmethod
     def generate_product_code(cls, category, sub_category, brand):
-        prefix_code = category + '/' + sub_category + '/' + brand[:3]
+        prefix_code = category[:3] + '/' + sub_category[:3] + '/' + brand[:3]
         code = get_next_value(prefix_code)
         code = prefix_code + '/' + str(code)
         return code
 
     @classmethod
-    def save_sub_category(cls,serializer):
+    def save_sub_category(cls, serializer):
         sub_category = ProductSubCategory()
         sub_category.category_id = serializer.initial_data['category_id']
         sub_category.sub_category_name = serializer.initial_data['sub_category_name']
@@ -42,7 +48,7 @@ class InventoryService:
         product_obj.product_attributes = serializer.initial_data['product_attributes']
         product_obj.save()
 
-        if 'product_pack_types' in serializer.initial_data :
+        if 'product_pack_types' in serializer.initial_data:
             pack_types = serializer.initial_data['product_pack_types']
             pack_types = ast.literal_eval(pack_types)
             for packs in pack_types:
@@ -50,6 +56,9 @@ class InventoryService:
                     price_obj = ProductPriceMaster.objects.get(id=packs['id'])
                 else:
                     price_obj = ProductPriceMaster()
+                    price_obj.product_identifier = str(get_next_value('product_identifier')).zfill(12)
+                    file_name = price_obj.product_identifier + '.png'
+                    price_obj.bar_code.save(file_name, File(cls.generate_bar_code(price_obj.product_identifier)), save=False)
                 price_obj.sell_price = packs['sell_price']
                 price_obj.unit_id = packs['unit_id']
                 price_obj.qty = packs['qty']
@@ -58,7 +67,7 @@ class InventoryService:
 
         if len(serializer.initial_data.getlist('files[]')) > 0:
             for image in serializer.initial_data.getlist('files[]'):
-                product_image = ProductImages(product_id=product_obj.id,image=image)
+                product_image = ProductImages(product_id=product_obj.id, image=image)
                 product_image.save()
 
         return serializer
@@ -83,4 +92,22 @@ class InventoryService:
 
         for prd in product_dict:
             pass
+
+    @classmethod
+    def check_stock(cls, store_id, product_id):
+
+        prod_stock = ProductStock.objects.filter(product_id=product_id, store_id=store_id).all()
+        if prod_stock.exits():
+            return prod_stock
+        else:
+            return None
+
+    @classmethod
+    def generate_bar_code(cls, product_identifier):
+
+        EAN = barcode.get_barcode_class('ean13')
+        ean = EAN(f'{product_identifier}', writer=ImageWriter())
+        buffer = BytesIO()
+        ean.write(buffer)
+        return buffer
 

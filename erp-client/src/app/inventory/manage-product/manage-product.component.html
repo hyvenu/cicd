@@ -92,6 +92,7 @@
                                     value="{{type.unit}}" (keypress)="unit_open(unit_dialog,type)" size="small" />&nbsp;                                
                                 <input nbInput type="text" name="{{type.sell_price}}" [(ngModel)]="type.sell_price" placeholder="Sell Price"  [ngModelOptions]="{standalone: true}"
                                 value="{{type.sell_price}}" size="small" /> 
+                                <img src="{{type.bar_code}}" height="40" width="200" *ngIf="type.bar_code"/>
                                 &nbsp;
                                 <button nbButton size="small" status="danger"
                                     (click)="remove_type(type)"><b>X</b></button>
@@ -176,11 +177,11 @@
 </nb-tabset>
 
 <ng-template #dialog let-data let-ref="dialogRef">
-    <nb-card>
-        <nb-card-header>Category List </nb-card-header>
+    <nb-card size="medium">
+        <nb-card-header>Category List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchCategory" /></nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data">
+                <nb-list-item *ngFor="let item of data | search:'category_name':searchCategory ">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.category_name }} - {{item.category_code }}</i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
@@ -193,11 +194,11 @@
 </ng-template>
 
 <ng-template #sub_cat_dialog let-data let-ref="dialogRef">
-    <nb-card>
-        <nb-card-header>Sub Category List </nb-card-header>
+    <nb-card size="medium">
+        <nb-card-header>Sub Category List<input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchSubCategory" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data">
+                <nb-list-item *ngFor="let item of data | search:'sub_category_name':searchSubCategory ">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.sub_category_name }} - {{item.sub_category_code }}</i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
@@ -210,11 +211,11 @@
 </ng-template>
 
 <ng-template #brand_dialog let-data let-ref="dialogRef">
-    <nb-card>
-        <nb-card-header>Brand List </nb-card-header>
+    <nb-card size="medium">
+        <nb-card-header>Brand List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchBrand" /></nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data">
+                <nb-list-item size="small" *ngFor="let item of data| search:'brand_name':searchBrand ">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.brand_name }} </i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
