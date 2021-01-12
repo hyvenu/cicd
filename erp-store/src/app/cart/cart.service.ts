@@ -12,6 +12,8 @@ const apiUrl=environment.BASE_SERVICE_URL+'/ecom/api/v1/get_cart';
 })
 export class CartService {
 
+  sharedCart: [];
+
   constructor(private http:HttpClient) { }
 
   getcartItem():Observable< CartItem[]>{

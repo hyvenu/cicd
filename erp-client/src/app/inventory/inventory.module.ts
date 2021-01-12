@@ -15,6 +15,8 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ImageUploadModule } from 'angular2-image-upload';
 import { SearchPipe } from '../search.pipe';
+import { SharedModule } from '../shared/shared.module';
+import { MainPipe } from '../pipe.module';
 
 
 
@@ -28,13 +30,14 @@ const routes: Routes = [
 
 ];
 @NgModule({
-  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, SearchPipe],
+  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent],
   
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forRoot(routes),
+    SharedModule,
     NbInputModule,
     NbLayoutModule,
     NbListModule,
@@ -46,7 +49,7 @@ const routes: Routes = [
     NbTabsetModule,
     Ng2SmartTableModule,
     NbSelectModule,
-    ImageUploadModule.forRoot(),
+    ImageUploadModule.forRoot()
 
   ],
   providers:[NbToastrService, NbDialogService],
