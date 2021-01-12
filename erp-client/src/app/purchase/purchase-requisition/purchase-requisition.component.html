@@ -1,5 +1,5 @@
 <nb-tabset>
-    <nb-tab tabTitle="PurchaseRequisition Information" [active]="IsPRInfo">
+    <nb-tab tabTitle="Purchase Requisition Information" [active]="IsPRInfo">
 
         <div id="" [formGroup]="prForm">
             <div class="row">
@@ -72,9 +72,14 @@
                 </nb-card-body>
                 
             </nb-card>
-            
-            
             </div>
+        <div class="row"> 
+
+                <div class="col-md-3">
+                    <button nbButton status="success" (click)="savePR();" >Save</button>&nbsp;&nbsp;
+                </div>
+
+        </div>
     </nb-tab>
 </nb-tabset>
 

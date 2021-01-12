@@ -21,6 +21,7 @@ export class PurchaseRequisitionComponent implements OnInit {
   prForm: FormGroup;
   dailog_ref;
   login_user;
+  store_name;
 
   searchProduct;
   product_list;
@@ -63,6 +64,7 @@ export class PurchaseRequisitionComponent implements OnInit {
     this.IsPRInfo = true;
     console.log(sessionStorage.getItem("first_name"));
     this.login_user = sessionStorage.getItem("first_name");
+    this.store_name = sessionStorage.getItem("store_name");
     this.prForm  =  this.formBuilder.group({
       prNoFormControl: ['', [Validators.required]],
       prDateFormControl: ['', [Validators.required]],      
@@ -103,6 +105,8 @@ export class PurchaseRequisitionComponent implements OnInit {
     onDepartmentChange() {
 
     }
-  
+
+    savePR():any {
+    }
   
 }
