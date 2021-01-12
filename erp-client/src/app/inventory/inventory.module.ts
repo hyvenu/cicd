@@ -28,7 +28,7 @@ const routes: Routes = [
 
 ];
 @NgModule({
-  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, SearchPipe],
+  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent],
   
   imports: [
     CommonModule,

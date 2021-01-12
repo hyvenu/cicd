@@ -76,4 +76,8 @@ export class SharedService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreUser/?query=`, {})
   }
 
+  public getDepartmentList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`)    
+  }
+
 }

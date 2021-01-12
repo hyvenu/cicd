@@ -31,5 +31,6 @@ urlpatterns = [
     url('manage_vendor/', include('vendor.urls')),
     url('ecom/', include('ecommerce.urls')),
     url('manage_order/', include('orders.urls')),
+    url('manage_purchase/', include('purchase.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

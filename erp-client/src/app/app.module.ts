@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule, NbToastrModule, NbToastrService, NbSidebarModule, NbMenuModule, NbSelectModule } from '@nebular/theme';
+import {NbDatepickerModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SharedModule } from './shared/shared.module';
 import { InventoryModule } from './inventory/inventory.module';
@@ -13,9 +14,11 @@ import { PurchaseModule } from './purchase/purchase.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/jwt.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SearchPipe } from './search.pipe';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,SearchPipe,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbSelectModule,
+    NbDatepickerModule.forRoot(),
   ],
   providers: [
     {

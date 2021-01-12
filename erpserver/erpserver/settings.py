@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'ecommerce',
     'orders',
     'vendor',
+    'purchase',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -121,7 +122,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'Root@123',
         'OPTIONS': {
             'autocommit': True,
         },

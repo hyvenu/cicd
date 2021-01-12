@@ -6,6 +6,7 @@ from . import views, api
 router = routers.DefaultRouter()
 router.register("Store", api.StoreViewSet)
 router.register("StoreUser", api.StoreUserViewSet)
+router.register("Department", api.DepartmentViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),

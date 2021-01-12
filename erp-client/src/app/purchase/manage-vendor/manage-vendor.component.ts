@@ -91,11 +91,7 @@ export class ManageVendorComponent implements OnInit {
       // this.selectedOption = this.options[1];
       // this.paymentTermsSelected = this.paymentTermsOption[0];
       // this.creditDaysSelected = this.creditDaysOption[0];
-      this.routes.events.subscribe((e) => {
-        if (e instanceof NavigationEnd) {
-            
-        }
-     });
+      
      }
 
      onVendorTypeChange(event) {
