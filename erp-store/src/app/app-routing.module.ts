@@ -1,3 +1,4 @@
+import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CheckOutProductsComponent } from './check-out-products/check-out-products.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductViewComponent } from './product-view/product-view.component';
@@ -17,7 +18,8 @@ const routes: Routes = [
 {path:"productview/:id",component:ProductViewComponent, canActivate:[AuthGuard]},
 {path:"checkout",component:CheckOutProductsComponent, canActivate:[AuthGuard]},
 {path:"cart",component:CartComponent, canActivate:[AuthGuard]},
-{path:"thankyou/:id",component:ThankYouPageComponent, canActivate:[AuthGuard]}
+{path:"thankyou/:id",component:ThankYouPageComponent, canActivate:[AuthGuard]},
+{path:"profile",component:UserProfileComponent, canActivate:[AuthGuard]}
 ];
 
 @NgModule({
