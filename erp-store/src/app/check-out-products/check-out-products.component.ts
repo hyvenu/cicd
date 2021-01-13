@@ -103,10 +103,15 @@ export class CheckOutProductsComponent implements OnInit {
      }
 
      this.Service.CheckOut(data).subscribe((data:any)=>
-  {
-    this.route.navigate(['payment/'+data]);
+      {
+        if (data.payment_method == 1) {
+          this.route.navigate(['thankyou/'+data]);
+        }else{
+          this.route.navigate(['payment/'+data]);
+        }
+        
 
-  });
+      });
 }
 
 
