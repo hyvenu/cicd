@@ -1,5 +1,5 @@
 <div class="row">
-    <a nbButton [routerLink]="['ManageProductList']" status="success" size="small" >Back to Product List </a>
+    <a nbButton href="ManageProductMaster" status="success" size="small" >Back to Product List </a>
 </div>  <br>
 <nb-tabset>
     <nb-tab tabTitle="Product Information" [active]="IsProductInfo">
@@ -94,7 +94,7 @@
                                 value="{{type.sell_price}}" size="small" /> 
                                 &nbsp;
                                 <button nbButton size="small" status="danger"
-                                    (click)="remove_type(type)"><b>X</b></button>
+                                    (click)="remove_types(type)"><b>X</b></button>
                             </nb-list-item>
                         </nb-card-body>                       
                     </nb-card>
@@ -110,7 +110,7 @@
                         <nb-card-body>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <img src={{imgSrc}} alt="Product Image " height="80" width="80"/>
+                                    <img src={{imgSrc}} alt="Product Image " height="80" width="80" *ngIf="imgSrc"/>
                                 </div>
                             </div>
                             <div class="row">
