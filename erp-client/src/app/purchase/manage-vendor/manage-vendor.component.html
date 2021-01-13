@@ -1,5 +1,5 @@
 <div class="row">
-    <a nbButton href="ManageVendorList" status="success" size="small" >Back to Vendor List </a>
+    <a nbButton href="ManageVendortMaster" status="success" size="small" >Back to Vendor List </a>
 </div>  <br>
 <nb-tabset>
     <nb-tab tabTitle="Vendor Information" [active]="IsVendorInfo">
@@ -33,7 +33,7 @@
                         placeholder="State Code " />
                 </div>
                 <div class="col-md-3">
-                    <label for="vendorStateName">State </label>
+                    <label for="vendorStateName">State </label><br>
                     <input nbInput formControlName="vendorStateNameFormControl" name="vendorStateName"
                         placeholder="State" />
                 </div>
@@ -46,15 +46,17 @@
             <div class="row">
                 <div class="col-md-3">
                     <label for="vendorAddress">Address</label>
-                </div>
+                    <textarea nbInput formControlName="vendorAddressFormControl" name="corporateOffice"
+                        placeholder="Address"></textarea>
+                </div><br>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <label for="corporateOffice">Corporate Office</label>
                     <textarea nbInput formControlName="corporateOfficeFormControl" name="corporateOffice"
                         placeholder="Corporate Office"></textarea>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <label for="branchOffice">Branch Offices </label>
                     <textarea nbInput formControlName="branchOfficeFormControl" name="branchOffice"
                         placeholder="Branch Office"> </textarea>
@@ -63,14 +65,14 @@
             </div><br>
             <div class="row">
                 <div class="col-md-3">
-                    <label for="postalCode">Postal Code</label>
+                    <label for="postalCode">Postal Code</label><br>
                     <input nbInput formControlName="postalCode" name="postalCode" placeholder="Postal Code" />
                 </div>
             </div><br>
 
             <div class="row">
                 <div class="col-md-9">
-                    <label for="vendorPanNo">Company Pan/ Indiviudual Pan</label>
+                    <label for="vendorPanNo">Company Pan/ Indiviudual Pan</label><br>
                     <input nbInput formControlName="vendorPanNo" name="vendorPanNo" placeholder="Pan Number" />
                     <input type="file" formControlName="imageVendorPanNo" multiple
                         (change)="onFileChangePan($event, 'image');" />
@@ -78,13 +80,13 @@
             </div><br>
             <div class="row">
                 <div class="col-md-9">
-                    <label for="vendorAadharNo">Aadhar Number</label>
+                    <label for="vendorAadharNo">Aadhar Number</label><br>
                     <input nbInput formControlName="vendorAadharNo" name="vendorAadharNo" placeholder="Aadhar Number" />
                 </div>
             </div><br>
             <div class="row">
                 <div class="col-md-9">
-                    <label for="vendorGSTNo">GST Number</label>
+                    <label for="vendorGSTNo">GST Number</label><br>
                     <input nbInput formControlName="vendorGSTNo" name="vendorGSTNo" placeholder="GST Number" />
                     <input type="file" formControlName="imageVendorGSTNo" multiple
                         (change)="onFileChangeGst($event, 'image');" />

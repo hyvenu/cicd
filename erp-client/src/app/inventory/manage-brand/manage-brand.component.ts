@@ -16,6 +16,7 @@ export class ManageBrandComponent implements OnInit {
   brandMasterList;
   brand_id;
   brand_image;
+  searchBrand;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -54,23 +55,26 @@ export class ManageBrandComponent implements OnInit {
       console.log(file);
       this.brand_image = file.name;
     }
-    // const reader = new FileReader();
+    const reader = new FileReader();
     
-    // if(event.target.files && event.target.files.length) {
-    //   const [file] = event.target.files;
-    //   reader.readAsDataURL(file);
+    if(event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
     
-    //   reader.onload = () => {
+      reader.onload = () => {
    
-    //     this.brand_image = reader.result as string;
+        this.brand_image = reader.result as string;
      
-    //     this.brandMasterFrom.patchValue({
-    //       brandImageFormControl: reader.result
-    //     });
+        this.brandMasterFrom.patchValue({
+          brandImageFormControl: reader.result
+        });
    
-    //   };
-    // }
+      };
+    }
+   
+  
   }
+ 
 
   save_brand(): void{
     

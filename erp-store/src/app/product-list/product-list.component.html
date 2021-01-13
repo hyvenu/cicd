@@ -10,11 +10,12 @@
                     <mat-card-content>
                         <p>
                             {{Product.category__description}}
+                           
                         </p>
                     </mat-card-content>
                 </div>
                 <mat-card-actions>
-                    <form #crf="ngForm" (ngSubmit)="AddToCart(crf,Product)">
+                    <form #crf="ngForm" (ngSubmit)="AddToCart(crf,Product)" >
                         <div class="form-group" style="display: flex;">
                             <input type="number" min="1" class="form-control" id="exampleFormControlInput1" name="Quantity" placeholder="Quantity" ngModel required> &nbsp;
                             <select class="form-control" id="exampleFormControlSelect1" name="packingType" ngModel required>
@@ -24,7 +25,9 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button>
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button> 
+                        <i *ngIf="check_wishlist(Product.id)"  class="fas fa-heart float-right" (click)="RemoveFromWishlist(Product)"></i>
+                        <i *ngIf="!check_wishlist(Product.id)" class="far fa-heart float-right" (click)="AddToWishlist(Product)"></i>
 
                     </form>
                 </mat-card-actions>

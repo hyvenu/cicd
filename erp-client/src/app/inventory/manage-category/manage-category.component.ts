@@ -18,6 +18,8 @@ export class ManageCategoryComponent implements OnInit {
 
   category_id;
 
+  searchCategory;
+
   constructor(private formBuilder: FormBuilder,
               private inventoryService: InventoryService,
               private nbtoastService: NbToastrService,
