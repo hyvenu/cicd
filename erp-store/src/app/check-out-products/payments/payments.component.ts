@@ -16,6 +16,7 @@ export class PaymentsComponent implements OnInit {
   email: string;
   phone_number: string;
   amount: any;
+  order_number: any;
 
   constructor(private winRef: WindowRefService,private route: ActivatedRoute,
               private checkOutService: CheckoutService,
@@ -34,6 +35,7 @@ export class PaymentsComponent implements OnInit {
     console.log( );
     this.order_id = this.route.snapshot.queryParams["order_id"]; 
     this.amount = this.route.snapshot.queryParams["amount"]; 
+    this.order_number = this.route.snapshot.queryParams["order_number"]; 
     // this.route.params.subscribe(paramsId => {
     //   this.order_id = paramsId.id;
     // });
@@ -74,10 +76,13 @@ export class PaymentsComponent implements OnInit {
       // call your backend api to verify payment signature & capture transaction
       this.checkOutService.verify_payment(response).subscribe(
         (data) =>{
-          this.router.navigateByUrl('OrderSummary?error=false&order_number='+data.order_number);
+          // this.router.navigateByUrl('OrderSummary?error=false&order_number='+this.order_number);
+          window.location.href='OrderSummary?error=false&order_number='+this.order_number;
+
         },
         (error) => {
-          this.router.navigateByUrl('OrderSummary?error=true&order_number='+ error.order_number);
+          // this.router.navigateByUrl('OrderSummary?error=true&order_number='+ this.order_number);
+          window.location.href='OrderSummary?error=true&order_number='+ this.order_number;
         }
       )
     });
