@@ -13,6 +13,7 @@ import { PurchaseModule } from './purchase/purchase.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/jwt.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MainPipe } from './pipe.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -35,6 +36,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbSelectModule,
+    MainPipe.forRoot(),
   ],
   providers: [
     {
