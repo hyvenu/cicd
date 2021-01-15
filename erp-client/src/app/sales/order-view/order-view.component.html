@@ -34,7 +34,7 @@
                 <h6 style="color: brown;">Order Status : {{ order_data.order_status_text }}</h6> 
             </div>
             <div class="col-md-1" *ngFor="let status of order_data.order_flow">
-                <button nbButton status="success" size="small">{{status.text}}</button>
+                <button nbButton status="success" size="small" (click)="updateOrderStatus(status.order_status)">{{status.text}}</button>
             </div>
         </div>
     </nb-card-footer>

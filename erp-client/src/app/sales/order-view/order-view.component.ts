@@ -12,6 +12,7 @@ import { OrderService } from '../order.service';
 export class OrderViewComponent implements OnInit {
   orderFrom: FormGroup;
   order_data: any;
+  order_id: any;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -23,7 +24,8 @@ export class OrderViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let param1 = this.route.snapshot.queryParams["id"];    
+    let param1 = this.route.snapshot.queryParams["id"];   
+    this.order_id = param1; 
 
     this.orderFrom = this.formBuilder.group(
       {
@@ -55,6 +57,18 @@ export class OrderViewComponent implements OnInit {
           }
         );
     }
+  }
+
+  updateOrderStatus(order_status): void{
+    this.orderService.updateOrderStatus(this.order_id, order_status).subscribe(
+      (data) => {
+          this.nbtoastService.success("Order Status Changed")
+          this.ngOnInit();
+      },
+      (error) => {
+          this.nbtoastService.danger("Order Status Update Failed")
+      }
+    )
   }
   
 

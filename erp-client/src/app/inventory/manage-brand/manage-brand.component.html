@@ -1,20 +1,20 @@
 <div id="" [formGroup]="brandMasterFrom" >
     <div class="row">
-        <div class="col-md-3"> 
-            <label for="brandName">Brand Name</label>
+        <div class="col-md-4">
+            <label for="brandName">Brand Name</label><br>
             <input nbInput formControlName="brandnameFormControl" name="brandName" placeholder="Brand Name" />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <label for="brandImage">Brand Image</label>
-            <input nbInput type="file"  (change)="onChange($event)" name="brandImage" />
-            
+            <input nbInput type="file"  (change)="onChange($event)"  name="brandImage" />
+
         </div>
-        <div class="col-md-3">            
-            <img src="{{brand_image}}" class="rounded"  width="80" height="80" />
+        <div class="col-md-4">
+            <img src="{{brand_image}}" class="rounded"  width="80" height="80" *ngIf="brand_image"/>
         </div>
-    </div><br>   
+    </div><br>
     <div class="row">
-        <div class="col-md-4"> 
+        <div class="col-md-4">
             <button nbButton *ngIf="createFlag" (click)="save_brand();" status="success">Save</button>
             <button nbButton *ngIf="!createFlag" (click)="update_brand();" status="success">Update</button>
         </div>
@@ -22,11 +22,11 @@
 </div><br>
 <div>
     <nb-card>
-        <nb-card-header>Brand Master List</nb-card-header>
+        <nb-card-header>Brand Master List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchBrand" /></nb-card-header>
         <nb-card-body>
-            <nb-list-item *ngFor="let brand of brandMasterList">                
-                <img src="{{brand.brand_image}}" class="rounded" alt="brand_image" width="40" height="40" />
-                                 
+            <nb-list-item *ngFor="let brand of brandMasterList | search_filter:'brand_name':searchBrand">
+                <img src="{{brand.brand_image}}" class="rounded" alt="brand" width="40" height="40" />
+
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="mr-auto mt-2 mt-lg-0"> {{ brand.brand_name }}</i>
                 <button nbButton size="small" (click)="selected_brand(brand)" >Select</button>
               </nb-list-item>

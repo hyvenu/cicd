@@ -1,6 +1,6 @@
 <div id="" [formGroup]="categoryFrom" >
     <div class="row">
-        <div class="col-md-3"> 
+        <div class="col-md-3">
             <label for="categoryName">Category Name</label>
             <input nbInput formControlName="categoryNameFormControl" name="categoryName" placeholder="Category Name" />
         </div>
@@ -13,10 +13,10 @@
         <div class="col-md-3">
             <label for="categoryDesc">Category Description</label>
             <input nbInput formControlName="categoryDescFormControl" name="categoryDesc" placeholder="Category Desc"/>
-        </div> 
+        </div>
     </div><br>
     <div class="row">
-        <div class="col-md-4"> 
+        <div class="col-md-4">
             <button nbButton *ngIf="createFlag" (click)="save_category();" status="success">Save</button>
             <button nbButton *ngIf="!createFlag" (click)="update_category();" status="success">Update</button>
         </div>
@@ -24,11 +24,11 @@
 </div><br>
 <div>
     <nb-card>
-        <nb-card-header>Category List</nb-card-header>
+        <nb-card-header>Category List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)] = "searchCategory" /></nb-card-header>
         <nb-card-body>
-            <nb-list-item *ngFor="let category of categories">
+            <nb-list-item *ngFor="let category of categories | search_filter:'category_name':searchCategory">
                 <i class="mr-auto mt-2 mt-lg-0">{{ category.category_code }} - {{ category.category_name }} - {{category.description }}</i>
-                <button nbButton size="small" (click)="selected_category(category)" >Select</button>
+                <button nbButton size="small" (click)="selected_category(category)" >Select</button><button class="remove-from-category" nbButton size="small"  href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="fa fa-trash"></i></button>
             </nb-list-item>
         </nb-card-body>
     </nb-card>
