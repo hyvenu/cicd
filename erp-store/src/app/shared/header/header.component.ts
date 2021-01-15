@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { SharedService } from './../shared.service';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -13,7 +14,7 @@ export class HeaderComponent implements OnInit {
   userSub:Subscription;
   first_name: string;
 
-  constructor(private sharedservice:SharedService) { }
+  constructor(private sharedservice:SharedService,private route:Router) { }
 
   ngOnInit(): void {
 
@@ -42,6 +43,18 @@ export class HeaderComponent implements OnInit {
     this.sharedservice.logout();
     sessionStorage.clear();
     window.location.href="Home";
+  }
+
+  Search(data:any)
+  {
+    if(data.length>3)
+    {
+      this.route.navigate(["/category/"+data]);
+    }
+    else
+    {
+      this.route.navigate(['/']);
+    }
   }
 
 }
