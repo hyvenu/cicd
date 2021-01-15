@@ -13,4 +13,8 @@ urlpatterns = [
     path('api/v1/add_wish_list', views.add_to_wish_list, name="ecom_add_wish_list"),
     path('api/v1/get_wish_list', views.get_wish_list, name="get_wish_list"),
     path('api/v1/delete_wish_list', views.delete_wish_list, name="ecom_delete_wish_list"),
+    path('api/v1/get_order_amount', views.get_order_amount, name="ecom_get_order_amount"),
+    path('api/v1/verify_payment', views.verify_payment, name="verify_payment"),
+    path('api/v1/get_order_list', views.get_order_list, name="get_order_list"),
+    path('api/v1/get_order_detail', views.get_order_detail, name="get_order_detail"),
 ]

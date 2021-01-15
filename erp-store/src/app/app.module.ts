@@ -18,7 +18,7 @@ import { JwtInterceptor } from './shared/jwt.interceptor';
 import { CartComponent } from './cart/cart.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component';
-import { PaymentsComponent } from './payments/payments.component';
+import { PaymentsComponent } from './check-out-products/payments/payments.component';
 
 
 @NgModule({

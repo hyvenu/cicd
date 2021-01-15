@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { WindowRefService } from '../window-ref.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { data } from 'jquery';
+import { WindowRefService } from '../../window-ref.service';
+import { CheckoutService } from '../checkout.service';
 
 @Component({
   selector: 'app-payments',
@@ -15,7 +17,9 @@ export class PaymentsComponent implements OnInit {
   phone_number: string;
   amount: any;
 
-  constructor(private winRef: WindowRefService,private route: ActivatedRoute) {}
+  constructor(private winRef: WindowRefService,private route: ActivatedRoute,
+              private checkOutService: CheckoutService,
+              private router: Router) {}
                          
   ngOnInit() {
     this.user_name = sessionStorage.getItem("first_name");
@@ -28,8 +32,8 @@ export class PaymentsComponent implements OnInit {
 
   createRzpayOrder( ) {
     console.log( );
-    this.order_id = this.route.snapshot.queryParams["id"]; 
-    this.amount = this.route.snapshot.queryParams["amount"];
+    this.order_id = this.route.snapshot.queryParams["order_id"]; 
+    this.amount = this.route.snapshot.queryParams["amount"]; 
     // this.route.params.subscribe(paramsId => {
     //   this.order_id = paramsId.id;
     // });
@@ -38,9 +42,10 @@ export class PaymentsComponent implements OnInit {
   }
 
   payWithRazor(val) {
+    alert(this.amount );
     const options: any = {
       key: 'rzp_test_veBhpMqs1IlGQO',
-      amount: this.amount + '00', // amount should be in paise format to display Rs 1255 without decimal point
+      amount: 1255 + '00', // amount should be in paise format to display Rs 1255 without decimal point
       currency: 'INR',
       name: 'Saffran E Commerece', // company name or product name
       description: '',  // product description
@@ -67,6 +72,14 @@ export class PaymentsComponent implements OnInit {
       console.log(response);
       console.log(options);
       // call your backend api to verify payment signature & capture transaction
+      this.checkOutService.verify_payment(response).subscribe(
+        (data) =>{
+          this.router.navigateByUrl('OrderSummary?error=false&order_number='+data.order_number);
+        },
+        (error) => {
+          this.router.navigateByUrl('OrderSummary?error=true&order_number='+ error.order_number);
+        }
+      )
     });
     options.modal.ondismiss = (() => {
       // handle the case when user closes the form while transaction is in progress

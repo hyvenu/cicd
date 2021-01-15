@@ -23,6 +23,8 @@ export class CartComponent implements OnInit {
   cartTotal = 0;
 
   BaseUrl = environment.BASE_SERVICE_URL;
+  inc_flag: boolean;
+  dec_flag: boolean;
 
   constructor(private msg : MessengerService ,private cartService: CartService) { }
 
@@ -59,57 +61,6 @@ loadCartItems(){
 
 }
 
-// addProductToCart(product: Product){
-
-
-//   let productExits = false
-
-//   for(let i in this.cartItems){
-//     if(this.cartItems[i].productId=== product.id){
-//       this.cartItems[i].qty++
-//       productExits = true
-//       break;
-//     }
-//   }
-
-//   if(!productExits){
-//     this.cartItems.push({
-//       productId:product.id,
-//       productName:product.name,
-//       qty:1,
-//       price:product.price
-//     })
-
-//   }
-// //   if(this.cartItems.length === 0){
-// //     this.cartItems.push({
-// //       productId:product.id,
-// //       productName:product.name,
-// //       qty:1,
-// //       price:product.price
-// //     })
-
-// //   }else{
-
-// //   for(let i in this.cartItems){
-// //     if(this.cartItems[i].productId=== product.id){
-// //       this.cartItems[i].qty++
-// //     }else{
-
-// //   this.cartItems.push({
-// //     productId:product.id,
-// //     productName:product.name,
-// //     qty:1,
-// //     price:product.price
-// //   })
-// //   }
-// // }
-// // }
-
-// this.calculatCartTotal();
-
-// }
-
 calculatCartTotal(){
   this.cartTotal=0;
   this.cartItems.forEach(item =>{
@@ -119,6 +70,7 @@ calculatCartTotal(){
 
 inc(cartItem){
   // console.log(cartItem)
+   
   cartItem.qty = cartItem.qty+1;
   this.handleAddToCart(cartItem);
 }
@@ -132,17 +84,24 @@ handleAddToCart(cartItem){
     'qty' : cartItem.qty,
     'user_id': sessionStorage.getItem('user_id')
   }
-  this.cartService.addToCart(data).subscribe(()=>{
-    this.msg.sendMsg(data);
-  })
+  return this.cartService.addToCart(data).subscribe(
+    (data) => {
+       this.msg.sendMsg(data);
+    },
+    (error) => {
+
+    }
+  );
 }
 
 dec(cartItem){
   // console.log(cartItem)
-  if(cartItem.qnt != 1){
+  this.dec_flag = true;
+  if(cartItem.qty != 1){
     cartItem.qty -= 1;
+    this.handleAddToCart(cartItem);
   }
-  this.handleAddToCart(cartItem);
+
 
 }
 

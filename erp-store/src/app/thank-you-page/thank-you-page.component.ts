@@ -8,12 +8,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ThankYouPageComponent implements OnInit {
   OrderId: any;
+  error_flag: any;
 
   constructor(private activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(paramsId => {
-      this.OrderId = paramsId.id;
+      this.OrderId = paramsId.order_number;
+      this.error_flag = paramsId.error;
   });
   }
 

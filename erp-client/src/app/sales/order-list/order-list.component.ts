@@ -65,8 +65,8 @@ export class OrderListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    this.orderService.getOrderList().subscribe(
+    const order_data  = { 'order_status': '1'}
+    this.orderService.getOrderList(order_data).subscribe(
       (data) => {
           this.data = data;
       },
