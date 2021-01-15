@@ -88,6 +88,7 @@ class EcomService:
             "category__id",
             "category__category_name",
             "category__category_code",
+            "description",
         )
         return list(sub_category_list)
 

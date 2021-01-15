@@ -23,6 +23,7 @@ import { MainPipe } from './pipe.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     NbThemeModule.forRoot({ name: 'default' }),
+    MainPipe.forRoot(),
     NbLayoutModule,
     NbEvaIconsModule,
     FormsModule,
@@ -36,7 +37,7 @@ import { MainPipe } from './pipe.module';
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbSelectModule,
-    MainPipe.forRoot(),
+    
   ],
   providers: [
     {

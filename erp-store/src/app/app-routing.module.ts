@@ -14,7 +14,7 @@ const routes: Routes = [
 },
 { path:'Home', component:HomeComponent
 },
-{path:"category/:id",component:ProductListComponent,  canActivate:[AuthGuard]},
+{path:"category/:id",component:ProductListComponent},
 {path:"productview/:id",component:ProductViewComponent, canActivate:[AuthGuard]},
 {path:"checkout",component:CheckOutProductsComponent, canActivate:[AuthGuard]},
 {path:"cart",component:CartComponent, canActivate:[AuthGuard]},
