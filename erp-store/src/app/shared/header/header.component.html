@@ -4,21 +4,21 @@
   </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <a class="navbar-brand mr-auto mt-2 mt-lg-0" href="#" id="company"> <img src="assets/img/Saffaran-logo.png" width="40px"> Saffaran</a>
-        <span class="nav-link">{{ first_name}}</span>
+        <!-- <span class="nav-link">{{ first_name}}</span> -->
         <ul class="navbar-nav">
-            <li>
+            <li class="nav-item">
                 <div class="form-group has-search">
                     <span class="fa fa-search form-control-feedback"></span>
                     <input type="text" class="form-control" (input)="Search($event.target.value)" placeholder="Search">
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/cart">My Cart
+                <a class="nav-link" href="/cart"> <i class="fa fa-shopping-cart float-right-o"></i>&nbsp;My Cart
 
           </a>
             </li>
             <li class="nav-item" *ngIf="!isAuthenticated">
-                <a class="nav-link" href="/Login">Login
+                <a class="nav-link" href="/Login"><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;Login
 
           </a>
             </li>
@@ -28,13 +28,13 @@
           </a>
             </li>
             <li class="nav-item" *ngIf="isAuthenticated">
-                <a class="nav-link" href="/wishlist">Wishlist</a>
+                <a class="nav-link" href="/wishlist">  <i class="fa fa-heart float-right-o"></i>&nbsp;Wishlist</a>
             </li>
             <li class="nav-item" *ngIf="isAuthenticated">
-                <a class="nav-link" href="/myorders">My orders</a>
+                <a class="nav-link" href="/profile"><i class="fa fa-user float-right-o"></i>&nbsp;{{ first_name }}</a>
             </li>
             <li class="nav-item" *ngIf="isAuthenticated">
-                <a class="nav-link" (click)="logout()">Logout</a>
+                <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Logout</a>
             </li>
         </ul>
 

@@ -22,7 +22,7 @@ const routes: Routes = [
 {path:"checkout",component:CheckOutProductsComponent, canActivate:[AuthGuard]},
 {path:"cart",component:CartComponent, canActivate:[AuthGuard]},
 {path:"OrderSummary",component:ThankYouPageComponent, canActivate:[AuthGuard]},
-{path:"payment",component:PaymentsComponent, canActivate:[AuthGuard]}
+{path:"payment",component:PaymentsComponent, canActivate:[AuthGuard]},
 {path:"profile",component:UserProfileComponent, canActivate:[AuthGuard]},
 {path:"myorders",component:OrdersComponent, canActivate:[AuthGuard]},
 {path:"wishlist",component:WishlistComponent, canActivate:[AuthGuard]}
