@@ -49,7 +49,8 @@ const routes: Routes = [
     NbTabsetModule,
     Ng2SmartTableModule,
     NbSelectModule,
-    ImageUploadModule.forRoot()
+    ImageUploadModule.forRoot(),
+    MainPipe.forRoot(),
 
   ],
   providers:[NbToastrService, NbDialogService],
