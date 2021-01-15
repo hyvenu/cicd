@@ -49,6 +49,7 @@ export class ManageSubcategoryComponent implements OnInit {
       subcategoryNameFormControl: ['', [Validators.required]],      
       subcategoryCodeFormControl: ['', [Validators.required]],   
       categoryNameFormControl: ['', [Validators.required]],
+      subDescription: ['', [Validators.required]],
       subCatImageFormControl: ['',],        
       fileSource: new FormControl('',) 
     });
@@ -95,6 +96,7 @@ export class ManageSubcategoryComponent implements OnInit {
       let data = new FormData()
       data.append('sub_category_name', this.subcategoryFrom.get(['subcategoryNameFormControl']).value)
       data.append('sub_category_code', this.subcategoryFrom.get(['subcategoryCodeFormControl']).value)
+      data.append('description', this.subcategoryFrom.get(['subDescription']).value)
       data.append('category_id', this.selected_category.id)
       if(this.selectedFiles.length){
         for(let i=0 ; i < this.selectedFiles.length ; i++)
@@ -120,6 +122,7 @@ export class ManageSubcategoryComponent implements OnInit {
             data.append('sub_category_name', this.subcategoryFrom.get(['subcategoryNameFormControl']).value)
             data.append('sub_category_code', this.subcategoryFrom.get(['subcategoryCodeFormControl']).value)
             data.append('category_id', this.selected_category.id)
+            data.append('description', this.subcategoryFrom.get(['subDescription']).value)
         if(this.selectedFiles.length){
           for(let i=0 ; i < this.selectedFiles.length ; i++)
             data.append('sub_category_image', this.selectedFiles[i],this.selectedFiles[i].name);
@@ -140,6 +143,7 @@ export class ManageSubcategoryComponent implements OnInit {
         this.subcategoryFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);        
         this.subcategoryFrom.controls['subcategoryCodeFormControl'].setValue(data.sub_category_code);
         this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category.category_name);
+        this.subcategoryFrom.controls['subDescription'].setValue(data.description);
         this.subcat_image = data.sub_category_image;
         this.createFlag = !this.createFlag;
         this.subcategory_id = data.id
