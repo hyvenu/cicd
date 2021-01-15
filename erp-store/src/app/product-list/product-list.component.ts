@@ -51,7 +51,7 @@ export class ProductListComponent implements OnInit {
   {
     let data =
     {
-      category_name:this.categoryName
+      search_key:this.categoryName
     }
     this.Service.GetProducts(data).subscribe((Products)=>
     {
@@ -201,7 +201,7 @@ export class ProductListComponent implements OnInit {
     }
     this.Service.AddToWishList(data).subscribe(
       (data) => {
-        product.wish_list_flag = 1    
+        product.wish_list_flag = 1
       }
     )
   }
@@ -213,7 +213,7 @@ export class ProductListComponent implements OnInit {
     }
     this.Service.RemoveWishList(data).subscribe(
       (data) => {
-        product.wish_list_flag = 0         
+        product.wish_list_flag = 0
       }
     )
   }

@@ -19,6 +19,8 @@ import { CartComponent } from './cart/cart.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { OrdersComponent } from './orders/orders.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
 
 
 @NgModule({
@@ -31,6 +33,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     CartComponent,
     ThankYouPageComponent,
     UserProfileComponent,
+    OrdersComponent,
+    WishlistComponent,
 
   ],
   imports: [

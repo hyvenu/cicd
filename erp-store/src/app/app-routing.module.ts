@@ -1,3 +1,5 @@
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { OrdersComponent } from './orders/orders.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CheckOutProductsComponent } from './check-out-products/check-out-products.component';
 import { ProductListComponent } from './product-list/product-list.component';
@@ -19,7 +21,11 @@ const routes: Routes = [
 {path:"checkout",component:CheckOutProductsComponent, canActivate:[AuthGuard]},
 {path:"cart",component:CartComponent, canActivate:[AuthGuard]},
 {path:"thankyou/:id",component:ThankYouPageComponent, canActivate:[AuthGuard]},
-{path:"profile",component:UserProfileComponent, canActivate:[AuthGuard]}
+{path:"profile",component:UserProfileComponent, canActivate:[AuthGuard]},
+{path:"myorders",component:OrdersComponent, canActivate:[AuthGuard]},
+{path:"wishlist",component:WishlistComponent, canActivate:[AuthGuard]}
+
+
 ];
 
 @NgModule({

@@ -6,6 +6,12 @@
         <a class="navbar-brand mr-auto mt-2 mt-lg-0" href="#" id="company"> <img src="assets/img/Saffaran-logo.png" width="40px"> Saffaran</a>
 
         <ul class="navbar-nav">
+            <li>
+                <div class="form-group has-search">
+                    <span class="fa fa-search form-control-feedback"></span>
+                    <input type="text" class="form-control" (input)="Search($event.target.value)" placeholder="Search">
+                </div>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="/cart">My Cart
 
@@ -20,9 +26,16 @@
                 <a class="nav-link" href="/Register">Sign Up
 
           </a>
-                <li class="nav-item" *ngIf="isAuthenticated">
-                    <a class="nav-link" (click)="logout()">Logout</a>
-                </li>
+            </li>
+            <li class="nav-item" *ngIf="isAuthenticated">
+                <a class="nav-link" href="/wishlist">Wishlist</a>
+            </li>
+            <li class="nav-item" *ngIf="isAuthenticated">
+                <a class="nav-link" href="/myorders">My orders</a>
+            </li>
+            <li class="nav-item" *ngIf="isAuthenticated">
+                <a class="nav-link" (click)="logout()">Logout</a>
+            </li>
         </ul>
 
 
