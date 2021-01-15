@@ -38,6 +38,8 @@ class ProductSubCategory(AuditUuidModelMixin):
 
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE,related_name="category_sub_category")
 
+    description = models.CharField(max_length=2000, null=True)
+
     class Meta:
         pass
 

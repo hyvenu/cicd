@@ -29,7 +29,8 @@
 
                                 </mat-card-title>
                             </mat-card-header>
-                            <img height="150px" width="100px" mat-card-image src="{{BaseUrl+Product.product_image}}">
+                            <img height="150em" width="10em" style="border: 0;"  mat-card-image *ngIf="Product.product_image" src="{{BaseUrl+Product.product_image}}">
+                            <img height="150em" width="10em" style="border: 0;"  mat-card-image *ngIf="!Product.product_image" src="/assets/no-image-icon.jpg">
                             <mat-card-content>
                                 <p>
                                     {{Product.category__description}}

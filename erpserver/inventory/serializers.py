@@ -61,6 +61,7 @@ class ProductSubCategorySerializer(serializers.ModelSerializer):
             "sub_category_name",
             "sub_category_code",
             "sub_category_image",
+            "description",
             "category",
             "id",
         ]
