@@ -50,7 +50,7 @@ export class ProductListComponent implements OnInit {
     console.log(this.categoryName);
     let data =
     {
-      category_name: this.categoryName
+      search_key: this.categoryName
     }
     this.Service.GetProducts(data).subscribe((Products) => {
       this.ProductList = Products;

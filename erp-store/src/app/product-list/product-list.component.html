@@ -26,7 +26,7 @@
                         <div (click)="GotoProductview(Product.product_code)" id="product">
                             <mat-card-header style="justify-content: center;">
                                 <mat-card-title class="overflowText">{{Product.product_name}}
-
+                                   
                                 </mat-card-title>
                             </mat-card-header>
                             <img height="150em" width="10em" style="border: 0;"  mat-card-image *ngIf="Product.product_image" src="{{BaseUrl+Product.product_image}}">
@@ -52,13 +52,13 @@
                                     &nbsp;&nbsp;
                                     <span class="float-right">
                                         <i *ngIf="Product.wish_list_flag==1"  class="fa fa-heart float-right" (click)="RemoveFromWishlist(Product)"></i>
-                                        <i *ngIf="Product.wish_list_flag==0"  class="fa fa-heart-o float-right" (click)="AddToWishlist(Product)"></i>
-                                    </span>
+                                        <i *ngIf="Product.wish_list_flag==0"  class="fa fa-heart-o float-right" (click)="AddToWishlist(Product)"></i> 
+                                    </span>   
                                 </div>
-
+                                    
 
                             </form>
-
+                           
                         </mat-card-actions>
                     </mat-card>
                 </div>

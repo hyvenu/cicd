@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { InventoryService } from '../inventory.service';
 import { NbToastrService } from '@nebular/theme';
 @Component({
-  selector: 'app-manage-category', 
+  selector: 'app-manage-category',
   templateUrl: './manage-category.component.html',
   styleUrls: ['./manage-category.component.scss']
 })
@@ -24,14 +24,14 @@ export class ManageCategoryComponent implements OnInit {
               private inventoryService: InventoryService,
               private nbtoastService: NbToastrService,
               private routes: Router) {
-               
+
                }
 
   ngOnInit(): void {
     this.categoryFrom  =  this.formBuilder.group({
       categoryNameFormControl: ['', [Validators.required]],
-      categoryDescFormControl: ['', [Validators.required]],      
-      categoryCodeFormControl: ['', [Validators.required]],   
+      categoryDescFormControl: ['', [Validators.required]],
+      categoryCodeFormControl: ['', [Validators.required]],
     });
     this.createFlag = true;
     this.inventoryService.getCategoryList().subscribe(
@@ -45,7 +45,7 @@ export class ManageCategoryComponent implements OnInit {
   }
 
   save_category(): void{
-    
+
     if( this.categoryFrom.dirty && this.categoryFrom.valid){
       let data = {
             category_name: this.categoryFrom.get(['categoryNameFormControl']).value,
@@ -60,11 +60,11 @@ export class ManageCategoryComponent implements OnInit {
         (error) =>{
           this.nbtoastService.danger(error);
         }
-      )    
+      )
     }
     };
     update_category(): void{
-    
+
       if( this.categoryFrom.dirty && this.categoryFrom.valid){
         let data = {
               category_name: this.categoryFrom.get(['categoryNameFormControl']).value,
@@ -79,7 +79,7 @@ export class ManageCategoryComponent implements OnInit {
           (error) =>{
             this.nbtoastService.danger(error);
           }
-        )    
+        )
       }
       };
 

@@ -19,6 +19,9 @@ import { CartComponent } from './cart/cart.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component';
 import { PaymentsComponent } from './check-out-products/payments/payments.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { OrdersComponent } from './orders/orders.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
 
 
 @NgModule({
@@ -31,6 +34,9 @@ import { PaymentsComponent } from './check-out-products/payments/payments.compon
     CartComponent,
     ThankYouPageComponent,
     PaymentsComponent,
+    UserProfileComponent,
+    OrdersComponent,
+    WishlistComponent,
 
   ],
   imports: [

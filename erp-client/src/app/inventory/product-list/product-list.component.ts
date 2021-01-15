@@ -43,7 +43,7 @@ export class ProductListComponent implements OnInit {
       },
       category: {
         title: 'Category ',
-         valuePrepareFunction: (value) => {  return value.category_name },
+        valuePrepareFunction: (value) => {  return value.category_name },
       },
       sub_category: {
         title: 'Sub Category',

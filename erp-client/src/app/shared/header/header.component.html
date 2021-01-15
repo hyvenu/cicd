@@ -37,7 +37,7 @@
         nbContextMenuTag="my-context-menu">
     </nb-user>
 </div> -->
-<style>
+<!-- <style>
     .logo-container {
     display: flex;
     align-items: center;
@@ -54,6 +54,27 @@
         [nbContextMenu]="items"
         nbContextMenuTag="my-context-menu">
     </nb-user>
+</div>
+    
+</div>         -->
+<div class="header-container hidden-print">
+    <div class="logo-container">
+      <!-- <a (click)="toggle()" href="#" class="sidebar-toggle">
+        <nb-icon icon="menu-2-outline"></nb-icon>
+      </a> -->
+      <a class="logo" href="#" [routerLink]="['/']"  ><img src = "/assets/images/Saffaran-Trade-Mark.png" style = "height:56px"></a>
+    </div>
+    <span class="col-md-10"></span>
+    <span class="col-md-10"></span>
+    <span class="col-md-10"></span>
+    <div class="header-container another-header">
+    <nb-user nbButton name="{{ user_name}}"
+            title="Role"
+            [nbContextMenu]="items"
+            nbContextMenuTag="my-context-menu">
+    </nb-user>
     </div>
     
-</div>        
+</div>
+
+ 

@@ -1,0 +1,32 @@
+<div class="container justify-content-center">
+
+    <div>
+        <div id="order">
+            <h2>Wishlist</h2>
+        </div>
+        <div id="accordion" aria-multiselectable="true">
+            <div class="row" *ngFor="let product of wishlist; let i = index">
+                <div class="col mt-4">
+                    <div class="card card-2" (click)="Goto(product.product__product_code)">
+                        <div class="card-body">
+                            <div class="media" [id]="'heading'+i">
+                                <div class="sq align-self-center "> <img class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="{{BaseUrl+product.image}}" width="80" height="80" /> </div>
+                                <div class="media-body my-auto text-right">
+                                    <div class="row my-auto flex-column flex-md-row">
+                                        <div class="col my-auto">
+                                            <h3 class="mb-0" style="text-align: center;"> {{product.product__product_name}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>

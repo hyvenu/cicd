@@ -1,0 +1,45 @@
+
+<a href="ManageStoreList" nbButton size="small" status="success" > Back to Store List </a>
+<nb-tabset>
+<nb-tab tabTitle="Store Information">
+
+<div [formGroup]="storeForm">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="storeName">Store Name</label>
+            <input type="text" formControlName="storeNameFormControl" nbInput name="storeName"/>
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label for="storeAddress">Store Address</label>
+            <textarea formControlName="storeAddressFormControl" nbInput name="storeAddress"></textarea>            
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label for="storeCity">City &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <input type="text" formControlName="storeCityFormControl" nbInput name="storeCity"/>        
+        </div>    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+        <div class="col-md-2">
+            <label for="storePinCode">pin Code</label>
+            <input nbInput formControlName="storePinCodeFormControl" name="storePinCode"/>            
+        </div>             
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label for="storeGst">GST Number</label>
+            <input type="text" formControlName="gstFormControl" nbInput name="storeGst"/>        
+        </div>    
+                    
+    </div><br>
+    <div class="row">
+        <div class="col-md-3">
+            <button nbButton status="success" *ngIf="createFlag" (click)="saveStore();" >Save</button>&nbsp;&nbsp;
+            <button nbButton status="success" *ngIf="!createFlag" (click)="updateStore();" >Save</button>&nbsp;&nbsp;
+            
+        </div>
+    </div>
+</div>
+</nb-tab>
+</nb-tabset>

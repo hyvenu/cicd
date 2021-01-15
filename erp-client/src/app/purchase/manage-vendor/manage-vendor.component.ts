@@ -145,8 +145,7 @@ export class ManageVendorComponent implements OnInit {
     this.vendorMasterForm  =  this.formBuilder.group({
       vendorStateCodeFormControl: ['', [Validators.required]],
       vendorStateNameFormControl: ['', [Validators.required]],      
-      vendorStateCode: ['', [Validators.required]],
-      vendorAddressFormControl:['',[Validators.required]],   
+      vendorStateCode: ['', [Validators.required]],   
       corporateOfficeFormControl: ['', [Validators.required]],   
       branchOfficeFormControl: ['', [Validators.required]],
       vendorTypeFormControl:['', [Validators.required]],   
@@ -196,7 +195,6 @@ export class ManageVendorComponent implements OnInit {
           this.vendorMasterForm.controls['vendorStateCodeFormControl'].setValue(data.state_code);
           this.vendorMasterForm.controls['vendorStateNameFormControl'].setValue(data.state_name);
           this.vendorMasterForm.controls['vendorRegionFormControl'].setValue(data.region);
-          this.vendorMasterForm.controls['vendorAddressFormControl'].setValue(data.vendor_address);
           this.vendorMasterForm.controls['corporateOfficeFormControl'].setValue(data.corp_ofc_addr);
           this.vendorMasterForm.controls['branchOfficeFormControl'].setValue(data.branch_ofc_addr);
           this.vendorMasterForm.controls['postalCode'].setValue(data.postal_code);
@@ -315,7 +313,6 @@ export class ManageVendorComponent implements OnInit {
     formData.append('state_name', this.vendorMasterForm.controls['vendorStateNameFormControl'].value)
     formData.append('region', this.vendorMasterForm.controls['vendorRegionFormControl'].value)
     
-    formData.append('vendor_address', this.vendorMasterForm.controls['vendorAddressFormControl'].value)
     formData.append('corp_ofc_addr', this.vendorMasterForm.controls['corporateOfficeFormControl'].value)
     formData.append('branch_ofc_addr', this.vendorMasterForm.controls['branchOfficeFormControl'].value)
     formData.append('postal_code', this.vendorMasterForm.controls['postalCode'].value)

@@ -1,0 +1,42 @@
+.round {
+    border-radius: 100%;
+    width: 80%;
+}
+
+.user-heading {
+    display: flex;
+    justify-content: center;
+}
+
+.user-info {
+    text-align: center;
+}
+
+.panel {
+    background-color: #2D66EB;
+}
+
+#card {
+    padding: 2% 5%;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.flex-gap {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+#card-body {
+    display: flex;
+    justify-content: center;
+}
+
+.card-title {
+    font-size: 35px;
+    margin-top: 8px;
+    margin-left: 10px;
+}
