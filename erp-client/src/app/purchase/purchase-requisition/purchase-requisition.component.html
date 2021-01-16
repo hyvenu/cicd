@@ -25,7 +25,7 @@
                 <div class="col-md-4">
                     <label for="department">Department </label>
                     <nb-select name="department" formControlName="departFormControl" [(selected)]="selectedOption">
-                        <nb-option *ngFor="let o of department_list" value="{{o.department_id}}">
+                        <nb-option *ngFor="let o of department_list" value="{{o.id}}">
                             {{ o.department_name }}
                         </nb-option>
                     </nb-select>
@@ -52,15 +52,15 @@
                             <tr *ngFor="let item of selected_product_list">
                                 <td><input nbInput placeholder="" value={{item.product_code}}/></td>
                                 <td><input nbInput placeholder="" value={{item.product_name}}/></td>
-                                <td><input nbInput placeholder="description" value={{item.description}}/></td>
+                                <td><input nbInput placeholder="description" [(ngModel)]="item.description"/></td>
                                 <td><input nbInput placeholder="store_name" value={{item.store_name}}/></td>
                                 <td><input nbInput placeholder="Quantity" value={{item.required_qty}}/></td>
-                                <td><nb-select name="unit" [(selected)]="selectedOption">
-                                    <nb-option *ngFor="let o of unit_list" value="{{o.PrimaryUnit}}">
+                                <td><nb-select name="item.unit" [(selected)]="item.unit">
+                                    <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                         {{ o.PrimaryUnit }}
                                     </nb-option>
                                 </nb-select></td>
-                                <td><input nbInput [nbDatepicker]="datepicker"
+                                <td><input nbInput [(ngModel)]="item.expected_date" [nbDatepicker]="datepicker"
                                     placeholder="Date" />
                                     <!-- <input [nbDatepicker]="datepicker"> -->
                                     <nb-datepicker #datepicker></nb-datepicker>
@@ -75,9 +75,12 @@
             </div>
         <div class="row"> 
 
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <button nbButton status="success" (click)="savePR();" >Save</button>&nbsp;&nbsp;
+                    <button nbButton status="success" (click)="approvePR();" >Approve</button>&nbsp;&nbsp;
+                    <button nbButton status="danger" (click)="rejectPR();" >Reject</button>&nbsp;&nbsp;
                 </div>
+                
 
         </div>
     </nb-tab>

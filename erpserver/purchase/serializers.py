@@ -11,6 +11,9 @@ class PurchaseRequisitionSerializer(serializers.ModelSerializer):
             'pr_date',
             'created_user',
             'dept',
+            'status',
+            'approved_by',
+            'approved_date',
         ]
 
 
@@ -19,9 +22,11 @@ class PurchaseRequisitionProductListSerializer(serializers.ModelSerializer):
         model = models.PurchaseRequisitionProductList
         fields = [
             'pr_no_rf',
+            'product',
+            'product_code',
             'product_name',
             'description',
-            'store_name',
+            'store',
             'required_qty',
             'unit',
             'expected_date',

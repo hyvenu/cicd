@@ -40,6 +40,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Department
         fields = [
+            'id',
             'department_id',
             'department_name',
         ]
