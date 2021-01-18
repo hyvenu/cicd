@@ -18,7 +18,7 @@ export class ManageCategoryComponent implements OnInit {
 
   category_id;
 
-  searchCategory;
+  searchCategory:any;
 
   constructor(private formBuilder: FormBuilder,
               private inventoryService: InventoryService,

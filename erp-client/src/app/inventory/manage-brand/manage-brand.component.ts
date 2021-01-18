@@ -16,7 +16,7 @@ export class ManageBrandComponent implements OnInit {
   brandMasterList;
   brand_id;
   brand_image;
-  searchBrand;
+  searchBrand:any;
 
   constructor(
     private formBuilder: FormBuilder,

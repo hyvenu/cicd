@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-3"> 
             <label for="categoryName">Category Name</label>
-            <input nbInput formControlName="categoryNameFormControl" name="categoryName" placeholder="Category Name" (keypress)="open(dialog)" readonly />
+            <input nbInput formControlName="categoryNameFormControl" (keypress)="open(dialog)" (click)="open(dialog)" name="categoryName" placeholder="Category Name" (keypress)="open(dialog)" readonly />
         </div><br>
         <div class="col-md-3"> 
             <label for="subcategoryName">Sub Category Name</label>
@@ -20,14 +20,14 @@
     </div><br>
     <div class="row">
     <div class="col-md-6">
-        <label for="subCatImage">Image</label>
+        <label for="subCatImage">Image</label><br>
         <input nbInput type="file"  (change)="onFileChange($event)" name="subCatImage" />
         
     </div>
     <div class="col-md-6" *ngIf="subcat_image">            
         <img src="{{subcat_image}}" class="rounded"  width="80" height="80" />
     </div>
-    </div>
+    </div><br>
     <div class="row">
         <div class="col-md-4"> 
             <button nbButton *ngIf="createFlag" (click)="save_sub_category();" status="success">Save</button>

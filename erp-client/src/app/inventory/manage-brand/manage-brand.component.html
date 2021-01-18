@@ -24,7 +24,7 @@
     <nb-card>
         <nb-card-header>Brand Master List<input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchBrand" /></nb-card-header>
         <nb-card-body>
-            <nb-list-item *ngFor="let brand of brandMasterList | search:'brand_name':searchBrand">                
+            <nb-list-item *ngFor="let brand of brandMasterList | search_filter:'brand_name':searchBrand">                
                 <img src="{{brand.brand_image}}" class="rounded" alt="brand" width="40" height="40" />
                                  
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="mr-auto mt-2 mt-lg-0"> {{ brand.brand_name }}</i>

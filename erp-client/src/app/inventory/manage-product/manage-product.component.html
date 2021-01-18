@@ -181,7 +181,7 @@
         <nb-card-header>Category List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchCategory" /></nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data | search:'category_name':searchCategory ">
+                <nb-list-item *ngFor="let item of data | search_filter:'category_name':searchCategory ">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.category_name }} - {{item.category_code }}</i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
