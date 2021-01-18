@@ -1,10 +1,9 @@
 import { ProductlistService } from './productlist.service';
-import { WishlistService } from '../shared/wishlist.service'; 
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-//import * as $ from 'jquery';
+import * as $ from 'jquery';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -25,7 +24,7 @@ export class ProductListComponent implements OnInit {
   max: any;
   wishlist:any;
 
-  constructor(private route: Router,private wishlistservice: WishlistService ,private Service: ProductlistService, private activatedRoute: ActivatedRoute) { }
+  constructor(private route: Router, private Service: ProductlistService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
 
@@ -40,7 +39,7 @@ export class ProductListComponent implements OnInit {
       this.categoryName = paramsId.id;
     });
     this.GetProducts();
-    this.loadWishlist();
+    // this.loadWishlist();
   }
 
   GotoProductview(data: any) {
@@ -52,7 +51,7 @@ export class ProductListComponent implements OnInit {
     console.log(this.categoryName);
     let data =
     {
-      category_name: this.categoryName
+      search_key: this.categoryName
     }
     this.Service.GetProducts(data).subscribe((Products) => {
       this.ProductList = Products;
@@ -93,11 +92,6 @@ export class ProductListComponent implements OnInit {
     );
   }
 
-  loadWishlist(){
-    this.wishlistservice.getWishlist().subscribe(productIds =>{
-      this.wishlist = productIds
-    })
-  }
 
   AddToCart(form: NgForm, product: any) {
     console.log(form);

@@ -3,8 +3,8 @@
 </div>  <br>
 <nb-tabset>
     <nb-tab tabTitle="Product Information" [active]="IsProductInfo">
-       
-      
+
+
         <div id="" [formGroup]="productMasterFrom">
             <div class="row">
                 <div class="col-md-3">
@@ -53,10 +53,10 @@
             </div><br>
             <div class="row">
                 <div class="col-md-10">
-                    
+
                     <nb-card accent="info">
                         <nb-card-header>
-                            <b><u>Product Attribute's: </u>&nbsp; </b>            
+                            <b><u>Product Attribute's: </u>&nbsp; </b>
                             <input nbInput type="text" name="cst_atrribute_name"
                                 formControlName="atrributeNameFormControl" placeholder="Atrribute Name"
                                 value=" " />&nbsp;
@@ -80,24 +80,24 @@
                 <div class="col-md-12">
                     <nb-card accent="info">
                         <nb-card-header>
-                            <b><u>Product Packing Types: </u>&nbsp; </b>                                   
+                            <b><u>Product Packing Types: </u>&nbsp; </b>
                             <button nbButton (click)="add_types()" status="success">Add</button>
                         </nb-card-header>
                         <nb-card-body>
                             <!-- <input nbInput type="text" formControlName="productsListFormControl" (keypress)="product_open(product_dialog);"  /> -->
-                            <nb-list-item *ngFor="let type of product_packingtypes">                                                           
+                            <nb-list-item *ngFor="let type of product_packingtypes">
                                 <input nbInput type="text" name="{{type.qty}}" [(ngModel)]="type.qty" placeholder="Quantity"  [ngModelOptions]="{standalone: true}"
                                 value="{{type.qty}}" size="small" />&nbsp;
                                 <input nbInput type="text" name="{{type.unit}}" [(ngModel)]="type.unit" placeholder="Unit "  [ngModelOptions]="{standalone: true}"
-                                    value="{{type.unit}}" (keypress)="unit_open(unit_dialog,type)" size="small" />&nbsp;                                
+                                    value="{{type.unit}}" (keypress)="unit_open(unit_dialog,type)" size="small" />&nbsp;
                                 <input nbInput type="text" name="{{type.sell_price}}" [(ngModel)]="type.sell_price" placeholder="Sell Price"  [ngModelOptions]="{standalone: true}"
-                                value="{{type.sell_price}}" size="small" /> 
+                                value="{{type.sell_price}}" size="small" />
                                 <img src="{{type.bar_code}}" height="40" width="200" *ngIf="type.bar_code"/>
                                 &nbsp;
                                 <button nbButton size="small" status="danger"
                                     (click)="remove_types(type)"><b>X</b></button>
                             </nb-list-item>
-                        </nb-card-body>                       
+                        </nb-card-body>
                     </nb-card>
                 </div>
             </div>
@@ -105,8 +105,8 @@
                 <div class="col-md-12">
                     <nb-card accent="info">
                         <nb-card-header>
-                            <b><u>Product Image: </u>&nbsp; </b>                                   
-                            <input type="file" formControlName="image" multiple (change)="onFileChange($event, 'image');"/>           
+                            <b><u>Product Image: </u>&nbsp; </b>
+                            <input type="file" formControlName="image" multiple (change)="onFileChange($event, 'image');"/>
                         </nb-card-header>
                         <nb-card-body>
                             <div class="row">
@@ -121,23 +121,23 @@
                             </div>
                         </nb-card-body>
                     </nb-card>
-                </div>    
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
                     <button nbButton status="success" (click)="saveProduct();" >Save</button>&nbsp;&nbsp;
                     <!-- <button nbButton status="success" (click)="change_tab();" >Next</button>&nbsp;&nbsp; -->
-                    
+
                 </div>
             </div>
         </div>
-    </nb-tab>   
+    </nb-tab>
     <!-- <nb-tab tabTitle="Packing Types">
         <div class="row">
             <div class="col-md-10">
-                
-               
-              
+
+
+
             </div>
         </div>
         <div class="row">
@@ -150,7 +150,7 @@
         <form [formGroup]="imageForm" (ngSubmit)="onSubmit()">
             <div class="row">
                 <div class="col-md-4">
-                    <input type="file" formControlName="image" (change)="onFileChange($event, 'image');"/>           
+                    <input type="file" formControlName="image" (change)="onFileChange($event, 'image');"/>
                     <button type="submit">Submit</button>
                 </div>
             </div>
@@ -168,11 +168,11 @@
                 <div class="col-md-3">
                     <button nbButton status="success" (click)="saveProduct();" >Save</button>&nbsp;&nbsp;
                     <button nbButton status="success" (click)="change_tab();" >Back</button>&nbsp;&nbsp;
-                    
+
                 </div>
             </div>
         </form>
-        
+
     </nb-tab> -->
 </nb-tabset>
 

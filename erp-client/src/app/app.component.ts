@@ -16,12 +16,12 @@ export class AppComponent implements OnInit {
        link: '/'
       },
       {
-      title: 'Manage Store',
+      title: 'Admin',
       expanded: false,
       children: [
         {
           title: 'Store',
-          link: '', // goes into angular `routerLink`
+          link: 'ManageStoreList', // goes into angular `routerLink`
         },]
 
       },

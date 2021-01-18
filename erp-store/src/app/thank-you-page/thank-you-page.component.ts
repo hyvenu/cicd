@@ -10,13 +10,14 @@ export class ThankYouPageComponent implements OnInit {
   OrderId: any;
   error_flag: any;
 
-  constructor(private activatedRoute:ActivatedRoute) { }
+  constructor(private route:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(paramsId => {
-      this.OrderId = paramsId.order_number;
-      this.error_flag = paramsId.error;
-  });
+    console.log(this.error_flag);
+    this.OrderId = this.route.snapshot.queryParams["order_number"];
+    this.error_flag = this.route.snapshot.queryParams["error"];
+   
+     
   }
 
 }

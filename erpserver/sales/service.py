@@ -14,13 +14,13 @@ from security.models import CustomerAddress
 ORDER_STATUS_DICT = {
     '1': 'New Order',
     '2': 'Review',
-    '3': 'Confirmed',
+    '3': 'Confirm',
     '4': 'Packing',
     '5': 'Ready to Dispatch',
     '6': 'Dispatched',
     '7': 'Out For Delivery',
     '8': 'Delivered',
-    '9': 'Canceled',
+    '9': 'Cancel',
 }
 
 PAYMENT_METHOD_DICT = {

@@ -46,6 +46,7 @@ class PaymentService:
         payment = Payments(
                                 order_data = order_data,
                                 payment_date = timezone.now(),
+                                order_number = data['order_number'],
                           )
         payment.save()
         if response['status'] == 'created':
@@ -61,6 +62,6 @@ class PaymentService:
     def get_payment_data(self, order_number):
         payment_obj = Payments.objects.filter(order_number=order_number).all().values()
         if len(payment_obj) > 0:
-            return payment_obj
+            return list(payment_obj)
         else:
             return {}
