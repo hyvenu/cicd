@@ -19,8 +19,10 @@
             <div class="row">
                 <div class="col-md-4">
                     <label for="user">User </label>
-                    <input nbInput formControlName="userFormControl" name="user" value="{{login_user}}"
+                    <input nbInput *ngIf="!pr_id" formControlName="userFormControl" name="user" value="{{login_user}}"
                         placeholder="user" />
+                    <input nbInput *ngIf="pr_id" formControlName="userFormControl" name="user" value=""
+                        placeholder="user" [readonly]="true"  />
                 </div>
                 <div class="col-md-4">
                     <label for="department">Department </label>
@@ -30,6 +32,11 @@
                         </nb-option>
                     </nb-select>
                 </div>
+                <div class="col-md-4">
+                    <label for="status">PR Status </label>
+                    <input nbInput formControlName="statusFormControl" name="user" 
+                        placeholder="staus" [readonly]=true/>
+                </div>
             </div>
         </div><br>
 
@@ -37,9 +44,11 @@
             <nb-card accent="info">
                 <nb-card-header>Product Details</nb-card-header>
                 <nb-card-body>
-                    <button nbButton (click)="open(dialog);" status="success">Add</button><br>
+                    <button nbButton (click)="open(dialog);" status="success" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">Add</button> &nbsp;&nbsp;
+                    
                     <table class="table table-hovered">
                         <thead>
+                            <th></th>
                             <th>Product Code</th>
                             <th>Product Name</th>
                             <th>Description</th>
@@ -49,12 +58,13 @@
                             <th>Required Date</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of selected_product_list">
+                            <tr *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
+                                <td><button nbButton (click)="delete(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
                                 <td><input nbInput placeholder="" value={{item.product_code}}/></td>
                                 <td><input nbInput placeholder="" value={{item.product_name}}/></td>
                                 <td><input nbInput placeholder="description" [(ngModel)]="item.description"/></td>
-                                <td><input nbInput placeholder="store_name" value={{item.store_name}}/></td>
-                                <td><input nbInput placeholder="Quantity" value={{item.required_qty}}/></td>
+                                <td><input nbInput placeholder="store name" [(ngModel)]="item.store"/></td>
+                                <td><input nbInput placeholder="Quantity" [(ngModel)]="item.required_qty"/></td>
                                 <td><nb-select name="item.unit" [(selected)]="item.unit">
                                     <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                         {{ o.PrimaryUnit }}
@@ -76,9 +86,9 @@
         <div class="row"> 
 
                 <div class="col-md-6">
-                    <button nbButton status="success" (click)="savePR();" >Save</button>&nbsp;&nbsp;
-                    <button nbButton status="success" (click)="approvePR();" >Approve</button>&nbsp;&nbsp;
-                    <button nbButton status="danger" (click)="rejectPR();" >Reject</button>&nbsp;&nbsp;
+                    <button nbButton *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'" status="success" (click)="savePR();" >Save</button>&nbsp;&nbsp;
+                    <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL'" status="success" (click)="approvePR();" >Approve</button>&nbsp;&nbsp;
+                    <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL'" status="danger" (click)="rejectPR();" >Reject</button>&nbsp;&nbsp;
                 </div>
                 
 

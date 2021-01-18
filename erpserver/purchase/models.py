@@ -33,9 +33,10 @@ class PurchaseRequisitionProductList(AuditUuidModelMixin):
     description = models.CharField(max_length=100, default='')
     store = models.CharField(max_length=50, null=True)
     # store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="store_pr")
-    required_qty = models.ImageField(null=True, default=0)
+    required_qty = models.IntegerField(null=True, default=0)
     unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="purchase_requisition_unit")
     expected_date = models.DateField(null=True)
+    active = models.BooleanField(default=True)
 
     class Meta:
         pass

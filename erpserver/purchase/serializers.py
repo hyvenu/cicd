@@ -21,6 +21,7 @@ class PurchaseRequisitionProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PurchaseRequisitionProductList
         fields = [
+            'id'
             'pr_no_rf',
             'product',
             'product_code',
@@ -30,4 +31,5 @@ class PurchaseRequisitionProductListSerializer(serializers.ModelSerializer):
             'required_qty',
             'unit',
             'expected_date',
+            'active'
         ]
