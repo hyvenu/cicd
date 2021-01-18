@@ -31,3 +31,28 @@ class PurchaseRequisitionProductListSerializer(serializers.ModelSerializer):
             'unit',
             'expected_date',
         ]
+
+
+class POOrderRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.POOrderRequest
+        fields = [
+            'po_type',
+            'po_number',
+            'shipping_address',
+            'transport_type',
+            'vendor',
+            'payment_terms',
+            'other_reference',
+            'terms_of_delivery',
+            'note',
+            'sub_total',
+            'packing_perct',
+            'packing_amount',
+            'total_amount',
+            'sgst',
+            'cgst',
+            'igst',
+            'invoice_amount',
+            'terms_conditions',
+        ]

@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('store', '0004_auto_20210109_1547'),
-        ('inventory', '0017_auto_20210109_1547'),
+
     ]
 
     operations = [

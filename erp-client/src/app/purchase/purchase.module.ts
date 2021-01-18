@@ -18,6 +18,10 @@ import { ManageVendorComponent } from './manage-vendor/manage-vendor.component';
 import { VendorListComponent } from './vendor-list/vendor-list.component';
 import { PurchaseRequisitionComponent } from './purchase-requisition/purchase-requisition.component';
 import { PurchaseRequisitionListComponent } from './purchase-requisition-list/purchase-requisition-list.component';
+import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
+import { PurchaseOrderListComponent } from './purchase-order-list/purchase-order-list.component';
+import { MainPipe } from '../pipe.module';
+import { NbMomentDateModule } from '@nebular/moment';
 
 
 const routes: Routes = [
@@ -25,15 +29,17 @@ const routes: Routes = [
    { path: 'ManageVendortMaster' , component: VendorListComponent,canActivate:[AuthGuard]},
    { path: 'PurchaseRequisition' , component: PurchaseRequisitionComponent,canActivate:[AuthGuard]},
    { path: 'PurchaseRequisitionList' , component: PurchaseRequisitionListComponent,canActivate:[AuthGuard]},
+   { path: 'PurchaseOrder' , component: PurchaseOrderComponent,canActivate:[AuthGuard]},
 ];
 
 @NgModule({
-  declarations: [ManageVendorComponent,VendorListComponent, PurchaseRequisitionComponent, PurchaseRequisitionListComponent],
+  declarations: [ManageVendorComponent,VendorListComponent, PurchaseRequisitionComponent, PurchaseRequisitionListComponent, PurchaseOrderComponent, PurchaseOrderListComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forRoot(routes),
+    MainPipe.forRoot(),
     NbInputModule,
     NbLayoutModule,
     NbListModule,
@@ -46,6 +52,7 @@ const routes: Routes = [
     Ng2SmartTableModule,
     NbSelectModule,
     NbDatepickerModule,
+    NbMomentDateModule,
     ImageUploadModule.forRoot(),
   ]
 })
