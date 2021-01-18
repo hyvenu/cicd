@@ -1,15 +1,20 @@
+from io import BytesIO
+
+from django.core.files import File
 from django.db import transaction
 
 from inventory.models import ProductMaster, ProductSubCategory, ProductPriceMaster, ProductImages, ProductStock
 from sequences import get_next_value
 import ast
+import barcode
+from barcode.writer import ImageWriter
 
 
 class InventoryService:
 
     @classmethod
     def generate_product_code(cls, category, sub_category, brand):
-        prefix_code = category + '/' + sub_category + '/' + brand[:3]
+        prefix_code = category[:3] + '/' + sub_category[:3] + '/' + brand[:3]
         code = get_next_value(prefix_code)
         code = prefix_code + '/' + str(code)
         return code
@@ -51,6 +56,9 @@ class InventoryService:
                     price_obj = ProductPriceMaster.objects.get(id=packs['id'])
                 else:
                     price_obj = ProductPriceMaster()
+                    price_obj.product_identifier = str(get_next_value('product_identifier')).zfill(12)
+                    file_name = price_obj.product_identifier + '.png'
+                    price_obj.bar_code.save(file_name, File(cls.generate_bar_code(price_obj.product_identifier)), save=False)
                 price_obj.sell_price = packs['sell_price']
                 price_obj.unit_id = packs['unit_id']
                 price_obj.qty = packs['qty']
@@ -93,3 +101,13 @@ class InventoryService:
             return prod_stock
         else:
             return None
+
+    @classmethod
+    def generate_bar_code(cls, product_identifier):
+
+        EAN = barcode.get_barcode_class('ean13')
+        ean = EAN(f'{product_identifier}', writer=ImageWriter())
+        buffer = BytesIO()
+        ean.write(buffer)
+        return buffer
+

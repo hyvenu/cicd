@@ -16,6 +16,10 @@ import { ProductViewComponent } from './product-view/product-view.component';
 import { CheckOutProductsComponent } from './check-out-products/check-out-products.component';
 import { JwtInterceptor } from './shared/jwt.interceptor';
 import { CartComponent } from './cart/cart.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component';
+import { PaymentsComponent } from './check-out-products/payments/payments.component';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +29,8 @@ import { CartComponent } from './cart/cart.component';
     ProductListComponent,
     CheckOutProductsComponent,
     CartComponent,
+    ThankYouPageComponent,
+    PaymentsComponent,
 
   ],
   imports: [
@@ -41,6 +47,7 @@ import { CartComponent } from './cart/cart.component';
     HttpClientModule,
     FlexLayoutModule,
     MatCardModule,
+    MatCheckboxModule,
   ],
   providers: [
     {

@@ -38,6 +38,7 @@ class ProductPriceMasterSerializer(serializers.ModelSerializer):
             "tax",
             "qty",
             "id",
+            "bar_code"
         ]
 
 class ProductBrandMasterSerializer(serializers.ModelSerializer):
@@ -60,6 +61,7 @@ class ProductSubCategorySerializer(serializers.ModelSerializer):
             "sub_category_name",
             "sub_category_code",
             "sub_category_image",
+            "description",
             "category",
             "id",
         ]

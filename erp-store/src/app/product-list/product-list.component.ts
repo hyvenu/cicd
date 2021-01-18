@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { from } from 'rxjs';
-import { Product } from '../models';
+//import * as $ from 'jquery';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-list',
@@ -14,50 +14,81 @@ import { Product } from '../models';
 })
 export class ProductListComponent implements OnInit {
 
-  BaseUrl = environment.BASE_SERVICE_URL+'/';
-  ProductList:any[]=[];
-  categoryName:any;
-  CartForm:FormGroup;
-  product : Product;
-  addedToWishlist: boolean = false;
-  wishlist:any[]=[]
+  BaseUrl = environment.BASE_SERVICE_URL + '/';
+  ProductList: any[] = [];
+  categoryName: any;
+  CartForm: FormGroup;
+  FilterList: any[] = [];
+  FilteredList: any[] = [];
+  Filters = new Set();
+  min: any;
+  max: any;
+  wishlist:any;
 
-  
-
-  constructor(private route:Router, private Service:ProductlistService, private activatedRoute:ActivatedRoute,private wishlistservice:WishlistService ) { }
+  constructor(private route: Router,private wishlistservice: WishlistService ,private Service: ProductlistService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
 
     this.CartForm = new FormGroup(
       {
-        'Quantity' :new FormControl(null,Validators.required),
-        'packingType' : new FormControl(null,Validators.required)
+        'Quantity': new FormControl(null, Validators.required),
+        'packingType': new FormControl(null, Validators.required)
       }
     );
 
     this.activatedRoute.params.subscribe(paramsId => {
       this.categoryName = paramsId.id;
-  });
-  this.GetCategories();
-  this.loadWishlist();
+    });
+    this.GetProducts();
+    this.loadWishlist();
   }
 
-  GotoProductview(data:any)
-  {
-    let routeTo = "productview/"+data;
+  GotoProductview(data: any) {
+    let routeTo = "productview/" + data;
     this.route.navigate([routeTo]);
   }
 
-  GetCategories()
-  {
+  GetProducts() {
+    console.log(this.categoryName);
     let data =
     {
-      category_name:this.categoryName
+      category_name: this.categoryName
     }
-    this.Service.GetProducts(data).subscribe((Products)=>
-    {
-      console.log(Products);
-      this.ProductList =Products;
+    this.Service.GetProducts(data).subscribe((Products) => {
+      this.ProductList = Products;
+      this.FilteredList = Products;
+
+      let subcategories = new Set();
+      let Brands = new Set();
+
+      for (let i = 0; i < Products.length; i++) {
+        let subcategoryname = Products[i].sub_category__sub_category_name;
+        let brandname = Products[i].brand__brand_name;
+        if (!subcategories.has(subcategoryname)) {
+          subcategories.add(subcategoryname);
+        }
+        if (!Brands.has(brandname)) {
+          Brands.add(brandname);
+        }
+
+      }
+
+      let categorydata =
+      {
+        header: "Categories",
+        filters: Array.from(subcategories)
+      };
+      let branddata =
+      {
+        header: "Brands",
+        filters: Array.from(Brands)
+      };
+
+      this.FilterList.push(categorydata);
+      this.FilterList.push(branddata);
+
+      console.log(this.FilterList);
+
     }
     );
   }
@@ -68,50 +99,114 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  AddToCart(form:NgForm,product:any)
-  {
+  AddToCart(form: NgForm, product: any) {
     console.log(form);
-    if(form.valid)
-    {
+    if (sessionStorage.getItem('user_id')) {
+      if (form.valid) {
 
-      let user_id = sessionStorage.getItem("user_id");
-      let price = product.price.filter(t=>t.id ===form.controls['packingType'].value)[0].sell_price;
-      var Cart=
-      {
-        product_id:product.id,
-        user_id:user_id,
-        qty:form.controls['Quantity'].value,
-        pack_unit_id:form.controls['packingType'].value,
-        unit_price:price
+        let user_id = sessionStorage.getItem("user_id");
+        let price = product.price.filter(t => t.id === form.controls['packingType'].value)[0].sell_price;
+        let Cart =
+        {
+          product_id: product.id,
+          user_id: user_id,
+          qty: form.controls['Quantity'].value,
+          pack_unit_id: form.controls['packingType'].value,
+          unit_price: price
+        }
+        this.Service.AddToCart(Cart).subscribe((data) => {
+          console.log(data);
+        });
       }
-      this.Service.AddToCart(Cart).subscribe((data)=>
-      {
-        console.log(data);
-      });
+    }else{
+      this.route.navigate(['Login']);
     }
-    
   }
 
-  AddToWishlist(Product){
-    this.wishlistservice.addToWishlist(Product.id).subscribe(() =>{
-      this.ngOnInit();
-    })
+  FilterData(type: any, filter: any) {
+    let data = type + "," + filter;
+    if (this.Filters.has(data)) {
+      this.Filters.delete(data);
+    }
+    else {
+      this.Filters.add(data);
+    }
+
+    this.Filter();
+
   }
 
-  RemoveFromWishlist(Product){
-    this.wishlistservice.removeFromWishlist(Product.id).subscribe(() =>{
-      this.ngOnInit();
-    })
+  PriceFilter(data: any, type: any) {
+    if (type == "min") {
+      this.min = data;
+    }
+    else {
+      this.max = data;
+    }
+
+    this.Filter();
+
   }
 
-  check_wishlist(product_id){
-     let data = this.wishlist.filter(id => id == product_id)
-     if (data.length){
-       return true;
-     }else{
-       return false;
-     }
-     
+
+  Filter() {
+
+
+    let ProductList = this.ProductList;
+
+    //filter price
+    if (this.min != null && this.max != null) {
+      ProductList = ProductList.filter(data => data.price.filter(data1 => Number(data1.sell_price) >= this.min && Number(data1.sell_price) <= this.max).length > 0);
+    }
+    else if (this.min != null) {
+      ProductList = ProductList.filter(data => data.price.filter(data1 => Number(data1.sell_price) >= this.min).length > 0);
+    }
+    else if (this.max != null) {
+      ProductList = ProductList.filter(data => data.price.filter(data1 => Number(data1.sell_price) <= this.max).length > 0);
+
+    }
+
+    //filter category and brand
+
+    if (ProductList.length > 0) {
+      for (let elements of this.Filters) {
+        if (ProductList.length > 0) {
+          let list = elements.toString().split(",");
+          if (list[0] == "Categories") {
+            ProductList = ProductList.filter(data => data.sub_category__sub_category_name == list[1]);
+          }
+          else {
+            ProductList = ProductList.filter(data => data.brand__brand_name == list[1]);
+          }
+        }
+        // console.log(ProductList);
+      }
+    }
+    this.FilteredList = ProductList;
+
+  }
+
+  AddToWishlist(product) {
+    let data = {
+      product_id: product.id
+    }
+    this.Service.AddToWishList(data).subscribe(
+      (data) => {
+        product.wish_list_flag = 1
+      }
+    )
+  }
+
+
+  RemoveFromWishlist(product) {
+    let data = {
+      product_id: product.id
+    }
+    this.Service.RemoveWishList(data).subscribe(
+      (data) => {
+        product.wish_list_flag = 0
+      }
+    )
   }
 
 

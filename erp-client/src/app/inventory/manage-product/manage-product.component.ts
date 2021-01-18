@@ -108,6 +108,7 @@ export class ManageProductComponent implements OnInit {
                   qty: element.qty,
                   unit:element.unit.PrimaryUnit,
                   sell_price:element.sell_price,
+                  bar_code: element.bar_code,
                 }
               )
             });

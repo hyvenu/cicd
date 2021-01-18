@@ -45,15 +45,15 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'django_tables2',
     'sequences.apps.SequencesConfig',
-    'viewflow',
+    # 'viewflow',
     'crispy_forms',
     'security',
     'store',
     'inventory',
     'ecommerce',
-    'orders',
-
+    'sales',
     'vendor',
+    'engine',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -219,3 +219,6 @@ STATICFILES_FINDERS = (
 )
 
 BREADCRUMBS_HOME_LABEL = 'Home'
+
+RAZOR_PAY_KEY_ID = 'rzp_test_veBhpMqs1IlGQO'
+RAZOR_PAY_KEY_SECRET = 'g5N8rMiSdDUV20pxKZwmkFyx'

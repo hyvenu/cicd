@@ -9,9 +9,11 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SharedModule } from './shared/shared.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { SalesModule } from './sales/sales.module';
+import { PurchaseModule } from './purchase/purchase.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/jwt.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MainPipe } from './pipe.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -21,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     BrowserAnimationsModule,
     NbThemeModule.forRoot({ name: 'default' }),
+    MainPipe.forRoot(),
     NbLayoutModule,
     NbEvaIconsModule,
     FormsModule,
@@ -28,11 +31,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     InventoryModule,
     SalesModule,
+    PurchaseModule,
     HttpClientModule,
     NbToastrModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbSelectModule,
+    
   ],
   providers: [
     {

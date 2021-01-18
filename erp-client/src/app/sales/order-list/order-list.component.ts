@@ -28,13 +28,13 @@ export class OrderListComponent implements OnInit {
         title: 'Order Number',        
         type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="OrderView?id=${row.id}">${row.id}</a>`;
+          return `<a href="OrderView?id=${row.id}">${row.order_number}</a>`;
         }
       },
       order_raised_date:{
         title:'Order Raised Date'
       },
-      order_status: {
+      order_status_text: {
         title:'Order Status'
       },
       customer__first_name: {
@@ -65,8 +65,8 @@ export class OrderListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    this.orderService.getOrderList().subscribe(
+    const order_data  = { 'order_status': '1'}
+    this.orderService.getOrderList(order_data).subscribe(
       (data) => {
           this.data = data;
       },

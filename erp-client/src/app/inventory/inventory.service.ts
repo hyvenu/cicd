@@ -79,18 +79,4 @@ export class InventoryService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductImage/?product_id=${product_id}`)
   }
 
-  public saveVendor(data) {
-    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_vendor/api/v1/VendorMaster/`, data)
-  }
-  public getVendorList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_vendor/api/v1/VendorMaster/`)
-  }
-
-  public getVendor(id) {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_vendor/api/v1/VendorMaster/` + id + '/')
-  }
-
-  public getVendorCode(data) {
-    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_vendor/api/v1/get_vendor_code`, data)
-  }
 }

@@ -10,6 +10,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { StoreSelectComponent } from './store-select/store-select.component';
 import { AuthGuard } from './auth.gaurd';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SearchPipe } from '../search.pipe';
 
 
 

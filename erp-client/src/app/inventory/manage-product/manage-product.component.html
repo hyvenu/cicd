@@ -92,6 +92,7 @@
                                     value="{{type.unit}}" (keypress)="unit_open(unit_dialog,type)" size="small" />&nbsp;                                
                                 <input nbInput type="text" name="{{type.sell_price}}" [(ngModel)]="type.sell_price" placeholder="Sell Price"  [ngModelOptions]="{standalone: true}"
                                 value="{{type.sell_price}}" size="small" /> 
+                                <img src="{{type.bar_code}}" height="40" width="200" *ngIf="type.bar_code"/>
                                 &nbsp;
                                 <button nbButton size="small" status="danger"
                                     (click)="remove_types(type)"><b>X</b></button>
@@ -197,7 +198,7 @@
         <nb-card-header>Sub Category List<input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchSubCategory" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data | search:'sub_category_name':searchSubCategory ">
+                <nb-list-item *ngFor="let item of data | search_filter:'sub_category_name':searchSubCategory ">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.sub_category_name }} - {{item.sub_category_code }}</i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
@@ -214,7 +215,7 @@
         <nb-card-header>Brand List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchBrand" /></nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item size="small" *ngFor="let item of data| search:'brand_name':searchBrand ">
+                <nb-list-item size="small" *ngFor="let item of data| search_filter:'brand_name':searchBrand ">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.brand_name }} </i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>

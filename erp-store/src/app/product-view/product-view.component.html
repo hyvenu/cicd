@@ -28,17 +28,21 @@
         <div fxFlex="60" fxFlex.xs="45">
             <h2>{{Product.product_name}}</h2>
 
-            <form [formGroup]="CartForm" (ngSubmit)="AddToCart(Product)">
-                <div class="form-group" id="inputDiv">
-                    <input type="number" min="1" class="form-control" id="exampleFormControlInput1" formControlName="Quantity" placeholder="Quantity" required> &nbsp;
-                    <select class="form-control" id="exampleFormControlSelect1" formControlName="packingType" required>
-                    <option *ngFor="let packingType of Product.price; let i = index"  value={{packingType}}  [attr.selected]="i == 0">
-                      {{packingType.qty+" "+packingType.unit__PrimaryUnit+" - "+packingType.sell_price}}
-                    </option>
-                  </select>
-                </div>
+            <form #crf="ngForm" (ngSubmit)="AddToCart(crf,Product)">
+                <div id="inputDiv">
+                    <div class="form-group">
+                        <select class="form-control" id="FormControlSelect" name="packingType" ngModel required>
+<option *ngFor="let packingType of Product.price; let i = index"  value={{packingType.id}}  [attr.selected]="i == 0">
+{{packingType.qty+" "+packingType.unit__PrimaryUnit+" - "+packingType.sell_price }}
+</option>
+</select>
+                    </div>
+                    <div class="form-group" style="display: flex;">
+                        <input type="number" min="1" class="form-control" id="exampleFormControlInput1" name="Quantity" placeholder="Quantity" ngModel required> &nbsp;
+                        <button type="submit" class="btn btn-outline-primary btn-sm" style="width: -webkit-fill-available;">Add to cart</button>
 
-                <button type="submit" class="btn btn-outline-primary btn-sm">Add to cart</button>
+                    </div>
+                </div>
 
             </form>
 

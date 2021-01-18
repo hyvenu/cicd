@@ -22,3 +22,9 @@ class Cart(AuditUuidModelMixin):
         pass
 
 
+class WishList(AuditUuidModelMixin):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wish_list")
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="wish_product")
+
+    class Meta:
+        pass
