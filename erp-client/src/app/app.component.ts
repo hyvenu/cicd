@@ -65,6 +65,10 @@ export class AppComponent implements OnInit {
               title: 'Purchase Requisition',
               link: 'PurchaseRequisitionList', // goes into angular `routerLink`
             },
+            {
+              title: 'Purchase Order',
+              link: 'PurchaseOrder', // goes into angular `routerLink`
+            },
           ]
 
         },

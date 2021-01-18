@@ -13,7 +13,6 @@ import django_revision.revision_field
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inventory', '0022_auto_20210110_1608'),
         ('store', '0004_auto_20210109_1547'),
         ('purchase', '0002_purchaserequisition_dept'),
     ]
