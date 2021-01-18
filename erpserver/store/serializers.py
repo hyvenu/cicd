@@ -26,3 +26,22 @@ class StoreUserSerializer(serializers.ModelSerializer):
             "user",
             "store",
         ]
+
+class AppSettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.AppSettings
+        fields = [
+            'app_key',
+            'app_value',
+        ]
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Department
+        fields = [
+            'id',
+            'department_id',
+            'department_name',
+        ]
+

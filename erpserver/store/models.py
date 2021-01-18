@@ -40,3 +40,14 @@ class StoreUser(AuditUuidModelMixin):
 class AppSettings(AuditUuidModelMixin):
     app_key = models.CharField(max_length=50)
     app_value = models.CharField(max_length=1000)
+
+    class Meta:
+        pass
+
+
+class Department(AuditUuidModelMixin):
+    department_id = models.CharField(max_length=30)
+    department_name = models.CharField(max_length=100)
+
+    class Meta:
+        pass
