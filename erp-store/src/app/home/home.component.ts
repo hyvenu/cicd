@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+  FilterList:any[]=[];
   CategoryList:any;
   BaseUrl=environment.BASE_SERVICE_URL+'/';
 
@@ -51,31 +51,53 @@ export class HomeComponent implements OnInit {
       for(let i=0;i<categories.length;i++)
       {
 
+
         this.Service.GetSubcategories().subscribe((subcategories)=>
         {
-          console.log(subcategories);
+
+          var subcatagorydata = [];
           //console.log(data[0].product_code);
           let subcatagorylist =[];
           let j = 0;
-          while(subcatagorylist.length <=4 && j != subcategories.length)
+          while( j != subcategories.length)
           {
+
             if(categories[i].category_name == subcategories[j].category__category_name)
             {
+              var subcategory =
+              {
+                sub_category_name: subcategories[j].sub_category_name
+              };
+
+              subcatagorydata.push(subcategory);
+              //subcategrylist.push(subcategories[j].sub_category_name)
+              if(subcatagorylist.length <=4)
+              {
+
               subcategories[j].category_image = categories[i].category_image;
               subcatagorylist.push(subcategories[j]);
+              }
             }
             j+=1;
           }
 
+          var categorylist =
+          {
+            category: categories[i].category_name,
+            subcategory:subcatagorydata
+          };
+          console.log(categorylist);
           categories[i].Subcatogories = subcatagorylist;
+          this.FilterList.push(categorylist)
 
         },(error)=>
         {
           console.log(error);
         });
+
       }
       this.CategoryList = categories;
-      console.log(categories);
+      console.log(this.FilterList);
 
     },(error)=>
     {
