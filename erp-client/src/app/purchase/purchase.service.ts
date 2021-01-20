@@ -34,7 +34,15 @@ export class PurchaseService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/save_pr`, data)
   }
   public approvePR(data) {
-    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/save_pr`, data)
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/approve_pr`, data)
+  }
+
+  public rejectPR(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/reject_pr`, data)
+  }
+
+  public deleteProductFromPR(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/delete_prpl`, data)
   }
   
   public getPRList() {
