@@ -29,7 +29,8 @@ export class HeaderComponent implements OnInit {
       )
       .subscribe(title => 
         {
-          if (title == 'Log Out'){
+          console.log(title);
+          if (title == 'Log out'){
             this.logout();
           }
         });
@@ -55,6 +56,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.sharedservice.logout();
+    
   }
 
 }

@@ -40,6 +40,7 @@ export class PurchaseOrderComponent implements OnInit {
   dailog_ref: any;
   product_list: [];
   unit_list: [];
+  total_amount: number;
 
 
 
@@ -138,12 +139,23 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   calculate_sub_total(item): any {
-    console.log(item);
+    
       if(item.unit_price > 0 && item.qty > 0){
         item.amount = (item.unit_price * item.qty) * 1.00
-        item.discount_amount = item.amount - ((item.amount * item.discount) / 100.00)
+        item.discount_amount = ((item.amount * item.discount) / 100.00)
         item.gst_amount = item.amount + ((item.amount * item.gst) / 100.00)
+        this.calculate_total();
       }
+      
+  }
+
+  calculate_total(): any {
+    this.total_amount = 0;
+    console.log(this.selected_product_list);
+    this.selected_product_list.forEach(element => {
+      this.total_amount = this.total_amount + (element.amount - element.discount_amount)
+    });
+    
   }
 
 }

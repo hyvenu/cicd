@@ -28,7 +28,7 @@ export class StoreSelectComponent implements OnInit {
   selected_store(store): any {
     sessionStorage.setItem('store_name',store.store_name);
     sessionStorage.setItem('store_city',store.city);
-    sessionStorage.setItem('store_id',store.store_id);
+    sessionStorage.setItem('store_id',store.id);
     this.router.navigate(["/"]);
 
 

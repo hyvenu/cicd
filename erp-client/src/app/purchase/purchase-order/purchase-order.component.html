@@ -125,11 +125,29 @@
                         </tr>
                         
                     </tbody>
-                    <tfoot>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                    </tfoot>
+  
                 </table>
-            </nb-card-body>    
+            </nb-card-body>
+            <nb-card-footer>
+                <table class="table table-hovered">
+                    <thead>
+                        <th>Sub Total Amount</th>
+                        <th></th>
+                        <th>Packing %</th>
+                        <th>Packing Amount</th>
+                        <th>Total Order Value</th>
+                        <th>SGST</th>
+                        <th>CGST</th>
+                        <th>IGST</th>
+                        <th>Total Invoice Value</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ total_amount | currency:'INR' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </nb-card-footer>   
         </nb-card>
         <nb-card accent="info">
             <nb-card-header>PO Summary</nb-card-header>
