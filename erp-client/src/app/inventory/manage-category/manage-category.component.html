@@ -28,7 +28,8 @@
         <nb-card-body>
             <nb-list-item *ngFor="let category of categories | search_filter:'category_name':searchCategory">
                 <i class="mr-auto mt-2 mt-lg-0">{{ category.category_code }} - {{ category.category_name }} - {{category.description }}</i>
-                <button nbButton size="small" (click)="selected_category(category)" >Select</button><button class="remove-from-category" nbButton size="small"  href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="fa fa-trash"></i></button>
+                <button nbButton size="small" (click)="selected_category(category)" >Select</button>
+                <!-- <button class="remove-from-category" nbButton size="small"  href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="fa fa-trash"></i></button> -->
             </nb-list-item>
         </nb-card-body>
     </nb-card>
