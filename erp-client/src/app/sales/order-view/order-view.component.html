@@ -34,11 +34,26 @@
                 <h6 style="color: brown;">Order Status : {{ order_data.order_status_text }}</h6> 
             </div>
             <div class="col-md-1" *ngFor="let status of order_data.order_flow">
-                <button nbButton status="success" size="small">{{status.text}}</button>
+                <button nbButton status="success" size="small" (click)="updateOrderStatus(status.order_status)">{{status.text}}</button>
             </div>
         </div>
     </nb-card-footer>
 </nb-card>
+
+</div>
+<div class="row">
+    <nb-card accent="info">
+        <nb-card-header>Payment Information</nb-card-header>
+        <nb-card-body>
+            <nb-list *ngFor="let item of order_data.payment_data" >
+                <!-- <nb-list-item>Payment Status :   {{item.payment_status}}</nb-list-item> -->
+                <nb-list-item>Payment Date :   {{item.payment_date}}</nb-list-item>
+                <nb-list-item>Payment Verified :   {{item.payment_verified === true?'Payment Verified':'Not Verified'}}</nb-list-item>
+            </nb-list>
+            
+            
+        </nb-card-body>
+    </nb-card>
 </div>
 <div class="row">
 <nb-card accent="info">

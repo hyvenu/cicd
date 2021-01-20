@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
 
   isAuthenticated = false;
   userSub:Subscription;
+  first_name: string;
 
   constructor(private sharedservice:SharedService,private route:Router) { }
 
@@ -34,12 +35,14 @@ export class HeaderComponent implements OnInit {
     //       this.isAuthenticated = this.sharedservice.checkLogin();
     //     });
     // }
+    this.first_name = sessionStorage.getItem('first_name');
   }
 
   logout()
   {
     this.sharedservice.logout();
     sessionStorage.clear();
+    window.location.href="Home";
   }
 
   Search(data:any)

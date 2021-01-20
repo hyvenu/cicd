@@ -102,11 +102,16 @@ export class CheckOutProductsComponent implements OnInit {
       delivery_method:form.controls["DeliveryMethod"].value,
      }
 
-     this.Service.CheckOut(data).subscribe((data:any)=>
-  {
-    this.route.navigate(['thankyou/'+data]);
+     this.Service.CheckOut(data).subscribe((res)=>
+      {
+        if (data.payment_method == 1) {
+          this.route.navigateByUrl('OrderSummary?error=false&order_number='+res.order_number);
+        }else{
+          this.route.navigateByUrl('payment?order_id='+res.payment_order_id + '&amount='+res.amount + '&order_number='+res.order_number);
+        }
+        
 
-  });
+      });
 }
 
 

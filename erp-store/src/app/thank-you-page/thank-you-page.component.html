@@ -1,6 +1,15 @@
-<div class="jumbotron text-center">
+<div class="jumbotron text-center" *ngIf="error_flag === 'false' ">
     <h1 class="display-3">Thank You!</h1>
-    <p class="lead"> Your order has been received. Your order id is <strong>{{OrderId}}</strong></p>
+    <p class="lead"> Your order has been received successfully. Your order id is <strong>{{OrderId}}</strong></p>
+    <hr>
+    <p class="lead">
+        <a class="btn btn-primary btn-sm" href="/" role="button">Continue Shopping</a>
+    </p>
+</div>
+<div class="jumbotron text-center" *ngIf="error_flag === 'true' ">
+    <h1 class="display-3">Payment was un-successfull</h1>
+    <p class="lead"> But your order has been received. Your order id is <strong>{{OrderId}}</strong></p>
+    <p> Please try  again later  </p>
     <hr>
     <p class="lead">
         <a class="btn btn-primary btn-sm" href="/" role="button">Continue Shopping</a>

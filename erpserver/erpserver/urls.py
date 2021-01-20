@@ -21,9 +21,9 @@ from django.conf.urls.static import static
 from erpserver import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url('accounts/', include('django.contrib.auth.urls')),
-    url('logout/', views.user_logout, name='user_logout'),
+    # url(r'^$', views.index, name='index'),
+    # url('accounts/', include('django.contrib.auth.urls')),
+    # url('logout/', views.user_logout, name='user_logout'),
     path('admin/', admin.site.urls),
     url('authentication/', include('security.urls')),
     url('manage_store/', include('store.urls')),
@@ -31,5 +31,6 @@ urlpatterns = [
     url('manage_vendor/', include('vendor.urls')),
     url('ecom/', include('ecommerce.urls')),
     url('manage_sales/', include('sales.urls')),
+    url('manage_purchase/', include('purchase.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

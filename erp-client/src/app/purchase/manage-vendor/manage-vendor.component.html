@@ -1,5 +1,5 @@
 <div class="row">
-    <a nbButton href="ManageVendorList" status="success" size="small" >Back to Vendor List </a>
+    <a nbButton [routerLink]="['/ManageVendortMaster']" status="success" size="small" >Back to Vendor List </a>
 </div>  <br>
 <nb-tabset>
     <nb-tab tabTitle="Vendor Information" [active]="IsVendorInfo">
@@ -11,7 +11,7 @@
                     <input nbInput formControlName="vendorCodeFormControl" name="vendorCode"
                         placeholder="Vendor Code " [readonly]="true"                        />
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label for="vendorName">Farmer/Company name </label>
                     <input nbInput formControlName="vendorNameFormControl" name="vendorName"
                         placeholder="Vendor Name" />
@@ -32,10 +32,13 @@
                     <input nbInput formControlName="vendorStateCodeFormControl" name="vendorStateCode"
                         placeholder="State Code " />
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="vendorStateName">State </label>
                     <input nbInput formControlName="vendorStateNameFormControl" name="vendorStateName"
                         placeholder="State" />
+                </div>
+                <div class="col-md-2">
+
                 </div>
                 <div class="col-md-3">
                     <label for="vendorRegion">Region </label>
@@ -44,12 +47,13 @@
             </div><br>
 
             <div class="row">
-                <div class="col-md-3">
-                    <label for="vendorAddress">Address</label>
-                </div>
+            <div class="col-md-4">
+                   <label><u>Address</u></label>
+            </div>
+
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <label for="corporateOffice">Corporate Office</label>
                     <textarea nbInput formControlName="corporateOfficeFormControl" name="corporateOffice"
                         placeholder="Corporate Office"></textarea>
@@ -69,23 +73,28 @@
             </div><br>
 
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-3">
                     <label for="vendorPanNo">Company Pan/ Indiviudual Pan</label>
                     <input nbInput formControlName="vendorPanNo" name="vendorPanNo" placeholder="Pan Number" />
+                </div>
+                <div class="col-md-3">
                     <input type="file" formControlName="imageVendorPanNo" multiple
                         (change)="onFileChangePan($event, 'image');" />
                 </div>
             </div><br>
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-3">
                     <label for="vendorAadharNo">Aadhar Number</label>
                     <input nbInput formControlName="vendorAadharNo" name="vendorAadharNo" placeholder="Aadhar Number" />
                 </div>
+
             </div><br>
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-3">
                     <label for="vendorGSTNo">GST Number</label>
                     <input nbInput formControlName="vendorGSTNo" name="vendorGSTNo" placeholder="GST Number" />
+                </div>
+                <div class="col-md-3">
                     <input type="file" formControlName="imageVendorGSTNo" multiple
                         (change)="onFileChangeGst($event, 'image');" />
                 </div>
@@ -252,7 +261,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <button nbButton status="success" (click)="saveProduct();" >Save</button>&nbsp;&nbsp;
-                    
+
                 </div>
             </div>
         </div>

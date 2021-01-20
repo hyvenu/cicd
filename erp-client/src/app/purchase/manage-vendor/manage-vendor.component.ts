@@ -91,11 +91,7 @@ export class ManageVendorComponent implements OnInit {
       // this.selectedOption = this.options[1];
       // this.paymentTermsSelected = this.paymentTermsOption[0];
       // this.creditDaysSelected = this.creditDaysOption[0];
-      this.routes.events.subscribe((e) => {
-        if (e instanceof NavigationEnd) {
-            
-        }
-     });
+      
      }
 
      onVendorTypeChange(event) {
@@ -222,22 +218,6 @@ export class ManageVendorComponent implements OnInit {
           this.vendorMasterForm.controls['accountNumberFormControl'].setValue(data.account_no);
           this.vendorMasterForm.controls['beneficiaryNameFormControl'].setValue(data.beneficiary_name);
 
-          // this.selected_category = data.category;
-          // this.selected_sub_ategory = data.sub_category;
-          // this.selected_brand = data.brand;
-          // this.product_id = data.id;
-          // this.image_list = data.product_images
-
-          // data.product_price.forEach(element => {
-          //   this.product_packingtypes.push(
-          //     {
-          //       id: element.id,
-          //       unit_id:element.unit.id,
-          //       qty: element.qty,
-          //       unit:element.unit.PrimaryUnit,
-          //       sell_price:element.sell_price,
-          //     }
-          //   )
           });
         }
       
