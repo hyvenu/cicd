@@ -22,3 +22,9 @@ class StoreUserViewSet(viewsets.ModelViewSet):
             return models.StoreUser.objects.all()
         else:
             return models.StoreUser.objects.filter(user_id=self.request.user.id).all()
+
+
+class DepartmentViewSet(viewsets.ModelViewSet):
+
+    queryset = models.Department.objects.all()
+    serializer_class = serializers.DepartmentSerializer

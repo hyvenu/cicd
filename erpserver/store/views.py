@@ -16,7 +16,7 @@ from .models import StoreUser
 from .service import StoreService
 
 
-class StoreListView(LoginRequiredMixin,PermissionRequiredMixin,generic.ListView):
+class StoreListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     permission_required = ('store.view_store',)
     permission_denied_message = "Access not provided"
     model = models.Store
@@ -24,14 +24,13 @@ class StoreListView(LoginRequiredMixin,PermissionRequiredMixin,generic.ListView)
     template_name = 'store_list.html'
 
 
-
-class StoreCreateView(PermissionRequiredMixin,LoginRequiredMixin,generic.CreateView):
+class StoreCreateView(PermissionRequiredMixin, LoginRequiredMixin, generic.CreateView):
     model = models.Store
     permission_required = ('store.add_store',)
 
     def get(self, request, *args, **kwargs):
         context = {'form': forms.StoreForm}
-        return render(request, template_name='form_store.html',context=context)
+        return render(request, template_name='form_store.html', context=context)
 
     def post(self, request, *args, **kwargs):
         form = forms.StoreForm(request.POST or None)
@@ -39,17 +38,18 @@ class StoreCreateView(PermissionRequiredMixin,LoginRequiredMixin,generic.CreateV
             store = form.save()
             store.save()
             messages.success(request, 'Form submission successful')
-            return  HttpResponseRedirect(reverse_lazy('Store_create',args=[]))
-        return render(request,'form_store.html', {'form': form})
+            return HttpResponseRedirect(reverse_lazy('Store_create', args=[]))
+        return render(request, 'form_store.html', {'form': form})
 
 
-class StoreDetailView(LoginRequiredMixin,PermissionRequiredMixin, generic.DetailView):
+class StoreDetailView(LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView):
     permission_required = ('store.view_store',)
     model = models.Store
     form_class = forms.StoreForm
     template_name = 'store_detail.html'
 
-class StoreUpdateView(LoginRequiredMixin,PermissionRequiredMixin, generic.UpdateView):
+
+class StoreUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = models.Store
     permission_required = ('store.change_store',)
     form_class = forms.StoreForm
@@ -60,8 +60,7 @@ class StoreUpdateView(LoginRequiredMixin,PermissionRequiredMixin, generic.Update
         return reverse_lazy('store_list')
 
 
-
-class StoreSelectView(LoginRequiredMixin,View):
+class StoreSelectView(LoginRequiredMixin, View):
     form_class = forms.StoreForm
     template_name = 'store_select.html'
     store_service = StoreService()
@@ -82,3 +81,5 @@ class StoreSelectView(LoginRequiredMixin,View):
         return HttpResponseRedirect(reverse_lazy('store_select'))
 
 
+class DepartmentView(LoginRequiredMixin, View):
+    model = models.Department
