@@ -299,6 +299,7 @@ export class ManageProductComponent implements OnInit {
     this.inventoryService.saveProduct(formData).subscribe(
       (data) => {
         this.nbtoastService.success("Product Saved Successfully")
+        this.imgSrc=null;
         this.ngOnInit();
       },
       (error) =>{

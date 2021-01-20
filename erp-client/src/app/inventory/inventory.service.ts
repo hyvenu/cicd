@@ -22,6 +22,10 @@ export class InventoryService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/`, data)
   }
 
+  public removeFromCategory(data){
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/`, data)
+  }
+
   public updateCategory(id,data) {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/` + id + '/', data)
   }

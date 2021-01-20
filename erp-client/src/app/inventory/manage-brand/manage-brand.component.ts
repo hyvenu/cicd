@@ -86,6 +86,7 @@ export class ManageBrandComponent implements OnInit {
       this.inventoryService.saveBrand(data).subscribe(
         (data) => {
           this.nbtoastService.success("Saved Successfully");
+          this.brand_image=null;
           this.ngOnInit();
         },
         (error) =>{

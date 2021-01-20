@@ -1,5 +1,5 @@
-import { Optional, Pipe, PipeTransform, TemplateRef, ViewChild } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Optional, Pipe, PipeTransform, TemplateRef, ViewChild ,ElementRef } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
@@ -30,6 +30,12 @@ export class ManageSubcategoryComponent implements OnInit {
   dailog_ref;
   selectedFiles = [];
   subcat_image: string;
+
+  
+
+  // resetFileUploader() { 
+  //   this.Inputvar.nativeElement.value = null;
+  // }
 
   // @ViewChild('#dialog') public model: TemplateRef<any>;
   
@@ -72,6 +78,7 @@ export class ManageSubcategoryComponent implements OnInit {
           this.nbtoastService.danger(error,"Error")
       }
     )
+    
   }
 
   open(dialog: TemplateRef<any>) {
@@ -82,6 +89,10 @@ export class ManageSubcategoryComponent implements OnInit {
        
     }
     );
+  }
+
+  refresh(): void {
+    window.location.reload();
   }
   
   save_sub_category(): void{
@@ -107,7 +118,9 @@ export class ManageSubcategoryComponent implements OnInit {
       this.inventoryService.saveSubCategory(data).subscribe(
         (data) => {
           this.nbtoastService.success("Saved Successfully");
+          this.subcat_image = null;
           this.ngOnInit();
+          
         },
         (error) =>{
           this.nbtoastService.danger(error);
@@ -129,8 +142,11 @@ export class ManageSubcategoryComponent implements OnInit {
         }
         this.inventoryService.updateSubCategory(this.subcategory_id, data).subscribe(
           (data) => {
+            
             this.nbtoastService.success("Saved Successfully");
+            this.subcat_image = null;
             this.ngOnInit();
+            
           },
           (error) =>{
             this.nbtoastService.danger(error);
@@ -138,6 +154,8 @@ export class ManageSubcategoryComponent implements OnInit {
         )    
       }
       };
+
+     
 
     selected_sub_category(data): any{
         this.subcategoryFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);        
@@ -169,7 +187,10 @@ export class ManageSubcategoryComponent implements OnInit {
      
         };
         
+        
       }
+      
+      
     }
     // selected_category(data,ref): any{
     //   this.nbtoastService.show(data);    

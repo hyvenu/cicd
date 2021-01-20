@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { InventoryService } from '../inventory.service';
 import { NbToastrService } from '@nebular/theme';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-manage-category',
   templateUrl: './manage-category.component.html',
@@ -42,6 +43,7 @@ export class ManageCategoryComponent implements OnInit {
           this.nbtoastService.danger(error,"Error")
       }
     )
+    
   }
 
   save_category(): void{
@@ -91,4 +93,15 @@ export class ManageCategoryComponent implements OnInit {
         this.category_id = data.id
     }
 
+    delete_category(category){
+      const data = {
+        "id" : category.category_id
+      }
+      this.inventoryService.removeFromCategory(data).subscribe(()=>{
+        this.refresh();
+      })
+    }
+    refresh(): void {
+      window.location.reload();
+    }
 }
