@@ -61,6 +61,7 @@ def delete_prpl(request):
     res = pr_service.delete_product(prpl_id)
     return JsonResponse(res, safe=False)
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
 def reject_pr(request):
@@ -69,4 +70,29 @@ def reject_pr(request):
     approved_by = request.data['approved_by']
     approved_date = request.data['approved_date']
     pr_res = pr_service.reject_pr(request.data)
+    return JsonResponse(pr_res, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_po_details(request):
+    purchase_service = PurchaseService()
+    po_id = request.query_params['id']
+    pr_obj = purchase_service.get_po_details(po_id)
+    return JsonResponse(pr_obj, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_po_list(request):
+    purchase_service = PurchaseService()
+    po = purchase_service.get_po_list()
+    return JsonResponse(po, safe=False)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def save_po(request):
+    data = request.data
+    purchase_service = PurchaseService()
+    pr_res = purchase_service.save_po(data)
     return JsonResponse(pr_res, safe=False)

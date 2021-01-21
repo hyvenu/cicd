@@ -14,6 +14,7 @@ from vendor.models import VendorMaster
 class POOrderRequest(AuditUuidModelMixin):
     po_type = models.CharField(max_length=50)
     po_number = models.CharField(max_length=255,unique=True)
+    pr_number = models.CharField(max_length=50, null=True, default=None)
     shipping_address = models.CharField(max_length=2000, null=True)
     transport_type = models.CharField(max_length=200)
     vendor = models.ForeignKey(VendorMaster, on_delete=models.CASCADE)
@@ -33,6 +34,22 @@ class POOrderRequest(AuditUuidModelMixin):
 
     def __str__(self):
         return self.po_number
+
+class PoOrderDetails(AuditUuidModelMixin):
+    po_order = models.ForeignKey(POOrderRequest, on_delete=models.CASCADE,default=None)
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE)
+    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE)
+    qty = models.IntegerField()
+    delivery_date = models.DateField(null=True)
+    unit_price = models.DecimalField(max_digits=10,decimal_places=2, default=0)
+    gst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    disc_percent = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    disc_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    gst_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    class Meta:
+        pass
 
 class PurchaseRequisition(AuditUuidModelMixin):
     pr_no = models.CharField(max_length=50)

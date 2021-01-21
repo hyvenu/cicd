@@ -52,4 +52,14 @@ export class PurchaseService {
   public getPRDetails(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_pr_details?id=${id}`)
   }
+  public savePO(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/save_po`, data)
+  }
+  public getPOList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_po_list`)
+  }
+
+  public getPODetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_po_details?id=${id}`)
+  }
 }
