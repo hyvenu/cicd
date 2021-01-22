@@ -21,6 +21,11 @@
                     <input nbInput formControlName="poDateFormControl" name="po_date" [nbDatepicker]="po_date" placeholder="PO Date" />
                     <nb-datepicker #po_date format="DD-MM-yyyy"></nb-datepicker>
                 </div>
+                
+                <div class="col-md-3">
+                    <label for="pr_number">Select PR Number</label>
+                    <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="pr_number" (keypress)="pr_open(pr_dialog)" />
+                </div>
                 <div class="col-md-3">
                     <label for="po_number">PO Number</label>
                     <input nbInput formControlName="poNumberFormControl" name="po_number" placeholder="System Generated" readonly/>
@@ -38,6 +43,11 @@
                         </nb-option>
                     </nb-select>
                 </div>
+                <div class="col-md-3">
+                    <label for="ship_address">Shipping Address</label>
+                    <textarea nbInput formControlName="shipAddressFormControl" name="ship_address" 
+                        placeholder="Shipping Address" ></textarea>
+                </div>
             </div>
         </nb-card-body>
         </nb-card>
@@ -48,7 +58,7 @@
                 
                     <div class="col-md-3">
                         <label for="vendor">Vendor Code</label>
-                        <input nbInput formControlName="vendorCodeFormControl" name="vendor" placeholder="Select Vendor" (keypress)="vendor_open(vendor_dialog)" (change)="vendor_open(vendor_dialog)" />
+                        <input nbInput formControlName="vendorCodeFormControl" name="vendor" placeholder="Select Vendor" (keypress)="vendor_open(vendor_dialog)"  />
                     </div>
                     <div class="col-md-3">
                         <label for="vendor_name">Vendor Name</label>
@@ -86,7 +96,7 @@
             <nb-card-header>Product Details <button nbButton size="small" status="success" (click)="product_open(product_dialog)">  + ADD </button> </nb-card-header>
             <nb-card-body>
                 <table class="table table-hovered">
-                    <thead>
+                    <thead style="font-size: smaller;" >
                         <th>Product Code</th>
                         <th>Product Name & Description</th>
                         <th>Required Qty</th>
@@ -99,24 +109,24 @@
                         <th>Disc Amt %</th>
                         <th>GST Amt</th>
                     </thead>
-                    <tbody>
+                    <tbody style="font-size: smaller;" >
                         <tr *ngFor="let item of selected_product_list">
-                            <td ><input nbInput size="small" placeholder="" value={{item.product_code}} readonly/></td>
-                            <td><input nbInput size="small"placeholder="" value="{{item.product_name}} - {{item.description}}" readonly/></td>
-                            <td><input nbInput size="small" style="width: 5em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
-                            <td ><nb-select name="item.unit"  [(selected)]="item.unit">
+                            <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
+                            <td><input nbInput  fieldSize="small"placeholder="" value="{{item.product_name}} - {{item.description}}" readonly/></td>
+                            <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
+                            <td ><nb-select class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
                                 <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                     {{ o.PrimaryUnit }}
                                 </nb-option>
                             </nb-select></td>
-                            <td ><input nbInput size="small"  [(ngModel)]="item.expected_date" [nbDatepicker]="datepicker" [ngModelOptions]="{standalone: true}"
+                            <td ><input nbInput fieldSize="small"  [(ngModel)]="item.delivery_date" [nbDatepicker]="datepicker" [ngModelOptions]="{standalone: true}"
                                 placeholder="Date" /></td>
-                            <td><input nbInput size="small" style="width: 8em;" placeholder="Unit Price" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate_sub_total(item);"  /></td>    
-                            <td><input nbInput size="small" style="width: 5em;" placeholder="GST %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" (change)="calculate_sub_total(item);"/></td>    
-                            <td><input nbInput size="small"   placeholder="Amount" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly /></td> 
-                            <td><input nbInput size="small" style="width: 5em;" placeholder="Disc %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.discount" (change)="calculate_sub_total(item);"/></td> 
-                            <td><input nbInput size="small"   placeholder="Disc Amt." type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.discount_amount" readonly/></td> 
-                            <td><input nbInput size="small"  placeholder= "GST Amount" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly/></td> 
+                            <td><input nbInput  fieldSize="small" style="width: 8em;" placeholder="Unit Price" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate_sub_total(item);"  /></td>    
+                            <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="GST %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" (change)="calculate_sub_total(item);"/></td>    
+                            <td><input nbInput  fieldSize="small"   placeholder="Amount" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly /></td> 
+                            <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="Disc %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_percent" (change)="calculate_sub_total(item);"/></td> 
+                            <td><input nbInput  fieldSize="small"   placeholder="Disc Amt." type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_amount" readonly/></td> 
+                            <td><input nbInput  fieldSize="small"  placeholder= "GST Amount" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly/></td> 
                                 <!-- <input [nbDatepicker]="datepicker"> -->
                                 <nb-datepicker #datepicker></nb-datepicker>
 
@@ -125,19 +135,54 @@
                         </tr>
                         
                     </tbody>
-                    <tfoot>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                    </tfoot>
+  
                 </table>
-            </nb-card-body>    
+            </nb-card-body>
+            <nb-card-footer>
+                <table class="table table-hovered">
+                    <thead style="font-size: smaller;" >
+                        <th>Sub Total Amount</th>
+                        <th></th>
+                        <th>Packing %</th>
+                        <th>Packing Amount</th>
+                        <th>Total Order Value</th>
+                        <th>SGST</th>
+                        <th>CGST</th>
+                        <th>IGST</th>
+                        <th>Total Invoice Value</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> {{ sub_total | currency:'INR' }}</td>
+                            <td></td>
+                            <td> <input nbInput size ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_packing()" [value]="0.00" /></td>
+                            <td> {{ packing_amount | currency : 'INR' }}</td>
+                            <td> {{ total_amount | currency : 'INR' }} </td>
+                            <td> {{ sgst | currency : 'INR' }}  </td>
+                            <td> {{ cgst | currency : 'INR' }} </td>
+                            <td> {{ igst | currency : 'INR' }} </td>
+                            <td> {{ invoice_amount  | currency : 'INR'}} </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </nb-card-footer>   
         </nb-card>
         <nb-card accent="info">
             <nb-card-header>PO Summary</nb-card-header>
             <nb-card-body>
-                    <table>
-                        
-                    </table>
-            </nb-card-body>    
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="terms_conditions">Terms & Conditions</label>
+                            <textarea nbInput formControlName="termsConditionFormControl" name="ship_address" 
+                                placeholder="terms_conditions" ></textarea>
+                        </div>
+                    </div>
+            </nb-card-body>
+            <nb-card-footer>
+                <button nbButton (click)="save_po();" status="success" >Save</button>
+            </nb-card-footer>    
         </nb-card>
         </div>
     </nb-tab>
@@ -165,6 +210,22 @@
         <nb-list>
             <nb-list-item *ngFor="let item of data | search_filter:'product_name':searchProduct">
               <i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i>
+              <button nbButton (click)="ref.close(item)" size="small">Select</button>
+            </nb-list-item>
+          </nb-list>
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>
+  <ng-template #pr_dialog let-data let-ref="dialogRef" >
+    <nb-card size="large" >
+      <nb-card-header>PR List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchPR" /> </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+            <nb-list-item *ngFor="let item of data | search_filter:'pr_no':searchPR">
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.pr_no }} </i>
               <button nbButton (click)="ref.close(item)" size="small">Select</button>
             </nb-list-item>
           </nb-list>

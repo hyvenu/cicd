@@ -15,4 +15,11 @@ urlpatterns = [
     path('api/v1/get_pr_details', views.get_pr_details, name="get_pr_details"),
 
     path('api/v1/approve_pr', views.approve_pr, name="approve"),
+    path('api/v1/reject_pr', views.reject_pr, name="reject"),
+    path('api/v1/delete_prpl', views.delete_prpl, name="delete_prpl"),
+
+    path('api/v1/save_po', views.save_po, name="save_po_data"),
+    path('api/v1/get_po_list', views.get_po_list, name="get_po_list"),
+    path('api/v1/get_po_details', views.get_po_details, name="get_po_details"),
+
 ]

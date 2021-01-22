@@ -30,6 +30,7 @@ const routes: Routes = [
    { path: 'PurchaseRequisition' , component: PurchaseRequisitionComponent,canActivate:[AuthGuard]},
    { path: 'PurchaseRequisitionList' , component: PurchaseRequisitionListComponent,canActivate:[AuthGuard]},
    { path: 'PurchaseOrder' , component: PurchaseOrderComponent,canActivate:[AuthGuard]},
+   { path: 'PurchaseOrderList' , component: PurchaseOrderListComponent,canActivate:[AuthGuard]},
 ];
 
 @NgModule({

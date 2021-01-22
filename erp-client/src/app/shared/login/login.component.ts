@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from './../shared.service';
 import { User } from '../../models/User';
 import { Component, OnInit } from '@angular/core';
@@ -13,9 +13,10 @@ import { NbToastrService } from '@nebular/theme';
 export class LoginComponent implements OnInit {
   LoginForm:FormGroup;
   Invalid=false;
-
+  returnUrl: any;
   constructor(private Service:SharedService,
     private router:Router,
+    private route: ActivatedRoute,
     private nbtoastService: NbToastrService,) { }
 
   ngOnInit(): void {
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
         'password' : new FormControl(null,Validators.required)
       }
     );
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
   }
 
   onSubmit()
@@ -44,7 +46,11 @@ export class LoginComponent implements OnInit {
        sessionStorage.setItem("accessToken",data.access);
       //  sessionStorage.setItem("user_id",data.user_id);
        sessionStorage.setItem("first_name",data.first_name);
-       this.router.navigate(["/StoreSelect"]);
+       if( this.returnUrl){
+          window.location.href= this.returnUrl;
+       }else{
+          this.router.navigate(["/StoreSelect"]);
+       }
       },(error)=>
       {
         this.Invalid = true;

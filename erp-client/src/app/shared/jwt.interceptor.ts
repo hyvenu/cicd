@@ -38,7 +38,7 @@ export class JwtInterceptor implements HttpInterceptor {
             catchError((err: HttpErrorResponse) => {
               if (err.status === 401) {
                 sessionStorage.clear();  
-                this.router.navigate(['Login'], { queryParams: { returnUrl: request.url } });
+                this.router.navigate(['Login'], { queryParams: { returnUrl: this.router.url } });
                 return throwError(err.error.detail);
               }
               if (err.status === 0) {

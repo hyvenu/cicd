@@ -22,6 +22,8 @@ export class PurchaseRequisitionComponent implements OnInit {
   dailog_ref;
   login_user;
   store_name;
+  checked;
+  pr_status;
 
   searchProduct;
   product_list;
@@ -72,6 +74,7 @@ export class PurchaseRequisitionComponent implements OnInit {
       prDateFormControl: ['', [Validators.required]],
       userFormControl: ['', [Validators.required]],
       departFormControl: ['', [Validators.required]],
+      statusFormControl: ['', [Validators.required]],
     });
 
     this.prForm.controls['userFormControl'].setValue(this.login_user);
@@ -80,10 +83,13 @@ export class PurchaseRequisitionComponent implements OnInit {
     if (param1) {
       this.purchaseService.getPRDetails(param1).subscribe((data) => {
         this.pr_id = data.id
+        this.pr_status = data.status
         this.prForm.controls['prNoFormControl'].setValue(data.pr_no);
         this.prForm.controls['prDateFormControl'].setValue(data.pr_date);
         this.prForm.controls['userFormControl'].setValue(data.created_user);
-        this.prForm.controls['departFormControl'].setValue(data.dept__department_name);
+        this.selectedOption = data.dept__id;
+        this.prForm.controls['statusFormControl'].setValue(data.status);
+        // this.prForm.controls['departFormControl'].setValue(data.dept__department_name);
 
         this.selected_product_list = data.selected_product_list;
 
@@ -102,6 +108,11 @@ export class PurchaseRequisitionComponent implements OnInit {
 
   }
 
+  toggle(event) {
+    this.checked = event.target.checked;
+
+  }
+
   open(dialog: TemplateRef<any>) {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
       .onClose.subscribe(data => {
@@ -111,10 +122,11 @@ export class PurchaseRequisitionComponent implements OnInit {
           product_code: data.product_code,
           product_name: data.product_name,
           description: '',
-          store_name: this.store_name,
+          store: this.store_name,
           required_qty: '',
           unit: '',
           expected_date: '',
+          active:''
         });
       });
     //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
@@ -141,6 +153,10 @@ export class PurchaseRequisitionComponent implements OnInit {
 
   approvePR(): any {
     const formData = this.saveFormData();
+    formData.append('id', this.pr_id);
+    formData.append('approved_by', this.login_user);
+    formData.append('approved_date', this.formatDate(new Date()));
+
     this.purchaseService.approvePR(formData).subscribe(
       (data) => {
         this.nbtoastService.success("PR Details Approved Successfully, PR number is : " + data)
@@ -152,8 +168,35 @@ export class PurchaseRequisitionComponent implements OnInit {
     );
   }
 
-  rejectPR():any {
+  delete(item): any {
+    const formData = new FormData()
+    formData.append('id', item.id);
+    this.purchaseService.deleteProductFromPR(formData).subscribe(
+      (data) => {
+        this.nbtoastService.success("Product deleted from PR Successfully, Product code is : " + data)
+        this.ngOnInit();
+      },
+      (error) => {
+        this.nbtoastService.danger(error.detail);
+      }
+    );
+  }
 
+  rejectPR():any {
+    const formData = this.saveFormData();
+    formData.append('id', this.pr_id);
+    formData.append('approved_by', this.login_user);
+    formData.append('approved_date', this.formatDate(new Date()));
+
+    this.purchaseService.rejectPR(formData).subscribe(
+      (data) => {
+        this.nbtoastService.success("PR Details Rejected Successfully, PR number is : " + data)
+        this.ngOnInit();
+      },
+      (error) => {
+        this.nbtoastService.danger(error.detail);
+      }
+    );
   }
 
   savePR(): any {
@@ -174,14 +217,18 @@ export class PurchaseRequisitionComponent implements OnInit {
   private saveFormData() {
     const formData = new FormData();
     // console.log(this.formatDate(this.prForm.controls['prDateFormControl'].value))
+    if (this.pr_id){
+      formData.append('id', this.pr_id)
+    }
     formData.append('pr_date', this.formatDate(this.prForm.controls['prDateFormControl'].value));
     formData.append('created_user', this.prForm.controls['userFormControl'].value);
-    formData.append('dept', this.prForm.controls['departFormControl'].value);
+    formData.append('dept', this.selectedOption);
 
 
     this.selected_product_list.forEach((element) => {
       console.log(element.expected_date);
       element.expected_date = this.formatDate(element.expected_date);
+      element.active = element.active.toString();
       console.log(element.expected_date);
     });
 
