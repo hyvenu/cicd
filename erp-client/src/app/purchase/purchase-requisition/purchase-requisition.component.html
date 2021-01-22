@@ -1,3 +1,8 @@
+<div class="row">
+    <a nbButton [routerLink]="['/PurchaseRequisitionList']" status="success" size="small" >Back to PurchaseRequisitionList List </a>
+</div>  <br>
+
+
 <nb-tabset>
     <nb-tab tabTitle="Purchase Requisition Information" [active]="IsPRInfo">
 
@@ -64,7 +69,7 @@
                                 <td><input nbInput placeholder="" value={{item.product_name}}/></td>
                                 <td><input nbInput placeholder="description" [(ngModel)]="item.description"/></td>
                                 <td><input nbInput placeholder="store name" [(ngModel)]="item.store"/></td>
-                                <td><input nbInput placeholder="Quantity" [(ngModel)]="item.required_qty"/></td>
+                                <td><input nbInput type="number" placeholder="Quantity" [(ngModel)]="item.required_qty" oninput="validity.valid || (value='')" /></td>
                                 <td><nb-select name="item.unit" [(selected)]="item.unit">
                                     <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                         {{ o.PrimaryUnit }}
