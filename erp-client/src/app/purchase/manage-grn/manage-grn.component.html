@@ -1,0 +1,38 @@
+<nb-tabset>
+    <nb-tab tabTitle="GRN Information" [active]="isGRNInfo">
+
+        <div id="" [formGroup]="grnForm">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="grnNo">GRN Number</label>
+                    <input nbInput formControlName="grnNoFormControl" name="grnNo" placeholder="GRN Number"
+                        [readonly]="true" />
+                </div>
+                <div class="col-md-3">
+                    <label for="grnDate">GRN Date </label>
+                    <input nbInput formControlName="grnDateFormControl" name="grnDate" [nbDatepicker]="datepicker"
+                        placeholder="GRN Date" />
+                    <nb-datepicker #datepicker></nb-datepicker>
+                </div>
+                <div class="col-md-3">
+                    <label for="poNo">PO Number</label>
+                    <input nbInput formControlName="poNoFormControl" name="poNo" placeholder="PO Number"
+                        [readonly]="true" />
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="invoiceNo">Invoice Number</label>
+                    <input nbInput formControlName="invoiceNoFormControl" name="invoiceNo" placeholder="Invoice Number"
+                        [readonly]="true" />
+                </div>
+                <div class="col-md-3">
+                    <label for="invoiceDate">Invoice Date </label>
+                    <input nbInput formControlName="invoiceDateFormControl" name="invoiceDate" [nbDatepicker]="datepicker"
+                        placeholder="Invoice Date" />
+                    <nb-datepicker #datepicker></nb-datepicker>
+                </div>
+            </div><br>
+        </div>
+    </nb-tab>
+</nb-tabset>
