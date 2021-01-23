@@ -57,7 +57,7 @@ export class SharedService {
   }
 
   refreshToken(): any {
-    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/auth/api/token/refresh`, {});
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/auth/api/token/refresh/`, {});
   }
 
   private refreshTokenTimeout;

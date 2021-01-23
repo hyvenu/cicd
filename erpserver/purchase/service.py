@@ -1,7 +1,7 @@
 from django.db import transaction
 
 import ast
-from purchase.models import PurchaseRequisition, PurchaseRequisitionProductList
+from purchase.models import PurchaseRequisition, PurchaseRequisitionProductList, POOrderRequest, PoOrderDetails
 from sequences import get_next_value
 from datetime import datetime
 
@@ -35,6 +35,7 @@ class PurchaseService:
             'pr_date',
             'created_user',
             'dept__id',
+            'dept__department_name',
             'status',
             'approved_by',
             'approved_date',
@@ -155,3 +156,146 @@ class PurchaseService:
             pr_list.unit_id = product['unit']
             pr_list.expected_date = product['expected_date']
             pr_list.save()
+
+    @classmethod
+    def generate_po_number(cls):
+        perfix = 'saff' + '/20-21' + '/PO/'
+        code = get_next_value(perfix, 1)
+        code = perfix + str(code).zfill(5)
+        return code
+
+    @classmethod
+    @transaction.atomic()
+    def save_po(cls, po_data):
+        if 'id' in po_data:
+            po_order_req = POOrderRequest.objects.get(id=po_data['id'])
+        else:
+            po_order_req = POOrderRequest()
+            po_order_req.po_number = cls.generate_po_number()
+
+        po_order_req.po_type = po_data['po_type']
+        po_order_req.shipping_address = po_data['shipping_address']
+        po_order_req.transport_type = po_data['transport_type']
+        po_order_req.po_date = po_data['po_date']
+        po_order_req.po_raised_by = po_data['po_raised_by']
+        po_order_req.pr_number = po_data['pr_number']
+        po_order_req.vendor_id = po_data['vendor_id']
+        po_order_req.payment_terms = po_data['payment_terms']
+        po_order_req.other_reference = po_data['other_reference']
+        # po_order_req.terms_of_delivery = po_data['terms_of_delivery']
+        po_order_req.note = po_data['note']
+        po_order_req.sub_total = po_data['sub_total']
+        po_order_req.packing_perct = po_data['packing_perct']
+        po_order_req.packing_amount = po_data['packing_amount']
+        po_order_req.total_amount = po_data['total_amount']
+        po_order_req.sgst = po_data['sgst']
+        po_order_req.cgst = po_data['cgst']
+        po_order_req.igst = po_data['igst']
+        po_order_req.invoice_amount = po_data['invoice_amount']
+        po_order_req.terms_conditions = po_data['terms_conditions']
+        po_order_req.save()
+
+        product_list = ast.literal_eval(po_data['po_products'])
+        for item in product_list:
+            if 'id' in item:
+                po_product = PoOrderDetails.objects.get(id=item['id'])
+            else:
+                po_product = PoOrderDetails()
+            po_product.po_order = po_order_req
+            po_product.product_id = item['product_id']
+            po_product.product_code = item['product_code']
+            po_product.product_name = item['product_name']
+            po_product.unit_id = item['unit_id']
+            po_product.qty = item['qty']
+            po_product.delivery_date = str(item['delivery_date'])[0:10]
+            po_product.unit_price = item['unit_price']
+            po_product.gst = item['gst']
+            po_product.amount = item['amount']
+            po_product.disc_percent = item['disc_percent']
+            po_product.disc_amount = item['disc_amount']
+            po_product.gst_amount = item['gst_amount']
+            po_product.save()
+        return po_order_req.po_number
+
+    @classmethod
+    def get_po_details(cls, po_id):
+        final_list = []
+        po_data_list = POOrderRequest.objects.filter(id=po_id).all().values(
+            'id',
+            'po_type',
+            'po_number',
+            'pr_number',
+            'po_raised_by',
+            'po_date',
+            'shipping_address',
+            'transport_type',
+            'vendor_id',
+            'vendor__vendor_name',
+            'vendor__vendor_code',
+            'payment_terms',
+            'other_reference',
+            'terms_of_delivery',
+            'note',
+            'sub_total',
+            'packing_perct',
+            'packing_amount',
+            'total_amount',
+            'sgst',
+            'cgst',
+            'igst',
+            'invoice_amount',
+            'terms_conditions'
+        )[0]
+
+        po_data_list['order_details'] = list(PoOrderDetails.objects.filter(po_order_id=po_id).all().values(
+            "id",
+            "product_id",
+            "product_name",
+            "product_code",
+            "unit_id",
+            "qty",
+            "delivery_date",
+            "unit_price",
+            "gst",
+            "amount",
+            "disc_percent",
+            "disc_amount",
+            "gst_amount",
+        ))
+        return po_data_list
+
+    @classmethod
+    def get_po_list(cls):
+        po_data_list = POOrderRequest.objects.all().values(
+            'id',
+            'po_type',
+            'po_date',
+            'po_number',
+            'pr_number',
+            'shipping_address',
+            'transport_type',
+            'vendor_id',
+            'vendor__vendor_code',
+            'vendor__vendor_name',
+            'payment_terms',
+            'other_reference',
+            'terms_of_delivery',
+            'note',
+            'sub_total',
+            'packing_perct',
+            'packing_amount',
+            'total_amount',
+            'sgst',
+            'cgst',
+            'igst',
+            'invoice_amount',
+            'terms_conditions'
+        )
+        return list(po_data_list)
+
+    @classmethod
+    @transaction.atomic
+    def delete_po_product(cls, po_prd_id):
+        po_prd_object = PoOrderDetails.objects.get(id=po_prd_id)
+        po_prd_object.delete()
+        return True

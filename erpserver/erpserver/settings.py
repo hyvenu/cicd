@@ -223,3 +223,10 @@ BREADCRUMBS_HOME_LABEL = 'Home'
 
 RAZOR_PAY_KEY_ID = 'rzp_test_veBhpMqs1IlGQO'
 RAZOR_PAY_KEY_SECRET = 'g5N8rMiSdDUV20pxKZwmkFyx'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'n3plcpnl0268.prod.ams3.secureserver.net'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'noreply@craftyouridea.com'
+EMAIL_HOST_PASSWORD = 'Welcome@2020'#password associated with above email-id
