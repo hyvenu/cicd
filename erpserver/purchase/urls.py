@@ -15,4 +15,7 @@ urlpatterns = [
     path('api/v1/get_pr_details', views.get_pr_details, name="get_pr_details"),
 
     path('api/v1/approve_pr', views.approve_pr, name="approve"),
+    path('api/v1/reject_pr', views.reject_pr, name="reject"),
+    path('api/v1/delete_prpl', views.delete_prpl, name="delete_prpl"),
+
 ]
