@@ -3,6 +3,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbComponentSize, NbDialogService, NbToastrService } from '@nebular/theme';
+import * as moment from 'moment';
 import { InventoryService } from 'src/app/inventory/inventory.service';
 import { PurchaseService } from '../purchase.service';
 
@@ -52,6 +53,7 @@ export class PurchaseOrderComponent implements OnInit {
   sub_total: number;
   invoice_amount: number;
   pr_list: [];
+  po_id: any;
 
 
 
@@ -86,14 +88,22 @@ export class PurchaseOrderComponent implements OnInit {
         prNumberFormControl: ['', [Validators.required]]
       }
     );
-    let param = this.route.snapshot.queryParams['id'];
-    if(param){
-       this.purchaseService.getPODetails(param).subscribe(
+
+    this.selected_product_list = [];
+    this.total_amount = 0.0;
+    this.sub_total = 0.0;
+    this.cgst = 0.0;
+    this.sgst = 0.0;
+    this.igst = 0.0;
+
+    this.po_id = this.route.snapshot.queryParams['id'];
+    if(this.po_id){
+       this.purchaseService.getPODetails(this.po_id).subscribe(
          (data) => {
           this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
-          this.purchaseOrderForm.controls['poDateFormControl'].setValue(data.po_date);
+          this.purchaseOrderForm.controls['poDateFormControl'].setValue(moment(data.po_date));
           this.purchaseOrderForm.controls['poNumberFormControl'].setValue(data.po_number);
-          // this.purchaseOrderForm.controls['userFormControl'].setValue(data.po_type);
+          this.purchaseOrderForm.controls['userFormControl'].setValue(data.po_raised_by);
           this.purchaseOrderForm.controls['transportTypeFormControl'].setValue(data.transport_type);
           this.purchaseOrderForm.controls['vendorCodeFormControl'].setValue(data.vendor__vendor_code);
           this.purchaseOrderForm.controls['vendorNameFormControl'].setValue(data.vendor__vendor_name);
@@ -103,21 +113,32 @@ export class PurchaseOrderComponent implements OnInit {
           this.purchaseOrderForm.controls['shipAddressFormControl'].setValue(data.shipping_address);
           this.purchaseOrderForm.controls['noteFormControl'].setValue(data.note);
           this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_number);
+          this.purchaseOrderForm.controls['packPrecntFormControl'].setValue(data.packing_perct);
+          this.purchaseOrderForm.controls['termsConditionFormControl'].setValue(data.terms_conditions);
+          
+         
+          for(let i=0;i<data.order_details.length;i++){
+            console.log(moment(data.order_details[i].delivery_date))
+            data.order_details[i].delivery_date = moment(data.order_details[i].delivery_date)
+            data.qty = parseInt(data.order_details[i].qty)
+          };
           this.selected_product_list = data.order_details;
-          this.total_amount = data.total_amount;
-          this.sub_total = data.sub_total;
-          this.cgst = data.cgst;
-          this.sgst = data.sgst;
-          this.igst = data.igst;
-          this.invoice_amount = data.invoice_amount;
+          this.total_amount = parseFloat(data.total_amount);
+          this.sub_total = parseFloat(data.sub_total);
+          this.cgst = parseFloat(data.cgst);
+          this.sgst = parseFloat(data.sgst);
+          this.igst = parseFloat(data.igst);
+          this.invoice_amount = parseFloat(data.invoice_amount);
+          
 
          },
          (error) =>{
             this.nbtoastService.danger("Unable to get PO data");
          }
        )
+    }else{
+      this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
     }
-    this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
 
     this.purchaseService.getVendorList().subscribe(
       (data) => {
@@ -235,9 +256,15 @@ export class PurchaseOrderComponent implements OnInit {
 
   save_po(): any {
     const formdata = new FormData()
+    if(this.po_id){
+      formdata.append('id', this.po_id);  
+    }
     formdata.append('po_type', this.purchaseOrderForm.controls['poTypeFormControl'].value);
     formdata.append('pr_number', this.purchaseOrderForm.controls['prNumberFormControl'].value);
-    formdata.append('po_date', this.purchaseOrderForm.controls['poDateFormControl'].value);
+    console.log(this.purchaseOrderForm.controls['poDateFormControl'].value);
+    console.log(moment(this.purchaseOrderForm.controls['poDateFormControl'].value));
+    formdata.append('po_date', moment(this.purchaseOrderForm.controls['poDateFormControl'].value).format("YYYY-MM-DD"));
+    formdata.append('po_raised_by', this.purchaseOrderForm.controls['userFormControl'].value);
     formdata.append('shipping_address', this.purchaseOrderForm.controls['shipAddressFormControl'].value);
     formdata.append('transport_type', this.purchaseOrderForm.controls['transportTypeFormControl'].value);
     formdata.append('vendor_id', this.selected_vendor.id);
@@ -253,6 +280,10 @@ export class PurchaseOrderComponent implements OnInit {
     formdata.append('igst', this.igst.toString());
     formdata.append('invoice_amount', this.invoice_amount.toString());
     formdata.append('terms_conditions', this.purchaseOrderForm.controls['termsConditionFormControl'].value);
+
+    this.selected_product_list.forEach(element => {
+      element = moment(element.delivery_date).format("YYYY-MM-DD")
+    });
     formdata.append('po_products', JSON.stringify(this.selected_product_list))
 
     this.purchaseService.savePO(formdata).subscribe(
@@ -327,6 +358,18 @@ export class PurchaseOrderComponent implements OnInit {
       day = '0' + day;
 
     return [year, month, day].join('-');
+  }
+
+  delete_product(id): any {
+    const data = { 'id' : id}
+    this.purchaseService.deleteProductFromPO(data).subscribe(
+      (data) => {
+        this.nbtoastService.info("Item Removed");
+      },
+      (error) =>{
+        this.nbtoastService.danger("Unable remove product");
+      }
+    )
   }
 
 }

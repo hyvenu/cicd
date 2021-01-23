@@ -96,3 +96,11 @@ def save_po(request):
     purchase_service = PurchaseService()
     pr_res = purchase_service.save_po(data)
     return JsonResponse(pr_res, safe=False)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def delete_po_product(request):
+    po_service = PurchaseService()
+    po_prd_id = request.data['id']
+    res = po_service.delete_po_product(po_prd_id)
+    return JsonResponse(res, safe=False)

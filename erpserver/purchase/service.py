@@ -176,6 +176,9 @@ class PurchaseService:
         po_order_req.po_type = po_data['po_type']
         po_order_req.shipping_address = po_data['shipping_address']
         po_order_req.transport_type = po_data['transport_type']
+        po_order_req.po_date = po_data['po_date']
+        po_order_req.po_raised_by = po_data['po_raised_by']
+        po_order_req.pr_number = po_data['pr_number']
         po_order_req.vendor_id = po_data['vendor_id']
         po_order_req.payment_terms = po_data['payment_terms']
         po_order_req.other_reference = po_data['other_reference']
@@ -194,12 +197,14 @@ class PurchaseService:
 
         product_list = ast.literal_eval(po_data['po_products'])
         for item in product_list:
-            if 'id' in item['id']:
+            if 'id' in item:
                 po_product = PoOrderDetails.objects.get(id=item['id'])
             else:
                 po_product = PoOrderDetails()
             po_product.po_order = po_order_req
             po_product.product_id = item['product_id']
+            po_product.product_code = item['product_code']
+            po_product.product_name = item['product_name']
             po_product.unit_id = item['unit_id']
             po_product.qty = item['qty']
             po_product.delivery_date = str(item['delivery_date'])[0:10]
@@ -219,6 +224,9 @@ class PurchaseService:
             'id',
             'po_type',
             'po_number',
+            'pr_number',
+            'po_raised_by',
+            'po_date',
             'shipping_address',
             'transport_type',
             'vendor_id',
@@ -242,6 +250,8 @@ class PurchaseService:
         po_data_list['order_details'] = list(PoOrderDetails.objects.filter(po_order_id=po_id).all().values(
             "id",
             "product_id",
+            "product_name",
+            "product_code",
             "unit_id",
             "qty",
             "delivery_date",
@@ -259,6 +269,7 @@ class PurchaseService:
         po_data_list = POOrderRequest.objects.all().values(
             'id',
             'po_type',
+            'po_date',
             'po_number',
             'pr_number',
             'shipping_address',
@@ -281,3 +292,10 @@ class PurchaseService:
             'terms_conditions'
         )
         return list(po_data_list)
+
+    @classmethod
+    @transaction.atomic
+    def delete_po_product(cls, po_prd_id):
+        po_prd_object = PoOrderDetails.objects.get(id=po_prd_id)
+        po_prd_object.delete()
+        return True
