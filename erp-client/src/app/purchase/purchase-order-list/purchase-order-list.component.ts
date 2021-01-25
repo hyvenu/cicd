@@ -38,6 +38,9 @@ export class PurchaseOrderListComponent implements OnInit {
       invoice_amount: {
         title: 'Invoice Amount',
       },
+      vendor__vendor_name:{
+        title: 'Vendor Name'
+      }
        
       
     },
