@@ -10,11 +10,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='purchaserequisitionproductlist',
-            name='active',
-            field=models.BooleanField(default=True),
-        ),
+        # migrations.AddField(
+        #     model_name='purchaserequisitionproductlist',
+        #     name='active',
+        #     field=models.BooleanField(default=True),
+        # ),
         migrations.AlterField(
             model_name='purchaserequisitionproductlist',
             name='required_qty',

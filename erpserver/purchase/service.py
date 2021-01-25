@@ -197,7 +197,7 @@ class PurchaseService:
 
         product_list = ast.literal_eval(po_data['po_products'])
         for item in product_list:
-            if 'id' in item:
+            if 'id' in item and len(item['id']) > 0:
                 po_product = PoOrderDetails.objects.get(id=item['id'])
             else:
                 po_product = PoOrderDetails()

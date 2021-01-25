@@ -6,7 +6,6 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('purchase', '0009_purchaserequisitionproductlist_active'),
         ('purchase', '0008_poorderrequest'),
     ]
 
