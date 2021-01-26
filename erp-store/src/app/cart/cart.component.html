@@ -1,7 +1,11 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-
-<div *ngIf="cartItems.length === 0" class="alert alert-info">Your Cart is Empty &nbsp;<a class="btn btn-outline-secondary btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a></div>
-<a *ngIf="cartItems.length > 0" class="btn btn-outline-info btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a>
+<div >
+    <div *ngIf="cartItems.length === 0" class="alert alert-info">Your Cart is Empty &nbsp;<a class="btn btn-outline-secondary btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a></div> 
+    <div class="checkout">
+        <a class="btn btn-outline-info btn-sm float-right" href="/checkout" *ngIf="cartItems.length > 0"> Checkout</a>
+    </div>
+    <div><a *ngIf="cartItems.length > 0" class="btn btn-outline-info btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a></div>
+</div><br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md">Product Image</div>
@@ -38,5 +42,10 @@
 
 </ul>
 <div>
-    <div class="column text-lg btn btn-success">Subtotal: <span class="text-medium">{{ cartTotal | currency:'INR'}}</span></div><a class="btn btn-success float-right" href="/checkout" *ngIf="cartItems.length > 0">Checkout</a>
+    <div class="container ">
+        <div class="column text-lg bg-light  float-right ">Subtotal: <span class="text-medium">{{ cartTotal | currency:'INR'}}</span></div>
+    </div>
+    <!-- <div>
+        <a class="btn btn-success float-right" href="/checkout" *ngIf="cartItems.length > 0">Checkout</a>
+    </div> -->
 </div>
