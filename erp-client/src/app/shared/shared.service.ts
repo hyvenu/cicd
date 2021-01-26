@@ -57,7 +57,7 @@ export class SharedService {
   }
 
   refreshToken(): any {
-    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/auth/api/token/refresh/`, {});
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/authentication/api/token/refresh/`, {});
   }
 
   private refreshTokenTimeout;
@@ -78,6 +78,9 @@ export class SharedService {
 
   public getDepartmentList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`)    
+  }
+  public getUserPermissionList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/authentication/api/get_permissions`)    
   }
 
 }

@@ -10,15 +10,17 @@ import { SharedModule } from '../shared/shared.module';
 import { MainPipe } from '../pipe.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ImageUploadModule } from 'angular2-image-upload';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   { path: 'ManageStore' , component: StoreComponent,canActivate:[AuthGuard]},
   { path: 'ManageStoreList' , component: StoreListComponent,canActivate:[AuthGuard]},
+  { path: 'AdminSite' , component: AdminDashboardComponent,canActivate:[AuthGuard]},
    
 ];
 
 @NgModule({
-  declarations: [StoreComponent, StoreListComponent],
+  declarations: [StoreComponent, StoreListComponent, AdminDashboardComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

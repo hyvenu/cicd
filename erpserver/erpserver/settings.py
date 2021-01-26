@@ -230,3 +230,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'noreply@craftyouridea.com'
 EMAIL_HOST_PASSWORD = 'Welcome@2020'#password associated with above email-id
+
+X_FRAME_OPTIONS = 'ALLOWALL'
+
+XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']

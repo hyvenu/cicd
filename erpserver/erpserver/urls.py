@@ -19,6 +19,9 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from erpserver import views
+admin.AdminSite.index_title = "ERP-Admin"
+admin.AdminSite.site_title = "ERP-Admin"
+admin.AdminSite.site_header = "ERP-Admin"
 
 urlpatterns = [
     # url(r'^$', views.index, name='index'),
