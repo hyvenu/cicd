@@ -11,6 +11,7 @@ import { MainPipe } from '../pipe.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ImageUploadModule } from 'angular2-image-upload';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 const routes: Routes = [
   { path: 'ManageStore' , component: StoreComponent,canActivate:[AuthGuard]},
@@ -40,6 +41,7 @@ const routes: Routes = [
     NbSelectModule,
     ImageUploadModule.forRoot(),
     MainPipe.forRoot(),
+    NgxPermissionsModule.forRoot(),
   ],
   providers:[NbToastrService, NbDialogService],
   exports: []

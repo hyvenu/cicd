@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NbMenuItem } from '@nebular/theme';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { SharedService } from './shared/shared.service';
 import { environment } from '../environments/environment';
 @Component({
@@ -11,7 +11,7 @@ import { environment } from '../environments/environment';
 export class AppComponent implements OnInit {
   
   store_name;
-  constructor(private permissionsService: NgxPermissionsService,private sharedService: SharedService){
+  constructor(private permissionsService: NgxPermissionsService,private roleService:NgxRolesService, private sharedService: SharedService){
     
   }
   items: NbMenuItem[]; 
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
         this.sharedService.getUserPermissionList().subscribe(
         (data) =>{
            this.permissionsService.loadPermissions(data);
+           this.roleService.addRoles(data);
            this.create_menu();
         },
         (error) =>{
@@ -35,6 +36,10 @@ export class AppComponent implements OnInit {
     }else{
       return false;
     }
+  }
+  has_permission(perm): any{
+    let data = this.permissionsService.hasPermission(perm) .then((value:boolean)=>{console.log(value); return value})
+    return data
   }
   create_menu (): any {
     this.items = [
@@ -64,7 +69,7 @@ export class AppComponent implements OnInit {
           {
             title: 'Category',
             link: 'ManageCategory', // goes into angular `routerLink`
-            hidden: !Boolean(this.permissionsService.hasPermission('inventory.view_productcategory') .then((value:boolean)=>{console.log(value); return value}))
+            hidden: Boolean(this.permissionsService.hasPermission('inventory.view_productcategory') .then((value:boolean)=>{console.log(value); return value}))
           },
           {
             title: 'Sub Category',
