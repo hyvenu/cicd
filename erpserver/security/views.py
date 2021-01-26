@@ -24,6 +24,7 @@ class CreateUserAPIView(ListCreateAPIView):
     queryset = User.objects.all()
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
+
     # security = SecurityService()
 
     def perform_create(self, serializer):
@@ -50,14 +51,12 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 class CustomerViewSet(viewsets.ModelViewSet):
-
     queryset = User.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
 class CustomerAddressViewSet(viewsets.ModelViewSet):
-
     queryset = CustomerAddress.objects.all()
     serializer_class = CustomerAddressSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -87,3 +86,15 @@ def forget_password(request):
         user = User.objects.get(email=data['email'])
         if user is not None:
             pass
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_user_permissions(request):
+    user_id = request.user.id
+    user_obj = User.objects.get(id=user_id)
+    if user_obj is not None:
+        perms = user_obj.get_all_permissions()
+        return JsonResponse(list(perms), safe=False, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse('', safe=False, status=status.HTTP_403_FORBIDDEN)

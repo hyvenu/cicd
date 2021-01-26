@@ -115,8 +115,8 @@
                             <td><button nbButton (click)="delete_product(item.id);" size="small" status="danger">X</button></td>
                             <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
                             <td><input nbInput  fieldSize="small"placeholder="" value="{{item.product_name}} - {{item.description}}" readonly/></td>
-                            <td><input nbInput type="number"   fieldSize="small" style="width: 5em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
-                            <td ><nb-select  [size]="medium" class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
+                            <td><input nbInput type="number" oninput="validity.valid || (value='')" fieldSize="small" style="width: 5em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
+                            <td ><nb-select class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
                                 <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                     {{ o.PrimaryUnit }}
                                 </nb-option>

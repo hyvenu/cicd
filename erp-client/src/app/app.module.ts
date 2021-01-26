@@ -16,6 +16,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/jwt.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainPipe } from './pipe.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 @NgModule({
   declarations: [
     AppComponent
@@ -40,6 +41,7 @@ import { MainPipe } from './pipe.module';
     NbMenuModule.forRoot(),
     NbSelectModule,
     NbDatepickerModule.forRoot(),
+    NgxPermissionsModule.forRoot(),
     AdminModule,
 
   ],

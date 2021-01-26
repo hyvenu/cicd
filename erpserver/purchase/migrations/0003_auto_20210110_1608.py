@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
                 ('id', audit_fields.fields.uuid_auto_field.UUIDAutoField(blank=True, editable=False, help_text='System auto field. UUID primary key.', primary_key=True, serialize=False)),
                 ('product_name', models.CharField(max_length=30)),
                 ('description', models.CharField(default='', max_length=100)),
-                ('required_qty', models.ImageField(default=0, null=True, upload_to='')),
+                ('required_qty', models.IntegerField(default=0, null=True)),
                 ('expected_date', models.DateField()),
                 ('pr_no_rf', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='purchase_requisition', to='purchase.purchaserequisition')),
                 ('store', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='store_pr', to='store.store')),

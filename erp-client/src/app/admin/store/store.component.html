@@ -35,8 +35,8 @@
     </div><br>
     <div class="row">
         <div class="col-md-3">
-            <button nbButton status="success" *ngIf="createFlag" (click)="saveStore();" >Save</button>&nbsp;&nbsp;
-            <button nbButton status="success" *ngIf="!createFlag" (click)="updateStore();" >Save</button>&nbsp;&nbsp;
+            <button nbButton status="success" *ngIf="createFlag" (click)="saveStore();"  >Save</button>&nbsp;&nbsp;
+            <button nbButton status="success" *ngIf="!createFlag" (click)="updateStore();" ngxPermissionsOnly='store.change_store' >Save</button>&nbsp;&nbsp;
             
         </div>
     </div>

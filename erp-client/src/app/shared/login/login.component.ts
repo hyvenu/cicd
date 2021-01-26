@@ -4,6 +4,7 @@ import { User } from '../../models/User';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { NbToastrService } from '@nebular/theme';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(private Service:SharedService,
     private router:Router,
     private route: ActivatedRoute,
-    private nbtoastService: NbToastrService,) { }
+    private nbtoastService: NbToastrService,
+   ) { }
 
   ngOnInit(): void {
     this.LoginForm = new FormGroup(
@@ -44,6 +46,9 @@ export class LoginComponent implements OnInit {
       {
        sessionStorage.setItem('user_id',data.user_id);
        sessionStorage.setItem("accessToken",data.access);
+      //  this.permissionsService.loadPermissions(data.permission);
+      //  console.log(this.permissionsService.getPermissions());
+       
       //  sessionStorage.setItem("user_id",data.user_id);
        sessionStorage.setItem("first_name",data.first_name);
        if( this.returnUrl){
