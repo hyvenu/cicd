@@ -47,19 +47,20 @@
             </div><br>
 
             <div class="row">
-            <div class="col-md-4">
-                   <label><u>Address</u></label>
+            <div class="col-md-12">
+                   <label><u>Address</u></label><br>
+                   
             </div>
 
             </div>
             <div class="row">
                 <div class="col-md-5">
-                    <label for="corporateOffice">Corporate Office</label>
+                    <label for="corporateOffice">Corporate Office</label><br>
                     <textarea nbInput formControlName="corporateOfficeFormControl" name="corporateOffice"
                         placeholder="Corporate Office"></textarea>
                 </div>
-                <div class="col-md-6">
-                    <label for="branchOffice">Branch Offices </label>
+                <div class="col-md-5">
+                    <label for="branchOffice">Branch Offices </label><br>
                     <textarea nbInput formControlName="branchOfficeFormControl" name="branchOffice"
                         placeholder="Branch Office"> </textarea>
                 </div>
@@ -102,7 +103,7 @@
 
             <nb-card accent="info">
                 <nb-card-header>
-                    <b><u>Point of Contact</u>&nbsp; </b>
+                    <b><u>Point of Contact</u>&nbsp; </b> 
                     <!-- <div class="row">
         <div class="col-md-3">
             <label for="vendorPointOfContact">Point of Contact</label>
@@ -123,16 +124,16 @@
                         </div>
                         <div class="col-md-3">
                             <label for="vendorMobileNo">Mobile No.</label>
-                            <input nbInput formControlName="vendorMobileNo" name="vendorMobileNo"
-                                placeholder="Mobile No." />
+                            <input nbInput type="number" formControlName="vendorMobileNo" name="vendorMobileNo"
+                                placeholder="Mobile No." oninput="validity.valid || (value='')"/>
                         </div>
                     </div><br>
 
                     <div class="row">
                         <div class="col-md-3">
                             <label for="vendorLandLine">Land line No.</label>
-                            <input nbInput formControlName="vendorLandLine" name="vendorLandLine"
-                                placeholder="Land line" />
+                            <input type="number" nbInput formControlName="vendorLandLine" name="vendorLandLine"
+                                placeholder="Land line" oninput="validity.valid || (value='')" />
                         </div>
                         <div class="col-md-3">
                             <label for="emailId">Email Address</label>
@@ -199,7 +200,7 @@
 
                         <div class="col-md-3">
                             <label for="accountType">Account Type</label>
-                            <nb-select name="accountType" formControlName="accountTypeFormControl"
+                            <nb-select  name="accountType" formControlName="accountTypeFormControl"
                                 [(selected)]="accountTypeSelected">
                                 <nb-option *ngFor="let o of accountTypeOption" value="{{o.value}}">
                                     {{ o.name }}
@@ -247,8 +248,8 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label for="accountNumber">Account Number</label>
-                            <input nbInput formControlName="accountNumberFormControl" name="accountNumber"
-                                placeholder="Account Number" />
+                            <input type="number" nbInput formControlName="accountNumberFormControl" name="accountNumber"
+                                placeholder="Account Number" oninput="validity.valid || (value='')" />
                         </div>
                         <div class="col-md-3">
                             <label for="beneficiaryName">Beneficiary Name</label>

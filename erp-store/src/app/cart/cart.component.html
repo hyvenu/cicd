@@ -20,7 +20,7 @@
         <!-- <app-cart-item [cartItem]=item></app-cart-item> -->
         <div class="container-fluid">
             <div *ngIf="!removeFromCart" class="row">
-                <div class="col-md"><img [src]="BaseUrl + '/' +cartItem.image" height="40px" width="40px" alt="img">{{cartItem.product__description}}</div>
+                <div class="col-md"><img [src]="BaseUrl + '/' +cartItem.image" height="40px" width="40px" alt="img"><br>{{cartItem.product__description}}</div>
                 <div class="col-md">{{cartItem.product__product_name}}</div>
                 <div class="col-md">{{cartItem.pack_unit__qty}} &nbsp; {{cartItem.pack_unit__unit__PrimaryUnit}} </div>
                 <div class="col-md"><button class="btn btn-outline-primary btn-sm" (click)="inc(cartItem)" ><i class="fa fa-plus" ></i></button>&nbsp;{{cartItem.qty}}&nbsp;<button class="btn btn-outline-primary btn-sm" (click)="dec(cartItem)" ><i class="fa fa-minus" ></i></button></div>

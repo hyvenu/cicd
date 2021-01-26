@@ -7,7 +7,7 @@ describe('ManageVendorComponent', () => {
   let fixture: ComponentFixture<ManageVendorComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+    TestBed.configureTestingModule({ 
       declarations: [ ManageVendorComponent ]
     })
     .compileComponents();

@@ -22,6 +22,7 @@ export class ProductListComponent implements OnInit {
   Filters = new Set();
   min: any;
   max: any;
+  wishlist:any;
 
   constructor(private route: Router, private Service: ProductlistService, private activatedRoute: ActivatedRoute) { }
 
