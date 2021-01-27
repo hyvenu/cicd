@@ -38,7 +38,7 @@ export class ManageGrnComponent implements OnInit {
   vendor: any;
   vendor_id: any;
   unit_list: [];
-  
+
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
     private inventoryService: InventoryService,
@@ -168,6 +168,7 @@ export class ManageGrnComponent implements OnInit {
     item.gst_amount = item.amount * item.gst / 100;
     item.total = item.amount + item.gst_amount;
     this.sub_total = 0;
+    this.sgst = 0;
     let st = 0;
     this.selected_product_list.forEach(element => {
       console.log("chnaged event called " + this.sub_total);

@@ -4,6 +4,7 @@ import ast
 from purchase.models import PurchaseRequisition, PurchaseRequisitionProductList, POOrderRequest, PoOrderDetails, \
     GRNMaster, GRNProductList
 from sequences import get_next_value
+
 from datetime import datetime
 
 
@@ -332,6 +333,10 @@ class PurchaseService:
         grn_req.note = grn_data['note']
         grn_req.sub_total = grn_data['sub_total']
         grn_req.grand_total = grn_data['grand_total']
+
+        # if len(serializer.initial_data.getlist('panDoc[]')) > 0:
+        #     for image in serializer.initial_data.getlist('invoiceDoc[]'):
+        #         grn_product.invoice_doc = image
 
         grn_req.save()
 

@@ -83,6 +83,7 @@ class GRNMasterSerializer(serializers.ModelSerializer):
             'note',
             'sub_total',
             'grand_total',
+            'invoice_doc',
         ]
 
 
