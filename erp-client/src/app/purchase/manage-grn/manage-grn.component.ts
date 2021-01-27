@@ -37,7 +37,8 @@ export class ManageGrnComponent implements OnInit {
   vendor_code: any;
   vendor: any;
   vendor_id: any;
-
+  unit_list: [];
+  
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
     private inventoryService: InventoryService,
@@ -90,6 +91,14 @@ export class ManageGrnComponent implements OnInit {
 
         });
     }
+    this.inventoryService.getUnitMasterList().subscribe(
+      (data) => {
+        this.unit_list = data;
+      },
+      (error) => {
+        this.nbtoastService.danger(error, "Error")
+      }
+    );
   }
 
   po_open(dialog: TemplateRef<any>) {

@@ -129,7 +129,12 @@
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.received_qty" (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.rejected_qty" (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.accepted_qty" (change)="calculate(item);" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_id" (change)="calculate(item);" /></td>
+                                <!-- <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_id" (change)="calculate(item);" /></td> -->
+                                <td ><nb-select class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
+                                    <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
+                                        {{ o.PrimaryUnit }}
+                                    </nb-option>
+                                </nb-select></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.po_qty" (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" (change)="calculate(item);" /></td>
