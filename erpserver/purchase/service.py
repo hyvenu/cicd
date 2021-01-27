@@ -342,7 +342,8 @@ class PurchaseService:
             else:
                 grn_product = GRNProductList()
             grn_product.grn = grn_req
-            grn_product.product_code = item['product_id']
+            grn_product.product_id = item['product_id']
+            grn_product.product_code = item['product_code']
             grn_product.product_name = item['product_name']
             grn_product.description = item['description']
             grn_product.hsn_code = item['hsn_code']
@@ -351,8 +352,87 @@ class PurchaseService:
             grn_product.received_qty = item['received_qty']
             grn_product.rejected_qty = item['rejected_qty']
             grn_product.accepted_qty = item['accepted_qty']
-            grn_product.unit_id = item['unit_id']
+            grn_product.unit_id_id = item['unit_id']
             grn_product.unit_price = item['unit_price']
             grn_product.gst = item['gst']
             grn_product.gst_amount = item['gst_amount']
             grn_product.total = item['total']
+            grn_product.save()
+        return grn_req.grn_code
+
+
+
+    @classmethod
+    def get_grn_details(cls, grn_id):
+        final_list = []
+        po_data_list = GRNMaster.objects.filter(id=grn_id).all().values(
+            'id',
+            'grn_code',
+            'grn_date',
+            'grn_status',
+            'po_number',
+            'invoice_number',
+            'invoice_date',
+            'vendor',
+            'vendor_code',
+            'vendor_name',
+            'vendor_address',
+            'vehicle_number',
+            'time_in',
+            'time_out',
+            'transporter_name',
+            'statutory_details',
+            'note',
+            'sub_total',
+            'grand_total',
+        )[0]
+
+        po_data_list['product_list'] = list(GRNProductList.objects.filter(grn=grn_id).all().values(
+            'id',
+            'grn',
+            'product',
+            'product_code',
+            'product_name',
+            'description',
+            'hsn_code',
+            'amount',
+            'po_qty',
+            'received_qty',
+            'rejected_qty',
+            'accepted_qty',
+            'unit_id',
+            'unit_price',
+            'gst',
+            'amount',
+            'gst_amount',
+            'total',
+        ))
+        return po_data_list
+
+
+
+    @classmethod
+    def get_grn_list(cls):
+        grn_list = GRNMaster.objects.all().values(
+            'id',
+            'grn_code',
+            'grn_date',
+            'grn_status',
+            'po_number',
+            'invoice_number',
+            'invoice_date',
+            'vendor',
+            'vendor_code',
+            'vendor_name',
+            'vendor_address',
+            'vehicle_number',
+            'time_in',
+            'time_out',
+            'transporter_name',
+            'statutory_details',
+            'note',
+            'sub_total',
+            'grand_total',
+            )
+        return list(grn_list)
+

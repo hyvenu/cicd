@@ -23,5 +23,8 @@ urlpatterns = [
     path('api/v1/get_po_details', views.get_po_details, name="get_po_details"),
     path('api/v1/delete_po_product', views.delete_po_product, name="delete_po_product"),
     path('api/v1/save_grn', views.save_grn, name="save_grn"),
+    path('api/v1/get_grn_details', views.get_grn_details, name="get_grn_details"),
+    path('api/v1/get_grn_list', views.get_grn_list, name="get_grn_list"),
+
 
 ]

@@ -66,6 +66,30 @@ export class ManageGrnComponent implements OnInit {
       invoiceDocumentFormControl: ['', [Validators.required]],
     });
 
+    let param = this.route.snapshot.queryParams['id'];
+    if (param) {
+      this.purchaseService.getGRNDetails(param).subscribe(
+        (data) => {
+          // this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
+          this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
+          this.grnMasterForm.controls['grnNumberFormControl'].setValue(data.grn_code);
+          this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
+          this.grnMasterForm.controls['invoiceNumberFormControl'].setValue(data.invoice_number);
+          this.grnMasterForm.controls['invoiceDateFormControl'].setValue(data.invoice_date);
+          this.grnMasterForm.controls['vendorNameFormControl'].setValue(data.vendor_name);
+          this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data.branch_ofc_addr);
+          this.grnMasterForm.controls['vehicleNumberFormControl'].setValue(data.vehicle_number);
+          this.grnMasterForm.controls['timeInFormControl'].setValue(data.time_in);
+          this.grnMasterForm.controls['timeOutFormControl'].setValue(data.time_out);
+
+          this.grnMasterForm.controls['transporterNameFormControl'].setValue(data.vendor_name);
+          this.grnMasterForm.controls['statutoryDetailsFormControl'].setValue(data.branch_ofc_addr);
+          this.grnMasterForm.controls['noteFormControl'].setValue(data.note);
+          this.selected_product_list = data.product_list;
+
+
+        });
+    }
   }
 
   po_open(dialog: TemplateRef<any>) {
@@ -194,6 +218,7 @@ export class ManageGrnComponent implements OnInit {
     formData.append('statutory_details', this.grnMasterForm.controls['statutoryDetailsFormControl'].value);
     formData.append('note', this.grnMasterForm.controls['noteFormControl'].value);
 
+    let flag = false;
     this.selected_product_list.forEach((element) => {
       // console.log(element.expected_date);
       element.expected_date = this.formatDate(element.expected_date);
@@ -205,21 +230,28 @@ export class ManageGrnComponent implements OnInit {
       } else {
         formData.append('grn_status', 'PARTIALLY_COMPLETED');
       }
+      if (element.po_qty < element.received_qty) {
+        flag = true;
+      }
     });
-    
+
     formData.append('product_list', JSON.stringify(this.selected_product_list));
     formData.append('sub_total', this.sub_total.toString());
     formData.append('grand_total', this.grand_total.toString());
 
-    this.purchaseService.saveGRN(formData).subscribe(
-      (data) => {
-        this.nbtoastService.success("GRN Details Saved Successfully, grn number is : " + data)
-        this.ngOnInit();
-      },
-      (error) => {
-        this.nbtoastService.danger(error.detail);
-      }
-    );
+    if (flag) {
+      this.nbtoastService.danger("Error: Received quantity is more than PO quantity");
+    } else {
+      this.purchaseService.saveGRN(formData).subscribe(
+        (data) => {
+          this.nbtoastService.success("GRN Details Saved Successfully, grn number is : " + data)
+          this.ngOnInit();
+        },
+        (error) => {
+          this.nbtoastService.danger(error.detail);
+        }
+      );
+    }
   }
 
   formatDate(date) {

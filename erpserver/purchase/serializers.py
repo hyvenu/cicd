@@ -64,6 +64,7 @@ class GRNMasterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.GRNMaster
         fields = [
+            'id',
             'grn_code',
             'grn_date',
             'grn_status',
@@ -89,6 +90,7 @@ class GRNProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.GRNProductList
         fields = [
+            'id',
             'grn',
             'product',
             'product_code',

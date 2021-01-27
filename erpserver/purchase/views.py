@@ -112,3 +112,19 @@ def save_grn(request):
     purchase_service = PurchaseService()
     pr_res = purchase_service.save_grn(data)
     return JsonResponse(pr_res, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_grn_details(request):
+    purchase_service = PurchaseService()
+    grn_id = request.query_params['id']
+    grn_obj = purchase_service.get_grn_details(grn_id)
+    return JsonResponse(grn_obj, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_grn_list(request):
+    purchase_service = PurchaseService()
+    grn_list = purchase_service.get_grn_list()
+    return JsonResponse(grn_list, safe=False)

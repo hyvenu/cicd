@@ -113,7 +113,7 @@ export class AppComponent implements OnInit {
            },
 	   {   
 	    title: 'Manage GRN',
-              link: 'ManageGrn'
+              link: 'GrnList'
             },
           ]
 
