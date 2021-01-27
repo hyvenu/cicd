@@ -33,6 +33,7 @@ class POOrderRequest(AuditUuidModelMixin):
     igst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     invoice_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     terms_conditions = models.CharField(max_length=2000, null=True)
+    store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_po_req")
 
     def __str__(self):
         return self.po_number
@@ -65,6 +66,7 @@ class PurchaseRequisition(AuditUuidModelMixin):
     status = models.CharField(max_length=50, null=True)
     approved_by = models.CharField(max_length=50, null=True)
     approved_date = models.DateField(null=True)
+    store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_pur_req")
 
     class Meta:
         pass
@@ -80,7 +82,7 @@ class PurchaseRequisitionProductList(AuditUuidModelMixin):
     product_name = models.CharField(max_length=30, null=True)
     description = models.CharField(max_length=100, default='')
     store = models.CharField(max_length=50, null=True)
-    # store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="store_pr")
+    store_obj = models.ForeignKey(Store, on_delete=models.CASCADE, null=True, related_name="store_pr")
     required_qty = models.IntegerField(null=True, default=0)
     unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="purchase_requisition_unit")
     expected_date = models.DateField(null=True)
@@ -113,6 +115,7 @@ class GRNMaster(AuditUuidModelMixin):
     cgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     igst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     invoice_doc = models.ImageField(upload_to="static/upload/grn/invoice_do", null=True, blank=True, default=None)
+    store =  models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="grn_store")
 
 
 class GRNProductList(AuditUuidModelMixin):

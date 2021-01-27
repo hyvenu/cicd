@@ -43,6 +43,7 @@ class PurchaseService:
             'status',
             'approved_by',
             'approved_date',
+            'store_id',
         )[0]
 
         product_list = PurchaseRequisitionProductList.objects. \
@@ -83,10 +84,11 @@ class PurchaseService:
 
     @classmethod
     def save_pr_details(cls, pr_data, pr_object):
+
         pr_object.pr_date = pr_data['pr_date']
         pr_object.created_user = pr_data['created_user']
         pr_object.dept_id = pr_data['dept']
-
+        pr_object.store_id = pr_data['store_id']
         pr_object.save()
         product_list = ast.literal_eval(pr_data['product_list'])
         for product in product_list:
@@ -102,10 +104,15 @@ class PurchaseService:
             pr_list.product_name = product['product_name']
             pr_list.description = product['description']
             pr_list.store = product['store']
+            store = Store.objects.filter(store_name=product['store']).all().values(
+                'id'
+            )[0]
+            pr_list.store_obj_id = store['id']
             pr_list.required_qty = int(product['required_qty'])
             pr_list.unit_id = product['unit']
             pr_list.expected_date = product['expected_date']
             pr_list.save()
+
 
     @classmethod
     @transaction.atomic
@@ -204,6 +211,7 @@ class PurchaseService:
         po_order_req.igst = po_data['igst']
         po_order_req.invoice_amount = po_data['invoice_amount']
         po_order_req.terms_conditions = po_data['terms_conditions']
+        po_order_req.store_id = po_data['store_id']
         po_order_req.save()
 
         product_list = ast.literal_eval(po_data['po_products'])
@@ -255,7 +263,8 @@ class PurchaseService:
             'cgst',
             'igst',
             'invoice_amount',
-            'terms_conditions'
+            'terms_conditions',
+            'store_id',
         )[0]
 
         po_data_list['order_details'] = list(PoOrderDetails.objects.filter(po_order_id=po_id).all().values(
@@ -300,7 +309,8 @@ class PurchaseService:
             'cgst',
             'igst',
             'invoice_amount',
-            'terms_conditions'
+            'terms_conditions',
+            'store_id',
         )
         return list(po_data_list)
 
@@ -312,7 +322,7 @@ class PurchaseService:
         return True
 
     @transaction.atomic()
-    def save_grn(cls, grn_data):
+    def save_grn(cls, grn_data, file):
         if 'id' in grn_data:
             grn_req = GRNMaster.objects.get(id=grn_data['id'])
         else:
@@ -323,6 +333,7 @@ class PurchaseService:
         grn_req.po_number = grn_data['po_number']
         grn_req.invoice_number = grn_data['invoice_number']
         grn_req.invoice_date = grn_data['invoice_date']
+        grn_req.grn_status = grn_data['grn_status']
         grn_req.vendor = grn_data['vendor']
         grn_req.vendor_code = grn_data['vendor_code']
         grn_req.vendor_name = grn_data['vendor_name']
@@ -338,10 +349,11 @@ class PurchaseService:
         grn_req.sgst = grn_data['sgst']
         grn_req.cgst = grn_data['cgst']
         grn_req.igst = grn_data['igst']
+        grn_req.store_id = grn_data['store_id']
 
-        # if len(serializer.initial_data.getlist('panDoc[]')) > 0:
-        #     for image in serializer.initial_data.getlist('invoiceDoc[]'):
-        #         grn_product.invoice_doc = image
+        if len(file.getlist('panDoc[]')) > 0:
+            for image in file.getlist('invoiceDoc[]'):
+                grn_req.invoice_doc = image
 
         grn_req.save()
 
@@ -370,24 +382,14 @@ class PurchaseService:
             grn_product.batch_code = item['batch_code']
             grn_product.expiry_date = item['expiry_date']
             grn_product.save()
-            # pr_no = POOrderRequest.objects.filter(po_number=grn_data['po_number']).all().values(
-            #     'pr_number'
-            # )[0]
-            #
-            # store = PurchaseRequisitionProductList.objects.filter(pr_no_rf=pr_no).all().values(
-            #     'store'
-            # )[0]
-            #
-            # store_id = Store.objects.filter(store_name = store).all().values(
-            #     'id'
-            # )[0]
-            # ps = ProductStock()
-            # ps.grn_number = grn_req.grn_code
-            # ps.product_id = item['product_id']
-            # ps.store_id = store_id
-            # ps.batch_number = item['batch_number']
-            # ps.batch_expiry = grn_product.expiry_date
-            # ps.save()
+            ps = ProductStock()
+            ps.grn_number = grn_req.grn_code
+            ps.product_id = item['product_id']
+            ps.store_id = grn_data['store_id']
+            ps.unit_id = item['unit_id']
+            ps.batch_number = item['batch_code']
+            ps.batch_expiry = grn_product.expiry_date
+            ps.save()
         return grn_req.grn_code
 
     @classmethod
@@ -413,6 +415,11 @@ class PurchaseService:
             'note',
             'sub_total',
             'grand_total',
+            'sgst',
+            'cgst',
+            'igst',
+            'store_id',
+            'invoice_doc',
         )[0]
 
         grn_data_list['product_list'] = list(GRNProductList.objects.filter(grn=grn_id).all().values(
@@ -436,6 +443,7 @@ class PurchaseService:
             'total',
             'batch_code',
             'expiry_date',
+
         ))
         return grn_data_list
 
@@ -461,5 +469,6 @@ class PurchaseService:
             'note',
             'sub_total',
             'grand_total',
+            'invoice_doc',
         )
         return list(grn_list)

@@ -31,6 +31,7 @@ export class PurchaseRequisitionComponent implements OnInit {
   department_list;
   selectedOption;
   pr_id;
+  store_id;
 
   selected_product_list = [];
 
@@ -69,6 +70,7 @@ export class PurchaseRequisitionComponent implements OnInit {
     console.log(sessionStorage.getItem("first_name"));
     this.login_user = sessionStorage.getItem("first_name");
     this.store_name = sessionStorage.getItem("store_name");
+    this.store_id = sessionStorage.getItem("store_id");
     this.prForm = this.formBuilder.group({
       prNoFormControl: ['', [Validators.required]],
       prDateFormControl: ['', [Validators.required]],
@@ -223,7 +225,7 @@ export class PurchaseRequisitionComponent implements OnInit {
     formData.append('pr_date', this.formatDate(this.prForm.controls['prDateFormControl'].value));
     formData.append('created_user', this.prForm.controls['userFormControl'].value);
     formData.append('dept', this.selectedOption);
-
+    formData.append('store_id', this.store_id);
 
     this.selected_product_list.forEach((element) => {
       console.log(element.expected_date);

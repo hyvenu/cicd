@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Identifiers } from '@angular/compiler';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-manage-grn',
@@ -31,7 +32,7 @@ export class ManageGrnComponent implements OnInit {
   igst: number = 0;
   sub_total: number = 0;
   grand_total: number = 0;
-  invoiceDoc: any;
+  invoiceDoc = [];
   imgSrc: any;
   grn_id: any;
   vendor_code: any;
@@ -39,6 +40,7 @@ export class ManageGrnComponent implements OnInit {
   vendor: any;
   vendor_id: any;
   unit_list: [];
+  store_id;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -52,6 +54,11 @@ export class ManageGrnComponent implements OnInit {
   ngOnInit(): void {
     this.IsGrnInfo = true;
     this.selected_product_list = [];
+    this.sub_total = 0;
+    this.sgst = 0;
+    this.cgst = 0;
+    this.igst = 0;
+    this.grand_total = 0;
     this.grnMasterForm = this.formBuilder.group({
       grnNumberFormControl: ['', [Validators.required]],
       grnDateFormControl: ['', [Validators.required]],
@@ -76,19 +83,22 @@ export class ManageGrnComponent implements OnInit {
           // this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
           this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
           this.grnMasterForm.controls['grnNumberFormControl'].setValue(data.grn_code);
-          this.grnMasterForm.controls['grnDateFormControl'].setValue(data.grn_date);
+          this.grnMasterForm.controls['grnDateFormControl'].setValue(moment(data.grn_date));
           this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
           this.grnMasterForm.controls['invoiceNumberFormControl'].setValue(data.invoice_number);
-          // this.grnMasterForm.controls['invoiceDateFormControl'].setValue(data.invoice_date);
+          this.grnMasterForm.controls['invoiceDateFormControl'].setValue(moment(data.invoice_date));
           this.grnMasterForm.controls['vendorNameFormControl'].setValue(data.vendor_name);
           this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data.vendor_address);
           this.grnMasterForm.controls['vehicleNumberFormControl'].setValue(data.vehicle_number);
           this.grnMasterForm.controls['timeInFormControl'].setValue(data.time_in);
           this.grnMasterForm.controls['timeOutFormControl'].setValue(data.time_out);
-
-          this.grnMasterForm.controls['transporterNameFormControl'].setValue(data.vendor_name);
-          this.grnMasterForm.controls['statutoryDetailsFormControl'].setValue(data.branch_ofc_addr);
+          console.log("grn status"+ data.grn_status);
+          this.grnMasterForm.controls['transporterNameFormControl'].setValue(data.transporter_name);
+          this.grnMasterForm.controls['statutoryDetailsFormControl'].setValue(data.statutory_details);
           this.grnMasterForm.controls['noteFormControl'].setValue(data.note);
+          this.grnMasterForm.controls['invoiceDocumentFormControl'].setValue(data.invoice_doc);
+          
+          this.store_id = data.store_id;
 
           this.sub_total = data.sub_total;
           this.grand_total = (data.grand_total);
@@ -96,7 +106,11 @@ export class ManageGrnComponent implements OnInit {
           this.cgst = (data.cgst);
           this.igst = (data.igst);
           this.selected_product_list = data.product_list;
-
+          
+          this.selected_product_list.forEach((element) => {
+            element.expiry_date = moment(element.expiry_date);
+            // console.log("expiry " + element.expiry_date);
+          });
 
         });
     }
@@ -123,6 +137,7 @@ export class ManageGrnComponent implements OnInit {
               this.vendor_code = data2.vendor_code;
               this.vendor_id = data.vendor_id;
               this.vendor_state_code = data.state_code;
+              this.store_id = data.store_id;
               this.grnMasterForm.controls['vendorNameFormControl'].setValue(data2.vendor_name);
               this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data2.branch_ofc_addr);
 
@@ -239,10 +254,10 @@ export class ManageGrnComponent implements OnInit {
       formData.append('id', this.grn_id);
       formData.append('grn_code', this.grnMasterForm.controls['grnNumberFormControl'].value);
     }
-    formData.append('grn_date', this.formatDate(this.grnMasterForm.controls['grnDateFormControl'].value));
+    formData.append('grn_date', moment(this.grnMasterForm.controls['grnDateFormControl'].value).format("YYYY-MM-DD"));
     formData.append('po_number', this.grnMasterForm.controls['poNumberFormControl'].value);
     formData.append('invoice_number', this.grnMasterForm.controls['invoiceNumberFormControl'].value);
-    formData.append('invoice_date', this.formatDate(this.grnMasterForm.controls['invoiceDateFormControl'].value));
+    formData.append('invoice_date', moment(this.grnMasterForm.controls['invoiceDateFormControl'].value).format("YYYY-MM-DD"));
     formData.append('vendor_code', this.vendor_code);
     formData.append('vendor', this.vendor_id);
     formData.append('vendor_name', this.grnMasterForm.controls['vendorNameFormControl'].value);
@@ -253,13 +268,17 @@ export class ManageGrnComponent implements OnInit {
     formData.append('transporter_name', this.grnMasterForm.controls['transporterNameFormControl'].value);
     formData.append('statutory_details', this.grnMasterForm.controls['statutoryDetailsFormControl'].value);
     formData.append('note', this.grnMasterForm.controls['noteFormControl'].value);
+    formData.append('store_id', this.store_id);
+    
+    if(this.invoiceDoc.length){
+      for(let i=0 ; i < this.invoiceDoc.length ; i++)
+        formData.append('invoiceDoc[]', this.invoiceDoc[i],this.invoiceDoc[i].name);
+    }
 
     let flag = false;
     this.selected_product_list.forEach((element) => {
-      element.expiry_date = this.formatDate(element.expiry_date);
-      console.log("expiry " + element.expiry_date);
-      // element.active = element.active;
-      // console.log(element.expected_date);
+      
+      element.expiry_date = moment(element.expiry_date).format("YYYY-MM-DD");
 
       if (element.accepted_qty == element.po_qty) {
         formData.append('grn_status', 'COMPLETED');

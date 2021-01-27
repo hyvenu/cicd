@@ -110,7 +110,8 @@ def delete_po_product(request):
 def save_grn(request):
     data = request.data
     purchase_service = PurchaseService()
-    pr_res = purchase_service.save_grn(data)
+    file = request.FILES
+    pr_res = purchase_service.save_grn(data, file)
     return JsonResponse(pr_res, safe=False)
 
 
