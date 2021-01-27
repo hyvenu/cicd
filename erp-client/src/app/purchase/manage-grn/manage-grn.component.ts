@@ -35,6 +35,7 @@ export class ManageGrnComponent implements OnInit {
   imgSrc: any;
   grn_id: any;
   vendor_code: any;
+  vendor_state_code;
   vendor: any;
   vendor_id: any;
   unit_list: [];
@@ -50,6 +51,7 @@ export class ManageGrnComponent implements OnInit {
 
   ngOnInit(): void {
     this.IsGrnInfo = true;
+    this.selected_product_list = [];
     this.grnMasterForm = this.formBuilder.group({
       grnNumberFormControl: ['', [Validators.required]],
       grnDateFormControl: ['', [Validators.required]],
@@ -74,11 +76,12 @@ export class ManageGrnComponent implements OnInit {
           // this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
           this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
           this.grnMasterForm.controls['grnNumberFormControl'].setValue(data.grn_code);
+          this.grnMasterForm.controls['grnDateFormControl'].setValue(data.grn_date);
           this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
           this.grnMasterForm.controls['invoiceNumberFormControl'].setValue(data.invoice_number);
-          this.grnMasterForm.controls['invoiceDateFormControl'].setValue(data.invoice_date);
+          // this.grnMasterForm.controls['invoiceDateFormControl'].setValue(data.invoice_date);
           this.grnMasterForm.controls['vendorNameFormControl'].setValue(data.vendor_name);
-          this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data.branch_ofc_addr);
+          this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data.vendor_address);
           this.grnMasterForm.controls['vehicleNumberFormControl'].setValue(data.vehicle_number);
           this.grnMasterForm.controls['timeInFormControl'].setValue(data.time_in);
           this.grnMasterForm.controls['timeOutFormControl'].setValue(data.time_out);
@@ -86,6 +89,12 @@ export class ManageGrnComponent implements OnInit {
           this.grnMasterForm.controls['transporterNameFormControl'].setValue(data.vendor_name);
           this.grnMasterForm.controls['statutoryDetailsFormControl'].setValue(data.branch_ofc_addr);
           this.grnMasterForm.controls['noteFormControl'].setValue(data.note);
+
+          this.sub_total = data.sub_total;
+          this.grand_total = (data.grand_total);
+          this.sgst = data.sgst;
+          this.cgst = (data.cgst);
+          this.igst = (data.igst);
           this.selected_product_list = data.product_list;
 
 
@@ -113,12 +122,14 @@ export class ManageGrnComponent implements OnInit {
             this.purchaseService.getVendor(data.vendor_id).subscribe((data2) => {
               this.vendor_code = data2.vendor_code;
               this.vendor_id = data.vendor_id;
+              this.vendor_state_code = data.state_code;
               this.grnMasterForm.controls['vendorNameFormControl'].setValue(data2.vendor_name);
               this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data2.branch_ofc_addr);
 
               this.purchaseService.getPODetails(data.id).subscribe(
                 (po_details) => {
                   // this.selected_product_list = po_details.order_details;
+                  this.selected_product_list = [];
                   let i = 1;
                   po_details.order_details.forEach(element => {
 
@@ -126,7 +137,7 @@ export class ManageGrnComponent implements OnInit {
                       (product) => {
                         this.selected_product_list.push({
                           slno: i++,
-                          product_id: element['id'],
+                          product_id: product['id'],
                           product_code: product['product_code'],
                           product_name: product['product_name'],
                           description: product['description'],
@@ -135,12 +146,14 @@ export class ManageGrnComponent implements OnInit {
                           po_qty: element['qty'],
                           received_qty: element['qty'],
                           rejected_qty: 0,
-                          accepted_qty: 0,
+                          accepted_qty: element['qty'],
                           unit_id: element['unit_id'],
                           unit_price: element['unit_price'],
                           gst: element['gst'],
                           gst_amount: element['gst_amount'],
-                          total: element['amount'] + element['gst_amount'],
+                          total: (Number(element['amount']) + Number(element['gst_amount'])),
+                          batch_code: '',
+                          expiry_date: null,
                         });
                       });
                     console.log(element['product_id']);
@@ -150,13 +163,20 @@ export class ManageGrnComponent implements OnInit {
                 }
               );
             });
-            console.log(data.po_number);
-            this.selected_product_list.forEach(element => {
-              this.sub_total = this.sub_total + Number(element['amount']);
-              this.sgst = this.sgst + Number(element['gst']);
-              console.log("element.amount " + element['amount']);
-            });
+
+            this.sub_total = data.sub_total
+            this.grand_total = data.invoice_amount
+            console.log('grand total ' + this.grand_total)
+            if (this.vendor_state_code == '29') {
+              this.sgst = data.sgst
+              this.cgst = data.cgst
+            } else {
+              this.igst = data.igst
+
+            }
           });
+
+
       }
     );
   }
@@ -170,6 +190,7 @@ export class ManageGrnComponent implements OnInit {
     this.sub_total = 0;
     this.sgst = 0;
     let st = 0;
+    
     this.selected_product_list.forEach(element => {
       console.log("chnaged event called " + this.sub_total);
 
@@ -178,8 +199,13 @@ export class ManageGrnComponent implements OnInit {
       this.sgst = this.sgst + Number(element.gst);
     });
     this.sub_total = st;
-    this.sgst = this.sgst / 2;
-    this.cgst = this.sgst;
+    if (this.vendor_state_code == '29') {
+        this.sgst = this.sgst / 2;
+        this.cgst = this.sgst;
+    } else {
+      this.igst = this.sgst;
+      this.sgst = 0;
+    }
     this.grand_total = this.sub_total + ((this.sgst + this.cgst) * this.sub_total / 100)
   }
 
@@ -230,9 +256,9 @@ export class ManageGrnComponent implements OnInit {
 
     let flag = false;
     this.selected_product_list.forEach((element) => {
-      // console.log(element.expected_date);
-      element.expected_date = this.formatDate(element.expected_date);
-      element.active = element.active;
+      element.expiry_date = this.formatDate(element.expiry_date);
+      console.log("expiry " + element.expiry_date);
+      // element.active = element.active;
       // console.log(element.expected_date);
 
       if (element.accepted_qty == element.po_qty) {
@@ -248,6 +274,10 @@ export class ManageGrnComponent implements OnInit {
     formData.append('product_list', JSON.stringify(this.selected_product_list));
     formData.append('sub_total', this.sub_total.toString());
     formData.append('grand_total', this.grand_total.toString());
+    formData.append('sgst', this.sgst.toString());
+    formData.append('cgst', this.cgst.toString());
+    formData.append('igst', this.igst.toString());
+
 
     if (flag) {
       this.nbtoastService.danger("Error: Received quantity is more than PO quantity");

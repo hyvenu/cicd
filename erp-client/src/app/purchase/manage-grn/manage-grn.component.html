@@ -31,7 +31,7 @@
                     <label for="grnDate">Invoice Date</label>
                     <input nbInput formControlName="invoiceDateFormControl" name="invoiceDate"
                         [nbDatepicker]="invoicedatepicker" placeholder="inoice Date" />
-                    <nb-datepicker #invoicedatepicker></nb-datepicker>
+                    <nb-datepicker format="DD-MM-yyyy" #invoicedatepicker></nb-datepicker>
                 </div>
             </div><br>
             <div class="row">
@@ -119,10 +119,10 @@
                             <th>Expiry date</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
+                            <tr *ngFor="let item of selected_product_list; let i=index" [class.hidden]="!item.active">
                                 <!-- <td><button nbButton (click)="delete(item);" status="danger" size="small"
                                         *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td> -->
-                                <td><input nbInput placeholder=""  value={{item.slno}} /></td>
+                                <td><input nbInput placeholder=""  value={{i+1}} /></td>
                                 <td><input nbInput placeholder=""  value={{item.product_code}} /></td>
                                 <td><input nbInput placeholder=""  value={{item.product_name}} /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.hsn_code" /></td>
@@ -144,10 +144,10 @@
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.total" (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.batch_code" /></td>
                                 <!-- <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" /></td> -->
-                                <td><input nbInput [(ngModel)]="item.expiry_date" [nbDatepicker]="expiry_date_datepicker"
+                                <td><input nbInput [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" [nbDatepicker]="expiry_date_datepicker"
                                     placeholder="Date" />
                                     <!-- <input [nbDatepicker]="datepicker"> -->
-                                    <nb-datepicker #expiry_date_datepicker></nb-datepicker>
+                                    <nb-datepicker format="DD-MM-yyyy"  #expiry_date_datepicker></nb-datepicker>
                                     </td>
                             </tr>
                         </tbody>

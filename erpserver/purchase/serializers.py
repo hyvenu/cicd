@@ -84,6 +84,9 @@ class GRNMasterSerializer(serializers.ModelSerializer):
             'sub_total',
             'grand_total',
             'invoice_doc',
+            'sgst',
+            'cgst',
+            'igst',
         ]
 
 
@@ -109,4 +112,6 @@ class GRNProductListSerializer(serializers.ModelSerializer):
             'amount',
             'gst_amount',
             'total',
+            'batch_code'
+            'expiry_date'
         ]

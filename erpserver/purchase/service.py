@@ -1,6 +1,8 @@
 from django.db import transaction
 
 import ast
+
+from inventory.models import ProductStock, Store
 from purchase.models import PurchaseRequisition, PurchaseRequisitionProductList, POOrderRequest, PoOrderDetails, \
     GRNMaster, GRNProductList
 from sequences import get_next_value
@@ -333,6 +335,9 @@ class PurchaseService:
         grn_req.note = grn_data['note']
         grn_req.sub_total = grn_data['sub_total']
         grn_req.grand_total = grn_data['grand_total']
+        grn_req.sgst = grn_data['sgst']
+        grn_req.cgst = grn_data['cgst']
+        grn_req.igst = grn_data['igst']
 
         # if len(serializer.initial_data.getlist('panDoc[]')) > 0:
         #     for image in serializer.initial_data.getlist('invoiceDoc[]'):
@@ -362,15 +367,33 @@ class PurchaseService:
             grn_product.gst = item['gst']
             grn_product.gst_amount = item['gst_amount']
             grn_product.total = item['total']
+            grn_product.batch_code = item['batch_code']
+            grn_product.expiry_date = item['expiry_date']
             grn_product.save()
+            # pr_no = POOrderRequest.objects.filter(po_number=grn_data['po_number']).all().values(
+            #     'pr_number'
+            # )[0]
+            #
+            # store = PurchaseRequisitionProductList.objects.filter(pr_no_rf=pr_no).all().values(
+            #     'store'
+            # )[0]
+            #
+            # store_id = Store.objects.filter(store_name = store).all().values(
+            #     'id'
+            # )[0]
+            # ps = ProductStock()
+            # ps.grn_number = grn_req.grn_code
+            # ps.product_id = item['product_id']
+            # ps.store_id = store_id
+            # ps.batch_number = item['batch_number']
+            # ps.batch_expiry = grn_product.expiry_date
+            # ps.save()
         return grn_req.grn_code
-
-
 
     @classmethod
     def get_grn_details(cls, grn_id):
         final_list = []
-        po_data_list = GRNMaster.objects.filter(id=grn_id).all().values(
+        grn_data_list = GRNMaster.objects.filter(id=grn_id).all().values(
             'id',
             'grn_code',
             'grn_date',
@@ -392,7 +415,7 @@ class PurchaseService:
             'grand_total',
         )[0]
 
-        po_data_list['product_list'] = list(GRNProductList.objects.filter(grn=grn_id).all().values(
+        grn_data_list['product_list'] = list(GRNProductList.objects.filter(grn=grn_id).all().values(
             'id',
             'grn',
             'product',
@@ -411,10 +434,10 @@ class PurchaseService:
             'amount',
             'gst_amount',
             'total',
+            'batch_code',
+            'expiry_date',
         ))
-        return po_data_list
-
-
+        return grn_data_list
 
     @classmethod
     def get_grn_list(cls):
@@ -438,6 +461,5 @@ class PurchaseService:
             'note',
             'sub_total',
             'grand_total',
-            )
+        )
         return list(grn_list)
-

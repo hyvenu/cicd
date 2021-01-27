@@ -109,6 +109,9 @@ class GRNMaster(AuditUuidModelMixin):
     note = models.CharField(max_length=200, null=True, default=None)
     sub_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    sgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    cgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    igst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     invoice_doc = models.ImageField(upload_to="static/upload/grn/invoice_do", null=True, blank=True, default=None)
 
 
@@ -130,4 +133,6 @@ class GRNProductList(AuditUuidModelMixin):
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    batch_code = models.CharField(max_length=30, null=True)
+    expiry_date = models.DateField(null=True)
 

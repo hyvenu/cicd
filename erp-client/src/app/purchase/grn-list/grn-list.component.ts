@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { isDefined } from '@angular/compiler/src/util';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NbToastrService, NbDialogService } from '@nebular/theme';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { PurchaseService } from '../purchase.service';
+
 
 @Component({
   selector: 'app-grn-list',
@@ -23,7 +30,7 @@ export class GrnListComponent implements OnInit {
         title: 'GRN Code',        
         type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageGRN?id=${row.id}">${row.grn_code}</a>`;
+          return `<a href="ManageGrn?id=${row.id}">${row.grn_code}</a>`;
         }
       },
       grn_date: {
@@ -43,9 +50,23 @@ export class GrnListComponent implements OnInit {
 
   data = [
   ]
-  constructor() { }
+  constructor(private formBuilder: FormBuilder,
+    private purchaseService: PurchaseService,
+    private nbtoastService: NbToastrService,
+    private dialogService: NbDialogService,
+    private routes: Router,) { 
+
+  }
 
   ngOnInit(): void {
+    this.purchaseService.getGRNList().subscribe(
+      (data) => {
+          this.data = data;
+      },
+      (error) => {
+          this.nbtoastService.danger(error.error.detail);
+      }
+    );
   }
 
 }
