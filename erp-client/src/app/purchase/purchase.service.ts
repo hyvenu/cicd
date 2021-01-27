@@ -66,4 +66,7 @@ export class PurchaseService {
   public deleteProductFromPO(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/delete_po_product`, data)
   }
+  public saveGRN(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/save_grn`, data)
+  }
 }

@@ -1,38 +1,203 @@
 <nb-tabset>
-    <nb-tab tabTitle="GRN Information" [active]="isGRNInfo">
+    <nb-tab tabTitle="GRN Information" [active]="IsGrnInfo">
 
-        <div id="" [formGroup]="grnForm">
+        <div id="" [formGroup]="grnMasterForm">
             <div class="row">
                 <div class="col-md-3">
-                    <label for="grnNo">GRN Number</label>
-                    <input nbInput formControlName="grnNoFormControl" name="grnNo" placeholder="GRN Number"
+                    <label for="grnNumber">GRN Number</label>
+                    <input nbInput formControlName="grnNumberFormControl" name="grnNumber" placeholder="GRN Number"
                         [readonly]="true" />
                 </div>
                 <div class="col-md-3">
-                    <label for="grnDate">GRN Date </label>
+                    <label for="grnDate">GRN Date</label>
                     <input nbInput formControlName="grnDateFormControl" name="grnDate" [nbDatepicker]="datepicker"
                         placeholder="GRN Date" />
                     <nb-datepicker #datepicker></nb-datepicker>
                 </div>
                 <div class="col-md-3">
-                    <label for="poNo">PO Number</label>
-                    <input nbInput formControlName="poNoFormControl" name="poNo" placeholder="PO Number"
-                        [readonly]="true" />
+                    <label for="poNumber">PO Number</label>
+                    <input nbInput formControlName="poNumberFormControl" name="poNumber" placeholder="PO Number"
+                        (keypress)="po_open(dialog)" />
+                    <!-- <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="pr_number"  /> -->
                 </div>
             </div><br>
             <div class="row">
                 <div class="col-md-3">
-                    <label for="invoiceNo">Invoice Number</label>
-                    <input nbInput formControlName="invoiceNoFormControl" name="invoiceNo" placeholder="Invoice Number"
-                        [readonly]="true" />
+                    <label for="invoiceNumber">Invoice Number </label>
+                    <input nbInput formControlName="invoiceNumberFormControl" name="invoiceNumber"
+                        placeholder="Invoice Number" />
                 </div>
                 <div class="col-md-3">
-                    <label for="invoiceDate">Invoice Date </label>
-                    <input nbInput formControlName="invoiceDateFormControl" name="invoiceDate" [nbDatepicker]="datepicker"
-                        placeholder="Invoice Date" />
-                    <nb-datepicker #datepicker></nb-datepicker>
+                    <label for="grnDate">Invoice Date</label>
+                    <input nbInput formControlName="invoiceDateFormControl" name="invoiceDate"
+                        [nbDatepicker]="invoicedatepicker" placeholder="inoice Date" />
+                    <nb-datepicker #invoicedatepicker></nb-datepicker>
                 </div>
             </div><br>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="vendorName">Vendor Name </label>
+                    <input nbInput formControlName="vendorNameFormControl" name="vendorName"
+                        placeholder="Vendor Name" />
+                </div>
+                <div class="col-md-3">
+                    <label for="vendorAddress">Vendor Address </label>
+                    <textarea nbInput formControlName="vendorAddressFormControl" name="corporateOffice"
+                        placeholder="Corporate Office"></textarea>
+                </div>
+            </div><br>
+
+            <nb-card accent="info">
+                <nb-card-header>
+                    <b><u>Transportation Details</u>&nbsp; </b>
+                </nb-card-header>
+                <nb-card-body>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="vehicleNumber">Vehicle Number</label>
+                            <input nbInput formControlName="vehicleNumberFormControl" name="vehicleNumber"
+                                placeholder="Vehicle Number" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="timeIn">Time In </label>
+                            <input nbInput formControlName="timeInFormControl" name="timeIn" value=""
+                                placeholder="Time In" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="timeOut">Time Out </label>
+                            <input nbInput formControlName="timeOutFormControl" name="timeOut" value=""
+                                placeholder="Time Out" />
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="transporterName"> Transporter Name</label>
+                            <input nbInput formControlName="transporterNameFormControl" name="Transporter Name"
+                                placeholder="Transporter Name" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="statutoryDetails">Statutory Details </label>
+                            <input nbInput formControlName="statutoryDetailsFormControl" name="statutoryDetails"
+                                placeholder="Statutory Details" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="note">Note </label>
+                            <textarea nbInput formControlName="noteFormControl" name="note" value=""
+                                placeholder="Note"></textarea>
+                        </div>
+                    </div><br>
+
+                </nb-card-body>
+            </nb-card>
+            <nb-card accent="info">
+                <nb-card-header>
+                    <b><u>Products</u>&nbsp; </b>
+                </nb-card-header>
+                <nb-card-body>
+
+                    <table class="table table-hovered">
+                        <thead>
+                            <!-- <th></th> -->
+                            <th>Sl.No.</th>
+                            <th>Product Code</th>
+                            <th>Product Name</th>
+                            <th>HSN</th>
+                            <th>Quantity Received</th>
+                            <th>Rejected Quantity</th>
+                            <th>Accepted Quantity</th>
+                            <th>Unit</th>
+                            <th>PO Quantity</th>
+                            <th>Rate</th>
+                            <th>Amount</th>
+                            <th>Item Description</th>
+                            <th>Tax rate</th>
+                            <th>GST value</th>
+                            <th>Total</th>
+                            <th>Batch</th>
+                            <th>Expiry date</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
+                                <!-- <td><button nbButton (click)="delete(item);" status="danger" size="small"
+                                        *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td> -->
+                                <td><input nbInput placeholder=""  value={{item.slno}} /></td>
+                                <td><input nbInput placeholder=""  value={{item.product_code}} /></td>
+                                <td><input nbInput placeholder=""  value={{item.product_name}} /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.hsn_code" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.received_qty" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.rejected_qty" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.accepted_qty" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_id" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.po_qty" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.description" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.total" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.batch_code" /></td>
+                                <!-- <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" /></td> -->
+                                <td><input nbInput [(ngModel)]="item.expiry_date" [nbDatepicker]="expiry_date_datepicker"
+                                    placeholder="Date" />
+                                    <!-- <input [nbDatepicker]="datepicker"> -->
+                                    <nb-datepicker #expiry_date_datepicker></nb-datepicker>
+                                    </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </nb-card-body>
+                <nb-card-footer>
+                    <table class="table table-hovered">
+                        <thead style="font-size: smaller;" >
+                            <th>Sub Total Amount</th>
+                            <th></th>
+                            <!-- <th>Total Order Value</th> -->
+                            <th>SGST</th>
+                            <th>CGST</th>
+                            <th>IGST</th>
+                            <th>Grand Total</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> {{ sub_total | currency:'INR' }}</td>
+                                <td></td>
+                                <td> {{ sgst | currency : 'INR' }}  </td>
+                                <td> {{ cgst | currency : 'INR' }} </td>
+                                <td> {{ igst | currency : 'INR' }} </td>
+                                <td> {{ grand_total  | currency : 'INR'}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="invoiceDocument">Upload Invoice</label>
+                            <input type="file" formControlName="invoiceDocumentFormControl" multiple
+                                (change)="onFileChange($event, 'image');" />
+                        </div>
+                    </div><br>
+                    <button nbButton (click)="saveGRN();" status="success" >Save</button>
+                </nb-card-footer>   
+            </nb-card>
         </div>
     </nb-tab>
 </nb-tabset>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <nb-card size="large">
+        <nb-card-header>PO List <input type="text" nbInput size="small" placeholder="Search .."
+                [(ngModel)]="searchPO" /> </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.po_number }} </i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>

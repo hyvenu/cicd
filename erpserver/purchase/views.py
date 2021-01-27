@@ -104,3 +104,11 @@ def delete_po_product(request):
     po_prd_id = request.data['id']
     res = po_service.delete_po_product(po_prd_id)
     return JsonResponse(res, safe=False)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def save_grn(request):
+    data = request.data
+    purchase_service = PurchaseService()
+    pr_res = purchase_service.save_grn(data)
+    return JsonResponse(pr_res, safe=False)

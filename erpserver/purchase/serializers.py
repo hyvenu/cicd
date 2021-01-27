@@ -58,3 +58,52 @@ class POOrderRequestSerializer(serializers.ModelSerializer):
             'invoice_amount',
             'terms_conditions',
         ]
+
+
+class GRNMasterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.GRNMaster
+        fields = [
+            'grn_code',
+            'grn_date',
+            'grn_status',
+            'po_number',
+            'invoice_number',
+            'invoice_date',
+            'vendor',
+            'vendor_code',
+            'vendor_name',
+            'vendor_address',
+            'vehicle_number',
+            'time_in',
+            'time_out',
+            'transporter_name',
+            'statutory_details',
+            'note',
+            'sub_total',
+            'grand_total',
+        ]
+
+
+class GRNProductListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.GRNProductList
+        fields = [
+            'grn',
+            'product',
+            'product_code',
+            'product_name',
+            'description',
+            'hsn_code',
+            'amount',
+            'po_qty',
+            'received_qty',
+            'rejected_qty',
+            'accepted_qty',
+            'unit_id',
+            'unit_price',
+            'gst',
+            'amount',
+            'gst_amount',
+            'total',
+        ]
