@@ -91,7 +91,7 @@
         <div class="row"> 
 
                 <div class="col-md-6">
-                    <button nbButton *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'" status="success" (click)="savePR();" >Save</button>&nbsp;&nbsp;
+                    <button nbButton *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'" status="success" (click)="savePR();" ngsPermissionsOnly="purchase.add_purchaserequisitionproductlist" >Save</button>&nbsp;&nbsp;
                     <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL'" status="success" (click)="approvePR();" >Approve</button>&nbsp;&nbsp;
                     <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL'" status="danger" (click)="rejectPR();" >Reject</button>&nbsp;&nbsp;
                 </div>

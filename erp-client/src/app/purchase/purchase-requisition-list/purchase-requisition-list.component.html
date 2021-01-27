@@ -1,5 +1,5 @@
 <div class="row">
-    <a nbButton href="PurchaseRequisition" status="success" size="small" >Manage PurchaseRequisition </a>
+    <a nbButton href="PurchaseRequisition" status="success" size="small" *ngxPermissionsOnly="['purchase.add_purchaserequisitionproductlist']" >Manage PurchaseRequisition </a>
 </div><br>
 <div class="row">
     <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>

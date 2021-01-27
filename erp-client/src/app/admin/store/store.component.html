@@ -17,11 +17,11 @@
         </div>    
     </div>
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
             <label for="storeCity">City &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <input type="text" formControlName="storeCityFormControl" nbInput name="storeCity"/>        
         </div>    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-        <div class="col-md-2">
+        <div class="col-md-3">
             <label for="storePinCode">pin Code</label>
             <input nbInput formControlName="storePinCodeFormControl" name="storePinCode"/>            
         </div>             
@@ -35,8 +35,8 @@
     </div><br>
     <div class="row">
         <div class="col-md-3">
-            <button nbButton status="success" *ngIf="createFlag" (click)="saveStore();"  >Save</button>&nbsp;&nbsp;
-            <button nbButton status="success" *ngIf="!createFlag" (click)="updateStore();" ngxPermissionsOnly='store.change_store' >Save</button>&nbsp;&nbsp;
+            <button nbButton status="success" *ngIf="createFlag" (click)="saveStore();" ngxPermissionsOnly="store.add_store" >Save</button>&nbsp;&nbsp;
+            <button nbButton status="success" *ngIf="!createFlag" (click)="updateStore();" ngxPermissionsOnly="store.change_store"  >Update</button>&nbsp;&nbsp;
             
         </div>
     </div>

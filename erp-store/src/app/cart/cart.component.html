@@ -4,14 +4,14 @@
     <div class="checkout">
         <a class="btn btn-outline-info btn-sm float-right" href="/checkout" *ngIf="cartItems.length > 0"> Checkout</a>
     </div>
-    <div><a *ngIf="cartItems.length > 0" class="btn btn-outline-info btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a></div>
+    <div></div><a *ngIf="cartItems.length > 0" class="btn btn-outline-info btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a>
 </div><br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md">Product Image</div>
         <div class="col-md">ProductName</div>
         <div class="col-md">Pack Type</div>
-        <div class="col-md">Quantity</div>
+        <div class="col-md"> Quantity</div>
         <div class="col-md">Unit Price</div>
         <div class="col-md">Total</div>
         <div class="col-md">Delete</div>
@@ -24,13 +24,13 @@
         <!-- <app-cart-item [cartItem]=item></app-cart-item> -->
         <div class="container-fluid">
             <div *ngIf="!removeFromCart" class="row">
-                <div class="col-md"><img [src]="BaseUrl + '/' +cartItem.image" height="40px" width="40px" alt="img"><br>{{cartItem.product__description}}</div>
-                <div class="col-md">{{cartItem.product__product_name}}</div>
-                <div class="col-md">{{cartItem.pack_unit__qty}} &nbsp; {{cartItem.pack_unit__unit__PrimaryUnit}} </div>
-                <div class="col-md"><button class="btn btn-outline-primary btn-sm" (click)="inc(cartItem)" ><i class="fa fa-plus" ></i></button>&nbsp;{{cartItem.qty}}&nbsp;<button class="btn btn-outline-primary btn-sm" (click)="dec(cartItem)" ><i class="fa fa-minus" ></i></button></div>
-                <div class="col-md">&nbsp;{{cartItem.pack_unit__sell_price}}&nbsp;</div>
-                <div class="col-md">{{cartItem.sub_total| currency:'INR'}}</div>
-                <div class="col-md remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><button (click)="handleRemoveFromCart(cartItem)"><i class="fa fa-trash"></i></button></div>
+                <div class="col-md "><img [src]="BaseUrl + '/' +cartItem.image" height="40px" width="40px" alt="img"><br>{{cartItem.product__description}}</div>
+                <div class="col-md ">{{cartItem.product__product_name}}</div>
+                <div class="col-md ">{{cartItem.pack_unit__qty}} &nbsp; {{cartItem.pack_unit__unit__PrimaryUnit}} </div>
+                <div class="col-md "><div class=""><button class="btn btn-outline-primary btn-sm" (click)="inc(cartItem)" ><i class="fa fa-plus" ></i></button>&nbsp;{{cartItem.qty}}&nbsp;<button class="btn btn-outline-primary btn-sm" (click)="dec(cartItem)" ><i class="fa fa-minus" ></i></button></div></div>
+                <div class="col-md "><div class="pl-2">{{cartItem.pack_unit__sell_price}}</div></div>
+                <div class="col-md ">{{cartItem.sub_total| currency:'INR'}}</div>
+                <div class="col-md  remove-from-cart  " href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><div class="pl-4"><button (click)="handleRemoveFromCart(cartItem)"><i class="fa fa-trash"></i></button></div></div>
             </div>
 
         </div>
