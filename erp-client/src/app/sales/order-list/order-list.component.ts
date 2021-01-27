@@ -65,7 +65,7 @@ export class OrderListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const order_data  = { 'order_status': '1'}
+    const order_data  = { 'store_id': sessionStorage.getItem('store_id')}
     this.orderService.getOrderList(order_data).subscribe(
       (data) => {
           this.data = data;

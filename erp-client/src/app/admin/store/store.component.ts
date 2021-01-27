@@ -14,6 +14,13 @@ export class StoreComponent implements OnInit {
   storeForm: FormGroup;
   createFlag = true;
   store_id: any;
+  store_list: [];
+  selected_store: any;
+  store_location: [];
+  searchPinCode: any;
+  shipPinCode: any;
+  shipLocationName: any;
+  loc_id: any;
 
   constructor(private formBuilder: FormBuilder,
               private nbtoastService: NbToastrService,
@@ -30,6 +37,7 @@ export class StoreComponent implements OnInit {
         storePinCodeFormControl: ['',[Validators.required]],
         storeCityFormControl: ['',[Validators.required]],
         gstFormControl: ['',[Validators.required]],
+        mainBranchFormControl: [''],
       }
     )
 
@@ -43,6 +51,7 @@ export class StoreComponent implements OnInit {
           this.storeForm.controls['storePinCodeFormControl'].setValue(data.pin_code);
           this.storeForm.controls['storeCityFormControl'].setValue(data.city);
           this.storeForm.controls['gstFormControl'].setValue(data.gst_no);
+          this.storeForm.controls['mainBranchFormControl'].setValue(data.is_head_office);
 
         },
         (error) =>{
@@ -50,6 +59,9 @@ export class StoreComponent implements OnInit {
         }
       )
     }
+
+    this.get_store_list();
+    
 
   }
 
@@ -61,6 +73,7 @@ export class StoreComponent implements OnInit {
       formData.append("pin_code",this.storeForm.get(['storePinCodeFormControl']).value);
       formData.append("city",this.storeForm.get(['storeCityFormControl']).value);
       formData.append("gst_no",this.storeForm.get(['gstFormControl']).value);
+      formData.append("is_head_office",this.storeForm.get(['mainBranchFormControl']).value);
 
       this.adminService.saveStore(formData).subscribe(
         (data) => {
@@ -83,7 +96,8 @@ export class StoreComponent implements OnInit {
       formData.append("pin_code",this.storeForm.controls['storePinCodeFormControl'].value);
       formData.append("city",this.storeForm.controls['storeCityFormControl'].value);
       formData.append("gst_no",this.storeForm.controls['gstFormControl'].value);
-
+      formData.append("is_head_office",this.storeForm.get(['mainBranchFormControl']).value);
+      
       this.adminService.updateStore(this.store_id, formData).subscribe(
         (data) => {
           this.nbtoastService.info("Store Information saved successfully")
@@ -95,5 +109,81 @@ export class StoreComponent implements OnInit {
 
     }
     
+  }
+
+  get_store_list(): void{
+    const data = ""
+    this.adminService.getStore(data).subscribe(
+      (data) =>{
+        this.store_list = data;
+      },
+      (error) => {
+        this.nbtoastService.danger("unable to get store list");
+      }
+    )
+  }
+
+  get_ship_locations(): void {
+    this.adminService.getStoreShipLocations(this.selected_store).subscribe(
+      (data) =>{
+        this.store_location = data
+      },
+      (error) =>{
+        this.nbtoastService.danger("unable to get store locations list");
+      }
+    )
+  }
+
+  save_location(pin_code, location):any{
+    const data = new FormData()
+    data.append('pin_code',pin_code)
+    data.append('location_name',location)
+    data.append('store',this.selected_store)
+    this.adminService.saveStoreShipLocations(data).subscribe(
+      (data) => {
+          this.nbtoastService.success("Shipping location added successfuly")
+          this.get_ship_locations();
+          this.shipLocationName ='';
+          this.shipPinCode ='';
+      },
+      (error) => {
+        this.nbtoastService.danger("Unable to  add shipping location added successfuly")
+      }
+    )
+  }
+
+  get_selected_loc(data): any {
+    this.shipLocationName = data.location_name;
+    this.shipPinCode = data.pin_code;
+    this.loc_id = data.id;
+  }
+
+  update_location(pin_code, location):any{
+    const data = new FormData()
+    data.append('id',this.loc_id)
+    data.append('pin_code',pin_code)
+    data.append('location_name',location)
+    data.append('store',this.selected_store)
+    this.adminService.updateStoreShipLocations(this.loc_id,data).subscribe(
+      (data) => {
+        this.nbtoastService.success("Shipping location updated successfuly")
+        this.get_ship_locations();
+        this.shipLocationName ='';
+        this.shipPinCode ='';
+      },
+      (error) => {
+        this.nbtoastService.danger("Unable to  add shipping location added successfuly")
+      }
+    )
+  }
+  delete_location(pin_code, location):any{
+    this.adminService.deleteStoreShipLocations(this.loc_id).subscribe(
+      (data) => {
+        this.nbtoastService.warning("Shipping location deleted successfuly")
+      },
+      (error) => {
+        this.nbtoastService.danger("Unable to remove shipping location")
+      }
+    )
   }
 }

@@ -7,6 +7,7 @@ from django.utils import timezone
 from audit_fields.models import AuditUuidModelMixin
 from inventory.models import ProductMaster, ProductPriceMaster
 from security.models import CustomerAddress
+from store.models import Store
 
 User = get_user_model()
 
@@ -25,6 +26,8 @@ class OrderRequest(AuditUuidModelMixin):
     delivery_method = models.CharField(max_length=50)
     order_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     tax_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
 
     class Meta:
         pass

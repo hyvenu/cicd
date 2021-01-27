@@ -10,6 +10,7 @@ from engine.payment_service import PaymentService
 from inventory.models import ProductMaster, ProductPriceMaster, ProductImages
 from sales.models import OrderRequest, OrderDetails, OrderEvents
 from security.models import CustomerAddress
+from store.models import StoreShipLocations
 
 ORDER_STATUS_DICT = {
     '1': 'New Order',
@@ -42,6 +43,12 @@ class OrderService:
 
     def check_stock(self, product, pack_type):
         pass
+
+    def get_order_location_map(self, ship_address):
+        store_id = StoreShipLocations.objects.filter(pin_code=ship_address['pin_code']).all().values('store_id')[0]
+        if store_id is not None:
+            return store_id['store_id']
+        return None
 
     def check_order_flow(self, current_status):
         flow = []
@@ -82,6 +89,8 @@ class OrderService:
             query = Q(order_status=kwargs['order_status'])
         if 'customer_id' in kwargs and len(kwargs['customer_id']) > 0:
             query = Q(customer__id=kwargs['customer_id'])
+        if 'store_id' in kwargs and len(kwargs['store_id']) > 0:
+            query = Q(store_id=kwargs['store_id'])
 
         order_list = OrderRequest.objects.filter(query) \
             .all().values(
@@ -127,8 +136,10 @@ class OrderService:
             'tax_amount',
             'order_number',
         )[0]
-        order_data['shipping_address'] = CustomerAddress.objects.filter(id=order_data['shipping_address']).all().values()[0]
-        order_data['billing_address'] = CustomerAddress.objects.filter(id=order_data['billing_address']).all().values()[0]
+        order_data['shipping_address'] = \
+        CustomerAddress.objects.filter(id=order_data['shipping_address']).all().values()[0]
+        order_data['billing_address'] = CustomerAddress.objects.filter(id=order_data['billing_address']).all().values()[
+            0]
         order_data['order_status_text'] = ORDER_STATUS_DICT[str(order_data['order_status'])]
         order_data['order_flow'] = self.check_order_flow(order_data['order_status'])
         order_data['payment_data'] = payment_service.get_payment_data(order_data['order_number'])
@@ -157,7 +168,6 @@ class OrderService:
                 'unit__PrimaryUnit',
             )[0]
 
-
             detail_list.append(order)
 
         order_data['order_details'] = detail_list
@@ -179,6 +189,7 @@ class OrderService:
         order_total = self.calculate_order_total(user_id)
         order_request.tax_amount = order_total['tax_amount__sum']
         order_request.order_amount = order_total['sub_total__sum']
+        # order_request.store_id = get_order_mapping()
         order_request.save()
 
         cart_items = Cart.objects.filter(user_id=user_id).all()
@@ -202,26 +213,29 @@ class OrderService:
         }
         res = payment_service.create_order(payment_data)
         payment_data['payment_order_id'] = res
+
+        # map order location
+        ship_address = CustomerAddress.objects.filter(id=order_data['shipping_address']).all().values()[0]
+        order_request.store_id = self.get_order_location_map(ship_address)
+        order_request.save()
         return payment_data
 
     @transaction.atomic
-    def update_order(self,order_id, order_status):
+    def update_order(self, order_id, order_status):
         order = OrderRequest.objects.get(id=order_id)
         order.order_status = order_status
         order.save()
         self.track_events(order_id, order_status, desc='updated status')
         return self.get_order_details(order_id)
 
-    def track_events(self,order_id,order_status, desc=''):
-        events = OrderEvents(order_id=order_id, order_status=order_status,event_date=timezone.now() ,description=desc)
+    def track_events(self, order_id, order_status, desc=''):
+        events = OrderEvents(order_id=order_id, order_status=order_status, event_date=timezone.now(), description=desc)
         events.save()
 
     def get_order_amount(self, order_id):
         data = OrderRequest.objects.filter(id=order_id).all().values('order_number', 'order_amount')
         return data
 
-    def get_order_tracking(self,order_id):
+    def get_order_tracking(self, order_id):
         data = OrderEvents.objects.filter(id=order_id).all().values_list()
         return data
-
-

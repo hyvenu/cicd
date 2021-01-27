@@ -14,7 +14,8 @@ class StoreSerializer(serializers.ModelSerializer):
             "address",
             "city",
             "pin_code",
-            "gst_no"
+            "gst_no",
+            "is_head_office"
         ]
 
 class StoreUserSerializer(serializers.ModelSerializer):
@@ -43,5 +44,16 @@ class DepartmentSerializer(serializers.ModelSerializer):
             'id',
             'department_id',
             'department_name',
+        ]
+
+class StoreShipLocationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.StoreShipLocations
+        fields = [
+            'id',
+            'store',
+            'pin_code',
+            'location_name',
+            'is_active'
         ]
 

@@ -25,6 +25,16 @@ class StoreUserViewSet(viewsets.ModelViewSet):
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
-
     queryset = models.Department.objects.all()
     serializer_class = serializers.DepartmentSerializer
+
+
+class StoreShipLocationsViewSet(viewsets.ModelViewSet):
+    queryset = models.StoreShipLocations.objects.all()
+    serializer_class = serializers.StoreShipLocationsSerializer
+
+    def get_queryset(self):
+        if 'store_id' in self.request.query_params:
+            return models.StoreShipLocations.objects.filter(store_id=self.request.query_params['store_id']).all()
+        else:
+            return models.StoreShipLocations.objects.all()

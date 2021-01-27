@@ -38,6 +38,9 @@ export class StoreListComponent implements OnInit {
       pin_code: {
         title: 'Pin Code',
       },
+      is_head_office: {
+        title: 'Is Head Office',
+      },
       
       
     },

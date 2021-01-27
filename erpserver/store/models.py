@@ -15,6 +15,7 @@ class Store(AuditUuidModelMixin):
     city = models.CharField(max_length=100, null=True, blank=False)
     pin_code = models.CharField(max_length=10, null=True, blank=False)
     gst_no = models.CharField(max_length=50, null=True, blank=False)
+    is_head_office = models.BooleanField(default=False)
 
     class Meta:
         pass
@@ -27,6 +28,7 @@ class Store(AuditUuidModelMixin):
 
     def get_update_url(self):
         return reverse("store_update", args=(self.pk,))
+
 
 
 class StoreUser(AuditUuidModelMixin):
@@ -48,6 +50,16 @@ class AppSettings(AuditUuidModelMixin):
 class Department(AuditUuidModelMixin):
     department_id = models.CharField(max_length=30)
     department_name = models.CharField(max_length=100)
+
+    class Meta:
+        pass
+
+
+class StoreShipLocations(AuditUuidModelMixin):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="store_locations")
+    pin_code = models.CharField(max_length=50, null=True)
+    location_name = models.CharField(max_length=255, null=True)
+    is_active = models.BooleanField(default=False)
 
     class Meta:
         pass

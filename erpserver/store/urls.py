@@ -7,6 +7,7 @@ router = routers.DefaultRouter()
 router.register("Store", api.StoreViewSet)
 router.register("StoreUser", api.StoreUserViewSet)
 router.register("Department", api.DepartmentViewSet)
+router.register("StoreShip", api.StoreShipLocationsViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),
