@@ -1,5 +1,5 @@
 <div class="row">
-    <a nbButton href="ManageProduct" status="success" size="small" *ngxPermission="['inventory.add_productmaster']" >Manage Product </a>
+    <a nbButton href="ManageProduct" status="success" size="small" ngxPermission="['inventory.add_productmaster']" >Manage Product </a>
 </div><br>
 <div class="row">
 <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
