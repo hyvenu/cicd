@@ -104,3 +104,28 @@ def delete_po_product(request):
     po_prd_id = request.data['id']
     res = po_service.delete_po_product(po_prd_id)
     return JsonResponse(res, safe=False)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def save_grn(request):
+    data = request.data
+    purchase_service = PurchaseService()
+    file = request.FILES
+    pr_res = purchase_service.save_grn(data, file)
+    return JsonResponse(pr_res, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_grn_details(request):
+    purchase_service = PurchaseService()
+    grn_id = request.query_params['id']
+    grn_obj = purchase_service.get_grn_details(grn_id)
+    return JsonResponse(grn_obj, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_grn_list(request):
+    purchase_service = PurchaseService()
+    grn_list = purchase_service.get_grn_list()
+    return JsonResponse(grn_list, safe=False)

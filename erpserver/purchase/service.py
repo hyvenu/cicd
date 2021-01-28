@@ -1,8 +1,12 @@
 from django.db import transaction
 
 import ast
-from purchase.models import PurchaseRequisition, PurchaseRequisitionProductList, POOrderRequest, PoOrderDetails
+
+from inventory.models import ProductStock, Store
+from purchase.models import PurchaseRequisition, PurchaseRequisitionProductList, POOrderRequest, PoOrderDetails, \
+    GRNMaster, GRNProductList
 from sequences import get_next_value
+
 from datetime import datetime
 
 
@@ -39,6 +43,7 @@ class PurchaseService:
             'status',
             'approved_by',
             'approved_date',
+            'store_id',
         )[0]
 
         product_list = PurchaseRequisitionProductList.objects. \
@@ -79,10 +84,11 @@ class PurchaseService:
 
     @classmethod
     def save_pr_details(cls, pr_data, pr_object):
+
         pr_object.pr_date = pr_data['pr_date']
         pr_object.created_user = pr_data['created_user']
         pr_object.dept_id = pr_data['dept']
-
+        pr_object.store_id = pr_data['store_id']
         pr_object.save()
         product_list = ast.literal_eval(pr_data['product_list'])
         for product in product_list:
@@ -98,10 +104,15 @@ class PurchaseService:
             pr_list.product_name = product['product_name']
             pr_list.description = product['description']
             pr_list.store = product['store']
+            store = Store.objects.filter(store_name=product['store']).all().values(
+                'id'
+            )[0]
+            pr_list.store_obj_id = store['id']
             pr_list.required_qty = int(product['required_qty'])
             pr_list.unit_id = product['unit']
             pr_list.expected_date = product['expected_date']
             pr_list.save()
+
 
     @classmethod
     @transaction.atomic
@@ -165,6 +176,13 @@ class PurchaseService:
         return code
 
     @classmethod
+    def generate_grn_code(cls):
+        perfix = 'saff/GRN' + '/20-21' + '/PO/'
+        code = get_next_value(perfix, 1)
+        code = perfix + str(code).zfill(5)
+        return code
+
+    @classmethod
     @transaction.atomic()
     def save_po(cls, po_data):
         if 'id' in po_data:
@@ -193,6 +211,7 @@ class PurchaseService:
         po_order_req.igst = po_data['igst']
         po_order_req.invoice_amount = po_data['invoice_amount']
         po_order_req.terms_conditions = po_data['terms_conditions']
+        po_order_req.store_id = po_data['store_id']
         po_order_req.save()
 
         product_list = ast.literal_eval(po_data['po_products'])
@@ -244,7 +263,8 @@ class PurchaseService:
             'cgst',
             'igst',
             'invoice_amount',
-            'terms_conditions'
+            'terms_conditions',
+            'store_id',
         )[0]
 
         po_data_list['order_details'] = list(PoOrderDetails.objects.filter(po_order_id=po_id).all().values(
@@ -289,7 +309,8 @@ class PurchaseService:
             'cgst',
             'igst',
             'invoice_amount',
-            'terms_conditions'
+            'terms_conditions',
+            'store_id',
         )
         return list(po_data_list)
 
@@ -299,3 +320,155 @@ class PurchaseService:
         po_prd_object = PoOrderDetails.objects.get(id=po_prd_id)
         po_prd_object.delete()
         return True
+
+    @transaction.atomic()
+    def save_grn(cls, grn_data, file):
+        if 'id' in grn_data:
+            grn_req = GRNMaster.objects.get(id=grn_data['id'])
+        else:
+            grn_req = GRNMaster()
+            grn_req.grn_code = cls.generate_grn_code()
+
+        grn_req.grn_date = grn_data['grn_date']
+        grn_req.po_number = grn_data['po_number']
+        grn_req.invoice_number = grn_data['invoice_number']
+        grn_req.invoice_date = grn_data['invoice_date']
+        grn_req.grn_status = grn_data['grn_status']
+        grn_req.vendor = grn_data['vendor']
+        grn_req.vendor_code = grn_data['vendor_code']
+        grn_req.vendor_name = grn_data['vendor_name']
+        grn_req.vendor_address = grn_data['vendor_address']
+        grn_req.vehicle_number = grn_data['vehicle_number']
+        grn_req.time_in = grn_data['time_in']
+        grn_req.time_out = grn_data['time_out']
+        grn_req.transporter_name = grn_data['transporter_name']
+        grn_req.statutory_details = grn_data['statutory_details']
+        grn_req.note = grn_data['note']
+        grn_req.sub_total = grn_data['sub_total']
+        grn_req.grand_total = grn_data['grand_total']
+        grn_req.sgst = grn_data['sgst']
+        grn_req.cgst = grn_data['cgst']
+        grn_req.igst = grn_data['igst']
+        grn_req.store_id = grn_data['store_id']
+
+        if len(file.getlist('panDoc[]')) > 0:
+            for image in file.getlist('invoiceDoc[]'):
+                grn_req.invoice_doc = image
+
+        grn_req.save()
+
+        product_list = ast.literal_eval(grn_data['product_list'])
+        for item in product_list:
+            if 'id' in item:
+                grn_product = GRNProductList.objects.get(id=item['id'])
+            else:
+                grn_product = GRNProductList()
+            grn_product.grn = grn_req
+            grn_product.product_id = item['product_id']
+            grn_product.product_code = item['product_code']
+            grn_product.product_name = item['product_name']
+            grn_product.description = item['description']
+            grn_product.hsn_code = item['hsn_code']
+            grn_product.amount = item['amount']
+            grn_product.po_qty = item['po_qty']
+            grn_product.received_qty = item['received_qty']
+            grn_product.rejected_qty = item['rejected_qty']
+            grn_product.accepted_qty = item['accepted_qty']
+            grn_product.unit_id_id = item['unit_id']
+            grn_product.unit_price = item['unit_price']
+            grn_product.gst = item['gst']
+            grn_product.gst_amount = item['gst_amount']
+            grn_product.total = item['total']
+            grn_product.batch_code = item['batch_code']
+            grn_product.expiry_date = item['expiry_date']
+            grn_product.save()
+            ps = ProductStock()
+            ps.grn_number = grn_req.grn_code
+            ps.product_id = item['product_id']
+            ps.store_id = grn_data['store_id']
+            ps.unit_id = item['unit_id']
+            ps.batch_number = item['batch_code']
+            ps.batch_expiry = grn_product.expiry_date
+            ps.save()
+        return grn_req.grn_code
+
+    @classmethod
+    def get_grn_details(cls, grn_id):
+        final_list = []
+        grn_data_list = GRNMaster.objects.filter(id=grn_id).all().values(
+            'id',
+            'grn_code',
+            'grn_date',
+            'grn_status',
+            'po_number',
+            'invoice_number',
+            'invoice_date',
+            'vendor',
+            'vendor_code',
+            'vendor_name',
+            'vendor_address',
+            'vehicle_number',
+            'time_in',
+            'time_out',
+            'transporter_name',
+            'statutory_details',
+            'note',
+            'sub_total',
+            'grand_total',
+            'sgst',
+            'cgst',
+            'igst',
+            'store_id',
+            'invoice_doc',
+        )[0]
+
+        grn_data_list['product_list'] = list(GRNProductList.objects.filter(grn=grn_id).all().values(
+            'id',
+            'grn',
+            'product',
+            'product_code',
+            'product_name',
+            'description',
+            'hsn_code',
+            'amount',
+            'po_qty',
+            'received_qty',
+            'rejected_qty',
+            'accepted_qty',
+            'unit_id',
+            'unit_price',
+            'gst',
+            'amount',
+            'gst_amount',
+            'total',
+            'batch_code',
+            'expiry_date',
+
+        ))
+        return grn_data_list
+
+    @classmethod
+    def get_grn_list(cls):
+        grn_list = GRNMaster.objects.all().values(
+            'id',
+            'grn_code',
+            'grn_date',
+            'grn_status',
+            'po_number',
+            'invoice_number',
+            'invoice_date',
+            'vendor',
+            'vendor_code',
+            'vendor_name',
+            'vendor_address',
+            'vehicle_number',
+            'time_in',
+            'time_out',
+            'transporter_name',
+            'statutory_details',
+            'note',
+            'sub_total',
+            'grand_total',
+            'invoice_doc',
+        )
+        return list(grn_list)

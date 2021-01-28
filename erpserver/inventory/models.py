@@ -156,6 +156,7 @@ class ProductStock(AuditUuidModelMixin):
     grn_number = models.CharField(max_length=50,default=0,blank=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE,null=True)
     pack = models.ForeignKey(ProductPriceMaster, on_delete=models.CASCADE, null=True)
+    unit = models.ForeignKey(UnitMaster, null=True,  on_delete=models.CASCADE, related_name="productstock_unit_master")
     batch_number = models.CharField(max_length=255,null=True)
     batch_expiry = models.DateField(null=True, blank=True)
 
