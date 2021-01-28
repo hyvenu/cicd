@@ -1,6 +1,7 @@
+import { SharedService } from './../shared/shared.service';
 import { ProductlistService } from './productlist.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import * as $ from 'jquery';
@@ -12,7 +13,6 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-
   BaseUrl = environment.BASE_SERVICE_URL + '/';
   ProductList: any[] = [];
   categoryName: any;
@@ -23,7 +23,7 @@ export class ProductListComponent implements OnInit {
   min: any;
   max: any;
 
-  constructor(private route: Router, private Service: ProductlistService, private activatedRoute: ActivatedRoute) { }
+  constructor(private route: Router, private Service: ProductlistService, private activatedRoute: ActivatedRoute,private sharedService:SharedService) { }
 
   ngOnInit(): void {
 
@@ -108,6 +108,8 @@ export class ProductListComponent implements OnInit {
           unit_price: price
         }
         this.Service.AddToCart(Cart).subscribe((data) => {
+          //this.count = data.length.toString();
+          this.sharedService.changeMessage(data.length.toString());
           console.log(data);
         });
       }

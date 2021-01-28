@@ -13,6 +13,9 @@ import { User } from '../models/User';
 })
 export class SharedService {
 
+  private messageSource = new BehaviorSubject<string>('service');
+count = this.messageSource.asObservable();
+
   public userSubject: BehaviorSubject<any>;
   public user: Observable<any>;
 
@@ -79,13 +82,16 @@ export class SharedService {
     // .pipe(map(registeruser =>{
     //   this.userSubject.next(registeruser)
     //   return registeruser;
-    
+
     // }))
   };
-  
+
     handleError(error){
       return throwError(error.message || "miss match")
      };
-  
+
+     changeMessage(message: string) {
+      this.messageSource.next(message)
+    }
 
 }

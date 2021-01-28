@@ -1,7 +1,9 @@
+import { CartService } from './../../cart/cart.service';
+import { ProductListComponent } from './../../product-list/product-list.component';
 import { HomeserviceService } from './../../home/homeservice.service';
 import { Router } from '@angular/router';
 import { SharedService } from './../shared.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -9,14 +11,26 @@ import { Subscription } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-
+export class HeaderComponent implements OnInit , AfterViewInit{
+@ViewChild(ProductListComponent) cartCount;
   isAuthenticated = false;
   userSub:Subscription;
   first_name: string;
   CategoryList: any;
   subcategorylist: any;
-  constructor(private sharedservice:SharedService,private route:Router,private Service:HomeserviceService) { }
+  count: string;
+  constructor(private sharedservice:SharedService,private route:Router,private Service:HomeserviceService,private cartService:CartService) { }
+
+  ngAfterViewInit()
+  {
+    this.sharedservice.count.subscribe(message=>{
+      if(message!='service')
+      {
+        this.count = message;
+
+      }
+    } )
+  }
 
   ngOnInit(): void {
 
@@ -40,6 +54,7 @@ export class HeaderComponent implements OnInit {
     this.first_name = sessionStorage.getItem('first_name');
 
     this.GetCategories();
+    this.loadCartItems();
   }
 
   logout()
@@ -122,6 +137,14 @@ export class HeaderComponent implements OnInit {
     {
       console.log(error);
     });
+  }
+
+
+  loadCartItems(){
+    this.cartService.getcartItem().subscribe((items:any)=>{
+      this.count = items.length;
+    })
+
   }
 
 }
