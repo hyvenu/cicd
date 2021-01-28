@@ -11,8 +11,8 @@
     </div><br>   
     <div class="row">
         <div class="col-md-4"> 
-            <button nbButton *ngIf="createFlag" (click)="save_unit();" status="success" ngxPermissionsOnly="inventory.add_unitmaster" >Save</button>
-            <button nbButton *ngIf="!createFlag" (click)="update_unit();" status="success" ngxPermissionsOnly="inventory.change_unitmaster" >Update</button>
+            <button nbButton *ngIf="createFlag" (click)="save_unit();" status="success" ngxPermissionsOnly="['inventory.add_unitmaster']" >Save</button>
+            <button nbButton *ngIf="!createFlag" (click)="update_unit();" status="success" ngxPermissionsOnly="['inventory.change_unitmaster']" >Update</button>
         </div>
     </div>
 </div><br>

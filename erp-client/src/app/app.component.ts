@@ -58,7 +58,8 @@ export class AppComponent implements OnInit {
         },
         {
           title: 'Admin',
-          link: 'AdminSite'
+          link: 'AdminSite',
+          hidden: !Boolean(this.permissionsService.hasPermission('admin.view_logentry') .then((value:boolean)=>{console.log(value); return value}))
         },]
 
       },
@@ -102,14 +103,17 @@ export class AppComponent implements OnInit {
             {
               title: 'Vendor Master',
               link: 'ManageVendortMaster', // goes into angular `routerLink`
+              hidden: !Boolean(this.permissionsService.hasPermission('vendor.view_vendormaster') .then((value:boolean)=>{console.log(value); return value}))
             },
             {
               title: 'Purchase Requisition',
               link: 'PurchaseRequisitionList', // goes into angular `routerLink`
+              hidden: !Boolean(this.permissionsService.hasPermission('purchase.view_purchaserequisition') .then((value:boolean)=>{console.log(value); return value}))
             },
             {
               title: 'Purchase Order',
               link: 'PurchaseOrderList', // goes into angular `routerLink`
+              hidden: !Boolean(this.permissionsService.hasPermission('purchase.view_poorderrequest') .then((value:boolean)=>{console.log(value); return value}))
             },
           ]
 
@@ -121,6 +125,7 @@ export class AppComponent implements OnInit {
             {
               title: 'Orders',
               link: 'OrderList', // goes into angular `routerLink`
+              hidden: !Boolean(this.permissionsService.hasPermission('sales.view_orderdetails') .then((value:boolean)=>{console.log(value); return value}))
             },
           ]
         }

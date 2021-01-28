@@ -125,7 +125,7 @@
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <button nbButton status="success" (click)="saveProduct();" ngxPermissionsOnly="inventory.add_productmaster"  >Save</button>&nbsp;&nbsp;
+                    <button nbButton status="success" (click)="saveProduct();" *ngxPermissionsOnly="['inventory.add_productmaster']"  >Save</button>&nbsp;&nbsp;
                     <!-- <button nbButton status="success" (click)="change_tab();" >Next</button>&nbsp;&nbsp; -->
 
                 </div>
@@ -190,7 +190,11 @@
         <nb-card-footer>
             <button nbButton (click)="ref.close()">Close</button>
         </nb-card-footer>
-    </nb-card>
+     </nb-card><!--ngxPermission="['inventory.add_productmaster']" >Manage Product </a>> -->
+<!-- </div><br> -->
+<div class="row">
+<ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+</div>
 </ng-template>
 
 <ng-template #sub_cat_dialog let-data let-ref="dialogRef">
