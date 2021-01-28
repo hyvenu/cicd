@@ -40,6 +40,15 @@ export class StoreListComponent implements OnInit {
       },
       is_head_office: {
         title: 'Is Head Office',
+        type: 'html',
+        valuePrepareFunction: (cell, row) => {
+          if (row.is_head_office == true){
+            return 'Head Office'
+          }else{
+            return 'Branch Office'
+          }
+          // return `<a href="ManageStore?id=${row.id}">${row.store_name}</a>`;
+      }
       },
       
       

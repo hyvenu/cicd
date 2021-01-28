@@ -3,7 +3,7 @@
     <nb-card-body>
       <nb-list>
         <nb-list-item *ngFor="let store of stores">
-          <i class="mr-auto mt-2 mt-lg-0">{{ store.store.store_name }} - {{store.store.city }}</i>
+          <i class="mr-auto mt-2 mt-lg-0">{{ store.store.store_name }} - {{store.store.city }} {{store.store.is_head_office ==true?'Head Office':'Branch Office' }}</i>
           <button nbButton (click)="selected_store(store.store)" size="small">Select</button>
         </nb-list-item>
       </nb-list>
