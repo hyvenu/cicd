@@ -1,3 +1,4 @@
+import { HomeserviceService } from './../../home/homeservice.service';
 import { Router } from '@angular/router';
 import { SharedService } from './../shared.service';
 import { Component, OnInit } from '@angular/core';
@@ -13,8 +14,9 @@ export class HeaderComponent implements OnInit {
   isAuthenticated = false;
   userSub:Subscription;
   first_name: string;
-
-  constructor(private sharedservice:SharedService,private route:Router) { }
+  CategoryList: any;
+  subcategorylist: any;
+  constructor(private sharedservice:SharedService,private route:Router,private Service:HomeserviceService) { }
 
   ngOnInit(): void {
 
@@ -36,6 +38,8 @@ export class HeaderComponent implements OnInit {
     //     });
     // }
     this.first_name = sessionStorage.getItem('first_name');
+
+    this.GetCategories();
   }
 
   logout()
@@ -55,6 +59,69 @@ export class HeaderComponent implements OnInit {
     {
       this.route.navigate(['/']);
     }
+  }
+
+  mouseEnter(subCategory:any)
+  {
+    this.subcategorylist = subCategory;
+  }
+
+  Displaysubcategory(subCategory:any)
+  {
+    this.subcategorylist = subCategory;
+  }
+
+  GetCategories()
+  {
+    let category={};
+    this.Service.GetCategory(category).subscribe((categories)=>
+    {
+      //console.log(data[0].product_code);
+     // console.log(products);
+      for(let i=0;i<categories.length;i++)
+      {
+
+
+        this.Service.GetSubcategories().subscribe((subcategories)=>
+        {
+
+          //console.log(data[0].product_code);
+          let subcatagorylist =[];
+          let j = 0;
+          while( j != subcategories.length)
+          {
+
+            if(categories[i].category_name == subcategories[j].category__category_name)
+            {
+
+
+              subcategories[j].category_image = categories[i].category_image;
+              subcatagorylist.push(subcategories[j]);
+
+            }
+            j+=1;
+          }
+
+          if(i==0)
+          {
+            this.subcategorylist = subcatagorylist;
+          }
+
+          categories[i].Subcatogories = subcatagorylist;
+
+        },(error)=>
+        {
+          console.log(error);
+        });
+
+      }
+      this.CategoryList = categories;
+    //  console.log(this.CategoryList);
+
+    },(error)=>
+    {
+      console.log(error);
+    });
   }
 
 }

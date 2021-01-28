@@ -52,8 +52,20 @@
     </div>
     <br><br>
     <div>
-        <h4> About the Product</h4>
+        <h3><span class="headline"> About the Product</span></h3>
         {{Product.category__description}}
+    </div>
+    <br><br>
+    <div>
+        <h3><span class="headline">Product Attributes</span> </h3>
+        <table class="table table-striped">
+            <tbody>
+                <tr *ngFor="let att of productAttribute">
+                    <td>{{att.name}}</td>
+                    <td>{{att.value}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <br><br>

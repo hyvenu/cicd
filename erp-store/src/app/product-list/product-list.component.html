@@ -1,12 +1,16 @@
 <div fxLayout="row wrap" fxLayoutGap="grid">
     <div fxFlex="18%" fxFlex.xs="100%" fxFlex.sm="18%">
 
+        <div class="container" id="applyfilter">
+            <button class="btn btn-info" style="margin-right:15px;" (click)="ApplyFilter()">Apply Filter</button>
+        </div>
+        <br>
         <div class="bg-light border-right" id="sidebar-wrapper">
             <div>
                 <div class="sidebar-heading">Price </div>
-                <div style="display: flex;">
-                    <div> Min <input type="number" min="1" (input)="PriceFilter($event.target.value,'min')" id="inputfilter" class="form-control" name="Minimum" placeholder="Minimum"> </div>&nbsp;
-                    <div> Max <input type="number" min="1" (input)="PriceFilter($event.target.value,'max')" id="inputfilter" class="form-control" name="Maximum" placeholder="Maximum" ngModel required> </div>
+                <div>
+                    <mat-slider thumbLabel (input)="onInputChange($event.value)" tickInterval="500" min="1" max="5000" value="5000"></mat-slider>
+
                 </div>
             </div>
             <div *ngFor="let data of FilterList">
@@ -26,11 +30,11 @@
                         <div (click)="GotoProductview(Product.product_code)" id="product">
                             <mat-card-header style="justify-content: center;">
                                 <mat-card-title class="overflowText">{{Product.product_name}}
-                                   
+
                                 </mat-card-title>
                             </mat-card-header>
-                            <img height="150em" width="10em" style="border: 0;"  mat-card-image *ngIf="Product.product_image" src="{{BaseUrl+Product.product_image}}">
-                            <img height="150em" width="10em" style="border: 0;"  mat-card-image *ngIf="!Product.product_image" src="/assets/no-image-icon.jpg">
+                            <img height="150em" width="10em" style="border: 0;" mat-card-image *ngIf="Product.product_image" src="{{BaseUrl+Product.product_image}}">
+                            <img height="150em" width="10em" style="border: 0;" mat-card-image *ngIf="!Product.product_image" src="/assets/no-image-icon.jpg">
                             <mat-card-content>
                                 <p>
                                     {{Product.category__description}}
@@ -48,17 +52,16 @@
                                 </div>
                                 <div class="form-group" style="display: flex;">
                                     <input type="number" min="1" class="form-control" id="exampleFormControlInput1" name="Quantity" placeholder="Quantity" ngModel required> &nbsp;
-                                    <button type="submit" class="btn btn-outline-primary btn-sm" style="width: -webkit-fill-available;">Add to cart</button>
-                                    &nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-outline-primary btn-sm" style="width: -webkit-fill-available;">Add to cart</button> &nbsp;&nbsp;
                                     <span class="float-right">
                                         <i *ngIf="Product.wish_list_flag==1"  class="fa fa-heart float-right" (click)="RemoveFromWishlist(Product)"></i>
-                                        <i *ngIf="Product.wish_list_flag==0"  class="fa fa-heart-o float-right" (click)="AddToWishlist(Product)"></i> 
-                                    </span>   
+                                        <i *ngIf="Product.wish_list_flag==0"  class="fa fa-heart-o float-right" (click)="AddToWishlist(Product)"></i>
+                                    </span>
                                 </div>
-                                    
+
 
                             </form>
-                           
+
                         </mat-card-actions>
                     </mat-card>
                 </div>

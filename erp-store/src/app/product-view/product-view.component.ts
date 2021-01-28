@@ -15,6 +15,7 @@ export class ProductViewComponent implements OnInit {
   Product: any;
   BaseUrl=environment.BASE_SERVICE_URL+'/';
   CartForm: FormGroup;
+  productAttribute: any;
 
   constructor(private activatedRoute:ActivatedRoute, private Service:ProductviewService) {
     this.activatedRoute.params.subscribe(paramsId => {
@@ -37,7 +38,8 @@ export class ProductViewComponent implements OnInit {
     {
       console.log(Product);
       this.Product = Product[0];
-
+      this.productAttribute = JSON.parse(this.Product.product_attributes);
+     // console.log(this.productAttribute);
     }
     );
   }

@@ -40,8 +40,17 @@ input.ng-invalid.ng-touched {
     margin-left: 0;
 }
 
+mat-slider {
+    width: 100%;
+}
+
+#applyfilter {
+    display: none;
+}
+
 @media (min-width: 768px) {
     #sidebar-wrapper {
+        display: block;
         margin-left: 0;
     }
     #page-content-wrapper {
@@ -51,6 +60,15 @@ input.ng-invalid.ng-touched {
 }
 
 @media screen and (max-width: 600px) {
+    #sidebar-wrapper {
+        display: none;
+        margin-left: 0;
+    }
+    #applyfilter {
+        display: flex;
+        justify-content: right;
+        display: block;
+    }
     .content {
         padding: 0 5% 0 5%;
     }

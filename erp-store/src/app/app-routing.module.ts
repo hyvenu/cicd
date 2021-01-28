@@ -1,3 +1,5 @@
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { OrdersComponent } from './orders/orders.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -25,7 +27,11 @@ const routes: Routes = [
 {path:"payment",component:PaymentsComponent, canActivate:[AuthGuard]},
 {path:"profile",component:UserProfileComponent, canActivate:[AuthGuard]},
 {path:"myorders",component:OrdersComponent, canActivate:[AuthGuard]},
-{path:"wishlist",component:WishlistComponent, canActivate:[AuthGuard]}
+{path:"wishlist",component:WishlistComponent, canActivate:[AuthGuard]},
+{path:"forgotpassword",component:ForgotPasswordComponent},
+{path:"resetpassword",component:ResetPasswordComponent, canActivate:[AuthGuard]},
+
+
 
 ];
 

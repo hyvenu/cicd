@@ -22,6 +22,10 @@ import { PaymentsComponent } from './check-out-products/payments/payments.compon
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { OrdersComponent } from './orders/orders.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
+import {MatSliderModule} from '@angular/material/slider';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
 
 
 @NgModule({
@@ -37,6 +41,8 @@ import { WishlistComponent } from './wishlist/wishlist.component';
     UserProfileComponent,
     OrdersComponent,
     WishlistComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
 
   ],
   imports: [
@@ -54,6 +60,7 @@ import { WishlistComponent } from './wishlist/wishlist.component';
     FlexLayoutModule,
     MatCardModule,
     MatCheckboxModule,
+    MatSliderModule
   ],
   providers: [
     {

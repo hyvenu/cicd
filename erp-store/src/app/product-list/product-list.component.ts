@@ -129,14 +129,9 @@ export class ProductListComponent implements OnInit {
 
   }
 
-  PriceFilter(data: any, type: any) {
-    if (type == "min") {
-      this.min = data;
-    }
-    else {
-      this.max = data;
-    }
+  onInputChange(data: any) {
 
+    this.max = data;
     this.Filter();
 
   }
@@ -148,13 +143,7 @@ export class ProductListComponent implements OnInit {
     let ProductList = this.ProductList;
 
     //filter price
-    if (this.min != null && this.max != null) {
-      ProductList = ProductList.filter(data => data.price.filter(data1 => Number(data1.sell_price) >= this.min && Number(data1.sell_price) <= this.max).length > 0);
-    }
-    else if (this.min != null) {
-      ProductList = ProductList.filter(data => data.price.filter(data1 => Number(data1.sell_price) >= this.min).length > 0);
-    }
-    else if (this.max != null) {
+  if (this.max != null) {
       ProductList = ProductList.filter(data => data.price.filter(data1 => Number(data1.sell_price) <= this.max).length > 0);
 
     }
@@ -175,6 +164,7 @@ export class ProductListComponent implements OnInit {
         // console.log(ProductList);
       }
     }
+    console.log(ProductList);
     this.FilteredList = ProductList;
 
   }
@@ -202,5 +192,18 @@ export class ProductListComponent implements OnInit {
     )
   }
 
+
+  ApplyFilter()
+  {
+    var applyFilter = document.getElementById("sidebar-wrapper");
+    if (applyFilter.style.display == "none" || applyFilter.style.display == "")
+    {
+      applyFilter.style.display = "block";
+    }
+    else
+    {
+      applyFilter.style.display = "none";
+    }
+  }
 
 }
