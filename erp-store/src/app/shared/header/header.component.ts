@@ -1,6 +1,9 @@
+import { CartService } from './../../cart/cart.service';
+import { ProductListComponent } from './../../product-list/product-list.component';
+import { HomeserviceService } from './../../home/homeservice.service';
 import { Router } from '@angular/router';
 import { SharedService } from './../shared.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -8,13 +11,26 @@ import { Subscription } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-
+export class HeaderComponent implements OnInit , AfterViewInit{
+@ViewChild(ProductListComponent) cartCount;
   isAuthenticated = false;
   userSub:Subscription;
   first_name: string;
+  CategoryList: any;
+  subcategorylist: any;
+  count: string;
+  constructor(private sharedservice:SharedService,private route:Router,private Service:HomeserviceService,private cartService:CartService) { }
 
-  constructor(private sharedservice:SharedService,private route:Router) { }
+  ngAfterViewInit()
+  {
+    this.sharedservice.count.subscribe(message=>{
+      if(message!='service')
+      {
+        this.count = message;
+
+      }
+    } )
+  }
 
   ngOnInit(): void {
 
@@ -36,6 +52,9 @@ export class HeaderComponent implements OnInit {
     //     });
     // }
     this.first_name = sessionStorage.getItem('first_name');
+
+    this.GetCategories();
+    this.loadCartItems();
   }
 
   logout()
@@ -55,6 +74,77 @@ export class HeaderComponent implements OnInit {
     {
       this.route.navigate(['/']);
     }
+  }
+
+  mouseEnter(subCategory:any)
+  {
+    this.subcategorylist = subCategory;
+  }
+
+  Displaysubcategory(subCategory:any)
+  {
+    this.subcategorylist = subCategory;
+  }
+
+  GetCategories()
+  {
+    let category={};
+    this.Service.GetCategory(category).subscribe((categories)=>
+    {
+      //console.log(data[0].product_code);
+     // console.log(products);
+      for(let i=0;i<categories.length;i++)
+      {
+
+
+        this.Service.GetSubcategories().subscribe((subcategories)=>
+        {
+
+          //console.log(data[0].product_code);
+          let subcatagorylist =[];
+          let j = 0;
+          while( j != subcategories.length)
+          {
+
+            if(categories[i].category_name == subcategories[j].category__category_name)
+            {
+
+
+              subcategories[j].category_image = categories[i].category_image;
+              subcatagorylist.push(subcategories[j]);
+
+            }
+            j+=1;
+          }
+
+          if(i==0)
+          {
+            this.subcategorylist = subcatagorylist;
+          }
+
+          categories[i].Subcatogories = subcatagorylist;
+
+        },(error)=>
+        {
+          console.log(error);
+        });
+
+      }
+      this.CategoryList = categories;
+    //  console.log(this.CategoryList);
+
+    },(error)=>
+    {
+      console.log(error);
+    });
+  }
+
+
+  loadCartItems(){
+    this.cartService.getcartItem().subscribe((items:any)=>{
+      this.count = items.length;
+    })
+
   }
 
 }

@@ -1,6 +1,7 @@
+import { SharedService } from './../shared/shared.service';
 import { ProductlistService } from './productlist.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import * as $ from 'jquery';
@@ -12,7 +13,6 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-
   BaseUrl = environment.BASE_SERVICE_URL + '/';
   ProductList: any[] = [];
   categoryName: any;
@@ -24,7 +24,7 @@ export class ProductListComponent implements OnInit {
   max: any;
   wishlist:any;
 
-  constructor(private route: Router, private Service: ProductlistService, private activatedRoute: ActivatedRoute) { }
+  constructor(private route: Router, private Service: ProductlistService, private activatedRoute: ActivatedRoute,private sharedService:SharedService) { }
 
   ngOnInit(): void {
 
@@ -109,6 +109,8 @@ export class ProductListComponent implements OnInit {
           unit_price: price
         }
         this.Service.AddToCart(Cart).subscribe((data) => {
+          //this.count = data.length.toString();
+          this.sharedService.changeMessage(data.length.toString());
           console.log(data);
         });
       }
@@ -130,14 +132,9 @@ export class ProductListComponent implements OnInit {
 
   }
 
-  PriceFilter(data: any, type: any) {
-    if (type == "min") {
-      this.min = data;
-    }
-    else {
-      this.max = data;
-    }
+  onInputChange(data: any) {
 
+    this.max = data;
     this.Filter();
 
   }
@@ -149,13 +146,7 @@ export class ProductListComponent implements OnInit {
     let ProductList = this.ProductList;
 
     //filter price
-    if (this.min != null && this.max != null) {
-      ProductList = ProductList.filter(data => data.price.filter(data1 => Number(data1.sell_price) >= this.min && Number(data1.sell_price) <= this.max).length > 0);
-    }
-    else if (this.min != null) {
-      ProductList = ProductList.filter(data => data.price.filter(data1 => Number(data1.sell_price) >= this.min).length > 0);
-    }
-    else if (this.max != null) {
+  if (this.max != null) {
       ProductList = ProductList.filter(data => data.price.filter(data1 => Number(data1.sell_price) <= this.max).length > 0);
 
     }
@@ -176,6 +167,7 @@ export class ProductListComponent implements OnInit {
         // console.log(ProductList);
       }
     }
+    console.log(ProductList);
     this.FilteredList = ProductList;
 
   }
@@ -203,5 +195,18 @@ export class ProductListComponent implements OnInit {
     )
   }
 
+
+  ApplyFilter()
+  {
+    var applyFilter = document.getElementById("sidebar-wrapper");
+    if (applyFilter.style.display == "none" || applyFilter.style.display == "")
+    {
+      applyFilter.style.display = "block";
+    }
+    else
+    {
+      applyFilter.style.display = "none";
+    }
+  }
 
 }

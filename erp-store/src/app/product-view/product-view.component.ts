@@ -1,3 +1,4 @@
+import { SharedService } from './../shared/shared.service';
 import { ProductviewService } from './productview.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -15,8 +16,9 @@ export class ProductViewComponent implements OnInit {
   Product: any;
   BaseUrl=environment.BASE_SERVICE_URL+'/';
   CartForm: FormGroup;
+  productAttribute: any;
 
-  constructor(private activatedRoute:ActivatedRoute, private Service:ProductviewService) {
+  constructor(private activatedRoute:ActivatedRoute, private Service:ProductviewService,private sharedService:SharedService) {
     this.activatedRoute.params.subscribe(paramsId => {
       this.productcode = paramsId.id;
   });
@@ -37,7 +39,8 @@ export class ProductViewComponent implements OnInit {
     {
       console.log(Product);
       this.Product = Product[0];
-
+      this.productAttribute = JSON.parse(this.Product.product_attributes);
+     // console.log(this.productAttribute);
     }
     );
   }
@@ -60,6 +63,7 @@ export class ProductViewComponent implements OnInit {
       }
       this.Service.AddToCart(Cart).subscribe((data)=>
       {
+        this.sharedService.changeMessage(data.length.toString());
         console.log(data);
       });
     }
