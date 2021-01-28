@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
           {
             title: 'Category',
             link: 'ManageCategory', // goes into angular `routerLink`
-            hidden: Boolean(this.permissionsService.hasPermission('inventory.view_productcategory') .then((value:boolean)=>{console.log(value); return value}))
+            hidden: !Boolean(this.permissionsService.hasPermission('inventory.view_productcategory') .then((value:boolean)=>{console.log(value); return value}))
           },
           {
             title: 'Sub Category',

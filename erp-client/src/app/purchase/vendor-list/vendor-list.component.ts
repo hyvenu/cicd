@@ -27,7 +27,7 @@ export class VendorListComponent implements OnInit {
         hide:true
       },
       vendor_code: {
-        title: 'Vendor Code',        
+        title: 'Vendor Staff',        
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="ManageVendor?id=${row.id}">${row.vendor_code}</a>`;
