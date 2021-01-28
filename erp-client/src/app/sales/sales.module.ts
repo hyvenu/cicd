@@ -7,6 +7,7 @@ import { AuthGuard } from '../shared/auth.gaurd';
 import { NbThemeModule, NbLayoutModule,NbButtonModule ,NbCardModule,NbListModule,NbInputModule, NbToastrModule, NbDialogModule, NbDialogService, NbUserModule, NbTabsetModule, NbSelectModule, NbToastrService} from '@nebular/theme';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 const routes: Routes = [
   { path: 'OrderList' , component: OrderListComponent,canActivate:[AuthGuard]},
@@ -31,6 +32,7 @@ const routes: Routes = [
     NbTabsetModule,
     Ng2SmartTableModule,
     NbSelectModule,
+    NgxPermissionsModule.forRoot(),
   ],
   providers:[NbToastrService, NbDialogService],
 })

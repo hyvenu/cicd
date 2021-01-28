@@ -22,6 +22,7 @@ import { PurchaseOrderComponent } from './purchase-order/purchase-order.componen
 import { PurchaseOrderListComponent } from './purchase-order-list/purchase-order-list.component';
 import { MainPipe } from '../pipe.module';
 import { NbMomentDateModule } from '@nebular/moment';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 const routes: Routes = [
@@ -55,6 +56,7 @@ const routes: Routes = [
     NbDatepickerModule,
     NbMomentDateModule,
     ImageUploadModule.forRoot(),
+    NgxPermissionsModule.forRoot(),
   ]
 })
 export class PurchaseModule { }
