@@ -45,9 +45,9 @@ class OrderService:
         pass
 
     def get_order_location_map(self, ship_address):
-        store_id = StoreShipLocations.objects.filter(pin_code=ship_address['pin_code']).all().values('store_id')[0]
-        if store_id is not None:
-            return store_id['store_id']
+        store_id = StoreShipLocations.objects.filter(pin_code=ship_address['pin_code']).all().values('store_id')
+        if store_id.exists():
+            return store_id[0]['store_id']
         return None
 
     def check_order_flow(self, current_status):
@@ -217,7 +217,7 @@ class OrderService:
         # map order location
         ship_address = CustomerAddress.objects.filter(id=order_data['shipping_address']).all().values()
         if ship_address.exists():
-            order_request.store_id = self.get_order_location_map(ship_address)
+            order_request.store_id = self.get_order_location_map(ship_address[0])
             order_request.save()
         return payment_data
 

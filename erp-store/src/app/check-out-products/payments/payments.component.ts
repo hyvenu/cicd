@@ -89,6 +89,7 @@ export class PaymentsComponent implements OnInit {
     options.modal.ondismiss = (() => {
       // handle the case when user closes the form while transaction is in progress
       console.log('Transaction cancelled.');
+      window.location.href='OrderSummary?error=true&order_number='+ this.order_number;
     });
     const rzp = new this.winRef.nativeWindow.Razorpay(options);
     rzp.open();
