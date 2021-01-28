@@ -215,9 +215,10 @@ class OrderService:
         payment_data['payment_order_id'] = res
 
         # map order location
-        ship_address = CustomerAddress.objects.filter(id=order_data['shipping_address']).all().values()[0]
-        order_request.store_id = self.get_order_location_map(ship_address)
-        order_request.save()
+        ship_address = CustomerAddress.objects.filter(id=order_data['shipping_address']).all().values()
+        if ship_address.exists():
+            order_request.store_id = self.get_order_location_map(ship_address)
+            order_request.save()
         return payment_data
 
     @transaction.atomic
