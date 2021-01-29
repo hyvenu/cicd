@@ -1,7 +1,7 @@
 import os
 from platform import python_version
 
-from pyreportjasper import PyReportJasper
+# from pyreportjasper import PyReportJasper
 from django.conf import settings
 import requests
 from requests.auth import HTTPBasicAuth
