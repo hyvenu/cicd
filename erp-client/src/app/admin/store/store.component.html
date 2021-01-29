@@ -38,8 +38,8 @@
             </div><br>
             <div class="row">
                 <div class="col-md-3">
-                    <button nbButton status="success" *ngIf="createFlag" (click)="saveStore();" ngxPermissionsOnly="store.add_store" >Save</button>&nbsp;&nbsp;
-                    <button nbButton status="success" *ngIf="!createFlag" (click)="updateStore();" ngxPermissionsOnly="store.view_store">Update</button>&nbsp;&nbsp;
+                    <button nbButton status="success" *ngIf="createFlag" (click)="saveStore();" ngxPermissionsOnly="['store.add_storeuser']" >Save</button>&nbsp;&nbsp;
+                    <button nbButton status="success" *ngIf="!createFlag" (click)="updateStore();" ngxPermissionsOnly="['store.change_storeuser']">Update</button>&nbsp;&nbsp;
 
                 </div>
             </div>
