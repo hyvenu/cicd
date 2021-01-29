@@ -20,4 +20,8 @@ export class OrderService {
   GetOrderDetail(data:any): any {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/get_order_detail?id=`+data);
   }
+
+  GetOrderPDF(data:any): any {
+     window.open(`${environment.BASE_SERVICE_URL}/ecom/api/v1/get_invoice_pdf?order_number=`+data);
+  }
 }

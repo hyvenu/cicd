@@ -55,5 +55,13 @@ getimage(data:any)
   return data[0].image;
 }
 
+get_invoice(data):void {
+  this.Service.GetOrderPDF(data).subscribe(
+    (data) => {
+        
+    }
+  )
+}
+
 
 }

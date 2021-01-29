@@ -77,6 +77,7 @@ export class ManageGrnComponent implements OnInit {
     });
 
     let param = this.route.snapshot.queryParams['id'];
+    this.store_id = sessionStorage.getItem('store_id');
     if (param) {
       this.purchaseService.getGRNDetails(param).subscribe(
         (data) => {
@@ -114,6 +115,7 @@ export class ManageGrnComponent implements OnInit {
 
         });
     }
+    
     this.inventoryService.getUnitMasterList().subscribe(
       (data) => {
         this.unit_list = data;

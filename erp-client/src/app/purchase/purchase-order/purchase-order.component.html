@@ -183,7 +183,7 @@
                     </div>
             </nb-card-body>
             <nb-card-footer>
-                <button nbButton (click)="save_po();" status="success" ngxPermissionsOnly="purchase.add_poorderdetails" >Save</button>
+                <button nbButton (click)="save_po();" status="success" *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
             </nb-card-footer>    
         </nb-card>
         </div>

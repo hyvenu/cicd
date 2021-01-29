@@ -159,6 +159,7 @@ class ProductStock(AuditUuidModelMixin):
     unit = models.ForeignKey(UnitMaster, null=True,  on_delete=models.CASCADE, related_name="productstock_unit_master")
     batch_number = models.CharField(max_length=255,null=True)
     batch_expiry = models.DateField(null=True, blank=True)
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return self.product + 'available stock at ' + self.store + ' '

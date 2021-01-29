@@ -123,7 +123,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
-        'PASSWORD': 'Root@123',
+        'PASSWORD': 'root',
         'OPTIONS': {
             'autocommit': True,
         },
@@ -234,3 +234,8 @@ EMAIL_HOST_PASSWORD = 'Welcome@2020'#password associated with above email-id
 X_FRAME_OPTIONS = 'ALLOWALL'
 
 XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+
+
+JASPER_REPORT_SERVICE = 'http://localhost:8080/jasperserver/rest_v2/reports/reports/Saffran/'
+JASPER_USER_NAME = 'jasperadmin'
+JASPER_PASSWORD = 'jasperadmin'

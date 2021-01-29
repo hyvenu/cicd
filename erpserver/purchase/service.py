@@ -382,14 +382,17 @@ class PurchaseService:
             grn_product.batch_code = item['batch_code']
             grn_product.expiry_date = item['expiry_date']
             grn_product.save()
-            ps = ProductStock()
-            ps.grn_number = grn_req.grn_code
-            ps.product_id = item['product_id']
-            ps.store_id = grn_data['store_id']
-            ps.unit_id = item['unit_id']
-            ps.batch_number = item['batch_code']
-            ps.batch_expiry = grn_product.expiry_date
-            ps.save()
+
+            if grn_product.accepted_qty > 0:
+                ps = ProductStock()
+                ps.grn_number = grn_req.grn_code
+                ps.product_id = item['product_id']
+                ps.store_id = grn_data['store_id']
+                ps.unit_id = item['unit_id']
+                ps.batch_number = item['batch_code']
+                ps.batch_expiry = grn_product.expiry_date
+                ps.quantity = item['accepted_qty']
+                ps.save()
         return grn_req.grn_code
 
     @classmethod
