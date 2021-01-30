@@ -1,7 +1,7 @@
 import { SharedService } from './../shared/shared.service';
 import { ProductviewService } from './productview.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
@@ -18,10 +18,14 @@ export class ProductViewComponent implements OnInit {
   CartForm: FormGroup;
   productAttribute: any;
 
-  constructor(private activatedRoute:ActivatedRoute, private Service:ProductviewService,private sharedService:SharedService) {
-    this.activatedRoute.params.subscribe(paramsId => {
-      this.productcode = paramsId.id;
-  });
+  constructor(private activatedRoute:ActivatedRoute, 
+    private Service:ProductviewService,
+    private sharedService:SharedService,
+    private route: Router) {
+  //   this.activatedRoute.params.subscribe(paramsId => {
+  //     this.productcode = paramsId.id;
+  // });
+  this.productcode = activatedRoute.snapshot.queryParams['data'];
   this.GetProduct();
   }
 
@@ -48,6 +52,7 @@ export class ProductViewComponent implements OnInit {
 
   AddToCart(form:NgForm,product:any)
   {
+    if (sessionStorage.getItem('user_id')) {
     if(form.valid)
     {
 
@@ -66,6 +71,10 @@ export class ProductViewComponent implements OnInit {
         this.sharedService.changeMessage(data.length.toString());
         console.log(data);
       });
+    }
+  }
+    else{
+      this.route.navigate(['Login']);
     }
   }
 

@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 export class AppComponent implements OnInit {
   
   store_name;
+  has_permission = false;
   constructor(private permissionsService: NgxPermissionsService,private roleService:NgxRolesService, private sharedService: SharedService){
     
   }
@@ -23,11 +24,13 @@ export class AppComponent implements OnInit {
            this.permissionsService.loadPermissions(data);
            this.roleService.addRoles(data);
            this.create_menu();
+           
         },
         (error) =>{
            console.log("Unable to load permissions");
         }
         )
+       
   }
 
   checkLogin():any {
@@ -37,10 +40,10 @@ export class AppComponent implements OnInit {
       return false;
     }
   }
-  has_permission(perm): any{
-    let data = this.permissionsService.hasPermission(perm) .then((value:boolean)=>{console.log(value); return value})
-    return data
-  }
+  // has_permission(perm): any{
+  //   let data = this.permissionsService.hasPermission(perm) .then((value:boolean)=>{console.log(value); return value})
+  //   return data
+  // }
   create_menu (): any {
     this.items = [
       {
@@ -89,7 +92,7 @@ export class AppComponent implements OnInit {
           {
             title: 'Product Master',
             link: 'ManageProductMaster', // goes into angular `routerLink`
-            hidden: !Boolean(this.permissionsService.hasPermission('inventory.view_productmaster') .then((value:boolean)=>{console.log(value); return value}))
+            hidden: this.check_permission('inventory.view_productmaster')
           },
          
         ]
@@ -130,5 +133,20 @@ export class AppComponent implements OnInit {
         }
        
       ]
+  }
+
+  check_permission(permission):boolean {
+    console.log(permission);
+    // this.permissionsService.hasPermission(permission).then(
+    //   (value:boolean)=>{
+    //     console.log(permission +' ' +value); 
+    //     // return value;
+    //     this.has_permission = value;
+    //   });
+      if (this.permissionsService.getPermission(permission)){
+        return false;
+      }else{
+        return true;
+      }
   }
 }

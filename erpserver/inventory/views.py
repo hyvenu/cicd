@@ -158,3 +158,11 @@ class ProductCategoryUpdateView(generic.UpdateView):
     model = models.ProductCategory
     form_class = forms.ProductCategoryForm
     pk_url_kwarg = "pk"
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated,])
+def get_product_list(request):
+    inventory_service = InventoryService()
+    prd_list = inventory_service.get_product_list()
+    return JsonResponse(prd_list, safe=False)

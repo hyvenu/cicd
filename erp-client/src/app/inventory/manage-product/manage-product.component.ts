@@ -109,6 +109,8 @@ export class ManageProductComponent implements OnInit {
                   unit:element.unit.PrimaryUnit,
                   sell_price:element.sell_price,
                   bar_code: element.bar_code,
+                  tax: element.tax,
+                  unit_price: element.unit_price,
                 }
               )
             });
@@ -237,7 +239,7 @@ export class ManageProductComponent implements OnInit {
 
   add_types():any {
     
-    const data = {unit:'',qty:'',sell_price:'',unit_id:''}
+    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:'',unit_price:''}
     this.product_packingtypes.push(data)
   }
 
@@ -351,6 +353,10 @@ export class ManageProductComponent implements OnInit {
       }
     )
   }
+
+  calculate_tax(item): void {
+    item.sell_price = parseFloat(item.unit_price) + ((parseFloat(item.unit_price) * parseFloat(item.tax))/100.00)
+  } 
 
 
 

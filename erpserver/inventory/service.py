@@ -62,6 +62,8 @@ class InventoryService:
                 price_obj.sell_price = packs['sell_price']
                 price_obj.unit_id = packs['unit_id']
                 price_obj.qty = packs['qty']
+                price_obj.tax = packs['tax']
+                price_obj.unit_price = packs['unit_price']
                 price_obj.product = product_obj
                 price_obj.save()
 
@@ -75,6 +77,7 @@ class InventoryService:
     def get_product_list(self):
         product_list = []
         product_dict = ProductMaster.objects.all().values(
+            'id',
             'product_code',
             'product_name',
             'description',
@@ -86,12 +89,13 @@ class InventoryService:
             'sub_category__sub_category_name',
             'sub_category__sub_category_code',
             'brand__id',
-            'brand_brand_name',
+            'brand__brand_name',
             'product_attributes',
         )
 
-        for prd in product_dict:
-            pass
+        # for prd in product_dict:
+        #     pass
+        return list(product_dict)
 
     @classmethod
     def check_stock(cls, store_id, product_id):

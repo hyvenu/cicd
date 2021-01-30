@@ -41,18 +41,13 @@ export class ProductListComponent implements OnInit {
       hsn_code: {
         title: 'Hsn Code',
       },
-      category: {
+      category__category_name: {
         title: 'Category ',
-        valuePrepareFunction: (value) => {  return value.category_name },
       },
-      sub_category: {
+      sub_category__sub_category_name: {
         title: 'Sub Category',
-        valuePrepareFunction: (value) => {   return value.sub_category_name },
       },
-      product_price : {
-        title:'price',
-        valuePrepareFunction: (value) => { console.log(value); return value.length > 0 ?value[0].sell_price:""  },
-      }
+       
       
     },
   };
