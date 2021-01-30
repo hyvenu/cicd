@@ -43,6 +43,7 @@ class EcomService:
             'category__category_code',
             'category__category_name',
             'category__description',
+            'description',
             'sub_category__sub_category_name',
             'sub_category__sub_category_code',
             'brand__brand_name',
