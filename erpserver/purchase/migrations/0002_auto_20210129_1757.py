@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
         ('purchase', '0001_initial'),
         ('store', '0001_initial'),
         ('vendor', '0001_initial'),
-        ('inventory', '0002_auto_20210129_1757'),
+        # ('inventory', '0002_auto_20210129_1757'),
     ]
 
     operations = [

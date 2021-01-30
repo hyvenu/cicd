@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('sales', '0001_initial'),
         ('security', '0001_initial'),
-        ('inventory', '0002_auto_20210129_1757'),
+        # ('inventory', '0002_auto_20210130_0436.py'),
         ('store', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
