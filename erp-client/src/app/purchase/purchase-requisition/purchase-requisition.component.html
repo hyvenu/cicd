@@ -8,12 +8,12 @@
 
         <div id="" [formGroup]="prForm">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="prNo">PR Number</label>
-                    <input nbInput formControlName="prNoFormControl" name="prNo" placeholder="PR Number"
+                    <input nbInput formControlName="prNoFormControl" name="prNo" placeholder="System Generated"
                         [readonly]="true" />
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="prDate">Date </label>
                     <input nbInput formControlName="prDateFormControl" name="prDate" [nbDatepicker]="datepicker"
                         placeholder="PR Date" />
@@ -22,14 +22,14 @@
                 </div>
             </div><br>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="user">User </label>
                     <input nbInput *ngIf="!pr_id" formControlName="userFormControl" name="user" value="{{login_user}}"
                         placeholder="user" />
                     <input nbInput *ngIf="pr_id" formControlName="userFormControl" name="user" value=""
                         placeholder="user" [readonly]="true"  />
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="department">Department </label>
                     <nb-select name="department" formControlName="departFormControl" [(selected)]="selectedOption">
                         <nb-option *ngFor="let o of department_list" value="{{o.id}}">

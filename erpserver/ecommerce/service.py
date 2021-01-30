@@ -56,6 +56,9 @@ class EcomService:
                 'product_id',
                 'image'
             ))
+            if len(prod['images']) > 0:
+                prod['product_image'] = prod['images'][0]['image']
+
             prod['price'] = list(ProductPriceMaster.objects.filter(product_id=prod['id']).all().values(
                 'sell_price',
                 'unit__PrimaryUnit',
