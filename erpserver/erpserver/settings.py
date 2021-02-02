@@ -234,3 +234,8 @@ EMAIL_HOST_PASSWORD = 'Welcome@2020'#password associated with above email-id
 X_FRAME_OPTIONS = 'ALLOWALL'
 
 XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+
+
+JASPER_REPORT_SERVICE = 'http://103.146.177.164:8083/jasperserver/rest_v2/reports/Saffran/Reports/'
+JASPER_USER_NAME = 'jasperadmin'
+JASPER_PASSWORD = 'jasperadmin'

@@ -17,8 +17,8 @@
     </div><br>
     <div class="row">
         <div class="col-md-4">
-            <button nbButton *ngIf="createFlag" (click)="save_category();" status="success" ngxPermissionsOnly="['inventory.add_productcategory']">Save</button>
-            <button nbButton *ngIf="!createFlag" (click)="update_category();" status="success" ngxPermissionsOnly="['inventory.change_productcategory']" >Update</button>
+            <button nbButton [hidden]="!createFlag" size="small" (click)="save_category();" status="success" *ngxPermissionsOnly="['inventory.add_productcategory']">Save</button>
+            <button nbButton [hidden]="createFlag" size="small" (click)="update_category();" status="success" *ngxPermissionsOnly="['inventory.change_productcategory']" >Update</button>
         </div>
     </div>
 </div><br>

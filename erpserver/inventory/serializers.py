@@ -36,6 +36,7 @@ class ProductPriceMasterSerializer(serializers.ModelSerializer):
             "product",
             "unit",
             "tax",
+            "unit_price",
             "qty",
             "id",
             "bar_code"

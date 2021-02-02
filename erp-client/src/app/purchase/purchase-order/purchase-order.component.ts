@@ -54,7 +54,7 @@ export class PurchaseOrderComponent implements OnInit {
   invoice_amount: number;
   pr_list: [];
   po_id: any;
-
+  store_id: any;
 
 
   constructor(
@@ -115,7 +115,7 @@ export class PurchaseOrderComponent implements OnInit {
           this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_number);
           this.purchaseOrderForm.controls['packPrecntFormControl'].setValue(data.packing_perct);
           this.purchaseOrderForm.controls['termsConditionFormControl'].setValue(data.terms_conditions);
-          
+          this.store_id = data.store_id;
          
           for(let i=0;i<data.order_details.length;i++){
             console.log(moment(data.order_details[i].delivery_date))
@@ -279,6 +279,7 @@ export class PurchaseOrderComponent implements OnInit {
     formdata.append('cgst', this.cgst.toString());
     formdata.append('igst', this.igst.toString());
     formdata.append('invoice_amount', this.invoice_amount.toString());
+    formdata.append('store_id', this.store_id);
     formdata.append('terms_conditions', this.purchaseOrderForm.controls['termsConditionFormControl'].value);
 
     this.selected_product_list.forEach(element => {
@@ -308,6 +309,7 @@ export class PurchaseOrderComponent implements OnInit {
                    this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_no);
                    this.purchaseService.getPRDetails(data.id).subscribe(
                      (pr_data) => {
+                        this.store_id = pr_data.store_id;
                         let pr_products = pr_data['selected_product_list']
                         pr_products.forEach(element => {
                           this.selected_product_list.push({

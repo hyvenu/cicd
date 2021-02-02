@@ -1,7 +1,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -151,3 +151,16 @@ def get_order_detail(request):
     order_id = request.query_params['id']
     orders_detail = order_service.get_order_details(order_id)
     return JsonResponse(list(orders_detail), safe=False)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_invoice_pdf(request):
+    order_service = OrderService()
+    order_id = request.query_params['order_number']
+    orders_detail = order_service.get_pdf_invoice(order_id)
+    if orders_detail:
+        return FileResponse(open(orders_detail, 'rb'), content_type='application/pdf')
+    else:
+        return JsonResponse('Error while downloading invoice file', safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

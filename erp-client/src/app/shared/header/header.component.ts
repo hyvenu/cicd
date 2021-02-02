@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   store_name;
   user_name;
   items = [{ title: 'Profile' }, { title: 'Log out' }];
+  store_city: string;
 
   constructor(private sharedservice: SharedService,
     private nbMenuService: NbMenuService,
@@ -36,7 +37,8 @@ export class HeaderComponent implements OnInit {
         });
 
             
-    this.store_name = sessionStorage.getItem('store_name');
+    this.store_name = sessionStorage.getItem('store_name') ;
+    this.store_city = sessionStorage.getItem('store_city')
     this.user_name = sessionStorage.getItem('first_name');
     this.userSub = this.sharedservice.userSubject.subscribe(user => {
 

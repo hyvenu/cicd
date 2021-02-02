@@ -17,4 +17,5 @@ urlpatterns = [
     path('api/v1/verify_payment', views.verify_payment, name="verify_payment"),
     path('api/v1/get_order_list', views.get_order_list, name="get_order_list"),
     path('api/v1/get_order_detail', views.get_order_detail, name="get_order_detail"),
+    path('api/v1/get_invoice_pdf', views.get_invoice_pdf, name="get_invoice_pdf"),
 ]

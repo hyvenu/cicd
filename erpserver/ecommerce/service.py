@@ -43,6 +43,7 @@ class EcomService:
             'category__category_code',
             'category__category_name',
             'category__description',
+            'description',
             'sub_category__sub_category_name',
             'sub_category__sub_category_code',
             'brand__brand_name',
@@ -56,6 +57,9 @@ class EcomService:
                 'product_id',
                 'image'
             ))
+            if len(prod['images']) > 0:
+                prod['product_image'] = prod['images'][0]['image']
+
             prod['price'] = list(ProductPriceMaster.objects.filter(product_id=prod['id']).all().values(
                 'sell_price',
                 'unit__PrimaryUnit',
@@ -175,3 +179,5 @@ class EcomService:
             return True
         else:
             return False
+
+

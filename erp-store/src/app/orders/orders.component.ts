@@ -1,6 +1,7 @@
 import { OrderService } from './order.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-orders',
@@ -53,6 +54,14 @@ GetOrderdetail(order:any)
 getimage(data:any)
 {
   return data[0].image;
+}
+
+get_invoice(data_order_number):void {
+  this.Service.GetOrderPDF(data_order_number).subscribe(
+    (data) => {
+      saveAs(data, data_order_number + '.pdf')
+    }
+  );
 }
 
 

@@ -7,6 +7,7 @@ from sequences import get_next_value
 
 from ecommerce.models import Cart
 from engine.payment_service import PaymentService
+from engine.pdf_service import get_pdf
 from inventory.models import ProductMaster, ProductPriceMaster, ProductImages
 from sales.models import OrderRequest, OrderDetails, OrderEvents
 from security.models import CustomerAddress
@@ -240,3 +241,10 @@ class OrderService:
     def get_order_tracking(self, order_id):
         data = OrderEvents.objects.filter(id=order_id).all().values_list()
         return data
+
+    def get_pdf_invoice(self, order_number):
+        param = '?OrderNumber=' + order_number
+        report_name = 'RptSalesInvoice.pdf'
+        file_name = order_number + '.pdf'
+        out_files = get_pdf(report_name, file_name, param)
+        return out_files

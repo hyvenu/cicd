@@ -62,10 +62,10 @@
       <!-- <a (click)="toggle()" href="#" class="sidebar-toggle">
         <nb-icon icon="menu-2-outline"></nb-icon>
       </a> -->
-      <a class="logo" href="#" [routerLink]="['/']"  ><img src = "/assets/images/Saffaran-Trade-Mark.png" style = "height:56px"></a>
+      <a class="logo" href="#" [routerLink]="['/']"  ><img src = "/assets/images/Saffaran-Trade-Mark.png" style = "height:56px">{{store_name}} &nbsp; <small style="font-size: x-small;">Location : {{store_city}}</small></a>
     </div>
-    <span class="col-md-10"></span>
-    <span class="col-md-10"></span>
+    
+    <span class="col-md-4"></span>
     <span class="col-md-10"></span>
     <div class="header-container another-header">
     <nb-user nbButton name="{{ user_name}}"

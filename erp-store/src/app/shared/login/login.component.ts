@@ -3,7 +3,7 @@ import { SharedService } from './../shared.service';
 import { User } from '../../models/User';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,6 +12,7 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
   LoginForm:FormGroup;
   Invalid=false;
+  forgot_password_like = environment.BASE_SERVICE_URL + '/accounts/password_reset/';
 
   constructor(private Service:SharedService,private router:Router) { }
 

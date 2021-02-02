@@ -21,10 +21,14 @@
                                         </div>
                                         <div class="col my-auto"> <small>{{order.order_status_text}}</small></div>
                                         <div class="col my-auto">
+                                            <button class="btn btn-outline-info" (click)="get_invoice(order.order_number)"><i class="fa fa-download" aria-hidden="true"></i>                                            </button>
+                                        </div>
+                                        <div class="col my-auto">
                                             <a role="button" data-toggle="collapse" data-parent="#accordion" (click)="GetOrderdetail(order)" [href]="'#collapse'+i" aria-expanded="true" [attr.aria-controls]="'collapse'+i">
                                             Details
                                           </a>
                                         </div>
+                                       
                                     </div>
                                 </div>
                             </div>

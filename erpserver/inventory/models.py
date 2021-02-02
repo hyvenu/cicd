@@ -126,6 +126,7 @@ class ProductPriceMaster(AuditUuidModelMixin):
     product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="product_price")
     unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="product_unit_master")
     tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     qty = models.DecimalField(max_digits=10,decimal_places=2, default=0)
     bar_code = models.ImageField(upload_to="static/upload/product/barcodes",blank=True)
     product_identifier = models.CharField(max_length=12,default=0)
@@ -156,8 +157,10 @@ class ProductStock(AuditUuidModelMixin):
     grn_number = models.CharField(max_length=50,default=0,blank=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE,null=True)
     pack = models.ForeignKey(ProductPriceMaster, on_delete=models.CASCADE, null=True)
+    unit = models.ForeignKey(UnitMaster, null=True,  on_delete=models.CASCADE, related_name="productstock_unit_master")
     batch_number = models.CharField(max_length=255,null=True)
     batch_expiry = models.DateField(null=True, blank=True)
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return self.product + 'available stock at ' + self.store + ' '

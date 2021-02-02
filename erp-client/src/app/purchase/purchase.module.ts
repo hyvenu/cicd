@@ -22,6 +22,10 @@ import { PurchaseOrderComponent } from './purchase-order/purchase-order.componen
 import { PurchaseOrderListComponent } from './purchase-order-list/purchase-order-list.component';
 import { MainPipe } from '../pipe.module';
 import { NbMomentDateModule } from '@nebular/moment';
+import { ManageGrnComponent } from './manage-grn/manage-grn.component';
+import { GrnListComponent } from './grn-list/grn-list.component';
+
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 const routes: Routes = [
@@ -31,10 +35,12 @@ const routes: Routes = [
    { path: 'PurchaseRequisitionList' , component: PurchaseRequisitionListComponent,canActivate:[AuthGuard]},
    { path: 'PurchaseOrder' , component: PurchaseOrderComponent,canActivate:[AuthGuard]},
    { path: 'PurchaseOrderList' , component: PurchaseOrderListComponent,canActivate:[AuthGuard]},
+   { path: 'ManageGrn', component:ManageGrnComponent, canActivate:[AuthGuard]},
+   { path: 'GrnList', component:GrnListComponent, canActivate:[AuthGuard]},
 ];
 
 @NgModule({
-  declarations: [ManageVendorComponent,VendorListComponent, PurchaseRequisitionComponent, PurchaseRequisitionListComponent, PurchaseOrderComponent, PurchaseOrderListComponent],
+  declarations: [ManageVendorComponent,VendorListComponent, PurchaseRequisitionComponent, PurchaseRequisitionListComponent, ManageGrnComponent, PurchaseOrderComponent, PurchaseOrderListComponent, GrnListComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -55,6 +61,7 @@ const routes: Routes = [
     NbDatepickerModule,
     NbMomentDateModule,
     ImageUploadModule.forRoot(),
+    NgxPermissionsModule.forRoot(),
   ]
 })
 export class PurchaseModule { }

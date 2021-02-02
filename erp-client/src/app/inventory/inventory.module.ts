@@ -17,6 +17,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { SearchPipe } from '../search.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { MainPipe } from '../pipe.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 
@@ -51,6 +52,7 @@ const routes: Routes = [
     NbSelectModule,
     ImageUploadModule.forRoot(),
     MainPipe.forRoot(),
+    NgxPermissionsModule.forRoot(),
 
   ],
   providers:[NbToastrService, NbDialogService],

@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <select class="form-control" id="FormControlSelect" name="packingType" ngModel required>
 <option *ngFor="let packingType of Product.price; let i = index"  value={{packingType.id}}  [attr.selected]="i == 0">
-{{packingType.qty+" "+packingType.unit__PrimaryUnit+" - "+packingType.sell_price }}
+{{packingType.qty+" "+packingType.unit__PrimaryUnit+" - " }}  {{ packingType.sell_price | currency: 'INR' }}
 </option>
 </select>
                     </div>
@@ -53,7 +53,7 @@
     <br><br>
     <div>
         <h3><span class="headline"> About the Product</span></h3>
-        {{Product.category__description}}
+        {{Product.description}}
     </div>
     <br><br>
     <div>
