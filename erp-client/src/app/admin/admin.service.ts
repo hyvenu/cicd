@@ -34,9 +34,9 @@ export class AdminService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreShip/`, data)
   }
   public updateStoreShipLocations(id,data){
-    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreShip/${id}`, data)
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreShip/${id}/`, data)
   }
   public deleteStoreShipLocations(id){
-    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreShip/${id}`)
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreShip/${id}/`)
   }
 }
