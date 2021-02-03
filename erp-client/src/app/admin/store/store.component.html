@@ -16,15 +16,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label for="storeCity">City &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <input type="text" formControlName="storeCityFormControl" nbInput name="storeCity" />
                 </div> &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label for="storePinCode">pin Code</label>
                     <input nbInput formControlName="storePinCodeFormControl" name="storePinCode" />
                 </div>
-            </div>
+            </div><br>
             <div class="row">
                 <div class="col-md-3">
                     <label for="storeGst">GST Number</label>
@@ -38,8 +38,8 @@
             </div><br>
             <div class="row">
                 <div class="col-md-3">
-                    <button nbButton status="success" *ngIf="createFlag" (click)="saveStore();" ngxPermissionsOnly="['store.add_storeuser']" >Save</button>&nbsp;&nbsp;
-                    <button nbButton status="success" *ngIf="!createFlag" (click)="updateStore();" ngxPermissionsOnly="['store.change_storeuser']">Update</button>&nbsp;&nbsp;
+                    <button nbButton [hidden]="!createFlag"   (click)="saveStore();" status="success" *ngxPermissionsOnly="['store.add_storeuser']" >Save</button>&nbsp;&nbsp;
+                    <button nbButton [hidden]="createFlag"   (click)="updateStore();" status="success" *ngxPermissionsOnly="['store.change_storeuser']">Update</button>&nbsp;&nbsp;
 
                 </div>
             </div>
@@ -66,7 +66,7 @@
         </div> <br>
         <div class="row"> 
             <div class="col-md-3">
-                <button nbButton (click)="save_location(shipPinCode,shipLocationName)" status="success" >Save</button>
+                <button nbButton (click)="save_location(shipPinCode,shipLocationName)" status="success" *ngxPermissionsOnly="['store.add_storeuser']">Save</button>
             </div>
         </div><br>
         <div class="row">

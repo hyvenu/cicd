@@ -77,7 +77,7 @@ export class StoreComponent implements OnInit {
 
       this.adminService.saveStore(formData).subscribe(
         (data) => {
-          this.nbtoastService.info("Store Information saved successfully")
+          this.nbtoastService.success("Store Information saved successfully")
           this.ngOnInit();
         },
         (error) =>{

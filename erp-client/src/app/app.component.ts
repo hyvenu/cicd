@@ -118,14 +118,10 @@ export class AppComponent implements OnInit {
             {
               title: 'Purchase Order',
               link: 'PurchaseOrderList', // goes into angular `routerLink`
-<<<<<<< HEAD
-              hidden: this.check_permission('purchase.view_poorderrequest') 
-=======
            },
             {   
               title: 'Manage GRN',
               link: 'GrnList'
->>>>>>> 72abb725622d60d4b009dcf9ff2616c7173073f0
             },
           ]
 
@@ -144,22 +140,6 @@ export class AppComponent implements OnInit {
        
       ]
   }
-<<<<<<< HEAD
-  check_permission(permission):boolean {
-    console.log(permission);
-    // this.permissionsService.hasPermission(permission).then(
-    // (value:boolean)=>{
-    // console.log(permission +' ' +value); 
-    // // return value;
-    // this.has_permission = value;
-    // });
-    if (this.permissionsService.getPermission(permission)){
-    return false;
-    }else{
-    return true;
-    }
-    }
-=======
 
   check_permission(permission):boolean {
     console.log(permission);
@@ -175,5 +155,4 @@ export class AppComponent implements OnInit {
         return true;
       }
   }
->>>>>>> 72abb725622d60d4b009dcf9ff2616c7173073f0
 }
