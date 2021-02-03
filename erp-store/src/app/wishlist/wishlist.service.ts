@@ -14,4 +14,8 @@ export class WishlistService {
   GetWishlist(): any {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/get_wish_list`);
   }
+
+  RemoveWishList(data): any {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/delete_wish_list`,data);
+  }
 }
