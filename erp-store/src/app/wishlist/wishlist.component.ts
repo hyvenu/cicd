@@ -34,11 +34,11 @@ Goto(id:any)
 
 RemoveFromWishlist(product) {
   let data = {
-    product_id : product.id
+    product_id : product.product__id
   }
   this.Service.RemoveWishList(data).subscribe(
     (data) => {
-     
+      this.ngOnInit();
     }
   )
 }
