@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit,  ViewChild ,ElementRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { InventoryService } from '../inventory.service';
@@ -18,6 +18,9 @@ export class ManageBrandComponent implements OnInit {
   brand_image;
   searchBrand;
   selectedFiles = [];
+
+  @ViewChild('myInput')
+  myInputVariable: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -88,6 +91,7 @@ export class ManageBrandComponent implements OnInit {
         (data) => {
           this.nbtoastService.success("Saved Successfully");
           this.brand_image=null;
+          this.reset();
           this.ngOnInit();
         },
         (error) =>{
@@ -111,6 +115,7 @@ export class ManageBrandComponent implements OnInit {
           (data) => {
             this.nbtoastService.success("Saved Successfully");
             this.brand_image=null;
+            
             this.ngOnInit();
           },
           (error) =>{
@@ -119,6 +124,13 @@ export class ManageBrandComponent implements OnInit {
         )
       }
       };
+
+      reset() {
+        console.log(this.myInputVariable.nativeElement.files);
+        this.myInputVariable.nativeElement.value = "";
+        console.log(this.myInputVariable.nativeElement.files);
+      }
+
       selected_brand(data): any{
         this.brandMasterFrom.controls['brandnameFormControl'].setValue(data.brand_name);
         this.createFlag = false;

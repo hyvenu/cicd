@@ -1,6 +1,6 @@
 import { isDefined } from '@angular/compiler/src/util';
 import { ChangeDetectorRef, TemplateRef } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
@@ -49,6 +49,9 @@ export class ManageProductComponent implements OnInit {
   image_list: any;
   imgSrc: string;
   selectedFiles= [];
+
+  @ViewChild('myInput')
+  myInputVariable: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -302,6 +305,7 @@ export class ManageProductComponent implements OnInit {
       (data) => {
         this.nbtoastService.success("Product Saved Successfully")
         this.imgSrc=null;
+        this.reset();
         this.ngOnInit();
       },
       (error) =>{
@@ -311,6 +315,12 @@ export class ManageProductComponent implements OnInit {
 
 
 
+  }
+
+  reset() {
+    console.log(this.myInputVariable.nativeElement.files);
+    this.myInputVariable.nativeElement.value = "";
+    console.log(this.myInputVariable.nativeElement.files);
   }
 
   onFileChange(event, field) {

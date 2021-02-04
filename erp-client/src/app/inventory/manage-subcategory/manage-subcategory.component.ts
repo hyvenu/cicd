@@ -31,6 +31,9 @@ export class ManageSubcategoryComponent implements OnInit {
   selectedFiles = [];
   subcat_image: string;
 
+  @ViewChild('myInput')
+myInputVariable: ElementRef;
+
   
 
   // resetFileUploader() { 
@@ -91,6 +94,13 @@ export class ManageSubcategoryComponent implements OnInit {
     );
   }
 
+
+  reset() {
+    console.log(this.myInputVariable.nativeElement.files);
+    this.myInputVariable.nativeElement.value = "";
+    console.log(this.myInputVariable.nativeElement.files);
+  }
+
   refresh(): void {
     window.location.reload();
   }
@@ -119,6 +129,7 @@ export class ManageSubcategoryComponent implements OnInit {
         (data) => {
           this.nbtoastService.success("Saved Successfully");
           this.subcat_image = null;
+          this.reset();
           this.ngOnInit();
           
         },

@@ -117,7 +117,7 @@
                     <nb-card accent="info">
                         <nb-card-header>
                             <b><u>Product Image: </u>&nbsp; </b>
-                            <input type="file" formControlName="image" multiple (change)="onFileChange($event, 'image');"/>
+                            <input #myInput type="file" formControlName="image" multiple (change)="onFileChange($event, 'image');"/>
                         </nb-card-header>
                         <nb-card-body>
                             <div class="row">
@@ -201,7 +201,11 @@
         <nb-card-footer>
             <button nbButton (click)="ref.close()">Close</button>
         </nb-card-footer>
-    </nb-card>
+     </nb-card><!--ngxPermission="['inventory.add_productmaster']" >Manage Product </a>> -->
+<!-- </div><br> -->
+<div class="row">
+<ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+</div>
 </ng-template>
 
 <ng-template #sub_cat_dialog let-data let-ref="dialogRef">
