@@ -36,6 +36,7 @@ export class ManageBrandComponent implements OnInit {
       brandImageFormControl: ['',],
       fileSource: new FormControl('',)
     });
+    this.brandMasterFrom.controls['brandImageFormControl'].setValue("");
     this.createFlag = true;
 
     this.inventoryService.getBrandMasterList().subscribe(
@@ -101,7 +102,7 @@ export class ManageBrandComponent implements OnInit {
     };
     update_brand(): void{
 
-      if( this.brandMasterFrom.dirty && this.brandMasterFrom.valid){
+      if(this.brandMasterFrom.valid){
 
         const data = new FormData();
         data.append('brand_name', this.brandMasterFrom.controls['brandnameFormControl'].value)

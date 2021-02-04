@@ -38,7 +38,7 @@ RemoveFromWishlist(product) {
   }
   this.Service.RemoveWishList(data).subscribe(
     (data) => {
-     this.refresh();
+      this.ngOnInit();
     }
   )
 }

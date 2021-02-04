@@ -122,20 +122,20 @@
                             <td><button nbButton (click)="delete_product(item.id);" size="small" status="danger">X</button></td>
                             <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
                             <td><input nbInput  fieldSize="small"placeholder="" value="{{item.product_name}} - {{item.description}}" readonly/></td>
-                            <td><input nbInput min="0" type="number" oninput="validity.valid || (value='')" fieldSize="small" style="width: 5em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
-                            <td ><nb-select size="small" class="from-control btn-sm pt-0"  name="item.unit"  [(selected)]="item.unit_id">
+                            <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 5em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
+                            <td ><nb-select class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
                                 <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                     {{ o.PrimaryUnit }}
                                 </nb-option>
                             </nb-select></td>
                             <td ><input nbInput fieldSize="small"  [(ngModel)]="item.delivery_date" [nbDatepicker]="del_datepicker" [ngModelOptions]="{standalone: true}"
                                 placeholder="Date" /></td>
-                            <td><input nbInput  fieldSize="small" style="width: 8em;" placeholder="Unit Price" min="0" oninput="validity.valid || (value='')"  type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate_sub_total(item);"  /></td>    
-                            <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="GST %" min="0" oninput="validity.valid || (value='')" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" (change)="calculate_sub_total(item);"/></td>    
-                            <td><input nbInput  fieldSize="small"   placeholder="Amount" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly /></td> 
-                            <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="Discount %" min="0" oninput="validity.valid || (value='')" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_percent" (change)="calculate_sub_total(item);"/></td> 
-                            <td><input nbInput  fieldSize="small"   placeholder="Disc Amt." type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_amount" readonly/></td> 
-                            <td><input nbInput  fieldSize="small"  placeholder= "GST Amount" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly/></td> 
+                            <td><input nbInput  fieldSize="small" style="width: 8em;" min="0" placeholder="Unit Price" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate_sub_total(item);"  /></td>    
+                            <td><input nbInput  fieldSize="small" style="width: 5em;" min="0" placeholder="GST %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" (change)="calculate_sub_total(item);"/></td>    
+                            <td><input nbInput  fieldSize="small"   placeholder="Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly /></td> 
+                            <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="Disc %" min="0" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_percent" (change)="calculate_sub_total(item);"/></td> 
+                            <td><input nbInput  fieldSize="small"   placeholder="Disc Amt." type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_amount" readonly/></td> 
+                            <td><input nbInput  fieldSize="small"  placeholder= "GST Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly/></td> 
                                 <!-- <input [nbDatepicker]="datepicker"> -->
                                 <nb-datepicker #del_datepicker format="yyyy-MM-DD" ></nb-datepicker>
 
@@ -164,7 +164,7 @@
                         <tr>
                             <td> {{ sub_total | currency:'INR' }}</td>
                             <td></td>
-                            <td> <input nbInput size ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_packing()" [value]="0.00" /></td>
+                            <td> <input nbInput  min="0" size ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_packing()" [value]="0.00" /></td>
                             <td> {{ packing_amount | currency : 'INR' }}</td>
                             <td> {{ total_amount | currency : 'INR' }} </td>
                             <td> {{ sgst | currency : 'INR' }}  </td>
