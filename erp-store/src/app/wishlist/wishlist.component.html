@@ -4,7 +4,9 @@
         <div id="order">
             <h2>Wishlist</h2>
         </div>
-        <div id="accordion" aria-multiselectable="true">
+
+
+        <!-- <div id="accordion" aria-multiselectable="true">
             <div class="row" *ngFor="let product of wishlist; let i = index">
                 <div class="col mt-4">
                     <div class="card card-2" >
@@ -35,7 +37,38 @@
             </div>
 
 
-        </div>
+        </div> -->
+
+        <div class="card-body">
+            <!-- PRODUCT -->
+            <div class="row" *ngFor="let product of wishlist; let i = index">
+               <hr/>
+                <div class="col-12 col-sm-12 col-md-2 text-center">
+                        <img class="img-responsive" (click)="Goto(product.product__product_code)" src="{{BaseUrl+product.image}}" alt="prewiew" width="120" height="80">
+                </div>
+                <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
+                    <h4 class="product-name"><strong>{{product.product__product_name}}</strong></h4>
+                    <h4>
+                        <small>{{product.product__description}}</small><br>
+                        
+                    </h4>
+                </div>
+                <div class="col-12 col-sm-12 text-sm-center col-md-3 text-md-right row">
+                    
+                    
+                    <!-- <div class="col-2 col-sm-2 col-md-2 text-right">
+                       <h5><strong> {{cartItem.sub_total| currency:'INR'}}</strong></h5>
+                      
+                    </div> -->
+                    <div class="col-2 col-sm-2 col-md-2 text-right">
+                        <button type="button" class="btn btn-outline-danger btn-xs" (click)="RemoveFromWishlist(product)">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <hr/>
+            </div><br>
+        </div> 
 
     </div>
 </div>
