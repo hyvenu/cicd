@@ -69,7 +69,7 @@
                                 <td><input nbInput placeholder="" value={{item.product_name}}/></td>
                                 <td><input nbInput placeholder="description" [(ngModel)]="item.description"/></td>
                                 <td><input nbInput placeholder="store name" [(ngModel)]="item.store"/></td>
-                                <td><input nbInput type="number" placeholder="Quantity" [(ngModel)]="item.required_qty" oninput="validity.valid || (value='')" /></td>
+                                <td><input nbInput type="number" min="0" placeholder="Quantity" [(ngModel)]="item.required_qty" oninput="validity.valid || (value='')" /></td>
                                 <td><nb-select name="item.unit" [(selected)]="item.unit">
                                     <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                         {{ o.PrimaryUnit }}
@@ -91,7 +91,7 @@
         <div class="row"> 
 
                 <div class="col-md-6">
-                    <button nbButton *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'" status="success" (click)="savePR();" ngxPermissionsOnly="['purchase.add_purchaserequisitionproductlist']" >Save</button>&nbsp;&nbsp;
+                    <button nbButton *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'" status="success" (click)="savePR();"  >Save</button>&nbsp;&nbsp;
                     <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL'" status="success" (click)="approvePR();" >Approve</button>&nbsp;&nbsp;
                     <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL'" status="danger" (click)="rejectPR();" >Reject</button>&nbsp;&nbsp;
                 </div>
