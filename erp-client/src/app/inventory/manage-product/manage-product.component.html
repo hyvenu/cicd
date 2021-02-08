@@ -203,9 +203,7 @@
         </nb-card-footer>
      </nb-card><!--ngxPermission="['inventory.add_productmaster']" >Manage Product </a>> -->
 <!-- </div><br> -->
-<div class="row">
-<ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
-</div>
+
 </ng-template>
 
 <ng-template #sub_cat_dialog let-data let-ref="dialogRef">
@@ -260,7 +258,7 @@
 </ng-template>
 
 <ng-template #unit_dialog let-data let-ref="dialogRef">
-    <nb-card>
+    <nb-card size="medium">
         <nb-card-header>Unit Master List </nb-card-header>
         <nb-card-body>
             <nb-list>
