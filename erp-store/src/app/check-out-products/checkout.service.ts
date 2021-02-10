@@ -34,5 +34,10 @@ export class CheckoutService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/verify_payment`,data)
   }
 
+  verify_cupan_code(data): any {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/check_promo_code`,data)
+
+  }
+
 
 }

@@ -18,4 +18,5 @@ urlpatterns = [
     path('api/v1/get_order_list', views.get_order_list, name="get_order_list"),
     path('api/v1/get_order_detail', views.get_order_detail, name="get_order_detail"),
     path('api/v1/get_invoice_pdf', views.get_invoice_pdf, name="get_invoice_pdf"),
+    path('api/v1/check_promo_code', views.check_promo_code, name="check_promo_code"),
 ]

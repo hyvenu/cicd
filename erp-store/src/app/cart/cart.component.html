@@ -20,7 +20,7 @@
                          <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
                              <h4 class="product-name"><strong>{{cartItem.product__product_name}}</strong></h4>
                              <h4>
-                                 <small>{{cartItem.product__description}}</small><br>
+                                 <small class=" d-inline-block  col-2 text-truncate">{{cartItem.product__description}}</small><br>
                                  <small>{{cartItem.pack_unit__qty}} &nbsp; {{cartItem.pack_unit__unit__PrimaryUnit}}</small>
                              </h4>
                          </div>
@@ -60,7 +60,7 @@
               
              </div>
              <div class="card-footer">
-                 <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
+                 <!-- <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
                      <div class="row">
                          <div class="col-6">
                              <input type="text" class="form-control" placeholder="cupon code">
@@ -69,7 +69,7 @@
                              <input type="submit" class="btn btn-sm btn-outline-info" value="Use cupon">
                          </div>
                      </div>
-                 </div>
+                 </div> -->
                  <div class="pull-right" style="margin: 10px">
                      <a  href="/checkout" class="btn btn-outline-info btn-sm pull-right">Checkout</a>
                      <div class="pull-right" style="margin: 5px">

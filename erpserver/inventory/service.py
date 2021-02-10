@@ -64,6 +64,7 @@ class InventoryService:
                 price_obj.qty = packs['qty']
                 price_obj.tax = packs['tax']
                 price_obj.unit_price = packs['unit_price']
+                price_obj.safety_stock_level = packs['safety_stock_level']
                 price_obj.product = product_obj
                 price_obj.save()
 
