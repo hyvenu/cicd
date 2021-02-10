@@ -164,3 +164,12 @@ def get_invoice_pdf(request):
         return FileResponse(open(orders_detail, 'rb'), content_type='application/pdf')
     else:
         return JsonResponse('Error while downloading invoice file', safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_aggregate_rating(request):
+    ecom_service = EcomService()
+    product_id = request.query_params['product_id']
+    avg_rating = ecom_service.Avg_Ratings(product_id)
+    return  JsonResponse(avg_rating,safe=False,status=status.HTTP_200_OK)
