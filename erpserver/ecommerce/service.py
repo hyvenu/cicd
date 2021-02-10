@@ -1,9 +1,10 @@
 from ecommerce.models import Cart, WishList
 from engine.promo_code_service import PromoCodeService
+from ecommerce.models import Cart, WishList, Rating
 from inventory.models import ProductMaster, ProductCategory, ProductSubCategory, ProductImages, ProductPriceMaster
 from store.models import Store
 import math
-from django.db.models import Q
+from django.db.models import Q, Avg
 
 
 class EcomService:
@@ -181,6 +182,9 @@ class EcomService:
         else:
             return False
 
+    def Avg_Ratings(self, product_id):
+        avg_rating = Rating.objects.filter(product=product_id).aggregate(Avg('rating'))['rating__avg']
+        return str(avg_rating)
     def check_promo_code(self, user_id, promo_code, amount):
         promo_service = PromoCodeService()
         dis_amount, order_amount = promo_service.apply_promo_code(user_id, promo_code, amount)

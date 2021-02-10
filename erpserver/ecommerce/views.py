@@ -153,6 +153,7 @@ def get_order_detail(request):
     return JsonResponse(list(orders_detail), safe=False)
 
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
 def get_invoice_pdf(request):
@@ -162,6 +163,16 @@ def get_invoice_pdf(request):
     if orders_detail:
         return FileResponse(open(orders_detail, 'rb'), content_type='application/pdf')
     else:
+        return JsonResponse('Error while downloading invoice file', safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_aggregate_rating(request):
+    ecom_service = EcomService()
+    product_id = request.query_params['product_id']
+    avg_rating = ecom_service.Avg_Ratings(product_id)
+    return  JsonResponse(avg_rating,safe=False,status=status.HTTP_200_OK)
         return JsonResponse('Error while downloading invoice file', safe=False,
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

@@ -28,3 +28,13 @@ class WishList(AuditUuidModelMixin):
 
     class Meta:
         pass
+
+class Rating(AuditUuidModelMixin):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE)
+    rating = models.IntegerField(null=True,default=0)
+    comment = models.CharField(null=True, max_length=1000)
+    isdelete = models.BooleanField(null=True,default=False)
+
+    class Meta:
+        pass

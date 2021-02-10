@@ -11,14 +11,17 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
   styleUrls: ['./product-view.component.scss']
 })
 export class ProductViewComponent implements OnInit {
-
+  currentRate:any;
   productcode:any;
   Product: any;
   BaseUrl=environment.BASE_SERVICE_URL+'/';
   CartForm: FormGroup;
   productAttribute: any;
+  comment:any;
+  ratings: any;
+  Avgratings: any;
 
-  constructor(private activatedRoute:ActivatedRoute, 
+  constructor(private activatedRoute:ActivatedRoute,
     private Service:ProductviewService,
     private sharedService:SharedService,
     private route: Router) {
@@ -26,12 +29,13 @@ export class ProductViewComponent implements OnInit {
   //     this.productcode = paramsId.id;
   // });
   this.productcode = activatedRoute.snapshot.queryParams['data'];
-  this.GetProduct();
+
   }
 
   ngOnInit(): void {
-  }
+    this.GetProduct();
 
+  }
 
   GetProduct()
   {
@@ -43,6 +47,8 @@ export class ProductViewComponent implements OnInit {
     {
       console.log(Product);
       this.Product = Product[0];
+      this.getRatings();
+      this.getAvgRatings();
       this.productAttribute = JSON.parse(this.Product.product_attributes);
      // console.log(this.productAttribute);
     }
@@ -75,6 +81,72 @@ export class ProductViewComponent implements OnInit {
   }
     else{
       this.route.navigate(['Login']);
+    }
+  }
+
+
+  getRatings()
+  {
+    let id = this.Product.id;
+    this.Service.getRatings(id).subscribe((data)=>
+    {
+      this.ratings = data;
+     // console.log(data);
+    });
+  }
+
+
+  getAvgRatings()
+  {
+    let id = this.Product.id;
+    this.Service.GetAvgRating(id).subscribe((data)=>
+    {
+      console.log(data);
+      this.Avgratings = data;
+    });
+  }
+
+  rateProduct()
+  {
+    if(this.currentRate!=null )
+    {
+      let uid = sessionStorage.getItem('user_id');
+      let pid = this.Product.id;
+      let checkIfCommented = this.ratings.filter(t=>t.product === pid && t.user === uid);
+      if(checkIfCommented.length <0)
+{
+  let data=
+  {
+    user: uid,
+    product: pid,
+    rating: this.currentRate,
+    comment: this.comment,
+  };
+  this.Service.postRating(data).subscribe((data)=>
+{
+  this.currentRate = 0;
+  this.comment = "";
+  this.getRatings();
+});
+}
+else
+{
+  let id = checkIfCommented[0].id;
+  let data=
+  {
+    user: uid,
+    product: pid,
+    rating: this.currentRate,
+    comment: this.comment,
+  };
+  this.Service.UpdateRating(data,id).subscribe((data)=>
+{
+  this.currentRate = 0;
+  this.comment = "";
+  this.getRatings();
+});
+}
+
     }
   }
 

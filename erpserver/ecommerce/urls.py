@@ -1,8 +1,13 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
-from . import views
+from . import views, api
+
+router = routers.DefaultRouter()
+router.register("ProductRating", api.RatingViewSet)
 
 urlpatterns = [
+    path("api/v1/", include(router.urls)),
     path('api/v1/get_products', views.get_product_list, name="ecom_product_list"),
     path('api/v1/get_category', views.get_category, name="ecom_category"),
     path('api/v1/get_sub_category', views.get_sub_category, name="ecom_sub_category"),
@@ -18,5 +23,6 @@ urlpatterns = [
     path('api/v1/get_order_list', views.get_order_list, name="get_order_list"),
     path('api/v1/get_order_detail', views.get_order_detail, name="get_order_detail"),
     path('api/v1/get_invoice_pdf', views.get_invoice_pdf, name="get_invoice_pdf"),
+    path('api/v1/get_avg_rating', views.get_aggregate_rating, name="get_aggregate_rating"),
     path('api/v1/check_promo_code', views.check_promo_code, name="check_promo_code"),
 ]
