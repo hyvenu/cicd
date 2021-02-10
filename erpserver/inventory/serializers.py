@@ -39,7 +39,8 @@ class ProductPriceMasterSerializer(serializers.ModelSerializer):
             "unit_price",
             "qty",
             "id",
-            "bar_code"
+            "bar_code",
+            "safety_stock_level"
         ]
 
 class ProductBrandMasterSerializer(serializers.ModelSerializer):

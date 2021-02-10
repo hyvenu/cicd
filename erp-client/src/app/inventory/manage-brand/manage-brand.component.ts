@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit,  ViewChild ,ElementRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { InventoryService } from '../inventory.service';
@@ -19,6 +19,9 @@ export class ManageBrandComponent implements OnInit {
   searchBrand;
   selectedFiles = [];
 
+  @ViewChild('myInput')
+  myInputVariable: ElementRef;
+
   constructor(
     private formBuilder: FormBuilder,
     private inventoryService: InventoryService,
@@ -33,6 +36,7 @@ export class ManageBrandComponent implements OnInit {
       brandImageFormControl: ['',],
       fileSource: new FormControl('',)
     });
+    this.brandMasterFrom.controls['brandImageFormControl'].setValue("");
     this.createFlag = true;
 
     this.inventoryService.getBrandMasterList().subscribe(
@@ -87,6 +91,7 @@ export class ManageBrandComponent implements OnInit {
         (data) => {
           this.nbtoastService.success("Saved Successfully");
           this.brand_image=null;
+          this.reset();
           this.ngOnInit();
         },
         (error) =>{
@@ -97,7 +102,7 @@ export class ManageBrandComponent implements OnInit {
     };
     update_brand(): void{
 
-      if( this.brandMasterFrom.dirty && this.brandMasterFrom.valid){
+      if(this.brandMasterFrom.valid){
 
         const data = new FormData();
         data.append('brand_name', this.brandMasterFrom.controls['brandnameFormControl'].value)
@@ -109,6 +114,8 @@ export class ManageBrandComponent implements OnInit {
         this.inventoryService.updateBrand(this.brand_id, data).subscribe(
           (data) => {
             this.nbtoastService.success("Saved Successfully");
+            this.brand_image=null;
+            
             this.ngOnInit();
           },
           (error) =>{
@@ -117,6 +124,13 @@ export class ManageBrandComponent implements OnInit {
         )
       }
       };
+
+      reset() {
+        console.log(this.myInputVariable.nativeElement.files);
+        this.myInputVariable.nativeElement.value = "";
+        console.log(this.myInputVariable.nativeElement.files);
+      }
+
       selected_brand(data): any{
         this.brandMasterFrom.controls['brandnameFormControl'].setValue(data.brand_name);
         this.createFlag = false;

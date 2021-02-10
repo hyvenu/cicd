@@ -2,7 +2,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -25,6 +25,7 @@ import { WishlistComponent } from './wishlist/wishlist.component';
 import {MatSliderModule} from '@angular/material/slider';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -60,7 +61,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     FlexLayoutModule,
     MatCardModule,
     MatCheckboxModule,
-    MatSliderModule
+    MatSliderModule,
+    NgbModule
   ],
   providers: [
     {
@@ -68,6 +70,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
       useClass: JwtInterceptor,
       multi: true
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ,
+    NO_ERRORS_SCHEMA
+  ]
 })
 export class AppModule { }

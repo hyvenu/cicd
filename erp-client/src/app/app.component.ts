@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
         this.sharedService.getUserPermissionList().subscribe(
         (data) =>{
            this.permissionsService.loadPermissions(data);
+           console.log(this.permissionsService.getPermissions());
+           console.log(this.permissionsService.hasPermission("store.view_store"));
            this.roleService.addRoles(data);
            this.create_menu();
            
@@ -57,11 +59,12 @@ export class AppComponent implements OnInit {
         {
           title: 'Store',
           link: 'ManageStoreList', // goes into angular `routerLink`,
-          hidden: !Boolean(this.permissionsService.hasPermission('store.view_store') .then((value:boolean)=>{console.log(value); return value}))
+          hidden: this.check_permission('store.view_storeuser')
         },
         {
           title: 'Admin',
-          link: 'AdminSite'
+          link: 'AdminSite',
+          hidden: this.check_permission('admin.view_logentry')
         },]
 
       },
@@ -72,22 +75,22 @@ export class AppComponent implements OnInit {
           {
             title: 'Category',
             link: 'ManageCategory', // goes into angular `routerLink`
-            hidden: !Boolean(this.permissionsService.hasPermission('inventory.view_productcategory') .then((value:boolean)=>{console.log(value); return value}))
+            hidden: this.check_permission('inventory.view_productcategory')
           },
           {
             title: 'Sub Category',
             link: 'ManageSubCategory', // goes into angular `routerLink`
-            hidden: !Boolean(this.permissionsService.hasPermission('inventory.view_productsubcategory') .then((value:boolean)=>{console.log(value); return value}))
+            hidden: this.check_permission('inventory.view_productsubcategory')
           },
           {
             title: 'Brand',
             link: 'ManageBrandMaster', // goes into angular `routerLink`
-            hidden: !Boolean(this.permissionsService.hasPermission('inventory.view_productbrandmaster') .then((value:boolean)=>{console.log(value); return value}))
+            hidden: this.check_permission('inventory.view_productbrandmaster')
           },
           {
             title: 'Unit',
             link: 'ManageUnitMaster', // goes into angular `routerLink`
-            hidden: !Boolean(this.permissionsService.hasPermission('inventory.view_unitmaster') .then((value:boolean)=>{console.log(value); return value}))
+            hidden: this.check_permission('inventory.view_unitmaster')
           },
           {
             title: 'Product Master',
@@ -105,10 +108,12 @@ export class AppComponent implements OnInit {
             {
               title: 'Vendor Master',
               link: 'ManageVendortMaster', // goes into angular `routerLink`
+              hidden: this.check_permission('vendor.view_vendormaster')
             },
             {
               title: 'Purchase Requisition',
               link: 'PurchaseRequisitionList', // goes into angular `routerLink`
+              hidden: this.check_permission('purchase.view_purchaserequisition') 
             },
             {
               title: 'Purchase Order',
@@ -128,6 +133,7 @@ export class AppComponent implements OnInit {
             {
               title: 'Orders',
               link: 'OrderList', // goes into angular `routerLink`
+              hidden: this.check_permission('sales.view_orderrequest')
             },
           ]
         }

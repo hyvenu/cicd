@@ -21,6 +21,7 @@ export class StoreComponent implements OnInit {
   shipPinCode: any;
   shipLocationName: any;
   loc_id: any;
+  createFlag_Loc: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
               private nbtoastService: NbToastrService,
@@ -77,7 +78,7 @@ export class StoreComponent implements OnInit {
 
       this.adminService.saveStore(formData).subscribe(
         (data) => {
-          this.nbtoastService.info("Store Information saved successfully")
+          this.nbtoastService.success("Store Information saved successfully")
           this.ngOnInit();
         },
         (error) =>{
@@ -100,7 +101,7 @@ export class StoreComponent implements OnInit {
       
       this.adminService.updateStore(this.store_id, formData).subscribe(
         (data) => {
-          this.nbtoastService.info("Store Information saved successfully")
+          this.nbtoastService.success("Store Information saved successfully")
         },
         (error) =>{
           this.nbtoastService.danger("Unable to save store information")
@@ -145,6 +146,7 @@ export class StoreComponent implements OnInit {
           this.get_ship_locations();
           this.shipLocationName ='';
           this.shipPinCode ='';
+          this.createFlag_Loc = true;
       },
       (error) => {
         this.nbtoastService.danger("Unable to  add shipping location added successfuly")
@@ -156,6 +158,7 @@ export class StoreComponent implements OnInit {
     this.shipLocationName = data.location_name;
     this.shipPinCode = data.pin_code;
     this.loc_id = data.id;
+    this.createFlag_Loc = false;
   }
 
   update_location(pin_code, location):any{
@@ -170,6 +173,7 @@ export class StoreComponent implements OnInit {
         this.get_ship_locations();
         this.shipLocationName ='';
         this.shipPinCode ='';
+        this.createFlag_Loc = true;
       },
       (error) => {
         this.nbtoastService.danger("Unable to  add shipping location added successfuly")

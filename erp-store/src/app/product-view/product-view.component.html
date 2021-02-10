@@ -46,6 +46,16 @@
 
             </form>
 
+            <br>
+            <div>
+                <h1 class="text-primary">
+                    <ngb-rating [max]="5" [rate]="Avgratings" [readonly]="true"></ngb-rating>
+                </h1>
+                <div>
+                    {{Avgratings}}
+                </div>
+            </div>
+
         </div>
 
 
@@ -67,5 +77,37 @@
             </tbody>
         </table>
     </div>
+
+    <div>
+        <h3><span class="headline">Rate</span> </h3>
+        <h1 class="text-primary">
+            <ngb-rating [max]="5" [(rate)]="currentRate" [readonly]="false"></ngb-rating>
+        </h1>
+        <div>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="comment"></textarea>
+            <br>
+            <button type="submit" class="btn btn-success green" (click)="rateProduct()"> Comment</button>
+
+        </div>
+    </div>
+    <br>
+    <div>
+        <h3><span class="headline">Ratings and Revievs</span> </h3>
+        <div *ngFor="let rating of ratings">
+            <h2>
+                {{rating.first_name}}
+            </h2>
+            <h1 class="text-primary">
+                <ngb-rating [max]="5" [rate]="rating.rating" [readonly]="true"></ngb-rating>
+            </h1>
+            <h4>
+                {{rating.comment}}
+            </h4>
+            <hr>
+        </div>
+
+    </div>
 </div>
+
+
 <br><br>

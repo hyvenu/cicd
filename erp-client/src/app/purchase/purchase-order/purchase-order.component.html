@@ -8,7 +8,7 @@
             <nb-card-header> </nb-card-header>     
             <nb-card-body>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label for="po_type">PO Type </label><br>
                     <nb-select name="po_type" formControlName="poTypeFormControl" [(selected)]="selectedPOType">
                         <nb-option *ngFor="let o of po_type_list" value="{{o.po_type_value}}">
@@ -16,26 +16,29 @@
                         </nb-option>
                     </nb-select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label for="po_date">PO Date</label>
                     <input nbInput formControlName="poDateFormControl" name="po_date" [nbDatepicker]="po_date" placeholder="PO Date" />
                     <nb-datepicker #po_date format="yyyy-MM-DD"></nb-datepicker>
                 </div>
                 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label for="pr_number">Select PR Number</label>
                     <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="pr_number" (keypress)="pr_open(pr_dialog)" />
                 </div>
-                <div class="col-md-3">
+            </div><br>
+
+            <div class="row">
+                <div class="col-md-4">
                     <label for="po_number">PO Number</label>
                     <input nbInput formControlName="poNumberFormControl" name="po_number" placeholder="System Generated" readonly/>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label for="user">PO Raised By </label>
                     <input nbInput formControlName="userFormControl" name="user" 
                         placeholder="user" readonly>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label for="trans_type">Transport Type </label>
                     <nb-select  name="tans_type" formControlName="transportTypeFormControl" [(selected)]="selectedTransportType">
                         <nb-option *ngFor="let o of transport_type_list" value="{{o.key}}" >
@@ -43,12 +46,16 @@
                         </nb-option>
                     </nb-select>
                 </div>
-                <div class="col-md-3">
+            </div><br>
+            <div class="row">
+
+                <div class="col-md-4">
                     <label for="ship_address">Shipping Address</label>
                     <textarea nbInput formControlName="shipAddressFormControl" name="ship_address" 
                         placeholder="Shipping Address" ></textarea>
                 </div>
             </div>
+            
         </nb-card-body>
         </nb-card>
         <nb-card accent="info">
@@ -56,15 +63,15 @@
             <nb-card-body>
                 <div class="row">
                 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="vendor">Vendor Code</label>
                         <input nbInput formControlName="vendorCodeFormControl" name="vendor" placeholder="Select Vendor" (keypress)="vendor_open(vendor_dialog)"  />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="vendor_name">Vendor Name</label>
                         <input nbInput formControlName="vendorNameFormControl" name="vendor_name" placeholder="Vendor Name" readonly/>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="payment_terms">Payment Terms</label>
                         <!-- <input nbInput formControlName="paymentTermsFormControl" name="payment_terms" placeholder="Payment Terms" /> -->
                         <nb-select name="tans_type" formControlName="paymentTermsFormControl" [(selected)]="selectedTransportType">
@@ -73,26 +80,26 @@
                             </nb-option>
                         </nb-select>
                     </div>
-                </div>
+                </div><br>
                 <div class="row" >
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="other_ref">Other Reference</label>
                         <input nbInput formControlName="otherRefFormControl" name="other_ref" placeholder="Other Reference" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="terms_delivery">Terms of Delivery</label>
                         <input nbInput formControlName="termsDeliveryFormControl" name="terms_delivery" placeholder="Terms of Delivery" />
                     </div>
                 </div><br>
                 <div class="row">
-                    <div class="col-md-2">
-                        <label for="note">Note </label>
+                    <div class="col-md-4">
+                        <label for="note">Note </label><br>
                         <input nbInput formControlName="noteFormControl" name="note" placeholder="Note" />
                     </div>
                 </div>
             </nb-card-body>
         </nb-card>
-        <nb-card accent="info">
+        <nb-card accent="info" >
             <nb-card-header>Product Details <button nbButton size="small" status="success" (click)="product_open(product_dialog)">  + ADD </button> </nb-card-header>
             <nb-card-body>
                 <table class="table table-hovered">
@@ -106,16 +113,16 @@
                         <th>Unit Price</th>
                         <th>GST %</th>
                         <th>Amount</th>
-                        <th>Disc %</th>
-                        <th>Disc Amt %</th>
-                        <th>GST Amt</th>
+                        <th>Discount %</th>
+                        <th>Discount Amount %</th>
+                        <th>GST Amount</th>
                     </thead>
                     <tbody style="font-size: smaller;" >
                         <tr *ngFor="let item of selected_product_list">
                             <td><button nbButton (click)="delete_product(item.id);" size="small" status="danger">X</button></td>
                             <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
                             <td><input nbInput  fieldSize="small"placeholder="" value="{{item.product_name}} - {{item.description}}" readonly/></td>
-                            <td><input nbInput type="number" oninput="validity.valid || (value='')" fieldSize="small" style="width: 5em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
+                            <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 5em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
                             <td ><nb-select class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
                                 <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                     {{ o.PrimaryUnit }}
@@ -123,14 +130,14 @@
                             </nb-select></td>
                             <td ><input nbInput fieldSize="small"  [(ngModel)]="item.delivery_date" [nbDatepicker]="del_datepicker" [ngModelOptions]="{standalone: true}"
                                 placeholder="Date" /></td>
-                            <td><input nbInput  fieldSize="small" style="width: 8em;" placeholder="Unit Price" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate_sub_total(item);"  /></td>    
-                            <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="GST %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" (change)="calculate_sub_total(item);"/></td>    
-                            <td><input nbInput  fieldSize="small"   placeholder="Amount" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly /></td> 
-                            <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="Disc %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_percent" (change)="calculate_sub_total(item);"/></td> 
-                            <td><input nbInput  fieldSize="small"   placeholder="Disc Amt." type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_amount" readonly/></td> 
-                            <td><input nbInput  fieldSize="small"  placeholder= "GST Amount" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly/></td> 
+                            <td><input nbInput  fieldSize="small" style="width: 8em;" min="0" placeholder="Unit Price" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate_sub_total(item);"  /></td>    
+                            <td><input nbInput  fieldSize="small" style="width: 5em;" min="0" placeholder="GST %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" (change)="calculate_sub_total(item);"/></td>    
+                            <td><input nbInput  fieldSize="small"   placeholder="Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly /></td> 
+                            <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="Disc %" min="0" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_percent" (change)="calculate_sub_total(item);"/></td> 
+                            <td><input nbInput  fieldSize="small"   placeholder="Disc Amt." type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_amount" readonly/></td> 
+                            <td><input nbInput  fieldSize="small"  placeholder= "GST Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly/></td> 
                                 <!-- <input [nbDatepicker]="datepicker"> -->
-                                <nb-datepicker #del_datepicker format="yyyy-MM-DD"></nb-datepicker>
+                                <nb-datepicker #del_datepicker format="yyyy-MM-DD" ></nb-datepicker>
 
                                 <!-- <input nbInput  value={{item.expected_date}} /></td> -->
                            
@@ -157,7 +164,7 @@
                         <tr>
                             <td> {{ sub_total | currency:'INR' }}</td>
                             <td></td>
-                            <td> <input nbInput size ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_packing()" [value]="0.00" /></td>
+                            <td> <input nbInput  min="0" size ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_packing()" [value]="0.00" /></td>
                             <td> {{ packing_amount | currency : 'INR' }}</td>
                             <td> {{ total_amount | currency : 'INR' }} </td>
                             <td> {{ sgst | currency : 'INR' }}  </td>

@@ -32,4 +32,18 @@ Goto(id:any)
   this.route.navigate(['/productview/'+id]);
 }
 
+RemoveFromWishlist(product) {
+  let data = {
+    product_id : product.product__id
+  }
+  this.Service.RemoveWishList(data).subscribe(
+    (data) => {
+      this.ngOnInit();
+    }
+  )
+}
+refresh(): void {
+  window.location.reload();
+}
+
 }
