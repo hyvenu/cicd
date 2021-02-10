@@ -173,8 +173,8 @@ def get_aggregate_rating(request):
     product_id = request.query_params['product_id']
     avg_rating = ecom_service.Avg_Ratings(product_id)
     return  JsonResponse(avg_rating,safe=False,status=status.HTTP_200_OK)
-        return JsonResponse('Error while downloading invoice file', safe=False,
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
 
 @api_view(['POST'])
