@@ -21,4 +21,20 @@ export class ProductviewService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/add_cart`,data);
   }
 
+  getRatings(id:any): any {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/ProductRating/?product_id=`+id);
+  }
+
+  postRating(data:any): any {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/ProductRating/`,data);
+  }
+
+  UpdateRating(data:any,id:any): any {
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/ProductRating/`+id+"/",data);
+  }
+
+  GetAvgRating(id:any): any {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/get_avg_rating?product_id=`+id);
+  }
+
 }
