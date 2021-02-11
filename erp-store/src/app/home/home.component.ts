@@ -47,14 +47,14 @@ export class HomeComponent implements OnInit {
     {
       //console.log(data[0].product_code);
      // console.log(products);
-      for(let i=0;i<categories.length;i++)
-      {
-
+     
 
         this.Service.GetSubcategories().subscribe((subcategories)=>
         {
-
-          //console.log(data[0].product_code);
+          for(let i=0;i<categories.length;i++)
+          {
+    
+          console.log(categories[i].category_name);
           let subcatagorylist =[];
           let j = 0;
           while( subcatagorylist.length <4 && j != subcategories.length)
@@ -73,13 +73,13 @@ export class HomeComponent implements OnInit {
 
 
           categories[i].Subcatogories = subcatagorylist;
-
+        }
         },(error)=>
         {
           console.log(error);
         });
 
-      }
+      // }
       this.CategoryList = categories;
 
     },(error)=>
