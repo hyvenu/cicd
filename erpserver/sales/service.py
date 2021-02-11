@@ -195,7 +195,7 @@ class OrderService:
         order_request.payment_method = order_data['payment_method']
         order_request.delivery_method = order_data['delivery_method']
 
-        if len(order_data['promo_code']) > 0:
+        if order_data['promo_code'] is not None and len(order_data['promo_code']) > 0:
             order_request.promo_code = order_data['promo_code']
             promo_service = PromoCodeService()
             promo_service.update_promo_use_count(order_request.promo_code)
