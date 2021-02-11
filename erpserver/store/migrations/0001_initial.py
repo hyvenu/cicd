@@ -101,4 +101,5 @@ class Migration(migrations.Migration):
                 ('store', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='store_locations', to='store.store')),
             ],
         ),
+
     ]

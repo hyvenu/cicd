@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         ('security', '0001_initial'),
         ('store', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('inventory', '0002_auto_20210130_0436'),
+        # ('inventory', '0002_auto_20210206_0558'),
     ]
 
     operations = [
