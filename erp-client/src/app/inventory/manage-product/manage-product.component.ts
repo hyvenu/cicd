@@ -114,6 +114,7 @@ export class ManageProductComponent implements OnInit {
                   bar_code: element.bar_code,
                   tax: element.tax,
                   unit_price: element.unit_price,
+                  safety_stock_level: element.safety_stock_level,
                 }
               )
             });
@@ -242,7 +243,7 @@ export class ManageProductComponent implements OnInit {
 
   add_types():any {
     
-    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:'',unit_price:''}
+    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:'',unit_price:'',safety_stock_level:''}
     this.product_packingtypes.push(data)
   }
 

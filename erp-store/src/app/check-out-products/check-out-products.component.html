@@ -12,31 +12,39 @@
                 <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let product of CarttList">
                     <div>
                         <h3 class="my-0">{{product.product__product_name}}</h3>
-                        <small class="text-muted">{{product.product__description}}</small>
+                        <small class=" d-inline-block  col-2 text-truncate">{{product.product__description}}</small>
                     </div>
                     <span class="text-muted">{{product.qty}} </span>
                     <span class="text-muted">{{product.sub_total | currency:'&#8377;'}}</span>
                 </li>
-
-                <!-- <li class="list-group-item d-flex justify-content-between bg-light">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Sub Total (INR)</span>
+                    <strong>{{Total | currency:'&#8377;'}}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between bg-light">
                     <div class="text-success">
                         <h6 class="my-0">Promo code</h6>
-                        <small>EXAMPLECODE</small>
+                        <small>{{ promo_code}}</small>
                     </div>
-                    <span class="text-success">-$5</span>
-                </li> -->
+                    <span class="text-success">-{{discount_amt | currency :'INR'}}</span>
+                </li> 
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (INR)</span>
-                    <strong>{{Total | currency:'&#8377;'}}</strong>
+                    <strong>{{Final_Total | currency:'&#8377;'}}</strong>
                 </li>
             </ul>
 
             <form class="card p-2">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Promo code">
+                    <input type="text" class="form-control" [(ngModel)]="promo_code" name="promo_code" placeholder="Promo code">
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary">Redeem</button>
+                        <button type="button" (click)="verify_code()" class="btn btn-secondary">apply</button><br>
                     </div>
+                    
+                </div>
+                <div>
+                    <strong *ngIf="promo_code_error" style="color: red;">Not a vaild promo code</strong>
+                    <strong *ngIf="promo_code_error == false" style="color: rgb(21, 255, 0);">Vaild promo code</strong>
                 </div>
             </form>
         </div>

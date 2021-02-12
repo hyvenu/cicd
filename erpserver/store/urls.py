@@ -8,6 +8,7 @@ router.register("Store", api.StoreViewSet)
 router.register("StoreUser", api.StoreUserViewSet)
 router.register("Department", api.DepartmentViewSet)
 router.register("StoreShip", api.StoreShipLocationsViewSet)
+router.register("ProductCampaign", api.ProductCampaignsViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),

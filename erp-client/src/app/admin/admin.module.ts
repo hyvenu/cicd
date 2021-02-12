@@ -12,6 +12,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ImageUploadModule } from 'angular2-image-upload';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { ProductCampaignComponent } from './product-campaign/product-campaign.component';
 
 const routes: Routes = [
   { path: 'ManageStore' , component: StoreComponent,canActivate:[AuthGuard]},
@@ -21,7 +22,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [StoreComponent, StoreListComponent, AdminDashboardComponent],
+  declarations: [StoreComponent, StoreListComponent, AdminDashboardComponent, ProductCampaignComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

@@ -133,7 +133,7 @@ export class AppComponent implements OnInit {
             {
               title: 'Orders',
               link: 'OrderList', // goes into angular `routerLink`
-              hidden: this.check_permission('sales.view_poorderdetails')
+              hidden: this.check_permission('sales.view_orderrequest')
             },
           ]
         }

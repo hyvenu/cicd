@@ -30,7 +30,6 @@ class Store(AuditUuidModelMixin):
         return reverse("store_update", args=(self.pk,))
 
 
-
 class StoreUser(AuditUuidModelMixin):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="store_user")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_store")
@@ -60,6 +59,20 @@ class StoreShipLocations(AuditUuidModelMixin):
     pin_code = models.CharField(max_length=50, null=True)
     location_name = models.CharField(max_length=255, null=True)
     is_active = models.BooleanField(default=False)
+
+    class Meta:
+        pass
+
+
+class ProductCampaigns(AuditUuidModelMixin):
+    code = models.CharField(max_length=255, null=True, blank=True)
+    type = models.CharField(max_length=100, null=True, blank=True)
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+    value = models.FloatField(null=True, blank=True,default=0)
+    max_use = models.IntegerField(null=True, blank=True,default=0)
+    use_count = models.IntegerField(null=True, blank=True,default=0)
+    min_order_amount = models.DecimalField(max_digits=10,decimal_places=2,default=0)
 
     class Meta:
         pass
