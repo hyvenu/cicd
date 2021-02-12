@@ -85,34 +85,34 @@
 
 
     </div>
-
-    <div id="mobview">
-        <div>
-            <a class="nav-link" href="/home"> <i class="fa fa-home float-right-o fa-3x"></i>
-
-            </a>
-        </div>
-        <div>
-            <a class="nav-link" href="/cart"> <i class="fa fa-shopping-cart float-right-o fa-3x"></i><span class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
-
-            </a>
-        </div>
-        <div *ngIf="!isAuthenticated">
-            <a class="nav-link" href="/Login"><i class="fa fa-sign-in fa-3x" aria-hidden="true"></i>
-
-</a>
-        </div>
-        <div *ngIf="!isAuthenticated">
-            <a class="nav-link" href="/Register">
-                <i class="fa fa-user-plus float-right-o fa-3x"></i>
-            </a>
-        </div>
-        <div *ngIf="isAuthenticated">
-            <a class="nav-link" href="/wishlist"> <i class="fa fa-heart float-right-o fa-3x"></i></a>
-        </div>
-        <div *ngIf="isAuthenticated">
-            <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out fa-3x" aria-hidden="true"></i></a>
-        </div>
-    </div>
 </nav>
 <br>
+
+<div id="mobview">
+    <div>
+        <a class="nav-link" href="/home"> <i class="fa fa-home float-right-o fa-3x"></i>
+
+        </a>
+    </div>
+    <div>
+        <a class="nav-link" href="/cart"> <i class="fa fa-shopping-cart float-right-o fa-3x"></i><span class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
+
+        </a>
+    </div>
+    <div *ngIf="!isAuthenticated">
+        <a class="nav-link" href="/Login"><i class="fa fa-sign-in fa-3x" aria-hidden="true"></i>
+
+</a>
+    </div>
+    <div *ngIf="!isAuthenticated">
+        <a class="nav-link" href="/Register">
+            <i class="fa fa-user-plus float-right-o fa-3x"></i>
+        </a>
+    </div>
+    <div *ngIf="isAuthenticated">
+        <a class="nav-link" href="/wishlist"> <i class="fa fa-heart float-right-o fa-3x"></i></a>
+    </div>
+    <div *ngIf="isAuthenticated">
+        <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out fa-3x" aria-hidden="true"></i></a>
+    </div>
+</div>
