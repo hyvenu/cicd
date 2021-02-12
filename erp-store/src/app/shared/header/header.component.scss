@@ -1,6 +1,7 @@
-.nav-link{
+.nav-link {
     cursor: pointer;
 }
+
 .has-search .form-control {
     padding-left: 2.375rem;
 }
@@ -185,6 +186,10 @@ body {
     padding-top: 8px;
 }
 
+#mobview {
+    display: none;
+}
+
 @media screen and (max-width: 600px) {
     #searchBtn {
         display: none;
@@ -198,6 +203,19 @@ body {
     .navbar-toggler {
         float: right;
         margin-top: 10px;
+    }
+    #mobview {
+        margin-left: -5%;
+        z-index: 10;
+        display: flex;
+        justify-content: space-evenly;
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.8);
+    }
+    .nav-link {
+        color: black;
     }
 }
 
