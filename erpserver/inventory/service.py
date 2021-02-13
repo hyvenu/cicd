@@ -116,3 +116,10 @@ class InventoryService:
         ean.write(buffer)
         return buffer
 
+
+    @classmethod
+    def delete_images(cls, product_id, image_id):
+        prod_image = ProductImages.objects.get(id=image_id)
+        prod_image.delete()
+        return True
+

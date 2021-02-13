@@ -69,4 +69,5 @@ class ProductCampaignsSerializer(serializers.ModelSerializer):
             'max_use',
             'use_count',
             'value',
+            'min_order_amount',
         ]

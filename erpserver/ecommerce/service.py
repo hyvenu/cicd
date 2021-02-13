@@ -9,7 +9,7 @@ from django.db.models import Q, Avg
 
 class EcomService:
 
-    def get_product_list(self, kwargs):
+    def get_product_list(self, kwargs,user_id):
         final_list = []
         if 'category_name' in kwargs:
             category_name = kwargs['category_name']
@@ -70,7 +70,7 @@ class EcomService:
 
             ))
             # prod['wish_list_flag'] = 0
-            if WishList.objects.filter(product_id=prod["id"]).exists():
+            if user_id is not None and WishList.objects.filter(product_id=prod["id"]).exists():
                 prod['wish_list_flag'] = 1
             else:
                 prod['wish_list_flag'] = 0
