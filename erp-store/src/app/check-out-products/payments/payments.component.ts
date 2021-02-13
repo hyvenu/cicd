@@ -44,12 +44,12 @@ export class PaymentsComponent implements OnInit {
   }
 
   payWithRazor(val) {
-    alert(this.amount );
+    // alert(this.amount );
     const options: any = {
       key: 'rzp_test_veBhpMqs1IlGQO',
       amount: 1255 + '00', // amount should be in paise format to display Rs 1255 without decimal point
       currency: 'INR',
-      name: 'Saffran E Commerece', // company name or product name
+      name: sessionStorage.getItem('store_name'), // company name or product name
       description: '',  // product description
       image: '/assets/img/Saffaran-logo.png', // company logo or product image
       order_id: val, // order_id created by you in backend

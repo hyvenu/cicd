@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'ManageStore' , component: StoreComponent,canActivate:[AuthGuard]},
   { path: 'ManageStoreList' , component: StoreListComponent,canActivate:[AuthGuard]},
   { path: 'AdminSite' , component: AdminDashboardComponent,canActivate:[AuthGuard]},
+  { path: 'OfferZone' , component: ProductCampaignComponent,canActivate:[AuthGuard]},
    
 ];
 

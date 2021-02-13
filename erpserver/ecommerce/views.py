@@ -20,7 +20,8 @@ from sales.service import OrderService
 def get_product_list(request):
     data = request.data
     ecom_service = EcomService()
-    product_list = ecom_service.get_product_list(data)
+    user_id = request.user.id
+    product_list = ecom_service.get_product_list(data,user_id)
     return JsonResponse(product_list, safe=False)
 
 

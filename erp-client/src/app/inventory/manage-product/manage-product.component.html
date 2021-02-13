@@ -130,7 +130,11 @@
                             </div>
                             <div class="row">
                                 <nb-list-item *ngFor="let img of image_list">
-                                    <img src={{img.image}} alt="" height="80" width="80"/>
+                                    <div class="image-area">
+                                    <img src={{img.image}} alt="" height="100" width="100" />
+                                    <button nbButton status="danger" size="tiny" (click)="delete_image(img.product_id, img.id);" style="display: inline;">&#215;</button>
+                                    </div>
+                                    
                                 </nb-list-item>
                             </div>
                         </nb-card-body>
@@ -242,7 +246,7 @@
 </ng-template>
 
 <ng-template #product_dialog let-data let-ref="dialogRef">
-    <nb-card>
+    <nb-card size="medium">
         <nb-card-header>Product List </nb-card-header>
         <nb-card-body>
             <nb-list>
@@ -259,7 +263,7 @@
 </ng-template>
 
 <ng-template #unit_dialog let-data let-ref="dialogRef">
-    <nb-card>
+    <nb-card size="medium">
         <nb-card-header>Unit Master List </nb-card-header>
         <nb-card-body>
             <nb-list>
