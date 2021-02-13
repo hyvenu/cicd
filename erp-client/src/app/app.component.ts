@@ -61,16 +61,16 @@ export class AppComponent implements OnInit {
           link: 'ManageStoreList', // goes into angular `routerLink`,
           hidden: this.check_permission('store.view_storeuser')
         },
-        // {
-        //   title: 'Offer Zone',
-        //   link: 'OfferZone', // goes into angular `routerLink`,
-        //   hidden: this.check_permission('store.view_productcampaigns')
-        // },
-        // {
-        //   title: 'Admin',
-        //   link: 'AdminSite',
-        //   hidden: this.check_permission('admin.view_logentry')
-        // },
+        {
+          title: 'Offer Zone',
+          link: 'OfferZone', // goes into angular `routerLink`,
+          hidden: this.check_permission('store.view_productcampaigns')
+        },
+        {
+          title: 'Admin',
+          link: 'AdminSite',
+          hidden: this.check_permission('admin.view_logentry')
+        },
       ]
 
       },
@@ -107,42 +107,46 @@ export class AppComponent implements OnInit {
         ]
   
         },
-        // {
-        //   title: 'Manage Purchase',
-        //   expanded: false,
-        //   children: [
-        //     {
-        //       title: 'Vendor Master',
-        //       link: 'ManageVendortMaster', // goes into angular `routerLink`
-        //       hidden: this.check_permission('vendor.view_vendormaster')
-        //     },
-        //     {
-        //       title: 'Purchase Requisition',
-        //       link: 'PurchaseRequisitionList', // goes into angular `routerLink`
-        //       hidden: this.check_permission('purchase.view_purchaserequisition') 
-        //     },
-        //     {
-        //       title: 'Purchase Order',
-        //       link: 'PurchaseOrderList', // goes into angular `routerLink`
-        //    },
-        //     {   
-        //       title: 'Manage GRN',
-        //       link: 'GrnList'
-        //     },
-        //   ]
+        {
+          title: 'Manage Purchase',
+          expanded: false,
+          children: [
+            {
+              title: 'Vendor Master',
+              link: 'ManageVendortMaster', // goes into angular `routerLink`
+              hidden: this.check_permission('vendor.view_vendormaster')
+            },
+            {
+              title: 'Purchase Requisition',
+              link: 'PurchaseRequisitionList', // goes into angular `routerLink`
+              hidden: this.check_permission('purchase.view_purchaserequisition') 
+            },
+            {
+              title: 'Purchase Order',
+              link: 'PurchaseOrderList', // goes into angular `routerLink`
+           },
+            {   
+              title: 'Manage GRN',
+              link: 'GrnList'
+            },
+          ]
 
-        // },
-        // {
-        //   title: 'Manage Sales',
-        //   expanded: false,
-        //   children: [
-        //     {
-        //       title: 'Orders',
-        //       link: 'OrderList', // goes into angular `routerLink`
-        //       hidden: this.check_permission('sales.view_orderrequest')
-        //     },
-        //   ]
-        // }
+        },
+        {
+          title: 'Manage Sales',
+          expanded: false,
+          children: [
+            {
+              title: 'Orders',
+              link: 'OrderList', // goes into angular `routerLink`
+              hidden: this.check_permission('sales.view_orderrequest')
+            },
+          ]
+        },
+        {
+          title: 'Reports',
+          url:'http://103.146.177.164:8083/jasperserver/login.html'
+        }
        
       ]
   }
