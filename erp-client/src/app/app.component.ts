@@ -136,7 +136,30 @@ export class AppComponent implements OnInit {
               hidden: this.check_permission('sales.view_orderrequest')
             },
           ]
-        }
+        },
+        {
+          title: 'Reports',
+          expanded: false,
+          children: [
+            {
+              title: 'Product Master Report',
+              url: 'http://103.146.177.164:8083/jasperserver/rest_v2/reports/Saffran/Reports/RptProductMaster.html', // goes into angular `routerLink`
+            },
+            {
+              title: 'Sales Report',
+              url: 'http://103.146.177.164:8083/jasperserver/rest_v2/reports/Saffran/Reports/RptSalesOrders.html', // goes into angular `routerLink`
+            },
+            {
+              title: 'Purchase Reports',
+              url: 'http://103.146.177.164:8083/jasperserver/rest_v2/reports/Saffran/Reports/RptPurchaseOrders.html', // goes into angular `routerLink`
+            },
+            {
+              title: 'Stock Reports',
+              url: 'http://103.146.177.164:8083/jasperserver/rest_v2/reports/Saffran/Reports/RptProductStock.html', // goes into angular `routerLink`
+            },
+          ]
+        },
+        
        
       ]
   }
