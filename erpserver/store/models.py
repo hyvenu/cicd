@@ -77,4 +77,4 @@ class ProductCampaigns(AuditUuidModelMixin):
     class Meta:
         pass
 
-class SiteSetting(AuditUuidModelMixin):
+
