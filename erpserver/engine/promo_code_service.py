@@ -32,7 +32,7 @@ class PromoCodeService:
                         total_amount = total_amount - disc_amount
                         return disc_amount, total_amount
                     else:
-                        return 0
+                        return None
             else:
                 return None
         else:
