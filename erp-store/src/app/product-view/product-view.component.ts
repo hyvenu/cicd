@@ -92,7 +92,7 @@ export class ProductViewComponent implements OnInit {
   getAvgRatings() {
     let id = this.Product.id;
     this.Service.GetAvgRating(id).subscribe((data) => {
-      console.log(data);
+     // console.log(data);
       this.Avgratings = data;
     });
   }
@@ -114,6 +114,7 @@ export class ProductViewComponent implements OnInit {
           this.currentRate = 0;
           this.comment = "";
           this.getRatings();
+          this.getAvgRatings();
         });
       }
       else {
@@ -129,6 +130,7 @@ export class ProductViewComponent implements OnInit {
           this.currentRate = 0;
           this.comment = "";
           this.getRatings();
+          this.getAvgRatings();
         });
       }
 

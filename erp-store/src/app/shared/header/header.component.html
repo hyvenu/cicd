@@ -1,12 +1,31 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color:chocolate" >
-    <div class="navbar-header" >
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:chocolate">
+    <div class="navbar-header">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
 </button>
         <a class="navbar-brand mr-auto mt-2 mt-lg-0" style="color: white;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: bold;" href="#" id="company"> <img src="assets/img/Saffaran-logo.png" width="40px"> Saffran </a>
 
     </div>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01" >
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
+        <br>
+        <ul class="list-unstyled components" id="catagoryList">
+            <li class="active">
+                <a class="nav-link" href="#categoryMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" style="color: white;font-size: 16px;font-weight: 500;">Categories</a>
+                <div class="collapse list-unstyled" id="categoryMenu">
+                    <ul class="list-unstyled components" id="categoryMenu">
+                        <li class="active" *ngFor="let category of CategoryList; let i = index;">
+                            <a class="nav-link" href="#homeSubmenu{{i}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" style="color: white;font-size: 14px;">&nbsp;&nbsp;{{category.category_name}}</a>
+                            <ul class="collapse list-unstyled" id="homeSubmenu{{i}}">
+                                <li *ngFor="let subcategory of category.Subcatogories; let i = index;">
+                                    <a (click)="GoToCategoryList(category.category)" style="color: white;">&nbsp;&nbsp;&nbsp;&nbsp;{{subcategory.sub_category_name}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
 
         <ul class="nav navbar-nav navbar-left" id="searchBtn">
 
@@ -52,7 +71,7 @@
             </li>
         </ul>
         <!-- <span class="nav-link">{{ first_name}}</span> -->
-        <ul class="nav navbar-nav navbar-right" >
+        <ul class="nav navbar-nav navbar-right">
 
             <li class="nav-item">
                 <a class="nav-link" href="/cart" style="color: white;"> <i class="fa fa-shopping-cart float-right-o"></i>&nbsp;My Cart <span class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
@@ -81,9 +100,6 @@
 
         </ul>
 
-
-
-
     </div>
 </nav>
 <br>
@@ -95,7 +111,8 @@
         </a>
     </div>
     <div>
-        <a class="nav-link" href="/cart"> <i class="fa fa-shopping-cart float-right-o fa-3x" style="color: chocolate;"></i><span class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
+        <a class="nav-link" href="/cart"> <i class="fa fa-shopping-cart float-right-o fa-3x" style="color: chocolate;"></i>
+            <span class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
 
         </a>
     </div>
@@ -111,6 +128,12 @@
     </div>
     <div *ngIf="isAuthenticated">
         <a class="nav-link" href="/wishlist"> <i class="fa fa-heart float-right fa-3x" style="color: chocolate;"></i></a>
+    </div>
+    <!-- <div *ngIf="isAuthenticated">
+        <a class="nav-link" href="/profile"><i class="fa fa-user float-right-o  fa-3x" style="color: chocolate;"></i></a>
+    </div> -->
+    <div *ngIf="isAuthenticated">
+        <a class="nav-link" href="/profile"> <i class="fa fa-user float-right fa-3x" style="color: chocolate;"></i></a>
     </div>
     <div *ngIf="isAuthenticated">
         <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out fa-3x" aria-hidden="true" style="color: chocolate;"></i></a>

@@ -192,7 +192,7 @@ export class ProductListComponent implements OnInit {
     this.Service.RemoveWishList(data).subscribe(
       (data) => {
         product.wish_list_flag = 0;
-        
+
       }
     )
   }

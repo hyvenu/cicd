@@ -6,6 +6,7 @@
 .nav-item {
     color: white;
 }
+
 .has-search .form-control {
     padding-left: 2.375rem;
 }
@@ -194,7 +195,18 @@ body {
     display: none;
 }
 
+#catagoryList {
+    display: none;
+}
+
+.category {
+    font-size: 16px;
+}
+
 @media screen and (max-width: 600px) {
+    #catagoryList {
+        display: block;
+    }
     #searchBtn {
         display: none;
     }
@@ -219,6 +231,12 @@ body {
     }
     .nav-link {
         color: black;
+    }
+    #lblCartCount {
+        position: absolute;
+        vertical-align: none;
+        margin-left: 0;
+        margin-top: 0;
     }
 }
 
