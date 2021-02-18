@@ -10,9 +10,9 @@
                     to Shopping</a></div>
                  <div class="clearfix"></div>
              </div>
-             <div class="card-body">
+             <div class="card-body" >
                      <!-- PRODUCT -->
-                     <div class="row" *ngFor="let cartItem of cartItems">
+                     <div class="row" *ngFor="let cartItem of cartItems| orderBy: 'product__product_name'">
                         <hr/>
                          <div class="col-12 col-sm-12 col-md-2 text-center">
                                  <img class="img-responsive" [src]="BaseUrl + '/' +cartItem.image" alt="prewiew" width="120" height="80">

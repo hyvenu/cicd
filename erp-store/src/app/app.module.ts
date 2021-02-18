@@ -27,6 +27,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { OrderModule } from 'ngx-order-pipe';
+
 
 
 @NgModule({
@@ -62,7 +64,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatCardModule,
     MatCheckboxModule,
     MatSliderModule,
-    NgbModule
+    NgbModule,
+    OrderModule
   ],
   providers: [
     {
