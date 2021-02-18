@@ -91,6 +91,7 @@
                                 <input nbInput type="text" style="width: 10em;" value="Unit Price" size="small" readonly/>&nbsp;
                                 <input nbInput type="text" style="width: 5em;" value="Gst %" size="small" readonly/>&nbsp;
                                 <input nbInput type="text" style="width: 10em;" value="Sell Price" size="small" readonly/>&nbsp;
+                                <input nbInput type="text" style="width: 10em;" value="Safety Stock Level" size="small" readonly/>&nbsp;
                             </nb-list-item>
                             <nb-list-item *ngFor="let type of product_packingtypes">
                                 <input nbInput type="number" min="0" name="{{type.qty}}" [(ngModel)]="type.qty" placeholder="Quantity"  [ngModelOptions]="{standalone: true}"
@@ -103,6 +104,8 @@
                                 value="{{type.tax}}" size="small" oninput="validity.valid || (value='')"  (change)="calculate_tax(type)" style="width: 5em;"/>&nbsp;
                                 <input nbInput type="number" min="0"  name="{{type.sell_price}}" [(ngModel)]="type.sell_price" placeholder="Sell Price"  [ngModelOptions]="{standalone: true}"
                                 value="{{type.sell_price}}" size="small" oninput="validity.valid || (value='')" style="width: 10em;" />&nbsp;
+                                <input nbInput type="number" min="0"  name="{{type.safety_stock_level}}" [(ngModel)]="type.safety_stock_level" placeholder="Safety Stock"  [ngModelOptions]="{standalone: true}"
+                                value="{{type.safety_stock_level}}" size="small" oninput="validity.valid || (value='')" style="width: 10em;" />&nbsp;
                                 <img src="{{type.bar_code}}" height="40" width="200" *ngIf="type.bar_code"/>
                                 &nbsp;
                                 <button nbButton size="small" status="danger"
@@ -127,7 +130,11 @@
                             </div>
                             <div class="row">
                                 <nb-list-item *ngFor="let img of image_list">
-                                    <img src={{img.image}} alt="" height="80" width="80"/>
+                                    <div class="image-area">
+                                    <img src={{img.image}} alt="" height="100" width="100" />
+                                    <button nbButton status="danger" size="tiny" (click)="delete_image(img.product_id, img.id);" style="display: inline;">&#215;</button>
+                                    </div>
+                                    
                                 </nb-list-item>
                             </div>
                         </nb-card-body>
@@ -201,9 +208,7 @@
         <nb-card-footer>
             <button nbButton (click)="ref.close()">Close</button>
         </nb-card-footer>
-     </nb-card><!--ngxPermission="['inventory.add_productmaster']" >Manage Product </a>> -->
-<!-- </div><br> -->
-
+     </nb-card>
 </ng-template>
 
 <ng-template #sub_cat_dialog let-data let-ref="dialogRef">
@@ -241,7 +246,7 @@
 </ng-template>
 
 <ng-template #product_dialog let-data let-ref="dialogRef">
-    <nb-card>
+    <nb-card size="medium">
         <nb-card-header>Product List </nb-card-header>
         <nb-card-body>
             <nb-list>

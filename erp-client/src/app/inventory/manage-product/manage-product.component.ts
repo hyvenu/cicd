@@ -9,7 +9,7 @@ import { InventoryService } from '../inventory.service';
 @Component({
   selector: 'app-manage-product',
   templateUrl: './manage-product.component.html',
-  styleUrls: ['./manage-product.component.scss']
+  styleUrls: ['./manage-product.component.css']
 })
 export class ManageProductComponent implements OnInit {
 
@@ -114,6 +114,7 @@ export class ManageProductComponent implements OnInit {
                   bar_code: element.bar_code,
                   tax: element.tax,
                   unit_price: element.unit_price,
+                  safety_stock_level: element.safety_stock_level,
                 }
               )
             });
@@ -242,7 +243,7 @@ export class ManageProductComponent implements OnInit {
 
   add_types():any {
     
-    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:'',unit_price:''}
+    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:'',unit_price:'',safety_stock_level:''}
     this.product_packingtypes.push(data)
   }
 
@@ -366,7 +367,23 @@ export class ManageProductComponent implements OnInit {
 
   calculate_tax(item): void {
     item.sell_price = parseFloat(item.unit_price) + ((parseFloat(item.unit_price) * parseFloat(item.tax))/100.00)
-  } 
+  }
+  
+  delete_image(product_id, image_id): void {
+    const data = { product_id: product_id, image_id : image_id}
+    this.inventoryService.deleteImage(data).subscribe(
+      (data) => {
+        const objIndex = this.image_list.findIndex(obj => obj.id === image_id);
+        // const index = this.image_list.indexOf(image_id, 0);
+        if (objIndex > -1) {
+          this.image_list.splice(objIndex, 1);
+        }
+      },
+      (error) =>{
+          this.nbtoastService.danger("Unable to delete image");
+      }
+    )
+  }
 
 
 

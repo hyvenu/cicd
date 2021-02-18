@@ -93,12 +93,12 @@ export class HeaderComponent implements OnInit , AfterViewInit{
     {
       //console.log(data[0].product_code);
      // console.log(products);
-      for(let i=0;i<categories.length;i++)
-      {
 
 
         this.Service.GetSubcategories().subscribe((subcategories)=>
         {
+          for(let i=0;i<categories.length;i++)
+          {
 
           //console.log(data[0].product_code);
           let subcatagorylist =[];
@@ -123,13 +123,13 @@ export class HeaderComponent implements OnInit , AfterViewInit{
           }
 
           categories[i].Subcatogories = subcatagorylist;
-
+        }
         },(error)=>
         {
           console.log(error);
         });
 
-      }
+
       this.CategoryList = categories;
     //  console.log(this.CategoryList);
 
@@ -146,5 +146,12 @@ export class HeaderComponent implements OnInit , AfterViewInit{
     })
 
   }
+
+  GoToCategoryList(category)
+  {
+    this.route.navigate(['/category/'+category])
+  }
+
+
 
 }

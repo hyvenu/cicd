@@ -64,6 +64,7 @@ class InventoryService:
                 price_obj.qty = packs['qty']
                 price_obj.tax = packs['tax']
                 price_obj.unit_price = packs['unit_price']
+                price_obj.safety_stock_level = packs['safety_stock_level']
                 price_obj.product = product_obj
                 price_obj.save()
 
@@ -114,4 +115,11 @@ class InventoryService:
         buffer = BytesIO()
         ean.write(buffer)
         return buffer
+
+
+    @classmethod
+    def delete_images(cls, product_id, image_id):
+        prod_image = ProductImages.objects.get(id=image_id)
+        prod_image.delete()
+        return True
 

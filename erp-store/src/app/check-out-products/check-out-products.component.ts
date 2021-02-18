@@ -15,6 +15,10 @@ export class CheckOutProductsComponent implements OnInit {
   AddressList: any;
   CartTotalItems =0;
   SelectedAddress: any;
+  promo_code:any;
+  discount_amt: any;
+  Final_Total: any;
+  promo_code_error: boolean;
 
   constructor(private Service:CheckoutService,private route:Router) { }
 
@@ -35,9 +39,11 @@ export class CheckOutProductsComponent implements OnInit {
       for(let i=0;i<CartList.length;i++)
       {
         this.Total += Number(CartList[i].sub_total);
+        this.Final_Total = this.Total;
       }
     }
     );
+    
   }
 
   GetAddress()
@@ -100,6 +106,7 @@ export class CheckOutProductsComponent implements OnInit {
       order_status:1,
       payment_method:form.controls["paymentMethod"].value,
       delivery_method:form.controls["DeliveryMethod"].value,
+      promo_code: this.promo_code,
      }
 
      this.Service.CheckOut(data).subscribe((res)=>
@@ -112,7 +119,25 @@ export class CheckOutProductsComponent implements OnInit {
         
 
       });
-}
+   }
+
+   verify_code():any {
+     let data = { promo_code:this.promo_code,order_amount:this.Total  }
+     console.log(data);
+      this.Service.verify_cupan_code(data).subscribe(
+        (res) => {
+            console.log(res);
+            this.Final_Total = res.order_amount;
+            this.discount_amt = res.dis_amount;
+            this.promo_code_error = false;
+        },
+        (error) => {
+            this.promo_code = null;
+            this.promo_code_error = true;
+            this.discount_amt =0;
+        }
+      )
+   }
 
 
 }

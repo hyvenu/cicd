@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.views import generic
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView, LazyPaginator, SingleTableMixin
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
@@ -166,3 +167,14 @@ def get_product_list(request):
     inventory_service = InventoryService()
     prd_list = inventory_service.get_product_list()
     return JsonResponse(prd_list, safe=False)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated,])
+def delete_product_image(request):
+    inventory_service = InventoryService()
+    data = request.data
+    if inventory_service.delete_images(data['product_id'], data['image_id']):
+        return JsonResponse("Removed", safe=False, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse("Failed to remove", safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

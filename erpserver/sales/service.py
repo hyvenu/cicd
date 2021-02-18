@@ -8,6 +8,7 @@ from sequences import get_next_value
 from ecommerce.models import Cart
 from engine.payment_service import PaymentService
 from engine.pdf_service import get_pdf
+from engine.promo_code_service import PromoCodeService
 from inventory.models import ProductMaster, ProductPriceMaster, ProductImages
 from sales.models import OrderRequest, OrderDetails, OrderEvents
 from security.models import CustomerAddress
@@ -42,7 +43,7 @@ DELIVERY_METHOD_DICT = {
 
 class OrderService:
 
-    def check_stock(self, product, pack_type):
+    def check_stock(self, product, pack_type,qty):
         pass
 
     def get_order_location_map(self, ship_address):
@@ -79,8 +80,14 @@ class OrderService:
 
         return flow
 
-    def calculate_order_total(self, user_id):
+    def calculate_order_total(self, user_id, promo_code=None):
+        promo_service = PromoCodeService()
         total_dict = Cart.objects.filter(user_id=user_id).aggregate(Sum('tax_amount'), Sum('sub_total'))
+        if promo_code is not None and len(promo_code) > 0:
+            order_amount = total_dict['sub_total__sum']
+            discount_amount, order_amount = promo_service.apply_promo_code(user_id, promo_code, order_amount)
+            total_dict['sub_total__sum'] = order_amount
+            total_dict['discount_amount'] = discount_amount
         return total_dict
 
     def get_orders(self, kwargs):
@@ -187,11 +194,21 @@ class OrderService:
         order_request.order_status = 1
         order_request.payment_method = order_data['payment_method']
         order_request.delivery_method = order_data['delivery_method']
-        order_total = self.calculate_order_total(user_id)
-        order_request.tax_amount = order_total['tax_amount__sum']
-        order_request.order_amount = order_total['sub_total__sum']
+
+        if order_data['promo_code'] is not None and len(order_data['promo_code']) > 0:
+            order_request.promo_code = order_data['promo_code']
+            promo_service = PromoCodeService()
+            promo_service.update_promo_use_count(order_request.promo_code)
+            order_total = self.calculate_order_total(user_id,order_request.promo_code)
+            order_request.tax_amount = order_total['tax_amount__sum']
+            order_request.order_amount = round(order_total['sub_total__sum'])
+        else:
+            order_total = self.calculate_order_total(user_id,None)
+            order_request.tax_amount = order_total['tax_amount__sum']
+            order_request.order_amount = round(order_total['sub_total__sum'])
         # order_request.store_id = get_order_mapping()
         order_request.save()
+
 
         cart_items = Cart.objects.filter(user_id=user_id).all()
         for items in cart_items:

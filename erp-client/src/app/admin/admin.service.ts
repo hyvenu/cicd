@@ -39,4 +39,7 @@ export class AdminService {
   public deleteStoreShipLocations(id){
     return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreShip/${id}/`)
   }
+  public getProductCampaigns(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/ProductCampaign`)
+  }
 }

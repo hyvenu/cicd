@@ -57,3 +57,17 @@ class StoreShipLocationsSerializer(serializers.ModelSerializer):
             'is_active'
         ]
 
+class ProductCampaignsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ProductCampaigns
+        fields = [
+            'id',
+            'code',
+            'type',
+            'start_time',
+            'end_time',
+            'max_use',
+            'use_count',
+            'value',
+            'min_order_amount',
+        ]

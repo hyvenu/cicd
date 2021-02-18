@@ -1,6 +1,12 @@
-.nav-link{
+.nav-link {
     cursor: pointer;
+    color: white;
 }
+
+.nav-item {
+    color: white;
+}
+
 .has-search .form-control {
     padding-left: 2.375rem;
 }
@@ -185,7 +191,22 @@ body {
     padding-top: 8px;
 }
 
+#mobview {
+    display: none;
+}
+
+#catagoryList {
+    display: none;
+}
+
+.category {
+    font-size: 16px;
+}
+
 @media screen and (max-width: 600px) {
+    #catagoryList {
+        display: block;
+    }
     #searchBtn {
         display: none;
     }
@@ -198,6 +219,24 @@ body {
     .navbar-toggler {
         float: right;
         margin-top: 10px;
+    }
+    #mobview {
+        z-index: 10;
+        display: flex;
+        justify-content: space-evenly;
+        position: fixed;
+        bottom: 0px;
+        width: -webkit-fill-available;
+        background: rgba(255, 255, 255, 0.8);
+    }
+    .nav-link {
+        color: black;
+    }
+    #lblCartCount {
+        position: absolute;
+        vertical-align: none;
+        margin-left: 0;
+        margin-top: 0;
     }
 }
 

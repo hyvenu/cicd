@@ -130,6 +130,7 @@ class ProductPriceMaster(AuditUuidModelMixin):
     qty = models.DecimalField(max_digits=10,decimal_places=2, default=0)
     bar_code = models.ImageField(upload_to="static/upload/product/barcodes",blank=True)
     product_identifier = models.CharField(max_length=12,default=0)
+    safety_stock_level = models.IntegerField(default=0,null=True,blank=True)
 
     class Meta:
         pass

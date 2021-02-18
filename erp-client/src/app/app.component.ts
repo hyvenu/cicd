@@ -62,10 +62,16 @@ export class AppComponent implements OnInit {
           hidden: this.check_permission('store.view_storeuser')
         },
         {
+          title: 'Offer Zone',
+          link: 'OfferZone', // goes into angular `routerLink`,
+          hidden: this.check_permission('store.view_productcampaigns')
+        },
+        {
           title: 'Admin',
           link: 'AdminSite',
           hidden: this.check_permission('admin.view_logentry')
-        },]
+        },
+      ]
 
       },
       {
@@ -133,9 +139,13 @@ export class AppComponent implements OnInit {
             {
               title: 'Orders',
               link: 'OrderList', // goes into angular `routerLink`
-              hidden: this.check_permission('sales.view_poorderdetails')
+              hidden: this.check_permission('sales.view_orderrequest')
             },
           ]
+        },
+        {
+          title: 'Reports',
+          url:'http://103.146.177.164:8083/jasperserver/login.html'
         }
        
       ]

@@ -1,13 +1,15 @@
 from ecommerce.models import Cart, WishList
+from engine.promo_code_service import PromoCodeService
+from ecommerce.models import Cart, WishList, Rating
 from inventory.models import ProductMaster, ProductCategory, ProductSubCategory, ProductImages, ProductPriceMaster
 from store.models import Store
 import math
-from django.db.models import Q
+from django.db.models import Q, Avg
 
 
 class EcomService:
 
-    def get_product_list(self, kwargs):
+    def get_product_list(self, kwargs,user_id):
         final_list = []
         if 'category_name' in kwargs:
             category_name = kwargs['category_name']
@@ -68,7 +70,7 @@ class EcomService:
 
             ))
             # prod['wish_list_flag'] = 0
-            if WishList.objects.filter(product_id=prod["id"]).exists():
+            if user_id is not None and WishList.objects.filter(product_id=prod["id"]).exists():
                 prod['wish_list_flag'] = 1
             else:
                 prod['wish_list_flag'] = 0
@@ -180,4 +182,12 @@ class EcomService:
         else:
             return False
 
+    def Avg_Ratings(self, product_id):
+        avg_rating = Rating.objects.filter(product=product_id).aggregate(Avg('rating'))['rating__avg']
+        return str(avg_rating)
+    def check_promo_code(self, user_id, promo_code, amount):
+        promo_service = PromoCodeService()
+        dis_amount, order_amount = promo_service.apply_promo_code(user_id, promo_code, amount)
+        res = {"dis_amount": dis_amount, "order_amount":order_amount}
 
+        return res

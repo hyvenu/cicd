@@ -38,3 +38,8 @@ class StoreShipLocationsViewSet(viewsets.ModelViewSet):
             return models.StoreShipLocations.objects.filter(store_id=self.request.query_params['store_id']).all()
         else:
             return models.StoreShipLocations.objects.all()
+
+
+class ProductCampaignsViewSet(viewsets.ModelViewSet):
+    queryset = models.ProductCampaigns.objects.all()
+    serializer_class = serializers.ProductCampaignsSerializer

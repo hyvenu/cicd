@@ -27,10 +27,12 @@
                                 <mat-card-title class="overflowText">{{subcategory.sub_category_name}}</mat-card-title>
                             </mat-card-header>
 
-                            <img height="200px" mat-card-image src="{{BaseUrl+subcategory.sub_category_image}}">
+                            <!-- <img height="200px" mat-card-image src="{{BaseUrl+subcategory.sub_category_image}}"> -->
+                            <img height="150em" width="10em" style="border: 0;" mat-card-image *ngIf="subcategory.sub_category_image" src="{{BaseUrl+subcategory.sub_category_image}}">
+                            <img height="150em" width="10em" style="border: 0;" mat-card-image *ngIf="!subcategory.sub_category_image" src="/assets/no-image-icon.jpg">
                             <mat-card-content>
                                 <p>
-                                   {{ subcategory.description }}
+                                    {{ subcategory.description }}
                                 </p>
                             </mat-card-content>
                         </div>

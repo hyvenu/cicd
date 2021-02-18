@@ -154,21 +154,44 @@ export class ProductListComponent implements OnInit {
 
     //filter category and brand
 
-    if (ProductList.length > 0) {
+    if (ProductList.length > 0 && this.Filters.size>0) {
+      let filteredList = [];
+      let categoryExist = false;
       for (let elements of this.Filters) {
         if (ProductList.length > 0) {
           let list = elements.toString().split(",");
           if (list[0] == "Categories") {
-            ProductList = ProductList.filter(data => data.sub_category__sub_category_name == list[1]);
-          }
-          else {
-            ProductList = ProductList.filter(data => data.brand__brand_name == list[1]);
+            categoryExist = true;
+            let data = ProductList.filter(data => data.sub_category__sub_category_name == list[1]);
+            Array.prototype.push.apply(filteredList, data);
           }
         }
         // console.log(ProductList);
       }
+      if(categoryExist)
+      {
+        ProductList = filteredList;
+      }
+      filteredList = [];
+      let brandExist = false;
+      for (let elements of this.Filters) {
+        if (ProductList.length > 0) {
+          let list = elements.toString
+          ().split(",");
+          if (list[0] != "Categories") {
+            brandExist = true;
+            let data = ProductList.filter(data => data.brand__brand_name == list[1]);
+            Array.prototype.push.apply(filteredList, data);
+          }
+        }
+        // console.log(ProductList);
+      }
+      if(brandExist)
+      {
+        ProductList = filteredList;
+      }
     }
-    console.log(ProductList);
+    //console.log(ProductList);
     this.FilteredList = ProductList;
 
   }
@@ -192,7 +215,7 @@ export class ProductListComponent implements OnInit {
     this.Service.RemoveWishList(data).subscribe(
       (data) => {
         product.wish_list_flag = 0;
-        
+
       }
     )
   }
