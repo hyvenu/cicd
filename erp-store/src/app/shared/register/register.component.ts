@@ -30,9 +30,10 @@ function passwordMatchValidator(form){
 })
 export class RegisterComponent implements OnInit {
  
-  error:string;
+  errorMsg:any;
   RegisterForm:FormGroup;
   Invalid:any;
+  flag=false;
   register = new registerUser();
   constructor(private Service:SharedService,private fb:FormBuilder,private router:Router) { }
 
@@ -97,7 +98,8 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(["/Login"]);
       },(error) => {
           console.log(error)
-          this.error = error;
+          this.flag=true;
+          this.errorMsg = error.message;
           
       });
       

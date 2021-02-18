@@ -1,5 +1,5 @@
 import { environment } from './../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
@@ -86,8 +86,8 @@ count = this.messageSource.asObservable();
     // }))
   };
 
-    handleError(error){
-      return throwError(error.message || "miss match")
+    handleError(error: HttpErrorResponse){
+      return (error.message || "Incorrect in username or password")
      };
 
      changeMessage(message: string) {

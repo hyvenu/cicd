@@ -1,7 +1,7 @@
 <section class="testimonial py-5" id="testimonial">
     <div class="container">
         <div class="row ">
-            <div class="col-md-4 py-5 bg-primary text-white text-center ">
+            <div class="col-md-4 py-5 cardbg text-white text-center ">
                 <div class=" ">
                     <div class="card-body">
                         <img src="http://www.ansonika.com/mavia/img/registration_bg.svg" style="width:30%">
@@ -49,7 +49,7 @@
                             <input id="Mobile No." name="Mobile No." formControlName="phone_number"
                                 placeholder="Mobile No." class="form-control" [ngClass]="{'is-invalid':(RegisterForm.get('phone_number').touched ||
                             RegisterForm.get('phone_number').dirty) &&
-                            !RegisterForm.get('phone_number').valid}" required="required" type="number" ngModel
+                            !RegisterForm.get('phone_number').valid}" required="required" min="0" oninput="validity.valid || (value='')" type="number" ngModel
                                 required>
 
                             <span class="invalid-feedback">
@@ -159,9 +159,9 @@
 
                     <div class="form-row">
                         <button type="button" (click)="onSubmit()" class="btn btn-danger">Register</button>
-                    </div>
-                    <div>
-                        {{error}}
+                    </div><br>
+                    <div *ngIf="flag" class="alert alert-danger">
+                        {{errorMsg}}
                     </div>
 
                 </form>
