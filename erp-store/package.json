@@ -32,6 +32,7 @@
     "file-saver": "^2.0.5",
     "jquery": "^3.5.1",
     "ngx-cookie-service": "^11.0.2",
+    "ngx-order-pipe": "^2.1.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

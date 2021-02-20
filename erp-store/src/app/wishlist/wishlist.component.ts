@@ -27,9 +27,9 @@ export class WishlistComponent implements OnInit {
     });
 }
 
-Goto(id:any)
+Goto(data:any)
 {
-  this.route.navigate(['/productview/'+id]);
+  this.route.navigateByUrl("/productview/?data=" + data) ;
 }
 
 RemoveFromWishlist(product) {
@@ -42,8 +42,6 @@ RemoveFromWishlist(product) {
     }
   )
 }
-refresh(): void {
-  window.location.reload();
-}
+
 
 }

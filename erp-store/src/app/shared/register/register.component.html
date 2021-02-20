@@ -1,7 +1,7 @@
 <section class="testimonial py-5" id="testimonial">
     <div class="container">
         <div class="row ">
-            <div class="col-md-4 py-5 text-white text-center " style="background-color: chocolate;">
+            <div class="col-md-4 py-5 text-white text-center " style="background-color: rgb(242,172,100);">
                 <div class=" ">
                     <div class="card-body">
                         <img src="/assets/img/Saffaran-logo.png" style="width:30%">                        
@@ -48,7 +48,7 @@
                             <input id="Mobile No." name="Mobile No." formControlName="phone_number"
                                 placeholder="Mobile No." class="form-control" [ngClass]="{'is-invalid':(RegisterForm.get('phone_number').touched ||
                             RegisterForm.get('phone_number').dirty) &&
-                            !RegisterForm.get('phone_number').valid}" required="required" type="number" ngModel
+                            !RegisterForm.get('phone_number').valid}" required="required" min="0" oninput="validity.valid || (value='')" type="number" ngModel
                                 required>
 
                             <span class="invalid-feedback">
@@ -158,9 +158,9 @@
 
                     <div class="form-row">
                         <button type="button" (click)="onSubmit()" class="btn btn-danger">Register</button>
-                    </div>
-                    <div>
-                        {{error}}
+                    </div><br>
+                    <div *ngIf="flag" class="alert alert-danger">
+                        {{errorMsg}}
                     </div>
 
                 </form>

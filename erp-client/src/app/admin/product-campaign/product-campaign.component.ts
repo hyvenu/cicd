@@ -27,7 +27,7 @@ export class ProductCampaignComponent implements OnInit {
         title: 'Promo Code',        
         type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageProduct?id=${row.id}">${row.code}</a>`;
+          return `<a href="#">${row.code}</a>`;
 }
       },
       start_time: {

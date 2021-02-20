@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  error:any;
   LoginForm:FormGroup;
   Invalid=false;
   forgot_password_like = environment.BASE_SERVICE_URL + '/accounts/password_reset/';
@@ -49,6 +50,8 @@ export class LoginComponent implements OnInit {
       {
         console.log(error);
         this.Invalid = true;
+        this.error = this.Service.handleError(error.message);
+        
       });
 
     }

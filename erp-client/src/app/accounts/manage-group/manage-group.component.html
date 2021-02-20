@@ -1,0 +1,15 @@
+<div id="" [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="groupName">Group Name</label><br>
+            <input nbInput formControlName="groupNameFormControl" name="groupName" placeholder="Group Name" />
+        </div>
+        <div class="col-md-4">
+            <button nbButton [hidden]="!createFlag" (click)="save_group();" status="success" *ngxPermissionsOnly="['accounts.add_groups']" >Save</button>
+            <button nbButton [hidden]="createFlag" (click)="update_group();" status="success" *ngxPermissionsOnly="['accounts.change_groups']" >Update</button>
+        </div>
+    </div>
+    <div class="row">
+        <div 
+    </div>
+</div>
