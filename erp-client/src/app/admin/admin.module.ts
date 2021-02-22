@@ -13,17 +13,19 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { ProductCampaignComponent } from './product-campaign/product-campaign.component';
+import { SiteSettingsComponent } from './site-settings/site-settings.component';
+import { NgxEditorModule } from 'ngx-editor';
 
 const routes: Routes = [
   { path: 'ManageStore' , component: StoreComponent,canActivate:[AuthGuard]},
   { path: 'ManageStoreList' , component: StoreListComponent,canActivate:[AuthGuard]},
   { path: 'AdminSite' , component: AdminDashboardComponent,canActivate:[AuthGuard]},
   { path: 'OfferZone' , component: ProductCampaignComponent,canActivate:[AuthGuard]},
-   
+
 ];
 
 @NgModule({
-  declarations: [StoreComponent, StoreListComponent, AdminDashboardComponent, ProductCampaignComponent],
+  declarations: [StoreComponent, StoreListComponent, AdminDashboardComponent, ProductCampaignComponent, SiteSettingsComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -44,6 +46,7 @@ const routes: Routes = [
     ImageUploadModule.forRoot(),
     MainPipe.forRoot(),
     NgxPermissionsModule.forRoot(),
+    NgxEditorModule
   ],
   providers:[NbToastrService, NbDialogService],
   exports: []
