@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'ManageStoreList' , component: StoreListComponent,canActivate:[AuthGuard]},
   { path: 'AdminSite' , component: AdminDashboardComponent,canActivate:[AuthGuard]},
   { path: 'OfferZone' , component: ProductCampaignComponent,canActivate:[AuthGuard]},
+ { path:'sitesettings',component: SiteSettingsComponent,canActivate:[AuthGuard]},
 
 ];
 

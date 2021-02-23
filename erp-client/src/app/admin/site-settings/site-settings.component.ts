@@ -1,5 +1,8 @@
+import { AdminService } from './../admin.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Editor } from 'ngx-editor';
+import { Editor, toHTML } from 'ngx-editor';
+import { NbToastrService, NbDialogService } from '@nebular/theme';
+
 
 @Component({
   selector: 'app-site-settings',
@@ -8,8 +11,12 @@ import { Editor } from 'ngx-editor';
 })
 export class SiteSettingsComponent implements OnInit, OnDestroy  {
   editor: Editor;
-  html: '';
-  constructor() { }
+  setting_value: '';
+  setting_type:any;
+  nbtoastService:NbToastrService;
+  constructor(private AdminService:AdminService) {
+
+  }
 
   ngOnInit(): void {
     this.editor = new Editor();
@@ -18,5 +25,24 @@ export class SiteSettingsComponent implements OnInit, OnDestroy  {
   // make sure to destory the editor
   ngOnDestroy(): void {
     this.editor.destroy();
+  }
+
+  AddSiteSettings()
+  {
+    var param =
+      {
+        setting_Type: this.setting_type,
+        setting_Value: toHTML(this.setting_value)
+    };
+
+    this.AdminService.AddSiteSettings(param).subscribe(
+      (data) => {
+        this.setting_type = "";
+        this.setting_value = "";
+        this.nbtoastService.success("Added Successfully");
+      }),
+      (error) => {
+        this.nbtoastService.danger(error, "Error")
+      };
   }
 }
