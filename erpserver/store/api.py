@@ -43,3 +43,7 @@ class StoreShipLocationsViewSet(viewsets.ModelViewSet):
 class ProductCampaignsViewSet(viewsets.ModelViewSet):
     queryset = models.ProductCampaigns.objects.all()
     serializer_class = serializers.ProductCampaignsSerializer
+
+class SiteSettingsViewSet(viewsets.ModelViewSet):
+    queryset = models.SiteSettings.objects.all()
+    serializer_class = serializers.SiteSettingsSerializer
