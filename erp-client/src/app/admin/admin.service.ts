@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class AdminService {
 
   constructor(
-    private router: Router,    
+    private router: Router,
     private http: HttpClient
   ) {
   }
@@ -41,5 +41,8 @@ export class AdminService {
   }
   public getProductCampaigns(){
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/ProductCampaign`)
+  }
+  public AddSiteSettings(data){
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/SiteSettings/`, data)
   }
 }

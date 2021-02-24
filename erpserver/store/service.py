@@ -1,4 +1,4 @@
-from store.models import StoreUser, Store
+from store.models import StoreUser, Store, SiteSettings
 
 
 class StoreService:
@@ -13,4 +13,12 @@ class StoreService:
             'store_name',
         )
         return store
+
+    def get_Site_Settings(self, setting_type):
+        settings = SiteSettings.objects.filter(setting_Type=setting_type).values(
+            'id',
+            'setting_Type',
+            'setting_Value'
+        )
+        return list(settings.values())
 

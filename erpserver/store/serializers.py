@@ -71,3 +71,10 @@ class ProductCampaignsSerializer(serializers.ModelSerializer):
             'value',
             'min_order_amount',
         ]
+
+
+class SiteSettingsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.SiteSettings
+        fields = ['id','setting_Type', 'setting_Value']

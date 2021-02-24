@@ -9,16 +9,16 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  
+
   store_name;
   has_permission = false;
   constructor(private permissionsService: NgxPermissionsService,private roleService:NgxRolesService, private sharedService: SharedService){
-    
+
   }
-  items: NbMenuItem[]; 
+  items: NbMenuItem[];
 
   ngOnInit(): void {
-        this.store_name = sessionStorage.getItem('store_name');      
+        this.store_name = sessionStorage.getItem('store_name');
         this.sharedService.getUserPermissionList().subscribe(
         (data) =>{
            this.permissionsService.loadPermissions(data);
@@ -26,13 +26,13 @@ export class AppComponent implements OnInit {
            console.log(this.permissionsService.hasPermission("store.view_store"));
            this.roleService.addRoles(data);
            this.create_menu();
-           
+
         },
         (error) =>{
            console.log("Unable to load permissions");
         }
         )
-       
+
   }
 
   checkLogin():any {
@@ -103,9 +103,9 @@ export class AppComponent implements OnInit {
             link: 'ManageProductMaster', // goes into angular `routerLink`
             hidden: this.check_permission('inventory.view_productmaster')
           },
-         
+
         ]
-  
+
         },
         {
           title: 'Manage Purchase',
@@ -119,13 +119,13 @@ export class AppComponent implements OnInit {
             {
               title: 'Purchase Requisition',
               link: 'PurchaseRequisitionList', // goes into angular `routerLink`
-              hidden: this.check_permission('purchase.view_purchaserequisition') 
+              hidden: this.check_permission('purchase.view_purchaserequisition')
             },
             {
               title: 'Purchase Order',
               link: 'PurchaseOrderList', // goes into angular `routerLink`
            },
-            {   
+            {
               title: 'Manage GRN',
               link: 'GrnList'
             },
@@ -145,9 +145,10 @@ export class AppComponent implements OnInit {
         },
         {
           title: 'Reports',
-          url:'http://103.146.177.164:8083/jasperserver/login.html'
+          url:'http://103.146.177.164:8083/jasperserver/login.html',
+          target: '_blank',
         }
-       
+
       ]
   }
 
@@ -155,7 +156,7 @@ export class AppComponent implements OnInit {
     console.log(permission);
     // this.permissionsService.hasPermission(permission).then(
     //   (value:boolean)=>{
-    //     console.log(permission +' ' +value); 
+    //     console.log(permission +' ' +value);
     //     // return value;
     //     this.has_permission = value;
     //   });
