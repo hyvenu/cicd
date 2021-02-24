@@ -78,9 +78,3 @@ class ProductCampaigns(AuditUuidModelMixin):
         pass
 
 
-class SiteSettings(AuditUuidModelMixin):
-    setting_Type = models.CharField(null=False,max_length=1000)
-    setting_Value = models.TextField(null=False)
-
-    class Meta:
-        pass

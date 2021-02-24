@@ -9,7 +9,6 @@ router.register("StoreUser", api.StoreUserViewSet)
 router.register("Department", api.DepartmentViewSet)
 router.register("StoreShip", api.StoreShipLocationsViewSet)
 router.register("ProductCampaign", api.ProductCampaignsViewSet)
-router.register("SiteSettings", api.SiteSettingsViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),
@@ -18,6 +17,4 @@ urlpatterns = (
     path("Store/detail/<str:pk>/", views.StoreDetailView.as_view(), name="store_detail"),
     path("Store/update/<str:pk>/", views.StoreUpdateView.as_view(), name="store_update"),
     path("Store/select/", views.StoreSelectView.as_view(), name="store_select"),
-    path('api/v1/get_site_settings', views.get_site_settings, name="get_site_settings"),
-
 )

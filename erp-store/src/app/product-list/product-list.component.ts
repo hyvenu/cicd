@@ -45,7 +45,7 @@ export class ProductListComponent implements OnInit {
   GotoProductview(data: any) {
     // let routeTo = "productview/?data=" + data ;
     // this.route.navigate([routeTo]);
-    this.route.navigateByUrl("/productview?data=" + data) ;
+    this.route.navigateByUrl("/productview/?data=" + data) ;
   }
 
   GetProducts() {

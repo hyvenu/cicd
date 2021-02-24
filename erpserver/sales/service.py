@@ -199,14 +199,9 @@ class OrderService:
             order_request.promo_code = order_data['promo_code']
             promo_service = PromoCodeService()
             promo_service.update_promo_use_count(order_request.promo_code)
-            if self.calculate_order_total(user_id,order_request.promo_code):
-                order_total = self.calculate_order_total(user_id,order_request.promo_code)
-                order_request.tax_amount = order_total['tax_amount__sum']
-                order_request.order_amount = round(order_total['sub_total__sum'])
-            else:
-                order_total = self.calculate_order_total(user_id, None)
-                order_request.tax_amount = order_total['tax_amount__sum']
-                order_request.order_amount = round(order_total['sub_total__sum'])
+            order_total = self.calculate_order_total(user_id,order_request.promo_code)
+            order_request.tax_amount = order_total['tax_amount__sum']
+            order_request.order_amount = round(order_total['sub_total__sum'])
         else:
             order_total = self.calculate_order_total(user_id,None)
             order_request.tax_amount = order_total['tax_amount__sum']

@@ -35,7 +35,13 @@ export class ProductListComponent implements OnInit {
       product_name: {
         title: 'Product Name',
       },
-     
+      description: {
+        title: 'Description',
+        type: 'html',
+        valuePrepareFunction: (cell, row) => {
+          return `<p class="d-inline-block text-truncate">${row.description}</p>`;
+      }
+      },
       hsn_code: {
         title: 'Hsn Code',
       },

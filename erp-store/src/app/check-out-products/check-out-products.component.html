@@ -1,5 +1,5 @@
 <div class="container">
-    <a class="btn btn-outline-info btn-sm" href="cart" roterLink="cart"><i class="icon-arrow-left"></i>&nbsp;Back to Cart</a><br>
+<a  class="btn btn-outline-info btn-sm" href="cart" roterLink="cart"><i class="icon-arrow-left"></i>&nbsp;Back to Cart</a><br>
 </div><br>
 <div class="container">
     <div class="row">
@@ -12,7 +12,7 @@
                 <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let product of CarttList">
                     <div>
                         <h3 class="my-0">{{product.product__product_name}}</h3>
-                        <small class="overflowText">{{product.product__description}}</small>
+                        <small class=" d-inline-block  col-2 text-truncate">{{product.product__description}}</small>
                     </div>
                     <span class="text-muted">{{product.qty}} </span>
                     <span class="text-muted">{{product.sub_total | currency:'&#8377;'}}</span>
@@ -27,7 +27,7 @@
                         <small>{{ promo_code}}</small>
                     </div>
                     <span class="text-success">-{{discount_amt | currency :'INR'}}</span>
-                </li>
+                </li> 
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (INR)</span>
                     <strong>{{Final_Total | currency:'&#8377;'}}</strong>
@@ -40,7 +40,7 @@
                     <div class="input-group-append">
                         <button type="button" (click)="verify_code()" class="btn btn-secondary">apply</button><br>
                     </div>
-
+                    
                 </div>
                 <div>
                     <strong *ngIf="promo_code_error" style="color: red;">Not a vaild promo code</strong>
@@ -48,7 +48,7 @@
                 </div>
             </form>
         </div>
-
+        
         <div class="col-md-8 order-md-1">
             <h3 class="mb-3">Billing address</h3>
             <div class="dropdown">

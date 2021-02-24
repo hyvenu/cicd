@@ -1,14 +1,11 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views import generic, View
-from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
 from view_breadcrumbs import ListBreadcrumbMixin
 
 from . import models
@@ -86,14 +83,3 @@ class StoreSelectView(LoginRequiredMixin, View):
 
 class DepartmentView(LoginRequiredMixin, View):
     model = models.Department
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated, ])
-def get_site_settings(request):
-    store_service = StoreService()
-    setting_type = request.query_params['setting_type']
-    site_settings = store_service.get_Site_Settings(setting_type)
-    return  JsonResponse(site_settings,safe=False,status=status.HTTP_200_OK)
-
-

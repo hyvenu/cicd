@@ -9,23 +9,22 @@
         <!-- <div id="accordion" aria-multiselectable="true">
             <div class="row" *ngFor="let product of wishlist; let i = index">
                 <div class="col mt-4">
-                    <div class="card card-2">
+                    <div class="card card-2" >
                         <div class="card-body">
                             <div class="media" [id]="'heading'+i">
                                 <div class="sq align-self-center "> <img (click)="Goto(product.product__product_code)" class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="{{BaseUrl+product.image}}" width="80" height="80" /><br>
-
-
-                                    <div class="media-body my-auto text-right">
-                                        <div class="row my-auto flex-column flex-md-row block">
-                                            <div class="col my-auto">
-                                                <h2 class="mb-0" style="text-align: left;"> {{product.product__product_name}}
-
-                                                </h2>
-                                                <h3 class="mb-0" style="text-align: justify">{{product.product__description}}</h3>
-                                            </div>
+                                
+                                
+                                <div class="media-body my-auto text-right">
+                                    <div class="row my-auto flex-column flex-md-row block">
+                                        <div class="col my-auto">
+                                            <h3 class="mb-0" style="text-align: center;"> {{product.product__product_name}}
+                                               
+                                            </h3>   
+                                            <h3 class="mb-0 " >{{product.product__description}}</h3> </div>
                                         </div>
-
-
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -34,7 +33,7 @@
                             </button>
                         </div>
                     </div>
-
+                   
                 </div>
             </div>
 
