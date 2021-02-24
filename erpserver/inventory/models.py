@@ -100,9 +100,9 @@ class ProductMaster(AuditUuidModelMixin):
     description = models.CharField(max_length=2000)
     product_name = models.CharField(max_length=30)
 
-    category = models.ForeignKey(ProductCategory,on_delete=models.CASCADE, related_name="product_category")
-    sub_category = models.ForeignKey(ProductSubCategory,on_delete=models.CASCADE, related_name="product_sub_category")
-    brand = models.ForeignKey(ProductBrandMaster, on_delete=models.CASCADE, related_name="product_brand", null=True)
+    category = models.ForeignKey(ProductCategory,on_delete=models.CASCADE, related_name="product_category",default=None)
+    sub_category = models.ForeignKey(ProductSubCategory,on_delete=models.CASCADE, related_name="product_sub_category",default=None)
+    brand = models.ForeignKey(ProductBrandMaster, on_delete=models.CASCADE, related_name="product_brand", null=True,default=None)
     product_attributes = models.CharField(max_length=2000, null=True,blank=True)
     product_pack_types = models.CharField(max_length=2000, null=True,blank=True)
 
@@ -123,8 +123,8 @@ class ProductPriceMaster(AuditUuidModelMixin):
     # Fields
     buy_price = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     sell_price = models.DecimalField(max_digits=10, decimal_places=2,default=0)
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="product_price")
-    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="product_unit_master")
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="product_price",default=None)
+    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="product_unit_master",default=None)
     tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     qty = models.DecimalField(max_digits=10,decimal_places=2, default=0)
@@ -146,8 +146,8 @@ class ProductPriceMaster(AuditUuidModelMixin):
 
 
 class ProductImages(AuditUuidModelMixin):
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,related_name="product_images")
-    image = models.ImageField(upload_to="static/upload/product/products", null=True,blank=True)
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,related_name="product_images",default=None)
+    image = models.ImageField(upload_to="static/upload/product/products", null=True,blank=True,default=None)
 
     def __str__(self):
         return str(self.product)
