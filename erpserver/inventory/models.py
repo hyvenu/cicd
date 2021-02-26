@@ -146,7 +146,7 @@ class ProductPriceMaster(AuditUuidModelMixin):
 
 
 class ProductImages(AuditUuidModelMixin):
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,related_name="product_images")
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,related_name="product_images",null=True)
     image = models.ImageField(upload_to="static/upload/product/products", null=True,blank=True)
 
     def __str__(self):
