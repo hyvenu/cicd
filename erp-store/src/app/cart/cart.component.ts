@@ -12,12 +12,6 @@ import { environment } from '../../environments/environment'
 export class CartComponent implements OnInit {
 
   cartItems = [
-
-    // {id:1,productId:1,productName:'test 1',qty:4,price:100 },
-    // {id:2,productId:1,productName:'test 2',qty:1,price:150 },
-    // {id:3,productId:1,productName:'test 3',qty:2,price:130 },
-    // {id:4,productId:1,productName:'test 4',qty:3,price:160 },
-
   ];
 
   cartTotal = 0;
@@ -70,7 +64,7 @@ calculatCartTotal(){
 
 inc(cartItem){
   // console.log(cartItem)
-   
+
   cartItem.qty = cartItem.qty+1;
   this.handleAddToCart(cartItem);
 }

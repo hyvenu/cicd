@@ -202,7 +202,7 @@ export class ProductListComponent implements OnInit {
     }
     this.Service.AddToWishList(data).subscribe(
       (data) => {
-        product.wish_list_flag = 1
+        product.wish_list_flag = 1;
       }
     )
   }

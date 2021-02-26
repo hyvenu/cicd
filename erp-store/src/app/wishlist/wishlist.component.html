@@ -41,10 +41,18 @@
 
         </div> -->
 
+        <div class="card-header bg-dark text-light">
+
+            <a *ngIf="wishlist.length > 0" class="btn btn-outline-info btn-sm pull-right" href="#" roterLink="Home"><i
+                  class="icon-arrow-left"></i>&nbsp;Continue Shopping</a>
+            <div *ngIf="wishlist.length === 0" class="alert alert-info">Your Cart is Empty &nbsp;<a class="btn btn-outline-secondary btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back
+                  to Shopping</a></div>
+            <div class="clearfix"></div>
+        </div>
         <div class="card-body">
             <!-- PRODUCT -->
             <div class="row" *ngFor="let product of wishlist; let i = index">
-               <hr>
+                <hr>
                 <div class="col-12 col-sm-12 col-md-2 text-center">
                     <img (click)="Goto(product.product__product_code)" class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="{{BaseUrl+product.image}}" width="80" height="80" />
                 </div>
@@ -52,15 +60,15 @@
                     <h4 class="product-name"><strong>{{product.product__product_name}}</strong></h4>
                     <h4 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
                         <small>{{product.product__description}}</small><br>
-                        
+
                     </h4>
                 </div>
                 <div class="col-12 col-sm-12 text-sm-center col-md-3 text-md-right row">
-                    
-                    
+
+
                     <!-- <div class="col-2 col-sm-2 col-md-2 text-right">
                        <h5><strong> {{cartItem.sub_total| currency:'INR'}}</strong></h5>
-                      
+
                     </div> -->
                     <div class="col-2 col-sm-2 col-md-2 text-right float-right">
                         <button type="button" class="btn btn-outline-danger btn-xs" (click)="RemoveFromWishlist(product)">
@@ -70,7 +78,7 @@
                 </div>
                 <hr/>
             </div><br><br>
-        </div> 
+        </div>
 
     </div>
 </div>

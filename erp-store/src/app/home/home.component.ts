@@ -14,6 +14,9 @@ export class HomeComponent implements OnInit {
   BaseUrl=environment.BASE_SERVICE_URL+'/';
 
   CartForm:FormGroup;
+  PrimaryBanner: any;
+  SecondaryBanner: any;
+  OfferBanner: any;
   constructor(private router:Router,private Service:HomeserviceService) { }
 
   ngOnInit(): void {
@@ -24,6 +27,9 @@ export class HomeComponent implements OnInit {
       }
     );
     this.GetCategories();
+    this.getPrimaryBanner();
+    this.getSecondaryBanner();
+    this.getOfferBanner();
   }
 
   onSubmit()
@@ -47,13 +53,13 @@ export class HomeComponent implements OnInit {
     {
       //console.log(data[0].product_code);
      // console.log(products);
-     
+
 
         this.Service.GetSubcategories().subscribe((subcategories)=>
         {
           for(let i=0;i<categories.length;i++)
           {
-    
+
           console.log(categories[i].category_name);
           let subcatagorylist =[];
           let j = 0;
@@ -85,6 +91,33 @@ export class HomeComponent implements OnInit {
     },(error)=>
     {
       console.log(error);
+    });
+  }
+
+  getPrimaryBanner()
+  {
+    let type = "banner_1";
+    this.Service.GetBanners(type).subscribe((data)=>
+    {
+      this.PrimaryBanner = data;
+    });
+  }
+
+  getSecondaryBanner()
+  {
+    let type = "banner_2";
+    this.Service.GetBanners(type).subscribe((data)=>
+    {
+      this.SecondaryBanner = data;
+    });
+  }
+
+  getOfferBanner()
+  {
+    let type = "banner_3";
+    this.Service.GetBanners(type).subscribe((data)=>
+    {
+      this.OfferBanner = data;
     });
   }
 

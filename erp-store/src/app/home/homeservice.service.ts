@@ -20,4 +20,9 @@ export class HomeserviceService {
   GetSubcategories(): any {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/get_sub_category`);
   }
+
+  GetBanners(type): any {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_site_settings?setting_type=`+type);
+  }
+
 }
