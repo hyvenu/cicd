@@ -1,7 +1,7 @@
 <div class="container">
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item" *ngFor="let item of PrimaryBanner;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" [innerHTML]="item.setting_Value">
+            <div class="carousel-item" appCarouselImage *ngFor="let item of PrimaryBanner;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" [innerHTML]="item.setting_Value">
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
         <div *ngIf="i == 1">
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item" *ngFor="let item of SecondaryBanner;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" [innerHTML]="item.setting_Value">
+                    <div class="carousel-item" appCarouselImage *ngFor="let item of SecondaryBanner;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" [innerHTML]="item.setting_Value">
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
         <div *ngIf="i == 3">
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item" *ngFor="let item of OfferBanner;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" [innerHTML]="item.setting_Value">
+                    <div class="carousel-item" appCarouselImage *ngFor="let item of OfferBanner;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" [innerHTML]="item.setting_Value">
                     </div>
                 </div>
             </div>

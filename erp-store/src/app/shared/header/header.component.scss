@@ -57,7 +57,7 @@ body {
 }
 
 .navbar {
-    border-bottom: 4px solid rgb(163,74,34);
+    border-bottom: 4px solid rgb(163, 74, 34);
 }
 
 
@@ -203,7 +203,14 @@ body {
     font-size: 16px;
 }
 
-@media screen and (max-width: 600px) {
+#mobview-search {
+    display: none;
+}
+
+@media screen and (max-width: 800px) {
+    #mobview-search {
+        display: block;
+    }
     #catagoryList {
         display: block;
     }

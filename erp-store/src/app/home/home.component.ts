@@ -17,9 +17,20 @@ export class HomeComponent implements OnInit {
   PrimaryBanner: any;
   SecondaryBanner: any;
   OfferBanner: any;
+  testing:any[]=[];
   constructor(private router:Router,private Service:HomeserviceService) { }
 
   ngOnInit(): void {
+
+    var data =
+    {
+      setting_Value:'<p><img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg" alt="" title=""></p>'
+    }
+
+    this.testing.push(data);
+    this.testing.push(data);
+    this.testing.push(data);
+
     this.CartForm = new FormGroup(
       {
         'Quantity' :new FormControl('',Validators.required),
@@ -60,7 +71,7 @@ export class HomeComponent implements OnInit {
           for(let i=0;i<categories.length;i++)
           {
 
-          console.log(categories[i].category_name);
+         // console.log(categories[i].category_name);
           let subcatagorylist =[];
           let j = 0;
           while( subcatagorylist.length <4 && j != subcategories.length)

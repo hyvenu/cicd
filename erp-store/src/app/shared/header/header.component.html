@@ -27,18 +27,19 @@
             </li>
         </ul>
 
+
         <ul class="nav navbar-nav navbar-left" id="searchBtn">
 
             <li class="dropdown nav-item padding-top">
                 <a href="#" class="dropdown-toggle btn btn-info" data-toggle="dropdown">Categories <b class="caret"></b></a>
-                <div class="dropdown-menu mega-menu">
+                <div class="dropdown-menu mega-menu" (click)="$event.stopPropagation()">
                     <ul style="display: flex;padding:0px">
 
                         <li class="mega-menu-column">
                             <ul class="list-group">
                                 <!-- <li class="nav-header">Categories</li> -->
                                 <li>
-                                    <a class="list-group-item list-group-item-action flex-column align-items-start" (mouseenter)="mouseEnter(category.Subcatogories)" *ngFor="let category of CategoryList; let i=index">
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start" (mouseenter)="mouseEnter(category.Subcatogories)" (click)="mouseEnter(category.Subcatogories)" *ngFor="let category of CategoryList; let i=index">
                           {{category.category_name}}
                           </a>
                                 </li>
@@ -72,7 +73,12 @@
         </ul>
         <!-- <span class="nav-link">{{ first_name}}</span> -->
         <ul class="nav navbar-nav navbar-right">
-
+            <li class="nav-item" id="mobview-search">
+                <div class="form-group has-search">
+                    <span class="fa fa-search form-control-feedback"></span>
+                    <input type="text" class="form-control" style="width: 60%;" (input)="Search($event.target.value)" placeholder="Search">
+                </div>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="/cart" style="color: white;"> <i class="fa fa-shopping-cart float-right-o"></i>&nbsp;My Cart <span class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
 
