@@ -102,6 +102,10 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
+div>p>img {
+    width: 100% i !important;
+}
+
 @media screen and (max-width: 600px) {
     #view-button {
         float: none;

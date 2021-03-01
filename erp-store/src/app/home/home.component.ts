@@ -14,9 +14,23 @@ export class HomeComponent implements OnInit {
   BaseUrl=environment.BASE_SERVICE_URL+'/';
 
   CartForm:FormGroup;
+  PrimaryBanner: any;
+  SecondaryBanner: any;
+  OfferBanner: any;
+  testing:any[]=[];
   constructor(private router:Router,private Service:HomeserviceService) { }
 
   ngOnInit(): void {
+
+    var data =
+    {
+      setting_Value:'<p><img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg" alt="" title=""></p>'
+    }
+
+    this.testing.push(data);
+    this.testing.push(data);
+    this.testing.push(data);
+
     this.CartForm = new FormGroup(
       {
         'Quantity' :new FormControl('',Validators.required),
@@ -24,6 +38,9 @@ export class HomeComponent implements OnInit {
       }
     );
     this.GetCategories();
+    this.getPrimaryBanner();
+    this.getSecondaryBanner();
+    this.getOfferBanner();
   }
 
   onSubmit()
@@ -47,14 +64,14 @@ export class HomeComponent implements OnInit {
     {
       //console.log(data[0].product_code);
      // console.log(products);
-     
+
 
         this.Service.GetSubcategories().subscribe((subcategories)=>
         {
           for(let i=0;i<categories.length;i++)
           {
-    
-          console.log(categories[i].category_name);
+
+         // console.log(categories[i].category_name);
           let subcatagorylist =[];
           let j = 0;
           while( subcatagorylist.length <4 && j != subcategories.length)
@@ -85,6 +102,33 @@ export class HomeComponent implements OnInit {
     },(error)=>
     {
       console.log(error);
+    });
+  }
+
+  getPrimaryBanner()
+  {
+    let type = "banner_1";
+    this.Service.GetBanners(type).subscribe((data)=>
+    {
+      this.PrimaryBanner = data;
+    });
+  }
+
+  getSecondaryBanner()
+  {
+    let type = "banner_2";
+    this.Service.GetBanners(type).subscribe((data)=>
+    {
+      this.SecondaryBanner = data;
+    });
+  }
+
+  getOfferBanner()
+  {
+    let type = "banner_3";
+    this.Service.GetBanners(type).subscribe((data)=>
+    {
+      this.OfferBanner = data;
     });
   }
 

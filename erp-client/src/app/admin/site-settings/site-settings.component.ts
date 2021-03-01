@@ -29,10 +29,20 @@ export class SiteSettingsComponent implements OnInit, OnDestroy  {
 
   AddSiteSettings()
   {
+    var setting_value = "";
+    if(typeof(this.setting_value) != "string")
+    {
+      setting_value =  toHTML(this.setting_value);
+    }
+    else{
+      setting_value =  this.setting_value;
+    }
+
+
     var param =
       {
         setting_Type: this.setting_type,
-        setting_Value: toHTML(this.setting_value)
+        setting_Value:setting_value
     };
 
     this.AdminService.AddSiteSettings(param).subscribe(

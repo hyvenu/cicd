@@ -28,6 +28,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { OrderModule } from 'ngx-order-pipe';
+import { CarouselImageDirective } from './Directives/carousel-image.directive';
 
 
 
@@ -46,6 +47,7 @@ import { OrderModule } from 'ngx-order-pipe';
     WishlistComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    CarouselImageDirective,
 
   ],
   imports: [
@@ -65,7 +67,7 @@ import { OrderModule } from 'ngx-order-pipe';
     MatCheckboxModule,
     MatSliderModule,
     NgbModule,
-    OrderModule
+    OrderModule,
   ],
   providers: [
     {

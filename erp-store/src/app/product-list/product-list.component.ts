@@ -4,8 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import * as $ from 'jquery';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-list',
@@ -23,8 +21,9 @@ export class ProductListComponent implements OnInit {
   min: any;
   max: any;
   wishlist:any;
+  constructor(private route: Router, private Service: ProductlistService, private activatedRoute: ActivatedRoute,private sharedService:SharedService,) {
 
-  constructor(private route: Router, private Service: ProductlistService, private activatedRoute: ActivatedRoute,private sharedService:SharedService) { }
+   }
 
   ngOnInit(): void {
 
@@ -202,7 +201,7 @@ export class ProductListComponent implements OnInit {
     }
     this.Service.AddToWishList(data).subscribe(
       (data) => {
-        product.wish_list_flag = 1
+        product.wish_list_flag = 1;
       }
     )
   }

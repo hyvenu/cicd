@@ -1,21 +1,14 @@
 <div class="container">
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="assets/banner_img/img_1.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="assets/banner_img/img_2.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="assets/banner_img/img_3.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-item" appCarouselImage *ngFor="let item of PrimaryBanner;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" [innerHTML]="item.setting_Value">
             </div>
         </div>
     </div>
     <br>
 
     <!-- category Lists -->
-    <div *ngFor="let category of CategoryList">
+    <div *ngFor="let category of CategoryList; let i =index">
         <div id="category-name">{{category.category_name}}</div>
         <br>
         <div class="content">
@@ -43,6 +36,25 @@
         <br>
         <div id="view-button"><button type="button" (click)="GoToCategoryList(category.category_name)" class="btn btn-default" style="background-color:rgb(242,172,100);color:white">View All <i class="fa fa-arrow-right" aria-hidden="true"></i></button></div>
         <br><br>
+
+        <div *ngIf="i == 1">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item" appCarouselImage *ngFor="let item of SecondaryBanner;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" [innerHTML]="item.setting_Value">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="i == 3">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item" appCarouselImage *ngFor="let item of OfferBanner;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" [innerHTML]="item.setting_Value">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
