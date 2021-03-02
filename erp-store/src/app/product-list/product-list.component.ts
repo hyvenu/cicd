@@ -1,7 +1,8 @@
+import { ToastService } from './../shared/toast/toast.service';
 import { SharedService } from './../shared/shared.service';
 import { ProductlistService } from './productlist.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
@@ -21,7 +22,8 @@ export class ProductListComponent implements OnInit {
   min: any;
   max: any;
   wishlist:any;
-  constructor(private route: Router, private Service: ProductlistService, private activatedRoute: ActivatedRoute,private sharedService:SharedService,) {
+  constructor(private route: Router, private Service: ProductlistService,
+     private activatedRoute: ActivatedRoute,private sharedService:SharedService,private toastService:ToastService) {
 
    }
 
@@ -202,10 +204,28 @@ export class ProductListComponent implements OnInit {
     this.Service.AddToWishList(data).subscribe(
       (data) => {
         product.wish_list_flag = 1;
+        this.showSuccess();
       }
     )
   }
 
+  showSuccess() {
+    this.toastService.show('Added to wishlist', {
+      classname: 'bg-success text-light',
+      delay: 2000 ,
+      autohide: true,
+      headertext: 'Successfull'
+    });
+  }
+
+  showError() {
+    this.toastService.show('Removed from wishlist', {
+      classname: 'bg-danger text-light',
+      delay: 2000 ,
+      autohide: true,
+      headertext: 'Successfull'
+    });
+  }
 
   RemoveFromWishlist(product) {
     let data = {
@@ -214,7 +234,7 @@ export class ProductListComponent implements OnInit {
     this.Service.RemoveWishList(data).subscribe(
       (data) => {
         product.wish_list_flag = 0;
-
+        this.showError();
       }
     )
   }
@@ -233,4 +253,8 @@ export class ProductListComponent implements OnInit {
     }
   }
 
+
+  isTemplate(toast) {
+    console.log(this.toastService.toasts);
+    return toast.textOrTpl instanceof TemplateRef; }
 }

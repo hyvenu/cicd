@@ -7,6 +7,8 @@ import { FooterComponent } from './footer/footer.component';
 import { NbThemeModule, NbLayoutModule,NbButtonModule } from '@nebular/theme';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+import { ToastComponent } from './toast/toast.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 const routes: Routes = [
@@ -15,14 +17,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, ToastComponent,ToastComponent],
   imports: [
     CommonModule,
     NbButtonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
+    NgbModule
   ],
-  exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent]
+  exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent,ToastComponent]
 })
 export class SharedModule { }
