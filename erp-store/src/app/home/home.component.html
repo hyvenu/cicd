@@ -25,7 +25,7 @@
                             <img height="150em" width="10em" style="border: 0;" mat-card-image *ngIf="!subcategory.sub_category_image" src="/assets/no-image-icon.jpg">
                             <mat-card-content>
                                 <p>
-                                    {{ subcategory.description }}
+                                    <a>See more</a>
                                 </p>
                             </mat-card-content>
                         </div>
@@ -34,7 +34,7 @@
             </div>
         </div>
         <br>
-        <div id="view-button"><button type="button" (click)="GoToCategoryList(category.category_name)" class="btn btn-default" style="background-color:rgb(242,172,100);color:white">View All <i class="fa fa-arrow-right" aria-hidden="true"></i></button></div>
+        <div id="view-button"><button type="button" (click)="GoToCategoryList(category.category_name)" class="btn btn-default" style="background-color:#6d7fcc;color:white">View All <i class="fa fa-arrow-right" aria-hidden="true"></i></button></div>
         <br><br>
 
         <div *ngIf="i == 1">

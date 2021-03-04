@@ -1,0 +1,15 @@
+<div class="sidebar-header">
+    <h3>Categories</h3>
+</div>
+<div id="sidebar">
+    <ul class="list-unstyled components">
+        <li class="active" *ngFor="let category of CategoryList; let i = index;">
+            <a href="#homeSubmenu{{i}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{category.category_name}}</a>
+            <ul class="collapse list-unstyled" id="homeSubmenu{{i}}">
+                <li *ngFor="let subcategory of category.Subcatogories; let i = index;">
+                    <a (click)="GoToCategoryList(category.category_name)">{{subcategory.sub_category_name}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

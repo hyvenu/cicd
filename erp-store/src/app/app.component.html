@@ -17,7 +17,30 @@
 
 </nb-layout> -->
 
+<app-layout>
+    <mat-sidenav-container>
+        <mat-sidenav #sidenav role="navigation">
+            <app-side-navbar-content></app-side-navbar-content>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
+            <main>
+                <router-outlet></router-outlet>
+                <app-toast></app-toast>
+                <app-footer></app-footer>
+            </main>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</app-layout>
+<!--
+<mat-sidenav-content>
+    <app-header></app-header>
+    <main>
+        <router-outlet></router-outlet>
+        <app-toast></app-toast>
+        <app-footer></app-footer>
+    </main>
+</mat-sidenav-content> -->
+<!--
 <app-header></app-header>
-<router-outlet></router-outlet>
-<app-toast></app-toast>
-<app-footer></app-footer>
+<router-outlet></router-outlet> -->

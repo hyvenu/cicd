@@ -3,7 +3,7 @@ import { ProductListComponent } from './../../product-list/product-list.componen
 import { HomeserviceService } from './../../home/homeservice.service';
 import { Router } from '@angular/router';
 import { SharedService } from './../shared.service';
-import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, EventEmitter, Output} from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -19,6 +19,10 @@ export class HeaderComponent implements OnInit , AfterViewInit{
   CategoryList: any;
   subcategorylist: any;
   count: string;
+  showFiller = false;
+
+  @Output() public sidenavToggle = new EventEmitter();
+
   constructor(private sharedservice:SharedService,private route:Router,private Service:HomeserviceService,private cartService:CartService) { }
 
   ngAfterViewInit()
@@ -152,6 +156,8 @@ export class HeaderComponent implements OnInit , AfterViewInit{
     this.route.navigate(['/category/'+category])
   }
 
-
+  public onToggleSidenav = () => {
+    this.sidenavToggle.emit();
+  }
 
 }

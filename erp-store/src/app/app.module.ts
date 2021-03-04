@@ -29,8 +29,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { OrderModule } from 'ngx-order-pipe';
 import { CarouselImageDirective } from './Directives/carousel-image.directive';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -68,6 +71,10 @@ import { CarouselImageDirective } from './Directives/carousel-image.directive';
     MatSliderModule,
     NgbModule,
     OrderModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   providers: [
     {

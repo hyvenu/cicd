@@ -4,6 +4,19 @@
     font-size: 25px;
 }
 
+a {
+    color: #007185;
+}
+
+#category {
+    cursor: pointer;
+}
+
+#category-name {
+    font-size: 20px;
+    font-weight: 500;
+}
+
 .carousel-control-next,
 .carousel-control-prev {
     width: auto;
