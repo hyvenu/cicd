@@ -6,6 +6,12 @@
         </div>
     </div>
     <br>
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" >
+        <div class="carousel-inner">
+            <div class="carousel-item" style="height: 200px;" appCarouselImage *ngFor="let item of SecondaryBanner;  let i=index" [ngClass]="(i === 0) ? 'active' : ''" [innerHTML]="item.setting_Value">
+            </div>
+        </div>
+    </div>
 
     <!-- category Lists -->
     <div *ngFor="let category of CategoryList; let i =index">
