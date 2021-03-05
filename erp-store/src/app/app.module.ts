@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule,NbButtonModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule,NbButtonModule, NbToastrModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SharedModule } from './shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -28,8 +28,12 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { OrderModule } from 'ngx-order-pipe';
+import { CarouselImageDirective } from './Directives/carousel-image.directive';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -46,6 +50,7 @@ import { OrderModule } from 'ngx-order-pipe';
     WishlistComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    CarouselImageDirective,
 
   ],
   imports: [
@@ -65,7 +70,11 @@ import { OrderModule } from 'ngx-order-pipe';
     MatCheckboxModule,
     MatSliderModule,
     NgbModule,
-    OrderModule
+    OrderModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   providers: [
     {

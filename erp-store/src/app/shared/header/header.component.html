@@ -1,46 +1,28 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color:rgb(242,172,100)">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#6d7fcc">
     <div class="navbar-header">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button" (click)="onToggleSidenav()">
+<span class="navbar-toggler-icon"></span>
 </button>
         <a class="navbar-brand mr-auto mt-2 mt-lg-0" style="color: white;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: bold;" href="#" id="company"> <img src="assets/img/Saffaran-logo.png" width="40px"> Saffran </a>
 
     </div>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <div id="navbarTogglerDemo01">
 
-        <br>
-        <ul class="list-unstyled components" id="catagoryList">
-            <li class="active">
-                <a class="nav-link" href="#categoryMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" style="color: white;font-size: 16px;font-weight: 500;">Categories</a>
-                <div class="collapse list-unstyled" id="categoryMenu">
-                    <ul class="list-unstyled components" id="categoryMenu">
-                        <li class="active" *ngFor="let category of CategoryList; let i = index;">
-                            <a class="nav-link" href="#homeSubmenu{{i}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" style="color: white;font-size: 14px;">&nbsp;&nbsp;{{category.category_name}}</a>
-                            <ul class="collapse list-unstyled" id="homeSubmenu{{i}}">
-                                <li *ngFor="let subcategory of category.Subcatogories; let i = index;">
-                                    <a (click)="GoToCategoryList(category.category)" style="color: white;">&nbsp;&nbsp;&nbsp;&nbsp;{{subcategory.sub_category_name}}</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
 
         <ul class="nav navbar-nav navbar-left" id="searchBtn">
 
             <li class="dropdown nav-item padding-top">
                 <a href="#" class="dropdown-toggle btn btn-info" data-toggle="dropdown">Categories <b class="caret"></b></a>
-                <div class="dropdown-menu mega-menu">
+                <div class="dropdown-menu mega-menu" (click)="$event.stopPropagation()">
                     <ul style="display: flex;padding:0px">
 
                         <li class="mega-menu-column">
                             <ul class="list-group">
                                 <!-- <li class="nav-header">Categories</li> -->
                                 <li>
-                                    <a class="list-group-item list-group-item-action flex-column align-items-start" (mouseenter)="mouseEnter(category.Subcatogories)" *ngFor="let category of CategoryList; let i=index">
-                          {{category.category_name}}
-                          </a>
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start" (mouseenter)="mouseEnter(category.Subcatogories)" (click)="mouseEnter(category.Subcatogories)" *ngFor="let category of CategoryList; let i=index">
+                        {{category.category_name}}
+                        </a>
                                 </li>
                             </ul>
                         </li>
@@ -50,7 +32,7 @@
                                 <!-- <li class="nav-header">SubCategories</li> -->
                                 <li>
                                     <a class="list-group-item dropdown-item" href="category/{{subCategory.category__category_name}}" *ngFor="let subCategory of subcategorylist" style="color: black;">
-                                    {{subCategory.sub_category_name}}</a>
+                                  {{subCategory.sub_category_name}}</a>
 
                                 </li>
 
@@ -64,78 +46,120 @@
             </li>
             &nbsp;
             <li class="nav-item padding-top">
-                <div class="form-group has-search">
+                <div class="form-group has-search" style="margin-bottom:0px;">
                     <span class="fa fa-search form-control-feedback"></span>
                     <input type="text" class="form-control" (input)="Search($event.target.value)" placeholder="Search">
                 </div>
             </li>
         </ul>
         <!-- <span class="nav-link">{{ first_name}}</span> -->
+
         <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item" id="mobview-search">
+                <div class="form-group has-search">
+                    <span class="fa fa-search form-control-feedback"></span>
+                    <input type="text" class="form-control" style="width: 90%;" (input)="Search($event.target.value)" placeholder="Search">
+                </div>
+            </li>
+        </ul>
+
+
+        <ul class="nav navbar-nav navbar-right desktop-view-icon">
 
             <li class="nav-item">
-                <a class="nav-link" href="/cart" style="color: white;"> <i class="fa fa-shopping-cart float-right-o"></i>&nbsp;My Cart <span class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
+                <a class="nav-link" href="/cart" style="color: white;"> <i class="fa fa-shopping-cart float-right-o desktop-view-icon"></i>&nbsp;My Cart <span class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
 
                 </a>
             </li>
             <li class="nav-item" *ngIf="!isAuthenticated">
-                <a class="nav-link" href="/Login" style="color: white;"><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;Login
+                <a class="nav-link" href="/Login" style="color: white;"><i class="fa fa-sign-in desktop-view-icon" aria-hidden="true"></i>&nbsp;Login
 
-        </a>
+    </a>
             </li>
             <li class="nav-item" *ngIf="!isAuthenticated">
                 <a class="nav-link" href="/Register" style="color: white;">Sign Up
 
-        </a>
+    </a>
             </li>
             <li class="nav-item" *ngIf="isAuthenticated">
-                <a class="nav-link" href="/wishlist" style="color: white;"> <i class="fa fa-heart float-right-o"></i>&nbsp;Wishlist</a>
+                <a class="nav-link" href="/wishlist" style="color: white;"> <i class="fa fa-heart float-right-o desktop-view-icon"></i>&nbsp;Wishlist</a>
             </li>
             <li class="nav-item" *ngIf="isAuthenticated">
-                <a class="nav-link" href="/profile" style="color: white;"><i class="fa fa-user float-right-o"></i>&nbsp;{{ first_name }}</a>
+                <a class="nav-link" href="/profile" style="color: white;"><i class="fa fa-user float-right-o desktop-view-icon"></i>&nbsp;{{ first_name }}</a>
             </li>
             <li class="nav-item" *ngIf="isAuthenticated">
-                <a class="nav-link" (click)="logout()" style="color: white;"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Logout</a>
+                <a class="nav-link" (click)="logout()" style="color: white;"><i class="fa fa-sign-out desktop-view-icon" aria-hidden="true"></i>&nbsp;Logout</a>
             </li>
 
         </ul>
 
+        <div class="desktop-view">
+
+            <div class="nav-item">
+                <a class="nav-link" href="/cart" style="color: white;"> <i class="fa fa-shopping-cart float-right-o desktop-view-icon"></i>&nbsp;My Cart <span class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
+
+                </a>
+            </div>
+            <div class="nav-item" *ngIf="!isAuthenticated">
+                <a class="nav-link" href="/Login" style="color: white;"><i class="fa fa-sign-in desktop-view-icon" aria-hidden="true"></i>&nbsp;Login
+
+      </a>
+            </div>
+            <div class="nav-item" *ngIf="!isAuthenticated">
+                <a class="nav-link" href="/Register" style="color: white;">Sign Up
+
+      </a>
+            </div>
+            <div class="nav-item" *ngIf="isAuthenticated">
+                <a class="nav-link" href="/wishlist" style="color: white;"> <i class="fa fa-heart float-right-o desktop-view-icon"></i>&nbsp;Wishlist</a>
+            </div>
+            <div class="nav-item" *ngIf="isAuthenticated">
+                <a class="nav-link" href="/profile" style="color: white;"><i class="fa fa-user float-right-o desktop-view-icon"></i>&nbsp;{{ first_name }}</a>
+            </div>
+            <div class="nav-item" *ngIf="isAuthenticated">
+                <a class="nav-link" (click)="logout()" style="color: white;"><i class="fa fa-sign-out desktop-view-icon" aria-hidden="true"></i>&nbsp;Logout</a>
+            </div>
+
+        </div>
+
     </div>
+
+
 </nav>
 <br>
 
 <div id="mobview">
     <div>
-        <a class="nav-link" href="/Home"> <i class="fa fa-home float-right-o fa-3x" style="color: chocolate;"></i>
+        <a class="nav-link" href="/Home"> <i class="fa fa-home float-right-o fa-3x"></i>
 
         </a>
     </div>
     <div>
-        <a class="nav-link" href="/cart"> <i class="fa fa-shopping-cart float-right-o fa-3x" style="color: chocolate;"></i>
+        <a class="nav-link" href="/cart"> <i class="fa fa-shopping-cart float-right-o fa-3x"></i>
             <span class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
 
         </a>
     </div>
     <div *ngIf="!isAuthenticated">
-        <a class="nav-link" href="/Login"><i class="fa fa-sign-in fa-3x" style="color: chocolate;" aria-hidden="true"></i>
+        <a class="nav-link" href="/Login"><i class="fa fa-sign-in fa-3x"  aria-hidden="true"></i>
 
 </a>
     </div>
     <div *ngIf="!isAuthenticated">
         <a class="nav-link" href="/Register">
-            <i class="fa fa-user-plus-o float-right-o fa-3x" style="color: chocolate;"></i>
+            <i class="fa fa-user-plus-o float-right-o fa-3x"></i>
         </a>
     </div>
     <div *ngIf="isAuthenticated">
-        <a class="nav-link" href="/wishlist"> <i class="fa fa-heart float-right fa-3x" style="color: chocolate;"></i></a>
+        <a class="nav-link" href="/wishlist"> <i class="fa fa-heart float-right fa-3x"></i></a>
     </div>
     <!-- <div *ngIf="isAuthenticated">
-        <a class="nav-link" href="/profile"><i class="fa fa-user float-right-o  fa-3x" style="color: chocolate;"></i></a>
-    </div> -->
+      <a class="nav-link" href="/profile"><i class="fa fa-user float-right-o  fa-3x" ></i></a>
+  </div> -->
     <div *ngIf="isAuthenticated">
-        <a class="nav-link" href="/profile"> <i class="fa fa-user float-right fa-3x" style="color: chocolate;"></i></a>
+        <a class="nav-link" href="/profile"> <i class="fa fa-user float-right fa-3x"></i></a>
     </div>
     <div *ngIf="isAuthenticated">
-        <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out fa-3x" aria-hidden="true" style="color: chocolate;"></i></a>
+        <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out fa-3x" aria-hidden="true" ></i></a>
     </div>
 </div>

@@ -4,6 +4,19 @@
     font-size: 25px;
 }
 
+a {
+    color: #007185;
+}
+
+#category {
+    cursor: pointer;
+}
+
+#category-name {
+    font-size: 20px;
+    font-weight: 500;
+}
+
 .carousel-control-next,
 .carousel-control-prev {
     width: auto;
@@ -100,6 +113,10 @@ a[data-toggle="collapse"] {
     top: 50%;
     right: 20px;
     transform: translateY(-50%);
+}
+
+div>p>img {
+    width: 100% i !important;
 }
 
 @media screen and (max-width: 600px) {

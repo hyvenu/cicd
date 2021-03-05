@@ -71,6 +71,11 @@ export class AppComponent implements OnInit {
           link: 'AdminSite',
           hidden: this.check_permission('admin.view_logentry')
         },
+        {
+          title: 'Site Settings',
+          link: 'sitesettings',
+         // hidden: this.check_permission('admin.view_logentry')
+        },
       ]
 
       },

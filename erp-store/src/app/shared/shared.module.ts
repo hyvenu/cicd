@@ -7,7 +7,13 @@ import { FooterComponent } from './footer/footer.component';
 import { NbThemeModule, NbLayoutModule,NbButtonModule } from '@nebular/theme';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
+import { ToastComponent } from './toast/toast.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { SideNavbarContentComponent } from './side-navbar-content/side-navbar-content.component';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -15,14 +21,22 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, ToastComponent,ToastComponent, SideNavbarContentComponent],
   imports: [
     CommonModule,
     NbButtonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
+    NgbModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
   ],
-  exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent]
+  exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent,ToastComponent, MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,SideNavbarContentComponent]
 })
 export class SharedModule { }

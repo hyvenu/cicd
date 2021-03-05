@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./wishlist.component.scss']
 })
 export class WishlistComponent implements OnInit {
-  wishlist:any;
+  wishlist:[];
   BaseUrl=environment.BASE_SERVICE_URL+'/';
 
   constructor(private Service:WishlistService,private route:Router) { }
