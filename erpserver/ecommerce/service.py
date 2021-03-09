@@ -130,8 +130,9 @@ class EcomService:
             Cart.objects.get(id=data["id"]).delete()
         tax = ProductPriceMaster.objects.filter(id=data['pack_unit_id']).all().values('tax')[0]['tax']
         sub_total = int(data['qty']) * float(data["unit_price"])
-        tax_amount = float((sub_total * float(tax)) / 100.00)
-        sub_total = sub_total + math.ceil(tax_amount)
+        # tax_amount = float((sub_total * float(tax)) / 100.00)
+        # sub_total = sub_total + math.ceil(tax_amount)
+        tax_amount =0 # added since the tax is included in the product
         cart = Cart(user_id=user_id, product_id=data['product_id'], tax=tax, tax_amount=tax_amount,
                     pack_unit_id=data["pack_unit_id"], unit_price=data["unit_price"], qty=data['qty'],
                     sub_total=sub_total)

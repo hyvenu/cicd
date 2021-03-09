@@ -89,6 +89,10 @@ count = this.messageSource.asObservable();
     handleError(error: HttpErrorResponse){
       return (error.message || "Incorrect in username or password")
      };
+     
+    registerError(error:HttpErrorResponse){
+      return (error.message || "This Email  already Exist")
+    }
 
      changeMessage(message: string) {
       this.messageSource.next(message)

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit {
   SecondaryBanner: any;
   OfferBanner: any;
   testing:any[]=[];
-  constructor(private router:Router,private Service:HomeserviceService) { }
+  constructor(private router:Router,private Service:HomeserviceService,private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
 
@@ -59,6 +60,7 @@ export class HomeComponent implements OnInit {
 
   GetCategories()
   {
+    this.spinner.show();
     let category={};
     this.Service.GetCategory(category).subscribe((categories)=>
     {
@@ -90,6 +92,8 @@ export class HomeComponent implements OnInit {
 
 
           categories[i].Subcatogories = subcatagorylist;
+
+
         }
         },(error)=>
         {
@@ -98,9 +102,10 @@ export class HomeComponent implements OnInit {
 
       // }
       this.CategoryList = categories;
-
+      this.spinner.hide();
     },(error)=>
     {
+      this.spinner.hide();
       console.log(error);
     });
   }

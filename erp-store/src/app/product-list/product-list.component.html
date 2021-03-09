@@ -22,7 +22,7 @@
 
         </div>
     </div>
-    <div fxFlex="80%" fxFlex.xs="100%" fxFlex.sm="80%" id="productdisplay">
+    <div fxFlex="78%" fxFlex.xs="100%" fxFlex.sm="78%" id="productdisplay">
         <div class="content">
             <div fxLayout="row wrap" fxLayoutGap="16px grid">
                 <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let Product of FilteredList">
@@ -33,28 +33,38 @@
 
                                 </mat-card-title>
                             </mat-card-header>
-                            <img height="200" width="200" style="border: 0;" mat-card-image *ngIf="Product.product_image" src="{{BaseUrl+Product.product_image}}">
-                            <img height="200" width="200" style="border: 0;" mat-card-image *ngIf="!Product.product_image" src="/assets/no-image-icon.jpg">
+                            <img height="150" width="150" style="border: 0;" mat-card-image *ngIf="Product.product_image" src="{{BaseUrl+Product.product_image}}">
+                            <img height="150" width="150" style="border: 0;" mat-card-image *ngIf="!Product.product_image" src="/assets/no-image-icon.jpg">
                             <mat-card-content>
-                                <p>
-                                    {{Product.category__description}}
+                                <p style="font-size: smaller; ">
+                                    {{Product.brand__brand_name}}
                                 </p>
                             </mat-card-content>
                         </div>
                         <mat-card-actions>
                             <form #crf="ngForm" (ngSubmit)="AddToCart(crf,Product)">
-                                <div class="form-group">
-                                    <select class="form-control" id="FormControlSelect" name="packingType" ngModel required>
+                                <div>
+                                    <!-- <select class="form-control" id="FormControlSelect" name="packingType" ngModel required>
             <option *ngFor="let packingType of Product.price; let i = index"  value={{packingType.id}}  [attr.selected]="i == 0">
               {{packingType.qty+" "+packingType.unit__PrimaryUnit +" - "}}  {{ packingType.sell_price | currency :'INR' }}
             </option>
-          </select>
+          </select> -->
+
+                                    <mat-form-field style="width: 100%;">
+                                        <mat-label>Select Unit</mat-label>
+                                        <mat-select id="FormControlSelect" name="packingType" ngModel required>
+                                            <mat-option *ngFor="let packingType of Product.price; let i = index" [value]="packingType.id">
+                                                {{packingType.qty+" "+packingType.unit__PrimaryUnit +" - "}} {{ packingType.sell_price | currency :'INR' }}
+                                            </mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
                                 </div>
                                 <div class="form-group" style="display: flex;">
                                     <input type="number" min="1" class="form-control" id="exampleFormControlInput1" name="Quantity" placeholder="Quantity" ngModel required> &nbsp;
                                     <button type="submit" class="btn btn-outline-primary btn-sm" style="width: -webkit-fill-available;">Add to cart</button> &nbsp;&nbsp;
                                     <span class="float-right">
-                                        <i *ngIf="Product.wish_list_flag==1"  class="fa fa-heart float-right" (click)="RemoveFromWishlist(Product)"></i>
+                                        <i *ngIf="Product.wish_list_flag==1"  class="fa fa-heart float-right" style="color: palevioletred;" (click)="RemoveFromWishlist(Product)"></i>
                                         <i *ngIf="Product.wish_list_flag==0"  class="fa fa-heart-o float-right" (click)="AddToWishlist(Product)"></i>
                                     </span>
                                 </div>

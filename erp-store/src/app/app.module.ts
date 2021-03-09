@@ -26,14 +26,17 @@ import {MatSliderModule} from '@angular/material/slider';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { OrderModule } from 'ngx-order-pipe';
 import { CarouselImageDirective } from './Directives/carousel-image.directive';
 import { MatSidenavModule } from '@angular/material/sidenav';
-
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import {MatSelectModule} from '@angular/material/select';
+import {OverlayModule} from '@angular/cdk/overlay';
+import { MatInputModule } from "@angular/material/input";
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -57,11 +60,11 @@ import { MatButtonModule } from '@angular/material/button';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NbThemeModule.forRoot({ name: 'default' }),
-    NbLayoutModule,
-    NbEvaIconsModule,
+  //  NbThemeModule.forRoot({ name: 'default' }),
+  //  NbLayoutModule,
+   // NbEvaIconsModule,
     SharedModule,
-    NbButtonModule,
+    //NbButtonModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -75,6 +78,11 @@ import { MatButtonModule } from '@angular/material/button';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    NgxSpinnerModule,
+    MatSelectModule,
+    OverlayModule,
+    MatInputModule,
+    MatDividerModule
   ],
   providers: [
     {

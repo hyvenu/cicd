@@ -12,7 +12,7 @@ from engine.promo_code_service import PromoCodeService
 from inventory.models import ProductMaster, ProductPriceMaster, ProductImages
 from sales.models import OrderRequest, OrderDetails, OrderEvents
 from security.models import CustomerAddress
-from store.models import StoreShipLocations
+from store.models import StoreShipLocations, Store
 
 ORDER_STATUS_DICT = {
     '1': 'New Order',
@@ -99,6 +99,10 @@ class OrderService:
             query = Q(customer__id=kwargs['customer_id'])
         if 'store_id' in kwargs and len(kwargs['store_id']) > 0:
             query = Q(store_id=kwargs['store_id'])
+            store = Store.objects.filter(id=kwargs['store_id']).all().values()
+            if store.exists() and store[0]['is_head_office']:
+                query = query.add(Q(order_status=1),Q.OR)
+
 
         order_list = OrderRequest.objects.filter(query) \
             .all().values(

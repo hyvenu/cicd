@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-product-view',
@@ -24,7 +25,8 @@ export class ProductViewComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     private Service: ProductviewService,
     private sharedService: SharedService,
-    private route: Router) {
+    private route: Router,
+    private spinner: NgxSpinnerService) {
     //   this.activatedRoute.params.subscribe(paramsId => {
     //     this.productcode = paramsId.id;
     // });
@@ -38,11 +40,13 @@ export class ProductViewComponent implements OnInit {
   }
 
   GetProduct() {
+    this.spinner.show();
     let data =
     {
       product_code: this.productcode
     }
     this.Service.GetProduct(data).subscribe((Product) => {
+      this.spinner.hide();
       console.log(Product);
       this.Product = Product[0];
       this.getRatings();

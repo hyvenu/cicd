@@ -58,9 +58,7 @@ export class HeaderComponent implements OnInit , AfterViewInit{
     this.first_name = sessionStorage.getItem('first_name');
 
     this.GetCategories();
-    if(sessionStorage.getItem("user_id")){
-      this.loadCartItems();
-    }
+    this.loadCartItems();
   }
 
   logout()

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-product-list',
@@ -22,7 +23,7 @@ export class ProductListComponent implements OnInit {
   min: any;
   max: any;
   wishlist:any;
-  constructor(private route: Router, private Service: ProductlistService,
+  constructor(private route: Router, private Service: ProductlistService,private spinner: NgxSpinnerService,
      private activatedRoute: ActivatedRoute,private sharedService:SharedService,private toastService:ToastService) {
 
    }
@@ -50,6 +51,7 @@ export class ProductListComponent implements OnInit {
   }
 
   GetProducts() {
+    this.spinner.show();
     console.log(this.categoryName);
     let data =
     {
@@ -88,7 +90,8 @@ export class ProductListComponent implements OnInit {
       this.FilterList.push(categorydata);
       this.FilterList.push(branddata);
 
-      console.log(this.FilterList);
+      //console.log(this.FilterList);
+      this.spinner.hide();
 
     }
     );

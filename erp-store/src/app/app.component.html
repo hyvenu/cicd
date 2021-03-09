@@ -16,7 +16,9 @@
   </nb-layout-footer>
 
 </nb-layout> -->
-
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>
 <app-layout>
     <mat-sidenav-container>
         <mat-sidenav #sidenav role="navigation">
@@ -25,7 +27,7 @@
         <mat-sidenav-content>
             <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
             <main>
-                <router-outlet></router-outlet>
+                <router-outlet (activate)="onActivate($event)"></router-outlet>
                 <app-toast></app-toast>
                 <app-footer></app-footer>
             </main>

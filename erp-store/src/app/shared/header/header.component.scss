@@ -1,3 +1,9 @@
+nav {
+    position: sticky;
+    z-index: 4;
+    top: 0px;
+}
+
 .nav-link {
     cursor: pointer;
     color: white;
@@ -176,7 +182,7 @@ body {
     display: none;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 800px) {
     .navbar-expand-lg .navbar-collapse {
         display: block !important;
     }

@@ -15,7 +15,7 @@ export class CheckOutProductsComponent implements OnInit {
   AddressList: any;
   CartTotalItems =0;
   SelectedAddress: any;
-  promo_code:any;
+  promo_code:'';
   discount_amt: any;
   Final_Total: any;
   promo_code_error: boolean;
@@ -105,8 +105,11 @@ export class CheckOutProductsComponent implements OnInit {
       billing_address:this.SelectedAddress.id,
       order_status:1,
       payment_method:form.controls["paymentMethod"].value,
-      delivery_method:form.controls["DeliveryMethod"].value,
-      promo_code: this.promo_code,
+      delivery_method:form.controls["DeliveryMethod"].value,      
+      promo_code: '',
+     }
+     if (this.promo_code){
+       data.promo_code = this.promo_code
      }
 
      this.Service.CheckOut(data).subscribe((res)=>

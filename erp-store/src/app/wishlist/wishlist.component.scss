@@ -5,3 +5,17 @@
 .block {
     display: inline-block;
 }
+
+.mob-view {
+    display: none;
+}
+
+@media screen and (max-width: 600px) {
+    .desktop-view {
+        display: none;
+    }
+    .mob-view {
+        float: right;
+        display: block;
+    }
+}

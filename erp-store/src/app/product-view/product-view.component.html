@@ -31,11 +31,20 @@
             <form #crf="ngForm" (ngSubmit)="AddToCart(crf,Product)">
                 <div id="inputDiv">
                     <div class="form-group">
-                        <select class="form-control" id="FormControlSelect" name="packingType" ngModel required>
+                        <!-- <select class="form-control" id="FormControlSelect" name="packingType" ngModel required>
 <option *ngFor="let packingType of Product.price; let i = index"  value={{packingType.id}}  [attr.selected]="i == 0">
 {{packingType.qty+" "+packingType.unit__PrimaryUnit+" - " }}  {{ packingType.sell_price | currency: 'INR' }}
 </option>
-</select>
+</select> -->
+                        <mat-form-field style="width: 100%;">
+                            <mat-label>Select Unit</mat-label>
+                            <mat-select id="FormControlSelect" name="packingType" ngModel required>
+                                <mat-option *ngFor="let packingType of Product.price; let i = index" [value]="packingType.id">
+                                    {{packingType.qty+" "+packingType.unit__PrimaryUnit +" - "}} {{ packingType.sell_price | currency :'INR' }}
+                                </mat-option>
+                            </mat-select>
+
+                        </mat-form-field>
                     </div>
                     <div class="form-group" style="display: flex;">
                         <input type="number" min="1" class="form-control" id="exampleFormControlInput1" name="Quantity" placeholder="Quantity" oninput="validity.valid || (value='')" ngModel required> &nbsp;
@@ -47,13 +56,13 @@
             </form>
 
             <br>
-            <div>
-                <h1 class="text-primary">
-                    <ngb-rating [max]="5" [rate]="Avgratings" [readonly]="true"></ngb-rating>
-                </h1>
-                <div>
-                    {{Avgratings}}
-                </div>
+            <div class="rating" *ngIf="ratings.length > 0">
+                <span class="rating rating-box"><span style="margin-top: 5%;"> {{Avgratings}} </span>&nbsp;
+                <span _ngcontent-jxi-c387="" class="material-icons"> star </span></span>
+            </div>
+            <div *ngIf="ratings.length > 0" style="margin-top: 8px;
+              margin-left: 5px;">
+                <span style="font-size: 15px;font-weight: 500;">{{ratings.length}}</span> reviews
             </div>
 
         </div>
@@ -77,9 +86,12 @@
             </tbody>
         </table>
     </div>
-
+    <br>
+    <h3><span class="headline">Disclaimer</span> </h3>
+    <p>Despite our attempts to provide you with the most accurate information possible, the actual packaging, ingredients and colour of the product may sometimes vary. Please read the label, directions and warnings carefully before use.</p>
+    <br>
     <div>
-        <h3><span class="headline">Rate</span> </h3>
+        <h3><span class="headline">Review this product</span> </h3>
         <h1 class="text-primary">
             <ngb-rating [max]="5" [(rate)]="currentRate" [readonly]="false"></ngb-rating>
         </h1>

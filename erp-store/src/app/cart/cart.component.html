@@ -1,8 +1,8 @@
 <div>
     <div class="card shopping-cart">
-        <div class="card-header bg-dark text-light">
+        <div class="card-header text-light" style="background-color: #6d7fcc;">
             <i class="fa fa-shopping-cart" aria-hidden="true"></i> My Shipping cart ({{cartItems.length}})
-            <a *ngIf="cartItems.length > 0" class="btn btn-outline-info btn-sm pull-right" href="#" roterLink="Home"><i
+            <a *ngIf="cartItems.length > 0" class="btn  btn-sm pull-right" href="#" roterLink="Home" style="border-color: white;color: white;"><i
                     class="icon-arrow-left"></i>&nbsp;Continue Shopping</a>
             <div *ngIf="cartItems.length === 0" class="alert alert-info">Your Cart is Empty &nbsp;<a class="btn btn-outline-secondary btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back
                     to Shopping</a></div>
@@ -14,6 +14,11 @@
                 <!-- <hr/> -->
                 <div fxFlex="20%" fxFlex.xs="100%" fxFlex.sm="20%" class="img-center">
                     <img class="img-responsive" [src]="BaseUrl + '/' +cartItem.image" alt="prewiew" width="120" height="80">
+                    <button type="button" class="btn btn-xs mob-view" style="color: red;" (click)="handleRemoveFromCart(cartItem)">
+                      <span class="material-icons">
+                        delete
+                        </span>
+                         </button>
                 </div>
                 <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="30%" class="text-sm-center text-md-left">
                     <h4 class="product-name"><strong>{{cartItem.product__product_name}}</strong></h4>
@@ -24,16 +29,16 @@
                 </div>
                 <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
                     <div fxLayout="row wrap" fxLayoutGap="grid">
-                        <div fxFlex="30%" fxFlex.xs="30%" fxFlex.sm="30%" class="text-md-right" style="padding-top: 5px">
+                        <div fxFlex="30%" fxFlex.xs="30%" fxFlex.sm="30%" class="text-md-right" style="padding-top: 2%">
                             <h5><strong>{{cartItem.pack_unit__sell_price | currency:'INR'}}<span class="text-muted"> X </span></strong></h5>
                         </div>
-                        <div fxFlex="50%" fxFlex.xs="50%" fxFlex.sm="50%">
+                        <div fxFlex="50%" fxFlex.xs="50%" fxFlex.sm="50%" style="display: flex;">
                             <div class="quantity">
                                 <input type="button" value="+" class="plus" (click)="inc(cartItem)">
                                 <input type="number" step="1" max="99" min="1" [(ngModel)]="cartItem.qty" title="Qty" class="qty" size="4">
                                 <input type="button" value="-" class="minus" (click)="dec(cartItem)">
                             </div>
-                            <div>
+                            <div style="padding-top: 4%">
                                 <strong>Sub Total :  {{cartItem.sub_total| currency:'INR'}}</strong>
                             </div>
                         </div>
@@ -41,9 +46,11 @@
                                 <h5><strong> {{cartItem.sub_total| currency:'INR'}}</strong></h5>
 
                              </div> -->
-                        <div fxFlex="20%" fxFlex.xs="20%" fxFlex.sm="20%" class="text-right">
-                            <button type="button" class="btn btn-outline-danger btn-xs" (click)="handleRemoveFromCart(cartItem)">
-                                     <i class="fa fa-trash" aria-hidden="true"></i>
+                        <div fxFlex="20%" fxFlex.xs="20%" fxFlex.sm="20%" class="text-right desktop-view">
+                            <button type="button" class="btn btn-xs desktop-view" style="color: red;" (click)="handleRemoveFromCart(cartItem)">
+                              <span class="material-icons">
+                                delete
+                                </span>
                                  </button>
                         </div>
                     </div>

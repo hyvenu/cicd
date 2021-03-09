@@ -99,7 +99,8 @@ export class RegisterComponent implements OnInit {
       },(error) => {
           console.log(error)
           this.flag=true;
-          this.errorMsg = error.message;
+          this.errorMsg =this.Service.registerError(error.message);
+
           
       });
       

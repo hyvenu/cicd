@@ -33,6 +33,10 @@
     background-clip: padding-box
 }
 
+.mob-view {
+    display: none;
+}
+
 .quantity .minus,
 .quantity .plus {
     line-height: 0;
@@ -86,6 +90,13 @@
 }
 
 @media screen and (max-width: 600px) {
+    .desktop-view {
+        display: none;
+    }
+    .mob-view {
+        float: right;
+        display: block;
+    }
     .img-center {
         text-align: left !important;
     }
