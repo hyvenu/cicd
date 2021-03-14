@@ -45,7 +45,7 @@
                         <div class="form-group col-md-6">
                             <input id="Mobile No." name="Mobile No." formControlName="phone_number" placeholder="Mobile No." class="form-control" [ngClass]="{'is-invalid':(RegisterForm.get('phone_number').touched ||
                             RegisterForm.get('phone_number').dirty) &&
-                            !RegisterForm.get('phone_number').valid}" required="required" min="0" oninput="validity.valid || (value='')" type="number" ngModel required>
+                            !RegisterForm.get('phone_number').valid}" required="required" min="0" maxlength="13" pattern="^\d{10,13}$" oninput="validity.valid || (value='')" type="number" ngModel required>
 
                             <span class="invalid-feedback">
                                 <span *ngIf="RegisterForm.get('phone_number').errors?.required">Phone Number is

@@ -7,7 +7,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { InventoryService } from 'src/app/inventory/inventory.service'
 import { SharedService } from 'src/app/shared/shared.service';
-
+import * as moment from 'moment';
 
 
 @Component({
@@ -87,7 +87,7 @@ export class PurchaseRequisitionComponent implements OnInit {
         this.pr_id = data.id
         this.pr_status = data.status
         this.prForm.controls['prNoFormControl'].setValue(data.pr_no);
-        this.prForm.controls['prDateFormControl'].setValue(data.pr_date);
+        this.prForm.controls['prDateFormControl'].setValue(moment(data.pr_date));
         this.prForm.controls['userFormControl'].setValue(data.created_user);
         this.selectedOption = data.dept__id;
         this.prForm.controls['statusFormControl'].setValue(data.status);

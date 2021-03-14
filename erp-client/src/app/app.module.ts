@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbToastrModule, NbToastrService, NbSidebarModule, NbMenuModule, NbSelectModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbToastrModule, NbToastrService, NbSidebarModule, NbMenuModule, NbSelectModule, NbSpinnerModule } from '@nebular/theme';
 import {NbDatepickerModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SharedModule } from './shared/shared.module';
@@ -18,9 +18,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainPipe } from './pipe.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxEditorModule } from 'ngx-editor';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,14 +45,17 @@ import { NgxEditorModule } from 'ngx-editor';
     NbDatepickerModule.forRoot(),
     NgxPermissionsModule.forRoot(),
     AdminModule,
-    NgxEditorModule
+    NgxEditorModule,
+    NbSpinnerModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
-  },NbToastrService],
+  },NbToastrService,
+ 
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

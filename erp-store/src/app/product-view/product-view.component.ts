@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { isDefined } from '@angular/compiler/src/util';
+import { ToastService } from '../shared/toast/toast.service';
 
 @Component({
   selector: 'app-product-view',
@@ -19,14 +21,15 @@ export class ProductViewComponent implements OnInit {
   CartForm: FormGroup;
   productAttribute: any;
   comment: any;
-  ratings: any;
+  ratings= [{user:'',product:'',id:'',comment:'',is_delete:'',first_name:''}];
   Avgratings: any;
 
   constructor(private activatedRoute: ActivatedRoute,
     private Service: ProductviewService,
     private sharedService: SharedService,
     private route: Router,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private toastService:ToastService) {
     //   this.activatedRoute.params.subscribe(paramsId => {
     //     this.productcode = paramsId.id;
     // });
@@ -73,6 +76,12 @@ export class ProductViewComponent implements OnInit {
           unit_price: price
         }
         this.Service.AddToCart(Cart).subscribe((data) => {
+          this.toastService.show('Added to Cart', {
+            classname: 'bg-primary text-light',
+            delay: 2000 ,
+            autohide: true,
+            headertext: 'Successfull'
+          });
           this.sharedService.changeMessage(data.length.toString());
           console.log(data);
         });
@@ -87,8 +96,11 @@ export class ProductViewComponent implements OnInit {
   getRatings() {
     let id = this.Product.id;
     this.Service.getRatings(id).subscribe((data) => {
-      this.ratings = data;
+      // 
       // console.log(data);
+      if(data.length > 0){
+        this.ratings = data;
+      }
     });
   }
 

@@ -127,10 +127,11 @@ class ProductPriceMaster(AuditUuidModelMixin):
     unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="product_unit_master",default=None)
     tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    qty = models.DecimalField(max_digits=10,decimal_places=2, default=0)
+    qty = models.IntegerField(default=0)
     bar_code = models.ImageField(upload_to="static/upload/product/barcodes",blank=True)
     product_identifier = models.CharField(max_length=12,default=0)
     safety_stock_level = models.IntegerField(default=0,null=True,blank=True)
+    serial_number = models.CharField(max_length=50, default=0)
 
     class Meta:
         pass
@@ -164,7 +165,7 @@ class ProductStock(AuditUuidModelMixin):
     quantity = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.product + 'available stock at ' + self.store + ' '
+        return str(self.product) + 'available stock at ' + str(self.store) + ' '
 
 
 

@@ -96,3 +96,11 @@ class ProductImagesViewSet(viewsets.ModelViewSet):
             return self.queryset.filter(product_id=product_id)
         else:
             return self.queryset
+
+
+class ProductStockViewSet(viewsets.ModelViewSet):
+    """ViewSet for the ProductMaster class"""
+
+    queryset = models.ProductStock.objects.all()
+    serializer_class = serializers.ProductStockSerializer
+    permission_classes = [permissions.IsAuthenticated]

@@ -40,7 +40,8 @@ class ProductPriceMasterSerializer(serializers.ModelSerializer):
             "qty",
             "id",
             "bar_code",
-            "safety_stock_level"
+            "safety_stock_level",
+            "serial_number",
         ]
 
 class ProductBrandMasterSerializer(serializers.ModelSerializer):
@@ -99,5 +100,25 @@ class ProductMasterSerializer(serializers.ModelSerializer):
             "product_price",
             "product_images",
 
+        ]
+
+class ProductStockSerializer(serializers.ModelSerializer):
+    unit = UnitMasterSerializer(many=False,read_only=True)
+    # store = StoreSerializer(many=False,read_only=True)
+    product = ProductMasterSerializer(many=False,read_only=True)
+    pack = ProductPriceMasterSerializer(many=False,read_only=True)
+    class Meta:
+        model = models.ProductStock
+        fields = [
+            "id",
+            "product",
+        
+            "grn_number",
+            "store",
+            "pack",
+            "unit",
+            "batch_number",
+            "batch_expiry",
+            "quantity",
         ]
 

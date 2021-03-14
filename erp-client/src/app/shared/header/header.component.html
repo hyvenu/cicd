@@ -57,11 +57,9 @@
 </div>
     
 </div>         -->
-<div class="header-container hidden-print">
+<!-- <div class="header-container hidden-print">
     <div class="logo-container">
-      <!-- <a (click)="toggle()" href="#" class="sidebar-toggle">
-        <nb-icon icon="menu-2-outline"></nb-icon>
-      </a> -->
+       
       <a class="logo" href="#" [routerLink]="['/']"  ><img src = "/assets/images/Saffaran-Trade-Mark.png" style = "height:56px">{{store_name}} &nbsp; <small style="font-size: x-small;">Location : {{store_city}}</small></a>
     </div>
     
@@ -75,6 +73,16 @@
     </nb-user>
     </div>
     
-</div>
+</div> -->
 
- 
+<nb-layout-header fixed> 
+<a class="logo" href="#" [routerLink]="['/']"  ><img src = "/assets/images/Saffaran-Trade-Mark.png" style = "height:56px"></a>
+
+<span style="font-size: x-large;">{{store_name}} &nbsp; <sub style="font-size: x-small;">Location : {{store_city}}</sub></span>
+<span class="navbar-brand mr-auto mt-2 mt-lg-0"></span>
+<nb-user nbButton name="{{ user_name}}"
+            title="Role"
+            [nbContextMenu]="items"
+            nbContextMenuTag="my-context-menu">
+</nb-user>
+</nb-layout-header>      

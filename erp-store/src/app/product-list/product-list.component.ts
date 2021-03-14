@@ -1,7 +1,7 @@
 import { ToastService } from './../shared/toast/toast.service';
 import { SharedService } from './../shared/shared.service';
 import { ProductlistService } from './productlist.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -22,11 +22,11 @@ export class ProductListComponent implements OnInit {
   Filters = new Set();
   min: any;
   max: any;
-  wishlist:any;
-  constructor(private route: Router, private Service: ProductlistService,private spinner: NgxSpinnerService,
-     private activatedRoute: ActivatedRoute,private sharedService:SharedService,private toastService:ToastService) {
+  wishlist: any;
+  constructor(private route: Router, private Service: ProductlistService, private spinner: NgxSpinnerService,
+    private activatedRoute: ActivatedRoute, private sharedService: SharedService, private toastService: ToastService) {
 
-   }
+  }
 
   ngOnInit(): void {
 
@@ -37,17 +37,20 @@ export class ProductListComponent implements OnInit {
       }
     );
 
-    this.activatedRoute.params.subscribe(paramsId => {
-      this.categoryName = paramsId.id;
-    });
+    // this.activatedRoute.params.subscribe(paramsId => {
+    //   this.categoryName = paramsId.id;
+    // });
+    this.categoryName = this.activatedRoute.snapshot.queryParams['data'];
     this.GetProducts();
     // this.loadWishlist();
+
   }
 
   GotoProductview(data: any) {
     // let routeTo = "productview/?data=" + data ;
     // this.route.navigate([routeTo]);
-    this.route.navigateByUrl("/productview?data=" + data) ;
+    // this.route.navigateByUrl("/productview?data=" + data) ;
+    window.location.href = "/productview?data=" + data;
   }
 
   GetProducts() {
@@ -116,10 +119,16 @@ export class ProductListComponent implements OnInit {
         this.Service.AddToCart(Cart).subscribe((data) => {
           //this.count = data.length.toString();
           this.sharedService.changeMessage(data.length.toString());
+          this.toastService.show('Added to Cart', {
+            classname: 'bg-primary text-light',
+            delay: 2000,
+            autohide: true,
+            headertext: 'Successfull'
+          });
           console.log(data);
         });
       }
-    }else{
+    } else {
       this.route.navigate(['Login']);
     }
   }
@@ -151,14 +160,14 @@ export class ProductListComponent implements OnInit {
     let ProductList = this.ProductList;
 
     //filter price
-  if (this.max != null) {
+    if (this.max != null) {
       ProductList = ProductList.filter(data => data.price.filter(data1 => Number(data1.sell_price) <= this.max).length > 0);
 
     }
 
     //filter category and brand
 
-    if (ProductList.length > 0 && this.Filters.size>0) {
+    if (ProductList.length > 0 && this.Filters.size > 0) {
       let filteredList = [];
       let categoryExist = false;
       for (let elements of this.Filters) {
@@ -172,8 +181,7 @@ export class ProductListComponent implements OnInit {
         }
         // console.log(ProductList);
       }
-      if(categoryExist)
-      {
+      if (categoryExist) {
         ProductList = filteredList;
       }
       filteredList = [];
@@ -181,7 +189,7 @@ export class ProductListComponent implements OnInit {
       for (let elements of this.Filters) {
         if (ProductList.length > 0) {
           let list = elements.toString
-          ().split(",");
+            ().split(",");
           if (list[0] != "Categories") {
             brandExist = true;
             let data = ProductList.filter(data => data.brand__brand_name == list[1]);
@@ -190,8 +198,7 @@ export class ProductListComponent implements OnInit {
         }
         // console.log(ProductList);
       }
-      if(brandExist)
-      {
+      if (brandExist) {
         ProductList = filteredList;
       }
     }
@@ -204,18 +211,23 @@ export class ProductListComponent implements OnInit {
     let data = {
       product_id: product.id
     }
-    this.Service.AddToWishList(data).subscribe(
-      (data) => {
-        product.wish_list_flag = 1;
-        this.showSuccess();
-      }
-    )
+    if (sessionStorage.getItem('user_id')) {
+      this.Service.AddToWishList(data).subscribe(
+        (data) => {
+          product.wish_list_flag = 1;
+          this.showSuccess();
+          this.sharedService.changewhilistMessage(data.length.toString());
+        }
+      )
+    } else {
+      this.route.navigate(['Login']);
+    }
   }
 
   showSuccess() {
     this.toastService.show('Added to wishlist', {
       classname: 'bg-success text-light',
-      delay: 2000 ,
+      delay: 2000,
       autohide: true,
       headertext: 'Successfull'
     });
@@ -224,7 +236,7 @@ export class ProductListComponent implements OnInit {
   showError() {
     this.toastService.show('Removed from wishlist', {
       classname: 'bg-danger text-light',
-      delay: 2000 ,
+      delay: 2000,
       autohide: true,
       headertext: 'Successfull'
     });
@@ -238,20 +250,18 @@ export class ProductListComponent implements OnInit {
       (data) => {
         product.wish_list_flag = 0;
         this.showError();
+        this.sharedService.changewhilistMessage(data.length.toString());
       }
     )
   }
 
 
-  ApplyFilter()
-  {
+  ApplyFilter() {
     var applyFilter = document.getElementById("sidebar-wrapper");
-    if (applyFilter.style.display == "none" || applyFilter.style.display == "")
-    {
+    if (applyFilter.style.display == "none" || applyFilter.style.display == "") {
       applyFilter.style.display = "block";
     }
-    else
-    {
+    else {
       applyFilter.style.display = "none";
     }
   }
@@ -259,5 +269,6 @@ export class ProductListComponent implements OnInit {
 
   isTemplate(toast) {
     console.log(this.toastService.toasts);
-    return toast.textOrTpl instanceof TemplateRef; }
+    return toast.textOrTpl instanceof TemplateRef;
+  }
 }

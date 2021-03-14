@@ -1,8 +1,11 @@
 <nb-layout>
 
-  <nb-layout-header *ngIf="checkLogin()" fixed>
+  <!-- <nb-layout-header *ngIf="checkLogin()" fixed>
      <app-header></app-header>    
-  </nb-layout-header>
+  </nb-layout-header> -->
+  <nb-layout-header *ngIf="checkLogin()" fixed>
+    <app-header ></app-header> 
+  </nb-layout-header> 
   <nb-sidebar tag="left"  *ngIf="checkLogin()">
     
     <nb-menu [items]="items">

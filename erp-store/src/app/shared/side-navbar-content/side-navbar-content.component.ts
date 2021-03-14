@@ -67,7 +67,8 @@ export class SideNavbarContentComponent implements OnInit {
 
   GoToCategoryList(category)
   {
-    this.router.navigate(['/category/'+category])
+    // this.router.navigate(['/category/'+category])
+    window.location.href='/category/'+category;
   }
 
 }

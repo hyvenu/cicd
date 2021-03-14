@@ -27,7 +27,7 @@
         <mat-sidenav-content>
             <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
             <main>
-                <router-outlet (activate)="onActivate($event)"></router-outlet>
+                <router-outlet (activate)="onActivate($event, outlet)" #outlet></router-outlet>
                 <app-toast></app-toast>
                 <app-footer></app-footer>
             </main>

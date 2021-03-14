@@ -168,6 +168,13 @@ def get_product_list(request):
     prd_list = inventory_service.get_product_list()
     return JsonResponse(prd_list, safe=False)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated,])
+def get_product_pack_type(request):
+    inventory_service = InventoryService()
+    data = request.data
+    prd_list = inventory_service.get_product_pack_types(data)
+    return JsonResponse(prd_list, safe=False)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated,])
@@ -178,3 +185,12 @@ def delete_product_image(request):
         return JsonResponse("Removed", safe=False, status=status.HTTP_200_OK)
     else:
         return JsonResponse("Failed to remove", safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_product_stock(request):
+    inventory_service = InventoryService()
+    data = request.query_params['store_id']
+
+    stock = inventory_service.get_product_stock

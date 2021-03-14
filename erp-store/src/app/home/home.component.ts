@@ -54,7 +54,9 @@ export class HomeComponent implements OnInit {
 
   GoToCategoryList(category)
   {
-    this.router.navigate(['/category/'+category])
+    // this.router.navigate(['/category/'+category])
+    // this.router.navigateByUrl('/category?data=' + category);
+    window.location.href = '/category?data=' + category;
   }
 
 

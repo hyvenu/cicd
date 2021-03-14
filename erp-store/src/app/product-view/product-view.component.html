@@ -27,6 +27,23 @@
         </div>
         <div fxFlex="60" fxFlex.xs="45">
             <h2>{{Product.product_name}}</h2>
+            <medium>Brand : {{Product.brand__brand_name}}</medium>
+            <div class="rating" *ngIf="ratings.length > 1">
+                <span class="rating rating-box"><span style="margin-top: 5%;"> {{Avgratings}} </span>&nbsp;
+                <span _ngcontent-jxi-c387="" class="material-icons"> star </span></span>
+            </div>
+            <div *ngIf="ratings.length > 1" style="margin-top: 8px;
+              margin-left: 5px;">
+                <span style="font-size: 15px;font-weight: 500;">{{ratings.length-1}}</span> reviews
+            </div>
+            <div class="rating" *ngIf="ratings.length == 1">
+                <span class="rating rating-box"><span style="margin-top: 5%;"> {{Avgratings}} </span>&nbsp;
+                <span _ngcontent-jxi-c387="" class="material-icons"> star </span></span>
+            </div>
+            <div *ngIf="ratings.length === 1" style="margin-top: 8px;
+                margin-left: 5px;">
+                  <span style="font-size: 15px;font-weight: 500;color: grey;">No Reviews </span>
+            </div>
 
             <form #crf="ngForm" (ngSubmit)="AddToCart(crf,Product)">
                 <div id="inputDiv">
@@ -56,15 +73,7 @@
             </form>
 
             <br>
-            <div class="rating" *ngIf="ratings.length > 0">
-                <span class="rating rating-box"><span style="margin-top: 5%;"> {{Avgratings}} </span>&nbsp;
-                <span _ngcontent-jxi-c387="" class="material-icons"> star </span></span>
-            </div>
-            <div *ngIf="ratings.length > 0" style="margin-top: 8px;
-              margin-left: 5px;">
-                <span style="font-size: 15px;font-weight: 500;">{{ratings.length}}</span> reviews
-            </div>
-
+         
         </div>
 
 

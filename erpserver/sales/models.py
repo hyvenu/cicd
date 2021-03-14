@@ -45,6 +45,8 @@ class OrderDetails(AuditUuidModelMixin):
     quantity = models.IntegerField(default=0)
     tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     sub_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    batch_expiry = models.DateField(null=True,blank=True)
+    batch_number = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         pass
