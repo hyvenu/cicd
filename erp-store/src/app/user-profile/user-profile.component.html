@@ -25,7 +25,23 @@
                         <h2 class="mb-0">Mobile</h2>
                     </div>
                     <div fxFlex="50%" fxFlex.xs="65%" fxFlex.sm="50%">
-                        {{phone}}
+                        <div *ngIf="!editPhone"> <span>{{phone}}</span> <span style="float: right;" (click)="EditPhoneNumber()"><button  mat-fab color="primary" >
+                          <mat-icon>edit</mat-icon>
+                        </button></span></div>
+
+                        <div *ngIf="editPhone">
+                            <form #EPN="ngForm" (ngSubmit)="ChangePassword(EPN)">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Phone Number</mat-label>
+                                    <input matInput type="number" name="phone_number" ngModel required>
+                                </mat-form-field>
+                                &nbsp;&nbsp;
+                                <button mat-raised-button type="submit" color="primary">Primary</button>
+                                <button class="close" mat-button (click)="CloseEdit()" style="float: right;">x</button>
+                            </form>
+
+
+                        </div>
                     </div>
                 </div>
                 <hr>
@@ -34,7 +50,9 @@
                         <h2 class="mb-0">Password</h2>
                     </div>
                     <div fxFlex="50%" fxFlex.xs="65%" fxFlex.sm="50%">
-                        ********* <span style="float: right;"><a href="/resetpassword"><i class="fa fa-edit fa-2x"></i></a></span>
+                        ********* <span style="float: right;"><a href="/resetpassword"><button  mat-fab color="primary">
+                          <mat-icon>edit</mat-icon>
+                        </button></a></span>
                     </div>
                 </div>
                 <!-- <div fxLayout="row wrap" fxLayoutGap="grid">

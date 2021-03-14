@@ -14,4 +14,10 @@ export class UserServiceService {
       return this.http.post<any>(`${environment.BASE_SERVICE_URL}/authentication/api/change_password`,data);
 
   }
+
+  changePhoneNumber(data:any)
+  {
+      return this.http.post<any>(`${environment.BASE_SERVICE_URL}/authentication/api/change_phone_number`,data);
+
+  }
 }
