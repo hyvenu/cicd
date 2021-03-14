@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private Service:SharedService,private router:Router) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.LoginForm = new FormGroup(
       {
         'username' :new FormControl(null,Validators.required),
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       this.Service.loginUser(user).subscribe((data)=>
       {
         console.log(data);
-        
+
        sessionStorage.setItem("accessToken",data.access);
        sessionStorage.setItem("first_name",data.first_name);
        sessionStorage.setItem("email",user.email);
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
         console.log(error);
         this.Invalid = true;
         this.error = this.Service.handleError(error.message);
-        
+
       });
 
     }

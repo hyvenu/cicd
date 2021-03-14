@@ -112,7 +112,7 @@
         </div>
     </div>
     <br>
-    <div>
+    <div *ngIf="ratings.length > 0">
         <h3><span class="headline">Ratings and Reviews</span> </h3>
         <div *ngFor="let rating of ratings">
             <h2>
