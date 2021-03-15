@@ -40,6 +40,15 @@ export class PurchaseRequisitionListComponent implements OnInit {
       },
       dept__department_name: {
         title: 'Department',
+      },
+      status: {
+        title: 'PR Status',
+      },
+      approved_by: {
+        title: 'Approved By',
+      },
+      approved_date: {
+        title: 'Approved Date',
       }
     },
   };

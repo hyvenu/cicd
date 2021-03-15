@@ -9,7 +9,7 @@ from ecommerce.models import Cart
 from engine.payment_service import PaymentService
 from engine.pdf_service import get_pdf
 from engine.promo_code_service import PromoCodeService
-from inventory.models import ProductMaster, ProductPriceMaster, ProductImages
+from inventory.models import ProductMaster, ProductPriceMaster, ProductImages, ProductStock
 from sales.models import OrderRequest, OrderDetails, OrderEvents
 from security.models import CustomerAddress
 from store.models import StoreShipLocations, Store
@@ -20,7 +20,7 @@ ORDER_STATUS_DICT = {
     '3': 'Confirm',
     '4': 'Packing',
     '5': 'Ready to Dispatch',
-    '6': 'Dispatched',
+    '6': 'Dispatch Confirm',
     '7': 'Out For Delivery',
     '8': 'Delivered',
     '9': 'Cancel',
@@ -68,6 +68,7 @@ class OrderService:
             flow.append({'order_status': '5', 'text': ORDER_STATUS_DICT['5']})
             flow.append({'order_status': '9', 'text': ORDER_STATUS_DICT['9']})
         elif current_status == 5:
+            flow.append({'order_status': '6', 'text': ORDER_STATUS_DICT['6']})
             flow.append({'order_status': '9', 'text': ORDER_STATUS_DICT['9']})
         elif current_status == 6:
             flow.append({'order_status': '7', 'text': ORDER_STATUS_DICT['8']})
@@ -119,6 +120,8 @@ class OrderService:
             'order_amount',
             'tax_amount',
             'order_number',
+            'store',
+            'promo_code',
         )
         for order in order_list:
             order['order_status_text'] = ORDER_STATUS_DICT[str(order['order_status'])]
@@ -147,6 +150,8 @@ class OrderService:
             'order_amount',
             'tax_amount',
             'order_number',
+            'store',
+            'store__store_name',
         )[0]
         order_data['shipping_address'] = \
         CustomerAddress.objects.filter(id=order_data['shipping_address']).all().values()[0]
@@ -247,8 +252,16 @@ class OrderService:
     def update_order(self, order_id, order_status):
         order = OrderRequest.objects.get(id=order_id)
         order.order_status = order_status
-        order.save()
-        self.track_events(order_id, order_status, desc='updated status')
+        if int(order.order_status) == 5:
+            if self.update_stock(order_id):
+                order.save()
+                self.track_events(order_id, order_status, desc='updated status')
+            else:
+                self.track_events(order_id, order_status, desc='Stock Not Available')
+                raise Exception('Stock not available')
+        else:
+            order.save()
+            self.track_events(order_id, order_status, desc='updated status')
         return self.get_order_details(order_id)
 
     def track_events(self, order_id, order_status, desc=''):
@@ -269,3 +282,55 @@ class OrderService:
         file_name = order_number + '.pdf'
         out_files = get_pdf(report_name, file_name, param)
         return out_files
+
+    def update_stock(self,order_id):
+        order_details = OrderDetails.objects.filter(order_id=order_id).all().values(
+            'id',
+            'product_id',
+            'pack_unit__unit_id',
+            'unit_price',
+            'quantity',
+            'tax',
+            'sub_total',
+        )
+        item_available = True
+        for item in order_details:
+            required_qty = item['quantity']
+            stock = ProductStock.objects.filter(product_id=item['product_id'],unit=item['pack_unit__unit_id']).order_by('batch_expiry').all().values()
+            for stock_item in stock:
+                available_qty = int(stock_item['quantity'])
+                if required_qty <= 0:
+                    break
+                if available_qty > required_qty > 0:
+                    available_qty = available_qty - required_qty
+
+                    stock_obj = ProductStock.objects.get(id=stock_item['id'])
+                    stock_obj.quantity=available_qty
+                    stock_obj.save()
+
+                    order_Det_obj = OrderDetails.objects.get(id=item['id'])
+                    order_Det_obj.batch_expiry=stock_item['batch_expiry']
+                    order_Det_obj.batch_number=stock_item['batch_number']
+                    order_Det_obj.save()
+                    required_qty = 0
+                else:
+                    required_qty = required_qty - available_qty
+
+                    stock_obj = ProductStock.objects.get(id=stock_item['id'])
+                    stock_obj.quantity = available_qty
+                    stock_obj.save()
+
+                    order_Det_obj = OrderDetails.objects.get(id=item['id'])
+                    order_Det_obj.batch_expiry = stock_item['batch_expiry']
+                    order_Det_obj.batch_number = stock_item['batch_number']
+                    order_Det_obj.save()
+
+            if required_qty <=0:
+                item_available = True
+            else:
+                item_available = False
+
+        if not item_available:
+            return False
+        else:
+            return True

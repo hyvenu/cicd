@@ -19,6 +19,6 @@ class RatingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Rating
-        fields = ['id','user', 'product','rating', 'comment','isdelete']
+        fields = ['id','user_first_name', 'product','rating', 'comment','isdelete']
 
 # class ProductSerializer(serializers.)

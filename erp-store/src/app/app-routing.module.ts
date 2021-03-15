@@ -19,7 +19,7 @@ const routes: Routes = [
 },
 { path:'Home', component:HomeComponent
 },
-{path:"category/:id",component:ProductListComponent},
+{path:"category",component:ProductListComponent},
 {path:"productview",component:ProductViewComponent},
 {path:"checkout",component:CheckOutProductsComponent, canActivate:[AuthGuard]},
 {path:"cart",component:CartComponent, canActivate:[AuthGuard]},
@@ -36,7 +36,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{scrollPositionRestoration: 'enabled'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

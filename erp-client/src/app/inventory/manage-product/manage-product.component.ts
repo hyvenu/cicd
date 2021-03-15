@@ -40,6 +40,7 @@ export class ManageProductComponent implements OnInit {
   unit_list: string | Partial<any>;
   IsProductInfo: boolean;
   IsProductImage: boolean;
+  loading = false;
 
   imageForm: FormGroup = this.formBuilder.group({
     
@@ -115,6 +116,7 @@ export class ManageProductComponent implements OnInit {
                   tax: element.tax,
                   unit_price: element.unit_price,
                   safety_stock_level: element.safety_stock_level,
+                  serial_number: element.serial_number,
                 }
               )
             });
@@ -243,7 +245,7 @@ export class ManageProductComponent implements OnInit {
 
   add_types():any {
     
-    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:'',unit_price:'',safety_stock_level:''}
+    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:'',unit_price:'',safety_stock_level:'', serial_number:''}
     this.product_packingtypes.push(data)
   }
 
@@ -283,6 +285,7 @@ export class ManageProductComponent implements OnInit {
   };
 
   saveProduct():any {
+    this.loading = true;
     const formData = new FormData();
     if (this.product_id){
       formData.append('id', this.product_id)
@@ -306,11 +309,13 @@ export class ManageProductComponent implements OnInit {
       (data) => {
         this.nbtoastService.success("Product Saved Successfully")
         this.imgSrc=null;
+        this.loading = false;
         this.reset();
         this.ngOnInit();
       },
       (error) =>{
         this.nbtoastService.danger(error.error.detail);
+        this.loading = false;
       }
     )
 

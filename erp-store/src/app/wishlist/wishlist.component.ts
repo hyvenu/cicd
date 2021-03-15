@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { WishlistService } from './wishlist.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { SharedService } from '../shared/shared.service';
 
 @Component({
   selector: 'app-wishlist',
@@ -12,7 +13,8 @@ export class WishlistComponent implements OnInit {
   wishlist:[];
   BaseUrl=environment.BASE_SERVICE_URL+'/';
 
-  constructor(private Service:WishlistService,private route:Router) { }
+  constructor(private Service:WishlistService,private route:Router,
+    private sharedService:SharedService) { }
 
   ngOnInit(): void {
     this.GetWishlist();
@@ -38,6 +40,7 @@ RemoveFromWishlist(product) {
   }
   this.Service.RemoveWishList(data).subscribe(
     (data) => {
+      this.sharedService.changewhilistMessage(data.length.toString());
       this.ngOnInit();
     }
   )

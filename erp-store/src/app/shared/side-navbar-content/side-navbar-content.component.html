@@ -7,7 +7,7 @@
             <a href="#homeSubmenu{{i}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{category.category_name}}</a>
             <ul class="collapse list-unstyled" id="homeSubmenu{{i}}">
                 <li *ngFor="let subcategory of category.Subcatogories; let i = index;">
-                    <a (click)="GoToCategoryList(category.category_name)">{{subcategory.sub_category_name}}</a>
+                    <a (click)="GoToCategoryList(subcategory.sub_category_name)">{{subcategory.sub_category_name}}</a>
                 </li>
             </ul>
         </li>

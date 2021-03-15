@@ -66,6 +66,7 @@ class InventoryService:
                 price_obj.unit_price = packs['unit_price']
                 price_obj.safety_stock_level = packs['safety_stock_level']
                 price_obj.product = product_obj
+                price_obj.serial_number = packs['serial_number']
                 price_obj.save()
 
         if len(serializer.initial_data.getlist('files[]')) > 0:
@@ -99,6 +100,24 @@ class InventoryService:
         return list(product_dict)
 
     @classmethod
+    def get_product_pack_types(cls,product_id):
+        pack_type = ProductPriceMaster.objects.filter(product_id=product_id).all().values(
+            'product__product_code',
+            'product__product_name',
+            'product_id',
+            'unit__unit_primary_unit'
+            'id',
+            'tax',
+            'unit_price',
+            'qty',
+            'bar_code',
+            'product_identifier',
+            'safety_stock_level',
+            'serial_number',
+        )
+        return list(pack_type)
+
+    @classmethod
     def check_stock(cls, store_id, product_id):
 
         prod_stock = ProductStock.objects.filter(product_id=product_id, store_id=store_id).all()
@@ -123,3 +142,27 @@ class InventoryService:
         prod_image.delete()
         return True
 
+    @classmethod
+    def get_product_stock(cls, store_id):
+        if store_id is not None:
+            stock = ProductStock.objects.filter(store_id=store_id).all().values
+            ("id",
+             "store__store_name",
+             "grn_number",
+             "product__id",
+             "product__product_code",
+             "product__product_name",
+             "batch_number",
+             "batch_expiry",
+             "quantity",
+             "pack__unit__primary_unit"
+             "pack__safety_stock_level",
+             "pack__serial_number",
+             )
+            return list(stock)
+        else:
+            return None
+
+    @classmethod
+    def save_product_stock(cls,store_id,data):
+        pass

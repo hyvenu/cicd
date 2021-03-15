@@ -46,17 +46,18 @@
         </div><br>
 
         <div class="row">
+            <div class="col-md-12">
             <nb-card accent="info">
                 <nb-card-header>Product Details</nb-card-header>
                 <nb-card-body>
-                    <button nbButton (click)="open(dialog);" status="success" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">Add</button> &nbsp;&nbsp;
+                    <button nbButton (click)="open(dialog);" status="success" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">Add</button> &nbsp;&nbsp;
                     
-                    <table class="table table-hovered">
+                    <table class="table table-responsive">
                         <thead>
                             <th></th>
                             <th>Product Code</th>
                             <th>Product Name</th>
-                            <th>Description</th>
+                            <!-- <th>Description</th> -->
                             <th>Store</th>
                             <th>Required Qty</th>
                             <th>Unit</th>
@@ -65,17 +66,17 @@
                         <tbody>
                             <tr *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
                                 <td><button nbButton (click)="delete(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
-                                <td><input nbInput placeholder="" value={{item.product_code}}/></td>
-                                <td><input nbInput placeholder="" value={{item.product_name}}/></td>
-                                <td><input nbInput placeholder="description" [(ngModel)]="item.description"/></td>
-                                <td><input nbInput placeholder="store name" [(ngModel)]="item.store"/></td>
-                                <td><input nbInput type="number" min="0" placeholder="Quantity" [(ngModel)]="item.required_qty" oninput="validity.valid || (value='')" /></td>
-                                <td><nb-select name="item.unit" [(selected)]="item.unit">
-                                    <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
+                                <td><input class="form-control form-control-sm" style="width: 10em;"  placeholder="" value={{item.product_code}}/></td>
+                                <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="" value={{item.product_name}}/></td>
+                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="description" [(ngModel)]="item.description"/></td> -->
+                                <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="store name" [(ngModel)]="item.store"/></td>
+                                <td><input class="form-control form-control-sm" style="width: 10em;" type="number" min="0" placeholder="Quantity" [(ngModel)]="item.required_qty" oninput="validity.valid || (value='')" /></td>
+                                <td><nb-select size="small" name="item.unit" [(selected)]="item.unit">
+                                    <nb-option  *ngFor="let o of unit_list" value="{{o.id}}">
                                         {{ o.PrimaryUnit }}
                                     </nb-option>
                                 </nb-select></td>
-                                <td><input nbInput [(ngModel)]="item.expected_date" [nbDatepicker]="datepicker"
+                                <td><input class="form-control form-control-sm" style="width: 10em;" [(ngModel)]="item.expected_date" [nbDatepicker]="datepicker"
                                     placeholder="Date" />
                                     <!-- <input [nbDatepicker]="datepicker"> -->
                                     <nb-datepicker #datepicker></nb-datepicker>
@@ -87,7 +88,8 @@
                 </nb-card-body>
                 
             </nb-card>
-            </div>
+        </div>
+        </div>
         <div class="row"> 
 
                 <div class="col-md-6">

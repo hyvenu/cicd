@@ -27,7 +27,7 @@ const routes: Routes = [
     NbButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes,{scrollPositionRestoration: 'enabled'}),
     NgbModule,
     MatSidenavModule,
     MatToolbarModule,

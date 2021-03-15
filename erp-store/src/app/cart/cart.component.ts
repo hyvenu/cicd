@@ -3,6 +3,7 @@ import { CartService } from './cart.service';
 import { MessengerService } from '../shared/messenger.service';
 import { Product,CartItem } from '../models/index';
 import { environment } from '../../environments/environment'
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-cart',
@@ -20,7 +21,8 @@ export class CartComponent implements OnInit {
   inc_flag: boolean;
   dec_flag: boolean;
 
-  constructor(private msg : MessengerService ,private cartService: CartService) { }
+  constructor(private msg : MessengerService ,private cartService: CartService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.handelSubscription();
@@ -38,7 +40,8 @@ handleRemoveFromCart(cartItem){
 }
 
 refresh(): void {
-  window.location.reload();
+   window.location.reload();
+  //this.ngOnInit();
 }
 
 handelSubscription(){
@@ -70,6 +73,7 @@ inc(cartItem){
 }
 
 handleAddToCart(cartItem){
+  this.spinner.show();
   const data = {
     'id':cartItem.id,
     'product_id' : cartItem.product__id,
@@ -81,11 +85,13 @@ handleAddToCart(cartItem){
   return this.cartService.addToCart(data).subscribe(
     (data) => {
        this.msg.sendMsg(data);
+       this.spinner.hide();
     },
     (error) => {
-
+       this.spinner.hide(); 
     }
   );
+  
 }
 
 dec(cartItem){

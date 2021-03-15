@@ -15,6 +15,11 @@ import { AuthGuard } from './auth.gaurd';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SearchPipe } from '../search.pipe';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { AppLoaderComponent } from './app-loader/app-loader.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderService } from '../loader.service';
+import { LoaderInterceptor } from '../loader-interceptor.service';
 
 
 const routes: Routes = [
@@ -25,7 +30,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent, UserProfileComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -35,13 +40,18 @@ const routes: Routes = [
     NbCardModule,
     NbListModule,
     FormsModule,
+    NbLayoutModule,
+    NbEvaIconsModule,
     NbMenuModule.forRoot(),
     NbUserModule,
     NbContextMenuModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
   ],
-  providers:[NbMenuService],
-  exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent,DashboardComponent,UserProfileComponent]
+  providers:[NbMenuService,
+    LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+  ],
+  exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent,DashboardComponent,AppLoaderComponent]
 })
 export class SharedModule { }

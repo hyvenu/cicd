@@ -18,6 +18,7 @@ import { SearchPipe } from '../search.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { MainPipe } from '../pipe.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { ProductStockComponent } from './product-stock/product-stock.component';
 
 
 
@@ -31,7 +32,7 @@ const routes: Routes = [
 
 ];
 @NgModule({
-  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent],
+  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, ProductStockComponent],
   
   imports: [
     CommonModule,

@@ -307,6 +307,10 @@ export class PurchaseOrderComponent implements OnInit {
                 .onClose.subscribe(data => {
                   //  this.product_list = data
                    this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_no);
+                   if (data.status !== 'APPROVED'){
+                     this.nbtoastService.warning("Selected PR is not Approved");
+                     return;
+                   }
                    this.purchaseService.getPRDetails(data.id).subscribe(
                      (pr_data) => {
                         this.store_id = pr_data.store_id;
@@ -320,7 +324,7 @@ export class PurchaseOrderComponent implements OnInit {
                             description: element.product_description,
                             qty: element.required_qty,
                             unit_id: element.unit,
-                            delivery_date: this.formatDate(element.expected_date),
+                            delivery_date: moment(element.expected_date),
                             unit_price: 0.0,
                             gst: 0.0,
                             amount: 0.0,

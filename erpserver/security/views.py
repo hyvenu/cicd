@@ -98,3 +98,17 @@ def get_user_permissions(request):
         return JsonResponse(list(perms), safe=False, status=status.HTTP_200_OK)
     else:
         return JsonResponse('', safe=False, status=status.HTTP_403_FORBIDDEN)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def change_phone_number(request):
+    try:
+        data = request.data
+        user_id = request.user.id
+        user_obj = User.objects.get(id=user_id)
+        user_obj.phone_number = data['phone_number']
+        user_obj.save()
+        return JsonResponse("Success", safe=False, status=status.HTTP_200_OK)
+    except Exception as e:
+        return JsonResponse('Invalid credentials', safe=False, status=status.HTTP_400_BAD_REQUEST)

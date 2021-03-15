@@ -7,7 +7,7 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from security.views import CreateUserAPIView, CustomTokenObtainPairView, CustomerAddressViewSet, change_password, \
-    get_user_permissions
+    get_user_permissions, change_phone_number
 from django.contrib.auth import views as auth_views
 
 router = routers.DefaultRouter()
@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/change_password', change_password, name="change_password"),
     path('api/get_permissions', get_user_permissions, name="get_user_permissions"),
+    path('api/change_phone_number', change_phone_number, name="change_phone_number"),
 ]

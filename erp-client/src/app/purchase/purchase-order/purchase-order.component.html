@@ -1,3 +1,4 @@
+<div class="conatiner">
 <div class="row">
         <a nbButton href="PurchaseOrderList">Purchase order list</a>
 </div>
@@ -94,7 +95,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label for="note">Note </label><br>
-                        <input nbInput formControlName="noteFormControl" name="note" placeholder="Note" />
+                        <textarea nbInput formControlName="noteFormControl" name="note" placeholder="Note" ></textarea>
                     </div>
                 </div>
             </nb-card-body>
@@ -122,8 +123,8 @@
                             <td><button nbButton (click)="delete_product(item.id);" size="small" status="danger">X</button></td>
                             <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
                             <td><input nbInput  fieldSize="small"placeholder="" value="{{item.product_name}} - {{item.description}}" readonly/></td>
-                            <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 5em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
-                            <td ><nb-select class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
+                            <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
+                            <td ><nb-select size="small" class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
                                 <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                     {{ o.PrimaryUnit }}
                                 </nb-option>
@@ -164,7 +165,7 @@
                         <tr>
                             <td> {{ sub_total | currency:'INR' }}</td>
                             <td></td>
-                            <td> <input nbInput  min="0" size ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_packing()" [value]="0.00" /></td>
+                            <td> <input nbInput  min="0" fieldSize ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_packing()" [value]="0.00" /></td>
                             <td> {{ packing_amount | currency : 'INR' }}</td>
                             <td> {{ total_amount | currency : 'INR' }} </td>
                             <td> {{ sgst | currency : 'INR' }}  </td>
@@ -196,6 +197,7 @@
         </div>
     </nb-tab>
 </nb-tabset>
+</div>
 <ng-template #vendor_dialog let-data let-ref="dialogRef">
     <nb-card size="medium">
         <nb-card-header>Vendor List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchVendor" /></nb-card-header>

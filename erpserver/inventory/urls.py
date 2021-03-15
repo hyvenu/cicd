@@ -13,12 +13,14 @@ router.register("ProductSubCategory", api.ProductSubCategoryViewSet)
 router.register("ProductMaster", api.ProductMasterViewSet)
 router.register("ProductCategory", api.ProductCategoryViewSet)
 router.register("ProductImage", api.ProductImagesViewSet)
+router.register("ProductStock", api.ProductStockViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),
     path('api/v1/get_product_code', views.get_product_code, name="get_product_code"),
     path('api/v1/get_product_list', views.get_product_list, name="get_product_list"),
     path('api/v1/delete_image', views.delete_product_image, name="delete_product"),
+    path('api/v1/get_product_pack_types', views.get_product_pack_type, name="get_product_pack_types"),
 
     path("inventory/dashboard",views.inventory_dashboard, name="inventory_dashboard"),
     path("inventory/ProductPriceMaster/", views.ProductPriceMasterListView.as_view(), name="inventory_ProductPriceMaster_list"),

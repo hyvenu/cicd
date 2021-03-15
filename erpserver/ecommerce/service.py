@@ -26,9 +26,9 @@ class EcomService:
         elif 'search_key' in kwargs:
             search_key = kwargs['search_key']
             query = Q(product_name__icontains=search_key)
-            query.add(Q(category__category_name__icontains=search_key), Q.OR)
-            query.add(Q(sub_category__sub_category_name__icontains=search_key), Q.OR)
-            query.add(Q(brand__brand_name__icontains=search_key), Q.OR)
+            query.add(Q(category__category_name__contains=search_key), Q.OR)
+            query.add(Q(sub_category__sub_category_name__contains=search_key), Q.OR)
+            query.add(Q(brand__brand_name__contains=search_key), Q.OR)
             product_object = ProductMaster.objects.filter(query).all()
         else:
 
@@ -70,7 +70,7 @@ class EcomService:
 
             ))
             # prod['wish_list_flag'] = 0
-            if user_id is not None and WishList.objects.filter(product_id=prod["id"]).exists():
+            if WishList.objects.filter(product_id=prod["id"],user_id=user_id).exists():
                 prod['wish_list_flag'] = 1
             else:
                 prod['wish_list_flag'] = 0

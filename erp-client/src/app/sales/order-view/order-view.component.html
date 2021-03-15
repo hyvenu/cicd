@@ -33,10 +33,15 @@
             <div class="col-md-3">
                 <h6 style="color: brown;">Order Status : {{ order_data.order_status_text }}</h6> 
             </div>
-            <div class="col-md-1" *ngFor="let status of order_data.order_flow">
+            <div class="col-md-2" *ngFor="let status of order_data.order_flow">
                 <button nbButton status="success" size="small" (click)="updateOrderStatus(status.order_status)">{{status.text}}</button>
             </div>
         </div>
+        <nb-list >
+            <nb-list-item style="background-color: coral;" *ngIf="!order_data.store" > Order Not Mapped to Store</nb-list-item>
+            <nb-list-item style="background-color: rgb(132, 255, 128);" *ngIf="order_data.store" > Store : {{order_data.store__store_name}}</nb-list-item>
+            <!-- <nb-list-item nbButton *ngFor="let status of order_data.order_flow" (click)="updateOrderStatus(status.order_status)">{{status.text}} </nb-list-item> -->
+        </nb-list>
     </nb-card-footer>
 </nb-card>
 

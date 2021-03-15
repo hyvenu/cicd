@@ -14,7 +14,10 @@ import { User } from '../models/User';
 export class SharedService {
 
   private messageSource = new BehaviorSubject<string>('service');
-count = this.messageSource.asObservable();
+  count = this.messageSource.asObservable();
+
+  private wishlistSource = new BehaviorSubject<string>('service');
+  wishlistcount = this.wishlistSource.asObservable();
 
   public userSubject: BehaviorSubject<any>;
   public user: Observable<any>;
@@ -94,8 +97,12 @@ count = this.messageSource.asObservable();
       return (error.message || "This Email  already Exist")
     }
 
-     changeMessage(message: string) {
+    changeMessage(message: string) {
       this.messageSource.next(message)
+    }
+
+    changewhilistMessage(message: string) {
+      this.wishlistSource.next(message)
     }
 
 }

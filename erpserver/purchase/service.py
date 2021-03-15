@@ -27,6 +27,9 @@ class PurchaseService:
             'pr_date',
             'created_user',
             'dept__department_name',
+            'status',
+            'approved_by',
+            'approved_date',
         )
         return list(pr_list)
 
