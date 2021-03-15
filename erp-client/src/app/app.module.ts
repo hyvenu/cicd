@@ -1,3 +1,4 @@
+import { UserProfileComponent } from './shared/user-profile/user-profile.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -18,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainPipe } from './pipe.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxEditorModule } from 'ngx-editor';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -44,7 +46,7 @@ import { NgxEditorModule } from 'ngx-editor';
     NbDatepickerModule.forRoot(),
     NgxPermissionsModule.forRoot(),
     AdminModule,
-    NgxEditorModule
+    NgxEditorModule,
   ],
   providers: [
     {

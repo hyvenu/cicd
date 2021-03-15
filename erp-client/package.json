@@ -33,6 +33,7 @@
     "ng2-completer": "^9.0.1",
     "ng2-smart-table": "^1.7.2",
     "ngx-cookie-service": "^11.0.2",
+    "ngx-editor": "^8.0.1",
     "ngx-permissions": "^8.1.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",

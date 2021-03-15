@@ -1,0 +1,82 @@
+<div class="container">
+    <div>
+        <div class="userdetails">
+            <nb-card>
+                <nb-card-header>User Profile</nb-card-header>
+                <nb-card-body>
+                    <nb-list>
+                        <nb-list-item style="border-top:none;">
+                            <div class="row" style="width: 100%;">
+                                <div class="col-md-6">
+                                    <h6 class="mb-0">Name</h6>
+                                </div>
+                                <div class="col-md-6">
+                                    {{first_name}}
+                                </div>
+                            </div>
+                        </nb-list-item>
+
+                        <nb-list-item>
+                            <div class="row" style="width: 100%;">
+                                <div class="col-md-6">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-md-6">
+                                    {{email}}
+                                </div>
+                            </div>
+                        </nb-list-item>
+
+                        <nb-list-item>
+                            <div class="row" style="width: 100%;">
+                                <div class="col-md-6">
+                                    <h6 class="mb-0">Mobile</h6>
+                                </div>
+                                <div class="col-md-6">
+                                    <div *ngIf="!editPhone"> <span>{{phone}}</span> <span style="float: right;" (click)="EditPhoneNumber()">
+                                      <button id="edit-btn" >
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </button></span></div>
+
+                                    <div *ngIf="editPhone">
+                                        <form #EPN="ngForm" (ngSubmit)="ChangePassword(EPN)" id="editform">
+                                            <input id="username" nbInput formControlName="groupNameFormControl" placeholder="User Name" name="phone_number" class="form-control" type="number" ngModel required> &nbsp;&nbsp;
+                                            <button type="submit" id="nb-btn">Primary</button>&nbsp;&nbsp;
+                                            <button class="close" mat-button (click)="CloseEdit()" style="float: right;">x</button>
+                                        </form>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </nb-list-item>
+
+                        <nb-list-item>
+                            <div class="row" style="width: 100%;">
+                                <div class="col-md-6">
+                                    <h6 class="mb-0">Password</h6>
+                                </div>
+                                <div class="col-md-6">
+                                    ********* <span style="float: right;"><a href="/resetpassword"> <button id="edit-btn" >
+                                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </button></a></span>
+                                </div>
+                            </div>
+                        </nb-list-item>
+                    </nb-list>
+                </nb-card-body>
+                <!-- <div fxLayout="row wrap" fxLayoutGap="grid">
+                  <div fxFlex="50%" fxFlex.xs="30%" fxFlex.sm="50%">
+                      <h6 class="mb-0">
+                          Address
+                      </h6>
+                  </div>
+                  <div fxFlex="50%" fxFlex.xs="70%" fxFlex.sm="50%">
+                      address
+                  </div>
+              </div> -->
+            </nb-card>
+        </div>
+    </div>
+
+</div>
