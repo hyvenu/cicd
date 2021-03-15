@@ -20,6 +20,7 @@ import { AppLoaderComponent } from './app-loader/app-loader.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderService } from '../loader.service';
 import { LoaderInterceptor } from '../loader-interceptor.service';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 const routes: Routes = [
@@ -27,10 +28,11 @@ const routes: Routes = [
   { path: 'Register' , component: RegisterComponent},
   { path: 'StoreSelect' , component: StoreSelectComponent},
   { path: 'profile' , component: UserProfileComponent},
+  { path: 'resetpassword' , component: ResetPasswordComponent},
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent],
   imports: [
     CommonModule,
     BrowserModule,
