@@ -54,7 +54,9 @@
                 <div class="items-bottom" fxLayout="row wrap" fxLayoutGap="grid" *ngFor="let product of wishlist; let i = index">
                     <!-- <hr/> -->
                     <div fxFlex="20%" fxFlex.xs="100%" fxFlex.sm="20%" class="img-center">
-                        <img (click)="Goto(product.product__product_code)" class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="{{BaseUrl+product.image}}" width="80" height="80" />
+                        <a href="/productview?data={{product.product__product_code}}">
+                        <img class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="{{BaseUrl+product.image}}" width="80" height="80" />
+                        </a>
                         <button type="button" class="btn btn-xs mob-view" style="color: red;margin-top: 4%;" (click)="RemoveFromWishlist(product)">
                         <span class="material-icons">
                           delete
