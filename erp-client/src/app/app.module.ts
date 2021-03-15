@@ -1,3 +1,4 @@
+import { UserProfileComponent } from './shared/user-profile/user-profile.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -54,7 +55,7 @@ import { NgxEditorModule } from 'ngx-editor';
       useClass: JwtInterceptor,
       multi: true
   },NbToastrService,
- 
+
 ],
   bootstrap: [AppComponent]
 })
