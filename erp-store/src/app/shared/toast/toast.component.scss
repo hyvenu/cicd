@@ -4,3 +4,12 @@ ngb-toast {
     top: 15%;
     right: 0px;
 }
+
+@media screen and (max-width: 800px) {
+    ngb-toast {
+        width: 50%;
+        position: fixed;
+        top: 30%;
+        right: 0px;
+    }
+}
