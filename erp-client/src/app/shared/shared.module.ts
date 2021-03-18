@@ -7,7 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { NbThemeModule, NbLayoutModule,NbUserModule,NbButtonModule ,NbCardModule,NbListModule,NbContextMenuModule,NbMenuModule,NbMenuService} from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule,NbUserModule,NbButtonModule ,NbCardModule,NbListModule,NbContextMenuModule,NbMenuModule,NbMenuService, NbTabsetModule} from '@nebular/theme';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { StoreSelectComponent } from './store-select/store-select.component';
@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
   { path: 'Register' , component: RegisterComponent},
   { path: 'StoreSelect' , component: StoreSelectComponent},
-  { path: 'profile' , component: UserProfileComponent},
+  { path: 'Profile' , component: UserProfileComponent},
   { path: 'resetpassword' , component: ResetPasswordComponent},
 ];
 
@@ -41,6 +41,7 @@ const routes: Routes = [
     NbButtonModule,
     NbCardModule,
     NbListModule,
+    NbTabsetModule,
     FormsModule,
     NbLayoutModule,
     NbEvaIconsModule,

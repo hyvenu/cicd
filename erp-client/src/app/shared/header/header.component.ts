@@ -3,6 +3,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NB_WINDOW, NbMenuService } from '@nebular/theme';
 import { filter, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -19,6 +20,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private sharedservice: SharedService,
     private nbMenuService: NbMenuService,
+    private router: Router,
     @Inject(NB_WINDOW) private window) { }
 
   ngOnInit(): void {
@@ -33,6 +35,9 @@ export class HeaderComponent implements OnInit {
           console.log(title);
           if (title == 'Log out'){
             this.logout();
+          }
+          if (title == 'Profile'){
+            this.router.navigateByUrl('\Profile');
           }
         });
 

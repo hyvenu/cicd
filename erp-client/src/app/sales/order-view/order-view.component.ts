@@ -66,7 +66,7 @@ export class OrderViewComponent implements OnInit {
           this.ngOnInit();
       },
       (error) => {
-          this.nbtoastService.danger("Order Status Update Failed")
+          this.nbtoastService.danger("Order Status Update Failed" + "ERROR MSG :" + error)
       }
     )
   }

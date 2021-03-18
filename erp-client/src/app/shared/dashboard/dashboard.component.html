@@ -2,7 +2,7 @@
     <div class="col-md-3">
         <nb-card status="success">
             <nb-card-header> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                New Orders</nb-card-header>
+                Total Orders ({{orders_data.length}})</nb-card-header>
             <nb-card-body>
                 
             </nb-card-body>
@@ -11,5 +11,17 @@
             </nb-card-footer>
         </nb-card>
     </div>&nbsp;&nbsp;&nbsp;
-    
+
+</div>
+<div class="row">
+    <nb-card>
+    <nb-tabset>
+        <nb-tab tabTitle="Orders">
+            <nb-list >
+                <nb-list-item *ngFor="let order of orders_data" > {{ order.order_number }} &nbsp;&nbsp; ||  &nbsp;&nbsp;  {{ order.order_amount }}  &nbsp;&nbsp; ||  &nbsp;&nbsp;   {{order.customer__first_name}}</nb-list-item>
+            </nb-list>
+        </nb-tab>
+        <nb-tab tabTitle="Sales"></nb-tab>
+    </nb-tabset>
+</nb-card>
 </div>

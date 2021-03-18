@@ -42,11 +42,14 @@ def get_order_detail(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
 def update_order_status(request):
-    order_service = OrderService()
-    order_id = request.query_params['id']
-    order_status = request.query_params['order_status']
-    orders_detail = order_service.update_order(order_id, order_status)
-    return JsonResponse(list(orders_detail), safe=False)
+    try:
+        order_service = OrderService()
+        order_id = request.query_params['id']
+        order_status = request.query_params['order_status']
+        orders_detail = order_service.update_order(order_id, order_status)
+        return JsonResponse(list(orders_detail), safe=False)
+    except Exception as e:
+        return JsonResponse(str(e), safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])

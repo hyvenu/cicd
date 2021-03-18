@@ -4,7 +4,13 @@
     </h2>
     <br>
     <div>
-        <input name="vendorName" class="form-control" placeholder="Setting Type" [(ngModel)]="setting_type" />
+        <!-- <input name="vendorName" class="form-control" placeholder="Setting Type" [(ngModel)]="setting_type" /> -->
+        <label for="SettingType">Choose Banner Type</label><br>
+        <nb-select name="SettingType" [(selected)]="setting_type" >
+            <nb-option *ngFor="let o of ['banner_1','banner_2','banner_3']" value="{{o}}">
+                {{ o }}
+            </nb-option>
+        </nb-select>
     </div>
     <br><br>
     <div class="NgxEditor__Wrapper">
@@ -14,5 +20,8 @@
     <br>
     <div>
         <button class="btn btn-info" (click)="AddSiteSettings()">Add</button>
+    </div>
+    <div class="row">
+        
     </div>
 </div>
