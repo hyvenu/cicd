@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#6d7fcc">
+<!-- <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#6d7fcc">
     <div class="navbar-header">
         <button class="navbar-toggler" type="button" (click)="onToggleSidenav()">
 <span class="navbar-toggler-icon"></span>
@@ -18,7 +18,7 @@
 
                         <li class="mega-menu-column">
                             <ul class="list-group">
-                                <!-- <li class="nav-header">Categories</li> -->
+                                
                                 <li>
                                     <a class="list-group-item list-group-item-action flex-column align-items-start" (mouseenter)="mouseEnter(category.Subcatogories)" (click)="mouseEnter(category.Subcatogories)" *ngFor="let category of CategoryList; let i=index">
                         {{category.category_name}}
@@ -29,7 +29,7 @@
 
                         <li class="mega-menu-column">
                             <ul class="list-group">
-                                <!-- <li class="nav-header">SubCategories</li> -->
+                                
                                 <li>
                                     <a class="list-group-item dropdown-item" href="category?data={{subCategory.sub_category_name}}" *ngFor="let subCategory of subcategorylist" style="color: black;">
                                   {{subCategory.sub_category_name}}</a>
@@ -52,7 +52,7 @@
                 </div>
             </li>
         </ul>
-        <!-- <span class="nav-link">{{ first_name}}</span> -->
+        
 
         <ul class="nav navbar-nav navbar-right">
             <li class="nav-item" id="mobview-search">
@@ -153,13 +153,88 @@
     <div *ngIf="isAuthenticated">
         <a class="nav-link" href="/wishlist"> <i class="fa fa-heart float-right fa-3x"></i></a>
     </div>
-    <!-- <div *ngIf="isAuthenticated">
-      <a class="nav-link" href="/profile"><i class="fa fa-user float-right-o  fa-3x" ></i></a>
-  </div> -->
+     
     <div *ngIf="isAuthenticated">
         <a class="nav-link" href="/profile"> <i class="fa fa-user float-right fa-3x"></i></a>
     </div>
     <div *ngIf="isAuthenticated">
         <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out fa-3x" aria-hidden="true" ></i></a>
     </div>
+</div> -->
+
+<mat-toolbar color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span><img src="assets/img/Saffaran-logo.png" width="40px"> &nbsp; Saffran </span>
+    <span class="example-spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true">
+        <button mat-stroked-button [matMenuTriggerFor]="categories">Categories</button>
+        <mat-menu #categories="matMenu">
+            <button mat-menu-item (mouseenter)="mouseEnter(category.Subcatogories)"
+                (click)="mouseEnter(category.Subcatogories)" *ngFor="let category of CategoryList; let i=index"
+                [matMenuTriggerFor]="subcategories"> {{category.category_name}}</button>
+        </mat-menu>
+        <mat-menu #subcategories="matMenu">
+            <button mat-menu-item *ngFor="let subCategory of subcategorylist">{{subCategory.sub_category_name}}</button>
+        </mat-menu>
+    </div>
+    <!-- <mat-form-field floatLabel="never"> -->
+        <input class="form-control input-control-sm" fxHide.lt-md="true"  type="text" placeholder="search here.." autocomplete="off" />
+        <!-- <mat-icon [color]="searchInput.focused ? 'primary' : ''" matSuffix>search</mat-icon> -->
+    <!-- </mat-form-field> -->
+    <span class="example-spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true">
+        <a mat-button href="/cart" style="color: white;"> <i
+                class="fa fa-shopping-cart float-right-o desktop-view-icon"></i>&nbsp;My Cart <span
+                class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
+
+        </a>
+
+        <a *ngIf="!isAuthenticated" mat-button href="/Login" style="color: white;"><i
+                class="fa fa-sign-in desktop-view-icon" aria-hidden="true"></i>&nbsp;Login
+        </a>
+
+        <a *ngIf="!isAuthenticated" mat-button href="/Register" style="color: white;">Sign Up
+        </a>
+
+        <a *ngIf="isAuthenticated" mat-button href="/wishlist" style="color: white;"> <i
+                class="fa fa-heart float-right-o desktop-view-icon"></i>&nbsp;Wishlist</a>
+
+        <a *ngIf="isAuthenticated" mat-button href="/profile" style="color: white;"><i
+                class="fa fa-user float-right-o desktop-view-icon"></i>&nbsp;{{ first_name }}</a>
+
+        <a *ngIf="isAuthenticated" mat-button (click)="logout()" style="color: white;"><i
+                class="fa fa-sign-out desktop-view-icon" aria-hidden="true"></i>&nbsp;Logout</a>
+
+    </div>
+</mat-toolbar>
+
+<mat-toolbar color="primary" fxShow="true" fxHide.gt-sm id="mobview">
+<div >
+    <a mat-button href="/cart" style="color: white;font-size: 1em;"> <i class="fa fa-shopping-cart float-right"></i> <span
+            class='badge badge-warning' id='lblCartCount' *ngIf="count"> {{count}} </span>
+
+    </a>
+
+    <a *ngIf="!isAuthenticated" mat-button href="/Login" style="color: white;font-size: 1em;"> <i class="fa fa-sign-in float-right"></i>
+    </a>
+
+    <a *ngIf="!isAuthenticated" mat-button href="/Register" style="color: white;font-size: 1em;"> <i class="fa fa-arrow-right float-right"></i>
+    </a>
+    <a  mat-button href="/Home" style="color: white;font-size: 1em;"> <i class="fa fa-home float-right"></i>
+    </a>
+
+    <a *ngIf="isAuthenticated" mat-button href="/wishlist" style="color: white;font-size: 1em;"> <i class="fa fa-heart float-right"></i></a>
+
+    <a *ngIf="isAuthenticated" mat-button href="/profile" style="color: white;font-size: 1em;"> <i class="fa fa-user float-right"></i></a>
+
+    <a *ngIf="isAuthenticated" mat-button (click)="logout()" style="color: white;font-size: 1em;"> <i class="fa fa-sign-out float-right"></i></a>
+
 </div>
+</mat-toolbar>
+<style>
+    .example-spacer {
+        flex: 1 1 auto;
+    }
+</style>

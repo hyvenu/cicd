@@ -264,7 +264,7 @@ body {
         position: fixed;
         bottom: 0px;
         width: -webkit-fill-available;
-        background: rgba(255, 255, 255, 0.8);
+        background: rgba(5, 40, 196, 0.8);
     }
     .nav-link {
         color: black;
@@ -332,3 +332,11 @@ mat-toolbar {
         border-radius: 0px;
     }
 }
+
+::ng-deep .mat-toolbar{
+    z-index: 998;
+    position: fixed;
+    box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%);
+  }
+
+ 

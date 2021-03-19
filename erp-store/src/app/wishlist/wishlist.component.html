@@ -4,42 +4,6 @@
         <div id="order">
             <h2>Wishlist</h2>
         </div>
-
-
-        <!-- <div id="accordion" aria-multiselectable="true">
-            <div class="row" *ngFor="let product of wishlist; let i = index">
-                <div class="col mt-4">
-                    <div class="card card-2">
-                        <div class="card-body">
-                            <div class="media" [id]="'heading'+i">
-                                <div class="sq align-self-center "> <img (click)="Goto(product.product__product_code)" class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="{{BaseUrl+product.image}}" width="80" height="80" /><br>
-
-
-                                    <div class="media-body my-auto text-right">
-                                        <div class="row my-auto flex-column flex-md-row block">
-                                            <div class="col my-auto">
-                                                <h2 class="mb-0" style="text-align: left;"> {{product.product__product_name}}
-
-                                                </h2>
-                                                <h3 class="mb-0" style="text-align: justify">{{product.product__description}}</h3>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-outline-danger btn-xs" (click)="RemoveFromWishlist(product)">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-        </div> -->
         <div class="card">
             <div class="card-header text-light" style="background-color: #6d7fcc;">
                 <i class="fa fa-heart float-right-o" aria-hidden="true" style="color: white;"></i> Wishlist({{wishlist.length}})
@@ -50,9 +14,9 @@
                 <div class="clearfix"></div>
             </div>
             <div class="card-body">
-                <!-- PRODUCT -->
+                
                 <div class="items-bottom" fxLayout="row wrap" fxLayoutGap="grid" *ngFor="let product of wishlist; let i = index">
-                    <!-- <hr/> -->
+                  
                     <div fxFlex="20%" fxFlex.xs="100%" fxFlex.sm="20%" class="img-center">
                         <a href="/productview?data={{product.product__product_code}}">
                         <img class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="{{BaseUrl+product.image}}" width="80" height="80" />
@@ -79,11 +43,10 @@
                     </div>
                 </div>
 
-                <!-- END PRODUCT -->
-                <!-- PRODUCT -->
+            
 
                 <hr>
-                <!-- END PRODUCT -->
+               
 
             </div>
 

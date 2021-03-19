@@ -1,37 +1,25 @@
-<!-- <nb-layout>
 
-  <nb-layout-header fixed>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [fullScreen]="true">
+    <mat-spinner></mat-spinner>
 
-   <app-header></app-header>
-  </nb-layout-header>
-
-  <nb-layout-column>
-      <router-outlet></router-outlet>
-  </nb-layout-column>
-
-
-  <nb-layout-footer fixed>
-
-  <app-footer></app-footer>
-  </nb-layout-footer>
-
-</nb-layout> -->
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
 </ngx-spinner>
-<app-layout>
+<app-layout >
     <mat-sidenav-container>
+       
         <mat-sidenav #sidenav role="navigation">
             <app-side-navbar-content></app-side-navbar-content>
         </mat-sidenav>
-        <mat-sidenav-content>
-            <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
-            <main>
+     
+        
+        <mat-sidenav-content class="example-sidenav-container" >
+            <app-header (sidenavToggle)="sidenav.toggle()" ></app-header>
+            <main style="margin-top: 3em;">
                 <router-outlet (activate)="onActivate($event, outlet)" #outlet></router-outlet>
                 <app-toast></app-toast>
-                <app-footer></app-footer>
+                <app-footer fxHide.lt-md="true"></app-footer>
             </main>
         </mat-sidenav-content>
+    
     </mat-sidenav-container>
 </app-layout>
 <!--

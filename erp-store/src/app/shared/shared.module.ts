@@ -14,6 +14,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SideNavbarContentComponent } from './side-navbar-content/side-navbar-content.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {MatMenuModule} from '@angular/material/menu';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -29,10 +33,14 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(routes,{scrollPositionRestoration: 'enabled'}),
     NgbModule,
+    FlexLayoutModule,
     MatSidenavModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatMenuModule,
   ],
   exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent,ToastComponent, MatSidenavModule,
     MatToolbarModule,
