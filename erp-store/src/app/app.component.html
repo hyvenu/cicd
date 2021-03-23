@@ -1,6 +1,6 @@
 
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [fullScreen]="true">
-    <mat-spinner></mat-spinner>
+    <mat-spinner><img src="../assets/img/Saffaran-logo.png" height="40" width="40"></mat-spinner>
 
 </ngx-spinner>
 <app-layout >
@@ -13,7 +13,7 @@
         
         <mat-sidenav-content class="example-sidenav-container" >
             <app-header (sidenavToggle)="sidenav.toggle()" ></app-header>
-            <main style="margin-top: 3em;">
+            <main style="margin-top: 5em;">
                 <router-outlet (activate)="onActivate($event, outlet)" #outlet></router-outlet>
                 <app-toast></app-toast>
                 <app-footer fxHide.lt-md="true"></app-footer>

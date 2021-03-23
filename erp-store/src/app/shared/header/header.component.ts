@@ -85,9 +85,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       // this.route.navigate(["/category/" + data]);
       window.location.href = '/category?data=' + data;
     }
-    else {
-      this.route.navigate(['/']);
-    }
+    // else {
+    //   this.route.navigate(['/']);
+    // }
   }
 
   mouseEnter(subCategory: any) {

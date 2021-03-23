@@ -1,4 +1,4 @@
-<div class="sidebar-header">
+<!-- <div class="sidebar-header">
     <h3>Categories</h3>
 </div>
 <div id="sidebar">
@@ -12,4 +12,28 @@
             </ul>
         </li>
     </ul>
-</div>
+</div> -->
+<a  mat-menu-item href="/Login" style="color: black;" *ngIf="!first_name">
+  <i class="fa fa-user float-right-o desktop-view-icon">&nbsp;  Login/Guest</i> 
+</a>
+<a  mat-menu-item href="/profile" style="color: black;" *ngIf="first_name"><i
+  class="fa fa-user float-right-o desktop-view-icon"></i>&nbsp;Welcome &nbsp;{{first_name}}</a>
+<mat-accordion>
+    <mat-expansion-panel >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          All Categories
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      
+      <mat-list>
+        <a mat-menu-item (click)="GoToCategoryList(category.category_name)" *ngFor="let category of CategoryList; let i = index;"> {{category.category_name}} </a>
+      </mat-list>
+    </mat-expansion-panel>
+    <a  mat-menu-item href="/profile" style="color: black;"><i
+    class="fa fa-user float-right-o desktop-view-icon"></i>&nbsp;Your Orders</a>
+    <a  mat-menu-item href="#" style="color: black;"><i
+        class="fa fa-terms float-right-o desktop-view-icon"></i>&nbsp;Terms & Conditions</a>
+</mat-accordion>

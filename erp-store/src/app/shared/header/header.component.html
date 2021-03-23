@@ -163,10 +163,11 @@
 </div> -->
 
 <mat-toolbar color="primary">
-    <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+    <mat-toolbar-row>
+    <button mat-icon-button (click)="onToggleSidenav()" fxShow="true" fxHide.gt-sm>
         <mat-icon>menu</mat-icon>
     </button>
-    <span><img src="assets/img/Saffaran-logo.png" width="40px"> &nbsp; Saffran </span>
+    <span><a href="/"><img src="assets/img/Saffaran-logo.png" width="40px"> &nbsp; Saffran </a></span>
     <span class="example-spacer"></span>
     <div fxShow="true" fxHide.lt-md="true">
         <button mat-stroked-button [matMenuTriggerFor]="categories">Categories</button>
@@ -176,13 +177,14 @@
                 [matMenuTriggerFor]="subcategories"> {{category.category_name}}</button>
         </mat-menu>
         <mat-menu #subcategories="matMenu">
-            <button mat-menu-item *ngFor="let subCategory of subcategorylist">{{subCategory.sub_category_name}}</button>
+            <a mat-menu-item style="color: black;" href="category?data={{subCategory.sub_category_name}}" *ngFor="let subCategory of subcategorylist">{{subCategory.sub_category_name}}</a>
         </mat-menu>
     </div>
     <!-- <mat-form-field floatLabel="never"> -->
-        <input class="form-control input-control-sm" fxHide.lt-md="true"  type="text" placeholder="search here.." autocomplete="off" />
+        <input class="form-control input-control-sm" fxHide.lt-md="true"  type="text" (input)="Search($event.target.value)" placeholder="Search here.." autocomplete="off" />
         <!-- <mat-icon [color]="searchInput.focused ? 'primary' : ''" matSuffix>search</mat-icon> -->
     <!-- </mat-form-field> -->
+          
     <span class="example-spacer"></span>
     <div fxShow="true" fxHide.lt-md="true">
         <a mat-button href="/cart" style="color: white;"> <i
@@ -208,6 +210,10 @@
                 class="fa fa-sign-out desktop-view-icon" aria-hidden="true"></i>&nbsp;Logout</a>
 
     </div>
+    </mat-toolbar-row>
+    <mat-toolbar-row  fxShow="true" fxHide.gt-sm>
+        <input class="form-control input-control-sm"  type="text" (input)="Search($event.target.value)" placeholder="Search here.." autocomplete="off" />
+    </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-toolbar color="primary" fxShow="true" fxHide.gt-sm id="mobview">

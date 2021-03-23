@@ -1,7 +1,7 @@
 <section class="testimonial py-5" id="testimonial">
     <div class="container shadow bg-white rounded">
         <div class="row">
-            <div class="col-md-4 py-5 text-white text-center " style="background-color: #6d7fcc">
+            <div class="col-md-4 py-5 text-white text-center " style="background-color: #3f51b5">
                 <div class=" ">
                     <div class="card-body">
                         <img src="/assets/img/Saffaran-logo.png" style="width:30%">
@@ -13,17 +13,17 @@
                 </div>
             </div>
             <div class="col-md-8 py-5 border">
-                <h4 class="pb-4">Enter username and Password</h4>
+                <h4 class="pb-4">Enter Username and Password</h4>
                 <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <input id="username" formControlName="username" placeholder="User Name" class="form-control" type="text" ngModel required>
+                            <input matInput id="username" formControlName="username" placeholder="User Name" class="form-control" type="text" ngModel required>
                         </div>
 
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <input type="password" formControlName="password" class="form-control" id="password" placeholder="password" ngModel required>
+                            <input matInput type="password" formControlName="password" class="form-control" id="password" placeholder="password" ngModel required>
                         </div>
 
                     </div>
@@ -31,12 +31,12 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <button type="submit" class="btn btn-danger" [disabled]="">Login</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button mat-raised-button  type="submit" class="btn btn-danger" [disabled]="">Login</button>&nbsp;&nbsp;&nbsp;&nbsp;
                             <a href="{{forgot_password_like}}">Forget password</a>
 
                         </div>
                     </div>
-                    <div *ngIf="Invalid" class="alert alert-danger">{{error}}</div>
+                    <!-- <div *ngIf="Invalid" class="alert alert-danger">{{error}}</div> -->
                 </form>
             </div>
         </div>

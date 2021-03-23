@@ -18,6 +18,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatListModule} from '@angular/material/list';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -41,6 +44,9 @@ const routes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatMenuModule,
+    MatListModule,
+    MatExpansionModule,
+    MatSnackBarModule,
   ],
   exports: [HeaderComponent,FooterComponent,LoginComponent,RegisterComponent,ToastComponent, MatSidenavModule,
     MatToolbarModule,
