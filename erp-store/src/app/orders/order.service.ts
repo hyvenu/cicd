@@ -31,6 +31,10 @@ export class OrderService {
           // res;
       }))
   }
+
+  CancelRequest(data:any): any {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/ecom/api/v1/update_order_status`,data);
+  }
 }
 
 

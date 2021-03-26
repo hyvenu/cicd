@@ -96,7 +96,7 @@ export class ProductViewComponent implements OnInit {
   getRatings() {
     let id = this.Product.id;
     this.Service.getRatings(id).subscribe((data) => {
-      // 
+      //
       // console.log(data);
       if(data.length > 0){
         this.ratings = data;

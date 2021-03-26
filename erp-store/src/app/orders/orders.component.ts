@@ -2,6 +2,8 @@ import { OrderService } from './order.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { saveAs } from 'file-saver';
+import { ToastService } from '../shared/toast/toast.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-orders',
@@ -13,7 +15,7 @@ export class OrdersComponent implements OnInit {
   Orders: any;
   BaseUrl=environment.BASE_SERVICE_URL+'/';
 
-  constructor(private Service:OrderService) {
+  constructor(private Service:OrderService,private toastService: ToastService,private spinner: NgxSpinnerService,) {
 
    }
 
@@ -64,5 +66,36 @@ get_invoice(data_order_number):void {
   );
 }
 
+CancelRequest(id)
+{
+  this.spinner.show();
+  id= id.split("-").join("");
+  let data={
+    id:id,
+    order_status:'10'
+  };
+  this.Service.CancelRequest(data).subscribe((response)=>
+   {
+    this.spinner.hide();
+     if(response == "Success")
+     {
+      this.toastService.show('Requested for Cancel', {
+        classname: 'bg-danger text-light',
+        delay: 2000,
+        autohide: true,
+        headertext: 'Successfull'
+      });
+     }
+     else
+     {
+      this.toastService.show('Something went Wrong!!', {
+        classname: 'bg-danger text-light',
+        delay: 2000,
+        autohide: true,
+        headertext: 'Successfull'
+      });
+     }
+    });
+}
 
 }
