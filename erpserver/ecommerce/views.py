@@ -12,6 +12,7 @@ from rest_framework.response import Response
 
 from ecommerce.service import EcomService
 from engine.payment_service import PaymentService
+from sales.models import OrderRequest
 from sales.service import OrderService
 
 
@@ -189,3 +190,16 @@ def check_promo_code(request):
         return JsonResponse(res, safe=False, status=status.HTTP_200_OK)
     else:
         return JsonResponse("Not a valid code", safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def update_order_status(request):
+    try:
+        order_id = request.data['id']
+        order_status = request.data['order_status']
+        order = OrderRequest.objects.get(id=order_id)
+        order.order_status = order_status
+        order.save()
+        return JsonResponse("Success", safe=False, status=status.HTTP_200_OK)
+    except Exception as e:
+        return JsonResponse('Fail', safe=False, status=status.HTTP_400_BAD_REQUEST)

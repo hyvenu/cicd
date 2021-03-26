@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/v1/get_invoice_pdf', views.get_invoice_pdf, name="get_invoice_pdf"),
     path('api/v1/get_avg_rating', views.get_aggregate_rating, name="get_aggregate_rating"),
     path('api/v1/check_promo_code', views.check_promo_code, name="check_promo_code"),
+    path('api/v1/update_order_status', views.update_order_status, name="update_order_status"),
 ]
