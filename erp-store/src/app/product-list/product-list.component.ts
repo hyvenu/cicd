@@ -1,7 +1,7 @@
 import { ToastService } from './../shared/toast/toast.service';
 import { SharedService } from './../shared/shared.service';
 import { ProductlistService } from './productlist.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -27,6 +27,11 @@ export class ProductListComponent implements OnInit {
   constructor(private route: Router, private Service: ProductlistService, private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute, private sharedService: SharedService, private toastService: ToastService,
     private _snackBar: MatSnackBar) {
+      // this.activatedRoute.params.subscribe((params: Params) => {
+      //   console.log(params)
+      //   this.categoryName = params['data'];
+      //   console.log(this.categoryName);
+      // });
 
   }
 
@@ -39,8 +44,9 @@ export class ProductListComponent implements OnInit {
       }
     );
 
-    // this.activatedRoute.params.subscribe(paramsId => {
-    //   this.categoryName = paramsId.id;
+    // this.activatedRoute.params.subscribe((params: Params) => {
+    //   this.categoryName = params['data'];
+    //   console.log(this.categoryName);
     // });
     this.categoryName = this.activatedRoute.snapshot.queryParams['data'];
     this.GetProducts();

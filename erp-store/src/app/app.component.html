@@ -13,7 +13,7 @@
         
         <mat-sidenav-content class="example-sidenav-container" >
             <app-header (sidenavToggle)="sidenav.toggle()" ></app-header>
-            <main style="margin-top: 5em;">
+            <main style="margin-top: 5em;margin-bottom: 5em;">
                 <router-outlet (activate)="onActivate($event, outlet)" #outlet></router-outlet>
                 <app-toast></app-toast>
                 <app-footer fxHide.lt-md="true"></app-footer>

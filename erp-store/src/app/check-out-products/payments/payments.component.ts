@@ -78,18 +78,21 @@ export class PaymentsComponent implements OnInit {
         (data) =>{
           // this.router.navigateByUrl('OrderSummary?error=false&order_number='+this.order_number);
           window.location.href='OrderSummary?error=false&order_number='+this.order_number;
+          // this.router.navigateByUrl('OrderSummary?error=false&order_number='+ this.order_number);
 
         },
         (error) => {
           // this.router.navigateByUrl('OrderSummary?error=true&order_number='+ this.order_number);
-          window.location.href='OrderSummary?error=true&order_number='+ this.order_number;
+         window.location.href='OrderSummary?error=true&order_number='+ this.order_number;
+      // this.router.navigateByUrl('OrderSummary?error=true&order_number='+ this.order_number);
         }
       )
     });
     options.modal.ondismiss = (() => {
       // handle the case when user closes the form while transaction is in progress
       console.log('Transaction cancelled.');
-      window.location.href='OrderSummary?error=true&order_number='+ this.order_number;
+      // window.location.href='OrderSummary?error=true&order_number='+ this.order_number;
+      this.router.navigateByUrl('OrderSummary?error=true&order_number='+ this.order_number);
     });
     const rzp = new this.winRef.nativeWindow.Razorpay(options);
     rzp.open();

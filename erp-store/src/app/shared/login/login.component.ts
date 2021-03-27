@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
        sessionStorage.setItem("user_id",data.user_id);
        sessionStorage.setItem("phone_number",data.phone_number);
        window.location.href="Home";
+      // this.router.navigateByUrl('\Home');
       },(error)=>
       {
         console.log(error);

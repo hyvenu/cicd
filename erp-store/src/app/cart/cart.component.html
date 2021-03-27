@@ -1,16 +1,25 @@
 <div>
-    <mat-card>
+    <mat-card style="margin-bottom: 1em;">
         <mat-card-title >
-            <mat-toolbar color="primary" style="position: static;background-color:#3f51b5;">
+           
+            <!-- <div *ngIf="cartItems.length > 0">
             <i class="fa fa-shopping-cart" aria-hidden="true"></i> My Shopping Cart ({{cartItems.length}})
-            <a *ngIf="cartItems.length > 0"  fxHide.lt-md="true" mat-raised-button  href="#" roterLink="Home"
-                ><i class="icon-arrow-left"></i>&nbsp;Shop more >></a>
-            <div *ngIf="cartItems.length === 0" class="alert alert-info">Your Cart is Empty &nbsp;<a
-                mat-raised-button href="#" roterLink="Home"><i
+            <a *ngIf="cartItems.length > 0"  fxHide.lt-md="true"  href="#"  class="btn btn-outline-info pull-right"
+                ><i class="icon-arrow-left "></i>&nbsp;Continue Shopping </a>
+            </div>    
+            <div *ngIf="cartItems.length === 0" mat-list-item>Your Cart is Empty &nbsp;<a
+                mat-raised-button href="#"><i
                         class="icon-arrow-left"></i>&nbsp;Back
                     to Shopping</a></div>
-            <div class="clearfix"></div>
-            </mat-toolbar>
+            <div class="clearfix"></div> -->
+            <div class="card-header text-light" style="background-color: #6d7fcc;">
+                <i class="fa fa-shopping-cart"  aria-hidden="true" style="color: white;"></i> My Cart ({{cartItems.length}})
+                <a *ngIf="cartItems.length > 0" fxHide.lt-md="true" class="btn  btn-sm pull-right" href="#" roterLink="Home" style="color: white;border-color: white;"><i
+                  class="icon-arrow-left"></i>&nbsp;Continue Shopping</a>
+                <div *ngIf="cartItems.length === 0" class="alert alert-info">Your Cart is Empty &nbsp;<a class="btn btn-outline-secondary btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back
+                  to Shopping</a></div>
+                <div class="clearfix"></div>
+            </div>
         </mat-card-title>
         <mat-card-content>
     
@@ -63,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+                <mat-divider></mat-divider>
             </div>
 
         
@@ -74,7 +83,7 @@
         <mat-card-footer *ngIf="cartItems.length > 0">
        
             <div class="pull-right" style="margin: 10px">
-                <a href="/checkout" class="btn btn-outline-info btn-sm pull-right"
+                <a href="/checkout" class="pull-right" mat-raised-button color="primary"
                     *ngIf="cartItems.length > 0">Checkout</a>
                 <div class="pull-right" style="margin: 5px">
                     Total price: <b>{{ cartTotal | currency:'INR'}}</b>

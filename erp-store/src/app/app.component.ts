@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -11,7 +12,11 @@ export class AppComponent {
   title = 'erp-store';
   routerSubscription: Subscription;
 
-    constructor(private router: Router) {}
+    constructor(private router: Router,private swUpdate: SwUpdate) {
+      swUpdate.available.subscribe(event => {
+          window.location.reload();
+      });
+    }
   ngonInit(){
 
     // this.routerSubscription = this.router.events.filter(event => event instanceof NavigationEnd)
