@@ -3,6 +3,7 @@ import { registerUser } from '../../models/regsiterUser'
 import { AbstractControl, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { SharedService } from '../shared.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -35,7 +36,8 @@ export class RegisterComponent implements OnInit {
   Invalid:any;
   flag=false;
   register = new registerUser();
-  constructor(private Service:SharedService,private fb:FormBuilder,private router:Router) { }
+  constructor(private Service:SharedService,private fb:FormBuilder,private router:Router
+    ,private _snackBar: MatSnackBar) { }
 
    ngOnInit(): void {
      console.log(this.register);
@@ -100,6 +102,9 @@ export class RegisterComponent implements OnInit {
           console.log(error)
           this.flag=true;
           this.errorMsg =this.Service.registerError(error.message);
+          this._snackBar.open(this.errorMsg,"OK", {
+            duration: 1000,
+          })
 
           
       });

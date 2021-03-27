@@ -3,6 +3,7 @@ import { WishlistService } from './wishlist.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SharedService } from '../shared/shared.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-wishlist',
@@ -14,7 +15,8 @@ export class WishlistComponent implements OnInit {
   BaseUrl=environment.BASE_SERVICE_URL+'/';
 
   constructor(private Service:WishlistService,private route:Router,
-    private sharedService:SharedService) { }
+    private sharedService:SharedService,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.GetWishlist();

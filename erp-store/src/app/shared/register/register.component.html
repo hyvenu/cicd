@@ -1,7 +1,7 @@
 <section class="testimonial py-5" id="testimonial">
     <div class="container">
         <div class="row ">
-            <div class="col-md-4 py-5 text-white text-center " style="background-color: #6d7fcc;">
+            <div class="col-md-4 py-5 text-white text-center " style="background-color:#3f51b5;">
                 <div class=" ">
                     <div class="card-body">
                         <img src="/assets/img/Saffaran-logo.png" style="width:30%">
@@ -149,11 +149,11 @@
                     </div> -->
 
                     <div class="form-row">
-                        <button type="button" (click)="onSubmit()" class="btn btn-danger">Register</button>
+                        <button mat-raised-button type="button" (click)="onSubmit()" class="btn btn-danger">Register</button>
                     </div><br>
-                    <div *ngIf="flag" class="alert alert-danger">
+                    <!-- <div *ngIf="flag" class="alert alert-danger">
                         {{errorMsg}}
-                    </div>
+                    </div> -->
 
                 </form>
             </div>

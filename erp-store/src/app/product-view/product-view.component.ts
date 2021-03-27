@@ -7,6 +7,7 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { isDefined } from '@angular/compiler/src/util';
 import { ToastService } from '../shared/toast/toast.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-view',
@@ -29,7 +30,8 @@ export class ProductViewComponent implements OnInit {
     private sharedService: SharedService,
     private route: Router,
     private spinner: NgxSpinnerService,
-    private toastService:ToastService) {
+    private toastService:ToastService,
+    private _snackBar: MatSnackBar) {
     //   this.activatedRoute.params.subscribe(paramsId => {
     //     this.productcode = paramsId.id;
     // });
@@ -76,12 +78,15 @@ export class ProductViewComponent implements OnInit {
           unit_price: price
         }
         this.Service.AddToCart(Cart).subscribe((data) => {
-          this.toastService.show('Added to Cart', {
-            classname: 'bg-primary text-light',
-            delay: 2000 ,
-            autohide: true,
-            headertext: 'Successfull'
-          });
+          // this.toastService.show('Added to Cart', {
+          //   classname: 'bg-primary text-light',
+          //   delay: 2000 ,
+          //   autohide: true,
+          //   headertext: 'Successfull'
+          // });
+          this._snackBar.open('Item added to cart',"OK", {
+            duration: 1000,
+          })
           this.sharedService.changeMessage(data.length.toString());
           console.log(data);
         });

@@ -4,6 +4,7 @@ import { User } from '../../models/User';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,7 +16,9 @@ export class LoginComponent implements OnInit {
   Invalid=false;
   forgot_password_like = environment.BASE_SERVICE_URL + '/accounts/password_reset/';
 
-  constructor(private Service:SharedService,private router:Router) { }
+  constructor(private Service:SharedService,
+    private router:Router,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.LoginForm = new FormGroup(
@@ -46,12 +49,15 @@ export class LoginComponent implements OnInit {
        sessionStorage.setItem("user_id",data.user_id);
        sessionStorage.setItem("phone_number",data.phone_number);
        window.location.href="Home";
+      // this.router.navigateByUrl('\Home');
       },(error)=>
       {
         console.log(error);
         this.Invalid = true;
         this.error = this.Service.handleError(error.message);
-
+        this._snackBar.open(this.error,"OK", {
+          duration: 1000,
+        })
       });
 
     }

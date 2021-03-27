@@ -9,10 +9,12 @@ import { HomeserviceService } from 'src/app/home/homeservice.service';
 })
 export class SideNavbarContentComponent implements OnInit {
   CategoryList: any;
+  first_name: string;
 
   constructor(private Service:HomeserviceService,private router:Router) { }
 
   ngOnInit(): void {
+    this.first_name = sessionStorage.getItem('first_name')
     this.GetCategories();
   }
 
@@ -68,7 +70,8 @@ export class SideNavbarContentComponent implements OnInit {
   GoToCategoryList(category)
   {
     // this.router.navigate(['/category/'+category])
-    window.location.href='/category/'+category;
+    // this.router.navigateByUrl('/category?data='+category)
+    window.location.href='/category?data='+category;
   }
 
 }

@@ -37,6 +37,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { MatInputModule } from "@angular/material/input";
 import {MatDividerModule} from '@angular/material/divider';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatSelectModule,
     OverlayModule,
     MatInputModule,
-    MatDividerModule
+    MatDividerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })
 
   ],
   providers: [

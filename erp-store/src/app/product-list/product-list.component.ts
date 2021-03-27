@@ -1,11 +1,12 @@
 import { ToastService } from './../shared/toast/toast.service';
 import { SharedService } from './../shared/shared.service';
 import { ProductlistService } from './productlist.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-list',
@@ -24,7 +25,13 @@ export class ProductListComponent implements OnInit {
   max: any;
   wishlist: any;
   constructor(private route: Router, private Service: ProductlistService, private spinner: NgxSpinnerService,
-    private activatedRoute: ActivatedRoute, private sharedService: SharedService, private toastService: ToastService) {
+    private activatedRoute: ActivatedRoute, private sharedService: SharedService, private toastService: ToastService,
+    private _snackBar: MatSnackBar) {
+      // this.activatedRoute.params.subscribe((params: Params) => {
+      //   console.log(params)
+      //   this.categoryName = params['data'];
+      //   console.log(this.categoryName);
+      // });
 
   }
 
@@ -37,8 +44,9 @@ export class ProductListComponent implements OnInit {
       }
     );
 
-    // this.activatedRoute.params.subscribe(paramsId => {
-    //   this.categoryName = paramsId.id;
+    // this.activatedRoute.params.subscribe((params: Params) => {
+    //   this.categoryName = params['data'];
+    //   console.log(this.categoryName);
     // });
     this.categoryName = this.activatedRoute.snapshot.queryParams['data'];
     this.GetProducts();
@@ -119,12 +127,15 @@ export class ProductListComponent implements OnInit {
         this.Service.AddToCart(Cart).subscribe((data) => {
           //this.count = data.length.toString();
           this.sharedService.changeMessage(data.length.toString());
-          this.toastService.show('Added to Cart', {
-            classname: 'bg-primary text-light',
-            delay: 2000,
-            autohide: true,
-            headertext: 'Successfull'
-          });
+          // this.toastService.show('Added to Cart', {
+          //   classname: 'bg-primary text-light',
+          //   delay: 2000,
+          //   autohide: true,
+          //   headertext: 'Successfull'
+          // });
+          this._snackBar.open('Item added to cart',"OK", {
+            duration: 1000,
+          })
           console.log(data);
         });
       }
@@ -215,7 +226,10 @@ export class ProductListComponent implements OnInit {
       this.Service.AddToWishList(data).subscribe(
         (data) => {
           product.wish_list_flag = 1;
-          this.showSuccess();
+          // this.showSuccess();
+          this._snackBar.open("Item added to whislist","OK", {
+            duration: 1000,
+          })
           this.sharedService.changewhilistMessage(data.length.toString());
         }
       )
@@ -249,7 +263,10 @@ export class ProductListComponent implements OnInit {
     this.Service.RemoveWishList(data).subscribe(
       (data) => {
         product.wish_list_flag = 0;
-        this.showError();
+        // this.showError();
+        this._snackBar.open("Removed from wishlist","OK", {
+          duration: 1000,
+        })
         this.sharedService.changewhilistMessage(data.length.toString());
       }
     )

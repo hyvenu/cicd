@@ -82,12 +82,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   Search(data: any) {
     if (data.length >= 3) {
-      // this.route.navigate(["/category/" + data]);
+      // this.route.navigateByUrl("/category?data=" + data);
       window.location.href = '/category?data=' + data;
     }
-    else {
-      this.route.navigate(['/']);
-    }
+    // else {
+    //   this.route.navigate(['/']);
+    // }
   }
 
   mouseEnter(subCategory: any) {
@@ -158,6 +158,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   GoToCategoryList(category) {
     // this.route.navigate(['/category/' + category])
     window.location.href = '/category?data=' + category;
+    // this.route.navigateByUrl('/category?data=' + category)
   }
 
   public onToggleSidenav = () => {

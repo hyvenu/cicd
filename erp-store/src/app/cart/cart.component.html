@@ -1,19 +1,30 @@
 <div>
-    <div class="card shopping-cart">
-        <div class="card-header text-light" style="background-color: #6d7fcc;">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> My Shipping cart ({{cartItems.length}})
-            <a *ngIf="cartItems.length > 0" class="btn  btn-sm pull-right" href="#" roterLink="Home"
-                style="border-color: white;color: white;"><i class="icon-arrow-left"></i>&nbsp;Continue Shopping</a>
-            <div *ngIf="cartItems.length === 0" class="alert alert-info">Your Cart is Empty &nbsp;<a
-                    class="btn btn-outline-secondary btn-sm" href="#" roterLink="Home"><i
+    <mat-card style="margin-bottom: 1em;">
+        <mat-card-title >
+           
+            <!-- <div *ngIf="cartItems.length > 0">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> My Shopping Cart ({{cartItems.length}})
+            <a *ngIf="cartItems.length > 0"  fxHide.lt-md="true"  href="#"  class="btn btn-outline-info pull-right"
+                ><i class="icon-arrow-left "></i>&nbsp;Continue Shopping </a>
+            </div>    
+            <div *ngIf="cartItems.length === 0" mat-list-item>Your Cart is Empty &nbsp;<a
+                mat-raised-button href="#"><i
                         class="icon-arrow-left"></i>&nbsp;Back
                     to Shopping</a></div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="card-body">
-            <!-- PRODUCT -->
+            <div class="clearfix"></div> -->
+            <div class="card-header text-light" style="background-color: #6d7fcc;">
+                <i class="fa fa-shopping-cart"  aria-hidden="true" style="color: white;"></i> My Cart ({{cartItems.length}})
+                <a *ngIf="cartItems.length > 0" fxHide.lt-md="true" class="btn  btn-sm pull-right" href="#" roterLink="Home" style="color: white;border-color: white;"><i
+                  class="icon-arrow-left"></i>&nbsp;Continue Shopping</a>
+                <div *ngIf="cartItems.length === 0" class="alert alert-info">Your Cart is Empty &nbsp;<a class="btn btn-outline-secondary btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back
+                  to Shopping</a></div>
+                <div class="clearfix"></div>
+            </div>
+        </mat-card-title>
+        <mat-card-content>
+    
             <div class="items-bottom" fxLayout="row wrap" fxLayoutGap="grid" *ngFor="let cartItem of cartItems; let i = index" [attr.data-index]="i">
-                <!-- <hr/> -->
+             
                 <div fxFlex="20%" fxFlex.xs="100%" fxFlex.sm="20%" class="img-center">
                     <a href="/productview?data={{cartItem.product__product_code}}">
                     <img class="img-responsive" [src]="BaseUrl + '/' +cartItem.image" alt="prewiew" width="120"
@@ -50,10 +61,7 @@
                                 <strong>Sub Total : {{cartItem.sub_total| currency:'INR'}}</strong>
                             </div>
                         </div>
-                        <!-- <div class="col-2 col-sm-2 col-md-2 text-right">
-                                <h5><strong> {{cartItem.sub_total| currency:'INR'}}</strong></h5>
-
-                             </div> -->
+                    
                         <div fxFlex="20%" fxFlex.xs="20%" fxFlex.sm="20%" class="text-right desktop-view">
                             <button type="button" class="btn btn-xs desktop-view" style="color: red;"
                                 (click)="handleRemoveFromCart(cartItem)">
@@ -64,34 +72,23 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+                <mat-divider></mat-divider>
             </div>
 
-            <!-- END PRODUCT -->
-            <!-- PRODUCT -->
+        
 
             <hr>
-            <!-- END PRODUCT -->
-
-        </div>
-        <div class="card-footer" *ngIf="cartItems.length > 0">
-            <!-- <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
-                     <div class="row">
-                         <div class="col-6">
-                             <input type="text" class="form-control" placeholder="cupon code">
-                         </div>
-                         <div class="col-6">
-                             <input type="submit" class="btn btn-sm btn-outline-info" value="Use cupon">
-                         </div>
-                     </div>
-                 </div> -->
+           
+        </mat-card-content>
+        <mat-card-footer *ngIf="cartItems.length > 0">
+       
             <div class="pull-right" style="margin: 10px">
-                <a href="/checkout" class="btn btn-outline-info btn-sm pull-right"
+                <a href="/checkout" class="pull-right" mat-raised-button color="primary"
                     *ngIf="cartItems.length > 0">Checkout</a>
                 <div class="pull-right" style="margin: 5px">
                     Total price: <b>{{ cartTotal | currency:'INR'}}</b>
                 </div>
             </div>
-        </div>
-    </div>
+        </mat-card-footer>
+    </mat-card>
 </div>
