@@ -19,7 +19,7 @@
                         <li class="mega-menu-column">
                             <ul class="list-group">
                                 <!-- <li class="nav-header">Categories</li> -->
-                                <li>
+                                <li id="list-items">
                                     <a class="list-group-item list-group-item-action flex-column align-items-start" (mouseenter)="mouseEnter(category.Subcatogories)" (click)="mouseEnter(category.Subcatogories)" *ngFor="let category of CategoryList; let i=index">
                         {{category.category_name}}
                         </a>
@@ -30,7 +30,7 @@
                         <li class="mega-menu-column">
                             <ul class="list-group">
                                 <!-- <li class="nav-header">SubCategories</li> -->
-                                <li>
+                                <li id="list-items">
                                     <a class="list-group-item dropdown-item" href="category?data={{subCategory.sub_category_name}}" *ngFor="let subCategory of subcategorylist" style="color: black;">
                                   {{subCategory.sub_category_name}}</a>
 

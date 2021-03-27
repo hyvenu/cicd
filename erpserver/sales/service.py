@@ -24,6 +24,13 @@ ORDER_STATUS_DICT = {
     '7': 'Out For Delivery',
     '8': 'Delivered',
     '9': 'Cancel',
+    '10': 'Cancel Request',
+    '11': 'Order Cancel Review',
+    '12': 'Cancel Confirm',
+    '13': 'Refund Initiate',
+    '14' : 'Refund Completed',
+    '15' : 'Cancel Rejected'
+
 }
 
 PAYMENT_METHOD_DICT = {
@@ -78,6 +85,20 @@ class OrderService:
             flow.append({'order_status': '9', 'text': ORDER_STATUS_DICT['9']})
         elif current_status == 8:
             flow.append({'order_status': '9', 'text': ORDER_STATUS_DICT['9']})
+        elif current_status == 10:
+            flow.append({'order_status': '11', 'text': ORDER_STATUS_DICT['11']})
+            flow.append({'order_status': '15', 'text': ORDER_STATUS_DICT['15']})
+        elif current_status == 11:
+            flow.append({'order_status': '12', 'text': ORDER_STATUS_DICT['12']})
+            flow.append({'order_status': '15', 'text': ORDER_STATUS_DICT['15']})
+        elif current_status == 12:
+            flow.append({'order_status': '13', 'text': ORDER_STATUS_DICT['13']})
+            flow.append({'order_status': '15', 'text': ORDER_STATUS_DICT['15']})
+        elif current_status == 13:
+            flow.append({'order_status': '14', 'text': ORDER_STATUS_DICT['14']})
+            flow.append({'order_status': '15', 'text': ORDER_STATUS_DICT['15']})
+        elif current_status == 14:
+            flow.append({'order_status': '14', 'text': ORDER_STATUS_DICT['14']})
 
         return flow
 
