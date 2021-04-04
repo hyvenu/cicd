@@ -17,19 +17,26 @@ export class OrderListComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false,      
+      delete: false,   
+         
       },
     columns: {
+      Actions: //or something
+      {
+        title:'Detail',
+        type:'html',
+        valuePrepareFunction:(cell,row)=>{
+          return `<a href="OrderView?id=${row.id}">View</a>`;
+        },
+        filter:false       
+      },
       id: {
         title: 'id',
         hide:true
       },
-      product_code: {
-        title: 'Order Number',        
-        type: 'html',
-        valuePrepareFunction: (cell, row) => {
-          return `<a href="OrderView?id=${row.id}">${row.order_number}</a>`;
-        }
+      order_number: {
+        title: 'Order Number',       
+
       },
       order_raised_date:{
         title:'Order Raised Date'

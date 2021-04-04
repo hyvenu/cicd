@@ -211,7 +211,9 @@ export class PurchaseOrderComponent implements OnInit {
     if (item.unit_price > 0 && item.qty > 0) {
       item.amount = (item.unit_price * item.qty) * 1.00
       item.disc_amount = ((item.amount * item.disc_percent) / 100.00)
-      item.gst_amount = ((item.amount * item.gst) / 100.00)
+     
+      item.total_amount = (item.amount - item.disc_amount) 
+      item.gst_amount = ((item.total_amount * item.gst) / 100.00)
       this.calculate_total();
     }
 
@@ -221,7 +223,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.sub_total = 0;
     console.log(this.selected_product_list);
     this.selected_product_list.forEach(element => {
-      this.sub_total = this.sub_total + (element.amount - element.disc_amount)
+      this.sub_total = this.sub_total + element.total_amount
     });
     this.calculate_packing();
 
@@ -233,6 +235,9 @@ export class PurchaseOrderComponent implements OnInit {
       this.packing_amount = ((this.sub_total * packing_percnt) / 100.00)
       this.total_amount = this.sub_total + this.packing_amount;
       this.calculate_gst();
+    }else {
+      this.total_amount = this.sub_total
+      this.calculate_gst();
     }
   }
 
@@ -241,13 +246,19 @@ export class PurchaseOrderComponent implements OnInit {
     this.selected_product_list.forEach(element => {
       if (this.total_amount > 0) {
         total_gst = (total_gst + element.gst_amount);
+      }else{
+        total_gst = 0
       }
     });
-    if (this.selected_vendor.state_code == '29') {
+    if (this.selected_vendor !== undefined){
+     if (this.selected_vendor.state_code == '29') {
       this.sgst = total_gst / 2;
       this.cgst = total_gst / 2;
     } else {
-      this.igst = total_gst / 2;
+      this.igst = total_gst;
+    }
+    }else {
+      this.igst = total_gst ;
     }
 
     this.invoice_amount = this.igst + this.cgst + this.sgst + this.total_amount;
@@ -331,6 +342,7 @@ export class PurchaseOrderComponent implements OnInit {
                             disc_percent: 0.0,
                             disc_amount: 0.0,
                             gst_amount: 0.0,
+                            total_amount:0.0,
   
                           });
                         });

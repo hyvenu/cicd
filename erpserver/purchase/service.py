@@ -236,6 +236,7 @@ class PurchaseService:
             po_product.disc_percent = item['disc_percent']
             po_product.disc_amount = item['disc_amount']
             po_product.gst_amount = item['gst_amount']
+            po_product.total_amount = item['total_amount']
             po_product.save()
         return po_order_req.po_number
 
@@ -284,6 +285,7 @@ class PurchaseService:
             "disc_percent",
             "disc_amount",
             "gst_amount",
+            "total_amount",
         ))
         return po_data_list
 

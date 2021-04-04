@@ -15,6 +15,7 @@ class WishListSerializer(serializers.ModelSerializer):
         models = models.WishList
         fields = ['user', 'product']
 
+
 class RatingSerializer(serializers.ModelSerializer):
 
     class Meta:

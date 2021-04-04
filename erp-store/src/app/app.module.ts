@@ -85,7 +85,7 @@ import { environment } from '../environments/environment';
     OverlayModule,
     MatInputModule,
     MatDividerModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: true })
 
   ],
   providers: [

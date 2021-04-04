@@ -107,16 +107,17 @@
                     <thead style="font-size: smaller;" >
                         <th></th>
                         <th>Product Code</th>
-                        <th>Product Name & Description</th>
+                        <th>Product Name & Desc</th>
                         <th>Required Qty</th>
                         <th>Unit</th>
                         <th>Delivery Date</th>
                         <th>Unit Price</th>
                         <th>GST %</th>
                         <th>Amount</th>
-                        <th>Discount %</th>
-                        <th>Discount Amount %</th>
-                        <th>GST Amount</th>
+                        <th>Disc %</th>
+                        <th>Disc Amt</th>
+                        <th>Total Amount</th>
+                        <th>GST Amt</th>
                     </thead>
                     <tbody style="font-size: smaller;" >
                         <tr *ngFor="let item of selected_product_list">
@@ -136,7 +137,9 @@
                             <td><input nbInput  fieldSize="small"   placeholder="Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly /></td> 
                             <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="Disc %" min="0" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_percent" (change)="calculate_sub_total(item);"/></td> 
                             <td><input nbInput  fieldSize="small"   placeholder="Disc Amt." type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_amount" readonly/></td> 
+                            <td><input nbInput  fieldSize="small"   placeholder="Total Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.total_amount" readonly /></td> 
                             <td><input nbInput  fieldSize="small"  placeholder= "GST Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly/></td> 
+                           
                                 <!-- <input [nbDatepicker]="datepicker"> -->
                                 <nb-datepicker #del_datepicker format="yyyy-MM-DD" ></nb-datepicker>
 

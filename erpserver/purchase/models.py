@@ -53,7 +53,7 @@ class PoOrderDetails(AuditUuidModelMixin):
     disc_percent = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     disc_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     class Meta:
         pass
 
