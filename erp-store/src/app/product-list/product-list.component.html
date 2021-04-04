@@ -25,7 +25,7 @@
     <div fxFlex="78%" fxFlex.xs="100%" fxFlex.sm="78%" id="productdisplay">
         <div class="content">
             <div fxLayout="row wrap" fxLayoutGap="16px grid">
-                <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let Product of FilteredList">
+                <div fxFlex="25%" fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let Product of FilteredList">
                     <mat-card class="mat-elevation-z4">
                         <div (click)="GotoProductview(Product.product_code)" id="product">
                             <mat-card-header style="justify-content: center;">
@@ -33,8 +33,8 @@
 
                                 </mat-card-title>
                             </mat-card-header>
-                            <img height="150" width="150" style="border: 0;" mat-card-image *ngIf="Product.product_image" src="{{BaseUrl+Product.product_image}}">
-                            <img height="150" width="150" style="border: 0;" mat-card-image *ngIf="!Product.product_image" src="/assets/no-image-icon.jpg">
+                            <img class="product-image" width="150" style="border: 0;" mat-card-image *ngIf="Product.product_image" src="{{BaseUrl+Product.product_image}}">
+                            <img class="product-image" width="150" style="border: 0;" mat-card-image *ngIf="!Product.product_image" src="/assets/no-image-icon.jpg">
                             <mat-card-content>
                                 <p style="font-size: smaller; ">
                                     {{Product.brand__brand_name}}
@@ -60,7 +60,7 @@
 
                                     </mat-form-field>
                                 </div>
-                                <div class="form-group" style="display: flex;">
+                                <div class="form-group" class="addToCart">
                                     <input type="number" min="1" class="form-control" id="exampleFormControlInput1" name="Quantity" placeholder="Quantity" ngModel required> &nbsp;
                                     <button type="submit" class="btn btn-outline-primary btn-sm" style="width: -webkit-fill-available;">Add to cart</button> &nbsp;&nbsp;
                                     <span class="float-right">

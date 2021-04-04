@@ -8,7 +8,7 @@ input.ng-invalid.ng-touched {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     font-size: 16px;
 }
@@ -47,6 +47,20 @@ mat-slider {
     display: none;
 }
 
+.product-image {
+    height: 15em;
+}
+
+.addToCart {
+    display: flex;
+}
+
+.float-right {
+    position: absolute;
+    top: 4%;
+    right: 5%;
+}
+
 @media (min-width: 768px) {
     #sidebar-wrapper {
         display: block;
@@ -70,5 +84,11 @@ mat-slider {
     }
     .content {
         padding: 0 5% 0 5%;
+    }
+    .product-image {
+        height: 6em;
+    }
+    .addToCart {
+        display: block;
     }
 }
