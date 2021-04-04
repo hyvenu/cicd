@@ -27,25 +27,21 @@
     </div>
     <div fxFlex="78%" fxFlex.xs="100%" fxFlex.sm="78%" id="productdisplay">
         <div class="content">
-            <div fxLayout="row wrap" fxLayoutGap="2px grid">
-                <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let Product of FilteredList">
-                    <mat-card >
-                        <div id="product">
-                            <mat-card-header class="float-right">
-                                
-                                    <span >
-                                        <i *ngIf="Product.wish_list_flag==1"  class="fa fa-heart float-right" style="color: palevioletred;" (click)="RemoveFromWishlist(Product)"></i>
-                                        <i *ngIf="Product.wish_list_flag==0"  class="fa fa-heart-o float-right" (click)="AddToWishlist(Product)"></i>
-                                    </span>
-                                
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                <div fxFlex="25%" fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let Product of FilteredList">
+                    <mat-card class="mat-elevation-z4">
+                        <div (click)="GotoProductview(Product.product_code)" id="product">
+                            <mat-card-header style="justify-content: center;">
+                                <mat-card-title class="overflowText">{{Product.product_name}}
+
+                                </mat-card-title>
                             </mat-card-header>
-                            <img  (click)="GotoProductview(Product.product_code)" height="150" width="150" style="border: 0;" mat-card-image *ngIf="Product.product_image" src="{{BaseUrl+Product.product_image}}">
-                            <img  (click)="GotoProductview(Product.product_code)" height="150" width="150" style="border: 0;" mat-card-image *ngIf="!Product.product_image" src="/assets/no-image-icon.jpg">
-                            <mat-card-content (click)="GotoProductview(Product.product_code)">
-                                <p style="font-size: smaller;color: grey; ">
-                                    Brand: {{Product.brand__brand_name}}<br>
-                                    <span style="font-size: small;color:black;"> {{Product.product_name}}</span>
-                                </p>                                
+                            <img class="product-image" width="150" style="border: 0;" mat-card-image *ngIf="Product.product_image" src="{{BaseUrl+Product.product_image}}">
+                            <img class="product-image" width="150" style="border: 0;" mat-card-image *ngIf="!Product.product_image" src="/assets/no-image-icon.jpg">
+                            <mat-card-content>
+                                <p style="font-size: smaller; ">
+                                    {{Product.brand__brand_name}}
+                                </p>
                             </mat-card-content>
                         </div>
                         <mat-card-actions>

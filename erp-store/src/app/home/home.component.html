@@ -13,17 +13,17 @@
         <!-- <div id="category-name"></div> -->
         <br>
         <div class="content">
-            <div fxLayout="row wrap" fxLayoutGap="2px grid">
-                <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let subcategory of category.Subcatogories">
-                    <mat-card >
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                <div fxFlex="25%" fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let subcategory of category.Subcatogories">
+                    <mat-card class="mat-elevation-z4">
                         <div (click)="GoToCategoryList(subcategory.category__category_name)" id="category">
                             <mat-card-header style="justify-content: center;">
                                 <!-- <mat-card-title class="overflowText">{{subcategory.sub_category_name}}</mat-card-title> -->
                             </mat-card-header>
 
                             <!-- <img height="200px" mat-card-image src="{{BaseUrl+subcategory.sub_category_image}}"> -->
-                            <img height="150em" width="10em" style="border: 0;" mat-card-image *ngIf="subcategory.sub_category_image" src="{{BaseUrl+subcategory.sub_category_image}}">
-                            <img height="150em" width="10em" style="border: 0;" mat-card-image *ngIf="!subcategory.sub_category_image" src="/assets/no-image-icon.jpg">
+                            <img class="product-image" width="10em" style="border: 0;" mat-card-image *ngIf="subcategory.sub_category_image" src="{{BaseUrl+subcategory.sub_category_image}}">
+                            <img class="product-image" width="10em" style="border: 0;" mat-card-image *ngIf="!subcategory.sub_category_image" src="/assets/no-image-icon.jpg">
                             <mat-card-content>
                                     <span style="font-weight: 100;" class="overflowText">{{subcategory.sub_category_name}}</span>
                             </mat-card-content>

@@ -4,6 +4,10 @@
     font-size: 25px;
 }
 
+.product-image {
+    height: 15em;
+}
+
 a {
     color: #007185;
 }
@@ -124,5 +128,8 @@ div>p>img {
         float: none;
         display: flex;
         justify-content: center;
+    }
+    .product-image {
+        height: 6em;
     }
 }
