@@ -104,7 +104,10 @@ export class ProductViewComponent implements OnInit {
       //
       // console.log(data);
       if(data.length > 0){
-        this.ratings = data;
+        data.forEach(element => {
+          this.ratings.push(element);  
+        });
+        
       }
     });
   }

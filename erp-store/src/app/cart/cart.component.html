@@ -1,5 +1,5 @@
 <div>
-    <mat-card style="margin-bottom: 2em;">
+    <mat-card style="margin-top: 3em;">
         <mat-card-title>
            
             
@@ -8,14 +8,54 @@
                 <a *ngIf="cartItems.length > 0" mat-raised-button color="primary" fxHide.lt-md="true" class="btn  btn-sm pull-right" href="#" roterLink="Home" ><i
                   class="icon-arrow-left"></i>&nbsp;Continue Shopping</a>
                 </div>
-                <div *ngIf="cartItems.length === 0" class="alert alert-info">Your Cart is Empty &nbsp;<a class="btn btn-outline-secondary btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back
-                  to Shopping</a></div>
-                <div class="clearfix"></div><br>
-         
+                      
         </mat-card-title>
-        <mat-card-content>
-            
-            <div class="items-bottom" fxLayout="row wrap" fxLayoutGap="grid" *ngFor="let cartItem of cartItems; let i = index" [attr.data-index]="i">
+        <mat-card-content style="margin-bottom:2px">
+             <div *ngIf="cartItems.length > 0">
+            <mat-card  class="example-card" *ngFor="let cartItem of cartItems; let i = index" [attr.data-index]="i" style="margin-top: 1px;">
+                <mat-card-header>
+                  <div mat-card-avatar style="padding-right: 2.5em;" >
+                    <a href="/productview?data={{cartItem.product__product_code}}">
+                    <img mat-card-image  [src]="BaseUrl + '/' +cartItem.image" alt="prewiew" width="100"
+                    height="100">
+                    </a>
+                  </div>
+                   
+                  <mat-card-title>{{cartItem.product__product_name}}</mat-card-title>
+                  <mat-card-subtitle><small class="overflowText">{{cartItem.product__description}}</small></mat-card-subtitle>
+                  <mat-card-subtitle>Pack Type : {{cartItem.pack_unit__unit__PrimaryUnit}}</mat-card-subtitle>
+                  <mat-card-subtitle>Price :{{cartItem.pack_unit__sell_price | currency:'INR'}}</mat-card-subtitle>
+                  <div class="row">
+                    <div class="col-4 col-sm-4 col-md-4">
+                        <div class="quantity">
+                            <input type="button" value="+" class="plus" (click)="inc(cartItem)">
+                            <input type="number" step="1" max="99" min="1" value="1" [(ngModel)]="cartItem.qty" title="Qty" class="qty"
+                                   size="4">
+                            <input type="button" value="-" class="minus" (click)="dec(cartItem)">
+                        </div>
+                    </div>
+                    
+                    </div>
+                </mat-card-header>
+                
+                <mat-card-content>
+                    
+                  
+                </mat-card-content>
+                <mat-card-actions>
+                  <span>Sub Total : {{cartItem.sub_total| currency:'INR'}}</span>
+                  <button mat-button style="color: rgb(243, 88, 88);"  (click)="handleRemoveFromCart(cartItem)"> <span class="material-icons">delete</span>REMOVE</button>
+                 
+                </mat-card-actions>
+              </mat-card>
+            </div>
+            <div *ngIf="cartItems.length === 0" style="align-items: center;justify-content: center;text-align: center;">
+                <img    src="/assets/img/cart_empty.png" alt="prewiew" width="200"
+                    height="200">
+                    <a class="btn btn-outline-secondary btn-sm" href="#" roterLink="Home"><i class="icon-arrow-left"></i>&nbsp;Back
+                        to Shopping</a>
+            </div>
+            <!-- <div class="items-bottom" fxLayout="row wrap" fxLayoutGap="grid" *ngFor="let cartItem of cartItems; let i = index" [attr.data-index]="i">
                  
                 <div fxFlex="20%" fxFlex.xs="100%" fxFlex.sm="20%" class="img-center">
                     <a href="/productview?data={{cartItem.product__product_code}}">
@@ -43,26 +83,19 @@
                                     </span></h3>
                         </div>
                         <div fxFlex="50%" fxFlex.xs="50%" fxFlex.sm="50%" style="display: flex;">
-                            <!-- <div class="row col-md-6">
-                                <input type="button" value="+" class="plus" (click)="inc(cartItem)">
-                                <input type="number" step="1" max="99" min="1" [(ngModel)]="cartItem.qty" title="Qty"
-                                    class="qty" size="4">
-                                <input type="button" value="-" class="minus" (click)="dec(cartItem)">
-                            </div> -->
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary btn-sm">+</button>
-                                  </span>
-                                <input class="form-control input-sm" step="1" max="99" min="1" [(ngModel)]="cartItem.qty" >
-                                <span class="input-group-btn">
-                                  <button class="btn btn-primary btn-sm">-</button>
-                                </span>
+                            <div class="col-4 col-sm-4 col-md-4">
+                                <div class="quantity">
+                                    <input type="button" value="+" class="plus" (click)="inc(cartItem)">
+                                    <input type="number" step="1" max="99" min="1" value="1" [(ngModel)]="cartItem.qty" title="Qty" class="qty"
+                                           size="4">
+                                    <input type="button" value="-" class="minus" (click)="dec(cartItem)">
+                                </div>
                             </div>
-                            <div style="padding-top: 4%">
-                                <h4>Sub Total : {{cartItem.sub_total| currency:'INR'}}</h4>
-                            </div>
+                            
                         </div>
-                    
+                        <div style="padding-top: 4%">
+                            <h4>Sub Total : {{cartItem.sub_total| currency:'INR'}}</h4>
+                        </div>
                         <div fxFlex="20%" fxFlex.xs="20%" fxFlex.sm="20%" class="text-right desktop-view">
                             <button type="button" class="btn btn-xs desktop-view" style="color: red;"
                                 (click)="handleRemoveFromCart(cartItem)">
@@ -78,7 +111,7 @@
 
         
 
-            <hr>
+            <hr> -->
            
         </mat-card-content>
         <mat-card-footer *ngIf="cartItems.length > 0">
