@@ -100,9 +100,11 @@ export class ProductViewComponent implements OnInit {
 
   getRatings() {
     let id = this.Product.id;
+    this.ratings = [{user:'',product:'',id:'',comment:'',is_delete:'',first_name:''}];;
     this.Service.getRatings(id).subscribe((data) => {
       //
       // console.log(data);
+      
       if(data.length > 0){
         data.forEach(element => {
           this.ratings.push(element);  
