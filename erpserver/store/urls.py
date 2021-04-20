@@ -10,6 +10,10 @@ router.register("Department", api.DepartmentViewSet)
 router.register("StoreShip", api.StoreShipLocationsViewSet)
 router.register("ProductCampaign", api.ProductCampaignsViewSet)
 router.register("SiteSettings", api.SiteSettingsViewSet)
+router.register("StoreService", api.StoreServicesViewSet)
+router.register("Customer", api.CustomerViewSet)
+router.register("Appointment", api.AppointmentScheduleViewSet)
+router.register("Employee", api.EmpolyeeViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),

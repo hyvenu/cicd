@@ -22,5 +22,19 @@ export class OrderService {
   public updateOrderStatus(order_id,order_status){
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/update_order_status?id=${order_id}&order_status=${order_status}`, {})
   }
+  public savePO(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/save_po`, data)
+  }
+  public getPOList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_po_list`)
+  }
+
+  public getPODetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_po_details?id=${id}`)
+  }
+
+  public deleteProductFromPO(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/delete_po_product`, data)
+  }
 
 }

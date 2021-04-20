@@ -47,3 +47,19 @@ class ProductCampaignsViewSet(viewsets.ModelViewSet):
 class SiteSettingsViewSet(viewsets.ModelViewSet):
     queryset = models.SiteSettings.objects.all()
     serializer_class = serializers.SiteSettingsSerializer
+
+class StoreServicesViewSet(viewsets.ModelViewSet):
+    queryset = models.StoreServices.objects.all()
+    serializer_class = serializers.StoreServiceSerializer
+
+class CustomerViewSet(viewsets.ModelViewSet):
+    queryset = models.Customer.objects.all()
+    serializer_class = serializers.CustomerSerializer
+
+class AppointmentScheduleViewSet(viewsets.ModelViewSet):
+    queryset = models.AppointmentSchedule.objects.all()
+    serializer_class = serializers.AppointmentScheduleSerializer
+
+class EmpolyeeViewSet(viewsets.ModelViewSet):
+    queryset = models.Employee.objects.all()
+    serializer_class = serializers.EmployeeSerializer

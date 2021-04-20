@@ -9,4 +9,10 @@ urlpatterns = [
     path('api/v1/update_order_status', views.update_order_status, name="update_order_status"),
     path('api/v1/get_invoice_pdf', views.get_invoice_pdf, name="get_invoice_pdf"),
 
+
+    path('api/v1/save_po', views.save_po, name="save_po_data"),
+    path('api/v1/get_po_list', views.get_po_list, name="get_po_list"),
+    path('api/v1/get_po_details', views.get_po_details, name="get_po_details"),
+    path('api/v1/delete_po_product', views.delete_po_product, name="delete_po_product"),
+
 ]

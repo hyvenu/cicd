@@ -78,3 +78,30 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SiteSettings
         fields = ['id','setting_Type', 'setting_Value']
+
+
+class StoreServiceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.StoreServices
+        fields = ['id','store','service_name','service_desc','price']
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Customer
+        fields = ['id', 'customer_name', 'phone_number']
+
+class AppointmentScheduleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.AppointmentSchedule
+        fields = ['id','assigned_staff','service','booking_date','end_time','customer_name','start_time','phone_number','appointment_status','store']
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Employee
+        fields = ['id', 'employee_name', 'phone_number']

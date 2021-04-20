@@ -1,0 +1,35 @@
+<div id="" [formGroup]="ServiceFrom" >
+    <div class="row">
+        <div class="col-md-3">
+            <label for="Name"> Service Name</label>
+            <input nbInput formControlName="ServiceNameFormControl" name="Name" placeholder=" Name" />
+        </div>
+        <div class="col-md-3">
+            <label for="ServiceDescFormControl"> Description</label>
+            <input nbInput formControlName="ServiceDescFormControl" name="Desc" placeholder=" Desc"/>
+        </div>
+        <div class="col-md-3">
+            <label for="ServicePriceFormControl"> Price</label>
+            <input nbInput formControlName="ServicePriceFormControl" name="Price" placeholder=" Price"/>
+        </div>
+    </div><br>
+    <div class="row">
+       
+    </div><br>
+    <div class="row">
+        <div class="col-md-4">
+            <button nbButton [hidden]="!createFlag" size="small" (click)="save_Service();" status="success" *ngxPermissionsOnly="['store.add_storeservices']">Save</button>
+            <button nbButton [hidden]="createFlag" size="small" (click)="update_Service();" status="success" *ngxPermissionsOnly="['store.change_storeservices']" >Update</button>
+        </div>
+    </div>
+</div><br>
+<div>
+     <nb-card>
+        <nb-card-header> Service List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)] = "searchService" /></nb-card-header>
+        <nb-card-body>
+            <div class="row">
+                <ng2-smart-table [settings]="settings" [source]="services"></ng2-smart-table>
+                </div>
+        </nb-card-body>
+    </nb-card> 
+</div>

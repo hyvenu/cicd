@@ -15,18 +15,20 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { ProductCampaignComponent } from './product-campaign/product-campaign.component';
 import { SiteSettingsComponent } from './site-settings/site-settings.component';
 import { NgxEditorModule } from 'ngx-editor';
+import { ManageServiceComponent } from './manage-service/manage-services.component'
 
 const routes: Routes = [
   { path: 'ManageStore' , component: StoreComponent,canActivate:[AuthGuard]},
   { path: 'ManageStoreList' , component: StoreListComponent,canActivate:[AuthGuard]},
   { path: 'AdminSite' , component: AdminDashboardComponent,canActivate:[AuthGuard]},
   { path: 'OfferZone' , component: ProductCampaignComponent,canActivate:[AuthGuard]},
- { path:'sitesettings',component: SiteSettingsComponent,canActivate:[AuthGuard]},
+  { path:'sitesettings',component: SiteSettingsComponent,canActivate:[AuthGuard]},
+  { path:'Services',component: ManageServiceComponent,canActivate:[AuthGuard]},
 
 ];
 
 @NgModule({
-  declarations: [StoreComponent, StoreListComponent, AdminDashboardComponent, ProductCampaignComponent, SiteSettingsComponent],
+  declarations: [StoreComponent, StoreListComponent, AdminDashboardComponent, ProductCampaignComponent, SiteSettingsComponent,ManageServiceComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

@@ -7,7 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { NbThemeModule, NbLayoutModule,NbUserModule,NbButtonModule ,NbCardModule,NbListModule,NbContextMenuModule,NbMenuModule,NbMenuService, NbTabsetModule} from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule,NbUserModule,NbButtonModule ,NbCardModule,NbListModule,NbContextMenuModule,NbMenuModule,NbMenuService, NbTabsetModule, NbInputModule, NbSelectModule, NbDatepickerModule} from '@nebular/theme';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { StoreSelectComponent } from './store-select/store-select.component';
@@ -21,6 +21,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderService } from '../loader.service';
 import { LoaderInterceptor } from '../loader-interceptor.service';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AppointmentBookComponent } from './appointment-book/appointment-book.component';
+import { ManageCustomerComponent } from './manage-customer/manage-customer.component';
+import { ViewBookingComponent } from './view-booking/view-booking.component';
+import { MainPipe } from '../pipe.module';
 
 
 const routes: Routes = [
@@ -29,16 +33,22 @@ const routes: Routes = [
   { path: 'StoreSelect' , component: StoreSelectComponent},
   { path: 'Profile' , component: UserProfileComponent},
   { path: 'resetpassword' , component: ResetPasswordComponent},
+  { path: 'ManageCustomer' , component: ManageCustomerComponent},
+  { path: 'ManageBooking' , component: AppointmentBookComponent},
+  { path: 'ViewBooking' , component: ViewBookingComponent},
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent],
   imports: [
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    NbInputModule,
     NbButtonModule,
+    NbSelectModule,
+    NbDatepickerModule,
     NbCardModule,
     NbListModule,
     NbTabsetModule,
@@ -50,6 +60,8 @@ const routes: Routes = [
     NbContextMenuModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
+    MainPipe.forRoot(),
+    
   ],
   providers:[NbMenuService,
     LoaderService,

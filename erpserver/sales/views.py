@@ -62,3 +62,38 @@ def get_invoice_pdf(request):
         return FileResponse(open(orders_detail, 'rb'), content_type='application/pdf')
     else:
         return JsonResponse('Error while downloading invoice file', safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_po_details(request):
+    purchase_service = OrderService()
+    po_id = request.query_params['id']
+    pr_obj = purchase_service.get_po_details(po_id)
+    return JsonResponse(pr_obj, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_po_list(request):
+    purchase_service = OrderService()
+    po = purchase_service.get_po_list()
+    return JsonResponse(po, safe=False)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def save_po(request):
+    data = request.data
+    purchase_service = OrderService()
+    pr_res = purchase_service.save_po(data)
+    return JsonResponse(pr_res, safe=False)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def delete_po_product(request):
+    po_service = OrderService()
+    po_prd_id = request.data['id']
+    res = po_service.delete_po_product(po_prd_id)
+    return JsonResponse(res, safe=False)

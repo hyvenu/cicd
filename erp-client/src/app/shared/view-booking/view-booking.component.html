@@ -1,0 +1,42 @@
+<nb-card>
+    <nb-card-header>
+        <button nbButton status="success" [routerLink]="['/ManageBooking']">Book Now !</button>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-md-4" *ngFor="let item of booking_list">
+                <nb-card  [ngStyle]="{'background-color': item.assigned_staff ? '#26de81':'#ecf0f1'}">
+                    <nb-card-header>
+                        <p>Name : {{ item.customer_name }}</p>
+                        <em>Ph: {{ item.phone_number }}</em>
+                    </nb-card-header>
+                    <nb-card-body>
+                        <p>Booking Date : {{ item.booking_date }}</p>
+                        <p> Time : {{ item.start_time}} - {{ item.end_time}} </p>
+                        <p *ngIf="item.assigned_staff" style="color:rgb(47, 0, 255);font-size: small;"> Assigned Stylist : {{ item.assigned_staff.employee_name }}</p>
+                    </nb-card-body>
+                    <nb-card-footer>
+                        <input type="text" nbInput size="small" (keypress)="stylist_open(stylist_dialog, item)"
+                        (click)="stylist_open(stylist_dialog, item)"  placeholder="Select Stylist" readonly>
+                    </nb-card-footer>
+                </nb-card>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+<ng-template #stylist_dialog let-data let-ref="dialogRef">
+    <nb-card size="medium">
+        <nb-card-header>Stylist <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchStylist" /> </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>

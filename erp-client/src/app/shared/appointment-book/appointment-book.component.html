@@ -1,0 +1,49 @@
+<nb-tabset>
+    <nb-tab tabTitle="Book Appointment">
+        <div id="BookingForm" [formGroup]="bookingForm" class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="customerName">Customer Name : </label>
+                    <input type="text" nbInput name="customerName" formControlName="customerNameFormControl" />
+                </div>
+                <div class="col-md-4">
+                    <label for="phoneNumber">Phone Number : </label>
+                    <input nbInput name="phoneNumber" formControlName="phoneNumberFormControl" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="bookingDate">Booking Date : </label>
+                    <input nbInput name="bookingDate"  [nbDatepicker]="booking_date" formControlName="bookingDateFormControl" />
+                    <nb-datepicker #booking_date format="yyyy-MM-DD"></nb-datepicker>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="startTime">Start Time </label>
+                    <input type="time" nbInput name="startTime" formControlName="startTimeFormControl" />
+                </div>
+                <div class="col-md-2">
+                    <label for="endTime">End Time </label>
+                    <input type="time" nbInput name="endTime" formControlName="endTimeFormControl" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label >Service</label>
+                    <nb-select name="services" formControlName="serviceFormControl" [(selected)]="selected_service" >
+                        <nb-option *ngFor="let o of service_list" value="{{o.id}}" >
+                            {{ o.service_name }}
+                        </nb-option>
+                    </nb-select>
+                </div>
+            </div> <br>
+            <div class="row">
+                <div class="col-md-2">
+                 <button nbButton status="success"  size="small" (click)="saveBooking();">Save</button>
+                </div>
+            </div>
+            
+        </div>
+    </nb-tab>
+</nb-tabset>

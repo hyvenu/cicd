@@ -1,17 +1,17 @@
-<a href="ManageStoreList" nbButton size="small" status="success"> Back to Store List </a>
+<a href="ManageStoreList" nbButton size="small" status="success"> Back to Branch List </a>
 <nb-tabset>
-    <nb-tab tabTitle="Store Information">
+    <nb-tab tabTitle="Branch Information">
 
         <div [formGroup]="storeForm">
             <div class="row">
                 <div class="col-md-3">
-                    <label for="storeName">Store Name</label>
+                    <label for="storeName">Branch Name</label>
                     <input type="text" formControlName="storeNameFormControl" nbInput name="storeName" />
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <label for="storeAddress">Store Address</label>
+                    <label for="storeAddress">Branch Address</label>
                     <textarea formControlName="storeAddressFormControl" nbInput name="storeAddress"></textarea>
                 </div>
             </div>
@@ -45,10 +45,10 @@
             </div>
         </div>
     </nb-tab>
-    <nb-tab tabTitle="Store Shiping Location">
+    <!-- <nb-tab tabTitle="Branch Shiping Location">
         <div class="row">
             <div class="col-md-3">
-                <label for="store_location">Select Store</label>
+                <label for="store_location">Branch Store</label>
                 <nb-select name="store_location" [(ngModel)]="selected_store" >
                     <nb-option *ngFor="let o of store_list" value="{{o.id}}" (click)="get_ship_locations()">
                         {{ o.store_name }}
@@ -73,7 +73,7 @@
         <div class="row">
             <div class="col-md-8">
             <nb-card>
-                <nb-card-header>Store Shipping Location List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchPinCode" /></nb-card-header>
+                <nb-card-header>Branch Shipping Location List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchPinCode" /></nb-card-header>
                 <nb-card-body>
                     <nb-list-item *ngFor="let store of store_location | search_filter:'pin_code':searchPinCode">
       
@@ -84,5 +84,5 @@
             </nb-card>
             </div>
         </div>
-    </nb-tab>
+    </nb-tab> -->
 </nb-tabset>

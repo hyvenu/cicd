@@ -53,34 +53,43 @@ export class AppComponent implements OnInit {
        link: '/'
       },
       {
+        title: 'View Booking',
+        link: 'ViewBooking'
+       },
+      {
       title: 'Admin',
       expanded: false,
       children: [
         {
-          title: 'Store',
+          title: 'Branch',
           link: 'ManageStoreList', // goes into angular `routerLink`,
           hidden: this.check_permission('store.view_storeuser')
         },
         {
-          title: 'Offer Zone',
-          link: 'OfferZone', // goes into angular `routerLink`,
-          hidden: this.check_permission('store.view_productcampaigns')
+          title: 'Services',
+          link: 'Services', // goes into angular `routerLink`,
+          // hidden: this.check_permission('store.view_storeuser')
         },
+        // {
+        //   title: 'Offer Zone',
+        //   link: 'OfferZone', // goes into angular `routerLink`,
+        //   hidden: this.check_permission('store.view_productcampaigns')
+        // },
         {
           title: 'Admin',
           link: 'AdminSite',
           hidden: this.check_permission('admin.view_logentry')
         },
-        {
-          title: 'Site Settings',
-          link: 'sitesettings',
-         // hidden: this.check_permission('admin.view_logentry')
-        },
+        // {
+        //   title: 'Site Settings',
+        //   link: 'sitesettings',
+        //  // hidden: this.check_permission('admin.view_logentry')
+        // },
       ]
 
       },
       {
-        title: 'Manage Inventory',
+        title: 'Inventory',
         expanded: false,
         children: [
           {
@@ -112,31 +121,31 @@ export class AppComponent implements OnInit {
         ]
 
         },
-        {
-          title: 'Manage Purchase',
-          expanded: false,
-          children: [
-            {
-              title: 'Vendor Master',
-              link: 'ManageVendortMaster', // goes into angular `routerLink`
-              hidden: this.check_permission('vendor.view_vendormaster')
-            },
-            {
-              title: 'Purchase Requisition',
-              link: 'PurchaseRequisitionList', // goes into angular `routerLink`
-              hidden: this.check_permission('purchase.view_purchaserequisition')
-            },
-            {
-              title: 'Purchase Order',
-              link: 'PurchaseOrderList', // goes into angular `routerLink`
-           },
-            {
-              title: 'Manage GRN',
-              link: 'GrnList'
-            },
-          ]
+        // {
+        //   title: 'Manage Purchase',
+        //   expanded: false,
+        //   children: [
+        //     {
+        //       title: 'Vendor Master',
+        //       link: 'ManageVendortMaster', // goes into angular `routerLink`
+        //       hidden: this.check_permission('vendor.view_vendormaster')
+        //     },
+        //     {
+        //       title: 'Purchase Requisition',
+        //       link: 'PurchaseRequisitionList', // goes into angular `routerLink`
+        //       hidden: this.check_permission('purchase.view_purchaserequisition')
+        //     },
+        //     {
+        //       title: 'Purchase Order',
+        //       link: 'PurchaseOrderList', // goes into angular `routerLink`
+        //    },
+        //     {
+        //       title: 'Manage GRN',
+        //       link: 'GrnList'
+        //     },
+        //   ]
 
-        },
+        // },
         {
           title: 'Manage Sales',
           expanded: false,
@@ -145,6 +154,11 @@ export class AppComponent implements OnInit {
               title: 'Orders',
               link: 'OrderList', // goes into angular `routerLink`
               hidden: this.check_permission('sales.view_orderrequest')
+            },
+            {
+              title: 'Sales Order',
+              link: 'SalesOrder', // goes into angular `routerLink`
+              // hidden: this.check_permission('sales.view_orderrequest')
             },
           ]
         },

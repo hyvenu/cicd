@@ -45,4 +45,44 @@ export class AdminService {
   public AddSiteSettings(data){
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/SiteSettings/`, data)
   }
+
+  public getServiceList(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreService/`, {})
+  }
+
+  public saveService(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreService/`, data)
+  }
+
+  public removeFromService(data){
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreService/`, data)
+  }
+
+  public updateService(id,data) {
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreService/` + id + '/', data)
+  }
+
+  public saveBooking(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/`, data)
+  }
+
+  public removeFromBooking(data){
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/`, data)
+  }
+
+  public updateBooking(id,data) {
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/` + id + '/', data)
+  }
+
+  public getAppointmentList(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/`, {})
+  }
+
+  public getEmployeeList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`, {})
+  }
+  public getCustomerList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/`, {})
+  }
+
 }

@@ -84,3 +84,65 @@ class SiteSettings(AuditUuidModelMixin):
 
     class Meta:
         pass
+
+
+class StoreServices(AuditUuidModelMixin):
+    store = models.ForeignKey(Store,on_delete=models.CASCADE)
+    service_name = models.TextField(max_length=100)
+    service_desc = models.TextField(max_length=100)
+    price = models.IntegerField(default=0)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+
+class Customer(AuditUuidModelMixin):
+
+    # Fields
+    customer_name = models.CharField(max_length=255,null=True)
+    phone_number = models.CharField(max_length=30,null=True)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+class Employee(AuditUuidModelMixin):
+    employee_name = models.CharField(max_length=255,default=None)
+    phone_number = models.CharField(max_length=10,default=None,null=True)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+
+class AppointmentSchedule(AuditUuidModelMixin):
+
+    # Relationships
+    assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE,null=True,blank=True)
+    service = models.ForeignKey(StoreServices, on_delete=models.CASCADE,null=True)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE,null=True)
+    # Fields
+    booking_date = models.DateField(null=True,blank=True)
+    end_time = models.CharField(max_length=30,null=True,blank=True)
+    customer_name = models.TextField(max_length=100,null=True,blank=True)
+    start_time = models.CharField(max_length=30,null=True,blank=True)
+    phone_number = models.TextField(max_length=100,null=True,blank=True)
+    appointment_status = models.CharField(max_length=30,null=True,default='NOT_ASSIGNED')
+
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+
+
+

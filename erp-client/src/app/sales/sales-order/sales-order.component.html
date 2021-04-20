@@ -1,0 +1,287 @@
+<div class="conatiner">
+<div class="row">
+        <a nbButton href="">Sales order list</a>
+</div>
+<nb-tabset>
+    <nb-tab tabTitle="Sales Order">
+        <div id="purchaseOrderForm" [formGroup]="purchaseOrderForm">
+            <nb-card accent="info">
+            <nb-card-header> </nb-card-header>     
+            <nb-card-body>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="po_type">Invoice Type </label><br>
+                    <nb-select name="po_type" formControlName="poTypeFormControl" [(selected)]="selectedPOType">
+                        <nb-option *ngFor="let o of po_type_list" value="{{o.po_type_value}}">
+                            {{ o.po_type_name }}
+                        </nb-option>
+                    </nb-select>
+                </div>
+                <div class="col-md-4">
+                    <label for="po_date">Order Date</label>
+                    <input nbInput formControlName="poDateFormControl" name="po_date" [nbDatepicker]="po_date" placeholder="Order Date" />
+                    <nb-datepicker #po_date format="yyyy-MM-DD"></nb-datepicker>
+                </div>
+                 <div class="col-md-4">
+                    <label for="pr_number">Select Customer</label>
+                    <input nbInput formControlName="customerFormControl" name="customer_name" placeholder="Customer " (keypress)="customer_open(pr_dialog)" />
+                </div> 
+                
+                <!-- <div class="col-md-4">
+                    <label for="pr_number">Select PR Number</label>
+                    <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="pr_number" (keypress)="pr_open(pr_dialog)" />
+                </div> -->
+            </div><br>
+
+            <!-- <div class="row">
+                <div class="col-md-4">
+                    <label for="po_number">PO Number</label>
+                    <input nbInput formControlName="poNumberFormControl" name="po_number" placeholder="System Generated" readonly/>
+                </div>
+                <div class="col-md-4">
+                    <label for="user">PO Raised By </label>
+                    <input nbInput formControlName="userFormControl" name="user" 
+                        placeholder="user" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="trans_type">Transport Type </label>
+                    <nb-select  name="tans_type" formControlName="transportTypeFormControl" [(selected)]="selectedTransportType">
+                        <nb-option *ngFor="let o of transport_type_list" value="{{o.key}}" >
+                            {{ o.value }}
+                        </nb-option>
+                    </nb-select>
+                </div>
+            </div><br> -->
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label for="ship_address"> Address</label>
+                    <textarea nbInput formControlName="shipAddressFormControl" name="ship_address" 
+                        placeholder=" Address" ></textarea>
+                </div>
+            </div>
+            
+        </nb-card-body>
+        </nb-card>
+        <!-- <nb-card accent="info">
+            <nb-card-header>Vendor Information</nb-card-header>
+            <nb-card-body>
+                <div class="row">
+                
+                    <div class="col-md-4">
+                        <label for="vendor">Vendor Code</label>
+                        <input nbInput formControlName="vendorCodeFormControl" name="vendor" placeholder="Select Vendor" (keypress)="vendor_open(vendor_dialog)"  />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="vendor_name">Vendor Name</label>
+                        <input nbInput formControlName="vendorNameFormControl" name="vendor_name" placeholder="Vendor Name" readonly/>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="payment_terms">Payment Terms</label>
+                       
+                        <nb-select name="tans_type" formControlName="paymentTermsFormControl" [(selected)]="selectedTransportType">
+                            <nb-option *ngFor="let o of payments_terms_list" value="{{o.key}}">
+                                {{ o.value }}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+                </div><br>
+                <div class="row" >
+                    <div class="col-md-4">
+                        <label for="other_ref">Other Reference</label>
+                        <input nbInput formControlName="otherRefFormControl" name="other_ref" placeholder="Other Reference" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="terms_delivery">Terms of Delivery</label>
+                        <input nbInput formControlName="termsDeliveryFormControl" name="terms_delivery" placeholder="Terms of Delivery" />
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="note">Note </label><br>
+                        <textarea nbInput formControlName="noteFormControl" name="note" placeholder="Note" ></textarea>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card> -->
+        <nb-card accent="info" >
+            <nb-card-header>Product & Service Details <button nbButton size="small" status="success" (click)="service_open(product_dialog)">  + ADD PRODUCT </button> &nbsp; <button nbButton size="small" status="success" (click)="service_open(service_dialog)">  + ADD SERVICES </button>  </nb-card-header>
+            <nb-card-body>
+                <table class="table table-hovered">
+                    <thead style="font-size: smaller;" >
+                        <th></th>
+                        <!-- <th>Product Code</th> -->
+                        <th>Product Name & Desc</th>
+                        <th>Qty</th>
+                        <th>Unit</th>
+                        <!-- <th>Delivery Date</th> -->
+                        <th>Unit Price</th>
+                        <th>GST %</th>
+                        <th>Amount</th>
+                        <th>Disc %</th>
+                        <th>Disc Amt</th>
+                        <th>Total Amount</th>
+                        <th>GST Amt</th>
+                    </thead>
+                    <tbody style="font-size: smaller;" >
+                        <tr *ngFor="let item of selected_product_list">
+                            <td><button nbButton (click)="delete_product(item.id);" size="small" status="danger">X</button></td>
+                            <!-- <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td> -->
+                            <td><input nbInput  fieldSize="small"placeholder="" value="{{item.product_name}} - {{item.description}}" readonly/></td>
+                            <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
+                            <td ><nb-select size="small" class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
+                                <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
+                                    {{ o.PrimaryUnit }}
+                                </nb-option>
+                            </nb-select></td>
+                            <!-- <td ><input nbInput fieldSize="small"  [(ngModel)]="item.delivery_date" [nbDatepicker]="del_datepicker" [ngModelOptions]="{standalone: true}"
+                                placeholder="Date" /></td> -->
+                            <td><input nbInput  fieldSize="small" style="width: 8em;" min="0" placeholder="Unit Price" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate_sub_total(item);"  /></td>    
+                            <td><input nbInput  fieldSize="small" style="width: 5em;" min="0" placeholder="GST %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" (change)="calculate_sub_total(item);"/></td>    
+                            <td><input nbInput  fieldSize="small"   placeholder="Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly /></td> 
+                            <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="Disc %" min="0" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_percent" (change)="calculate_sub_total(item);"/></td> 
+                            <td><input nbInput  fieldSize="small"   placeholder="Disc Amt." type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_amount" readonly/></td> 
+                            <td><input nbInput  fieldSize="small"   placeholder="Total Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.total_amount" readonly /></td> 
+                            <td><input nbInput  fieldSize="small"  placeholder= "GST Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly/></td> 
+                           
+                                <!-- <input [nbDatepicker]="datepicker"> -->
+                                <nb-datepicker #del_datepicker format="yyyy-MM-DD" ></nb-datepicker>
+
+                                <!-- <input nbInput  value={{item.expected_date}} /></td> -->
+                           
+                        </tr>
+                        
+                    </tbody>
+  
+                </table>
+            </nb-card-body>
+            <nb-card-footer>
+                <table class="table table-hovered">
+                    <thead style="font-size: smaller;" >
+                        <th>Sub Total Amount</th>
+                        <th></th>
+                        <!-- <th>Packing %</th>
+                        <th>Packing Amount</th> -->
+                        <th>Total Order Value</th>
+                        <th>SGST</th>
+                        <th>CGST</th>
+                        <th>IGST</th>
+                        <th>Total Invoice Value</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> {{ sub_total | currency:'INR' }}</td>
+                            <td></td>
+                            <!-- <td> <input nbInput  min="0" fieldSize ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_packing()" [value]="0.00" /></td>
+                            <td> {{ packing_amount | currency : 'INR' }}</td> -->
+                            <td> {{ total_amount | currency : 'INR' }} </td>
+                            <td> {{ sgst | currency : 'INR' }}  </td>
+                            <td> {{ cgst | currency : 'INR' }} </td>
+                            <td> {{ igst | currency : 'INR' }} </td>
+                            <td> {{ invoice_amount  | currency : 'INR'}} </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </nb-card-footer>   
+        </nb-card>
+        <nb-card accent="info">
+            <nb-card-header>Order Summary</nb-card-header>
+            <nb-card-body>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="terms_conditions">Terms & Conditions</label>
+                            <textarea nbInput formControlName="termsConditionFormControl" name="ship_address" 
+                                placeholder="Terms & Conditions" ></textarea>
+                        </div>
+                    </div>
+            </nb-card-body>
+            <nb-card-footer>
+                <button nbButton (click)="save_po();" status="success" *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
+            </nb-card-footer>    
+        </nb-card>
+        </div>
+    </nb-tab>
+</nb-tabset>
+</div>
+<ng-template #vendor_dialog let-data let-ref="dialogRef">
+    <nb-card size="medium">
+        <nb-card-header>Vendor List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchVendor" /></nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of vendor_list | search_filter:'vendor_name':searchVendor ">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.vendor_name }} - {{item.vendor_code }}</i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+<ng-template #product_dialog let-data let-ref="dialogRef" >
+    <nb-card size="large" >
+      <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+            <nb-list-item *ngFor="let item of data | search_filter:'product_name':searchProduct">
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i>
+              <button nbButton (click)="ref.close(item)" size="small">Select</button>
+            </nb-list-item>
+          </nb-list>
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>
+  <ng-template #pr_dialog let-data let-ref="dialogRef" >
+    <nb-card size="large" >
+      <nb-card-header>PR List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchPR" /> </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+            <nb-list-item *ngFor="let item of data | search_filter:'pr_no':searchPR">
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.pr_no }} </i>
+              <button nbButton (click)="ref.close(item)" size="small">Select</button>
+            </nb-list-item>
+          </nb-list>
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>
+  <ng-template #service_dialog let-data let-ref="dialogRef" >
+    <nb-card size="large" >
+      <nb-card-header>Service List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+            <nb-list-item *ngFor="let item of data | search_filter:'service_name':searchProduct">
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.service_name }} - {{item.price }}</i>
+              <button nbButton (click)="ref.close(item)" size="small">Select</button>
+            </nb-list-item>
+          </nb-list>
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>
+  <ng-template #customer_dialog let-data let-ref="dialogRef" >
+    <nb-card size="large" >
+      <nb-card-header>Customer List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchPR" /> </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+            <nb-list-item *ngFor="let item of data | search_filter:'pr_no':searchPR">
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.customer_name }} </i>
+              <button nbButton (click)="ref.close(item)" size="small">Select</button>
+            </nb-list-item>
+          </nb-list>
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>

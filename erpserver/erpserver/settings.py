@@ -119,7 +119,7 @@ WSGI_APPLICATION = 'erpserver.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'erp_db',
+        'NAME': 'ST000003_D5N',
         'HOST': '127.0.0.1',
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',

@@ -26,14 +26,14 @@ export class StoreListComponent implements OnInit {
         hide:true
       },
       store_name: {
-        title: 'Store Name',        
+        title: 'Branch Name',        
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="ManageStore?id=${row.id}">${row.store_name}</a>`;
       }
       },
       address: {
-        title: 'Store Address',
+        title: 'Branch Address',
       },
       pin_code: {
         title: 'Pin Code',
