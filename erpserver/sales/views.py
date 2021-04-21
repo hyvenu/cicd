@@ -86,7 +86,7 @@ def get_po_list(request):
 def save_po(request):
     data = request.data
     purchase_service = OrderService()
-    pr_res = purchase_service.save_po(data)
+    pr_res = purchase_service.save_sales_order(data)
     return JsonResponse(pr_res, safe=False)
 
 

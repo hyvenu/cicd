@@ -73,7 +73,7 @@ export class SalesOrderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    this.store_id = sessionStorage.getItem('store_id');
     this.purchaseOrderForm = this.formBuilder.group(
       {
         poTypeFormControl: ['', [Validators.required]],
@@ -340,7 +340,7 @@ export class SalesOrderComponent implements OnInit {
     formdata.append('po_raised_by', this.purchaseOrderForm.controls['userFormControl'].value);
     formdata.append('shipping_address', this.purchaseOrderForm.controls['shipAddressFormControl'].value);
     formdata.append('transport_type', this.purchaseOrderForm.controls['transportTypeFormControl'].value);
-    formdata.append('vendor_id', this.selected_vendor.id);
+    formdata.append('vendor_id', null);
     formdata.append('payment_terms', this.purchaseOrderForm.controls['paymentTermsFormControl'].value);
     formdata.append('other_reference', this.purchaseOrderForm.controls['otherRefFormControl'].value);
     formdata.append('note', this.purchaseOrderForm.controls['noteFormControl'].value);

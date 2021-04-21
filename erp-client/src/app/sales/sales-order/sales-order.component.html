@@ -1,9 +1,9 @@
 <div class="conatiner">
-<div class="row">
+<!-- <div class="row">
         <a nbButton href="">Sales order list</a>
-</div>
+</div> -->
 <nb-tabset>
-    <nb-tab tabTitle="Sales Order">
+    <nb-tab tabTitle="Tax Invoice Billing">
         <div id="purchaseOrderForm" [formGroup]="purchaseOrderForm">
             <nb-card accent="info">
             <nb-card-header> </nb-card-header>     
@@ -24,7 +24,7 @@
                 </div>
                  <div class="col-md-4">
                     <label for="pr_number">Select Customer</label>
-                    <input nbInput formControlName="customerFormControl" name="customer_name" placeholder="Customer " (keypress)="customer_open(pr_dialog)" />
+                    <input nbInput formControlName="customerFormControl" name="customer_name" placeholder="Customer " (keypress)="customer_open(customer_dialog)" />
                 </div> 
                 
                 <!-- <div class="col-md-4">
@@ -105,7 +105,7 @@
             </nb-card-body>
         </nb-card> -->
         <nb-card accent="info" >
-            <nb-card-header>Product & Service Details <button nbButton size="small" status="success" (click)="service_open(product_dialog)">  + ADD PRODUCT </button> &nbsp; <button nbButton size="small" status="success" (click)="service_open(service_dialog)">  + ADD SERVICES </button>  </nb-card-header>
+            <nb-card-header>Product & Service Details <button nbButton size="small" status="success" (click)="product_open(product_dialog)">  + ADD PRODUCT </button> &nbsp; <button nbButton size="small" status="success" (click)="service_open(service_dialog)">  + ADD SERVICES </button>  </nb-card-header>
             <nb-card-body>
                 <table class="table table-hovered">
                     <thead style="font-size: smaller;" >
@@ -198,7 +198,7 @@
                     </div>
             </nb-card-body>
             <nb-card-footer>
-                <button nbButton (click)="save_po();" status="success" *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
+                <button nbButton (click)="save_po();" status="success" *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Generate Bill</button>
             </nb-card-footer>    
         </nb-card>
         </div>
@@ -275,7 +275,7 @@
       <nb-card-body>
         <nb-list>
             <nb-list-item *ngFor="let item of data | search_filter:'pr_no':searchPR">
-              <i class="mr-auto mt-2 mt-lg-0">{{ item.customer_name }} </i>
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.customer_name }}  </i>
               <button nbButton (click)="ref.close(item)" size="small">Select</button>
             </nb-list-item>
           </nb-list>

@@ -56,6 +56,10 @@ export class AppComponent implements OnInit {
         title: 'View Booking',
         link: 'ViewBooking'
        },
+       {
+        title: 'Calender',
+        link: 'Calendar'
+       },
       {
       title: 'Admin',
       expanded: false,

@@ -26,7 +26,7 @@ export class OrderListComponent implements OnInit {
         title:'Detail',
         type:'html',
         valuePrepareFunction:(cell,row)=>{
-          return `<a href="OrderView?id=${row.id}">View</a>`;
+          return `<a href="SalesOrder?id=${row.id}">View</a>`;
         },
         filter:false       
       },
@@ -34,28 +34,17 @@ export class OrderListComponent implements OnInit {
         title: 'id',
         hide:true
       },
-      order_number: {
+      po_number: {
         title: 'Order Number',       
 
       },
-      order_raised_date:{
+      po_date:{
         title:'Order Raised Date'
       },
-      order_status_text: {
-        title:'Order Status'
+      invoice_amount: {
+        title:'Amount'
       },
-      customer__first_name: {
-        title:'Customer Name'
-      },
-      customer__email: {
-        title:'Customer Email'
-      },
-      order_amount: {
-        title:'Order Amount'
-      },
-      tax_amount: {
-        title:'Tax Amount'
-      }    
+      
        
       
     },
@@ -73,7 +62,7 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit(): void {
     const order_data  = { 'store_id': sessionStorage.getItem('store_id')}
-    this.orderService.getOrderList(order_data).subscribe(
+    this.orderService.getPOList().subscribe(
       (data) => {
           this.data = data;
       },

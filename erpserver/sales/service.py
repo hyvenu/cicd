@@ -306,6 +306,13 @@ class OrderService:
         out_files = get_pdf(report_name, file_name, param)
         return out_files
 
+    @classmethod
+    def generate_po_number(cls):
+        perfix = 'D5N' + '/20-21' + '/SL/'
+        code = get_next_value(perfix, 1)
+        code = perfix + str(code).zfill(5)
+        return code
+
     def update_stock(self,order_id):
         order_details = OrderDetails.objects.filter(order_id=order_id).all().values(
             'id',
@@ -373,14 +380,14 @@ class OrderService:
         sales_order_req.po_date = sales_data['po_date']
         sales_order_req.po_raised_by = sales_data['po_raised_by']
         sales_order_req.pr_number = sales_data['pr_number']
-        sales_order_req.vendor_id = sales_data['vendor_id']
+        # sales_order_req.vendor_id = sales_data['vendor_id']
         sales_order_req.payment_terms = sales_data['payment_terms']
         sales_order_req.other_reference = sales_data['other_reference']
         # sales_order_req.terms_of_delivery = sales_data['terms_of_delivery']
         sales_order_req.note = sales_data['note']
         sales_order_req.sub_total = sales_data['sub_total']
-        sales_order_req.packing_perct = sales_data['packing_perct']
-        sales_order_req.packing_amount = sales_data['packing_amount']
+        sales_order_req.packing_perct = 0 # sales_data['packing_perct']
+        sales_order_req.packing_amount =0 # sales_data['packing_amount']
         sales_order_req.total_amount = sales_data['total_amount']
         sales_order_req.sgst = sales_data['sgst']
         sales_order_req.cgst = sales_data['cgst']
@@ -402,7 +409,7 @@ class OrderService:
             po_product.product_name = item['product_name']
             po_product.unit_id = item['unit_id']
             po_product.qty = item['qty']
-            po_product.delivery_date = str(item['delivery_date'])[0:10]
+            # po_product.delivery_date = str(item['delivery_date'])[0:10]
             po_product.unit_price = item['unit_price']
             po_product.gst = item['gst']
             po_product.amount = item['amount']
@@ -425,9 +432,7 @@ class OrderService:
             'po_date',
             'shipping_address',
             'transport_type',
-            'vendor_id',
-            'vendor__vendor_name',
-            'vendor__vendor_code',
+
             'payment_terms',
             'other_reference',
             'terms_of_delivery',
@@ -472,9 +477,7 @@ class OrderService:
             'pr_number',
             'shipping_address',
             'transport_type',
-            'vendor_id',
-            'vendor__vendor_code',
-            'vendor__vendor_name',
+
             'payment_terms',
             'other_reference',
             'terms_of_delivery',

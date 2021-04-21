@@ -25,7 +25,11 @@ import { AppointmentBookComponent } from './appointment-book/appointment-book.co
 import { ManageCustomerComponent } from './manage-customer/manage-customer.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
 import { MainPipe } from '../pipe.module';
-
+import { CalenderComponent } from './calender/calender.component';
+import { CalendarModule } from 'angular-calendar';
+import { SchedulerModule } from 'angular-calendar-scheduler';
+import { DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -36,10 +40,11 @@ const routes: Routes = [
   { path: 'ManageCustomer' , component: ManageCustomerComponent},
   { path: 'ManageBooking' , component: AppointmentBookComponent},
   { path: 'ViewBooking' , component: ViewBookingComponent},
+  { path: 'Calendar' , component: CalenderComponent},
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -61,6 +66,11 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     MainPipe.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' }),
     
   ],
   providers:[NbMenuService,
