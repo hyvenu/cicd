@@ -30,6 +30,7 @@ import { CalendarModule } from 'angular-calendar';
 import { SchedulerModule } from 'angular-calendar-scheduler';
 import { DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ChartsModule } from 'ng2-charts';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -71,6 +72,7 @@ const routes: Routes = [
       useFactory: adapterFactory,
     }),
     SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' }),
+    ChartsModule,
     
   ],
   providers:[NbMenuService,

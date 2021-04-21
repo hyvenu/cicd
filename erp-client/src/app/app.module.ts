@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainPipe } from './pipe.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxEditorModule } from 'ngx-editor';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { NgxEditorModule } from 'ngx-editor';
     AdminModule,
     NgxEditorModule,
     NbSpinnerModule,
+    ChartsModule,
   ],
   providers: [
     {

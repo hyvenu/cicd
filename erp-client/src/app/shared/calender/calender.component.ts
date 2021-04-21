@@ -139,7 +139,7 @@ export class CalenderComponent implements OnInit {
            let start_date = element.booking_date + ' ' + element.start_time;
             console.log(start_date)
            let content = 
-           '<p style="background-color:red">' + element.customer_name + '<br><em>' + element.phone_number + '</em></p>' 
+           '<p>' + element.customer_name + '<br><em>' + element.phone_number + '</em><br><em>' + element.assigned_staff_det.employee_name + '</em></p>' 
            this.appointment_list.push(
                {
                  start: addHours(startOfDay(new Date(element.booking_date + ' ' + element.start_time)), 2),

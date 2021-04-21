@@ -13,7 +13,7 @@
                     <nb-card-body>
                         <p>Booking Date : {{ item.booking_date }}</p>
                         <p> Time : {{ item.start_time}} - {{ item.end_time}} </p>
-                        <p *ngIf="item.assigned_staff" style="color:rgb(47, 0, 255);font-size: small;"> Assigned Stylist : {{ item.assigned_staff.employee_name }}</p>
+                        <p *ngIf="item.assigned_staff" style="color:rgb(47, 0, 255);font-size: small;"> Assigned Stylist : {{ item.assigned_staff_det.employee_name }}</p>
                     </nb-card-body>
                     <nb-card-footer>
                         <input type="text" nbInput size="small" (keypress)="stylist_open(stylist_dialog, item)"

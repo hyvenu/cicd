@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-3">
         <nb-card status="success">
             <nb-card-header> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
@@ -12,8 +12,8 @@
         </nb-card>
     </div>&nbsp;&nbsp;&nbsp;
 
-</div>
-<div class="row">
+</div> -->
+<!-- <div class="row">
     <nb-card>
     <nb-tabset>
         <nb-tab tabTitle="Orders">
@@ -24,4 +24,71 @@
         <nb-tab tabTitle="Sales"></nb-tab>
     </nb-tabset>
 </nb-card>
+</div> -->
+<div class="row">
+    <div class="col-md-6">
+        <nb-card style="width: 30em;">
+            <nb-card-header>
+                Booking Trends
+            </nb-card-header>
+            <div>
+                <div>
+                <div style="display: block">
+                    <canvas baseChart
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType">
+                    </canvas>
+                </div>
+                <!-- <button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button> -->
+                </div>
+            </div>
+        </nb-card>
+        </div>
+        <div class="col-md-6" style="width: 30em;">
+            <nb-card>
+            <nb-card-header>
+                Top Services
+            </nb-card-header>
+            <div style="display: block;">
+                <canvas baseChart 
+                  [data]="pieChartData" 
+                  [labels]="pieChartLabels" 
+                  [chartType]="pieChartType"
+                  [options]="pieChartOptions"
+                  [plugins]="pieChartPlugins"
+                  [legend]="pieChartLegend">
+                </canvas>
+              </div>
+            </nb-card>
+        </div>
+</div>
+<div class="row">
+    <div class="col-md-6" style="width: 30em;">
+        <nb-card>
+            <nb-card-header>
+                Product Stock
+            </nb-card-header>
+        </nb-card>
+    </div>
+    <div class="col-md-6" style="width: 30em;">
+        <nb-card>
+            <nb-card-header>
+                Store Trends
+            </nb-card-header>
+            <div style="display: block;">
+                <canvas baseChart 
+                  [datasets]="lineChartData"
+                  [labels]="lineChartLabels"                  
+                  [colors]="lineChartColors"
+                  [legend]="lineChartLegend"
+                  [chartType]="lineChartType"
+                  [plugins]="lineChartPlugins">
+                </canvas>
+              </div>
+        </nb-card>
+    </div>
 </div>

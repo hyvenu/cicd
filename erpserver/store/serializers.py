@@ -93,11 +93,6 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = models.Customer
         fields = ['id', 'customer_name', 'phone_number']
 
-class AppointmentScheduleSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.AppointmentSchedule
-        fields = ['id','assigned_staff','service','booking_date','end_time','customer_name','start_time','phone_number','appointment_status','store']
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -105,3 +100,14 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Employee
         fields = ['id', 'employee_name', 'phone_number']
+
+class AppointmentScheduleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.AppointmentSchedule
+        fields = ['id','assigned_staff','service','booking_date','end_time','customer_name','start_time','phone_number','appointment_status','store']
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['assigned_staff_det'] = EmployeeSerializer(instance.assigned_staff).data
+        return response
