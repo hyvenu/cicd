@@ -53,6 +53,14 @@ export class AppComponent implements OnInit {
        link: '/'
       },
       {
+        title: 'Manage Employee',
+        link: 'ManageEmployee',
+      },
+      {
+        title: 'Manage Customer',
+        link: 'ManageCustomer'
+      },
+      {
         title: 'View Booking',
         link: 'ViewBooking'
        },
@@ -125,31 +133,31 @@ export class AppComponent implements OnInit {
         ]
 
         },
-        // {
-        //   title: 'Manage Purchase',
-        //   expanded: false,
-        //   children: [
-        //     {
-        //       title: 'Vendor Master',
-        //       link: 'ManageVendortMaster', // goes into angular `routerLink`
-        //       hidden: this.check_permission('vendor.view_vendormaster')
-        //     },
-        //     {
-        //       title: 'Purchase Requisition',
-        //       link: 'PurchaseRequisitionList', // goes into angular `routerLink`
-        //       hidden: this.check_permission('purchase.view_purchaserequisition')
-        //     },
-        //     {
-        //       title: 'Purchase Order',
-        //       link: 'PurchaseOrderList', // goes into angular `routerLink`
-        //    },
-        //     {
-        //       title: 'Manage GRN',
-        //       link: 'GrnList'
-        //     },
-        //   ]
+         {
+           title: 'Manage Purchase',
+           expanded: false,
+           children: [
+             {
+               title: 'Vendor Master',
+               link: 'ManageVendortMaster', // goes into angular `routerLink`
+               hidden: this.check_permission('vendor.view_vendormaster')
+             },
+             {
+               title: 'Purchase Requisition',
+               link: 'PurchaseRequisitionList', // goes into angular `routerLink`
+               hidden: this.check_permission('purchase.view_purchaserequisition')
+             },
+             {
+               title: 'Purchase Order',
+               link: 'PurchaseOrderList', // goes into angular `routerLink`
+            },
+           {
+               title: 'Manage GRN',
+               link: 'GrnList'
+             },
+           ]
 
-        // },
+        },
         {
           title: 'Manage Sales',
           expanded: false,

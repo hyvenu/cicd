@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
@@ -19,6 +19,11 @@ export class AppointmentBookComponent implements OnInit {
   service_list:any;
 
   booking_id: any;
+  customer_data: any;
+  dailog_ref: any;
+  selected_customer: any;
+  customer_id: any;
+  appointment_id: any;
 
 
 
@@ -41,6 +46,22 @@ export class AppointmentBookComponent implements OnInit {
       endTimeFormControl: ['', [Validators.required]],
       serviceFormControl:['',[Validators.required]]
     })
+
+    let param = this.route.snapshot.queryParams['id'];
+
+    if(param){
+      this.adminService.getAppointmentDetails(param).subscribe(
+        (data) =>{
+          
+          this.appointment_id=data.id
+          
+          
+          this.bookingForm.controls['customerNameFormControl'].setValue(data.customer_name);
+          this.bookingForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
+          
+         
+    });
+  }
     
     this.adminService.getServiceList().subscribe(
       (data) =>{
@@ -50,19 +71,27 @@ export class AppointmentBookComponent implements OnInit {
         this.nbtoastService.danger("unable to get service list");
       }
     )
+
+    this.adminService.getCustomerList().subscribe(
+      (data) =>{
+        this.customer_data = data;
+      } 
+    )
   }
 
   saveBooking():void {
     let form_data = new FormData();
-
+    if(this.open_category_list){
+    form_data.append('customer',this.customer_id) ; 
     form_data.append('store',sessionStorage.getItem('store_id'));
+    // form_data.append('customer',sessionStorage.getItem('customer_id'));
     form_data.append('customer_name', this.bookingForm.controls['customerNameFormControl'].value);
     form_data.append('phone_number', this.bookingForm.controls['phoneNumberFormControl'].value);
     form_data.append('service', this.bookingForm.controls['serviceFormControl'].value);
     form_data.append('start_time', this.bookingForm.controls['startTimeFormControl'].value);
     form_data.append('end_time', this.bookingForm.controls['endTimeFormControl'].value);
     form_data.append('booking_date', moment(this.bookingForm.controls['bookingDateFormControl'].value).format("YYYY-MM-DD"));
-
+    }
     if (this.booking_id) {
         this.adminService.updateBooking(this.booking_id,form_data).subscribe(
           (data) => {
@@ -86,6 +115,19 @@ export class AppointmentBookComponent implements OnInit {
         }
       )
     }
+  }
+
+  open_category_list(dialog: TemplateRef<any>) {
+    this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_data })
+    .onClose.subscribe(data => {
+       this.selected_customer = data     
+       this.customer_id  = data.id
+       this.bookingForm.controls['customerNameFormControl'].setValue(data.customer_name);
+       this.bookingForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
+       
+       
+    }
+    );
   }
 
 }

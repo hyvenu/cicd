@@ -28,6 +28,15 @@
 
             <div class="row">
                 <div class="col-md-3">
+                    <label for="vendorMobileNo">Mobile No.</label>
+                    <input nbInput type="number" formControlName="vendorMobileNo" name="vendorMobileNo"
+                        placeholder="Mobile No." oninput="validity.valid || (value='')"/>
+                </div>
+                <div class="col-md-3">
+                    <label for="emailId">Email Address</label>
+                    <input nbInput formControlName="emailId" name="emailId" placeholder="Email Address" />
+                </div>
+                <!-- <div class="col-md-3">
                     <label for="vendorStateCode">State Code</label>
                     <input nbInput formControlName="vendorStateCodeFormControl" name="vendorStateCode"
                         placeholder="State Code " />
@@ -43,7 +52,7 @@
                 <div class="col-md-3">
                     <label for="vendorRegion">Region </label>
                     <input nbInput formControlName="vendorRegionFormControl" name="vendorRegion" placeholder="Region" />
-                </div>
+                </div> -->
             </div><br>
 
             <div class="row">
@@ -88,6 +97,10 @@
                     <label for="vendorAadharNo">Aadhar Number</label>
                     <input nbInput formControlName="vendorAadharNo" name="vendorAadharNo" placeholder="Aadhar Number" />
                 </div>
+                <div class="col-md-3">
+                    <input type="file" formControlName="imageVendorGSTNo" multiple
+                        (change)="onFileChangeGst($event, 'image');" />
+                </div>
 
             </div><br>
             <div class="row">
@@ -95,24 +108,24 @@
                     <label for="vendorGSTNo">GST Number</label>
                     <input nbInput formControlName="vendorGSTNo" name="vendorGSTNo" placeholder="GST Number" />
                 </div>
-                <div class="col-md-3">
+                <!-- <div class="col-md-3">
                     <input type="file" formControlName="imageVendorGSTNo" multiple
                         (change)="onFileChangeGst($event, 'image');" />
-                </div>
+                </div> -->
             </div><br>
 
-            <nb-card accent="info">
+            <!-- <nb-card accent="info">
                 <nb-card-header>
-                    <b><u>Point of Contact</u>&nbsp; </b> 
+                    <b><u>Point of Contact</u>&nbsp; </b>  -->
                     <!-- <div class="row">
         <div class="col-md-3">
             <label for="vendorPointOfContact">Point of Contact</label>
         </div>
     </div><br> -->
-                </nb-card-header>
-                <nb-card-body>
+                <!-- </nb-card-header>
+                <nb-card-body> -->
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-3">
                             <label for="vendorPOCName">Name</label>
                             <input nbInput formControlName="vendorPOCName" name="vendorPOCName" placeholder="Name" />
@@ -146,8 +159,8 @@
                     </div><br>
                 </nb-card-body>
             </nb-card>
-
-            <nb-card accent="info">
+ -->
+            <!-- <nb-card accent="info">
                 <nb-card-header>
                     <b><u>Referal</u>&nbsp; </b>
 
@@ -219,8 +232,9 @@
                         </div>
                     </div><br>
                 </nb-card-body>
-            </nb-card>
-            <nb-card accent="info">
+            </nb-card> -->
+
+            <!-- <nb-card accent="info">
                 <nb-card-header>
                     <b><u>Bank Details</u>&nbsp; </b>
 
@@ -258,13 +272,13 @@
                         </div>
                     </div><br>
                 </nb-card-body>
-            </nb-card>
-            <div class="row">
+            </nb-card> -->
+            <!-- <div class="row">
                 <div class="col-md-3">
                     <button nbButton status="success" (click)="saveProduct();" *ngxPermissionsOnly="['vendor.add_vendormaster']" >Save</button>&nbsp;&nbsp;
 
                 </div>
-            </div>
+            </div> -->
         </div>
     </nb-tab>
 </nb-tabset>

@@ -1,0 +1,34 @@
+<nb-tabset>
+    <nb-tab tabTitle="Create Employee Details">
+        <div id="employeeForm" [formGroup]="employeeForm" class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="employeeCode">Emplyoee Code : </label>
+                    <input type="text" nbInput name="employeeCode" formControlName="employeeCodeFormControl" placeholder="AutoGenerate" readonly />
+                </div>
+                <div class="col-md-4">
+                    <label for="employeeName">Employee Name: </label>
+                    <input nbInput name="employeeName" formControlName="employeeNameFormControl" />
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="phoneNumber">Phone Number : </label>
+                    <input nbInput name="phoneNumber" formControlName="phoneNumberFormControl" />
+                </div>
+                <div class="col-md-4">
+                    <label for="department">Department: </label><br>
+                    <input nbInput name="Department" formControlName="departmentFormControl" />
+                </div>
+            </div><br>
+           
+           
+            <div class="row">
+                <div class="col-md-2">
+                 <button nbButton status="success"  size="small" (click)="saveEmployee();">Save</button>
+                </div>
+            </div>
+            
+        </div>
+    </nb-tab>
+</nb-tabset>

@@ -1,11 +1,25 @@
 from rest_framework import serializers
+from sequences import get_next_value
 
 from . import models
 from .models import Store
 
 
-class StoreSerializer(serializers.ModelSerializer):
+def generate_employee_code():
+    prefix_code = 'D5N-EMP'
+    code = get_next_value(prefix_code)
+    code = prefix_code + '-' + str(code)
+    return code
 
+
+def generate_customer_code():
+    prefix_code = 'D5N-CUS'
+    code = get_next_value(prefix_code)
+    code = prefix_code + '-' + str(code)
+    return code
+
+
+class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Store
         fields = [
@@ -18,8 +32,10 @@ class StoreSerializer(serializers.ModelSerializer):
             "is_head_office"
         ]
 
+
 class StoreUserSerializer(serializers.ModelSerializer):
     store = StoreSerializer(many=False, read_only=True)
+
     class Meta:
         model = models.StoreUser
         fields = [
@@ -27,6 +43,7 @@ class StoreUserSerializer(serializers.ModelSerializer):
             "user",
             "store",
         ]
+
 
 class AppSettingsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,6 +63,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
             'department_name',
         ]
 
+
 class StoreShipLocationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.StoreShipLocations
@@ -56,6 +74,7 @@ class StoreShipLocationsSerializer(serializers.ModelSerializer):
             'location_name',
             'is_active'
         ]
+
 
 class ProductCampaignsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -74,40 +93,57 @@ class ProductCampaignsSerializer(serializers.ModelSerializer):
 
 
 class SiteSettingsSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.SiteSettings
-        fields = ['id','setting_Type', 'setting_Value']
+        fields = ['id', 'setting_Type', 'setting_Value']
 
 
 class StoreServiceSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.StoreServices
-        fields = ['id','store','service_name','service_desc','price']
+        fields = ['id', 'store', 'service_name', 'service_desc', 'price']
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.Customer
-        fields = ['id', 'customer_name', 'phone_number']
+        fields = ['id',
+                  'customer_code',
+                  'customer_name',
+                  'phone_number',
+                  'customer_email',
+                  'customer_service_bill',
+                  'customer_address']
 
+    def create(self, validated_data):
+        validated_data['customer_code'] = generate_customer_code()
+        cus = super().create(validated_data)
+        return cus
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.Employee
-        fields = ['id', 'employee_name', 'phone_number']
+        fields = ['id', 'employee_code', 'employee_name', 'phone_number', 'department']
+
+    def create(self, validated_data):
+        validated_data['employee_code'] = generate_employee_code()
+        emp = super().create(validated_data)
+        return emp
+
 
 class AppointmentScheduleSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.AppointmentSchedule
-        fields = ['id','assigned_staff','service','booking_date','end_time','customer_name','start_time','phone_number','appointment_status','store']
+        fields = ['id', 'assigned_staff', 'service', 'booking_date', 'end_time', 'customer_name', 'start_time',
+                  'phone_number', 'appointment_status', 'store', 'customer']
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['assigned_staff_det'] = EmployeeSerializer(instance.assigned_staff).data
+        return response
+
+    def to_representation_another(self, instance):
+        response = super().to_representation_another(instance)
+        response['service_det'] = StoreServiceSerializer(instance.service).data
         return response

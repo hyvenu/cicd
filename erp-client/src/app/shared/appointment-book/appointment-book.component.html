@@ -4,7 +4,13 @@
             <div class="row">
                 <div class="col-md-4">
                     <label for="customerName">Customer Name : </label>
-                    <input type="text" nbInput name="customerName" formControlName="customerNameFormControl" />
+                    <input type="text" nbInput name="customerName" formControlName="customerNameFormControl"
+                    (keypress)="open_category_list(dialog)" (click)="open_category_list(dialog)" readonly
+ />
+                </div>
+                <div class="col-md-4">
+                    <label for="creatcustomer">Create New Customer :</label>
+                    <button nbButton status="default" [routerLink]="['/ManageCustomer']">Create Customer</button>
                 </div>
                 <div class="col-md-4">
                     <label for="phoneNumber">Phone Number : </label>
@@ -47,3 +53,22 @@
         </div>
     </nb-tab>
 </nb-tabset>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <nb-card size="medium">
+        <nb-card-header>customer name <input type="text" nbInput size="small" placeholder="Search .."
+                [(ngModel)]="searchCategory" /> </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data |search_filter:'customer_name':searchCategory ">
+                    <i class="mr-auto mt-2 mt-lg-0"> {{item.customer_name }}</i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+

@@ -94,6 +94,13 @@ def get_site_settings(request):
     store_service = StoreService()
     setting_type = request.query_params['setting_type']
     site_settings = store_service.get_Site_Settings(setting_type)
-    return  JsonResponse(site_settings,safe=False,status=status.HTTP_200_OK)
+    return JsonResponse(site_settings, safe=False, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+@permission_classes([AllowAny, ])
+def get_Appointment(request):
+    store_service = StoreService()
+    customer_id = request.GET.get('customer_id')
+    site_settings = store_service.get_Appointment(customer_id)
+    return JsonResponse(site_settings, safe=False, status=status.HTTP_200_OK)

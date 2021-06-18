@@ -78,11 +78,32 @@ export class AdminService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/`, {})
   }
 
+  public getAppointmentDetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointments/` + id + '/')
+  }
+
+
   public getEmployeeList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`, {})
   }
   public getCustomerList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/`, {})
   }
+  public SaveEmployee(data){
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`,data)
+  }
+
+  public SaveCustomer(data){
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/`,data)
+  }
+
+  public getCustomerDetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/` + id + '/')
+  }
+
+  public updateCustomer(data,id){
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/`+ id + '/', data)
+  }
+
 
 }

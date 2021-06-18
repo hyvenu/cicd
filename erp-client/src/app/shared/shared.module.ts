@@ -3,6 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
@@ -31,6 +33,7 @@ import { SchedulerModule } from 'angular-calendar-scheduler';
 import { DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ChartsModule } from 'ng2-charts';
+import { ManageEmployeeComponent } from './manage-employee/manage-employee.component';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -42,10 +45,11 @@ const routes: Routes = [
   { path: 'ManageBooking' , component: AppointmentBookComponent},
   { path: 'ViewBooking' , component: ViewBookingComponent},
   { path: 'Calendar' , component: CalenderComponent},
+  { path: 'ManageEmployee' , component:ManageEmployeeComponent},
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -73,6 +77,7 @@ const routes: Routes = [
     }),
     SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' }),
     ChartsModule,
+    Ng2SmartTableModule,
     
   ],
   providers:[NbMenuService,

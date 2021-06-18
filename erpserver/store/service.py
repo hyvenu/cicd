@@ -1,4 +1,4 @@
-from store.models import StoreUser, Store, SiteSettings
+from store.models import StoreUser, Store, SiteSettings, AppointmentSchedule
 
 
 class StoreService:
@@ -21,4 +21,16 @@ class StoreService:
             'setting_Value'
         )
         return list(settings.values())
+
+    def get_Appointment(self,customer_id):
+        appointment = AppointmentSchedule.objects.filter(customer_id=customer_id).all().values(
+            'id',
+            'customer__id',
+            'customer_name',
+            'service__service_name',
+            'booking_date',
+            'assigned_staff__employee_name',
+            'phone_number',
+        )
+        return list(appointment.values())
 
