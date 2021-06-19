@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.admin import ModelAdmin
 
-from store.models import StoreUser, Store, Department, ProductCampaigns
+from store.models import StoreUser, Store, Department, ProductCampaigns, Customer, Employee, AppointmentSchedule
 
 class ProductCampaignsForm(ModelAdmin):
     list_display = ['code','type','start_time','end_time','value','max_use','use_count','min_order_amount']
@@ -17,3 +17,6 @@ admin.site.register(Store)
 admin.site.register(StoreUser)
 admin.site.register(Department)
 admin.site.register(ProductCampaigns,ProductCampaignsForm)
+admin.site.register(Customer)
+admin.site.register(Employee)
+admin.site.register(AppointmentSchedule)

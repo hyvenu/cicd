@@ -142,8 +142,3 @@ class AppointmentScheduleSerializer(serializers.ModelSerializer):
         response = super().to_representation(instance)
         response['assigned_staff_det'] = EmployeeSerializer(instance.assigned_staff).data
         return response
-
-    def to_representation_another(self, instance):
-        response = super().to_representation_another(instance)
-        response['service_det'] = StoreServiceSerializer(instance.service).data
-        return response

@@ -81,17 +81,16 @@ export class AppointmentBookComponent implements OnInit {
 
   saveBooking():void {
     let form_data = new FormData();
-    if(this.open_category_list){
-    form_data.append('customer',this.customer_id) ; 
+
     form_data.append('store',sessionStorage.getItem('store_id'));
-    // form_data.append('customer',sessionStorage.getItem('customer_id'));
+    form_data.append('customer',this.customer_id)
     form_data.append('customer_name', this.bookingForm.controls['customerNameFormControl'].value);
     form_data.append('phone_number', this.bookingForm.controls['phoneNumberFormControl'].value);
     form_data.append('service', this.bookingForm.controls['serviceFormControl'].value);
     form_data.append('start_time', this.bookingForm.controls['startTimeFormControl'].value);
     form_data.append('end_time', this.bookingForm.controls['endTimeFormControl'].value);
     form_data.append('booking_date', moment(this.bookingForm.controls['bookingDateFormControl'].value).format("YYYY-MM-DD"));
-    }
+
     if (this.booking_id) {
         this.adminService.updateBooking(this.booking_id,form_data).subscribe(
           (data) => {

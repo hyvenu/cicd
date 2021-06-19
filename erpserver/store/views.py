@@ -98,8 +98,8 @@ def get_site_settings(request):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny, ])
-def get_Appointment(request):
+@permission_classes([IsAuthenticated, ])
+def get_booking_history(request):
     store_service = StoreService()
     customer_id = request.GET.get('customer_id')
     site_settings = store_service.get_Appointment(customer_id)

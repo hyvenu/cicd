@@ -25,6 +25,7 @@ export class ViewBookingComponent implements OnInit {
     this.adminService.getAppointmentList().subscribe(
       (data) => {
           this.booking_list = data;
+          console.log(this.booking_list)
       },
       (error) => {
           this.nbtoastService.danger("Unable get appointment data");

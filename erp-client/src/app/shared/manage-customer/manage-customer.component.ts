@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
@@ -45,19 +45,19 @@ export class ManageCustomerComponent implements OnInit {
       booking_date:{
         title: 'Booking Date',
       },
-      service:{
+      service__service_name:{
         title: 'Service Name',
-        type:'string',
-        valuePrepareFunction:(cell, row) =>{
-          return row.service.service_name;
-        },  
+        // type:'string',
+        // valuePrepareFunction:(cell, row) =>{
+        //   return row.service.service_name;
+        // },  
       },
-      assigned_staff:{
+      assigned_staff__employee_name:{
         title: 'Assigned Staff',
-        type:'string',
-        valuePrepareFunction: (cell, row)=> {
-          return row.assigned_staff_det.employee_name;
-        }
+        // type:'string',
+        // // valuePrepareFunction: (cell, row)=> {
+        // //   return row.assigned_staff_det.employee_name;
+        // // }
       }
  
     },
@@ -108,7 +108,7 @@ customerForm:FormGroup;
   bill: any;
   submitted=false;
   
-
+  @ViewChild('form') form;
   constructor(
     private formBuilder: FormBuilder,
     private nbtoastService: NbToastrService,
@@ -129,9 +129,9 @@ customerForm:FormGroup;
   ngOnInit(): void {
 
     this.customerForm = this.formBuilder.group({
-      customerCodeFormControl:['',[Validators.required]],
+      customerCodeFormControl:['',[]],
       customerNameFormControl:['',[Validators.required]],
-      phoneNumberFormControl:['',[Validators.required,Validators.pattern('^[0-9]{10}$')],],
+      phoneNumberFormControl:['',[Validators.required,Validators.pattern('^[0-9]{13}$')],],
       customerEmailFormControl:['',[Validators.required,Validators.email],],
       customerServiceBillFormControl:['',[Validators.required]],
       customerAddressFormControl:['',[Validators.required]],
@@ -153,10 +153,10 @@ customerForm:FormGroup;
           this.customerForm.controls['customerAddressFormControl'].setValue(data.customer_address);
           this.customerForm.controls['customerServiceBillFormControl'].setValue(data.customer_service_bill);
          
-          this.adminService.getAppointmentDetails(param).subscribe(
+          this.adminService.getBookinHistory(param).subscribe(
             (data) => {
               this.data = data;
-              console.log(data)
+              console.log(this.data)
             },
             (error) => {
               this.nbtoastService.danger("Unable to get customer List")
@@ -193,7 +193,7 @@ customerForm:FormGroup;
   }
 
   saveCustomer(){
-
+    if(this.customerForm.valid){
     let formdata = new FormData();
     if(this.customer_id){
      
@@ -209,7 +209,10 @@ customerForm:FormGroup;
     this.adminService.updateCustomer(formdata,this.customer_id).subscribe(
       (data) => {
         this.nbtoastService.success("customer details updated Successfully")
+        
         this.customerForm.reset();
+        
+        
         
       },
       (error) => {
@@ -227,7 +230,8 @@ customerForm:FormGroup;
     this.adminService.SaveCustomer(formdata).subscribe(
       (data)=>{
         this.nbtoastService.success("Employee Saved Successfully")
-        this.customerForm.reset();
+        
+       this.customerForm.reset();
        
         
           
@@ -237,6 +241,7 @@ customerForm:FormGroup;
     }
     )
     }
+  }
   
 }
 
@@ -249,7 +254,11 @@ get f() { return this.customerForm.controls; }
         if (this.customerForm.invalid) {
             return;
         }
+        if (!this.customerForm.invalid){
+          return this.submitted = false;
+        }
 
+        
       
     }
 
