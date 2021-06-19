@@ -103,7 +103,7 @@ export class ManageEmployeeComponent implements OnInit {
       )
     }
 
-    console.log(this.employeeForm.controls['employeeAddressFormControl'].value)
+   
 
     this.adminService.getEmployeeList().subscribe(
       (data)=> {

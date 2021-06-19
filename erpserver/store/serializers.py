@@ -124,7 +124,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Employee
-        fields = ['id', 'employee_code', 'employee_name', 'phone_number', 'department']
+        fields = ['id', 'employee_code', 'employee_name', 'phone_number', 'department', 'employee_address']
 
     def create(self, validated_data):
         validated_data['employee_code'] = generate_employee_code()
