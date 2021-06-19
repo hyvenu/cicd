@@ -49,9 +49,7 @@ export class ManageEmployeeComponent implements OnInit {
       department:{
         title: 'Department Name',
       },
-      employee_address:{
-        title: 'Address',
-      },
+     
     
  
     },
