@@ -78,13 +78,9 @@ export class AdminService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/`, {})
   }
 
-  
-
   public getAppointmentDetails(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointments/` + id + '/')
   }
-
-  
 
   public getEmployeeList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`, {})
@@ -112,5 +108,12 @@ export class AdminService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_booking_history?customer_id=`+ id )
   }
 
+  public updateEmployee(data,id){
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`+ id + '/', data)
+  }
+
+  public getEmployeeDetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/` + id + '/')
+  }
 
 }

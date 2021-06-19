@@ -1,34 +1,63 @@
 <nb-tabset>
     <nb-tab tabTitle="Create Employee Details">
-        <div id="employeeForm" [formGroup]="employeeForm" class="container">
-            <div class="row">
-                <div class="col-md-4">
+        <form id="employeeForm" [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="container">
+            <div class="form-row">
+                <div class="form-group col-md-4">
                     <label for="employeeCode">Emplyoee Code : </label>
                     <input type="text" nbInput name="employeeCode" formControlName="employeeCodeFormControl" placeholder="AutoGenerate" readonly />
                 </div>
-                <div class="col-md-4">
+                <div class="form-group col-md-4">
                     <label for="employeeName">Employee Name: </label>
-                    <input nbInput name="employeeName" formControlName="employeeNameFormControl" />
+                    <input nbInput name="employeeName" formControlName="employeeNameFormControl" 
+                    [ngClass]="{ 'is-invalid': submitted && f.employeeNameFormControl.errors }" class="form-control" required/>
+                    <div *ngIf="submitted && f.employeeNameFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.employeeNameFormControl.errors.required">Name is required</div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="employeeAddress">Address: </label><br>
+                    <textarea nbInput  name="employeeAddress" class="form-control" formControlName="employeeAddressFormControl"
+                     [ngClass]="{ 'is-invalid': submitted && f.employeeAddressFormControl.errors }" required ></textarea>
+                    <div *ngIf="submitted && f.employeeAddressFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.employeeAddressFormControl.errors.required">Address is required</div>
+                    </div>
                 </div>
             </div><br>
-            <div class="row">
-                <div class="col-md-4">
+            <div class="form-row">
+                <div class="form-group col-md-4">
                     <label for="phoneNumber">Phone Number : </label>
-                    <input nbInput name="phoneNumber" formControlName="phoneNumberFormControl" />
+                    <input nbInput type="text" name="phoneNumber" (keypress)="keyPress($event)" formControlName="phoneNumberFormControl" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.phoneNumberFormControl.errors  }" required/>
+                    <div *ngIf="submitted && f.phoneNumberFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && f.phoneNumberFormControl.errors.required"> Phone Number is Required</div>
+                        <div *ngIf="submitted &&  f.phoneNumberFormControl.errors?.pattern ">Phone number must be at least 10 numbers </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="department">Department: </label><br>
-                    <input nbInput name="Department" formControlName="departmentFormControl" />
+                <div class="form-group col-md-4">
+                    <label for="department">Department Name: </label><br>
+                    <input nbInput name="Department" formControlName="departmentFormControl" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.departmentFormControl.errors  }" required/>
+                    <div *ngIf="submitted && f.departmentFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.departmentFormControl.errors.required">Department Name is required</div>
+                    </div>
                 </div>
             </div><br>
+            
            
            
-            <div class="row">
-                <div class="col-md-2">
+            <div class="form-row">
+                <div class="form-group col-md-2">
                  <button nbButton status="success"  size="small" (click)="saveEmployee();">Save</button>
                 </div>
             </div>
             
-        </div>
+        </form>
+
+      
+    </nb-tab>
+    <nb-tab tabTitle="employee List">
+        <div class="row">
+            <ng2-smart-table [settings]="employeeSettings" [source]="employeeData"></ng2-smart-table>
+            </div>
     </nb-tab>
 </nb-tabset>
