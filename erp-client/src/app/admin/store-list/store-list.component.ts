@@ -54,6 +54,10 @@ export class StoreListComponent implements OnInit {
       
     },
   };
+
+
+
+  
   constructor(private formBuilder: FormBuilder,
     private adminService: AdminService,
     private nbtoastService: NbToastrService,

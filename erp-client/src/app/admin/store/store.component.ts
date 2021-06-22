@@ -22,6 +22,23 @@ export class StoreComponent implements OnInit {
   shipLocationName: any;
   loc_id: any;
   createFlag_Loc: boolean = true;
+  submitted: boolean = false;
+
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  omit_special_char(event)
+{   
+   var k;  
+   k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+   return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+}
+
 
   constructor(private formBuilder: FormBuilder,
               private nbtoastService: NbToastrService,
@@ -35,9 +52,9 @@ export class StoreComponent implements OnInit {
       {
         storeNameFormControl: ['',[Validators.required]],
         storeAddressFormControl: ['',[Validators.required]],
-        storePinCodeFormControl: ['',[Validators.required]],
+        storePinCodeFormControl: ['',[Validators.required,Validators.pattern('^[0-9]{6}$')]],
         storeCityFormControl: ['',[Validators.required]],
-        gstFormControl: ['',[Validators.required]],
+        gstFormControl: ['',[Validators.required,Validators.maxLength(15)]],
         mainBranchFormControl: [''],
       }
     )
@@ -190,4 +207,23 @@ export class StoreComponent implements OnInit {
       }
     )
   }
+
+
+get f() { return this.storeForm.controls; }
+
+onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.storeForm.invalid) {
+        return;
+    }
+    if (!this.storeForm.invalid){
+      return this.submitted = false;
+    }
+
+    
+  
+}
+
 }

@@ -2,48 +2,72 @@
 <nb-tabset>
     <nb-tab tabTitle="Branch Information">
 
-        <div [formGroup]="storeForm">
-            <div class="row">
-                <div class="col-md-3">
+        <form [formGroup]="storeForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <label for="storeName">Branch Name</label>
-                    <input type="text" formControlName="storeNameFormControl" nbInput name="storeName" />
+                    <input type="text" formControlName="storeNameFormControl" nbInput name="storeName"
+                    [ngClass]="{ 'is-invalid': submitted && f.storeNameFormControl.errors }" class="form-control"/>
+                    <div *ngIf="submitted && f.storeNameFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.storeNameFormControl.errors.required">Name is required</div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <label for="storeAddress">Branch Address</label>
-                    <textarea formControlName="storeAddressFormControl" nbInput name="storeAddress"></textarea>
+                    <textarea formControlName="storeAddressFormControl" nbInput name="storeAddress"
+                    [ngClass]="{ 'is-invalid': submitted && f.storeAddressFormControl.errors }" class="form-control"></textarea>
+                    <div *ngIf="submitted && f.storeAddressFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.storeAddressFormControl.errors.required">Address is required</div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <label for="storeCity">City &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    <input type="text" formControlName="storeCityFormControl" nbInput name="storeCity" />
+                    <input type="text" formControlName="storeCityFormControl" nbInput name="storeCity" 
+                    [ngClass]="{ 'is-invalid': submitted && f.storeCityFormControl.errors }" class="form-control"/>
+                    <div *ngIf="submitted && f.storeCityFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.storeCityFormControl.errors.required">City is required</div>
+                    </div>
                 </div> &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-                <div class="col-md-3">
+
+
+                <div class="form-group col-md-3">
                     <label for="storePinCode">pin Code</label>
-                    <input nbInput formControlName="storePinCodeFormControl" name="storePinCode" />
+                    <input nbInput  type="text" formControlName="storePinCodeFormControl" (keypress)="keyPress($event)" name="storePinCode" 
+                    [ngClass]="{ 'is-invalid': submitted && f.storePinCodeFormControl.errors  }" class="form-control" />
+                    <div *ngIf="submitted && f.storePinCodeFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && f.storePinCodeFormControl.errors.required"> Pin Number is Required</div>
+                        <div *ngIf="submitted &&  f.storePinCodeFormControl.errors?.pattern ">Pin number must be 6 numbers </div>
+                    </div>
                 </div>
             </div><br>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <label for="storeGst">GST Number</label>
-                    <input type="text" formControlName="gstFormControl" nbInput name="storeGst" />
+                    <input type="text" formControlName="gstFormControl"  (keypress)="omit_special_char($event)" nbInput name="storeGst" 
+                    [ngClass]="{ 'is-invalid': submitted && f.gstFormControl.errors  }" class="form-control" />
+                    <div *ngIf="submitted && f.gstFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && f.gstFormControl.errors.required"> Gst Number is Required</div>
+                        <div *ngIf="submitted &&  f.gstFormControl.errors.maxlength ">Gst number must be 15 numbers </div>
+                    </div>
                 </div>
-                <div class="col-md-3">
+                <div class="form-group col-md-3">
                     <label for="mainBranch">Is Head Office</label>
                     <input type="checkbox" formControlName="mainBranchFormControl" name="mainBranch" />
                 </div>
 
             </div><br>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <button nbButton [hidden]="!createFlag"   (click)="saveStore();" status="success" *ngxPermissionsOnly="['store.add_storeuser']" >Save</button>&nbsp;&nbsp;
                     <button nbButton [hidden]="createFlag"   (click)="updateStore();" status="success" *ngxPermissionsOnly="['store.change_storeuser']">Update</button>&nbsp;&nbsp;
 
                 </div>
             </div>
-        </div>
+        </form>
     </nb-tab>
     <!-- <nb-tab tabTitle="Branch Shiping Location">
         <div class="row">

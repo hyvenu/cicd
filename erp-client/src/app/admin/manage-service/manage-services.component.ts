@@ -29,7 +29,7 @@ export class ManageServiceComponent implements OnInit {
     actions: {
       add: false,
       edit: true,
-      delete: false,      
+      delete: true,      
       },
     columns: {
       id: {
@@ -47,6 +47,7 @@ export class ManageServiceComponent implements OnInit {
       },
     }
   }
+  submitted: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private adminService: AdminService,
@@ -133,4 +134,18 @@ export class ManageServiceComponent implements OnInit {
     refresh(): void {
       window.location.reload();
     }
+
+    get f() { return this.ServiceFrom.controls; }
+
+    onSubmit() {
+        this.submitted = true;
+
+        // stop here if form is invalid
+        if (this.ServiceFrom.invalid) {
+            return;
+        }
+        if (!this.ServiceFrom.invalid){
+          return this.submitted = false;
+        }
+      }
 }
