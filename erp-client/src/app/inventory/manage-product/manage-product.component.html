@@ -5,54 +5,79 @@
     <nb-tab tabTitle="Product Information" [active]="IsProductInfo">
 
 
-        <div id="" [formGroup]="productMasterFrom">
-            <div class="row">
-                <div class="col-md-3">
+        <form id="" [formGroup]="productMasterFrom" (ngSubmit)="onSubmits()">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <label for="categoryName">Category Name</label>
                     <input nbInput formControlName="categoryNameFormControl" name="categoryName"
-                        placeholder="Category Name" (keypress)="cat_open(dialog)" (click)="cat_open(dialog)" readonly />
+                        placeholder="Category Name" (keypress)="cat_open(dialog)" (click)="cat_open(dialog)" readonly 
+                        [ngClass]="{ 'is-invalid': submitted && f.categoryNameFormControl.errors }" class="form-control"/>
+                        <div *ngIf="submitted && f.categoryNameFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.categoryNameFormControl.errors.required"> Category Name is required</div>
+                        </div>
                 </div><br>
-                <div class="col-md-3">
+                <div class="form-group col-md-3">
                     <label for="subcategoryName">Sub Category </label>
                     <input nbInput formControlName="subcategoryNameFormControl" name="subcategoryName"
                         placeholder="Sub Category Name" (keypress)="sub_open(sub_cat_dialog)"
-                        (click)="sub_open(sub_cat_dialog)" readonly />
+                        (click)="sub_open(sub_cat_dialog)" readonly 
+                        [ngClass]="{ 'is-invalid': submitted && f.subcategoryNameFormControl.errors }" class="form-control"/>
+                        <div *ngIf="submitted && f.subcategoryNameFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.subcategoryNameFormControl.errors.required">Sub Category Name is required</div>
+                        </div> 
                 </div><br>
-                <div class="col-md-3">
+                <div class="form-group col-md-3">
                     <label for="brandName">Brand Name </label>
                     <input nbInput formControlName="brandNameFormControl" name="brandName" placeholder="Brand Name"
-                        (keypress)="brand_open(brand_dialog)" (click)="brand_open(brand_dialog)" readonly />
+                        (keypress)="brand_open(brand_dialog)" (click)="brand_open(brand_dialog)" readonly 
+                        [ngClass]="{ 'is-invalid': submitted && f.brandNameFormControl.errors }" class="form-control"/>
+            <div *ngIf="submitted && f.brandNameFormControl.errors" class="invalid-feedback">
+                <div *ngIf="f.brandNameFormControl.errors.required">BrandName is required</div>
+            </div> 
                 </div><br>
 
             </div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <label for="productName">Product Name</label>
                     <input nbInput formControlName="productNameFormControl" name="productName"
-                        placeholder="Product Name"  />
+                        placeholder="Product Name" 
+                        [ngClass]="{ 'is-invalid': submitted && f.productNameFormControl.errors }" class="form-control"/>
+                        <div *ngIf="submitted && f.productNameFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.productNameFormControl.errors.required">Name is required</div>
+                        </div> 
                 </div>
-                <div class="col-md-3">
+                <div class="form-group col-md-3">
                     <label for="productCode">Product Code</label>
                     <input nbInput formControlName="productCodeFormControl" name="productCode"
-                        placeholder="Product Code" readonly />
+                        placeholder="Product Code" readonly 
+                        />
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <label for="hsnCode">HSN Code</label>
-                    <input nbInput formControlName="hsncodeFormControl" name="hsnCode" placeholder="HSN Code" />
+                    <input nbInput formControlName="hsncodeFormControl" name="hsnCode" placeholder="HSN Code"
+                    [ngClass]="{ 'is-invalid': submitted && f.hsncodeFormControl.errors }" class="form-control"/>
+                    <div *ngIf="submitted && f.hsncodeFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.hsncodeFormControl.errors.required">HSN Code is required</div>
+                    </div> 
                 </div>
 
             </div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <label for="description">Description</label>
                     <input nbInput formControlName="descFormControl" type="text" name="description"
-                        placeholder="Description" />
+                        placeholder="Description" 
+                        [ngClass]="{ 'is-invalid': submitted && f.descFormControl.errors }" class="form-control"/>
+                        <div *ngIf="submitted && f.descFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.descFormControl.errors.required">Description is required</div>
+                        </div>
                 </div>
             </div><br>
-            <div class="row">
-                <div class="col-md-12">
+            <div class="form-row">
+                <div class="form-group col-md-12">
 
                     <nb-card accent="info">
                         <nb-card-header>
@@ -76,8 +101,8 @@
                     <!-- <button nbButton status="success" *ngIf="product_attributes.length > 0">Save</button>&nbsp;&nbsp; -->
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
+            <div class="form-row">
+                <div class="form-group col-md-12">
                     <nb-card accent="info">
                         <nb-card-header>
                             <b><u>Product Packing Types: </u>&nbsp; </b>
@@ -116,6 +141,7 @@
                             </nb-list-item> -->
                             <table class="table table-responsive">
                                 <thead>
+                                    <th></th>
                                     <th>Quantity</th>
                                     <th>Unit</th>
                                     <th>Unit Price</th>
@@ -125,7 +151,8 @@
                                     <th>Serial Number</th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let type of product_packingtypes">
+                                    <tr *ngFor="let type of product_packingtypes; let  i = index">
+                                        <td><button nbButton (click)="remove_types(type);" status="danger" size="small">X</button></td>
                                         <td>
                                             <input class="form-control form-control-sm" type="number" min="0" name="{{type.qty}}" [(ngModel)]="type.qty" placeholder="Quantity"  [ngModelOptions]="{standalone: true}"
                                             value="{{type.qty}}" size="small" oninput="validity.valid || (value='')" style="width: 10em;"/>&nbsp;
@@ -165,20 +192,20 @@
                     </nb-card>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
+            <div class="form-row">
+                <div class="form-group col-md-12">
                     <nb-card accent="info">
                         <nb-card-header>
                             <b><u>Product Image: </u>&nbsp; </b>
                             <input #myInput type="file" formControlName="image" multiple (change)="onFileChange($event, 'image');"/>
                         </nb-card-header>
                         <nb-card-body>
-                            <div class="row">
-                                <div class="col-md-4">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
                                     <img src={{imgSrc}} alt="Product Image " height="80" width="80" *ngIf="imgSrc"/>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-row">
                                 <nb-list-item *ngFor="let img of image_list">
                                     <div class="image-area">
                                     <img src={{img.image}} alt="" height="100" width="100" />
@@ -191,14 +218,14 @@
                     </nb-card>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <button [nbSpinner]="loading"  nbSpinnerStatus="success" nbButton status="success" (click)="saveProduct();" *ngxPermissionsOnly="['inventory.add_productmaster']"  >Save</button>&nbsp;&nbsp;
                     <!-- <button nbButton status="success" (click)="change_tab();" >Next</button>&nbsp;&nbsp; -->
 
                 </div>
             </div>
-        </div>
+        </form>
     </nb-tab>
     <!-- <nb-tab tabTitle="Packing Types">
         <div class="row">

@@ -21,6 +21,7 @@ export class ManageBrandComponent implements OnInit {
 
   @ViewChild('myInput')
   myInputVariable: ElementRef;
+  submitted: boolean= false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -160,4 +161,21 @@ export class ManageBrandComponent implements OnInit {
 
 
     }
+
+    get f() { return this.brandMasterFrom.controls; }
+
+onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.brandMasterFrom.invalid) {
+        return;
+    }
+    if (!this.brandMasterFrom.invalid){
+      return this.submitted = false;
+    }
+
+    
+  
+}
 }

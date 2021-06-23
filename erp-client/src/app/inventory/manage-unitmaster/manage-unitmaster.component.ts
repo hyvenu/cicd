@@ -15,6 +15,7 @@ export class ManageUnitmasterComponent implements OnInit {
   createFlag = true;
   unitMasterList;
   unit_id;
+  submitted: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -87,5 +88,22 @@ export class ManageUnitmasterComponent implements OnInit {
         this.createFlag = !this.createFlag;
         this.unit_id = data.id        
     }
+
+    get f() { return this.unitMasterFrom.controls; }
+
+onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.unitMasterFrom.invalid) {
+        return;
+    }
+    if (!this.unitMasterFrom.invalid){
+      return this.submitted = false;
+    }
+
+    
+  
+}
 
 }

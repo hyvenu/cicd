@@ -12,8 +12,8 @@ from store.models import Store
 class ProductCategory(AuditUuidModelMixin):
 
     # Fields
-    category_code = models.CharField(max_length=30)
-    category_name = models.CharField(max_length=300)
+    category_code = models.CharField(max_length=30, unique=True)
+    category_name = models.CharField(max_length=300, unique=True)
     description = models.CharField(max_length=2000,null=True,blank=True)
 
     class Meta:
@@ -32,8 +32,8 @@ class ProductCategory(AuditUuidModelMixin):
 class ProductSubCategory(AuditUuidModelMixin):
 
     # Fields
-    sub_category_name = models.CharField(max_length=50)
-    sub_category_code = models.CharField(max_length=30)
+    sub_category_name = models.CharField(max_length=50, unique=True)
+    sub_category_code = models.CharField(max_length=30, unique=True)
     sub_category_image = models.ImageField(upload_to="static/upload/products/sub_category", null=True, blank=True,default=None)
 
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE,related_name="category_sub_category")
@@ -57,7 +57,7 @@ class ProductBrandMaster(AuditUuidModelMixin):
 
     # Fields
     brand_image = models.ImageField(upload_to="static/upload/product/brands", unique=True, null=True,blank=True)
-    brand_name = models.CharField(max_length=100)
+    brand_name = models.CharField(max_length=100, unique=True)
 
     class Meta:
         pass
@@ -75,8 +75,8 @@ class ProductBrandMaster(AuditUuidModelMixin):
 class UnitMaster(AuditUuidModelMixin):
 
     # Fields
-    PrimaryUnit = models.CharField(max_length=100)
-    SecondaryUnit = models.CharField(max_length=300)
+    PrimaryUnit = models.CharField(max_length=100, unique=True)
+    SecondaryUnit = models.CharField(max_length=300, unique=True)
 
     class Meta:
         pass

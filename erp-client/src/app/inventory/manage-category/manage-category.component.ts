@@ -20,6 +20,7 @@ export class ManageCategoryComponent implements OnInit {
   category_id;
 
   searchCategory:any;
+  submitted: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private inventoryService: InventoryService,
@@ -104,4 +105,21 @@ export class ManageCategoryComponent implements OnInit {
     refresh(): void {
       window.location.reload();
     }
+
+    get f() { return this.categoryFrom.controls; }
+
+onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.categoryFrom.invalid) {
+        return;
+    }
+    if (!this.categoryFrom.invalid){
+      return this.submitted = false;
+    }
+
+    
+  
+}
 }

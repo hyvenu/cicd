@@ -1,27 +1,39 @@
-<div id="" [formGroup]="categoryFrom" >
-    <div class="row">
-        <div class="col-md-3">
+<form id="" [formGroup]="categoryFrom" (ngSubmit)= "onSubmit()">
+    <div class="form-row">
+        <div class="form-group col-md-3">
             <label for="categoryName">Category Name</label>
-            <input nbInput formControlName="categoryNameFormControl" name="categoryName" placeholder="Category Name" />
+            <input nbInput formControlName="categoryNameFormControl" name="categoryName" placeholder="Category Name"
+            [ngClass]="{ 'is-invalid': submitted && f.categoryNameFormControl.errors }" class="form-control"/>
+            <div *ngIf="submitted && f.categoryNameFormControl.errors" class="invalid-feedback">
+                <div *ngIf="f.categoryNameFormControl.errors.required">Name is required</div>
+            </div>
         </div>
-        <div class="col-md-3">
+        <div class=" form-group col-md-3">
             <label for="categoryCode">Category Code</label>
-            <input nbInput formControlName="categoryCodeFormControl" name="categoryCode" placeholder="Category Code"/>
+            <input nbInput formControlName="categoryCodeFormControl" name="categoryCode" placeholder="Category Code"
+            [ngClass]="{ 'is-invalid': submitted && f.categoryCodeFormControl.errors }" class="form-control"/>
+            <div *ngIf="submitted && f.categoryCodeFormControl.errors" class="invalid-feedback">
+                <div *ngIf="f.categoryCodeFormControl.errors.required">Code is required</div>
+            </div>
         </div>
     </div><br>
-    <div class="row">
-        <div class="col-md-3">
+    <div class="form-row">
+        <div class="form-group col-md-3">
             <label for="categoryDesc">Category Description</label>
-            <input nbInput formControlName="categoryDescFormControl" name="categoryDesc" placeholder="Category Desc"/>
+            <input nbInput formControlName="categoryDescFormControl" name="categoryDesc" placeholder="Category Desc"
+            [ngClass]="{ 'is-invalid': submitted && f.categoryDescFormControl.errors }" class="form-control"/>
+            <div *ngIf="submitted && f.categoryDescFormControl.errors" class="invalid-feedback">
+                <div *ngIf="f.categoryDescFormControl.errors.required">Description is required</div>
+            </div>
         </div>
     </div><br>
-    <div class="row">
-        <div class="col-md-4">
+    <div class="form-row">
+        <div class="form-group col-md-4">
             <button nbButton [hidden]="!createFlag" size="small" (click)="save_category();" status="success" *ngxPermissionsOnly="['inventory.add_productcategory']">Save</button>
             <button nbButton [hidden]="createFlag" size="small" (click)="update_category();" status="success" *ngxPermissionsOnly="['inventory.change_productcategory']" >Update</button>
         </div>
     </div>
-</div><br>
+</form><br>
 <div>
     <nb-card>
         <nb-card-header>Category List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)] = "searchCategory" /></nb-card-header>

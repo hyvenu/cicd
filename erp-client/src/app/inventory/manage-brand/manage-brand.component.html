@@ -1,25 +1,33 @@
-<div id="" [formGroup]="brandMasterFrom" >
-    <div class="row">
-        <div class="col-md-4">
+<form id="" [formGroup]="brandMasterFrom" (ngSubmit) = "onSubmit()" >
+    <div class="form-row">
+        <div class="form-group col-md-4">
             <label for="brandName">Brand Name</label><br>
-            <input nbInput formControlName="brandnameFormControl" name="brandName" placeholder="Brand Name" />
+            <input nbInput formControlName="brandnameFormControl" name="brandName" placeholder="Brand Name"
+            [ngClass]="{ 'is-invalid': submitted && f.brandnameFormControl.errors }" class="form-control"/>
+            <div *ngIf="submitted && f.brandnameFormControl.errors" class="invalid-feedback">
+                <div *ngIf="f.brandnameFormControl.errors.required">Name is required</div>
+            </div>
         </div>
-        <div class="col-md-4">
+        <div class="form-group col-md-4">
             <label for="brandImage">Brand Image</label>
-            <input #myInput nbInput type="file"  (change)="onFileChange($event)"  name="brandImage" />
+            <input #myInput nbInput type="file"  (change)="onFileChange($event)" formControlName="brandImageFormControl" name="brandImage" 
+            [ngClass]="{ 'is-invalid': submitted && f.brandImageFormControl.errors }" class="form-control"/>
+            <div *ngIf="submitted && f.brandImageFormControl.errors" class="invalid-feedback">
+                <div *ngIf="f.brandImageFormControl.errors.required">Name is required</div>
+            </div>
 
         </div>
-        <div class="col-md-4">
-            <img src="{{brand_image}}" class="rounded"  width="80" height="80" *ngIf="brand_image"/>
+        <div class=" form-group col-md-4">
+            <img src="{{brand_image}}" class="rounded" alt="No Image"  width="80" height="80" *ngIf="brand_image"/>
         </div>
     </div><br>
-    <div class="row">
-        <div class="col-md-4">
+    <div class="form-row">
+        <div class="form-group col-md-4">
             <button nbButton [hidden]="!createFlag" (click)="save_brand();" status="success" *ngxPermissionsOnly="['inventory.add_productbrandmaster']" >Save</button>
             <button nbButton [hidden]="createFlag" (click)="update_brand();" status="success" *ngxPermissionsOnly="['inventory.change_productbrandmaster']" >Update</button>
         </div>
     </div>
-</div><br>
+</form><br>
 <div>
     <nb-card>
         <nb-card-header>Brand Master List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchBrand" /></nb-card-header>

@@ -1,21 +1,29 @@
-<div id="" [formGroup]="unitMasterFrom" >
-    <div class="row">
-        <div class="col-md-3"> 
+<form id="" [formGroup]="unitMasterFrom" (ngSubmit)="onSubmit()" >
+    <div class="form-row">
+        <div class="form-group col-md-3"> 
             <label for="primaryUnit">Primary Unit</label>
-            <input nbInput formControlName="primaryUnitFormControl" name="primaryUnit" placeholder="Primary Unit" />
+            <input nbInput formControlName="primaryUnitFormControl" name="primaryUnit" placeholder="Primary Unit"
+            [ngClass]="{ 'is-invalid': submitted && f.primaryUnitFormControl.errors }" class="form-control"/>
+            <div *ngIf="submitted && f.primaryUnitFormControl.errors" class="invalid-feedback">
+                <div *ngIf="f.primaryUnitFormControl.errors.required">Primary Unit is required</div>
+            </div>  
         </div>
-        <div class="col-md-3">
+        <div class="form-group col-md-3">
             <label for="secondaryUnit">Secondary Unit</label>
-            <input nbInput formControlName="secondaryUnitFormControl" name="secondaryUnit" placeholder="Secondary Unit"/>
+            <input nbInput formControlName="secondaryUnitFormControl" name="secondaryUnit" placeholder="Secondary Unit"
+            [ngClass]="{ 'is-invalid': submitted && f.secondaryUnitFormControl.errors }" class="form-control"/>
+            <div *ngIf="submitted && f.secondaryUnitFormControl.errors" class="invalid-feedback">
+                <div *ngIf="f.secondaryUnitFormControl.errors.required">Name is required</div>
+            </div>
         </div>
     </div><br>   
-    <div class="row">
-        <div class="col-md-4"> 
+    <div class="form-row">
+        <div class="form-group col-md-4"> 
             <button nbButton [hidden]="!createFlag" (click)="save_unit();" status="success" *ngxPermissionsOnly="['inventory.add_unitmaster']" >Save</button>
             <button nbButton [hidden]="createFlag" (click)="update_unit();" status="success" *ngxPermissionsOnly="['inventory.change_unitmaster']" >Update</button>
         </div>
     </div>
-</div><br>
+</form><br>
 <div>
     <nb-card>
         <nb-card-header>Unit Master List</nb-card-header>

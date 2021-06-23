@@ -25,6 +25,7 @@ class InventoryService:
         sub_category.category_id = serializer.initial_data['category_id']
         sub_category.sub_category_name = serializer.initial_data['sub_category_name']
         sub_category.sub_category_code = serializer.initial_data['sub_category_code']
+        sub_category.description = serializer.initial_data['description']
         for image in serializer.initial_data.getlist('sub_category_image'):
             sub_category.sub_category_image = image
         sub_category.save()

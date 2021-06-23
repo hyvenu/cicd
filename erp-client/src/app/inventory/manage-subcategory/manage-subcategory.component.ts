@@ -33,6 +33,7 @@ export class ManageSubcategoryComponent implements OnInit {
 
   @ViewChild('myInput')
 myInputVariable: ElementRef;
+  submitted: boolean = false;
 
   
 
@@ -141,7 +142,7 @@ myInputVariable: ElementRef;
     };
     update_sub_category(): void{
     
-      if( this.subcategoryFrom.dirty && this.subcategoryFrom.valid){
+      if( this.subcategoryFrom.valid){
         let data = new FormData()
             data.append('sub_category_name', this.subcategoryFrom.get(['subcategoryNameFormControl']).value)
             data.append('sub_category_code', this.subcategoryFrom.get(['subcategoryCodeFormControl']).value)
@@ -156,6 +157,7 @@ myInputVariable: ElementRef;
             
             this.nbtoastService.success("Saved Successfully");
             this.subcat_image = null;
+            this.subcategoryFrom.reset();
             this.ngOnInit();
             
           },
@@ -208,5 +210,21 @@ myInputVariable: ElementRef;
       
       
     // }
+    get f() { return this.subcategoryFrom.controls; }
+
+onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.subcategoryFrom.invalid) {
+        return;
+    }
+    if (!this.subcategoryFrom.invalid){
+      return this.submitted = false;
+    }
+
+    
+  
+}
 
 }
