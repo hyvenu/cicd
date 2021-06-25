@@ -61,7 +61,7 @@ export class CalenderComponent implements OnInit {
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
+  actions: CalendarEventAction[] = [  
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
