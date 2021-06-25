@@ -54,7 +54,7 @@ export class StoreComponent implements OnInit {
         storeAddressFormControl: ['',[Validators.required]],
         storePinCodeFormControl: ['',[Validators.required,Validators.pattern('^[0-9]{6}$')]],
         storeCityFormControl: ['',[Validators.required]],
-        gstFormControl: ['',[Validators.required,Validators.maxLength(15)]],
+        gstFormControl: ['',[Validators.required,Validators.minLength(15)]],
         mainBranchFormControl: [''],
       }
     )
@@ -96,6 +96,7 @@ export class StoreComponent implements OnInit {
       this.adminService.saveStore(formData).subscribe(
         (data) => {
           this.nbtoastService.success("Store Information saved successfully")
+          this.storeForm.reset();
           this.ngOnInit();
         },
         (error) =>{
@@ -119,6 +120,7 @@ export class StoreComponent implements OnInit {
       this.adminService.updateStore(this.store_id, formData).subscribe(
         (data) => {
           this.nbtoastService.success("Store Information saved successfully")
+          this.storeForm.reset()
         },
         (error) =>{
           this.nbtoastService.danger("Unable to save store information")

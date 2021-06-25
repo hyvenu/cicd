@@ -39,12 +39,24 @@
     </div>
 </form><br>
 <div>
-     <nb-card>
-        <!-- <nb-card-header> Service List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)] = "searchService" /></nb-card-header> -->
+
+    <nb-card>
+        <nb-card-header>Service List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)] = "searchService" /></nb-card-header>
         <nb-card-body>
+            <nb-list-item *ngFor="let service of services | search_filter:'service_name':searchService">
+                <i class="mr-auto mt-2 mt-lg-0">{{ service.service_name }}</i>
+                <button nbButton size="small" (click)="selected_Service(service)" >Select</button>
+                <!-- <button class="remove-from-category" nbButton size="small"  href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="fa fa-trash"></i></button> -->
+            </nb-list-item>
+        </nb-card-body>
+    </nb-card>
+     <!-- <nb-card> -->
+        <!-- <nb-card-header> Service List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)] = "searchService" /></nb-card-header> -->
+        <!-- <nb-card-body>
             <div class="row">
                 <ng2-smart-table [settings]="settings" [source]="services"></ng2-smart-table>
                 </div>
         </nb-card-body>
-    </nb-card> 
+    </nb-card>  -->
+
 </div>

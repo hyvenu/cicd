@@ -47,11 +47,11 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="storeGst">GST Number</label>
-                    <input type="text" formControlName="gstFormControl"  (keypress)="omit_special_char($event)" nbInput name="storeGst" 
+                    <input type="text" formControlName="gstFormControl"  (keypress)="keyPress($event)" nbInput name="storeGst" 
                     [ngClass]="{ 'is-invalid': submitted && f.gstFormControl.errors  }" class="form-control" />
                     <div *ngIf="submitted && f.gstFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.gstFormControl.errors.required"> Gst Number is Required</div>
-                        <div *ngIf="submitted &&  f.gstFormControl.errors.maxlength ">Gst number must be 15 numbers </div>
+                        <div *ngIf="submitted &&  f.gstFormControl.errors.minlength ">Gst number must be 15 numbers </div>
                     </div>
                 </div>
                 <div class="form-group col-md-3">

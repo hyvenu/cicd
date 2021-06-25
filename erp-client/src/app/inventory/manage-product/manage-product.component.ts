@@ -318,8 +318,9 @@ export class ManageProductComponent implements OnInit {
         this.nbtoastService.success("Product Saved Successfully")
         this.imgSrc=null;
         this.loading = false;
+        
         this.productMasterFrom.reset();
-        this.ngOnInit();
+        
       },
       (error) =>{
         this.nbtoastService.danger(error.error.detail);

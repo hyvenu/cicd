@@ -30,6 +30,7 @@ export class ManageSubcategoryComponent implements OnInit {
   dailog_ref;
   selectedFiles = [];
   subcat_image: string;
+  url:string;
 
   @ViewChild('myInput')
 myInputVariable: ElementRef;
@@ -83,7 +84,11 @@ myInputVariable: ElementRef;
       }
     )
     
+    
   }
+  setDefaultPic() {
+    this.url ="./assets/images/no-image.jpg";
+    }
 
   open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.categories_list })

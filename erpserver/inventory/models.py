@@ -34,7 +34,7 @@ class ProductSubCategory(AuditUuidModelMixin):
     # Fields
     sub_category_name = models.CharField(max_length=50, unique=True)
     sub_category_code = models.CharField(max_length=30, unique=True)
-    sub_category_image = models.ImageField(upload_to="static/upload/products/sub_category", null=True, blank=True,default=None)
+    sub_category_image = models.ImageField(upload_to="static/upload/products/sub_category", null=True, blank=True, default="static/assets/image/no-image.jpg")
 
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE,related_name="category_sub_category")
 
@@ -56,7 +56,7 @@ class ProductSubCategory(AuditUuidModelMixin):
 class ProductBrandMaster(AuditUuidModelMixin):
 
     # Fields
-    brand_image = models.ImageField(upload_to="static/upload/product/brands", unique=True, null=True,blank=True)
+    brand_image = models.ImageField(upload_to="static/upload/product/brands", default="static/assets/image/no-image.jpg", null=True,blank=True)
     brand_name = models.CharField(max_length=100, unique=True)
 
     class Meta:
@@ -96,7 +96,7 @@ class ProductMaster(AuditUuidModelMixin):
     # Fields
     hsn_code = models.CharField(max_length=30)
     product_code = models.CharField(max_length=30)
-    product_image = models.ImageField(upload_to="static/upload/product/products",null=True,blank=True)
+    product_image = models.ImageField(upload_to="static/upload/product/products",null=True,blank=True,default="static/assets/image/no-image.jpg")
     description = models.CharField(max_length=2000)
     product_name = models.CharField(max_length=30)
 
