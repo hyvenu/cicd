@@ -108,12 +108,20 @@ export class AdminService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_booking_history?customer_id=`+ id )
   }
 
+  // public getBookingHistoryList(){
+  //   return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_list`,{})
+  // }
+
   public updateEmployee(data,id){
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`+ id + '/', data)
   }
 
   public getEmployeeDetails(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/` + id + '/')
+  }
+
+  public saveInvoice(data){
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/save_po/`,data)
   }
 
 }

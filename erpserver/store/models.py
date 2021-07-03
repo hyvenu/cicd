@@ -91,6 +91,7 @@ class StoreServices(AuditUuidModelMixin):
     service_name = models.TextField(max_length=100)
     service_desc = models.TextField(max_length=100)
     price = models.IntegerField(default=0)
+    service_gst = models.CharField(max_length=100, default="", null=True, blank=True)
 
     class Meta:
         pass
@@ -131,6 +132,7 @@ class Employee(AuditUuidModelMixin):
 
 class AppointmentSchedule(AuditUuidModelMixin):
     # Relationships
+    is_paid = models.BooleanField(default="", null=True)
     assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
     service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)

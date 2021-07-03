@@ -31,6 +31,9 @@ export class ManageBrandComponent implements OnInit {
     private routes: Router,
   ) { }
 
+  // @ViewChild('myInput')
+  // myInputVariable: ElementRef;
+
   ngOnInit(): void {
     this.brandMasterFrom  =  this.formBuilder.group({
       brandnameFormControl: ['', [Validators.required]],
@@ -92,8 +95,10 @@ export class ManageBrandComponent implements OnInit {
         (data) => {
           this.nbtoastService.success("Saved Successfully");
           this.brand_image=null;
-          this.reset();
-          this.ngOnInit();
+          
+          this.brandMasterFrom.reset();
+          this.myInputVariable.nativeElement.value = "";
+          this.refresh()
         },
         (error) =>{
           this.nbtoastService.danger(error.error.detail);
@@ -101,6 +106,11 @@ export class ManageBrandComponent implements OnInit {
       )
     }
     };
+
+    refresh(): void {
+      window.location.reload();
+    }
+    
     update_brand(): void{
 
       if(this.brandMasterFrom.valid){
@@ -117,7 +127,9 @@ export class ManageBrandComponent implements OnInit {
             this.nbtoastService.success("Saved Successfully");
             this.brand_image=null;
             
-            this.ngOnInit();
+            this.brandMasterFrom.reset()
+            this.myInputVariable.nativeElement.value = "";
+            this.refresh()
           },
           (error) =>{
             this.nbtoastService.danger(error.error.detail);

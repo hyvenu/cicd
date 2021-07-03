@@ -101,7 +101,7 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
 class StoreServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.StoreServices
-        fields = ['id', 'store', 'service_name', 'service_desc', 'price']
+        fields = ['id', 'store', 'service_name', 'service_desc', 'price', 'service_gst']
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -136,7 +136,7 @@ class AppointmentScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AppointmentSchedule
         fields = ['id', 'assigned_staff', 'service', 'booking_date', 'end_time', 'customer_name', 'start_time',
-                  'phone_number', 'appointment_status', 'store', 'customer']
+                  'phone_number', 'appointment_status', 'store', 'customer', 'is_paid']
 
     def to_representation(self, instance):
         response = super().to_representation(instance)

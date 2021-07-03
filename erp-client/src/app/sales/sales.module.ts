@@ -10,6 +10,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { SalesOrderComponent } from './sales-order/sales-order.component';
 import { MainPipe } from '../pipe.module';
+import { SalesBillComponent } from './sales-bill/sales-bill.component';
 
 const routes: Routes = [
   { path: 'OrderList' , component: OrderListComponent,canActivate:[AuthGuard]},
@@ -18,7 +19,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [OrderListComponent, OrderViewComponent, SalesOrderComponent],
+  declarations: [OrderListComponent, OrderViewComponent, SalesOrderComponent, SalesBillComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

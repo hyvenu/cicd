@@ -10,7 +10,7 @@
         </div>
         <div class="form-group col-md-4">
             <label for="brandImage">Brand Image</label>
-            <input #myInput nbInput type="file"  (change)="onFileChange($event)" formControlName="brandImageFormControl" name="brandImage" 
+            <input #myInput nbInput type="file" #myInput  (change)="onFileChange($event)" formControlName="brandImageFormControl" name="brandImage" 
             [ngClass]="{ 'is-invalid': submitted && f.brandImageFormControl.errors }" class="form-control"/>
             <div *ngIf="submitted && f.brandImageFormControl.errors" class="invalid-feedback">
                 <div *ngIf="f.brandImageFormControl.errors.required">Name is required</div>

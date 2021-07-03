@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { AdminService } from 'src/app/admin/admin.service';
 import * as moment from 'moment';
+import { tr } from 'date-fns/locale';
 
 @Component({
   selector: 'app-appointment-book',
@@ -24,6 +25,8 @@ export class AppointmentBookComponent implements OnInit {
   selected_customer: any;
   customer_id: any;
   appointment_id: any;
+  submitted: boolean = false;
+  passed_flag:boolean = false;
 
 
 
@@ -36,11 +39,19 @@ export class AppointmentBookComponent implements OnInit {
     private adminService:AdminService,
     ) { }
 
+    keyPress(event: any) {
+      const pattern = /[0-9\+\-\ ]/;
+      let inputChar = String.fromCharCode(event.charCode);
+      if (event.keyCode != 8 && !pattern.test(inputChar)) {
+        event.preventDefault();
+      }
+    }
+
   ngOnInit(): void {
 
     this.bookingForm  =  this.formBuilder.group({   
       customerNameFormControl: ['', [Validators.required]],
-      phoneNumberFormControl: ['', [Validators.required]],
+      phoneNumberFormControl: ['', [Validators.required,Validators.pattern('^[0-9]{10}$')]],
       startTimeFormControl: ['', [Validators.required]],
       bookingDateFormControl: ['', [Validators.required]],
       endTimeFormControl: ['', [Validators.required]],
@@ -90,6 +101,7 @@ export class AppointmentBookComponent implements OnInit {
     form_data.append('start_time', this.bookingForm.controls['startTimeFormControl'].value);
     form_data.append('end_time', this.bookingForm.controls['endTimeFormControl'].value);
     form_data.append('booking_date', moment(this.bookingForm.controls['bookingDateFormControl'].value).format("YYYY-MM-DD"));
+    form_data.append('is_paid',new Boolean(this.passed_flag).toString())
 
     if (this.booking_id) {
         this.adminService.updateBooking(this.booking_id,form_data).subscribe(
@@ -97,6 +109,7 @@ export class AppointmentBookComponent implements OnInit {
              this.nbtoastService.success("Booking information updated")
              this.bookingForm.reset();
              this.booking_id=null;
+             
           },  
           (error) => {
               this.nbtoastService.danger("Failed to update");
@@ -108,6 +121,7 @@ export class AppointmentBookComponent implements OnInit {
            this.nbtoastService.success("Booking information saved")
            this.bookingForm.reset();
            this.booking_id=null;
+           window.location.reload();
         },  
         (error) => {
             this.nbtoastService.danger("Failed to update");
@@ -128,6 +142,24 @@ export class AppointmentBookComponent implements OnInit {
     }
     );
   }
+
+  get f() { return this.bookingForm.controls; }
+
+    onSubmit() {
+        this.submitted = true;
+
+        // stop here if form is invalid
+        if (this.bookingForm.invalid) {
+            return;
+        }
+        if (!this.bookingForm.invalid){
+          return this.submitted = false;
+        }
+
+        
+      
+    }
+
 
 }
 

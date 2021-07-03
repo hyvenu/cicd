@@ -59,7 +59,8 @@ class InventoryService:
                     price_obj = ProductPriceMaster()
                     price_obj.product_identifier = str(get_next_value('product_identifier')).zfill(12)
                     file_name = price_obj.product_identifier + '.png'
-                    price_obj.bar_code.save(file_name, File(cls.generate_bar_code(price_obj.product_identifier)), save=False)
+                    price_obj.bar_code.save(file_name, File(cls.generate_bar_code(price_obj.product_identifier)),
+                                            save=False)
                 price_obj.sell_price = packs['sell_price']
                 price_obj.unit_id = packs['unit_id']
                 price_obj.qty = packs['qty']
@@ -101,7 +102,7 @@ class InventoryService:
         return list(product_dict)
 
     @classmethod
-    def get_product_pack_types(cls,product_id):
+    def get_product_pack_types(cls, product_id):
         pack_type = ProductPriceMaster.objects.filter(product_id=product_id).all().values(
             'product__product_code',
             'product__product_name',
@@ -136,7 +137,6 @@ class InventoryService:
         ean.write(buffer)
         return buffer
 
-
     @classmethod
     def delete_images(cls, product_id, image_id):
         prod_image = ProductImages.objects.get(id=image_id)
@@ -165,5 +165,5 @@ class InventoryService:
             return None
 
     @classmethod
-    def save_product_stock(cls,store_id,data):
+    def save_product_stock(cls, store_id, data):
         pass

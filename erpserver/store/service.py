@@ -23,7 +23,7 @@ class StoreService:
         return list(settings.values())
 
     def get_Appointment(self, customer_id):
-        appointment = AppointmentSchedule.objects.filter(customer_id=customer_id).all().values(
+        appointment = AppointmentSchedule.objects.filter(customer_id=customer_id, is_paid=False).all().values(
             'id',
             'customer__id',
             'customer_name',
@@ -32,5 +32,18 @@ class StoreService:
             'assigned_staff__employee_name',
             'phone_number',
             'customer',
+            'service__price',
+
         )
-        return list(appointment.values())
+        return list(appointment)
+
+    def get_appointment_list(self):
+        appointment_list = AppointmentSchedule.objects.all().values(
+            'id',
+            'customer__customer_name',
+            'service__service_name',
+            'booking_date',
+            'phone_number',
+            'customer_name',
+        )
+        return list(appointment_list)

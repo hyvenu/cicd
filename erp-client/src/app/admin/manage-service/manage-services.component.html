@@ -21,9 +21,20 @@
         <div class=" form-group col-md-3">
             <label for="ServicePriceFormControl"> Price</label>
             <input type="number" nbInput formControlName="ServicePriceFormControl" name="Price" placeholder=" Price"
+            oninput="validity.valid || (value='')" min="0"
             [ngClass]="{ 'is-invalid': submitted && f.ServicePriceFormControl.errors }" class="form-control"/>
                     <div *ngIf="submitted && f.ServicePriceFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.ServicePriceFormControl.errors.required">Price is required</div>
+                    </div>
+
+        </div>
+        <div class=" form-group col-md-3">
+            <label for="ServicePriceFormControl"> Gst</label>
+            <input type="text" nbInput formControlName="gstFormControl" name="Price" placeholder=" Price"
+            oninput="validity.valid || (value='')" min="0"
+            [ngClass]="{ 'is-invalid': submitted && f.gstFormControl.errors }" class="form-control"/>
+                    <div *ngIf="submitted && f.gstFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.gstFormControl.errors.required">Gst is required</div>
                     </div>
 
         </div>

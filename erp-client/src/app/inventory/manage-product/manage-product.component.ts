@@ -107,6 +107,7 @@ export class ManageProductComponent implements OnInit {
             this.selected_brand = data.brand;
             this.product_id = data.id;
             this.image_list = data.product_images
+            
 
             data.product_price.forEach(element => {
               this.product_packingtypes.push(
@@ -168,6 +169,7 @@ export class ManageProductComponent implements OnInit {
     .onClose.subscribe(data => {
        this.selected_category = data     
        this.category_id = data.id 
+       console.log(this.category_id)
        this.productMasterFrom.controls['categoryNameFormControl'].setValue(data.category_name);
        this.getProductCode();
     }
@@ -320,6 +322,7 @@ export class ManageProductComponent implements OnInit {
         this.loading = false;
         
         this.productMasterFrom.reset();
+        window.location.reload();
         
       },
       (error) =>{

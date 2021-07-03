@@ -1,20 +1,24 @@
 import datetime
+from io import BytesIO
 
 from django.db import transaction
 from django.db.models import Sum, Q
 from django.utils import timezone
 from sequences import get_next_value
+from django.core.files import File
+import barcode
+from barcode.writer import ImageWriter
 
 from ecommerce.models import Cart
 from engine.payment_service import PaymentService
 from engine.pdf_service import get_pdf
 from engine.promo_code_service import PromoCodeService
 from inventory.models import ProductMaster, ProductPriceMaster, ProductImages, ProductStock
-from sales.models import OrderRequest, OrderDetails, OrderEvents, SalesOrderRequest, SalesOrderDetails
+from sales.models import OrderRequest, OrderDetails, OrderEvents, SalesOrderRequest, SalesOrderDetails, \
+    SalesInvoiceItems
 from security.models import CustomerAddress
 from store.models import StoreShipLocations, Store
 import ast
-
 
 ORDER_STATUS_DICT = {
     '1': 'New Order',
@@ -30,8 +34,8 @@ ORDER_STATUS_DICT = {
     '11': 'Order Cancel Review',
     '12': 'Cancel Confirm',
     '13': 'Refund Initiate',
-    '14' : 'Refund Completed',
-    '15' : 'Cancel Rejected'
+    '14': 'Refund Completed',
+    '15': 'Cancel Rejected'
 
 }
 
@@ -52,7 +56,7 @@ DELIVERY_METHOD_DICT = {
 
 class OrderService:
 
-    def check_stock(self, product, pack_type,qty):
+    def check_stock(self, product, pack_type, qty):
         pass
 
     def get_order_location_map(self, ship_address):
@@ -125,8 +129,7 @@ class OrderService:
             query = Q(store_id=kwargs['store_id'])
             store = Store.objects.filter(id=kwargs['store_id']).all().values()
             if store.exists() and store[0]['is_head_office']:
-                query = query.add(Q(order_status=1),Q.OR)
-
+                query = query.add(Q(order_status=1), Q.OR)
 
         order_list = OrderRequest.objects.filter(query) \
             .all().values(
@@ -177,7 +180,7 @@ class OrderService:
             'store__store_name',
         )[0]
         order_data['shipping_address'] = \
-        CustomerAddress.objects.filter(id=order_data['shipping_address']).all().values()[0]
+            CustomerAddress.objects.filter(id=order_data['shipping_address']).all().values()[0]
         order_data['billing_address'] = CustomerAddress.objects.filter(id=order_data['billing_address']).all().values()[
             0]
         order_data['order_status_text'] = ORDER_STATUS_DICT[str(order_data['order_status'])]
@@ -231,16 +234,15 @@ class OrderService:
             order_request.promo_code = order_data['promo_code']
             promo_service = PromoCodeService()
             promo_service.update_promo_use_count(order_request.promo_code)
-            order_total = self.calculate_order_total(user_id,order_request.promo_code)
+            order_total = self.calculate_order_total(user_id, order_request.promo_code)
             order_request.tax_amount = order_total['tax_amount__sum']
             order_request.order_amount = round(order_total['sub_total__sum'])
         else:
-            order_total = self.calculate_order_total(user_id,None)
+            order_total = self.calculate_order_total(user_id, None)
             order_request.tax_amount = order_total['tax_amount__sum']
             order_request.order_amount = round(order_total['sub_total__sum'])
         # order_request.store_id = get_order_mapping()
         order_request.save()
-
 
         cart_items = Cart.objects.filter(user_id=user_id).all()
         for items in cart_items:
@@ -313,7 +315,7 @@ class OrderService:
         code = perfix + str(code).zfill(5)
         return code
 
-    def update_stock(self,order_id):
+    def update_stock(self, order_id):
         order_details = OrderDetails.objects.filter(order_id=order_id).all().values(
             'id',
             'product_id',
@@ -326,7 +328,8 @@ class OrderService:
         item_available = True
         for item in order_details:
             required_qty = item['quantity']
-            stock = ProductStock.objects.filter(product_id=item['product_id'],unit=item['pack_unit__unit_id']).order_by('batch_expiry').all().values()
+            stock = ProductStock.objects.filter(product_id=item['product_id'],
+                                                unit=item['pack_unit__unit_id']).order_by('batch_expiry').all().values()
             for stock_item in stock:
                 available_qty = int(stock_item['quantity'])
                 if required_qty <= 0:
@@ -335,12 +338,12 @@ class OrderService:
                     available_qty = available_qty - required_qty
 
                     stock_obj = ProductStock.objects.get(id=stock_item['id'])
-                    stock_obj.quantity=available_qty
+                    stock_obj.quantity = available_qty
                     stock_obj.save()
 
                     order_Det_obj = OrderDetails.objects.get(id=item['id'])
-                    order_Det_obj.batch_expiry=stock_item['batch_expiry']
-                    order_Det_obj.batch_number=stock_item['batch_number']
+                    order_Det_obj.batch_expiry = stock_item['batch_expiry']
+                    order_Det_obj.batch_number = stock_item['batch_number']
                     order_Det_obj.save()
                     required_qty = 0
                 else:
@@ -355,7 +358,7 @@ class OrderService:
                     order_Det_obj.batch_number = stock_item['batch_number']
                     order_Det_obj.save()
 
-            if required_qty <=0:
+            if required_qty <= 0:
                 item_available = True
             else:
                 item_available = False
@@ -386,8 +389,8 @@ class OrderService:
         # sales_order_req.terms_of_delivery = sales_data['terms_of_delivery']
         sales_order_req.note = sales_data['note']
         sales_order_req.sub_total = sales_data['sub_total']
-        sales_order_req.packing_perct = 0 # sales_data['packing_perct']
-        sales_order_req.packing_amount =0 # sales_data['packing_amount']
+        sales_order_req.packing_perct = 0  # sales_data['packing_perct']
+        sales_order_req.packing_amount = 0  # sales_data['packing_amount']
         sales_order_req.total_amount = sales_data['total_amount']
         sales_order_req.sgst = sales_data['sgst']
         sales_order_req.cgst = sales_data['cgst']
@@ -400,25 +403,69 @@ class OrderService:
         product_list = ast.literal_eval(sales_data['po_products'])
         for item in product_list:
             if 'id' in item and len(item['id']) > 0:
-                po_product = SalesOrderDetails.objects.get(id=item['id'])
+                so_invoice = SalesOrderDetails.objects.get(id=item['id'])
             else:
-                po_product = SalesOrderDetails()
-            po_product.po_order = sales_order_req
-            po_product.product_id = item['product_id']
-            po_product.product_code = item['product_code']
-            po_product.product_name = item['product_name']
-            po_product.unit_id = item['unit_id']
-            po_product.qty = item['qty']
+                so_invoice = SalesOrderDetails()
+            so_invoice.po_order = sales_order_req
+            so_invoice.product_id = item['product_id']
+            # po_product.product_code = item['product_code']
+            # po_product.product_name = item['product_name']
+            so_invoice.unit_id = item['unit_id']
+            so_invoice.qty = item['qty']
             # po_product.delivery_date = str(item['delivery_date'])[0:10]
-            po_product.unit_price = item['unit_price']
-            po_product.gst = item['gst']
-            po_product.amount = item['amount']
-            po_product.disc_percent = item['disc_percent']
-            po_product.disc_amount = item['disc_amount']
-            po_product.gst_amount = item['gst_amount']
-            po_product.total_amount = item['total_amount']
-            po_product.save()
+            so_invoice.unit_price = item['unit_price']
+            so_invoice.gst = item['gst']
+            so_invoice.amount = item['amount']
+            so_invoice.disc_percent = item['disc_percent']
+            so_invoice.disc_amount = item['disc_amount']
+            so_invoice.gst_amount = item['gst_amount']
+            so_invoice.total_amount = item['subtotal_amount']
+            so_invoice.booking_history_id = item['booking_history']
+            so_invoice.store_id = item['store']
+            so_invoice.total = item['total']
+            so_invoice.grand_total = item['grand_total']
+            so_invoice.card = item['card']
+            so_invoice.cash = item['cash']
+            so_invoice.upi = item['upi']
+            so_invoice.transaction_id = item['transaction_id']
+            so_invoice.exchange = item['exchange']
+            so_invoice.cancel_invoice = item['cancel_invoice']
+            so_invoice.refund = item['refund']
+            so_invoice.subtotal_product_amount = item['subtotal_product_amount']
+            so_invoice.user_id = item['user_id']
+            so_invoice.supervisor_id = item['supervisor_id']
+            so_invoice.card_no = item['card_no']
+            so_invoice.save()
+
+            if 'invoice_items_list' in sales_data.initial_data:
+                invoice_items = sales_data.initial_data['invoice_items_list']
+                invoice_items = ast.literal_eval(invoice_items)
+                for itemlist in invoice_items:
+                    if 'id' in itemlist:
+                        invoice_obj = SalesInvoiceItems.objects.get(id=itemlist['id'])
+                    else:
+                        invoice_obj = SalesInvoiceItems()
+                        invoice_obj.items_identifier = str(get_next_value('items_identifier')).zfill(12)
+                        file_name = invoice_obj.items_identifier + '.png'
+                        invoice_obj.bar_code.save(file_name, File(cls.generate_bar_code(invoice_obj.items_identifier)),
+                                                save=False)
+                    invoice_obj.price = itemlist['price']
+                    invoice_obj.unit_id = itemlist['unit_id']
+                    invoice_obj.qty = itemlist['qty']
+                    invoice_obj.so_order_details = so_invoice
+                    invoice_obj.item_description = itemlist['item_description']
+                    invoice_obj.save()
+
         return sales_order_req.po_number
+
+    @classmethod
+    def generate_bar_code(cls, items_identifier):
+
+        EAN = barcode.get_barcode_class('ean13')
+        ean = EAN(f'{items_identifier}', writer=ImageWriter())
+        buffer = BytesIO()
+        ean.write(buffer)
+        return buffer
 
     @classmethod
     def get_po_details(cls, po_id):
@@ -450,6 +497,7 @@ class OrderService:
         )[0]
 
         po_data_list['order_details'] = list(SalesOrderDetails.objects.filter(po_order_id=po_id).all().values(
+
             "id",
             "product_id",
             "product_name",

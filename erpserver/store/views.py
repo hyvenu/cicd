@@ -102,5 +102,13 @@ def get_site_settings(request):
 def get_booking_history(request):
     store_service = StoreService()
     customer_id = request.GET.get('customer_id')
-    site_settings = store_service.get_Appointment(customer_id)
-    return JsonResponse(site_settings, safe=False, status=status.HTTP_200_OK)
+    booking_history = store_service.get_Appointment(customer_id)
+    return JsonResponse(booking_history, safe=False, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_appointment_list(request):
+    store_service = StoreService()
+    appointment_list = store_service.get_appointment_list()
+    return JsonResponse(appointment_list, safe=False)

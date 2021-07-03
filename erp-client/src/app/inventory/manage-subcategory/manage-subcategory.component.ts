@@ -33,7 +33,7 @@ export class ManageSubcategoryComponent implements OnInit {
   url:string;
 
   @ViewChild('myInput')
-myInputVariable: ElementRef;
+  myInputVariable: ElementRef;
   submitted: boolean = false;
 
   
@@ -86,9 +86,7 @@ myInputVariable: ElementRef;
     
     
   }
-  setDefaultPic() {
-    this.url ="./assets/images/no-image.jpg";
-    }
+ 
 
   open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.categories_list })
@@ -135,8 +133,12 @@ myInputVariable: ElementRef;
         (data) => {
           this.nbtoastService.success("Saved Successfully");
           this.subcat_image = null;
-          this.reset();
-          this.ngOnInit();
+          this.subcategoryFrom.reset();
+          this.myInputVariable.nativeElement.value = "";
+          this.refresh()
+          
+          
+          
           
         },
         (error) =>{
@@ -163,7 +165,9 @@ myInputVariable: ElementRef;
             this.nbtoastService.success("Saved Successfully");
             this.subcat_image = null;
             this.subcategoryFrom.reset();
-            this.ngOnInit();
+            this.myInputVariable.nativeElement.value = "";
+            this.refresh();
+          
             
           },
           (error) =>{

@@ -37,7 +37,7 @@
     <div class="form-row">
     <div class="form-group col-md-4" >
         <label for="subCatImage" >Image</label>
-        <input #myInput nbInput type="file"  alt="No Image"  (change)="onFileChange($event)"  name="subCatImage" />
+        <input #myInput nbInput type="file"  alt="No Image" formControlName="subCatImageFormControl" (change)="onFileChange($event)"  name="subCatImage" />
         
         
     </div>

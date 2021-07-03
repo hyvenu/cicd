@@ -16,6 +16,7 @@ import { ProductCampaignComponent } from './product-campaign/product-campaign.co
 import { SiteSettingsComponent } from './site-settings/site-settings.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { ManageServiceComponent } from './manage-service/manage-services.component'
+import { SalesBillComponent } from '../sales/sales-bill/sales-bill.component';
 
 const routes: Routes = [
   { path: 'ManageStore' , component: StoreComponent,canActivate:[AuthGuard]},
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'OfferZone' , component: ProductCampaignComponent,canActivate:[AuthGuard]},
   { path:'sitesettings',component: SiteSettingsComponent,canActivate:[AuthGuard]},
   { path:'Services',component: ManageServiceComponent,canActivate:[AuthGuard]},
+  { path: 'SalesBill', component: SalesBillComponent,canActivate:[AuthGuard]},
 
 ];
 
