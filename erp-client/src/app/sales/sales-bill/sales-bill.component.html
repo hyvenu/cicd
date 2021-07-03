@@ -1,0 +1,223 @@
+   <!-- <nb-tabset>
+       <nb-tab tabTitle="Invoice"> -->
+<nb-card>
+    <nb-card-body>
+   <div style="float: left;" [formGroup]="invoiceForm" >
+        <table class="table table-striped" style="width: 50%;border-collapse: collapse;">
+            <tr>
+                <th colspan="7" style="text-align: center;">Invoice </th>
+               
+            </tr>
+            <tr>
+                <td>
+                    <input nbInput formControlName="salesNewFormControl" size="small" style="width: 10em;" name="salesNewFormControl" placeholder="SalesNew" ></td>
+                <td> <input nbInput formControlName="customerNameFormControl" size="small" style="width: 10em;" name="CustomerNameFormControl" placeholder="Customer Name"
+                    (keypress)="open(dialog)" (click)="open(dialog)" ></td>
+                <td style="visibility: hidden;"> <input  nbInput formControlName="serviceNameFormControl" name="serviceNameFormControl" size="small" style="width: 8em;" placeholder="Service Name"  ></td>
+                <td><input type="hidden" name=""></td>
+               
+                
+                <td> <button nbButton size="small" status="danger" >Delete</button></td>
+                <td> <button nbButton size="small" status="info" >Next</button></td>
+                <td> <button nbButton size="small" status="info" >Back</button></td>
+            </tr>
+            <tr >
+                <td rowspan="2" colspan="4" ><input nbInput size="small" style="width: 10em;" formControlName="barCodeFormControl" name="barCodeFormControl" placeholder="Bar Code" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input nbInput size="small" style="width: 10em;" formControlName="quantityFormControl" name="quantityFormControl" placeholder="Quantity" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input nbInput size="small" style="width: 10em;"  name="searchFormControl" placeholder="Search" >
+                <input type="hidden" name="">
+               
+            </tr>
+            <tr> 
+                 <td colspan="3" style="text-align: center;">Subtotal: <br> <input  type="number" nbInput size="small" style="width: 10em;"  value="{{subtotal}}" (input)="calculate_price()" formControlName="subTotalFormControl"  name="subTotalFormControl" [(ngModel)]="selectedSubTotal" placeholder="Subtotal" >the:{{selectedSubTotal}}<br>
+                    <div class="form-group col-md-2"> 
+                        <label >Gst</label>
+                        <nb-select name="services"  formControlName="gstCalculateFormControl" [(selected)]="selectedGST" [(ngModel)]="selectedGstEvent"  (change)= "gstCalculation()"   >
+                            <nb-option *ngFor="let gst of gst_list" value="{{gst.name}}"  >
+                                {{gst.name}}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+                </td>
+                {{selectedGstEvent}}
+                 
+              
+            </tr>
+           
+            <tr>
+                <td rowspan="7" colspan="4">
+                    <table class="table table-responsive">
+                    <thead>
+                        <th></th>
+                        
+                        <th>Item Description</th>
+                        <th>Quantity</th>
+                        <th>Unit </th>
+                        <th>Price</th>
+                        <th>Item Total</th>
+                        <th><button nbButton size="tiny" (click)="add_items()" status="success">Add</button></th>
+                       
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of invoice_items; let  i = index">
+                            <td><button nbButton (click)="remove_item(item);" status="danger" size="small">X</button></td>
+                            
+                            <td>
+                                <input class="form-control form-control-sm" type="text"  name="{{item.item_description}}" [(ngModel)]="item.item_description" placeholder="Item Description"  [ngModelOptions]="{standalone: true}"
+                                style="width: 10em;" (input)="calculate_price()" (keypress)="open_product_name(dialog_product,item)" />&nbsp;
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="text" name="{{item.quantity}}" [(ngModel)]="item.quantity" placeholder="Quantity"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.quantity}}" (change)="calculate_price()"  size="small" style="width: 3em;"/>&nbsp;
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm"   name="{{item.unit}}" [(ngModel)]="item.unit" placeholder="unit"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.unit}}" size="small" oninput="validity.valid || (value='')"  style="width: 4em;"/>&nbsp;
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="number" min="0"  name="{{item.price}}" [(ngModel)]="item.price" placeholder="Price"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.price}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price(item)"  style="width: 6em;"/>&nbsp;
+                                
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="number" min="0"  name="{{item.item_total}}" [(ngModel)]="item.item_total" placeholder="Total"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.item_total}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 6em;"/>&nbsp;
+                                
+                            </td>
+      
+                            
+                        </tr>
+                    </tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    </table>
+                </td>
+                
+                <td colspan="3" style="text-align: center;">Gst: <br><input size="small" style="width: 10em;"  nbInput formControlName="gstFormControl" name="gstFormControl" (change)="gstCalculation()" placeholder="GST" [(ngModel)]="selectedGstPercentage" ></td>
+            </tr>
+            <tr>
+                <td colspan="3"style="text-align: center;">Total:GST <br><input size="small" style="width: 10em;" type="number" nbInput value="{{gstTotal}}" (change)="gstCalculation()" formControlName="gstTotalFormControl" name="salesNewFormControl" placeholder="INR" ></td>
+                
+             </tr>
+            <tr>
+                <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;"  nbInput formControlName="discountFormControl" name="discountFormControl" placeholder="INR" ></td>
+            </tr>
+            <tr>
+                <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small" style="width: 10em;"  nbInput formControlName="grandTotalFormControl" name="grandTotalFormControl" placeholder="INR" ></td>
+            </tr>
+            <tr>
+                <th colspan="3" style="text-align: center;">PAY</th>
+            </tr>
+            <tr>
+                <td><input type="checkbox" formControlName="cardFormControl" name="cardFormControl" id=""> CARD</td>
+                <td><input type="checkbox" formControlName="cashFormControl" name="cashFormControl" id=""> CASH</td>
+                <td><input type="checkbox" formControlName="upiFormControl"  name="upiFormControl" id=""> UPI</td>
+            </tr>
+            <tr>
+                <td colspan="3"style="text-align: center;"> Transaction Id: <br><input size="small" style="width: 10em;"  nbInput formControlName="transactionIdFormControl" name="transactionIdFormControl" placeholder="INR" ></td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td  style="float: right;visibility: hidden;">Subtotal:<input size="small" style="width: 10em;"  nbInput formControlName="subTotalProductFormControl" name="subTotalFormControl" placeholder="INR" ></td>
+                <th colspan="3" style="text-align: center;">Customer Info</th>
+            </tr>
+            <tr >
+                <td rowspan="5" colspan="4"><input  type="checkbox" formControlName="exchangeFormControl" name="" id=""> <span style="color: blue;">&nbsp;Return/Exchange</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" formControlName="cancelInvoiceFormControl" name="" id=""> <span style="color: red;">&nbsp;Cancel Invoice</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" formControlName="refundFormControl" name="" id=""> <span style="color: green;">&nbsp;Refund</span> 
+                <input type="hidden" name="">
+                </td>
+                
+                <td colspan="3" style="text-align: center;"> 
+                        <button nbButton size="small" status="info" >Customer</button>
+                        <input nbInput size="small" style="width: 6em;"  name="searchFormControl" placeholder="Search" >
+                </td>    
+                
+            
+            </tr>
+            <tr style="text-align: center;">
+                
+                <td colspan="3"> <input nbInput size="small" style="width: 10em;" formControlName="nameFormControl"  name="nameFormControl" placeholder="Name" ></td>
+            </tr>
+            <tr style="text-align: center;">
+                
+                <td colspan="3"> <input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl"  name="salesNewFormControl" placeholder="Mobile No" ></td>
+            </tr>
+            <tr style="text-align: center;">
+                
+                <td colspan="3"> <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" ></td>
+            </tr>
+            <tr style="text-align: center;">
+                
+                <td colspan="3"> <input nbInput size="small" style="width: 10em;" formControlName="cardNoFormControl" name="salesNewFormControl" placeholder="Card No" ></td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <input nbInput size="small" style="width: 10em;" formControlName="storeIdFormControl" name="storeIdFormControl" placeholder="Store Id" >&nbsp;
+                    <input nbInput size="small" style="width: 10em;" formControlName="userIdFormControl" name="userIdFormControl" placeholder="User Id" >&nbsp;
+                    <input nbInput size="small" style="width: 10em;" formControlName="supervisorIdFormControl" name="supervisorIdFormControl" placeholder="Supervisor Id" >
+                </td>
+                <td colspan="3" style="text-align:center;">
+                    <button nbButton status="success"  size="small" >Save</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    </nb-card-body>
+</nb-card>
+<!-- </nb-tab>
+</nb-tabset> -->
+
+<ng-template #dialog let-data let-ref="dialogRef" >
+    <nb-card size="large" >
+      <nb-card-header>Customer List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchCatgory" /> </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+            <nb-list-item *ngFor="let item of customer_list | search_filter:'customer_name':searchCatgory ">
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.customer_name }}-{{item.service__service_name}} </i>              
+              <button nbButton (click)="ref.close(item)" size="small">Select</button>
+            </nb-list-item>
+          </nb-list>
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>
+
+  <!-- <ng-template #dialog_service let-data let-ref="dialogRef" >
+    <nb-card size="large" >
+      <nb-card-header>Service List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchService" /> </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+            <nb-list-item *ngFor="let item of booking_history | search_filter:'customer_name':searchService">
+              <i class="mr-auto mt-2 mt-lg-0">{{item.service__service_name}} </i>              
+              <button nbButton (click)="ref.close(item)" size="small">Select</button>
+            </nb-list-item>
+          </nb-list>
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template> -->
+
+
+  <ng-template #dialog_product let-data let-ref="dialogRef">
+    <nb-card size="medium">
+        <nb-card-header>Product List </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of product_list">
+                    <i class="mr-auto mt-2 mt-lg-0"> {{ item.product_name }}  </i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
