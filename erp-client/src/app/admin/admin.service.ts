@@ -75,7 +75,7 @@ export class AdminService {
   }
 
   public getAppointmentList(){
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/`, {})
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment`, {})
   }
 
   public getAppointmentDetails(id) {
@@ -121,7 +121,7 @@ export class AdminService {
   }
 
   public saveInvoice(data){
-    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/save_po/`,data)
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/save_po`,data)
   }
 
 }

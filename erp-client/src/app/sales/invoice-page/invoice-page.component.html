@@ -1,0 +1,116 @@
+
+<nb-card accent="info">
+    <nb-card-header>Invoice </nb-card-header>
+        <nb-card-body>
+            <form action="">
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <h1>Tax Invoice</h1>
+                    </div>
+                    <div class="col-md-3">
+                        <p> store Id:oD231212232</p>
+                        <p>Order Date:21/2/2019</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p> Invoice No:oD231212232</p>
+                        <p>Invoice Date:21/2/2019</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p> GstIN:oD231212232</p>
+                        <p>PAN:21/2/2019</p>
+                    </div>
+                    
+                </div>
+                <hr>
+
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <p>Sold By</p>
+                        <p>It Mall</p>
+                        <p># 6-2-983,Diamond Towers,</p>
+                        <p>Khairatabad,</p>
+                        <p>HYDERABAD - 500004</p>
+
+                    </div>
+                    <div class="col-md-4">
+                        <p>Shipping Address</p>
+                        <p>Sold By</p>
+                        <p>It Mall</p>
+                        <p># 6-2-983,Diamond Towers,</p>
+                        <p>Khairatabad,</p>
+                        <p>HYDERABAD - 500004</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p>Billing Address</p>
+                        <p>Sold By</p>
+                        <p>It Mall</p>
+                        <p># 6-2-983,Diamond Towers,</p>
+                        <p>Khairatabad,</p>
+                        <p>HYDERABAD - 500004</p>
+                    </div>
+                  
+                    
+                </div>
+                <hr>
+                <div id="bill">
+                <table style="text-align: center;" class="table table-responsive">
+                    <thead>
+                        <th>Product</th>
+                        <th>Description</th>
+                        <th>Qty</th>
+                        <th>Gross Amount</th>
+                        <th>Discount</th>
+                        <th>Taxable  Value</th>
+                        <th>IGST</th>
+                        <th>Total</th>
+                    </thead>
+                    <tbody *ngFor="let items of invoice_details">
+                        <tr>
+                            <td></td>
+                            <td>Good</td>
+                            <td>{{items.quantity}}</td>
+                            <td>32500</td>
+                            <td>0.00</td>
+                            <td>27542.37</td>
+                            <td>4957.63</td>
+                            <td>32500.00</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>Total QTY : 1</td>
+                            <td colspan="5"></td>
+                            <td colspan="2"><h6>Total Price;32500</h6> 
+                                All Values are in INR
+
+                            </td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <p>Condition apply please refer to product page</p>
+                      
+
+                    </div>
+                    <div class="col-md-4">
+                        <p>Order Throught</p>
+                        
+                      
+                    </div>
+                    <div class="col-md-4">
+                     <img src="" alt="No IMg">
+                     <p>IT MALl Authorization </p>
+                     <p>Signature</p>
+                    </div>
+                  
+                    
+                </div>
+                <button class="btn btn-secondary" type="button" id="print">Print Bill</button>
+
+            </form>
+        </nb-card-body>
+   
+</nb-card>

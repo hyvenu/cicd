@@ -322,7 +322,7 @@ export class ManageProductComponent implements OnInit {
         this.loading = false;
         
         this.productMasterFrom.reset();
-        window.location.reload();
+        this.routes.navigate(["/ManageProductMaster"]);
         
       },
       (error) =>{

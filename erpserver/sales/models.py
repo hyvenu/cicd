@@ -65,9 +65,8 @@ class OrderEvents(AuditUuidModelMixin):
 
 
 class SalesOrderRequest(AuditUuidModelMixin):
-    po_type = models.CharField(max_length=50)
-    po_number = models.CharField(max_length=255, unique=True)
-    pr_number = models.CharField(max_length=50, null=True, default=None)
+    po_type = models.CharField(max_length=50, default="", null=True)
+    po_number = models.CharField(max_length=255, unique=True, null=True)
     po_raised_by = models.CharField(max_length=500, null=True, blank=None)
     po_date = models.DateTimeField(default=None, null=True)
     shipping_address = models.CharField(max_length=2000, null=True)
@@ -79,65 +78,55 @@ class SalesOrderRequest(AuditUuidModelMixin):
     sub_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     packing_perct = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     packing_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    # total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     sgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     cgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     igst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    invoice_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    # invoice_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     terms_conditions = models.CharField(max_length=2000, null=True)
     store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_sales_req")
+    discount_price = models.IntegerField(null=True, default=0)
+    grand_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    card = models.BooleanField(default=True, null=True)
+    cash = models.BooleanField(default=True, null=True)
+    upi = models.BooleanField(default=True, null=True)
+    transaction_id = models.CharField(max_length=255, null=True, default=None)
+    # subtotal_product_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    exchange = models.BooleanField(default=True, null=True)
+    cancel_invoice = models.BooleanField(default=True, null=True)
+    refund = models.BooleanField(default=True, null=True)
+    user_id = models.CharField(max_length=255, null=True, default=None)
+    supervisor_id = models.CharField(max_length=255, null=True, default=None)
+    card_no = models.IntegerField(null=True, default=0)
+    invoice_no = models.CharField(max_length=250, default="")
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, default=None)
 
     def __str__(self):
         return self.po_number
 
 
 class SalesOrderDetails(AuditUuidModelMixin):
-    po_order = models.ForeignKey(SalesOrderRequest, on_delete=models.CASCADE, default=None)
+    po_order = models.ForeignKey(SalesOrderRequest, on_delete=models.CASCADE, default=None, null=True)
     product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, null=True)
     service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
-    booking_history = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE, null=True)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, default=None, null=True)
+
+    booking = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE, default=None, null=True)
     # product_code = models.CharField(max_length=50, null=True, default=None)
     # product_name = models.CharField(max_length=255, null=True, default=None)
-    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE)
-    qty = models.IntegerField()
-    delivery_date = models.DateField(null=True)
+    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, null=True)
+    qty = models.IntegerField(null=True)
+    unit_text = models.CharField(max_length=1000, null=True)
+    # delivery_date = models.DateField(null=True)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    disc_percent = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    disc_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    gst_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    barcode = models.CharField(max_length=500, null=True)
     subtotal_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    invoice_items_list = models.CharField(max_length=2000, null=True, blank=True)
-    total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    grand_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    card = models.BooleanField(default=True)
-    cash = models.BooleanField(default=True)
-    upi = models.BooleanField(default=True)
-    transaction_id = models.CharField(max_length=255, null=True, default=None)
-    subtotal_product_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    exchange = models.BooleanField(default=True)
-    cancel_invoice = models.BooleanField(default=True)
-    refund = models.BooleanField(default=True)
-    user_id = models.CharField(max_length=255, null=True, default=None)
-    supervisor_id = models.CharField(max_length=255, null=True, default=None)
-    card_no = models.IntegerField( default=None)
+    # amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    # disc_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    gst_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
-    class Meta:
-        pass
-
-
-class SalesInvoiceItems(AuditUuidModelMixin):
-    # Fields
-    so_order_details = models.ForeignKey(SalesOrderDetails, on_delete=models.CASCADE, default=None)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, default=None)
-    qty = models.IntegerField(default=0)
-    bar_code = models.ImageField(upload_to="static/upload/product/barcodes", blank=True)
-    items_identifier = models.CharField(max_length=12, default=0)
-    item_description = models.CharField(max_length=250, default=0)
+    # total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     class Meta:
         pass

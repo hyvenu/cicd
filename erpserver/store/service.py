@@ -33,6 +33,7 @@ class StoreService:
             'phone_number',
             'customer',
             'service__price',
+            'service__id',
 
         )
         return list(appointment)
@@ -45,5 +46,7 @@ class StoreService:
             'booking_date',
             'phone_number',
             'customer_name',
+            'end_time',
+            'start_time',
         )
         return list(appointment_list)

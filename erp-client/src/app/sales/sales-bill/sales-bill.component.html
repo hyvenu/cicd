@@ -10,10 +10,10 @@
             </tr>
             <tr>
                 <td>
-                    <input nbInput formControlName="salesNewFormControl" size="small" style="width: 10em;" name="salesNewFormControl" placeholder="SalesNew" ></td>
-                <td> <input nbInput formControlName="customerNameFormControl" size="small" style="width: 10em;" name="CustomerNameFormControl" placeholder="Customer Name"
+                    <input nbInput formControlName="customerNameFormControl" size="small" style="width: 10em;" name="CustomerNameFormControl" placeholder="Customer Name"
                     (keypress)="open(dialog)" (click)="open(dialog)" ></td>
-                <td style="visibility: hidden;"> <input  nbInput formControlName="serviceNameFormControl" name="serviceNameFormControl" size="small" style="width: 8em;" placeholder="Service Name"  ></td>
+                <td> <input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl"  name="salesNewFormControl" placeholder="Mobile No" ></td>
+                <td > <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" ></td>
                 <td><input type="hidden" name=""></td>
                
                 
@@ -22,24 +22,21 @@
                 <td> <button nbButton size="small" status="info" >Back</button></td>
             </tr>
             <tr >
-                <td rowspan="2" colspan="4" ><input nbInput size="small" style="width: 10em;" formControlName="barCodeFormControl" name="barCodeFormControl" placeholder="Bar Code" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input nbInput size="small" style="width: 10em;" formControlName="quantityFormControl" name="quantityFormControl" placeholder="Quantity" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input nbInput size="small" style="width: 10em;"  name="searchFormControl" placeholder="Search" >
-                <input type="hidden" name="">
-               
+                <td rowspan="2" colspan="4" ><input nbInput size="small" style="width: 10em;" formControlName="barCodeFormControl" name="barCodeFormControl" placeholder="Bar Code" ></td>
+                               
             </tr>
             <tr> 
-                 <td colspan="3" style="text-align: center;">Subtotal: <br> <input  type="number" nbInput size="small" style="width: 10em;"  value="{{subtotal}}" (input)="calculate_price()" formControlName="subTotalFormControl"  name="subTotalFormControl" [(ngModel)]="selectedSubTotal" placeholder="Subtotal" >the:{{selectedSubTotal}}<br>
-                    <div class="form-group col-md-2"> 
+                 <td colspan="3" style="text-align: center;">Subtotal: <br> <input  type="number" nbInput size="small" style="width: 10em;"  value="{{subtotal}}" (change)="calculate_totalGst()"  formControlName="subTotalFormControl"  name="subTotalFormControl" [(ngModel)]="selectedSubTotal" placeholder="Subtotal" ><br>
+                    <!-- <div class="form-group col-md-2"> 
                         <label >Gst</label>
-                        <nb-select name="services"  formControlName="gstCalculateFormControl" [(selected)]="selectedGST" [(ngModel)]="selectedGstEvent"  (change)= "gstCalculation()"   >
+                        <nb-select name="services"  formControlName="gstCalculateFormControl" [(selected)]="selectedGST" [(ngModel)]="selectedGstEvent"  (Change)="gstCalculation()"   >
                             <nb-option *ngFor="let gst of gst_list" value="{{gst.name}}"  >
                                 {{gst.name}}
                             </nb-option>
                         </nb-select>
-                    </div>
+                    </div> -->
                 </td>
-                {{selectedGstEvent}}
+               
                  
               
             </tr>
@@ -48,14 +45,16 @@
                 <td rowspan="7" colspan="4">
                     <table class="table table-responsive">
                     <thead>
-                        <th></th>
+                        <th><button nbButton size="tiny" (click)="add_items()" status="success">Add</button></th>
                         
                         <th>Item Description</th>
                         <th>Quantity</th>
                         <th>Unit </th>
+                        <th>Gst%</th>
                         <th>Price</th>
+                        <th>gst val</th>
                         <th>Item Total</th>
-                        <th><button nbButton size="tiny" (click)="add_items()" status="success">Add</button></th>
+                        
                        
                     </thead>
                     <tbody>
@@ -68,15 +67,25 @@
                             </td>
                             <td>
                                 <input class="form-control form-control-sm" type="text" name="{{item.quantity}}" [(ngModel)]="item.quantity" placeholder="Quantity"  [ngModelOptions]="{standalone: true}"
-                                value="{{item.quantity}}" (change)="calculate_price()"  size="small" style="width: 3em;"/>&nbsp;
+                                value="{{item.quantity}}" (input)="calculate_price()"  size="small" style="width: 3em;"/>&nbsp;
                             </td>
                             <td>
                                 <input class="form-control form-control-sm"   name="{{item.unit}}" [(ngModel)]="item.unit" placeholder="unit"  [ngModelOptions]="{standalone: true}"
                                 value="{{item.unit}}" size="small" oninput="validity.valid || (value='')"  style="width: 4em;"/>&nbsp;
                             </td>
                             <td>
+                                <input class="form-control form-control-sm" type="number" min="0"  name="{{item.tax}}" [(ngModel)]="item.tax" placeholder="Gst %"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.tax}}" size="small" oninput="validity.valid || (value='')"  (change)="calculate_price()" style="width: 4em;"/>&nbsp;
+                                
+                            </td>
+                            <td>
                                 <input class="form-control form-control-sm" type="number" min="0"  name="{{item.price}}" [(ngModel)]="item.price" placeholder="Price"  [ngModelOptions]="{standalone: true}"
-                                value="{{item.price}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price(item)"  style="width: 6em;"/>&nbsp;
+                                value="{{item.price}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 6em;"/>&nbsp;
+                                
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="number" min="0"  name="{{item.gst_value}}" [(ngModel)]="item.gst_value" placeholder="val"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.gst_value}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 6em;"/>&nbsp;
                                 
                             </td>
                             <td>
@@ -94,72 +103,76 @@
                     </table>
                 </td>
                 
-                <td colspan="3" style="text-align: center;">Gst: <br><input size="small" style="width: 10em;"  nbInput formControlName="gstFormControl" name="gstFormControl" (change)="gstCalculation()" placeholder="GST" [(ngModel)]="selectedGstPercentage" ></td>
+                <td colspan="3" style="text-align: center;">Gst: <br><input size="small" style="width: 10em;"  nbInput formControlName="gstFormControl" name="gstFormControl" (change)="calculate_totalGst()" value="{{gstValue}}" placeholder="GST" [(ngModel)]="selectedGstPercentage" ></td>
             </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Total:GST <br><input size="small" style="width: 10em;" type="number" nbInput value="{{gstTotal}}" (change)="gstCalculation()" formControlName="gstTotalFormControl" name="salesNewFormControl" placeholder="INR" ></td>
+                <td colspan="3"style="text-align: center;">Total:Include GST <br><input size="small" style="width: 10em;" type="number" nbInput value="{{totalGst}}" (change)="calculateGrandTotal()" formControlName="gstTotalFormControl" name="salesNewFormControl" placeholder="INR" [(ngModel)]="selectedTotalGst" ></td>
                 
              </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;"  nbInput formControlName="discountFormControl" name="discountFormControl" placeholder="INR" ></td>
+                <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;"   nbInput formControlName="discountFormControl" (change)="calculateGrandTotal()" name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
             </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small" style="width: 10em;"  nbInput formControlName="grandTotalFormControl" name="grandTotalFormControl" placeholder="INR" ></td>
+                <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small" style="width: 10em;" value="{{grandTotal}}"  nbInput formControlName="grandTotalFormControl" name="grandTotalFormControl" placeholder="INR" ></td>
             </tr>
             <tr>
                 <th colspan="3" style="text-align: center;">PAY</th>
             </tr>
             <tr>
-                <td><input type="checkbox" formControlName="cardFormControl" name="cardFormControl" id=""> CARD</td>
+                <td><input type="checkbox" formControlName="cardFormControl" [(ngModel)]="cardChecked" name="cardFormControl" id=""> CARD</td>
                 <td><input type="checkbox" formControlName="cashFormControl" name="cashFormControl" id=""> CASH</td>
                 <td><input type="checkbox" formControlName="upiFormControl"  name="upiFormControl" id=""> UPI</td>
             </tr>
-            <tr>
-                <td colspan="3"style="text-align: center;"> Transaction Id: <br><input size="small" style="width: 10em;"  nbInput formControlName="transactionIdFormControl" name="transactionIdFormControl" placeholder="INR" ></td>
-            </tr>
-            <tr>
-                <td colspan="3"></td>
-                <td  style="float: right;visibility: hidden;">Subtotal:<input size="small" style="width: 10em;"  nbInput formControlName="subTotalProductFormControl" name="subTotalFormControl" placeholder="INR" ></td>
-                <th colspan="3" style="text-align: center;">Customer Info</th>
-            </tr>
             <tr >
-                <td rowspan="5" colspan="4"><input  type="checkbox" formControlName="exchangeFormControl" name="" id=""> <span style="color: blue;">&nbsp;Return/Exchange</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <td *ngIf="cardChecked" colspan="3" style="text-align: center;"> <input nbInput size="small" style="width: 10em;" formControlName="cardNoFormControl" name="salesNewFormControl" placeholder="Card No" ></td>
+            </tr>
+            <!-- <tr>
+                <td colspan="3"style="text-align: center;"> Transaction Id: <br><input size="small" style="width: 10em;"  nbInput formControlName="transactionIdFormControl" name="transactionIdFormControl" placeholder="INR" ></td>
+            </tr> -->
+            <!-- <tr>
+                <td colspan="3"></td>
+                <td  style="float: right;visibility: hidden;">Subtotal:<input size="small" style="width: 10em;"  nbInput  name="subTotalFormControl" placeholder="INR" ></td>
+                <th colspan="3" style="text-align: center;">Customer Info</th>
+            </tr> -->
+            <tr >
+                <td  colspan="7"><input  type="checkbox" formControlName="exchangeFormControl" name="" id=""> <span style="color: blue;">&nbsp;Return/Exchange</span> &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" formControlName="cancelInvoiceFormControl" name="" id=""> <span style="color: red;">&nbsp;Cancel Invoice</span> &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" formControlName="refundFormControl" name="" id=""> <span style="color: green;">&nbsp;Refund</span> 
                 <input type="hidden" name="">
                 </td>
                 
-                <td colspan="3" style="text-align: center;"> 
+                <!-- <td colspan="3" style="text-align: center;"> 
                         <button nbButton size="small" status="info" >Customer</button>
                         <input nbInput size="small" style="width: 6em;"  name="searchFormControl" placeholder="Search" >
-                </td>    
+                </td>     -->
                 
             
             </tr>
-            <tr style="text-align: center;">
+            <!-- <tr style="text-align: center;">
                 
                 <td colspan="3"> <input nbInput size="small" style="width: 10em;" formControlName="nameFormControl"  name="nameFormControl" placeholder="Name" ></td>
+            </tr> -->
+            <!-- <tr style="text-align: center;">
+                
+                <td colspan="3"> </td>
+            </tr> -->
+            <!-- <tr style="text-align: center;">
+                
+                <td colspan="3"> </td>
             </tr>
             <tr style="text-align: center;">
                 
-                <td colspan="3"> <input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl"  name="salesNewFormControl" placeholder="Mobile No" ></td>
-            </tr>
-            <tr style="text-align: center;">
-                
-                <td colspan="3"> <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" ></td>
-            </tr>
-            <tr style="text-align: center;">
-                
-                <td colspan="3"> <input nbInput size="small" style="width: 10em;" formControlName="cardNoFormControl" name="salesNewFormControl" placeholder="Card No" ></td>
-            </tr>
+               
+            </tr> -->
             <tr>
                 <td colspan="4">
-                    <input nbInput size="small" style="width: 10em;" formControlName="storeIdFormControl" name="storeIdFormControl" placeholder="Store Id" >&nbsp;
-                    <input nbInput size="small" style="width: 10em;" formControlName="userIdFormControl" name="userIdFormControl" placeholder="User Id" >&nbsp;
+                    <!-- <input nbInput size="small" style="width: 10em;" formControlName="storeIdFormControl" name="storeIdFormControl" placeholder="Store Id" >&nbsp; -->
+                    <input nbInput size="small" style="width: 10em;" formControlName="userIdFormControl" name="userIdFormControl" value="{{user_name}}" placeholder="{{user_name}}" >&nbsp;
                     <input nbInput size="small" style="width: 10em;" formControlName="supervisorIdFormControl" name="supervisorIdFormControl" placeholder="Supervisor Id" >
                 </td>
+                
                 <td colspan="3" style="text-align:center;">
-                    <button nbButton status="success"  size="small" >Save</button>
+                    <button nbButton status="success" (click)="saveBill()"  size="small" >Save</button>
                 </td>
             </tr>
         </table>
