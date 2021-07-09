@@ -17,9 +17,9 @@
                 <td><input type="hidden" name=""></td>
                
                 
-                <td> <button nbButton size="small" status="danger" >Delete</button></td>
-                <td> <button nbButton size="small" status="info" >Next</button></td>
-                <td> <button nbButton size="small" status="info" >Back</button></td>
+                <td style="visibility: hidden;"> <button nbButton size="small" status="danger" >Delete</button></td>
+                <td style="visibility: hidden;"> <button nbButton size="small" status="info" >Next</button></td>
+                <td style="visibility: hidden;"> <button nbButton size="small" status="info" >Back</button></td>
             </tr>
             <tr >
                 <td rowspan="2" colspan="4" ><input nbInput size="small" style="width: 10em;" formControlName="barCodeFormControl" name="barCodeFormControl" placeholder="Bar Code" ></td>
@@ -168,7 +168,7 @@
                 <td colspan="4">
                     <!-- <input nbInput size="small" style="width: 10em;" formControlName="storeIdFormControl" name="storeIdFormControl" placeholder="Store Id" >&nbsp; -->
                     <input nbInput size="small" style="width: 10em;" formControlName="userIdFormControl" name="userIdFormControl" value="{{user_name}}" placeholder="{{user_name}}" >&nbsp;
-                    <input nbInput size="small" style="width: 10em;" formControlName="supervisorIdFormControl" name="supervisorIdFormControl" placeholder="Supervisor Id" >
+                    <input nbInput size="small" type="hidden" style="width: 10em;" formControlName="supervisorIdFormControl" name="supervisorIdFormControl" placeholder="Supervisor Id" >
                 </td>
                 
                 <td colspan="3" style="text-align:center;">
