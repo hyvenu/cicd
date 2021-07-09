@@ -13,6 +13,8 @@ export class ViewBookingComponent implements OnInit {
   selected_stylist : [];
   dailog_ref;
   stylist_list =  []
+  serviceId: any;
+  booking_details: any;
 
   constructor(private adminService: AdminService,
               private nbtoastService: NbToastrService,
@@ -25,10 +27,17 @@ export class ViewBookingComponent implements OnInit {
     this.adminService.getAppointmentList().subscribe(
       (data) => {
           this.booking_list = data;
+          this.serviceId = data.servie__id
           console.log(this.booking_list)
       },
       (error) => {
           this.nbtoastService.danger("Unable get appointment data");
+      }
+    )
+
+    this.adminService.getAppointmentLists(this.serviceId).subscribe(
+      (data2)=>{
+          this.booking_details =data2
       }
     )
 

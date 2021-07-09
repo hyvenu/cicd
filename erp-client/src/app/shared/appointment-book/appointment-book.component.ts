@@ -51,7 +51,7 @@ export class AppointmentBookComponent implements OnInit {
 
     this.bookingForm  =  this.formBuilder.group({   
       customerNameFormControl: ['', [Validators.required]],
-      phoneNumberFormControl: ['', [Validators.required,Validators.pattern('^[0-9]{10}$')]],
+      phoneNumberFormControl: ['', [Validators.required]],
       startTimeFormControl: ['', [Validators.required]],
       bookingDateFormControl: ['', [Validators.required]],
       endTimeFormControl: ['', [Validators.required]],
@@ -91,6 +91,7 @@ export class AppointmentBookComponent implements OnInit {
   }
 
   saveBooking():void {
+    if(this.bookingForm.valid){
     let form_data = new FormData();
 
     form_data.append('store',sessionStorage.getItem('store_id'));
@@ -121,13 +122,14 @@ export class AppointmentBookComponent implements OnInit {
            this.nbtoastService.success("Booking information saved")
            this.bookingForm.reset();
            this.booking_id=null;
-           window.location.reload();
+           
         },  
         (error) => {
             this.nbtoastService.danger("Failed to update");
         }
       )
     }
+  }
   }
 
   open_category_list(dialog: TemplateRef<any>) {
