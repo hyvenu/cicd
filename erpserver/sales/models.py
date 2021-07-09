@@ -126,6 +126,7 @@ class SalesOrderDetails(AuditUuidModelMixin):
     # disc_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
+
     # total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     class Meta:

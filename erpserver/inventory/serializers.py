@@ -42,6 +42,7 @@ class ProductPriceMasterSerializer(serializers.ModelSerializer):
             "bar_code",
             "safety_stock_level",
             "serial_number",
+            "product_id"
         ]
 
 class ProductBrandMasterSerializer(serializers.ModelSerializer):

@@ -58,7 +58,7 @@ export class ManageSubcategoryComponent implements OnInit {
 
     this.subcategoryFrom  =  this.formBuilder.group({
       subcategoryNameFormControl: ['', [Validators.required]],      
-      subcategoryCodeFormControl: ['', [Validators.required]],   
+      subCategoryCodeFormControl: ['', [Validators.required]],   
       categoryNameFormControl: ['', [Validators.required]],
       subDescription: ['', [Validators.required]],
       subCatImageFormControl: ['',],        
@@ -120,7 +120,7 @@ export class ManageSubcategoryComponent implements OnInit {
       // }
       let data = new FormData()
       data.append('sub_category_name', this.subcategoryFrom.get(['subcategoryNameFormControl']).value)
-      data.append('sub_category_code', this.subcategoryFrom.get(['subcategoryCodeFormControl']).value)
+      data.append('sub_category_code', this.subcategoryFrom.get(['subCategoryCodeFormControl']).value)
       data.append('description', this.subcategoryFrom.get(['subDescription']).value)
       data.append('category_id', this.selected_category.id)
       if(this.selectedFiles.length){

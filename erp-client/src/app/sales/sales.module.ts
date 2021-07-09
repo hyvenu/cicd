@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'OrderList' , component: OrderListComponent,canActivate:[AuthGuard]},
   { path: 'OrderView' , component: OrderViewComponent,canActivate:[AuthGuard]},
   { path: 'SalesOrder' , component: SalesOrderComponent,canActivate:[AuthGuard]},
-  { path: 'InvoicePage/:id' , component:InvoicePageComponent ,canActivate:[AuthGuard]},
+  { path: 'InvoicePage' , component:InvoicePageComponent ,canActivate:[AuthGuard]},
 ]
 
 @NgModule({

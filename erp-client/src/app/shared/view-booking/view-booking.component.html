@@ -14,7 +14,7 @@
                         <p>Booking Date : {{ item.booking_date }}</p>
                         <p> Time : {{ item.start_time}} - {{ item.end_time}} </p>
                         <p>service:{{item.service__service_name}}</p>
-                        <p *ngIf="item.assigned_staff" style="color:rgb(47, 0, 255);font-size: small;"> Assigned Stylist : {{ item.assigned_staff_det.employee_name }}</p>
+                        <p *ngIf="item.assigned_staff" style="color:rgb(47, 0, 255);font-size: small;"> Assigned Stylist : {{ item.assigned_staff.employee_name }}</p>
                     </nb-card-body>
                     <nb-card-footer>
                         <input type="text" nbInput size="small" (keypress)="stylist_open(stylist_dialog, item)"
@@ -30,7 +30,7 @@
         <nb-card-header>Stylist <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchStylist" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data">
+                <nb-list-item *ngFor="let item of data | search_filter:'employee_name':searchStylist">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>

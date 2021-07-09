@@ -48,5 +48,6 @@ class StoreService:
             'customer_name',
             'end_time',
             'start_time',
+            'assigned_staff__employee_name',
         )
         return list(appointment_list)

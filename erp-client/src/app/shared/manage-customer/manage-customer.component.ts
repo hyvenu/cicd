@@ -131,7 +131,7 @@ customerForm:FormGroup;
     this.customerForm = this.formBuilder.group({
       customerCodeFormControl:['',[]],
       customerNameFormControl:['',[Validators.required]],
-      phoneNumberFormControl:['',[Validators.required,Validators.pattern('^[0-9]{13}$')],],
+      phoneNumberFormControl:['',[Validators.required,Validators.pattern('^[0-9]{10}$')],],
       customerEmailFormControl:['',[Validators.required,Validators.email],],
       customerServiceBillFormControl:['',[Validators.required]],
       customerAddressFormControl:['',[Validators.required]],

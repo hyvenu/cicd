@@ -22,70 +22,66 @@
                     
                 </div>
                 <hr>
-
-                <div class="form-row">
+                <div id="bill">
+                <div class="form-row" >
+                    <!-- <span style="text-align: center;"><h1>Invoice</h1></span> -->
                     <div class="col-md-4">
-                        <p>Sold By</p>
-                        <p>It Mall</p>
-                        <p># 6-2-983,Diamond Towers,</p>
-                        <p>Khairatabad,</p>
-                        <p>HYDERABAD - 500004</p>
+                        Customer Name <br>
+                        <h2>{{customer_name}}</h2>
+                       
 
                     </div>
                     <div class="col-md-4">
-                        <p>Shipping Address</p>
-                        <p>Sold By</p>
-                        <p>It Mall</p>
-                        <p># 6-2-983,Diamond Towers,</p>
-                        <p>Khairatabad,</p>
-                        <p>HYDERABAD - 500004</p>
+                       Customer Billing Address <br>
+                       <h2>{{customer_addr}}</h2>
                     </div>
                     <div class="col-md-4">
-                        <p>Billing Address</p>
-                        <p>Sold By</p>
-                        <p>It Mall</p>
-                        <p># 6-2-983,Diamond Towers,</p>
-                        <p>Khairatabad,</p>
-                        <p>HYDERABAD - 500004</p>
+                       
                     </div>
                   
                     
                 </div>
                 <hr>
-                <div id="bill">
+                
                 <table style="text-align: center;" class="table table-responsive">
                     <thead>
                         <th>Product</th>
-                        <th>Description</th>
+                        
                         <th>Qty</th>
-                        <th>Gross Amount</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                       
                         <th>Discount</th>
                         <th>Taxable  Value</th>
-                        <th>IGST</th>
-                        <th>Total</th>
+                        
+                        <th>Grand Total</th>
                     </thead>
-                    <tbody *ngFor="let items of invoice_details">
-                        <tr>
-                            <td></td>
-                            <td>Good</td>
-                            <td>{{items.quantity}}</td>
-                            <td>32500</td>
-                            <td>0.00</td>
-                            <td>27542.37</td>
-                            <td>4957.63</td>
-                            <td>32500.00</td>
+                    
+                    <tbody  >
+                        <tr *ngFor = "let item of invoice_details.order_details">
+                            <td *ngIf="item.service__service_name">{{item.service__service_name}}</td>
+                            <td *ngIf="item.product__product_name">{{item.product__product_name}}</td>
+                            
+                            <td>{{item.qty}}</td>
+                            <td>{{item.unit_price}}</td>
+                            <td>{{item.subtotal_amount}}</td>
+                            
+                            <td>{{invoice_details.discount_price}}</td>
+                           <td>{{item.gst}}</td>
+                            <td>{{item.gst_amount}}</td>
                             
                         </tr>
-                        <tr>
-                            <td>Total QTY : 1</td>
-                            <td colspan="5"></td>
-                            <td colspan="2"><h6>Total Price;32500</h6> 
+                        <tr >
+                            
+                            <td colspan="6"></td>
+                            <td colspan="2"><h6>{{grandTotal}}</h6> 
                                 All Values are in INR
 
                             </td>
                         </tr>
                        
                     </tbody>
+                
                 </table>
                 </div>
                 <hr>

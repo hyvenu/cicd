@@ -455,7 +455,6 @@ class OrderService:
             sales_order_details.gst = item['tax']
             # so_invoice.amount = item['amount']
             sales_order_details.subtotal_amount = item['item_total']
-
             sales_order_req.barcode = sales_data['barcode']
             # so_invoice.disc_amount = item['disc_amount']
             sales_order_details.gst_amount = item['gst_value']
@@ -465,8 +464,6 @@ class OrderService:
             sales_order_details.save()
 
         return sales_order_req.po_number
-        return sales_order_req.transaction_id
-        return sales_order_req.invoice_no
 
     @classmethod
     def generate_bar_code(cls, items_identifier):
@@ -480,16 +477,16 @@ class OrderService:
     @classmethod
     def get_po_details(cls, po_id):
         final_list = []
-        po_data_list = SalesOrderRequest.objects.filter(id=po_id).all().values(
+        po_data_list = SalesOrderRequest.objects.filter(po_number=po_id).all().values(
             'id',
             'po_type',
             'po_number',
-            'pr_number',
+            # 'pr_number'
             'po_raised_by',
             'po_date',
             'shipping_address',
             'transport_type',
-
+            "invoice_no",
             'payment_terms',
             'other_reference',
             'terms_of_delivery',
@@ -497,30 +494,11 @@ class OrderService:
             'sub_total',
             'packing_perct',
             'packing_amount',
-            'total_amount',
+            # 'total_amount',
             'sgst',
             'cgst',
             'igst',
-            'invoice_amount',
-            'terms_conditions',
-            'store_id',
-        )[0]
-
-        po_data_list['order_details'] = list(SalesOrderDetails.objects.filter(po_order_id=po_id).all().values(
-
-            "id",
-            "customer__customer_name"
-            # "product__id",
-            # # "product_name",
-            # # "product_code",
-            # "unit_id",
-            "qty",
-            # "delivery_date",
-            "unit_price",
-             "gst",
-            # "amount",
-            "invoice_code",
-            "grand_total",
+            # 'invoice_amount',
             "card",
             "cash",
             "upi",
@@ -528,13 +506,36 @@ class OrderService:
             "exchange",
             "cancel_invoice",
             "refund",
+            "discount_price",
+            "grand_total",
+            'terms_conditions',
+            'store_id',
             "user_id",
             "supervisor_id",
             "card_no",
-            "store_id"
-            "discount_price",
+            "customer__customer_name",
+            "customer__customer_address",
+
+        )[0]
+
+        po_data_list['order_details'] = list(SalesOrderDetails.objects.filter(po_order__po_number=po_id).all().values(
+
+            "id",
+            # "product__id",
+            # # "product_name",
+            # # "product_code",
+            # "unit_id",
+            "qty",
+            # "delivery_date",
+            "unit_price",
+            "gst",
+            "service__service_name",
+            "product__product_name",
+            # "amount",
+            "barcode",
             "gst_amount",
             "subtotal_amount",
+
         ))
         return po_data_list
 
@@ -563,6 +564,7 @@ class OrderService:
             'invoice_amount',
             'terms_conditions',
             'store_id',
+
         )
         return list(po_data_list)
 

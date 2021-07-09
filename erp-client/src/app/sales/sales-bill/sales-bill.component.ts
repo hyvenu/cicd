@@ -179,7 +179,7 @@ export class SalesBillComponent implements OnInit {
           this.booking_history = data2
           console.log(this.booking_history)
           this.booking_id = this.booking_history.id
-          console.log(this.booking_id)
+          
           this.booking_history.forEach(element => {
             this.invoice_items.push(
               {item_id:"",
@@ -289,7 +289,8 @@ export class SalesBillComponent implements OnInit {
                  data.product_price.forEach(element => {
                    {item.booking_id="",
                     item.service_id="",
-                     item.item_id=element.id,
+                     item.item_id=element.product_id,
+                     console.log(item.item_id)
                     item.price=element.sell_price,
                     item.quantity=0,
                     item.unit=element.unit.PrimaryUnit,
@@ -382,9 +383,10 @@ export class SalesBillComponent implements OnInit {
     formData.append('invoice_items',JSON.stringify(this.invoice_items));
     this.service.savePO(formData).subscribe(
       (data) => {
+        console.log(data)
         this.nbtoastService.success("Invoice Saved Successfully")
-        this.ngOnInit
-        this.routes.navigate(["/InvoicePage/${id}"])
+        
+        this.routes.navigateByUrl("/InvoicePage?id=" + data)
         
         
         

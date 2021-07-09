@@ -10,6 +10,10 @@ import { printDiv } from '../print_div';
 })
 export class InvoicePageComponent implements OnInit {
   invoice_details: any;
+  invoice_data: any;
+  grandTotal: any;
+  customer_name: any;
+  customer_addr: any;
 
   constructor(private route: ActivatedRoute,
               private orderservice:OrderService) { }
@@ -26,7 +30,13 @@ printBtn.onclick = function () {
     if(invoice){
       this.orderservice.getPODetails(invoice).subscribe(
         (data)=>{
+          console.log("invoice details"+data)
           this.invoice_details = data
+          this.grandTotal = this.invoice_details.grand_total
+          this.customer_name = this.invoice_details.customer__customer_name
+          this.customer_addr = this.invoice_details.customer__customer_address
+        
+        
           
 
         }

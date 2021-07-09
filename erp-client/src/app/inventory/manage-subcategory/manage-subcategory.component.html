@@ -19,10 +19,10 @@
         </div>
         <div class="form-group col-md-3">
             <label for="subcategoryCode">Sub Category Code</label>
-            <input nbInput formControlName="subcategoryCodeFormControl" name="subcategoryCode" placeholder="Sub Category Code"
-            [ngClass]="{ 'is-invalid': submitted && f.categoryNameFormControl.errors }" class="form-control"/>
-            <div *ngIf="submitted && f.categoryNameFormControl.errors" class="invalid-feedback">
-                <div *ngIf="f.categoryNameFormControl.errors.required">Sub Category Code is required</div>
+            <input nbInput formControlName="subCategoryCodeFormControl" name="subcategoryCode" placeholder="Sub Category Code"
+            [ngClass]="{ 'is-invalid': submitted && f.subCategoryCodeFormControl.errors }" class="form-control"/>
+            <div *ngIf="submitted && f.subCategoryCodeFormControl.errors" class="invalid-feedback">
+                <div *ngIf="f.subCategoryCodeFormControl.errors.required">Sub Category Code is required</div>
             </div>
         </div>
         <div class="form-group col-md-3">
