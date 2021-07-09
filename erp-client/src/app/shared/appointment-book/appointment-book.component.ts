@@ -132,7 +132,22 @@ export class AppointmentBookComponent implements OnInit {
   }
   }
 
-  open_category_list(dialog: TemplateRef<any>) {
+  
+
+  open_customer_list(dialog: TemplateRef<any>) {
+    this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_data })
+    .onClose.subscribe(data => {
+       this.selected_customer = data     
+       this.customer_id  = data.id
+       this.bookingForm.controls['customerNameFormControl'].setValue(data.customer_name);
+       this.bookingForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
+       
+       
+    }
+    );
+  }
+
+  open_phone_list(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_data })
     .onClose.subscribe(data => {
        this.selected_customer = data     
