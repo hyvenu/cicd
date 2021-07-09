@@ -40,7 +40,6 @@ export class ManageProductComponent implements OnInit {
   unit_list: string | Partial<any>;
   IsProductInfo: boolean;
   IsProductImage: boolean;
-  loading = false;
 
   imageForm: FormGroup = this.formBuilder.group({
     
@@ -53,10 +52,7 @@ export class ManageProductComponent implements OnInit {
 
   @ViewChild('myInput')
   myInputVariable: ElementRef;
-  submitted: boolean = false;
-  category_id: any;
-  sub_category_id: any;
-  brand_id: any;
+  submitted: boolean=false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -107,7 +103,6 @@ export class ManageProductComponent implements OnInit {
             this.selected_brand = data.brand;
             this.product_id = data.id;
             this.image_list = data.product_images
-            
 
             data.product_price.forEach(element => {
               this.product_packingtypes.push(
@@ -121,7 +116,6 @@ export class ManageProductComponent implements OnInit {
                   tax: element.tax,
                   unit_price: element.unit_price,
                   safety_stock_level: element.safety_stock_level,
-                  serial_number: element.serial_number,
                 }
               )
             });
@@ -161,15 +155,12 @@ export class ManageProductComponent implements OnInit {
           this.nbtoastService.danger(error,"Error")
       }
     )
-     
   }
 
   cat_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.categories_list })
     .onClose.subscribe(data => {
-       this.selected_category = data     
-       this.category_id = data.id 
-       console.log(this.category_id)
+       this.selected_category = data       
        this.productMasterFrom.controls['categoryNameFormControl'].setValue(data.category_name);
        this.getProductCode();
     }
@@ -179,8 +170,7 @@ export class ManageProductComponent implements OnInit {
   sub_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.sub_categories })
     .onClose.subscribe(data => {
-       this.selected_sub_ategory = data 
-       this.sub_category_id = data.id     
+       this.selected_sub_ategory = data       
        this.productMasterFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);
        this.getProductCode();
     }
@@ -190,8 +180,7 @@ export class ManageProductComponent implements OnInit {
   brand_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.brand_list })
     .onClose.subscribe(data => {
-       this.selected_brand = data  
-       this.brand_id = data.id     
+       this.selected_brand = data       
        this.productMasterFrom.controls['brandNameFormControl'].setValue(data.brand_name);
        this.getProductCode();
     }
@@ -255,7 +244,7 @@ export class ManageProductComponent implements OnInit {
 
   add_types():any {
     
-    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:'',unit_price:'',safety_stock_level:'', serial_number:''}
+    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:'',unit_price:'',safety_stock_level:''}
     this.product_packingtypes.push(data)
   }
 
@@ -295,14 +284,13 @@ export class ManageProductComponent implements OnInit {
   };
 
   saveProduct():any {
-    this.loading = true;
     const formData = new FormData();
     if (this.product_id){
       formData.append('id', this.product_id)
     }
-    formData.append('category', this.category_id);
-    formData.append('sub_category', this.sub_category_id);
-    formData.append('brand', this.brand_id);
+    formData.append('category', this.selected_category.id);
+    formData.append('sub_category', this.selected_sub_ategory.id);
+    formData.append('brand', this.selected_brand.id);
     formData.append('product_code', this.productMasterFrom.controls['productCodeFormControl'].value);
     formData.append('product_name', this.productMasterFrom.controls['productNameFormControl'].value);
     formData.append('hsn_code', this.productMasterFrom.controls['hsncodeFormControl'].value);
@@ -319,15 +307,11 @@ export class ManageProductComponent implements OnInit {
       (data) => {
         this.nbtoastService.success("Product Saved Successfully")
         this.imgSrc=null;
-        this.loading = false;
-        
-        this.productMasterFrom.reset();
+        this.reset();
         this.routes.navigate(["/ManageProductMaster"]);
-        
       },
       (error) =>{
         this.nbtoastService.danger(error.error.detail);
-        this.loading = false;
       }
     )
 
@@ -401,6 +385,11 @@ export class ManageProductComponent implements OnInit {
       }
     )
   }
+
+
+
+
+
 
   get f() { return this.productMasterFrom.controls; }
 
