@@ -4,21 +4,21 @@
         <nb-card-body>
             <form action="">
                 <div class="form-row">
-                    <div class="col-md-3">
-                        <h1>Tax Invoice</h1>
+                    <div class="col-md-2">
+                        <img src="../assets/images/D5N_Logo.jpg"  width="120px" height="120px" alt="">
                     </div>
-                    <div class="col-md-3">
-                        <p> store Id:oD231212232</p>
-                        <p>Order Date:21/2/2019</p>
+                    <div class="col-md-4">
+                        <p> store Id:{{store_name}}</p>
+                        
                     </div>
-                    <div class="col-md-3">
-                        <p> Invoice No:oD231212232</p>
-                        <p>Invoice Date:21/2/2019</p>
+                    <div class="col-md-4">
+                        <p> Invoice No:{{invoice_no}}</p>
+                        <p>Invoice Date:{{invoice_date}}</p>
                     </div>
-                    <div class="col-md-3">
+                    <!-- <div class="col-md-4">
                         <p> GstIN:oD231212232</p>
                         <p>PAN:21/2/2019</p>
-                    </div>
+                    </div> -->
                     
                 </div>
                 <hr>
@@ -27,13 +27,13 @@
                     <!-- <span style="text-align: center;"><h1>Invoice</h1></span> -->
                     <div class="col-md-4">
                         Customer Name <br>
-                        <h2>{{customer_name}}</h2>
+                        <h6>{{customer_name}}</h6>
                        
 
                     </div>
                     <div class="col-md-4">
                        Customer Billing Address <br>
-                       <h2>{{customer_addr}}</h2>
+                       <h6>{{customer_addr}}</h6>
                     </div>
                     <div class="col-md-4">
                        
@@ -52,7 +52,7 @@
                         <th>Total</th>
                        
                         <th>Discount</th>
-                        <th>Taxable  Value</th>
+                        <th>GST%</th>
                         
                        
                     </thead>

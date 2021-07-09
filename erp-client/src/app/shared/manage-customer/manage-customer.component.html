@@ -77,7 +77,7 @@
         </nb-card>
        
     </nb-tab>
-    <nb-tab tabTitle="Customer List">
+    <nb-tab tabTitle="Customer List" (clkick)="ngOnInit()">
         <div class="row">
             <ng2-smart-table [settings]="setting" [source]="source"></ng2-smart-table>
             </div>

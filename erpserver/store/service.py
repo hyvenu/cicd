@@ -34,6 +34,7 @@ class StoreService:
             'customer',
             'service__price',
             'service__id',
+            'service__service_gst',
 
         )
         return list(appointment)

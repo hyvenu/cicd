@@ -209,8 +209,11 @@ customerForm:FormGroup;
     this.adminService.updateCustomer(formdata,this.customer_id).subscribe(
       (data) => {
         this.nbtoastService.success("customer details updated Successfully")
-        
+        this.ngOnInit()
         this.customerForm.reset();
+        
+        this.routes.navigate(["/ManageBooking"]);
+        
         
         
         
@@ -232,6 +235,8 @@ customerForm:FormGroup;
         this.nbtoastService.success("Employee Saved Successfully")
         
        this.customerForm.reset();
+       this.routes.navigate(["/ManageBooking"])
+       
        
         
           

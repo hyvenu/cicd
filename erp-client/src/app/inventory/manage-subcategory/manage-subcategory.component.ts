@@ -152,7 +152,7 @@ export class ManageSubcategoryComponent implements OnInit {
       if( this.subcategoryFrom.valid){
         let data = new FormData()
             data.append('sub_category_name', this.subcategoryFrom.get(['subcategoryNameFormControl']).value)
-            data.append('sub_category_code', this.subcategoryFrom.get(['subcategoryCodeFormControl']).value)
+            data.append('sub_category_code', this.subcategoryFrom.get(['subCategoryCodeFormControl']).value)
             data.append('category_id', this.selected_category.id)
             data.append('description', this.subcategoryFrom.get(['subDescription']).value)
         if(this.selectedFiles.length){
@@ -166,7 +166,7 @@ export class ManageSubcategoryComponent implements OnInit {
             this.subcat_image = null;
             this.subcategoryFrom.reset();
             this.myInputVariable.nativeElement.value = "";
-            this.refresh();
+            
           
             
           },
@@ -180,8 +180,9 @@ export class ManageSubcategoryComponent implements OnInit {
      
 
     selected_sub_category(data): any{
+      
         this.subcategoryFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);        
-        this.subcategoryFrom.controls['subcategoryCodeFormControl'].setValue(data.sub_category_code);
+        this.subcategoryFrom.controls['subCategoryCodeFormControl'].setValue(data.sub_category_code);
         this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category.category_name);
         this.subcategoryFrom.controls['subDescription'].setValue(data.description);
         this.subcat_image = data.sub_category_image;

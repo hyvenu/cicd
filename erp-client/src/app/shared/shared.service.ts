@@ -76,9 +76,7 @@ export class SharedService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreUser/?query=`, {})
   }
 
-  public getDepartmentList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`)
-  }
+ 
   public getUserPermissionList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/authentication/api/get_permissions`)
   }
@@ -94,5 +92,23 @@ export class SharedService {
       return this.http.post<any>(`${environment.BASE_SERVICE_URL}/authentication/api/change_phone_number`,data);
 
   }
+  public getDepartmentList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`)    
+  }
+
+
+  public getDepartmentDetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/` + id + '/')
+  }
+
+  public saveDepartment(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`, data);
+  }
+
+  public updateDepartment(data,id){
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`+ id + '/', data)
+  }
+
+
 
 }

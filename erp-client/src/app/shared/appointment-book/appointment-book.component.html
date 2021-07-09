@@ -5,7 +5,7 @@
                 <div class="form-group col-md-4">
                     <label for="customerName">Customer Name : </label>
                     <input type="text" nbInput name="customerName" formControlName="customerNameFormControl"
-                    (keypress)="open_category_list(dialog)" (click)="open_category_list(dialog)" readonly
+                    (keypress)="open_customer_list(dialog)" (click)="open_customer_list(dialog)" readonly
                     [ngClass]="{ 'is-invalid': submitted && f.customerNameFormControl.errors  }" class="form-control" />
                     <div *ngIf="submitted && f.customerNameFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.customerNameFormControl.errors.required"> customer Name is Required</div>
@@ -19,6 +19,7 @@
                 <div class="form-group col-md-4">
                     <label for="phoneNumber">Phone Number : </label>
                     <input nbInput type="text" name="phoneNumber" formControlName="phoneNumberFormControl" (keypress)="keyPress($event)"
+                     (click)="open_phone_list(phone_dialog)"
                     [ngClass]="{ 'is-invalid': submitted && f.phoneNumberFormControl.errors  }" class="form-control" readonly/>
                     <!-- <div *ngIf="submitted && f.phoneNumberFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.phoneNumberFormControl.errors.required"> Phone Number is Required</div>
@@ -60,9 +61,9 @@
             <div class="form-row">
                 <div class="form-group col-md-2">
                     <label >Service</label>
-                    <nb-select name="services" formControlName="serviceFormControl" [(selected)]="selected_service" >
+                    <nb-select style="width: 20em;" name="services" formControlName="serviceFormControl" [(selected)]="selected_service" >
                         <nb-option *ngFor="let o of service_list" value="{{o.id}}" >
-                            {{ o.service_name }}
+                            {{ o.service_name }}-{{o.price}}-{{o.service_gst}}%gst
                         </nb-option>
                     </nb-select>
                 </div>
@@ -85,6 +86,25 @@
             <nb-list>
                 <nb-list-item *ngFor="let item of data |search_filter:'customer_name':searchCategory ">
                     <i class="mr-auto mt-2 mt-lg-0"> {{item.customer_name }}</i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+
+<ng-template #phone_dialog let-data let-ref="dialogRef">
+    <nb-card size="medium">
+        <nb-card-header>customer Phone Number <input type="text" nbInput size="small" placeholder="Search .."
+                [(ngModel)]="searchPhoneNo" /> </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data |search_filter:'phone_number':searchPhoneNo ">
+                    <i class="mr-auto mt-2 mt-lg-0"> {{item.phone_number }}</i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
             </nb-list>

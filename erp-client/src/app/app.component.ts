@@ -53,6 +53,10 @@ export class AppComponent implements OnInit {
        link: '/'
       },
       {
+        title: 'Department',
+        link: 'Department',
+      },
+      {
         title: 'Manage Employee',
         link: 'ManageEmployee',
       },

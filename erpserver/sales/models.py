@@ -24,8 +24,8 @@ class OrderRequest(AuditUuidModelMixin):
     invoice_no = models.CharField(max_length=255, unique=True, blank=True, null=True)
     payment_method = models.CharField(max_length=50)
     delivery_method = models.CharField(max_length=50)
-    order_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    tax_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    order_amount = models.DecimalField(max_digits=10, decimal_places=1, default=0)
+    tax_amount = models.DecimalField(max_digits=10, decimal_places=1, default=0)
 
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
     promo_code = models.CharField(max_length=100, null=True, blank=True)

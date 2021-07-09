@@ -510,6 +510,7 @@ class OrderService:
             "grand_total",
             'terms_conditions',
             'store_id',
+            "store__store_name",
             "user_id",
             "supervisor_id",
             "card_no",

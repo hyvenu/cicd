@@ -6,6 +6,7 @@ import { sub } from 'date-fns';
 import { AdminService } from 'src/app/admin/admin.service';
 import { InventoryService } from 'src/app/inventory/inventory.service';
 import { OrderService } from '../order.service';
+enum CheckBoxType { CASH,CARD,UPI, NONE };
 
 @Component({
   selector: 'app-sales-bill',
@@ -14,6 +15,21 @@ import { OrderService } from '../order.service';
 })
 export class SalesBillComponent implements OnInit {
 
+
+  check_box_type = CheckBoxType;
+
+  currentlyChecked: CheckBoxType;
+  passed_flag:boolean = true;
+
+  selectCheckBox(targetType: CheckBoxType) {
+    // If the checkbox was already checked, clear the currentlyChecked variable
+    if(this.currentlyChecked === targetType) {
+      this.currentlyChecked = CheckBoxType.NONE;
+      return;
+    }
+
+    this.currentlyChecked = targetType;
+  }
 
   gst_list=[
     {name:"InclusiveGst", value:"InclusiveGst"},
@@ -190,7 +206,7 @@ export class SalesBillComponent implements OnInit {
                 unit:"",
                 price:element.service__price,
                 item_total:0,
-                tax:0,
+                tax:element.service__service_gst,
                 gst_value:0
               }
             )
@@ -210,6 +226,7 @@ export class SalesBillComponent implements OnInit {
   }
   onEvnetChange(event) {
     this.event = event.target.value;
+    this.calculate_price()
      
   }
 
@@ -383,8 +400,10 @@ export class SalesBillComponent implements OnInit {
     formData.append('invoice_items',JSON.stringify(this.invoice_items));
     this.service.savePO(formData).subscribe(
       (data) => {
+        this.billPaid()
         console.log(data)
         this.nbtoastService.success("Invoice Saved Successfully")
+        
         
         this.routes.navigateByUrl("/InvoicePage?id=" + data)
         
@@ -396,6 +415,18 @@ export class SalesBillComponent implements OnInit {
        
       }
     )
+  }
+
+  billPaid(){
+    let data = {
+      'is_paid':new Boolean(this.passed_flag).toString()
+    }
+    this.adminService.updateBooking(this.customer_id,data).subscribe(
+      (data)=>{
+        this.nbtoastService.success("Bill Paid")
+      }
+    )
+
   }
 
  

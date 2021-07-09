@@ -41,8 +41,17 @@
                         <div *ngIf="f.departmentFormControl.errors.required">Department Name is required</div>
                     </div>
                 </div>
+                <!-- <div class="form-group col-md-4">
+                    <label for="employeeDepartment">Department Name</label><br>
+                    <nb-select name="departmentFormControl" id="departmentFormControl" formControlName="departmentFormControl"
+                        [(selected)]="selectedDepartment">
+                        <nb-option *ngFor="let o of department_list" value="{{o.id}}">
+                            {{ o.department_name }}
+                        </nb-option>
+                    </nb-select>
+                </div> -->
             </div><br>
-            
+        
            
            
             <div class="form-row">
@@ -55,7 +64,7 @@
 
       
     </nb-tab>
-    <nb-tab tabTitle="employee List">
+    <nb-tab tabTitle="employee List" >
         <div class="row">
             <ng2-smart-table [settings]="employeeSettings" [source]="employeeData"></ng2-smart-table>
             </div>

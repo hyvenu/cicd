@@ -27,7 +27,7 @@ export class ViewBookingComponent implements OnInit {
     this.adminService.getAppointmentList().subscribe(
       (data) => {
           this.booking_list = data;
-          this.serviceId = data.servie__id
+          
           console.log(this.booking_list)
       },
       (error) => {
@@ -35,11 +35,6 @@ export class ViewBookingComponent implements OnInit {
       }
     )
 
-    this.adminService.getAppointmentLists(this.serviceId).subscribe(
-      (data2)=>{
-          this.booking_details =data2
-      }
-    )
 
     this.adminService.getEmployeeList().subscribe(
       (data) => {
@@ -69,7 +64,7 @@ export class ViewBookingComponent implements OnInit {
        this.adminService.updateBooking(item.id,form_data).subscribe(
         (data) => {
            this.nbtoastService.success("Assigned Stylist")
-          
+          this.ngOnInit()
         },  
         (error) => {
             this.nbtoastService.danger("Failed to update");

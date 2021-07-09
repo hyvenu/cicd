@@ -4,6 +4,12 @@ from sequences import get_next_value
 from . import models
 from .models import Store
 
+def generate_department_code():
+    prefix_code = 'D5N-DPT'
+    code = get_next_value(prefix_code)
+    code = prefix_code + '-' + str(code)
+    return code
+
 
 def generate_employee_code():
     prefix_code = 'D5N-EMP'
@@ -62,6 +68,11 @@ class DepartmentSerializer(serializers.ModelSerializer):
             'department_id',
             'department_name',
         ]
+
+    def create(self, validated_data):
+        validated_data['department_id'] = generate_department_code()
+        desig = super().create(validated_data)
+        return desig
 
 
 class StoreShipLocationsSerializer(serializers.ModelSerializer):

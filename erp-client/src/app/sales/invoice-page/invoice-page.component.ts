@@ -14,6 +14,9 @@ export class InvoicePageComponent implements OnInit {
   grandTotal: any;
   customer_name: any;
   customer_addr: any;
+  store_name: any;
+  invoice_no: any;
+  invoice_date: any;
 
   constructor(private route: ActivatedRoute,
               private orderservice:OrderService) { }
@@ -35,6 +38,9 @@ printBtn.onclick = function () {
           this.grandTotal = this.invoice_details.grand_total
           this.customer_name = this.invoice_details.customer__customer_name
           this.customer_addr = this.invoice_details.customer__customer_address
+          this.store_name = this.invoice_details.store__store_name
+          this.invoice_no = this.invoice_details.invoice_no
+          this.invoice_date= this.invoice_details.po_date
         
         
           

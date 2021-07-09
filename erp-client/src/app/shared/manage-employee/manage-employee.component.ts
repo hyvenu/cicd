@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { AdminService } from 'src/app/admin/admin.service';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-manage-employee',
@@ -13,6 +14,7 @@ export class ManageEmployeeComponent implements OnInit {
   employeeForm:FormGroup
   submitted=false;
   employeeData = [];
+  selectedDepartment;
 
   employeeSettings = {
     // selectMode: 'multi',
@@ -55,6 +57,7 @@ export class ManageEmployeeComponent implements OnInit {
     },
   };
   employee_id: any;
+  department_list: any;
 
 
   constructor(
@@ -64,6 +67,7 @@ export class ManageEmployeeComponent implements OnInit {
     private routes: Router,
     private route: ActivatedRoute,
     private adminService:AdminService,
+    private sharedService:SharedService,
   ) { }
 
   keyPress(event: any) {
@@ -101,6 +105,17 @@ export class ManageEmployeeComponent implements OnInit {
    
         }
       )
+
+      this.sharedService.getDepartmentList().subscribe(
+        (dep_data) => {
+          this.department_list = dep_data;
+          console.log(this.department_list)
+          
+        },
+        (error) => {
+          this.nbtoastService.danger(error, "Error")
+        }
+      );
     }
 
    
@@ -131,8 +146,9 @@ export class ManageEmployeeComponent implements OnInit {
     this.adminService.updateEmployee(formdata,this.employee_id).subscribe(
       (data)=>{
         this.nbtoastService.success("Employee Updated Successfully")
-        this.ngOnInit();
+        
         this.employeeForm.reset();
+        window.location.reload()
         
           
       },
@@ -153,8 +169,9 @@ export class ManageEmployeeComponent implements OnInit {
     this.adminService.SaveEmployee(formdata).subscribe(
       (data)=>{
         this.nbtoastService.success("Employee Saved Successfully")
-        this.employeeForm.reset();
-        this.ngOnInit();
+        
+        
+        window.location.reload()
           
       },
       (error) => {
