@@ -88,7 +88,7 @@ export class AdminService {
   }
 
   public getEmployeeList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`, {})
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_employee_list`, {})
   }
   public getCustomerList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/`, {})

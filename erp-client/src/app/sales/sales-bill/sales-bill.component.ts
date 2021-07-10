@@ -193,8 +193,11 @@ export class SalesBillComponent implements OnInit {
        this.adminService.getBookinHistory(this.customer_object.id).subscribe(
         (data2)=>{
           this.booking_history = data2
-          console.log(this.booking_history)
-          this.booking_id = this.booking_history.id
+          
+          this.booking_history.forEach(element => {
+               this.booking_id= element.id              
+          });
+          console.log(this.booking_id)
           
           this.booking_history.forEach(element => {
             this.invoice_items.push(
@@ -421,7 +424,7 @@ export class SalesBillComponent implements OnInit {
     let data = {
       'is_paid':new Boolean(this.passed_flag).toString()
     }
-    this.adminService.updateBooking(this.customer_id,data).subscribe(
+    this.adminService.updateBooking(this.booking_id,data).subscribe(
       (data)=>{
         this.nbtoastService.success("Bill Paid")
       }

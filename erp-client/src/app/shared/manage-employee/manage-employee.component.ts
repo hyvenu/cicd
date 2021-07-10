@@ -48,7 +48,7 @@ export class ManageEmployeeComponent implements OnInit {
       phone_number:{
         title: 'Phone Number',
       },
-      department:{
+      department__department_name:{
         title: 'Department Name',
       },
      
@@ -58,6 +58,7 @@ export class ManageEmployeeComponent implements OnInit {
   };
   employee_id: any;
   department_list: any;
+  dep_id: any;
 
 
   constructor(
@@ -106,19 +107,24 @@ export class ManageEmployeeComponent implements OnInit {
         }
       )
 
-      this.sharedService.getDepartmentList().subscribe(
-        (dep_data) => {
-          this.department_list = dep_data;
-          console.log(this.department_list)
-          
-        },
-        (error) => {
-          this.nbtoastService.danger(error, "Error")
-        }
-      );
+      
+
     }
 
-   
+    this.sharedService.getDepartmentList().subscribe(
+      (data) => {
+        this.department_list = data;
+        this.department_list.forEach(element => {
+          this.dep_id = element.id
+        });
+        console.log(this.department_list)
+      },
+      (error) => {
+        this.nbtoastService.danger("Unable to get Deparment List")
+      }
+    )
+
+    
 
     this.adminService.getEmployeeList().subscribe(
       (data)=> {
@@ -139,7 +145,7 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('employee_code',this.employeeForm.controls['employeeCodeFormControl'].value);
     formdata.append('employee_name',this.employeeForm.controls['employeeNameFormControl'].value);
     formdata.append('phone_number',this.employeeForm.controls['phoneNumberFormControl'].value);
-    formdata.append('department',this.employeeForm.controls['departmentFormControl'].value);
+    formdata.append('department',this.dep_id);
     formdata.append('employee_address',this.employeeForm.controls['employeeAddressFormControl'].value);
     
 
@@ -147,8 +153,9 @@ export class ManageEmployeeComponent implements OnInit {
       (data)=>{
         this.nbtoastService.success("Employee Updated Successfully")
         
-        this.employeeForm.reset();
-        window.location.reload()
+        this.employeeForm.reset()
+        this.routes.navigate(["/ManageEmployee"])
+       
         
           
       },
@@ -162,7 +169,7 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('employee_code',this.employeeForm.controls['employeeCodeFormControl'].value)
     formdata.append('employee_name',this.employeeForm.controls['employeeNameFormControl'].value)
     formdata.append('phone_number',this.employeeForm.controls['phoneNumberFormControl'].value)
-    formdata.append('department',this.employeeForm.controls['departmentFormControl'].value)
+    formdata.append('department',this.dep_id)
     formdata.append('employee_address',this.employeeForm.controls['employeeAddressFormControl'].value)
     
 
@@ -170,8 +177,9 @@ export class ManageEmployeeComponent implements OnInit {
       (data)=>{
         this.nbtoastService.success("Employee Saved Successfully")
         
+        this.ngOnInit()
+        this.employeeForm.reset()
         
-        window.location.reload()
           
       },
       (error) => {

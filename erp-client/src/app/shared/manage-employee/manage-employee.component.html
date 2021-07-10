@@ -33,15 +33,15 @@
                         <div *ngIf="submitted &&  f.phoneNumberFormControl.errors?.pattern ">Phone number must be at least 10 numbers </div>
                     </div>
                 </div>
-                <div class="form-group col-md-4">
+                <!-- <div class="form-group col-md-4">
                     <label for="department">Department Name: </label><br>
                     <input nbInput name="Department" formControlName="departmentFormControl" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.departmentFormControl.errors  }" required/>
                     <div *ngIf="submitted && f.departmentFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.departmentFormControl.errors.required">Department Name is required</div>
                     </div>
-                </div>
-                <!-- <div class="form-group col-md-4">
+                </div> -->
+                <div class="form-group col-md-4">
                     <label for="employeeDepartment">Department Name</label><br>
                     <nb-select name="departmentFormControl" id="departmentFormControl" formControlName="departmentFormControl"
                         [(selected)]="selectedDepartment">
@@ -49,7 +49,7 @@
                             {{ o.department_name }}
                         </nb-option>
                     </nb-select>
-                </div> -->
+                </div>
             </div><br>
         
            
@@ -64,7 +64,7 @@
 
       
     </nb-tab>
-    <nb-tab tabTitle="employee List" >
+    <nb-tab tabTitle="employee List"  >
         <div class="row">
             <ng2-smart-table [settings]="employeeSettings" [source]="employeeData"></ng2-smart-table>
             </div>

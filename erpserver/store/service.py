@@ -1,4 +1,4 @@
-from store.models import StoreUser, Store, SiteSettings, AppointmentSchedule
+from store.models import StoreUser, Store, SiteSettings, AppointmentSchedule, Department, Employee
 
 
 class StoreService:
@@ -39,8 +39,8 @@ class StoreService:
         )
         return list(appointment)
 
-    def get_appointment_list(self, service_id):
-        appointment_list = AppointmentSchedule.objects.all(service__Id=service_id).values(
+    def get_appointment_list(self,):
+        appointment_list = AppointmentSchedule.objects.all().values(
             'id',
             'service__id',
             'customer__customer_name',
@@ -53,3 +53,15 @@ class StoreService:
             'assigned_staff__employee_name',
         )
         return list(appointment_list)
+
+    def get_employee_list(self):
+        employee_list = Employee.objects.all().values(
+            'id',
+            'employee_code',
+            'employee_name',
+            'phone_number',
+            'employee_address',
+            'department__department_name',
+
+        )
+        return list(employee_list)

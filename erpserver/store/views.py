@@ -112,3 +112,11 @@ def get_appointment_list(request):
     store_service = StoreService()
     appointment_list = store_service.get_appointment_list()
     return JsonResponse(appointment_list, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_employee_list(request):
+    store_service = StoreService()
+    employee_list = store_service.get_employee_list()
+    return JsonResponse(employee_list, safe=False)

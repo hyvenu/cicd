@@ -47,7 +47,7 @@ class AppSettings(AuditUuidModelMixin):
 
 
 class Department(AuditUuidModelMixin):
-    department_id = models.CharField(max_length=30, default="")
+    department_id = models.CharField(max_length=230, default="")
     department_name = models.CharField(max_length=100, default="")
 
     class Meta:
@@ -120,7 +120,7 @@ class Employee(AuditUuidModelMixin):
     employee_code = models.CharField(max_length=255, default=None)
     employee_name = models.CharField(max_length=255, default=None)
     phone_number = models.CharField(max_length=10, default=None, null=True, unique=True)
-    department = models.CharField(max_length=255, default=None)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     employee_address = models.CharField(max_length=255, default="")
 
     class Meta:
