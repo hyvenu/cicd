@@ -46,7 +46,7 @@ $box.prop("checked", false);
                                
             </tr>
             <tr> 
-                 <td colspan="3" style="text-align: center;">Subtotal: <br> <input step="0.1" type="number" nbInput size="small" style="width: 10em;"  value="{{subtotal}}" (change)="calculate_totalGst()"  formControlName="subTotalFormControl"  name="subTotalFormControl" [(ngModel)]="selectedSubTotal" placeholder="Subtotal" ><br>
+                 <td colspan="3" style="text-align: center;">Subtotal: <br> <input step="0.1" type="number" nbInput size="small" style="width: 10em;"  value="{{subtotal}}"  formControlName="subTotalFormControl"  name="subTotalFormControl" [(ngModel)]="selectedSubTotal" placeholder="Subtotal" ><br>
                     <!-- <div class="form-group col-md-2"> 
                         <label >Gst</label>
                         <nb-select name="services"  formControlName="gstCalculateFormControl" [(selected)]="selectedGST" [(ngModel)]="selectedGstEvent"  (Change)="gstCalculation()"   >
@@ -123,14 +123,14 @@ $box.prop("checked", false);
                     </table>
                 </td>
                 
-                <td colspan="3" style="text-align: center;">Gst: <br><input size="small" style="width: 10em;" step="0.1"  nbInput formControlName="gstFormControl" name="gstFormControl" (change)="calculate_totalGst()" value="{{gstValue}}" placeholder="GST" [(ngModel)]="selectedGstPercentage" ></td>
+                <td colspan="3" style="text-align: center;">Gst: <br><input size="small" style="width: 10em;" step="0.1"  nbInput formControlName="gstFormControl" name="gstFormControl"  value="{{gstValue}}" placeholder="GST" [(ngModel)]="selectedGstPercentage" ></td>
             </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Total:Include GST <br><input size="small" style="width: 10em;" step="0.1" type="number" nbInput [value]="totalGst" (change)="calculateGrandTotal()" formControlName="gstTotalFormControl" name="salesNewFormControl" placeholder="INR" [(ngModel)]="selectedTotalGst" ></td>
+                <td colspan="3"style="text-align: center;">Total:Include GST <br><input size="small" style="width: 10em;" step="0.1" type="number" nbInput [value]="totalGst"  formControlName="gstTotalFormControl" name="salesNewFormControl" placeholder="INR" [(ngModel)]="selectedTotalGst" ></td>
                 
              </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;" [value]="selectedDiscount"  nbInput formControlName="discountFormControl" (change)="calculateGrandTotal()" name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
+                <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;" [value]="selectedDiscount"  nbInput formControlName="discountFormControl"  name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
             </tr>
             <tr>
                 <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small"  style="width: 10em;" value="{{grandTotal}}"  step="0.1" nbInput formControlName="grandTotalFormControl" name="grandTotalFormControl" placeholder="INR" ></td>

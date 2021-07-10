@@ -107,11 +107,11 @@ export class SalesBillComponent implements OnInit {
       customerNameFormControl:[''],
       barCodeFormControl:['',],
       quantityFormControl:['',],
-      subTotalFormControl:['',Validators.required],
-      gstFormControl:['',Validators.required],
-      gstTotalFormControl:['',Validators.required],
-      discountFormControl:['',Validators.required],
-      grandTotalFormControl:['',Validators.required],
+      subTotalFormControl:['',],
+      gstFormControl:['',],
+      gstTotalFormControl:['',],
+      discountFormControl:['',],
+      grandTotalFormControl:['',],
       cardFormControl:['',],
       cashFormControl:['',],
       upiFormControl:['',],
@@ -125,8 +125,8 @@ export class SalesBillComponent implements OnInit {
       customerEmailFormControl:['',],
       cardNoFormControl:['',],
       
-      userIdFormControl:['',Validators.required],
-      supervisorIdFormControl:['',Validators.required],
+      userIdFormControl:['',],
+      supervisorIdFormControl:['',],
 
       
       
@@ -139,10 +139,10 @@ export class SalesBillComponent implements OnInit {
     this.totalGst=0;
     this.gstTotal=0;
     
-    this.calculate_total();
+    // this.calculate_total();
     this.calculate_price();
-    this.calculate_totalGst();
-    this.calculate_gst();
+    // this.calculate_totalGst();
+    // this.calculate_gst();
     console.log(this.selectedSubTotal)
     this.adminService.getCustomerList().subscribe(
       (data) => {
@@ -168,8 +168,8 @@ export class SalesBillComponent implements OnInit {
     const data = {item_id:'',item_description:'',quantity:'',unit:'',price:'',item_total:'',gst_value:'',tax:''}
     this.invoice_items.push(data)
     this.calculate_price()
-    this.calculate_gst()
-    this.calculate_totalGst()
+    // this.calculate_gst()
+    // this.calculate_totalGst()
   }
 
   remove_item(item): void{
@@ -178,15 +178,16 @@ export class SalesBillComponent implements OnInit {
         this.invoice_items.splice(index, 1);
     } 
     this.calculate_price()
-    this.calculate_gst()
-    this.calculate_totalGst()
+    // this.calculate_gst()
+    // this.calculate_totalGst()
   }
 
- calculate_totalGst(){
-   this.totalGst = (parseInt(this.selectedSubTotal) + parseInt(this.selectedGstPercentage))
-   this.cgst = this.totalGst/2;
-   this.sgst = this.totalGst/2;
- }
+//  calculate_totalGst(){
+//    this.totalGst = (parseInt(this.selectedSubTotal) + parseInt(this.selectedGstPercentage))
+//    this.cgst = this.totalGst/2;
+//    this.sgst = this.totalGst/2;
+//    this.calculateGrandTotal();
+//  }
 
 
   open(dialog: TemplateRef<any>) {
@@ -224,7 +225,7 @@ export class SalesBillComponent implements OnInit {
             
             
           });
-          this.calculate_total()
+          
          
         }
       )
@@ -258,7 +259,8 @@ export class SalesBillComponent implements OnInit {
   // }
 
   calculate_price(): void {
-    
+   
+    this.selectedDiscount =0;
     for(let i=0;i<this.invoice_items.length;i++)
     {
       let price = ((parseFloat(this.invoice_items[i].quantity) * (parseFloat(this.invoice_items[i].price))));
@@ -267,36 +269,67 @@ export class SalesBillComponent implements OnInit {
         this.invoice_items[i].item_total = price;
       }     
     }
-    this.calculate_total()
-    this.calculate_gatVal()
-    this.calculate_totalGst()
-    this.calculateGrandTotal()
-  }
 
-  calculate_gatVal(){
     for(let i=0;i<this.invoice_items.length;i++)
     {
       let gst_price = (((parseInt(this.invoice_items[i].tax)*(parseInt(this.invoice_items[i].price)/100))));
       if(gst_price !=NaN && this.invoice_items[i].tax!= "")
       {
-        this.invoice_items[i].gst_value = gst_price;
+        this.invoice_items[i].gst_value = gst_price * this.invoice_items[i].quantity;
       }     
     }
 
-    this.calculate_gst()
-  }
-
-  calculate_gst(){
-    let gstvalue = 0;
     for(var val of this.invoice_items){
+       this.subtotal = 0;
+    this.gstValue = 0;
+      
+      this.subtotal += val.item_total ;
       this.gstValue += val.gst_value ;
      // return this.subtotal;
     }
-    
-    
 
+    this.selectedTotalGst = this.subtotal + this.gstValue;
+
+    if (this.selectedDiscount >= 0) {
+      let amount = parseInt(this.selectedTotalGst) - parseInt(this.selectedDiscount);
+      this.grandTotal = amount;
+    }
+
+
+
+
+    // this.calculate_gatVal()
+    // this.calculate_totalGst()
+    // this.calculateGrandTotal()
   }
 
+  
+  // calculate_gst(){
+  //   let gstvalue = 0;
+  //   for(var val of this.invoice_items){
+  //     this.gstValue += val.gst_value ;
+  //    // return this.subtotal;
+  //   }
+  //   this.calculateGrandTotal();
+     
+
+  // }
+  calculateGrandTotal(){
+    let amount = parseInt(this.selectedTotalGst) - parseInt(this.selectedDiscount);
+    this.grandTotal = amount;
+  }
+
+  // calculate_total(){
+  //   let subTotal = 0;
+  //   for(var val of this.invoice_items){
+  //     this.subtotal += val.item_total ;
+  //    // return this.subtotal;
+  //   }
+  //   this.calculate_totalGst();
+    
+    
+    
+  // }
   open_product_name(dialog: TemplateRef<any>, item) {
     this.inventoryService.getProductList().subscribe(
       (data) => {
@@ -328,7 +361,7 @@ export class SalesBillComponent implements OnInit {
                     
                   }
                  });
-                 this.calculate_total()
+                 
                  
                }
              )
@@ -344,21 +377,7 @@ export class SalesBillComponent implements OnInit {
 
   }
 
-  calculateGrandTotal(){
-    let amount = parseInt(this.selectedTotalGst) - parseInt(this.selectedDiscount);
-    this.grandTotal = amount;
-  }
 
-  calculate_total(){
-    let subTotal = 0;
-    for(var val of this.invoice_items){
-      this.subtotal += val.item_total ;
-     // return this.subtotal;
-    }
-    
-    
-    
-  }
 
   open_phone_list(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
@@ -395,7 +414,7 @@ export class SalesBillComponent implements OnInit {
             
             
           });
-          this.calculate_total()
+          
          
         }
       )

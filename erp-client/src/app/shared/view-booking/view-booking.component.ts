@@ -50,14 +50,14 @@ export class ViewBookingComponent implements OnInit {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.stylist_list })
     .onClose.subscribe(data => {
        item.assigned_staff = data 
-       console.log(item.assigned_staff)  
+       console.log(item)  
        console.log(item.id)    
        let form_data = new FormData();
 
        form_data.append('store',sessionStorage.getItem('store_id'));
        form_data.append('customer_name', item.customer_name);
        form_data.append('phone_number', item.phone_number);
-       form_data.append('service', item.service);
+       form_data.append('service', item.service__id);
        form_data.append('start_time', item.start_time);
        form_data.append('end_time', item.end_time);
        form_data.append('booking_date', item.booking_date);
@@ -66,7 +66,7 @@ export class ViewBookingComponent implements OnInit {
        this.adminService.updateBooking(item.id,form_data).subscribe(
         (data) => {
            this.nbtoastService.success("Assigned Stylist")
-          this.ngOnInit()
+           this.ngOnInit()
         },  
         (error) => {
             this.nbtoastService.danger("Failed to update");
