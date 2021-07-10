@@ -133,8 +133,16 @@ export class SalesBillComponent implements OnInit {
 
     });
     this.invoice_items=[];
+    this.subtotal=0;
+    this.gstValue=0;
+    this.grandTotal=0;
+    this.totalGst=0;
+    this.gstTotal=0;
     
     this.calculate_total();
+    this.calculate_price();
+    this.calculate_totalGst();
+    this.calculate_gst();
     console.log(this.selectedSubTotal)
     this.adminService.getCustomerList().subscribe(
       (data) => {
@@ -281,11 +289,11 @@ export class SalesBillComponent implements OnInit {
   calculate_gst(){
     let gstvalue = 0;
     for(var val of this.invoice_items){
-      gstvalue += val.gst_value ;
+      this.gstValue += val.gst_value ;
      // return this.subtotal;
     }
     
-    this.gstValue = gstvalue;
+    
 
   }
 
@@ -344,12 +352,56 @@ export class SalesBillComponent implements OnInit {
   calculate_total(){
     let subTotal = 0;
     for(var val of this.invoice_items){
-      subTotal += val.item_total ;
+      this.subtotal += val.item_total ;
      // return this.subtotal;
     }
     
-    this.subtotal = subTotal;
     
+    
+  }
+
+  open_phone_list(dialog: TemplateRef<any>) {
+    this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
+    .onClose.subscribe(data => {
+       this.customer_object = data   
+       this.customer_id = data.id;    
+       this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
+       this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
+       this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.customer_email);
+       this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.phone_number);
+       this.adminService.getBookinHistory(this.customer_object.id).subscribe(
+        (data2)=>{
+          this.booking_history = data2
+          
+          this.booking_history.forEach(element => {
+               this.booking_id= element.id              
+          });
+          console.log(this.booking_id)
+          
+          this.booking_history.forEach(element => {
+            this.invoice_items.push(
+              {item_id:"",
+                booking_id:element.id,
+                service_id:element.service__id,
+                item_description:element.service__service_name,
+                quantity:0,
+                unit:"",
+                price:element.service__price,
+                item_total:0,
+                tax:element.service__service_gst,
+                gst_value:0
+              }
+            )
+            
+            
+          });
+          this.calculate_total()
+         
+        }
+      )
+      
+    }
+    );
   }
 
 

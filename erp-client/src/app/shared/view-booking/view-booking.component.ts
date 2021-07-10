@@ -49,7 +49,9 @@ export class ViewBookingComponent implements OnInit {
   stylist_open(dialog: TemplateRef<any>,item) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.stylist_list })
     .onClose.subscribe(data => {
-       item.assigned_staff = data       
+       item.assigned_staff = data 
+       console.log(item.assigned_staff)  
+       console.log(item.id)    
        let form_data = new FormData();
 
        form_data.append('store',sessionStorage.getItem('store_id'));

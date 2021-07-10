@@ -39,9 +39,10 @@ class StoreService:
         )
         return list(appointment)
 
-    def get_appointment_list(self,):
+    def get_appointment_list(self):
         appointment_list = AppointmentSchedule.objects.all().values(
             'id',
+            'assigned_staff__id',
             'service__id',
             'customer__customer_name',
             'service__service_name',
@@ -51,8 +52,12 @@ class StoreService:
             'end_time',
             'start_time',
             'assigned_staff__employee_name',
+
+
         )
         return list(appointment_list)
+
+
 
     def get_employee_list(self):
         employee_list = Employee.objects.all().values(
