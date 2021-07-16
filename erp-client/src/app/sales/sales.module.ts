@@ -12,16 +12,18 @@ import { SalesOrderComponent } from './sales-order/sales-order.component';
 import { MainPipe } from '../pipe.module';
 import { SalesBillComponent } from './sales-bill/sales-bill.component';
 import { InvoicePageComponent } from './invoice-page/invoice-page.component';
+import { SalesDetailsComponent } from './sales-details/sales-details.component';
 
 const routes: Routes = [
   { path: 'OrderList' , component: OrderListComponent,canActivate:[AuthGuard]},
   { path: 'OrderView' , component: OrderViewComponent,canActivate:[AuthGuard]},
   { path: 'SalesOrder' , component: SalesOrderComponent,canActivate:[AuthGuard]},
   { path: 'InvoicePage' , component:InvoicePageComponent ,canActivate:[AuthGuard]},
+  { path: 'SalesDetails', component:SalesDetailsComponent, canActivate:[AuthGuard]},
 ]
 
 @NgModule({
-  declarations: [OrderListComponent, OrderViewComponent, SalesOrderComponent, SalesBillComponent, InvoicePageComponent],
+  declarations: [OrderListComponent, OrderViewComponent, SalesOrderComponent, SalesBillComponent, InvoicePageComponent, SalesDetailsComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

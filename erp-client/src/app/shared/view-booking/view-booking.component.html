@@ -18,7 +18,11 @@
                     </nb-card-body>
                     <nb-card-footer>
                         <input type="text" nbInput size="small" (keypress)="stylist_open(stylist_dialog, item)"
-                        (click)="stylist_open(stylist_dialog, item)"  placeholder="Select Stylist" readonly>
+                        (click)="stylist_open(stylist_dialog, item)"  placeholder="Select Stylist" readonly> <br><br>
+                        <div  class="form-group">
+                            <button *ngIf="item.assigned_staff__id" nbButton status="info"  size="small" (click)="checkOutToBill(item.customer__id)"  >CheckOut</button>
+                            <!-- <a *ngIf="item.assigned_staff__id" style="text-decoration: none;color: white;" href="/SalesBill" class="btn btn-info">CheckOut</a> -->
+                           </div>
                     </nb-card-footer>
                 </nb-card>
             </div>

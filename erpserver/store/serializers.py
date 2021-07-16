@@ -112,7 +112,7 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
 class StoreServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.StoreServices
-        fields = ['id', 'store', 'service_name', 'service_desc', 'price', 'service_gst']
+        fields = ['id', 'store', 'service_name', 'service_desc', 'price', 'service_gst', 'service_hour']
 
 
 class CustomerSerializer(serializers.ModelSerializer):

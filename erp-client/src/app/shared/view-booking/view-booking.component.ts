@@ -15,6 +15,10 @@ export class ViewBookingComponent implements OnInit {
   stylist_list =  []
   serviceId: any;
   booking_details: any;
+  customer_id: any;
+
+
+  
 
   constructor(private adminService: AdminService,
               private nbtoastService: NbToastrService,
@@ -22,12 +26,15 @@ export class ViewBookingComponent implements OnInit {
               private routes: Router,
               private route: ActivatedRoute,) { }
 
+ 
+
   ngOnInit(): void {
+    
 
     this.adminService.getAppointmentList().subscribe(
       (data) => {
           this.booking_list = data;
-          
+         
           console.log(this.booking_list)
       },
       (error) => {
@@ -50,8 +57,12 @@ export class ViewBookingComponent implements OnInit {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.stylist_list })
     .onClose.subscribe(data => {
        item.assigned_staff = data 
-       console.log(item)  
-       console.log(item.id)    
+       console.log(item.assigned_staff.id)  
+       console.log(item.id)   
+       this.customer_id = item.customer__id
+       console.log(this.customer_id)
+       
+       
        let form_data = new FormData();
 
        form_data.append('store',sessionStorage.getItem('store_id'));
@@ -62,11 +73,17 @@ export class ViewBookingComponent implements OnInit {
        form_data.append('end_time', item.end_time);
        form_data.append('booking_date', item.booking_date);
        form_data.append('assigned_staff',item.assigned_staff.id)
+      //  this.checkoutToBill(this.customer_id)
+       
 
        this.adminService.updateBooking(item.id,form_data).subscribe(
         (data) => {
+          
            this.nbtoastService.success("Assigned Stylist")
            this.ngOnInit()
+          //  this.routes.navigateByUrl("/SalesBill?id=" + this.customer_id)
+           
+           
         },  
         (error) => {
             this.nbtoastService.danger("Failed to update");
@@ -76,6 +93,13 @@ export class ViewBookingComponent implements OnInit {
         
     }
     );
+    
   }
+
+  checkOutToBill(item){
+    this.routes.navigateByUrl("/SalesBill?id=" + item)
+    
+  }
+
 
 }

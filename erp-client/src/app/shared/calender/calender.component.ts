@@ -132,14 +132,14 @@ export class CalenderComponent implements OnInit {
   constructor(private nbtoastService: NbToastrService,
     private adminService:AdminService,) {
 
-      this.adminService.getAppointmentList().subscribe(
+      this.adminService.getAppointmentListOfCalendar().subscribe(
         (data) => {
           let e = []
           data.forEach(element => {
            let start_date = element.booking_date + ' ' + element.start_time;
             console.log(start_date)
            let content = 
-           '<p>' + element.customer_name + '<br><em>' + element.phone_number + '</em><br><em>' + element.assigned_staff_det.employee_name + '</em></p>' 
+           '<p>Customer Name:' + element.customer_name + '<br><em>Customer Phone Number:' + element.phone_number + '</em><br><em>Assigned Staff:' + element.assigned_staff_det.employee_name + '</em></p>' 
            this.appointment_list.push(
                {
                  start: addHours(startOfDay(new Date(element.booking_date + ' ' + element.start_time)), 2),

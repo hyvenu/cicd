@@ -92,6 +92,7 @@ class StoreServices(AuditUuidModelMixin):
     service_desc = models.TextField(max_length=100)
     price = models.IntegerField(default=0)
     service_gst = models.CharField(max_length=100, default="", null=True, blank=True)
+    service_hour = models.CharField(max_length=100, default="",)
 
     class Meta:
         pass

@@ -74,6 +74,10 @@ export class AdminService {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/` + id + '/', data)
   }
 
+  public getAppointmentListOfCalendar(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment`,{})
+  }
+
   public getAppointmentList(){
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_list`, {})
   }

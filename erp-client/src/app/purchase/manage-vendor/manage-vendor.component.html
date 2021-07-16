@@ -12,7 +12,7 @@
                         placeholder="System Generated " [readonly]="true"                        />
                 </div>
                 <div class="col-md-4">
-                    <label for="vendorName">Farmer/Company name </label>
+                    <label for="vendorName">Vendor name </label>
                     <input nbInput formControlName="vendorNameFormControl" name="vendorName"
                         placeholder="Vendor Name" />
                 </div>
@@ -63,11 +63,11 @@
 
             </div>
             <div class="row">
-                <div class="col-md-5">
+                <!-- <div class="col-md-5">
                     <label for="corporateOffice">Corporate Office</label><br>
                     <textarea nbInput formControlName="corporateOfficeFormControl" name="corporateOffice"
                         placeholder="Corporate Office"></textarea>
-                </div>
+                </div> -->
                 <div class="col-md-5">
                     <label for="branchOffice">Branch Offices </label><br>
                     <textarea nbInput formControlName="branchOfficeFormControl" name="branchOffice"
@@ -75,14 +75,14 @@
                 </div>
 
             </div><br>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-3">
                     <label for="postalCode">Postal Code</label>
                     <input nbInput formControlName="postalCode" name="postalCode" placeholder="Postal Code" />
                 </div>
-            </div><br>
+            </div><br> -->
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-3">
                     <label for="vendorPanNo">Company Pan/ Indiviudual Pan</label>
                     <input nbInput formControlName="vendorPanNo" name="vendorPanNo" placeholder="Pan Number" />
@@ -91,8 +91,8 @@
                     <input type="file" formControlName="imageVendorPanNo" multiple
                         (change)="onFileChangePan($event, 'image');" />
                 </div>
-            </div><br>
-            <div class="row">
+            </div><br> -->
+            <!-- <div class="row">
                 <div class="col-md-3">
                     <label for="vendorAadharNo">Aadhar Number</label>
                     <input nbInput formControlName="vendorAadharNo" name="vendorAadharNo" placeholder="Aadhar Number" />
@@ -102,7 +102,7 @@
                         (change)="onFileChangeGst($event, 'image');" />
                 </div>
 
-            </div><br>
+            </div><br> -->
             <div class="row">
                 <div class="col-md-3">
                     <label for="vendorGSTNo">GST Number</label>

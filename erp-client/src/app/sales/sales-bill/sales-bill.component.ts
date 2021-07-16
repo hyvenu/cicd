@@ -156,8 +156,18 @@ export class SalesBillComponent implements OnInit {
       }
     )
 
-    
-      
+    let customer = this.route.snapshot.queryParams['id']
+
+    if(customer){
+      this.adminService.getCustomerDetails(customer).subscribe(
+        (data)=>{
+        this.invoiceForm.controls['customerNameFormControl'].setValue(data.customer_name);
+       this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(data.phone_number);
+       this.invoiceForm.controls['customerEmailFormControl'].setValue(data.customer_name);
+
+        }
+      )
+    }
     
   }
 
@@ -386,8 +396,8 @@ export class SalesBillComponent implements OnInit {
        this.customer_id = data.id;    
        this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
-       this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.customer_email);
-       this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.phone_number);
+       this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
+       this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_name);
        this.adminService.getBookinHistory(this.customer_object.id).subscribe(
         (data2)=>{
           this.booking_history = data2

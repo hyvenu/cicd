@@ -62,6 +62,7 @@ export class ManageServiceComponent implements OnInit {
       ServiceDescFormControl: ['', [Validators.required]],
       ServicePriceFormControl: ['', [Validators.required]],
       gstFormControl: ['', [Validators.required]],
+      serviceHourFormControl:['',[Validators.required]],
     });
     this.createFlag = true;
     this.adminService.getServiceList().subscribe(
@@ -83,6 +84,7 @@ export class ManageServiceComponent implements OnInit {
             service_desc: this.ServiceFrom.get(['ServiceDescFormControl']).value,
             price: this.ServiceFrom.get(['ServicePriceFormControl']).value,
             service_gst: this.ServiceFrom.get(['gstFormControl']).value,
+            service_hour:this.ServiceFrom.get(['serviceHourFormControl']).value,
             store : this.store_id,
       }
       this.adminService.saveService(data).subscribe(
@@ -104,6 +106,7 @@ export class ManageServiceComponent implements OnInit {
               service_desc: this.ServiceFrom.get(['ServiceDescFormControl']).value,
               price: this.ServiceFrom.get(['ServicePriceFormControl']).value,
               service_gst: this.ServiceFrom.get(['gstFormControl']).value,
+              service_hour:this.ServiceFrom.get(['serviceHourFormControl']).value,
               store : this.store_id,
         }
         this.adminService.updateService(this.Service_id, data).subscribe(
@@ -123,6 +126,7 @@ export class ManageServiceComponent implements OnInit {
         this.ServiceFrom.controls['ServiceDescFormControl'].setValue(data.service_desc);
         this.ServiceFrom.controls['ServicePriceFormControl'].setValue(data.price);
         this.ServiceFrom.controls['gstFormControl'].setValue(data.service_gst);
+        this.ServiceFrom.controls['serviceHourFormControl'].setValue(data.service_hour);
         this.createFlag = !this.createFlag;
         this.Service_id = data.id
     }

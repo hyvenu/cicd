@@ -188,35 +188,35 @@ export class ManageVendorComponent implements OnInit {
           this.vendorMasterForm.controls['vendorCodeFormControl'].setValue(data.vendor_code);
           this.vendorMasterForm.controls['vendorNameFormControl'].setValue(data.vendor_name);
           this.vendorMasterForm.controls['vendorTypeFormControl'].setValue(data.vendor_type);
-          this.vendorMasterForm.controls['vendorStateCodeFormControl'].setValue(data.state_code);
-          this.vendorMasterForm.controls['vendorStateNameFormControl'].setValue(data.state_name);
-          this.vendorMasterForm.controls['vendorRegionFormControl'].setValue(data.region);
-          this.vendorMasterForm.controls['corporateOfficeFormControl'].setValue(data.corp_ofc_addr);
+          // this.vendorMasterForm.controls['vendorStateCodeFormControl'].setValue(data.state_code);
+          // this.vendorMasterForm.controls['vendorStateNameFormControl'].setValue(data.state_name);
+          // this.vendorMasterForm.controls['vendorRegionFormControl'].setValue(data.region);
+          // this.vendorMasterForm.controls['corporateOfficeFormControl'].setValue(data.corp_ofc_addr);
           this.vendorMasterForm.controls['branchOfficeFormControl'].setValue(data.branch_ofc_addr);
-          this.vendorMasterForm.controls['postalCode'].setValue(data.postal_code);
-          this.vendorMasterForm.controls['vendorPanNo'].setValue(data.pan_no);
-          this.vendorMasterForm.controls['imageVendorPanNo'].setValue(data.panDoc);
-          this.vendorMasterForm.controls['vendorAadharNo'].setValue(data.aadhar_no);
+          // this.vendorMasterForm.controls['postalCode'].setValue(data.postal_code);
+          // this.vendorMasterForm.controls['vendorPanNo'].setValue(data.pan_no);
+          // this.vendorMasterForm.controls['imageVendorPanNo'].setValue(data.panDoc);
+          // this.vendorMasterForm.controls['vendorAadharNo'].setValue(data.aadhar_no);
           this.vendorMasterForm.controls['vendorGSTNo'].setValue(data.gst_no);
-          this.vendorMasterForm.controls['imageVendorGSTNo'].setValue(data.gstDoc);
-          this.vendorMasterForm.controls['vendorPOCName'].setValue(data.poc_name);
-          this.vendorMasterForm.controls['vendorDesignation'].setValue(data.designation);
+          // this.vendorMasterForm.controls['imageVendorGSTNo'].setValue(data.gstDoc);
+          // this.vendorMasterForm.controls['vendorPOCName'].setValue(data.poc_name);
+          // this.vendorMasterForm.controls['vendorDesignation'].setValue(data.designation);
           this.vendorMasterForm.controls['vendorMobileNo'].setValue(data.mobile_no);
-          this.vendorMasterForm.controls['vendorLandLine'].setValue(data.land_line_no);
+          // this.vendorMasterForm.controls['vendorLandLine'].setValue(data.land_line_no);
           this.vendorMasterForm.controls['emailId'].setValue(data.email_id);
-          this.vendorMasterForm.controls['alternative'].setValue(data.alternative);
-          this.vendorMasterForm.controls['paymentTermsFormControl'].setValue(data.payment_terms);
-          this.vendorMasterForm.controls['creditDaysFormControl'].setValue(data.credit_days);
-          this.vendorMasterForm.controls['approvedTransporterFormControl'].setValue(data.approved_transporter);
-          this.vendorMasterForm.controls['tdsApplicableFormControl'].setValue(data.tds_applicable);
-          this.vendorMasterForm.controls['accountTypeFormControl'].setValue(data.account_type);
-          this.vendorMasterForm.controls['dedcuteeTypeFormControl'].setValue(data.dedcutee_type);
+          // this.vendorMasterForm.controls['alternative'].setValue(data.alternative);
+          // this.vendorMasterForm.controls['paymentTermsFormControl'].setValue(data.payment_terms);
+          // this.vendorMasterForm.controls['creditDaysFormControl'].setValue(data.credit_days);
+          // this.vendorMasterForm.controls['approvedTransporterFormControl'].setValue(data.approved_transporter);
+          // this.vendorMasterForm.controls['tdsApplicableFormControl'].setValue(data.tds_applicable);
+          // this.vendorMasterForm.controls['accountTypeFormControl'].setValue(data.account_type);
+          // this.vendorMasterForm.controls['dedcuteeTypeFormControl'].setValue(data.dedcutee_type);
 
-          this.vendorMasterForm.controls['bankNameFormControl'].setValue(data.bank_name);
-          this.vendorMasterForm.controls['ifscCodeFormControl'].setValue(data.ifsc_code);
-          this.vendorMasterForm.controls['micrCodeFormControl'].setValue(data.micr_code);
-          this.vendorMasterForm.controls['accountNumberFormControl'].setValue(data.account_no);
-          this.vendorMasterForm.controls['beneficiaryNameFormControl'].setValue(data.beneficiary_name);
+          // this.vendorMasterForm.controls['bankNameFormControl'].setValue(data.bank_name);
+          // this.vendorMasterForm.controls['ifscCodeFormControl'].setValue(data.ifsc_code);
+          // this.vendorMasterForm.controls['micrCodeFormControl'].setValue(data.micr_code);
+          // this.vendorMasterForm.controls['accountNumberFormControl'].setValue(data.account_no);
+          // this.vendorMasterForm.controls['beneficiaryNameFormControl'].setValue(data.beneficiary_name);
 
           });
         }
@@ -289,44 +289,44 @@ export class ManageVendorComponent implements OnInit {
     }
 
     formData.append('vendor_type', this.vendorTypeStr)
-    formData.append('state_code', this.vendorMasterForm.controls['vendorStateCodeFormControl'].value)
-    formData.append('state_name', this.vendorMasterForm.controls['vendorStateNameFormControl'].value)
-    formData.append('region', this.vendorMasterForm.controls['vendorRegionFormControl'].value)
+    // formData.append('state_code', this.vendorMasterForm.controls['vendorStateCodeFormControl'].value)
+    // formData.append('state_name', this.vendorMasterForm.controls['vendorStateNameFormControl'].value)
+    // formData.append('region', this.vendorMasterForm.controls['vendorRegionFormControl'].value)
     
-    formData.append('corp_ofc_addr', this.vendorMasterForm.controls['corporateOfficeFormControl'].value)
+    // formData.append('corp_ofc_addr', this.vendorMasterForm.controls['corporateOfficeFormControl'].value)
     formData.append('branch_ofc_addr', this.vendorMasterForm.controls['branchOfficeFormControl'].value)
-    formData.append('postal_code', this.vendorMasterForm.controls['postalCode'].value)
-    formData.append('pan_no', this.vendorMasterForm.controls['vendorPanNo'].value)
-    formData.append('aadhar_no', this.vendorMasterForm.controls['vendorAadharNo'].value)
+    // formData.append('postal_code', this.vendorMasterForm.controls['postalCode'].value)
+    // formData.append('pan_no', this.vendorMasterForm.controls['vendorPanNo'].value)
+    // formData.append('aadhar_no', this.vendorMasterForm.controls['vendorAadharNo'].value)
     formData.append('gst_no', this.vendorMasterForm.controls['vendorGSTNo'].value)
-    formData.append('poc_name', this.vendorMasterForm.controls['vendorPOCName'].value)
-    formData.append('designation', this.vendorMasterForm.controls['vendorDesignation'].value)
+    // formData.append('poc_name', this.vendorMasterForm.controls['vendorPOCName'].value)
+    // formData.append('designation', this.vendorMasterForm.controls['vendorDesignation'].value)
     formData.append('mobile_no', this.vendorMasterForm.controls['vendorMobileNo'].value)
-    formData.append('land_line_no', this.vendorMasterForm.controls['vendorLandLine'].value)
+    // formData.append('land_line_no', this.vendorMasterForm.controls['vendorLandLine'].value)
     formData.append('email_id', this.vendorMasterForm.controls['emailId'].value)
-    formData.append('alternative', this.vendorMasterForm.controls['alternative'].value)
-    formData.append('bank_name', this.vendorMasterForm.controls['bankNameFormControl'].value)
-    formData.append('ifsc_code', this.vendorMasterForm.controls['ifscCodeFormControl'].value)
-    formData.append('micr_code', this.vendorMasterForm.controls['micrCodeFormControl'].value)
-    formData.append('account_no', this.vendorMasterForm.controls['accountNumberFormControl'].value)
-    formData.append('beneficiary_name', this.vendorMasterForm.controls['beneficiaryNameFormControl'].value)
+    // formData.append('alternative', this.vendorMasterForm.controls['alternative'].value)
+    // formData.append('bank_name', this.vendorMasterForm.controls['bankNameFormControl'].value)
+    // formData.append('ifsc_code', this.vendorMasterForm.controls['ifscCodeFormControl'].value)
+    // formData.append('micr_code', this.vendorMasterForm.controls['micrCodeFormControl'].value)
+    // formData.append('account_no', this.vendorMasterForm.controls['accountNumberFormControl'].value)
+    // formData.append('beneficiary_name', this.vendorMasterForm.controls['beneficiaryNameFormControl'].value)
 
-    formData.append('payment_terms', this.vendorMasterForm.controls['paymentTermsFormControl'].value)
-    formData.append('credit_days', this.vendorMasterForm.controls['creditDaysFormControl'].value)
-    formData.append('approved_transporter', this.vendorMasterForm.controls['approvedTransporterFormControl'].value)
-    formData.append('tds_applicable', this.vendorMasterForm.controls['tdsApplicableFormControl'].value)
-    formData.append('account_type', this.vendorMasterForm.controls['accountTypeFormControl'].value)
-    formData.append('dedcutee_type', this.vendorMasterForm.controls['dedcuteeTypeFormControl'].value)
+    // formData.append('payment_terms', this.vendorMasterForm.controls['paymentTermsFormControl'].value)
+    // formData.append('credit_days', this.vendorMasterForm.controls['creditDaysFormControl'].value)
+    // formData.append('approved_transporter', this.vendorMasterForm.controls['approvedTransporterFormControl'].value)
+    // formData.append('tds_applicable', this.vendorMasterForm.controls['tdsApplicableFormControl'].value)
+    // formData.append('account_type', this.vendorMasterForm.controls['accountTypeFormControl'].value)
+    // formData.append('dedcutee_type', this.vendorMasterForm.controls['dedcuteeTypeFormControl'].value)
 
-    if(this.panDoc.length){
-      for(let i=0 ; i < this.panDoc.length ; i++)
-        formData.append('panDoc[]', this.panDoc[i],this.panDoc[i].name);
-    }
+    // if(this.panDoc.length){
+    //   for(let i=0 ; i < this.panDoc.length ; i++)
+    //     formData.append('panDoc[]', this.panDoc[i],this.panDoc[i].name);
+    // }
 
-    if(this.gstDoc.length){
-      for(let i=0 ; i < this.gstDoc.length ; i++)
-        formData.append('gstDoc[]', this.gstDoc[i],this.gstDoc[i].name);
-    }
+    // if(this.gstDoc.length){
+    //   for(let i=0 ; i < this.gstDoc.length ; i++)
+    //     formData.append('gstDoc[]', this.gstDoc[i],this.gstDoc[i].name);
+    // }
 
 
   this.purchaseService.saveVendor(formData).subscribe(

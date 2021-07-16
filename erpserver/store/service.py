@@ -43,6 +43,7 @@ class StoreService:
         appointment_list = AppointmentSchedule.objects.all().values(
             'id',
             'assigned_staff__id',
+            'customer__id',
             'service__id',
             'customer__customer_name',
             'service__service_name',
