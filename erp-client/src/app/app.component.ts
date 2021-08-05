@@ -155,6 +155,10 @@ export class AppComponent implements OnInit {
                title: 'Purchase Order',
                link: 'PurchaseOrderList', // goes into angular `routerLink`
             },
+            {
+              title: 'Purchase Invoice',
+              link: 'PurchaseInvoicePage', // goes into angular `routerLink`
+           },
            {
                title: 'Manage GRN',
                link: 'GrnList'

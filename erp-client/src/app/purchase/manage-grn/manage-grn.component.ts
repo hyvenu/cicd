@@ -307,6 +307,7 @@ export class ManageGrnComponent implements OnInit {
         (data) => {
           this.nbtoastService.success("GRN Details Saved Successfully, grn number is : " + data)
           this.ngOnInit();
+          this.routes.navigate(['/GrnList'])
         },
         (error) => {
           this.nbtoastService.danger(error.detail);

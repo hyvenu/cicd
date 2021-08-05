@@ -32,8 +32,9 @@ export class PurchaseRequisitionComponent implements OnInit {
   selectedOption;
   pr_id;
   store_id;
-
+  deleterow=false;
   selected_product_list = [];
+  submitted: boolean=false;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -83,6 +84,7 @@ export class PurchaseRequisitionComponent implements OnInit {
 
     let param1 = this.route.snapshot.queryParams["id"];
     if (param1) {
+      this.deleterow=false
       this.purchaseService.getPRDetails(param1).subscribe((data) => {
         this.pr_id = data.id
         this.pr_status = data.status
@@ -92,7 +94,7 @@ export class PurchaseRequisitionComponent implements OnInit {
         this.selectedOption = data.dept__id;
         this.prForm.controls['statusFormControl'].setValue(data.status);
         // this.prForm.controls['departFormControl'].setValue(data.dept__department_name);
-
+        this.deleterow=true
         this.selected_product_list = data.selected_product_list;
 
       });
@@ -119,7 +121,9 @@ export class PurchaseRequisitionComponent implements OnInit {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
       .onClose.subscribe(data => {
         //  this.product_list = data
+        this.deleterow = false
         this.selected_product_list.push({
+          
           id: data.id,
           product_code: data.product_code,
           product_name: data.product_name,
@@ -163,6 +167,7 @@ export class PurchaseRequisitionComponent implements OnInit {
       (data) => {
         this.nbtoastService.success("PR Details Approved Successfully, PR number is : " + data)
         this.ngOnInit();
+        this.routes.navigate(['/PurchaseRequisitionList'])
       },
       (error) => {
         this.nbtoastService.danger(error.detail);
@@ -177,11 +182,24 @@ export class PurchaseRequisitionComponent implements OnInit {
       (data) => {
         this.nbtoastService.success("Product deleted from PR Successfully, Product code is : " + data)
         this.ngOnInit();
+        
       },
       (error) => {
         this.nbtoastService.danger(error.detail);
       }
     );
+  }
+
+  remove_item(item): void{
+    this.deleterow=false
+    const index: number = this.selected_product_list.indexOf(item);
+    if (index !== -1) {
+        this.selected_product_list.splice(index, 1);
+    } 
+   
+
+  
+   
   }
 
   rejectPR():any {
@@ -194,6 +212,7 @@ export class PurchaseRequisitionComponent implements OnInit {
       (data) => {
         this.nbtoastService.success("PR Details Rejected Successfully, PR number is : " + data)
         this.ngOnInit();
+        this.routes.navigate(['/PurchaseRequisitionList'])
       },
       (error) => {
         this.nbtoastService.danger(error.detail);
@@ -207,6 +226,7 @@ export class PurchaseRequisitionComponent implements OnInit {
       (data) => {
         this.nbtoastService.success("PR Details Saved Successfully, PR number is : " + data)
         this.ngOnInit();
+        this.routes.navigate(['/PurchaseRequisitionList'])
       },
       (error) => {
         this.nbtoastService.danger(error.detail);
@@ -241,4 +261,21 @@ export class PurchaseRequisitionComponent implements OnInit {
     console.log(this.selected_product_list);
     return formData;
   }
+
+  get f() { return this.prForm.controls; }
+
+onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.prForm.invalid) {
+        return;
+    }
+    if (!this.prForm.invalid){
+      return this.submitted = false;
+    }
+
+    
+  
+}
 }

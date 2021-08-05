@@ -26,6 +26,7 @@ import { ManageGrnComponent } from './manage-grn/manage-grn.component';
 import { GrnListComponent } from './grn-list/grn-list.component';
 
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { PurchaseInvoicePageComponent } from './purchase-invoice-page/purchase-invoice-page.component';
 
 
 const routes: Routes = [
@@ -37,10 +38,11 @@ const routes: Routes = [
    { path: 'PurchaseOrderList' , component: PurchaseOrderListComponent,canActivate:[AuthGuard]},
    { path: 'ManageGrn', component:ManageGrnComponent, canActivate:[AuthGuard]},
    { path: 'GrnList', component:GrnListComponent, canActivate:[AuthGuard]},
+   { path: 'PurchaseInvoicePage', component:PurchaseInvoicePageComponent, canActivate:[AuthGuard]},
 ];
 
 @NgModule({
-  declarations: [ManageVendorComponent,VendorListComponent, PurchaseRequisitionComponent, PurchaseRequisitionListComponent, ManageGrnComponent, PurchaseOrderComponent, PurchaseOrderListComponent, GrnListComponent],
+  declarations: [ManageVendorComponent,VendorListComponent, PurchaseRequisitionComponent, PurchaseRequisitionListComponent, ManageGrnComponent, PurchaseOrderComponent, PurchaseOrderListComponent, GrnListComponent, PurchaseInvoicePageComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

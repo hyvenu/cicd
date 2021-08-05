@@ -28,8 +28,8 @@ export class ManageVendorComponent implements OnInit {
 
   IsVendorInfo: boolean;
   options = [
-    { value: "FARMER", name: 'Farmer' },
-    { value: "WHOLESELLER", name: 'Wholeseller' },
+    { value: "SUPPLIER", name: 'SUPPLIER' },
+   
   ];
   selectedOption;
 
@@ -81,6 +81,7 @@ export class ManageVendorComponent implements OnInit {
   gstDoc = [];
   imgSrcPan: string;
   imgSrcGst: string;
+  submitted: boolean=false;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -100,9 +101,9 @@ export class ManageVendorComponent implements OnInit {
      getVendorCode():void {
       try{
         if (!this.vendor_id){
-          if (this.vendorMasterForm.controls['vendorTypeFormControl'].value === "FARMER") {
+          if (this.vendorMasterForm.controls['vendorTypeFormControl'].value === "SUPPLIER") {
             const data = {
-              vendor_type: "FARMER",
+              vendor_type: "SUPPLIER",
             }
             
             this.purchaseService.getVendorCode(data).subscribe(
@@ -114,21 +115,22 @@ export class ManageVendorComponent implements OnInit {
               }
               )
               
-            } else {
-              const data = {
-                vendor_type: "WHOLESELLER",
-              }
-              this.purchaseService.getVendorCode(data).subscribe(
-                (data) =>{
-                  this.vendorMasterForm.controls['vendorCodeFormControl'].setValue(data)
-                },
-                (error) => {
-                  this.nbtoastService.danger('Error while getting product code');
-                }
-                )
-              }
+             }
+            // else {
+            //   const data = {
+            //     vendor_type: "WHOLESELLER",
+            //   }
+            //   this.purchaseService.getVendorCode(data).subscribe(
+            //     (data) =>{
+            //       this.vendorMasterForm.controls['vendorCodeFormControl'].setValue(data)
+            //     },
+            //     (error) => {
+            //       this.nbtoastService.danger('Error while getting product code');
+            //     }
+            //     )
+            //   }
               
-            }  
+             }  
               
             }catch(e){
         console.log(e);
@@ -139,38 +141,38 @@ export class ManageVendorComponent implements OnInit {
   ngOnInit(): void {
     this.IsVendorInfo = true;
     this.vendorMasterForm  =  this.formBuilder.group({
-      vendorStateCodeFormControl: ['', [Validators.required]],
-      vendorStateNameFormControl: ['', [Validators.required]],      
-      vendorStateCode: ['', [Validators.required]],   
-      corporateOfficeFormControl: ['', [Validators.required]],   
+      // vendorStateCodeFormControl: ['', [Validators.required]],
+      // vendorStateNameFormControl: ['', [Validators.required]],      
+      // vendorStateCode: ['', [Validators.required]],   
+      // corporateOfficeFormControl: ['', [Validators.required]],   
       branchOfficeFormControl: ['', [Validators.required]],
       vendorTypeFormControl:['', [Validators.required]],   
-      vendorRegionFormControl: ['', [Validators.required]],
-      postalCode: ['', [Validators.required]],
+      //vendorRegionFormControl: ['', [Validators.required]],
+      // postalCode: ['', [Validators.required]],
       vendorCodeFormControl:['', [Validators.required]],
       vendorNameFormControl:['', [Validators.required]],
-      vendorAadharNo:['',[Validators.required]],
-      imageVendorPanNo:['',[Validators.required]],
-      vendorGSTNo:['',[Validators.required]],
-      vendorPOCName:['',[Validators.required]],
-      vendorDesignation:['',[Validators.required]],
-      vendorMobileNo:['',[Validators.required]],
-      vendorPanNo:['',[Validators.required]],
-      emailId:['',[Validators.required]],
-      vendorLandLine:['',[Validators.required]],
-      paymentTermsFormControl:['',[Validators.required]],
-      alternative:['',[Validators.required]],
-      creditDaysFormControl:['',[Validators.required]],
-      tdsApplicableFormControl:['',[Validators.required]],
-      approvedTransporterFormControl:['',[Validators.required]],
-      accountTypeFormControl:['',[Validators.required]],
-      dedcuteeTypeFormControl:['',[Validators.required]],
-      ifscCodeFormControl:['',[Validators.required]],
-      bankNameFormControl:['',[Validators.required]],
-      accountNumberFormControl:['',[Validators.required]],
-      micrCodeFormControl:['',[Validators.required]],
-      beneficiaryNameFormControl:['',[Validators.required]],
-      imageVendorGSTNo:['',[Validators.required]],
+      //vendorAadharNo:['',[Validators.required]],
+ //     imageVendorPanNo:['',[Validators.required]],
+      vendorGSTNo:['',[Validators.required,Validators.minLength(15)]],
+     // vendorPOCName:['',[Validators.required]],
+      //vendorDesignation:['',[Validators.required]],
+      vendorMobileNo:['',[Validators.required,Validators.pattern('^[0-9]{10}$')]],
+      //vendorPanNo:['',[Validators.required]],
+      emailId:['',[Validators.required,Validators.email]],
+     // vendorLandLine:['',[Validators.required]],
+      //paymentTermsFormControl:['',[Validators.required]],
+      //alternative:['',[Validators.required]],
+      //creditDaysFormControl:['',[Validators.required]],
+      //tdsApplicableFormControl:['',[Validators.required]],
+      //approvedTransporterFormControl:['',[Validators.required]],
+      //accountTypeFormControl:['',[Validators.required]],
+      //dedcuteeTypeFormControl:['',[Validators.required]],
+      //ifscCodeFormControl:['',[Validators.required]],
+      //bankNameFormControl:['',[Validators.required]],
+      //accountNumberFormControl:['',[Validators.required]],
+      //micrCodeFormControl:['',[Validators.required]],
+      //beneficiaryNameFormControl:['',[Validators.required]],
+      //imageVendorGSTNo:['',[Validators.required]],
 
       // vendorDesignation:['',[Validators.required]],
       // vendorDesignation:['',[Validators.required]],
@@ -275,6 +277,7 @@ export class ManageVendorComponent implements OnInit {
   }
 
   saveProduct():any {
+    if(this.vendorMasterForm.valid){
     const formData = new FormData();
     if (this.vendor_id){
       formData.append('id', this.vendor_id)
@@ -282,11 +285,12 @@ export class ManageVendorComponent implements OnInit {
     
     formData.append('vendor_code', this.vendorMasterForm.controls['vendorCodeFormControl'].value)
     formData.append('vendor_name', this.vendorMasterForm.controls['vendorNameFormControl'].value)
-    if (this.vendorMasterForm.controls['vendorTypeFormControl'].value === "FARMER") {
-      this.vendorTypeStr = "FARMER"
-    } else {
-      this.vendorTypeStr = "WHOLESELLER"
-    }
+    if (this.vendorMasterForm.controls['vendorTypeFormControl'].value === "SUPPLIER") {
+      this.vendorTypeStr = "SUPPLIER"
+    } 
+    // else {
+    //   this.vendorTypeStr = "WHOLESELLER"
+    // }
 
     formData.append('vendor_type', this.vendorTypeStr)
     // formData.append('state_code', this.vendorMasterForm.controls['vendorStateCodeFormControl'].value)
@@ -333,11 +337,31 @@ export class ManageVendorComponent implements OnInit {
     (data) => {
       this.nbtoastService.success("Vendor Details Saved Successfully")
       this.ngOnInit();
+      this.routes.navigate(['/ManageVendortMaster'])
     },
     (error) =>{
       this.nbtoastService.danger(error.error.detail);
     }
   )
 }
+  }
+
+get f() { return this.vendorMasterForm.controls; }
+
+onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.vendorMasterForm.invalid) {
+        return;
+    }
+    if (!this.vendorMasterForm.invalid){
+      return this.submitted = false;
+    }
+
+    
+  
+}
+
 }
 

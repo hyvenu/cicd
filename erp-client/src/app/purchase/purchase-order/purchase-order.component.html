@@ -1,6 +1,6 @@
 <div class="conatiner">
 <div class="row">
-        <a nbButton href="PurchaseOrderList">Purchase order list</a>
+        <a nbButton [routerLink]="['/PurchaseOrderList']" status="success" size="small">Back to Purchase order list</a>
 </div>
 <nb-tabset>
     <nb-tab tabTitle="Purchase Order">
@@ -25,7 +25,7 @@
                 
                 <div class="col-md-4">
                     <label for="pr_number">Select PR Number</label>
-                    <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="pr_number" (keypress)="pr_open(pr_dialog)" />
+                    <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="PR Number" (keypress)="pr_open(pr_dialog)" />
                 </div>
             </div><br>
 

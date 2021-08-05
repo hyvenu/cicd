@@ -203,7 +203,7 @@ class PurchaseService:
         po_order_req.vendor_id = po_data['vendor_id']
         po_order_req.payment_terms = po_data['payment_terms']
         po_order_req.other_reference = po_data['other_reference']
-        # po_order_req.terms_of_delivery = po_data['terms_of_delivery']
+        po_order_req.terms_of_delivery = po_data['terms_of_delivery']
         po_order_req.note = po_data['note']
         po_order_req.sub_total = po_data['sub_total']
         po_order_req.packing_perct = po_data['packing_perct']

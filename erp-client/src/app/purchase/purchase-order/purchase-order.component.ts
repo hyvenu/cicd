@@ -35,7 +35,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   selectedTransportType: any;
   vendor_list: [];
-  selected_vendor: any;
+  selected_vendor;
   selected_product_list = [
 
   ];
@@ -55,6 +55,7 @@ export class PurchaseOrderComponent implements OnInit {
   pr_list: [];
   po_id: any;
   store_id: any;
+  vendor_id: any;
 
 
   constructor(
@@ -100,6 +101,7 @@ export class PurchaseOrderComponent implements OnInit {
     if(this.po_id){
        this.purchaseService.getPODetails(this.po_id).subscribe(
          (data) => {
+           console.log(data)
           this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
           this.purchaseOrderForm.controls['poDateFormControl'].setValue(moment(data.po_date));
           this.purchaseOrderForm.controls['poNumberFormControl'].setValue(data.po_number);
@@ -116,13 +118,14 @@ export class PurchaseOrderComponent implements OnInit {
           this.purchaseOrderForm.controls['packPrecntFormControl'].setValue(data.packing_perct);
           this.purchaseOrderForm.controls['termsConditionFormControl'].setValue(data.terms_conditions);
           this.store_id = data.store_id;
-         
+          this.vendor_id = data.vendor_id
           for(let i=0;i<data.order_details.length;i++){
             console.log(moment(data.order_details[i].delivery_date))
             data.order_details[i].delivery_date = moment(data.order_details[i].delivery_date)
             data.qty = parseInt(data.order_details[i].qty)
           };
           this.selected_product_list = data.order_details;
+          this.packing_amount = parseFloat(data.packing_amount);
           this.total_amount = parseFloat(data.total_amount);
           this.sub_total = parseFloat(data.sub_total);
           this.cgst = parseFloat(data.cgst);
@@ -172,6 +175,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.vendor_list })
       .onClose.subscribe(data => {
         this.selected_vendor = data;
+        this.vendor_id = this.selected_vendor.id;
         this.purchaseOrderForm.controls['vendorCodeFormControl'].setValue(data.vendor_code);
         this.purchaseOrderForm.controls['vendorNameFormControl'].setValue(data.vendor_name);
         this.purchaseOrderForm.controls['paymentTermsFormControl'].setValue(data.payment_terms);
@@ -278,14 +282,15 @@ export class PurchaseOrderComponent implements OnInit {
     formdata.append('po_raised_by', this.purchaseOrderForm.controls['userFormControl'].value);
     formdata.append('shipping_address', this.purchaseOrderForm.controls['shipAddressFormControl'].value);
     formdata.append('transport_type', this.purchaseOrderForm.controls['transportTypeFormControl'].value);
-    formdata.append('vendor_id', this.selected_vendor.id);
+    formdata.append('vendor_id', this.vendor_id);
     formdata.append('payment_terms', this.purchaseOrderForm.controls['paymentTermsFormControl'].value);
     formdata.append('other_reference', this.purchaseOrderForm.controls['otherRefFormControl'].value);
+    formdata.append('terms_of_delivery', this.purchaseOrderForm.controls['termsDeliveryFormControl'].value);
     formdata.append('note', this.purchaseOrderForm.controls['noteFormControl'].value);
     formdata.append('sub_total', this.sub_total.toString());
     formdata.append('packing_perct', this.purchaseOrderForm.controls['packPrecntFormControl'].value);
     formdata.append('packing_amount', this.packing_amount.toString());
-    formdata.append('total_amount', this.total_order_value.toString());
+    formdata.append('total_amount', this.total_amount.toString());
     formdata.append('sgst', this.sgst.toString());
     formdata.append('cgst', this.cgst.toString());
     formdata.append('igst', this.igst.toString());
@@ -300,8 +305,11 @@ export class PurchaseOrderComponent implements OnInit {
 
     this.purchaseService.savePO(formdata).subscribe(
       (data) => {
+        
         this.nbtoastService.success(`PO Created SuccessFully ${data}`);
         this.ngOnInit();
+        this.routes.navigate(['/PurchaseOrderList'])
+        
       },
       (error) => {
         this.nbtoastService.danger(error);
