@@ -108,10 +108,26 @@ def get_booking_history(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
+def get_store_details(request):
+    store_service = StoreService()
+    store_id = request.query_params['id']
+    store_details = store_service.get_store_details(store_id)
+    return JsonResponse(store_details, safe=False, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
 def get_appointment_list(request):
     store_service = StoreService()
     appointment_list = store_service.get_appointment_list()
     return JsonResponse(appointment_list, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_store_list(request):
+    store_service = StoreService()
+    store_list = store_service.get_store_list()
+    return JsonResponse(store_list, safe=False)
 
 
 @api_view(['GET'])

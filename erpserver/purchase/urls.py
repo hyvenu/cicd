@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/v1/save_po', views.save_po, name="save_po_data"),
     path('api/v1/get_po_list', views.get_po_list, name="get_po_list"),
     path('api/v1/get_po_details', views.get_po_details, name="get_po_details"),
+    path('api/v1/get_po_details_invoice', views.get_po_details_invoice, name="get_po_details_invoice"),
     path('api/v1/delete_po_product', views.delete_po_product, name="delete_po_product"),
     path('api/v1/save_grn', views.save_grn, name="save_grn"),
     path('api/v1/get_grn_details', views.get_grn_details, name="get_grn_details"),

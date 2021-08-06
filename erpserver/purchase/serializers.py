@@ -39,6 +39,7 @@ class POOrderRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.POOrderRequest
         fields = [
+            'id',
             'po_type',
             'po_number',
             'shipping_address',
@@ -57,6 +58,7 @@ class POOrderRequestSerializer(serializers.ModelSerializer):
             'igst',
             'invoice_amount',
             'terms_conditions',
+            'po_order',
         ]
 
 

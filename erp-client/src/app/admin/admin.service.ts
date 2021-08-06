@@ -24,6 +24,14 @@ export class AdminService {
       return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Store/${data}/`)
     }
   }
+
+  public getStoreDetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_store_details?id=${id}`)
+  }
+
+  public getStoreList(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_store_list`)
+  }
   public updateStore(id, data){
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Store/${id}/`, data)
   }

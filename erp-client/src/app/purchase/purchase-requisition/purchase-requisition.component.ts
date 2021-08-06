@@ -84,7 +84,7 @@ export class PurchaseRequisitionComponent implements OnInit {
 
     let param1 = this.route.snapshot.queryParams["id"];
     if (param1) {
-      this.deleterow=false
+      
       this.purchaseService.getPRDetails(param1).subscribe((data) => {
         this.pr_id = data.id
         this.pr_status = data.status
@@ -94,8 +94,9 @@ export class PurchaseRequisitionComponent implements OnInit {
         this.selectedOption = data.dept__id;
         this.prForm.controls['statusFormControl'].setValue(data.status);
         // this.prForm.controls['departFormControl'].setValue(data.dept__department_name);
-        this.deleterow=true
+        
         this.selected_product_list = data.selected_product_list;
+        this.deleterow = true
 
       });
     }
@@ -121,7 +122,11 @@ export class PurchaseRequisitionComponent implements OnInit {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
       .onClose.subscribe(data => {
         //  this.product_list = data
-        this.deleterow = false
+        
+        if(this.selected_product_list.some(element => element.product_name == data.product_name)){
+          this.nbtoastService.danger("product name already exist");
+        }else{
+          
         this.selected_product_list.push({
           
           id: data.id,
@@ -134,6 +139,7 @@ export class PurchaseRequisitionComponent implements OnInit {
           expected_date: '',
           active:''
         });
+      }
       });
     //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
     console.log(this.selectedOption);

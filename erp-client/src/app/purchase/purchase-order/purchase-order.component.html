@@ -123,7 +123,7 @@
                         <tr *ngFor="let item of selected_product_list">
                             <td><button nbButton (click)="delete_product(item.id);" size="small" status="danger">X</button></td>
                             <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
-                            <td><input nbInput  fieldSize="small"placeholder="" value="{{item.product_name}} - {{item.description}}" readonly/></td>
+                            <td><input nbInput  fieldSize="small"placeholder=""  value="{{item.product_name}} - {{item.description}}" readonly/></td>
                             <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
                             <td ><nb-select size="small" class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
                                 <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
@@ -168,7 +168,7 @@
                         <tr>
                             <td> {{ sub_total | currency:'INR' }}</td>
                             <td></td>
-                            <td> <input nbInput  min="0" fieldSize ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_packing()" [value]="0.00" /></td>
+                            <td> <input nbInput  min="0" fieldSize ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_total()" [value]="0.00" /></td>
                             <td> {{ packing_amount | currency : 'INR' }}</td>
                             <td> {{ total_amount | currency : 'INR' }} </td>
                             <td> {{ sgst | currency : 'INR' }}  </td>

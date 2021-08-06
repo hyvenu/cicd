@@ -5,7 +5,9 @@ import {  ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 
 
 import { Color, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
+import { AdminService } from 'src/app/admin/admin.service';
 import { OrderService } from 'src/app/sales/order.service';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +17,7 @@ import { OrderService } from 'src/app/sales/order.service';
 export class DashboardComponent implements OnInit {
   orders_data: [];
   options: any;
+  headspacount: any;
 
   barChartOptions: ChartOptions = {
     responsive: true,
@@ -41,8 +44,9 @@ export class DashboardComponent implements OnInit {
   pieChartOptions: ChartOptions = {
     responsive: true,
   };
-  pieChartLabels: Label[] = [['Hair Cut', ''], ['Hair Straightening'], 'SPA'];
-  pieChartData: SingleDataSet = [300, 500, 100];
+  
+  pieChartLabels: Label[] = [['Head Spa', ''], ['Hair Straightening'], 'SPA'];
+  pieChartData: SingleDataSet = [500, 500, 100];
   pieChartType: ChartType = 'pie';
   pieChartLegend = true;
   pieChartPlugins = [];
@@ -67,9 +71,14 @@ export class DashboardComponent implements OnInit {
    lineChartLegend = true;
    lineChartType = 'line';
    lineChartPlugins = [];
+  appointmentlist: any;
+  department_list: any;
+  
   
   constructor(
     private orderService: OrderService,
+    private sharedService: SharedService,
+    private adminService:AdminService,
     private nbtoastService: NbToastrService,
     private dialogService: NbDialogService,
     private routes: Router
@@ -80,6 +89,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.get_orders_data();
+    this.get_bookingservice();
   }
 
   get_orders_data(){
@@ -94,6 +104,28 @@ export class DashboardComponent implements OnInit {
       },
       (error) => {
           this.nbtoastService.danger(error.error.detail);
+      }
+    )
+  }
+
+  get_department(){
+    this.sharedService.getDepartmentList().subscribe(
+      data =>{
+        this.department_list = data
+
+      }
+    )
+  }
+
+
+  get_bookingservice(){
+    this.adminService.getAppointmentList().subscribe(
+      data=>{
+        this.appointmentlist = data
+        console.log(this.appointmentlist)
+        let count = this.appointmentlist.filter(item=> item.service__service_name == "head spa").length;
+        this.headspacount = count; 
+        console.log(this.headspacount)
       }
     )
   }

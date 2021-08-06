@@ -290,6 +290,55 @@ class PurchaseService:
         return po_data_list
 
     @classmethod
+    def get_po_details_invoice(cls, po_id):
+        final_list = []
+        po_data_list = POOrderRequest.objects.filter(po_number=po_id).all().values(
+            'id',
+            'po_type',
+            'po_number',
+            'pr_number',
+            'po_raised_by',
+            'po_date',
+            'shipping_address',
+            'transport_type',
+            'vendor_id',
+            'vendor__vendor_name',
+            'vendor__vendor_code',
+            'payment_terms',
+            'other_reference',
+            'terms_of_delivery',
+            'note',
+            'sub_total',
+            'packing_perct',
+            'packing_amount',
+            'total_amount',
+            'sgst',
+            'cgst',
+            'igst',
+            'invoice_amount',
+            'terms_conditions',
+            'store_id',
+        )[0]
+
+        po_data_list['order_details'] = list(PoOrderDetails.objects.filter(po_order__po_number=po_id).all().values(
+            "id",
+            "product_id",
+            "product__product_name",
+            "product_code",
+            "unit_id",
+            "qty",
+            "delivery_date",
+            "unit_price",
+            "gst",
+            "amount",
+            "disc_percent",
+            "disc_amount",
+            "gst_amount",
+            "total_amount",
+        ))
+        return po_data_list
+
+    @classmethod
     def get_po_list(cls):
         po_data_list = POOrderRequest.objects.all().values(
             'id',
@@ -302,6 +351,7 @@ class PurchaseService:
             'vendor_id',
             'vendor__vendor_code',
             'vendor__vendor_name',
+            'vendor__mobile_no',
             'payment_terms',
             'other_reference',
             'terms_of_delivery',

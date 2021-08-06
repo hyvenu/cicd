@@ -1,19 +1,20 @@
+<div id="bill">
 <nb-card>
     <nb-card-header style="text-align: center;">Invoice</nb-card-header>
     <nb-card-body>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-2">
                 <img src="../assets/images/D5N_Logo.jpg"  width="120px" height="120px" alt="">
             </div>
             <div class="col-md-10" style="text-align: center;">
-                <h3>COGNOVIT POWER SOLUTIONS PVT LTD <br>
-                    <h6>#2884,14th Main,14th Cross,'E' Block 2nd Stage,Rajajinagar Bangalore -560010.</h6></h3><br>
+                <h5>COGNOVIT POWER SOLUTIONS PVT LTD <br>
+                    <h6>#2884,14th Main,14th Cross,'E' Block 2nd Stage,Rajajinagar Bangalore -560010.</h6></h5><br>
                 
             </div>
 
         </div>
-        <hr >
-        <div class="row">
+        <hr > -->
+        <!-- <div class="row">
             <div class="col-md-6">
                 <p><b>GSTIN:</b> 29AAFCC5030L1ZK</p>
                 <p><b>STATE :</b>  Karnataka [29]</p>
@@ -22,36 +23,37 @@
                 <p><b>Email Id:</b> adarsh@cognovit.in</p>
                 <p><b>Phone No.:</b>  080-23324566</p>
             </div>
-        </div>
-        <hr>
+        </div> -->
+        <!-- <hr>
         <div class="row">
             <div class="col-md-6">
                 <h3>Billing Details (Bill To)</h3>
-                <p><b>Name:</b> adarsh@cognovit.in</p>
-                <p><b>Address:</b>  080-23324566</p>
+                <p><b>Name:</b> {{vendor_name}}</p>
+                <p><b>Address:</b>  {{shipping_address}}</p>
                 <p><b>State:</b>  Karnataka</p>
                 <p><b>Phone No:</b>  9448059232</p>
                 <p><b>GSTIN:</b>  29AHKPR7842N1ZB</p>
                 
             </div>
             <div class="col-md-6">
-                <p><b>Invoice No:</b> BLR/1346 &nbsp; &nbsp;<b>Date:</b>23/4/2020   </p><br>
-                <p>PO No. :</p><br>
-                <p>Date :</p><br>
-                <p><b>Dispatch Doc No:</b>  &nbsp; &nbsp;&nbsp; &nbsp;<b>Date:</b>  </p>
+                 <p><b>PO Number:</b>  &nbsp; &nbsp;<b>Date:</b>  </p><br> -->
+                <!-- <p>PO No. :{{po_number}}</p><br>
+                <p>Date :{{po_date}} </p><br>
+                <p><b>Dispatch Doc No:</b> </p><br>
+                <p><b>Date:</b> </p>
             </div>
-        </div>
-        <hr>
-        <div class="row">
+        </div>  -->
+        <!-- <hr> -->
+        <!-- <div class="row">
             <div class="col-md-6">
                 <h3>Shipping Details (Ship To)</h3>
-                <p><b>Name:</b> adarsh@cognovit.in</p>
-                <p><b>Address:</b>  080-23324566</p>
-                <p><b>State:</b>  Karnataka</p>
-                <p><b>Phone No:</b>  9448059232</p>
-                <p><b>GSTIN:</b>  29AHKPR7842N1ZB</p>
+                <p><b>Name:</b> </p>
+                <p><b>Address:</b></p>
+                 <p><b>State:</b>  Karnataka</p> -->
+                <!-- <p><b>Phone No:</b>  {{vendor_number}}</p>
+                <p><b>GSTIN:</b>  {{gst_no}}</p> -->
                 
-            </div>
+            <!-- </div>
             <div class="col-md-6">
                 <p> <b>Type Of Payment</b>  :</p>
                 <p><b>Destination</b>  :</p>
@@ -60,9 +62,9 @@
                 <p><b>Vendor Code</b>  :</p>
                 <p><b>Eway No</b>   :</p>
             </div>
-        </div>
-        <hr>
-        <table style="text-align: center;" class="table table-responsive">
+        </div>  -->
+        <!-- <hr>
+        <table   style="text-align: center;" class="table table-responsive table-borderd">
             <thead>
                 <th>Product</th>
                 
@@ -71,24 +73,24 @@
                 <th>Total</th>
                
                 <th>Discount</th>
-                <th>GST%</th>
+                <th>GST Value</th>
                 <th>Grand Total</th>
                 
                
             </thead>
             
             <tbody  >
-                <tr >
-                    <td >Cap</td>
+                <tr *ngFor="let item of invoice_details.order_details">
+                    <td >{{item.product__product_name}}</td>
                     
                     
-                    <td>qty</td>
-                    <td>unit_price</td>
-                    <td>subtotal_amount</td>
+                    <td>{{item.qty}}</td>
+                    <td>{{item.unit_price}}</td>
+                    <td>{{item.total_amount}}</td>
                     
-                    <td>discount_price</td>
-                   <td>gst</td>
-                    <td>Grand Total</td>
+                    <td>{{item.disc_amount}}</td>
+                   <td>{{item.gst_amount}}</td>
+                    <td>{{grandTotal}}</td>
                     
                 </tr>
                 
@@ -96,8 +98,8 @@
             </tbody>
         
         </table>
-        <hr>
-        <div class="row">
+        <hr> -->
+        <!-- <div class="row">
             <div class="col-md-6">
                 <b><h6>Terms and Conditions</h6></b>
                 <p>1. All the dispute will be Subject to Bangalore Jurisdiction. <br>
@@ -119,9 +121,180 @@
                 <p>Authorised Signatory</p>
             </div>
          
-        </div>
-        <hr>
+        </div> -->
 
+
+        <table class="table-bordered " >
+            <tbody>
+                <tr>
+                    <td colspan="6">
+                        <div class="row">
+                           
+                            <div class="col-md-10" style="text-align: center;">
+                               &nbsp; <img src="../assets/images/D5N_Logo.jpg"  width="60px" height="60px" alt=""><b><span style="font-weight: 500;">{{store_name}}</span></b> <br>
+                               <h6>{{address}}</h6>
+                            </div>
+                
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><b>GSTIN:</b> 29AAFCC5030L1ZK</p>
+                                <p><b>STATE :</b>  Karnataka [29]</p>
+                            </div>
+                            <div class="col-md-6" style="text-align: right;">
+                                <p><b>Email Id:</b> adarsh@D5N.in</p>
+                                <p><b>Phone No.:</b>  080-23324566</p>
+                            </div>
+                        </div>
+                    </td>
+                 </tr>
+                 <tr>
+                     <td colspan="3">
+                        <h6>Shipping Details (Ship To)</h6>
+                        <p><b>Name:</b> {{vendor_name}}</p>
+                        <p><b>Address:</b>  {{shipping_address}}</p>
+                        <p><b>State:</b>  Karnataka</p>
+                        <p><b>Phone No:</b>  9448059232</p>
+                        <p><b>GSTIN:</b>  29AHKPR7842N1ZB</p>
+                     </td>
+                     <td colspan="3">
+                        <p>PO No. :{{po_number}}</p><br>
+                        <p>Date :{{po_date}} </p><br>
+                        <p><b>Dispatch Doc No:</b> </p><br>
+                        <p><b>Date:</b> </p>
+                     </td>
+                 </tr>
+                 <tr>
+                    <td colspan="3">
+                       <h6>Billing Details (Bill To)</h6>
+                       <p><b>Name:</b> {{vendor_name}}</p>
+                       <p><b>Address:</b>  {{shipping_address}}</p>
+                       <p><b>State:</b>  Karnataka</p>
+                       <p><b>Phone No:</b>  9448059232</p>
+                       <p><b>GSTIN:</b>  29AHKPR7842N1ZB</p>
+                    </td>
+                    <td colspan="3">
+                       <p>PO No. :{{po_number}}</p><br>
+                       <p>Date :{{po_date}} </p><br>
+                       <p><b>Dispatch Doc No:</b> </p><br>
+                       <p><b>Date:</b> </p>
+                    </td>
+                </tr>
+                <tr>
+                    
+                    <th>Item Name</th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>tax per</th>
+                    <th>tax amount</th>
+                    <th>Amount</th>
+                </tr>
+                <tr *ngFor="let item of invoice_details.order_details">
+                    <td >{{item.product__product_name}}</td>
+                    <td>{{item.qty}}</td>
+                    <td>{{item.unit_price}}</td>
+                    <td>{{item.disc_amount}}</td>
+                   <td>{{item.gst_amount}}</td>
+                    <td>{{item.total_amount}}</td>
+                </tr>
+                <tr>
+                    <td colspan="6"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" >
+                        
+                        <table class="table-bordered diftab">
+                            <thead> 
+                            <tr>
+                                <th>HSNCODE</th>
+                                <th>TAXABLE AMT</th>
+                                <th>CGST RATE</th>
+                                <th>CGST AMT</th>
+                                <th>SCGST RATE</th>
+                                <th>SCGST AMT</th>
+                                <th>IGST RATE</th>
+                                <th>IGST AMT</th>
+                            </tr>
+                       </thead> 
+                         <tbody> 
+                            <tr>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Total</td>
+                                
+                                <td>CGST</td>
+                                <td>0.00</td>
+                                <td>SGST</td>
+                                <td>0.00</td>
+                                <td>IGST</td>
+                                <td>0.00</td>
+                            </tr> 
+                         </tbody>
+                        </table> 
+                    </td>
+                    <td colspan="3">
+                        <h6>Total Amount</h6>
+                        <p>Discount Amount: </p>
+                        <p>per Tax:  {{shipping_address}}</p>
+                        <p>Taxable Amount:  Karnataka</p>
+                        <p>Post Tax:  9448059232</p>
+                        <p>CGST:  29AHKPR7842N1ZB</p>
+                        <p>SCGST:  29AHKPR7842N1ZB</p>
+                        <p>Cess Amount:  29AHKPR7842N1ZB</p>
+                        <p>Round of Amount:  2000</p>
+                        <hr>
+                        <p><b>Grand Total:</b>  {{grandTotal}}</p>
+                     </td>
+                    
+
+                </tr>
+                <tr>
+                    <td colspan="6">Rupees:One Thousand Two Hundred</td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b><h6>Terms and Conditions</h6></b>
+                                <p>1. All the dispute will be Subject to Bangalore Jurisdiction. <br>
+                                    2. In all claims the company decision is final and binding. <br>
+                                    3. In case if the payment are not made within due date 24% Interest will be charged p. a. <br>
+                                    4. The Warranty commence from the date of Invoice .
+                                 </p>
+                              
+                            </div>
+                         
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <p>RECEIVED THE MATERIAL IN GOOD CONDITION</p><br>
+                        <p>RECEIVER'S SIGNATURE AND SEAL</p>
+                    </td>
+                    <td colspan="3">
+                        <p>For COGNOVIT POWER SOLUTIONS PVT LTD</p><br>
+                        <p>Authorised Signatory</p>
+                    </td>
+                </tr>
+            </tbody>
+
+
+        </table>
+
+
+        <hr>
+        <button class="btn btn-secondary" type="button" id="print">Print Bill</button>
         
     </nb-card-body>
 </nb-card>
+</div>

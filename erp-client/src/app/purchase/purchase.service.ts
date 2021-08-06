@@ -63,6 +63,10 @@ export class PurchaseService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_po_details?id=${id}`)
   }
 
+  public getPODetailsInvoice(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_po_details_invoice?id=${id}`)
+  }
+
   public deleteProductFromPO(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/delete_po_product`, data)
   }

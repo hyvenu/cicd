@@ -38,20 +38,22 @@ export class PurchaseOrderComponent implements OnInit {
   selected_vendor;
   selected_product_list = [
 
+    
   ];
+  product:any;
   dailog_ref: any;
   product_list: [];
   unit_list: [];
-  total_amount: number = 0.00;
-  packing_amount: number = 0.00;
+  total_amount: any = 0.00;
+  packing_amount:any = 0.00;
   total_invoice_value: number = 0.0;
   total_order_value: number = 0.00;
   nb_select_size: NbComponentSize[] = ['medium']
-  sgst: number = 0;
-  cgst: number = 0;
-  igst: number = 0;
-  sub_total: number;
-  invoice_amount: number;
+  sgst: any = 0;
+  cgst: any = 0;
+  igst: any = 0;
+  sub_total: any;
+  invoice_amount:any;
   pr_list: [];
   po_id: any;
   store_id: any;
@@ -188,6 +190,9 @@ export class PurchaseOrderComponent implements OnInit {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
       .onClose.subscribe(data => {
         //  this.product_list = data
+        if(this.selected_product_list.some(element => element.product_name == data.product_name)){
+          this.nbtoastService.danger("product name already exist");
+        }else{
         this.selected_product_list.push({
           id:'',
           product_id: data.id,
@@ -205,6 +210,7 @@ export class PurchaseOrderComponent implements OnInit {
           gst_amount: 0.0,
 
         });
+      }
       });
     //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
 
@@ -236,8 +242,8 @@ export class PurchaseOrderComponent implements OnInit {
   calculate_packing(): any {
     let packing_percnt = this.purchaseOrderForm.controls['packPrecntFormControl'].value;
     if (packing_percnt > 0) {
-      this.packing_amount = ((this.sub_total * packing_percnt) / 100.00)
-      this.total_amount = this.sub_total + this.packing_amount;
+      this.packing_amount = ((parseFloat(this.sub_total) * parseFloat(packing_percnt)) / 100.00)
+      this.total_amount = (parseFloat(this.sub_total) + parseFloat(this.packing_amount));
       this.calculate_gst();
     }else {
       this.total_amount = this.sub_total
@@ -246,10 +252,10 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   calculate_gst(): any {
-    let total_gst = 0
+    let total_gst:any = 0
     this.selected_product_list.forEach(element => {
       if (this.total_amount > 0) {
-        total_gst = (total_gst + element.gst_amount);
+        total_gst = (parseFloat(total_gst) + parseFloat(element.gst_amount));
       }else{
         total_gst = 0
       }
@@ -265,7 +271,7 @@ export class PurchaseOrderComponent implements OnInit {
       this.igst = total_gst ;
     }
 
-    this.invoice_amount = this.igst + this.cgst + this.sgst + this.total_amount;
+    this.invoice_amount = (parseFloat(this.igst) + parseFloat(this.cgst) + parseFloat(this.sgst) + parseFloat(this.total_amount)).toFixed(2);
 
   }
 
@@ -305,10 +311,10 @@ export class PurchaseOrderComponent implements OnInit {
 
     this.purchaseService.savePO(formdata).subscribe(
       (data) => {
-        
+        console.log(data)
         this.nbtoastService.success(`PO Created SuccessFully ${data}`);
         this.ngOnInit();
-        this.routes.navigate(['/PurchaseOrderList'])
+        this.routes.navigateByUrl("/PurchaseInvoicePage?id=" + data)
         
       },
       (error) => {

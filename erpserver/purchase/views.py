@@ -81,6 +81,14 @@ def get_po_details(request):
     pr_obj = purchase_service.get_po_details(po_id)
     return JsonResponse(pr_obj, safe=False)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_po_details_invoice(request):
+    purchase_service = PurchaseService()
+    po_id = request.query_params['id']
+    pr_obj = purchase_service.get_po_details_invoice(po_id)
+    return JsonResponse(pr_obj, safe=False)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])

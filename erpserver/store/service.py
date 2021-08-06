@@ -14,6 +14,18 @@ class StoreService:
         )
         return store
 
+    def get_store_list(self):
+        store_list = Store.objects.all().values(
+            'id',
+            'store_name',
+            'address',
+            'city',
+            'pin_code',
+            'gst_no',
+
+        )
+        return list(store_list)
+
     def get_Site_Settings(self, setting_type):
         settings = SiteSettings.objects.filter(setting_Type=setting_type).values(
             'id',
@@ -21,6 +33,17 @@ class StoreService:
             'setting_Value'
         )
         return list(settings.values())
+
+    def get_store_details(self, store_id):
+        store = Store.objects.filter(id=store_id).all().values(
+            'id',
+            'store_name',
+            'address',
+            'city',
+            'pin_code',
+            'gst_no',
+        )
+        return list(store)
 
     def get_Appointment(self, customer_id):
         appointment = AppointmentSchedule.objects.filter(customer_id=customer_id, is_paid=False).all().values(
