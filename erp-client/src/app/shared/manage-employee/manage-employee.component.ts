@@ -15,6 +15,7 @@ export class ManageEmployeeComponent implements OnInit {
   submitted=false;
   employeeData = [];
   selectedDepartment;
+  code;
 
   employeeSettings = {
     // selectMode: 'multi',
@@ -152,9 +153,16 @@ export class ManageEmployeeComponent implements OnInit {
     this.adminService.updateEmployee(formdata,this.employee_id).subscribe(
       (data)=>{
         this.nbtoastService.success("Employee Updated Successfully")
+        // this.ngOnInit()
+        // window.location.reload();
+        this.ngOnInit()
+        this.employeeForm.reset();
+
         
-        this.employeeForm.reset()
-        this.routes.navigate(["/ManageEmployee"])
+        
+     
+       
+        
        
         
           
@@ -190,6 +198,9 @@ export class ManageEmployeeComponent implements OnInit {
   }
 
   }
+  refresh(){
+    window.location.reload()
+  }
 
   get f() { return this.employeeForm.controls; }
 
@@ -206,5 +217,6 @@ export class ManageEmployeeComponent implements OnInit {
 
       
     }
+
 
 }

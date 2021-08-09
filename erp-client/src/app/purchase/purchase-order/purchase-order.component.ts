@@ -104,6 +104,7 @@ export class PurchaseOrderComponent implements OnInit {
        this.purchaseService.getPODetails(this.po_id).subscribe(
          (data) => {
            console.log(data)
+           
           this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
           this.purchaseOrderForm.controls['poDateFormControl'].setValue(moment(data.po_date));
           this.purchaseOrderForm.controls['poNumberFormControl'].setValue(data.po_number);
@@ -120,7 +121,7 @@ export class PurchaseOrderComponent implements OnInit {
           this.purchaseOrderForm.controls['packPrecntFormControl'].setValue(data.packing_perct);
           this.purchaseOrderForm.controls['termsConditionFormControl'].setValue(data.terms_conditions);
           this.store_id = data.store_id;
-          this.vendor_id = data.vendor_id
+          this.vendor_id = data.vendor_id;
           for(let i=0;i<data.order_details.length;i++){
             console.log(moment(data.order_details[i].delivery_date))
             data.order_details[i].delivery_date = moment(data.order_details[i].delivery_date)
@@ -264,9 +265,9 @@ export class PurchaseOrderComponent implements OnInit {
      if (this.selected_vendor.state_code == '29') {
       this.sgst = total_gst / 2;
       this.cgst = total_gst / 2;
-    } else {
+      } else {
       this.igst = total_gst;
-    }
+      }
     }else {
       this.igst = total_gst ;
     }

@@ -3,21 +3,21 @@
         <form id="BookingForm" [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="container">
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="customerName">Customer Name : </label>
+                    <label for="customerName">Customer Name <span style="color: red;">*</span> </label>
                     <input type="text" nbInput name="customerName" formControlName="customerNameFormControl"
                     (keypress)="open_customer_list(dialog)" (click)="open_customer_list(dialog)" readonly
                     [ngClass]="{ 'is-invalid': submitted && f.customerNameFormControl.errors  }" class="form-control" />
                     <div *ngIf="submitted && f.customerNameFormControl.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.customerNameFormControl.errors.required"> customer Name is Required</div>
+                        <div *ngIf="submitted && f.customerNameFormControl.errors.required"> Customer Name is Required</div>
                         
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="creatcustomer">Create New Customer :</label>
+                    <label for="creatcustomer">Create New Customer </label>
                     <button nbButton status="default" [routerLink]="['/ManageCustomer']">Create Customer</button>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="phoneNumber">Phone Number : </label>
+                    <label for="phoneNumber">Phone Number <span style="color: red;">*</span> </label>
                     <input nbInput type="text" name="phoneNumber" formControlName="phoneNumberFormControl" (keypress)="keyPress($event)"
                      (click)="open_phone_list(phone_dialog)"
                     [ngClass]="{ 'is-invalid': submitted && f.phoneNumberFormControl.errors  }" class="form-control" readonly/>
@@ -29,7 +29,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="bookingDate">Booking Date : </label>
+                    <label for="bookingDate">Booking Date <span style="color: red;">*</span> </label>
                     <input nbInput name="bookingDate"  [nbDatepicker]="booking_date" formControlName="bookingDateFormControl"
                     [ngClass]="{ 'is-invalid': submitted && f.bookingDateFormControl.errors  }" class="form-control"/>
                     <div *ngIf="submitted && f.bookingDateFormControl.errors" class="invalid-feedback">
@@ -40,27 +40,27 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-2">
-                    <label for="startTime">Start Time </label>
+                    <label for="startTime">Start Time <span style="color: red;">*</span></label>
                     <input type="time" nbInput name="startTime" formControlName="startTimeFormControl" 
                     [ngClass]="{ 'is-invalid': submitted && f.startTimeFormControl.errors  }" class="form-control"/>
                     <div *ngIf="submitted && f.startTimeFormControl.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.startTimeFormControl.errors.required"> startTime is Required</div>
+                        <div *ngIf="submitted && f.startTimeFormControl.errors.required"> Start Time is Required</div>
                        
                     </div>
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="endTime">End Time </label>
+                    <label for="endTime">End Time <span style="color: red;">*</span></label>
                     <input type="time" nbInput name="endTime" formControlName="endTimeFormControl" 
                     [ngClass]="{ 'is-invalid': submitted && f.endTimeFormControl.errors  }" class="form-control"/>
                     <div *ngIf="submitted && f.endTimeFormControl.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.endTimeFormControl.errors.required"> endTime is Required</div>
+                        <div *ngIf="submitted && f.endTimeFormControl.errors.required"> End Time is Required</div>
                         
                     </div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-2">
-                    <label >Service</label>
+                    <label >Service <span style="color: red;">*</span></label>
                     <nb-select style="width: 20em;" name="services" formControlName="serviceFormControl" [(selected)]="selected_service" multiple >
                         <nb-option *ngFor="let o of service_list" value="{{o.id}}" >
                             {{ o.service_name }}-{{o.price}}-{{o.service_gst}}%gst-{{o.service_hour}}
@@ -81,7 +81,7 @@
 
 <ng-template #dialog let-data let-ref="dialogRef">
     <nb-card size="medium">
-        <nb-card-header>customer name <input type="text" nbInput size="small" placeholder="Search .."
+        <nb-card-header>Customer name <input type="text" nbInput size="small" placeholder="Search .."
                 [(ngModel)]="searchCategory" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
@@ -100,7 +100,7 @@
 
 <ng-template #phone_dialog let-data let-ref="dialogRef">
     <nb-card size="medium">
-        <nb-card-header>customer Phone Number <input type="text" nbInput size="small" placeholder="Search .."
+        <nb-card-header>Customer Phone Number <input type="text" nbInput size="small" placeholder="Search .."
                 [(ngModel)]="searchPhoneNo" /> </nb-card-header>
         <nb-card-body>
             <nb-list>

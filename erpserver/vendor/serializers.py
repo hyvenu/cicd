@@ -11,7 +11,7 @@ class VendorMasterSerializer(serializers.ModelSerializer):
             "vendor_code",
             "vendor_name",
             "vendor_type",
-            # "state_code",
+            "state_code",
             # "state_name",
             # "region",
             # "corp_ofc_addr",

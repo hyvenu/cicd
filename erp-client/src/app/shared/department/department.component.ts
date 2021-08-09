@@ -47,19 +47,19 @@ export class DepartmentComponent implements OnInit {
 
     });
 
-    // let param = this.route.snapshot.queryParams['id'];
+    let param = this.route.snapshot.queryParams['id'];
 
-    // if (param) {
-    //   this.sharedService.getDepartmentDetails(param).subscribe(
-    //     (data) => {
-    //       // this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
-    //       this.dept_id =  data.id;
-    //       console.log("D id" + this.dept_id)
-    //       this.departmentMasterForm.controls['departmentCodeFormControl'].setValue(data.department_id);
-    //       this.departmentMasterForm.controls['departmentNameFormControl'].setValue(data.department_name);
-    //       // this.departmentMasterForm.controls['categoryActivateFormControl'].setValue(data.active);
-    //     });
-    //   }
+    if (param) {
+      this.sharedService.getDepartmentDetails(param).subscribe(
+        (data) => {
+          // this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
+          this.dept_id =  data.id;
+          console.log("D id" + this.dept_id)
+          this.departmentMasterForm.controls['departmentCodeFormControl'].setValue(data.department_id);
+          this.departmentMasterForm.controls['departmentNameFormControl'].setValue(data.department_name);
+          // this.departmentMasterForm.controls['categoryActivateFormControl'].setValue(data.active);
+        });
+      }
 
 
       this.sharedService.getDepartmentList().subscribe(
@@ -73,13 +73,13 @@ export class DepartmentComponent implements OnInit {
 
   }
 
-  selected_dept(data): any{
-    this.departmentMasterForm.controls['departmentCodeFormControl'].setValue(data.department_id);
-    this.departmentMasterForm.controls['departmentNameFormControl'].setValue(data.department_name);
-    this.createFlag = false;
+  // selected_dept(data): any{
+  //   this.departmentMasterForm.controls['departmentCodeFormControl'].setValue(data.department_id);
+  //   this.departmentMasterForm.controls['departmentNameFormControl'].setValue(data.department_name);
+  //   this.createFlag = false;
 
-    this.dept_id = data.id
-  }
+  //   this.dept_id = data.id
+  // }
 
 
   saveDept() {
@@ -97,7 +97,7 @@ export class DepartmentComponent implements OnInit {
       (data) => {
         this.nbtoastService.success("Department Details updated Successfully")
         this.ngOnInit();
-        // this.routes.navigate(["/DepartmentList"]);
+         this.routes.navigate(["/DepartmentList"]);
         this.departmentMasterForm.reset()
       },
       (error) => {
@@ -111,8 +111,9 @@ export class DepartmentComponent implements OnInit {
     this.sharedService.saveDepartment(formData).subscribe(
       (data) => {
         this.nbtoastService.success("Department Details Saved Successfully, ")
-        this.ngOnInit();
         this.departmentMasterForm.reset()
+        this.routes.navigateByUrl("/DepartmentList");
+        
       },
       (error) => {
         console.log(error);

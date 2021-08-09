@@ -368,7 +368,7 @@ export class ManageProductComponent implements OnInit {
   }
 
   calculate_tax(item): void {
-    item.sell_price = parseFloat(item.unit_price) + ((parseFloat(item.unit_price) * parseFloat(item.tax))/100.00)
+    item.sell_price = (parseFloat(item.unit_price) + ((parseFloat(item.unit_price) * parseFloat(item.tax))/100.00)).toFixed(2)
   }
   
   delete_image(product_id, image_id): void {

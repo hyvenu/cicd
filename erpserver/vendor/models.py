@@ -8,7 +8,7 @@ class VendorMaster(AuditUuidModelMixin):
     vendor_code = models.CharField(max_length=30)
     vendor_name = models.CharField(max_length=300, default="")
     vendor_type = models.CharField(max_length=100, default="")
-    #state_code = models.IntegerField(null=True, default=0)
+    state_code = models.IntegerField(null=True, default=0)
     #state_name = models.CharField(max_length=50, default="")
     #region = models.CharField(max_length=30, default="")
     #corp_ofc_addr = models.CharField(max_length=2000, default="")

@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
       },
       {
         title: 'Department',
-        link: 'Department',
+        link: 'DepartmentList',
       },
       {
         title: 'Manage Employee',

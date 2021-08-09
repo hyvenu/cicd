@@ -1,7 +1,7 @@
 <form id="" [formGroup]="ServiceFrom" (ngSubmit)="onSubmit()">
     <div class="form-row">
         <div class="form-group col-md-3">
-            <label for="Name"> Service Name</label>
+            <label for="Name"> Service Name <span style="color: red;">*</span></label>
             <input nbInput formControlName="ServiceNameFormControl" name="Name" placeholder=" Name" 
             [ngClass]="{ 'is-invalid': submitted && f.ServiceNameFormControl.errors }" class="form-control"/>
                     <div *ngIf="submitted && f.ServiceNameFormControl.errors" class="invalid-feedback">
@@ -10,8 +10,8 @@
 
         </div>
         <div class="form-group col-md-3">
-            <label for="ServiceDescFormControl"> Description</label>
-            <input nbInput formControlName="ServiceDescFormControl" name="Desc" placeholder=" Desc"
+            <label for="ServiceDescFormControl"> Description <span style="color: red;">*</span></label>
+            <input nbInput formControlName="ServiceDescFormControl" name="Description" placeholder=" Description"
             [ngClass]="{ 'is-invalid': submitted && f.ServiceDescFormControl.errors }" class="form-control"/>
                     <div *ngIf="submitted && f.ServiceDescFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.ServiceDescFormControl.errors.required">Description is required</div>
@@ -19,7 +19,7 @@
 
         </div>
         <div class=" form-group col-md-3">
-            <label for="ServicePriceFormControl"> Price</label>
+            <label for="ServicePriceFormControl"> Price <span style="color: red;">*</span></label>
             <input type="number" nbInput formControlName="ServicePriceFormControl" name="Price" placeholder=" Price"
             oninput="validity.valid || (value='')" min="0"
             [ngClass]="{ 'is-invalid': submitted && f.ServicePriceFormControl.errors }" class="form-control"/>
@@ -29,7 +29,7 @@
 
         </div>
         <div class=" form-group col-md-3">
-            <label for="ServicePriceFormControl"> Gst</label>
+            <label for="ServicePriceFormControl"> Gst <span style="color: red;">*</span></label>
             <input type="text" nbInput formControlName="gstFormControl" name="Price" placeholder=" Gst"
             oninput="validity.valid || (value='')" min="0"
             [ngClass]="{ 'is-invalid': submitted && f.gstFormControl.errors }" class="form-control"/>
@@ -39,7 +39,7 @@
 
         </div>
         <div class=" form-group col-md-3">
-            <label for="ServicePriceFormControl">Service Hour</label>
+            <label for="ServicePriceFormControl">Service Hour <span style="color: red;">*</span></label>
             <input type="text" nbInput formControlName="serviceHourFormControl" name="serviceHour" placeholder=" Hour"
             oninput="validity.valid || (value='')" min="0"
             [ngClass]="{ 'is-invalid': submitted && f.serviceHourFormControl.errors }" class="form-control"/>

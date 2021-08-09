@@ -29,7 +29,7 @@ class VendorService:
         vendor_obj.vendor_code = serializer.initial_data['vendor_code']
         vendor_obj.vendor_name = serializer.initial_data['vendor_name']
         vendor_obj.vendor_type = serializer.initial_data['vendor_type']
-        # vendor_obj.state_code = serializer.initial_data['state_code']
+        vendor_obj.state_code = serializer.initial_data['state_code']
         # vendor_obj.state_name = serializer.initial_data['state_name']
         # vendor_obj.region = serializer.initial_data['region']
         # vendor_obj.corp_ofc_addr = serializer.initial_data['corp_ofc_addr']

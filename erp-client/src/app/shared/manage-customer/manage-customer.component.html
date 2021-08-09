@@ -4,12 +4,12 @@
         <form id="customerForm" [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="container">
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="customerCode">Customer Code : </label>
+                    <label for="customerCode">Customer Code <span style="color: red;">*</span> </label>
                     <input type="text" nbInput name="customerCode" formControlName="customerCodeFormControl" placeholder="AutoGenerate" readonly />
                 </div>
                 <div class="col-md-4">
-                    <label for="customerName">Customer Name: </label>
-                    <input type="text" nbInput name="customerName" formControlName="customerNameFormControl" id="customerNameFormControl"
+                    <label for="customerName">Customer Name <span style="color: red;">*</span> </label>
+                    <input type="text" nbInput name="customerName" formControlName="customerNameFormControl" placeholder="Customer Name" id="customerNameFormControl"
                     [ngClass]="{ 'is-invalid': submitted && f.customerNameFormControl.errors }" class="form-control"/>
                     <div *ngIf="submitted && f.customerNameFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.customerNameFormControl.errors.required">Name is required</div>
@@ -19,8 +19,8 @@
             </div><br>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="phoneNumber">Phone Number : </label>
-                    <input type="text" nbInput name="phoneNumber" (keypress)="keyPress($event)"   class="form-control"   formControlName="phoneNumberFormControl"
+                    <label for="phoneNumber">Phone Number <span style="color: red;">*</span> </label>
+                    <input type="text" nbInput name="phoneNumber" (keypress)="keyPress($event)" placeholder="Phone Number"   class="form-control"   formControlName="phoneNumberFormControl"
                      [ngClass]="{ 'is-invalid': submitted && f.phoneNumberFormControl.errors  }" />
                     <div *ngIf="submitted && f.phoneNumberFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.phoneNumberFormControl.errors.required"> Phone Number is Required</div>
@@ -28,8 +28,8 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    <label>Email</label>
-                    <input type="text" nbInput formControlName="customerEmailFormControl" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerEmailFormControl.errors }" />
+                    <label>Email <span style="color: red;">*</span></label>
+                    <input type="text" nbInput formControlName="customerEmailFormControl" placeholder="Email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerEmailFormControl.errors }" />
                     <div *ngIf="submitted && f.customerEmailFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.customerEmailFormControl.errors.required">Email is required</div>
                         <div *ngIf="f.customerEmailFormControl.errors.email">Email must be a valid email address</div>
@@ -38,15 +38,15 @@
             </div><br>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="customerAddress">Address: </label><br>
-                    <textarea nbInput  name="customerAddress" class="form-control" formControlName="customerAddressFormControl" [ngClass]="{ 'is-invalid': submitted && f.customerAddressFormControl.errors }" ></textarea>
+                    <label for="customerAddress">Address <span style="color: red;">*</span> </label><br>
+                    <textarea nbInput  name="customerAddress" class="form-control" placeholder="Address" formControlName="customerAddressFormControl" [ngClass]="{ 'is-invalid': submitted && f.customerAddressFormControl.errors }" ></textarea>
                     <div *ngIf="submitted && f.customerAddressFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.customerAddressFormControl.errors.required">Address is required</div>
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    <label >Purchase/Service Bill</label>
-                    <nb-select name="services" formControlName="customerServiceBillFormControl" [ngClass]="{ 'is-invalid': submitted && f.customerServiceBillFormControl.errors }">
+                    <label >Purchase/Service Bill <span style="color: red;">*</span></label>
+                    <nb-select name="services" placeholder="Purchase/Service Bill" formControlName="customerServiceBillFormControl" [ngClass]="{ 'is-invalid': submitted && f.customerServiceBillFormControl.errors }">
                         <nb-option *ngFor="let o of Bills_list" value="{{o.name}}" >
                             {{ o.name }}
                         </nb-option>

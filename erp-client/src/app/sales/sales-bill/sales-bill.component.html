@@ -30,10 +30,13 @@ $box.prop("checked", false);
             </tr>
             <tr>
                 <td>
+                    <label for="">Customer Name</label>
                     <input nbInput formControlName="customerNameFormControl" size="small" style="width: 10em;" name="CustomerNameFormControl" placeholder="Customer Name"
                     (keypress)="open(dialog)" (click)="open(dialog)" ></td>
-                <td> <input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl" (click)="open_phone_list(phone_dialog)"  name="salesNewFormControl" placeholder="Mobile No" ></td>
-                <td > <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" ></td>
+                <td>
+                    <label for="">Phone Number</label> <input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl" (click)="open_phone_list(phone_dialog)"  name="salesNewFormControl" placeholder="Phone Number" ></td>
+                <td ><label for="">Email</label>
+                     <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" ></td>
                 <td><input type="hidden" name=""></td>
                
                 
@@ -133,7 +136,7 @@ $box.prop("checked", false);
                 <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;" [value]="selectedDiscount"  nbInput formControlName="discountFormControl"  name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
             </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small"  style="width: 10em;" value="{{grandTotal}}"  step="0.1" nbInput formControlName="grandTotalFormControl" name="grandTotalFormControl" placeholder="INR" ></td>
+                <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small"  style="width: 10em;" value="{{grandTotal}}"  step="0.1" nbInput formControlName="grandTotalFormControl" name="grandTotalFormControl" placeholder="Grand Total" ></td>
             </tr>
             <tr>
                 <th colspan="3" style="text-align: center;">PAY</th>

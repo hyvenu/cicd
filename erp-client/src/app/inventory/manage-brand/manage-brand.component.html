@@ -1,11 +1,11 @@
 <form id="" [formGroup]="brandMasterFrom" (ngSubmit) = "onSubmit()" >
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label for="brandName">Brand Name</label><br>
+            <label for="brandName">Brand Name <span style="color: red;">*</span></label><br>
             <input nbInput formControlName="brandnameFormControl" name="brandName" placeholder="Brand Name"
             [ngClass]="{ 'is-invalid': submitted && f.brandnameFormControl.errors }" class="form-control"/>
             <div *ngIf="submitted && f.brandnameFormControl.errors" class="invalid-feedback">
-                <div *ngIf="f.brandnameFormControl.errors.required">Name is required</div>
+                <div *ngIf="f.brandnameFormControl.errors.required">Brand Name is required</div>
             </div>
         </div>
         <div class="form-group col-md-4">

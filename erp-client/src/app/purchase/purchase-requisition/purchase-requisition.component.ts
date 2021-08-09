@@ -191,7 +191,7 @@ export class PurchaseRequisitionComponent implements OnInit {
         
       },
       (error) => {
-        this.nbtoastService.danger(error.detail);
+        this.nbtoastService.danger("unable to remove products");
       }
     );
   }

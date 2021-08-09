@@ -143,7 +143,7 @@ export class ManageVendorComponent implements OnInit {
     this.vendorMasterForm  =  this.formBuilder.group({
       // vendorStateCodeFormControl: ['', [Validators.required]],
       // vendorStateNameFormControl: ['', [Validators.required]],      
-      // vendorStateCode: ['', [Validators.required]],   
+      vendorStateCodeFormControl: ['', [Validators.required]],   
       // corporateOfficeFormControl: ['', [Validators.required]],   
       branchOfficeFormControl: ['', [Validators.required]],
       vendorTypeFormControl:['', [Validators.required]],   
@@ -293,7 +293,7 @@ export class ManageVendorComponent implements OnInit {
     // }
 
     formData.append('vendor_type', this.vendorTypeStr)
-    // formData.append('state_code', this.vendorMasterForm.controls['vendorStateCodeFormControl'].value)
+    formData.append('state_code', this.vendorMasterForm.controls['vendorStateCodeFormControl'].value)
     // formData.append('state_name', this.vendorMasterForm.controls['vendorStateNameFormControl'].value)
     // formData.append('region', this.vendorMasterForm.controls['vendorRegionFormControl'].value)
     

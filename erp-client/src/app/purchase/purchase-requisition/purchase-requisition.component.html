@@ -65,8 +65,8 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
-                                <td *ngIf="!deleterow"><button nbButton (click)="remove_item(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
-                                <td *ngIf="deleterow"><button nbButton (click)="delete(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
+                                <!-- <td *ngIf="!deleterow"><button nbButton (click)="remove_item(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td> -->
+                                <td ><button nbButton (click)="delete(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
                                 <td><input class="form-control form-control-sm" style="width: 10em;"  placeholder="" value={{item.product_code}}/></td>
                                 <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="" value={{item.product_name}}/></td>
                                 <!-- <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="description" [(ngModel)]="item.description"/></td> -->

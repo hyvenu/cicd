@@ -164,6 +164,7 @@ export class ManageSubcategoryComponent implements OnInit {
             
             this.nbtoastService.success("Saved Successfully");
             this.subcat_image = null;
+            this.ngOnInit()
             this.subcategoryFrom.reset();
             this.myInputVariable.nativeElement.value = "";
             

@@ -1,7 +1,7 @@
 <form id="" [formGroup]="categoryFrom" (ngSubmit)= "onSubmit()">
     <div class="form-row">
         <div class="form-group col-md-3">
-            <label for="categoryName">Category Name</label>
+            <label for="categoryName">Category Name <span style="color: red;">*</span></label>
             <input nbInput formControlName="categoryNameFormControl" name="categoryName" placeholder="Category Name"
             [ngClass]="{ 'is-invalid': submitted && f.categoryNameFormControl.errors }" class="form-control"/>
             <div *ngIf="submitted && f.categoryNameFormControl.errors" class="invalid-feedback">
@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class=" form-group col-md-3">
-            <label for="categoryCode">Category Code</label>
+            <label for="categoryCode">Category Code <span style="color: red;">*</span></label>
             <input nbInput formControlName="categoryCodeFormControl" name="categoryCode" placeholder="Category Code"
             [ngClass]="{ 'is-invalid': submitted && f.categoryCodeFormControl.errors }" class="form-control"/>
             <div *ngIf="submitted && f.categoryCodeFormControl.errors" class="invalid-feedback">
@@ -19,8 +19,8 @@
     </div><br>
     <div class="form-row">
         <div class="form-group col-md-3">
-            <label for="categoryDesc">Category Description</label>
-            <input nbInput formControlName="categoryDescFormControl" name="categoryDesc" placeholder="Category Desc"
+            <label for="categoryDesc">Category Description <span style="color: red;">*</span></label>
+            <input nbInput formControlName="categoryDescFormControl" name="categoryDesc" placeholder="Category Description"
             [ngClass]="{ 'is-invalid': submitted && f.categoryDescFormControl.errors }" class="form-control"/>
             <div *ngIf="submitted && f.categoryDescFormControl.errors" class="invalid-feedback">
                 <div *ngIf="f.categoryDescFormControl.errors.required">Description is required</div>

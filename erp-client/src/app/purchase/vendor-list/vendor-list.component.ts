@@ -27,7 +27,7 @@ export class VendorListComponent implements OnInit {
         hide:true
       },
       vendor_code: {
-        title: 'Vendor Staff',        
+        title: 'Vendor Code',        
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="ManageVendor?id=${row.id}">${row.vendor_code}</a>`;
@@ -39,9 +39,7 @@ export class VendorListComponent implements OnInit {
       vendor_type: {
         title: 'Vendor Type',
       },
-      poc_name: {
-        title: 'POC name',
-      }
+  
     },
   };
 

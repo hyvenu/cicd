@@ -1,7 +1,7 @@
 <form id="" [formGroup]="unitMasterFrom" (ngSubmit)="onSubmit()" >
     <div class="form-row">
         <div class="form-group col-md-3"> 
-            <label for="primaryUnit">Primary Unit</label>
+            <label for="primaryUnit">Primary Unit <span style="color: red;">*</span></label>
             <input nbInput formControlName="primaryUnitFormControl" name="primaryUnit" placeholder="Primary Unit"
             [ngClass]="{ 'is-invalid': submitted && f.primaryUnitFormControl.errors }" class="form-control"/>
             <div *ngIf="submitted && f.primaryUnitFormControl.errors" class="invalid-feedback">
@@ -9,11 +9,11 @@
             </div>  
         </div>
         <div class="form-group col-md-3">
-            <label for="secondaryUnit">Secondary Unit</label>
+            <label for="secondaryUnit">Secondary Unit <span style="color: red;">*</span></label>
             <input nbInput formControlName="secondaryUnitFormControl" name="secondaryUnit" placeholder="Secondary Unit"
             [ngClass]="{ 'is-invalid': submitted && f.secondaryUnitFormControl.errors }" class="form-control"/>
             <div *ngIf="submitted && f.secondaryUnitFormControl.errors" class="invalid-feedback">
-                <div *ngIf="f.secondaryUnitFormControl.errors.required">Name is required</div>
+                <div *ngIf="f.secondaryUnitFormControl.errors.required">Secondary Unit is required</div>
             </div>
         </div>
     </div><br>   

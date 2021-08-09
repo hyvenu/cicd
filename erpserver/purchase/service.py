@@ -6,6 +6,7 @@ from inventory.models import ProductStock, Store
 from purchase.models import PurchaseRequisition, PurchaseRequisitionProductList, POOrderRequest, PoOrderDetails, \
     GRNMaster, GRNProductList
 from sequences import get_next_value
+from django.db.models import Q
 
 from datetime import datetime
 
@@ -116,7 +117,6 @@ class PurchaseService:
             pr_list.expected_date = product['expected_date']
             pr_list.save()
 
-
     @classmethod
     @transaction.atomic
     def approve_pr(cls, pr_data):
@@ -134,9 +134,17 @@ class PurchaseService:
     @transaction.atomic
     def delete_product(cls, prpl_id):
         prpl_object = PurchaseRequisitionProductList.objects.get(id=prpl_id)
-        prpl_object.active = False
-        prpl_object.save()
-        return prpl_object.product_code
+        for item in prpl_object:
+            if item == prpl_id:
+                prpl_object.active = False
+                prpl_object.save()
+                return prpl_object.product_code
+            else:
+                return False
+
+
+
+
 
     @classmethod
     @transaction.atomic
@@ -173,7 +181,7 @@ class PurchaseService:
 
     @classmethod
     def generate_po_number(cls):
-        perfix = 'saff' + '/20-21' + '/PO/'
+        perfix = 'D5N' + '/21-20' + '/PO/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
@@ -255,6 +263,7 @@ class PurchaseService:
             'vendor_id',
             'vendor__vendor_name',
             'vendor__vendor_code',
+            'vendor__state_code',
             'payment_terms',
             'other_reference',
             'terms_of_delivery',

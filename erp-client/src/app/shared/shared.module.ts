@@ -35,6 +35,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ChartsModule } from 'ng2-charts';
 import { ManageEmployeeComponent } from './manage-employee/manage-employee.component';
 import { DepartmentComponent } from './department/department.component';
+import { DepartmentListComponent } from './department-list/department-list.component';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -47,11 +48,12 @@ const routes: Routes = [
   { path: 'ViewBooking' , component: ViewBookingComponent},
   { path: 'Calendar' , component: CalenderComponent},
   { path: 'ManageEmployee' , component:ManageEmployeeComponent},
-  { path: 'Department', component:DepartmentComponent}
+  { path: 'Department', component:DepartmentComponent},
+  { path: 'DepartmentList', component:DepartmentListComponent},
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent, DepartmentComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent, DepartmentComponent, DepartmentListComponent],
   imports: [
     CommonModule,
     BrowserModule,
