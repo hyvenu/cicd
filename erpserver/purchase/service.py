@@ -188,7 +188,7 @@ class PurchaseService:
 
     @classmethod
     def generate_grn_code(cls):
-        perfix = 'saff/GRN' + '/20-21' + '/PO/'
+        perfix = 'D5N/GRN' + '/20-21' + '/PO/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
@@ -263,7 +263,6 @@ class PurchaseService:
             'vendor_id',
             'vendor__vendor_name',
             'vendor__vendor_code',
-            'vendor__state_code',
             'payment_terms',
             'other_reference',
             'terms_of_delivery',
@@ -297,6 +296,8 @@ class PurchaseService:
             "total_amount",
         ))
         return po_data_list
+
+        
 
     @classmethod
     def get_po_details_invoice(cls, po_id):

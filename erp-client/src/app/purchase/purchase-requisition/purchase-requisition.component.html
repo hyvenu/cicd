@@ -1,4 +1,4 @@
-<div class="row">
+<div class="form-row">
     <a nbButton [routerLink]="['/PurchaseRequisitionList']" status="success" size="small" >Back to Purchase RequisitionList  </a>
 </div>  <br>
 
@@ -6,31 +6,37 @@
 <nb-tabset>
     <nb-tab tabTitle="Purchase Requisition Information" [active]="IsPRInfo">
 
-        <div id="" [formGroup]="prForm">
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="prNo">PR Number</label>
+        <form id="" [formGroup]="prForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="prNo">PR Number <span style="color: red;">*</span></label>
                     <input nbInput formControlName="prNoFormControl" name="prNo" placeholder="System Generated"
                         [readonly]="true" />
+                    
                 </div>
-                <div class="col-md-3">
-                    <label for="prDate">Date </label>
+                <div class="form-group col-md-3">
+                    <label for="prDate">Date <span style="color: red;">*</span></label>
                     <input nbInput formControlName="prDateFormControl" name="prDate" [nbDatepicker]="datepicker"
-                        placeholder="PR Date" />
-                        <!-- <input [nbDatepicker]="datepicker"> -->
+                        placeholder="PR Date" 
+                        [ngClass]="{ 'is-invalid': submitted && f.prDateFormControl.errors }" class="form-control"/>
+                        <div *ngIf="submitted && f.prDateFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.prDateFormControl.errors.required">Date is required</div>
+                            </div>
+                       
+                                        <!-- <input [nbDatepicker]="datepicker"> -->
                         <nb-datepicker #datepicker></nb-datepicker>
                 </div>
             </div><br>
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="user">User </label>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="user">User <span style="color: red;">*</span></label>
                     <input nbInput *ngIf="!pr_id" formControlName="userFormControl" name="user" value="{{login_user}}"
                         placeholder="user" />
                     <input nbInput *ngIf="pr_id" formControlName="userFormControl" name="user" value=""
                         placeholder="user" [readonly]="true"  />
                 </div>
-                <div class="col-md-3">
-                    <label for="department">Department </label>
+                <div class="form-group col-md-3">
+                    <label for="department">Department <span style="color: red;">*</span></label>
                     <nb-select name="department" formControlName="departFormControl" [(selected)]="selectedOption">
                         <nb-option *ngFor="let o of department_list" value="{{o.id}}">
                             {{ o.department_name }}
@@ -38,15 +44,15 @@
                     </nb-select>
                 </div>
                 <div class="col-md-4">
-                    <label for="status">PR Status </label>
+                    <label for="status">PR Status </label><br>
                     <input nbInput formControlName="statusFormControl" name="user" 
                         placeholder="staus" [readonly]=true/>
                 </div>
             </div>
-        </div><br>
+        </form><br>
 
-        <div class="row">
-            <div class="col-md-12">
+        <div class="form-row">
+            <div class=" form-group col-md-12">
             <nb-card accent="info">
                 <nb-card-header>Product Details</nb-card-header>
                 <nb-card-body>
@@ -65,7 +71,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
-                                <!-- <td *ngIf="!deleterow"><button nbButton (click)="remove_item(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td> -->
+                                <!-- <td *ngIf="!deleteform-row"><button nbButton (click)="remove_item(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td> -->
                                 <td ><button nbButton (click)="delete(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
                                 <td><input class="form-control form-control-sm" style="width: 10em;"  placeholder="" value={{item.product_code}}/></td>
                                 <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="" value={{item.product_name}}/></td>
@@ -91,9 +97,9 @@
             </nb-card>
         </div>
         </div>
-        <div class="row"> 
+        <div class="form-row"> 
 
-                <div class="col-md-6">
+                <div class="form-group col-md-6">
                     <button nbButton *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'" status="success" (click)="savePR();"  >Save</button>&nbsp;&nbsp;
                     <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL'" status="success" (click)="approvePR();" >Approve</button>&nbsp;&nbsp;
                     <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL'" status="danger" (click)="rejectPR();" >Reject</button>&nbsp;&nbsp;
@@ -101,6 +107,7 @@
                 
 
         </div>
+   
     </nb-tab>
 </nb-tabset>
 
@@ -109,7 +116,7 @@
       <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
       <nb-card-body>
         <nb-list>
-            <nb-list-item *ngFor="let item of data">
+            <nb-list-item *ngFor="let item of data| search_filter:'product_name':searchProduct">
               <i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i>
               <button nbButton (click)="ref.close(item)" size="small">Select</button>
             </nb-list-item>

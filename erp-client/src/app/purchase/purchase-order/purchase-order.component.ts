@@ -122,6 +122,7 @@ export class PurchaseOrderComponent implements OnInit {
           this.purchaseOrderForm.controls['termsConditionFormControl'].setValue(data.terms_conditions);
           this.store_id = data.store_id;
           this.vendor_id = data.vendor_id;
+          
           for(let i=0;i<data.order_details.length;i++){
             console.log(moment(data.order_details[i].delivery_date))
             data.order_details[i].delivery_date = moment(data.order_details[i].delivery_date)

@@ -86,6 +86,7 @@ export class PurchaseRequisitionComponent implements OnInit {
     if (param1) {
       
       this.purchaseService.getPRDetails(param1).subscribe((data) => {
+        console.log(data)
         this.pr_id = data.id
         this.pr_status = data.status
         this.prForm.controls['prNoFormControl'].setValue(data.pr_no);
@@ -230,6 +231,7 @@ export class PurchaseRequisitionComponent implements OnInit {
     const formData = this.saveFormData();
     this.purchaseService.savePR(formData).subscribe(
       (data) => {
+        
         this.nbtoastService.success("PR Details Saved Successfully, PR number is : " + data)
         this.ngOnInit();
         this.routes.navigate(['/PurchaseRequisitionList'])
