@@ -62,7 +62,7 @@
                 <div class="form-group col-md-4">
                     <label for="ship_address">Shipping Address <span style="color: red;">*</span></label>
                     <textarea nbInput formControlName="shipAddressFormControl" name="ship_address" 
-                        placeholder="Shipping Address" [ngClass]="{ 'is-invalid': submitted && f.customerAddressFormControl.errors }">
+                        placeholder="Shipping Address" [ngClass]="{ 'is-invalid': submitted && f.shipAddressFormControl.errors }">
                        </textarea>
                        <div *ngIf="submitted && f.shipAddressFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.shipAddressFormControl.errors.required">Shipping Address is required</div>
