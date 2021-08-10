@@ -142,6 +142,12 @@ class EmployeeSerializer(serializers.ModelSerializer):
         emp = super().create(validated_data)
         return emp
 
+    def to_representation(self, instance):
+        data = super(EmployeeSerializer, self).to_representation(instance)
+        data['department_name'] = models.Employee.objects.filter(department_id=data['department']).all().values(
+            'department__department_name')[0]['department__department_name']
+        return data
+
 
 class AppointmentScheduleSerializer(serializers.ModelSerializer):
     class Meta:

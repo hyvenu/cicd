@@ -20,7 +20,7 @@
                         </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="vendorType">Vendor Type</label>
+                    <label for="vendorType">Vendor Type<span style="color: red;">*</span></label>
                     <nb-select name="vendorType"  formControlName="vendorTypeFormControl" [(selected)]="selectedOption" (ngModelChange)="onVendorTypeChange($event)">
                         <nb-option *ngFor="let o of options" value="{{o.value}}">
                             {{ o.name }}
@@ -31,7 +31,7 @@
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="vendorMobileNo">Phone Number</label>
+                    <label for="vendorMobileNo">Phone Number<span style="color: red;">*</span> </label>
                     <input nbInput type="number" class="form-control" minlength="10" min="0" formControlName="vendorMobileNo" name="vendorMobileNo"
                         placeholder="Phone Number." oninput="validity.valid || (value='')"
                         [ngClass]="{ 'is-invalid': submitted && f.vendorMobileNo.errors }"
@@ -52,9 +52,15 @@
                     </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="vendorStateCode">State Code</label>
+                    <label for="vendorStateCode">State Code<span style="color: red;">*</span> </label>
                     <input nbInput formControlName="vendorStateCodeFormControl" name="vendorStateCode"
-                        placeholder="State Code " />
+                        placeholder="State Code " class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.vendorStateCodeFormControl.errors }"
+                        />
+                       <div *ngIf="submitted && f.vendorStateCodeFormControl.errors" class="invalid-feedback">
+                            <div *ngIf=" submitted && f.vendorStateCodeFormControl.errors.required"> State Code is Required</div> 
+                           <!-- <div *ngIf=" submitted && f.vendorStateCodeFormControl.errors.email"> Email Must Be Valid </div> -->
+                       </div> 
                 </div>
                 <!--<div class="col-md-2">
                     <label for="vendorStateName">State </label>

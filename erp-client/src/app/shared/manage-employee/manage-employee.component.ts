@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
@@ -60,6 +60,8 @@ export class ManageEmployeeComponent implements OnInit {
   employee_id: any;
   department_list: any;
   dep_id: any;
+  dailog_ref: any;
+  selected_dep: any;
 
 
   constructor(
@@ -101,7 +103,7 @@ export class ManageEmployeeComponent implements OnInit {
           this.employeeForm.controls['employeeCodeFormControl'].setValue(data.employee_code);
           this.employeeForm.controls['employeeNameFormControl'].setValue(data.employee_name);
           this.employeeForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
-          this.employeeForm.controls['departmentFormControl'].setValue(data.department);
+          this.employeeForm.controls['departmentFormControl'].setValue(data.department_name);
           this.employeeForm.controls['employeeAddressFormControl'].setValue(data.employee_address);
           console.log(data.employee_address);
    
@@ -115,9 +117,9 @@ export class ManageEmployeeComponent implements OnInit {
     this.sharedService.getDepartmentList().subscribe(
       (data) => {
         this.department_list = data;
-        this.department_list.forEach(element => {
-          this.dep_id = element.id
-        });
+        // this.department_list.forEach(element => {
+        //   this.dep_id = element.id
+        // });
         console.log(this.department_list)
       },
       (error) => {
@@ -138,6 +140,17 @@ export class ManageEmployeeComponent implements OnInit {
     )
   }
 
+  dep_open(dialog: TemplateRef<any>) {
+    this.dailog_ref = this.dialogService.open(dialog, { context: this.department_list })
+      .onClose.subscribe(data => {
+        this.selected_dep = data;
+        this.dep_id = this.selected_dep.id
+        this.employeeForm.controls['departmentFormControl'].setValue(data.department_name);
+        
+
+      }
+      );
+  }
     
   
 
@@ -159,7 +172,7 @@ export class ManageEmployeeComponent implements OnInit {
         this.nbtoastService.success("Employee Updated Successfully")
         // this.ngOnInit()
         // window.location.reload();
-        // this.ngOnInit()
+        //  this.ngOnInit()
         this.employeeForm.reset();
         this.get_employee()
         
@@ -213,7 +226,7 @@ export class ManageEmployeeComponent implements OnInit {
             return;
         }
         if (!this.employeeForm.invalid){
-          this.saveEmployee()
+        
           // this.employeeForm.reset()
           
           return this.submitted = false;
