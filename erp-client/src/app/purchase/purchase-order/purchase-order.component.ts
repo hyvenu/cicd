@@ -34,7 +34,7 @@ export class PurchaseOrderComponent implements OnInit {
   ]
 
   selectedTransportType: any;
-  vendor_list: [];
+  vendor_list:any[];
   selected_vendor;
   selected_product_list = [
 
@@ -58,6 +58,7 @@ export class PurchaseOrderComponent implements OnInit {
   po_id: any;
   store_id: any;
   vendor_id: any;
+  submitted: boolean = false;
 
 
   constructor(
@@ -81,16 +82,18 @@ export class PurchaseOrderComponent implements OnInit {
         transportTypeFormControl: ['', [Validators.required]],
         vendorCodeFormControl: ['', [Validators.required]],
         vendorNameFormControl: ['', [Validators.required]],
-        paymentTermsFormControl: ['', [Validators.required]],
-        otherRefFormControl: ['', [Validators.required]],
+        paymentTermsFormControl: ['', []],
+        otherRefFormControl: ['', []],
         termsDeliveryFormControl: [''],
         shipAddressFormControl: ['', [Validators.required]],
         noteFormControl: ['', [Validators.required]],
         packPrecntFormControl: ['', [Validators.required]],
-        termsConditionFormControl: ['', [Validators.required]],
+        termsConditionFormControl: ['', []],
         prNumberFormControl: ['', [Validators.required]]
       }
     );
+
+
 
     this.selected_product_list = [];
     this.total_amount = 0.0;
@@ -98,6 +101,16 @@ export class PurchaseOrderComponent implements OnInit {
     this.cgst = 0.0;
     this.sgst = 0.0;
     this.igst = 0.0;
+
+    this.purchaseService.getVendorList().subscribe(
+      (data) => {
+        this.vendor_list = data;
+      },
+      (error) => {
+        this.nbtoastService.danger("Error while getting vendor list")
+      }
+    )
+
 
     this.po_id = this.route.snapshot.queryParams['id'];
     if(this.po_id){
@@ -122,7 +135,8 @@ export class PurchaseOrderComponent implements OnInit {
           this.purchaseOrderForm.controls['termsConditionFormControl'].setValue(data.terms_conditions);
           this.store_id = data.store_id;
           this.vendor_id = data.vendor_id;
-          
+          this.selected_vendor = this.vendor_list.find(item => item.id == data.vendor_id)
+          console.log(this.selected_vendor)
           for(let i=0;i<data.order_details.length;i++){
             console.log(moment(data.order_details[i].delivery_date))
             data.order_details[i].delivery_date = moment(data.order_details[i].delivery_date)
@@ -145,16 +159,10 @@ export class PurchaseOrderComponent implements OnInit {
        )
     }else{
       this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
+      console.log( this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name')))
     }
 
-    this.purchaseService.getVendorList().subscribe(
-      (data) => {
-        this.vendor_list = data;
-      },
-      (error) => {
-        this.nbtoastService.danger("Error while getting vendor list")
-      }
-    )
+ 
     this.inventoryService.getProductList().subscribe(
       (data) => {
         this.product_list = data;
@@ -222,10 +230,10 @@ export class PurchaseOrderComponent implements OnInit {
 
     if (item.unit_price > 0 && item.qty > 0) {
       item.amount = (item.unit_price * item.qty) * 1.00
-      item.disc_amount = ((item.amount * item.disc_percent) / 100.00)
+      item.disc_amount = ((item.amount * item.disc_percent) / 100.00).toFixed(2)
      
-      item.total_amount = (item.amount - item.disc_amount) 
-      item.gst_amount = ((item.total_amount * item.gst) / 100.00)
+      item.total_amount = (item.amount - item.disc_amount).toFixed(2) 
+      item.gst_amount = ((item.total_amount * item.gst) / 100.00).toFixed(2)
       this.calculate_total();
     }
 
@@ -245,7 +253,7 @@ export class PurchaseOrderComponent implements OnInit {
     let packing_percnt = this.purchaseOrderForm.controls['packPrecntFormControl'].value;
     if (packing_percnt > 0) {
       this.packing_amount = ((parseFloat(this.sub_total) * parseFloat(packing_percnt)) / 100.00)
-      this.total_amount = (parseFloat(this.sub_total) + parseFloat(this.packing_amount));
+      this.total_amount = (parseFloat(this.sub_total) + parseFloat(this.packing_amount)).toFixed(2);
       this.calculate_gst();
     }else {
       this.total_amount = this.sub_total
@@ -257,7 +265,7 @@ export class PurchaseOrderComponent implements OnInit {
     let total_gst:any = 0
     this.selected_product_list.forEach(element => {
       if (this.total_amount > 0) {
-        total_gst = (parseFloat(total_gst) + parseFloat(element.gst_amount));
+        total_gst = (parseFloat(total_gst) + parseFloat(element.gst_amount)).toFixed(2);
       }else{
         total_gst = 0
       }
@@ -302,7 +310,7 @@ export class PurchaseOrderComponent implements OnInit {
     formdata.append('sgst', this.sgst.toString());
     formdata.append('cgst', this.cgst.toString());
     formdata.append('igst', this.igst.toString());
-    formdata.append('invoice_amount', this.invoice_amount.toString());
+    formdata.append('invoice_amount', this.invoice_amount);
     formdata.append('store_id', this.store_id);
     formdata.append('terms_conditions', this.purchaseOrderForm.controls['termsConditionFormControl'].value);
 
@@ -335,7 +343,7 @@ export class PurchaseOrderComponent implements OnInit {
                   //  this.product_list = data
                    this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_no);
                    if (data.status !== 'APPROVED'){
-                     this.nbtoastService.warning("Selected PR is not Approved");
+                     this.nbtoastService.warning("Selected PR is  Rejected");
                      return;
                    }
                    this.purchaseService.getPRDetails(data.id).subscribe(
@@ -399,11 +407,30 @@ export class PurchaseOrderComponent implements OnInit {
     this.purchaseService.deleteProductFromPO(data).subscribe(
       (data) => {
         this.nbtoastService.info("Item Removed");
+        this.ngOnInit();
       },
       (error) =>{
         this.nbtoastService.danger("Unable remove product");
       }
     )
   }
+
+
+get f() { return this.purchaseOrderForm.controls; }
+
+onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.purchaseOrderForm.invalid) {
+        return;
+    }
+    if (!this.purchaseOrderForm.invalid){
+      return this.submitted = false;
+    }
+
+    
+  
+}
 
 }

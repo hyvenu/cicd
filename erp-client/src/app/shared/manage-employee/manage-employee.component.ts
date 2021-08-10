@@ -125,8 +125,12 @@ export class ManageEmployeeComponent implements OnInit {
       }
     )
 
-    
+    this.get_employee()
 
+    
+  }
+
+  get_employee(){
     this.adminService.getEmployeeList().subscribe(
       (data)=> {
         this.employeeData = data;
@@ -155,15 +159,10 @@ export class ManageEmployeeComponent implements OnInit {
         this.nbtoastService.success("Employee Updated Successfully")
         // this.ngOnInit()
         // window.location.reload();
-        this.ngOnInit()
+        // this.ngOnInit()
         this.employeeForm.reset();
-
+        this.get_employee()
         
-        
-     
-       
-        
-       
         
           
       },
@@ -185,8 +184,9 @@ export class ManageEmployeeComponent implements OnInit {
       (data)=>{
         this.nbtoastService.success("Employee Saved Successfully")
         
-        this.ngOnInit()
+        // this.ngOnInit()
         this.employeeForm.reset()
+        this.get_employee()
         
           
       },
@@ -194,6 +194,7 @@ export class ManageEmployeeComponent implements OnInit {
         this.nbtoastService.danger("Failed to save");
     }
     )
+    
   }
   }
 
@@ -206,14 +207,19 @@ export class ManageEmployeeComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-
+        
         // stop here if form is invalid
         if (this.employeeForm.invalid) {
             return;
         }
         if (!this.employeeForm.invalid){
+          this.saveEmployee()
+          // this.employeeForm.reset()
+          
           return this.submitted = false;
+
         }
+        
 
       
     }

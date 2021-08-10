@@ -245,6 +245,7 @@ export class PurchaseRequisitionComponent implements OnInit {
 
 
   private saveFormData() {
+    this.onSubmit();
     const formData = new FormData();
     // console.log(this.formatDate(this.prForm.controls['prDateFormControl'].value))
     if (this.pr_id){

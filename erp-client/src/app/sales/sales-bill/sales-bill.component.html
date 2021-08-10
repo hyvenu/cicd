@@ -30,12 +30,12 @@ $box.prop("checked", false);
             </tr>
             <tr>
                 <td>
-                    <label for="">Customer Name</label>
+                    <label for="">Customer Name</label><br>
                     <input nbInput formControlName="customerNameFormControl" size="small" style="width: 10em;" name="CustomerNameFormControl" placeholder="Customer Name"
                     (keypress)="open(dialog)" (click)="open(dialog)" ></td>
                 <td>
-                    <label for="">Phone Number</label> <input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl" (click)="open_phone_list(phone_dialog)"  name="salesNewFormControl" placeholder="Phone Number" ></td>
-                <td ><label for="">Email</label>
+                    <label for="">Phone Number</label> <br><input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl" (click)="open_phone_list(phone_dialog)"  name="salesNewFormControl" placeholder="Phone Number" ></td>
+                <td ><label for="">Email</label><br>
                      <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" ></td>
                 <td><input type="hidden" name=""></td>
                
@@ -243,10 +243,10 @@ $box.prop("checked", false);
 
   <ng-template #dialog_product let-data let-ref="dialogRef">
     <nb-card size="medium">
-        <nb-card-header>Product List </nb-card-header>
+        <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of product_list">
+                <nb-list-item *ngFor="let item of product_list| search_filter:'product_name':searchProduct ">
                     <i class="mr-auto mt-2 mt-lg-0"> {{ item.product_name }}  </i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>

@@ -204,11 +204,12 @@ export class SalesBillComponent implements OnInit {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
        this.customer_object = data   
-       this.customer_id = data.id;    
+       this.customer_id = data.id; 
+       console.log(this.customer_id)   
        this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
-       this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.customer_email);
-       this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.phone_number);
+       this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
+       this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
        this.adminService.getBookinHistory(this.customer_object.id).subscribe(
         (data2)=>{
           this.booking_history = data2

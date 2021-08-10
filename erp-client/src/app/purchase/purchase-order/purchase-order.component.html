@@ -1,46 +1,55 @@
 <div class="conatiner">
-<div class="row">
+<div class="form-row">
         <a nbButton [routerLink]="['/PurchaseOrderList']" status="success" size="small">Back to Purchase order list</a>
 </div>
 <nb-tabset>
     <nb-tab tabTitle="Purchase Order">
-        <div id="purchaseOrderForm" [formGroup]="purchaseOrderForm">
+        <form id="purchaseOrderForm" [formGroup]="purchaseOrderForm" (ngSubmit)="onSubmit()">
             <nb-card accent="info">
             <nb-card-header> </nb-card-header>     
             <nb-card-body>
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="po_type">PO Type </label><br>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="po_type">PO Type <span style="color: red;">*</span></label><br>
                     <nb-select name="po_type" formControlName="poTypeFormControl" [(selected)]="selectedPOType">
                         <nb-option *ngFor="let o of po_type_list" value="{{o.po_type_value}}">
                             {{ o.po_type_name }}
                         </nb-option>
                     </nb-select>
                 </div>
-                <div class="col-md-4">
-                    <label for="po_date">PO Date</label>
-                    <input nbInput formControlName="poDateFormControl" name="po_date" [nbDatepicker]="po_date" placeholder="PO Date" />
+                <div class="form-group col-md-4">
+                    <label for="po_date">PO Date <span style="color: red;">*</span></label>
+                    <input nbInput formControlName="poDateFormControl" class="form-control" name="po_date" [nbDatepicker]="po_date" placeholder="PO Date" 
+                    [ngClass]="{ 'is-invalid': submitted && f.poDateFormControl.errors }" />
+                        <div *ngIf="submitted && f.poDateFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.poDateFormControl.errors.required">PO Date is required</div>
+                        </div>
                     <nb-datepicker #po_date format="yyyy-MM-DD"></nb-datepicker>
                 </div>
                 
-                <div class="col-md-4">
-                    <label for="pr_number">Select PR Number</label>
-                    <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="PR Number" (keypress)="pr_open(pr_dialog)" />
+                <div class="form-group col-md-4">
+                    <label for="pr_number">Select PR Number <span style="color: red;">*</span></label>
+                    <input nbInput formControlName="prNumberFormControl"  name="pr_number" placeholder="PR Number" (keypress)="pr_open(pr_dialog)"
+                    [ngClass]="{ 'is-invalid': submitted && f.prNumberFormControl.errors }" class="form-control" />
+                        <div *ngIf="submitted && f.prNumberFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.prNumberFormControl.errors.required">PR Number is required</div>
+                        </div> 
                 </div>
             </div><br>
 
-            <div class="row">
-                <div class="col-md-4">
+            <div class="form-row">
+                <div class="form-group col-md-4">
                     <label for="po_number">PO Number</label>
-                    <input nbInput formControlName="poNumberFormControl" name="po_number" placeholder="System Generated" readonly/>
+                    <input nbInput formControlName="poNumberFormControl" name="po_number" placeholder="System Generated" readonly
+                    />
                 </div>
-                <div class="col-md-4">
+                <div class="form-group col-md-4">
                     <label for="user">PO Raised By </label>
                     <input nbInput formControlName="userFormControl" name="user" 
                         placeholder="user" readonly>
                 </div>
-                <div class="col-md-4">
-                    <label for="trans_type">Transport Type </label>
+                <div class="form-group col-md-4">
+                    <label for="trans_type">Transport Type  <span style="color: red;">*</span></label>
                     <nb-select  name="tans_type" formControlName="transportTypeFormControl" [(selected)]="selectedTransportType">
                         <nb-option *ngFor="let o of transport_type_list" value="{{o.key}}" >
                             {{ o.value }}
@@ -48,12 +57,17 @@
                     </nb-select>
                 </div>
             </div><br>
-            <div class="row">
+            <div class="form-row">
 
-                <div class="col-md-4">
-                    <label for="ship_address">Shipping Address</label>
+                <div class="form-group col-md-4">
+                    <label for="ship_address">Shipping Address <span style="color: red;">*</span></label>
                     <textarea nbInput formControlName="shipAddressFormControl" name="ship_address" 
-                        placeholder="Shipping Address" ></textarea>
+                        placeholder="Shipping Address" [ngClass]="{ 'is-invalid': submitted && f.customerAddressFormControl.errors }">
+                       </textarea>
+                       <div *ngIf="submitted && f.shipAddressFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.shipAddressFormControl.errors.required">Shipping Address is required</div>
+                    </div>
+                      
                 </div>
             </div>
             
@@ -62,18 +76,22 @@
         <nb-card accent="info">
             <nb-card-header>Vendor Information</nb-card-header>
             <nb-card-body>
-                <div class="row">
+                <div class="form-row">
                 
-                    <div class="col-md-4">
-                        <label for="vendor">Vendor Code</label>
-                        <input nbInput formControlName="vendorCodeFormControl" name="vendor" placeholder="Select Vendor" (keypress)="vendor_open(vendor_dialog)"  />
+                    <div class="form-group col-md-4">
+                        <label for="vendor">Vendor Code <span style="color: red;">*</span></label>
+                        <input nbInput formControlName="vendorCodeFormControl" name="vendor" placeholder="Select Vendor" (keypress)="vendor_open(vendor_dialog)" 
+                        [ngClass]="{ 'is-invalid': submitted && f.vendorCodeFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.vendorCodeFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.vendorCodeFormControl.errors.required">Vendor Code is required</div>
+                        </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="form-group col-md-4">
                         <label for="vendor_name">Vendor Name</label>
                         <input nbInput formControlName="vendorNameFormControl" name="vendor_name" placeholder="Vendor Name" readonly/>
                     </div>
-                    <div class="col-md-4">
-                        <label for="payment_terms">Payment Terms</label>
+                    <div class="form-group col-md-4">
+                        <label for="payment_terms">Payment Terms <span style="color: red;">*</span></label>
                         <!-- <input nbInput formControlName="paymentTermsFormControl" name="payment_terms" placeholder="Payment Terms" /> -->
                         <nb-select name="tans_type" formControlName="paymentTermsFormControl" [(selected)]="selectedTransportType">
                             <nb-option *ngFor="let o of payments_terms_list" value="{{o.key}}">
@@ -82,18 +100,18 @@
                         </nb-select>
                     </div>
                 </div><br>
-                <div class="row" >
-                    <div class="col-md-4">
+                <div class="form-row" >
+                    <div class="form-group col-md-4">
                         <label for="other_ref">Other Reference</label>
                         <input nbInput formControlName="otherRefFormControl" name="other_ref" placeholder="Other Reference" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="form-group col-md-4">
                         <label for="terms_delivery">Terms of Delivery</label>
                         <input nbInput formControlName="termsDeliveryFormControl" name="terms_delivery" placeholder="Terms of Delivery" />
                     </div>
                 </div><br>
-                <div class="row">
-                    <div class="col-md-4">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
                         <label for="note">Note </label><br>
                         <textarea nbInput formControlName="noteFormControl" name="note" placeholder="Note" ></textarea>
                     </div>
@@ -185,8 +203,8 @@
         <nb-card accent="info">
             <nb-card-header>PO Summary</nb-card-header>
             <nb-card-body>
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
                             <label for="terms_conditions">Terms & Conditions</label>
                             <textarea nbInput formControlName="termsConditionFormControl" name="ship_address" 
                                 placeholder="Terms & Conditions" ></textarea>
@@ -197,7 +215,7 @@
                 <button nbButton (click)="save_po();" status="success" *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
             </nb-card-footer>    
         </nb-card>
-        </div>
+        </form>
     </nb-tab>
 </nb-tabset>
 </div>

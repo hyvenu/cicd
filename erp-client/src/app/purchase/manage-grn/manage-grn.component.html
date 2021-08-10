@@ -1,3 +1,7 @@
+<div class="row">
+    <a nbButton [routerLink]="['/GrnList']" status="success" size="small">Back to Purchase order list</a>
+</div>
+
 <nb-tabset>
     <nb-tab tabTitle="GRN Information" [active]="IsGrnInfo">
 
@@ -29,8 +33,8 @@
                 </div>
                 <div class="col-md-3">
                     <label for="invoiceDate">Invoice Date</label>
-                    <input nbInput formControlName="invoiceDateFormControl" name="invoiceDate"
-                        [nbDatepicker]="invoicedatepicker" placeholder="inoice Date" />
+                    <input nbInput formControlName="invoiceDateFormControl" name="InvoiceDate"
+                        [nbDatepicker]="invoicedatepicker" placeholder="Invoice Date" />
                     <nb-datepicker format="DD-MM-yyyy" #invoicedatepicker></nb-datepicker>
                 </div>
             </div><br>
@@ -43,7 +47,7 @@
                 <div class="col-md-3">
                     <label for="vendorAddress">Vendor Address </label>
                     <textarea nbInput formControlName="vendorAddressFormControl" name="corporateOffice"
-                        placeholder="Corporate Office"></textarea>
+                        placeholder="Vendor Address"></textarea>
                 </div>
             </div><br>
 
@@ -195,7 +199,7 @@
                 [(ngModel)]="searchPO" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data">
+                <nb-list-item *ngFor="let item of data| search_filter:'po_number':searchPO">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.po_number }} </i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>

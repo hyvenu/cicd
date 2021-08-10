@@ -44,7 +44,8 @@ export class GrnListComponent implements OnInit {
       },
       invoice_date: {
         title: 'invoice Date',
-      }
+      },
+      
     },
   };
 

@@ -15,7 +15,7 @@ class PurchaseService:
 
     @classmethod
     def generate_pr_code(cls):
-        prefix_code = 'PR'
+        prefix_code = 'D5N' + '/21-22' + '/PR/'
         code = get_next_value(prefix_code)
         code = prefix_code + '-' + str(code)
         return code
@@ -133,18 +133,19 @@ class PurchaseService:
     @classmethod
     @transaction.atomic
     def delete_product(cls, prpl_id):
-        prpl_object = PurchaseRequisitionProductList.objects.get(id=prpl_id)
-        for item in prpl_object:
-            if item == prpl_id:
-                prpl_object.active = False
-                prpl_object.save()
-                return prpl_object.product_code
-            else:
-                return False
+        try:
+            prpl_object = PurchaseRequisitionProductList.objects.get(id=prpl_id)
+            prpl_object.active = False
+            prpl_object.save()
+            return prpl_object.product_code
+        except:
+            print("An exception occurred")
+            return True;
 
-
-
-
+        # print( prpl_object)
+        # if  prpl_object :
+        #
+        # else:
 
     @classmethod
     @transaction.atomic
@@ -181,14 +182,14 @@ class PurchaseService:
 
     @classmethod
     def generate_po_number(cls):
-        perfix = 'D5N' + '/21-20' + '/PO/'
+        perfix = 'D5N' + '/21-22' + '/PO/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
 
     @classmethod
     def generate_grn_code(cls):
-        perfix = 'D5N/GRN' + '/20-21' + '/PO/'
+        perfix = 'D5N' + '/21-22' + '/GRN/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
@@ -297,8 +298,6 @@ class PurchaseService:
         ))
         return po_data_list
 
-        
-
     @classmethod
     def get_po_details_invoice(cls, po_id):
         final_list = []
@@ -382,9 +381,13 @@ class PurchaseService:
     @classmethod
     @transaction.atomic
     def delete_po_product(cls, po_prd_id):
-        po_prd_object = PoOrderDetails.objects.get(id=po_prd_id)
-        po_prd_object.delete()
-        return True
+        try:
+            po_prd_object = PoOrderDetails.objects.get(id=po_prd_id)
+            po_prd_object.delete()
+            return True
+        except:
+            print("An exception occurred")
+            return True
 
     @transaction.atomic()
     def save_grn(cls, grn_data, file):
