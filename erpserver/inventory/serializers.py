@@ -98,6 +98,7 @@ class ProductMasterSerializer(serializers.ModelSerializer):
             "brand",
             "id",
             'product_attributes',
+
             "product_price",
             "product_images",
 

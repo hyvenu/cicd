@@ -54,11 +54,13 @@ export class PurchaseOrderComponent implements OnInit {
   igst: any = 0;
   sub_total: any;
   invoice_amount:any;
-  pr_list: [];
+  pr_list:any [];
   po_id: any;
   store_id: any;
   vendor_id: any;
   submitted: boolean = false;
+  selectedPaymentType:any;
+  not_approved: any;
 
 
   constructor(
@@ -111,6 +113,15 @@ export class PurchaseOrderComponent implements OnInit {
       }
     )
 
+    this.purchaseService.getPRList().subscribe(
+      (data )=> {
+        this.pr_list =data;
+      },
+      (error)=>{
+        this.nbtoastService.danger("Error while getting pr list")
+      }
+    )
+
 
     this.po_id = this.route.snapshot.queryParams['id'];
     if(this.po_id){
@@ -136,6 +147,8 @@ export class PurchaseOrderComponent implements OnInit {
           this.store_id = data.store_id;
           this.vendor_id = data.vendor_id;
           this.selected_vendor = this.vendor_list.find(item => item.id == data.vendor_id)
+          this.not_approved = this.pr_list.find(item => item.status == data.status)
+          console.log(this.not_approved)
           console.log(this.selected_vendor)
           for(let i=0;i<data.order_details.length;i++){
             console.log(moment(data.order_details[i].delivery_date))
@@ -243,7 +256,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.sub_total = 0;
     console.log(this.selected_product_list);
     this.selected_product_list.forEach(element => {
-      this.sub_total = this.sub_total + element.total_amount
+      this.sub_total = parseFloat(this.sub_total) + parseFloat(element.total_amount)
     });
     this.calculate_packing();
 
@@ -278,14 +291,74 @@ export class PurchaseOrderComponent implements OnInit {
       this.igst = total_gst;
       }
     }else {
-      this.igst = total_gst ;
+      this.igst = total_gst/2 ;
+      this.cgst = total_gst / 2;
     }
 
     this.invoice_amount = (parseFloat(this.igst) + parseFloat(this.cgst) + parseFloat(this.sgst) + parseFloat(this.total_amount)).toFixed(2);
 
   }
+  pr_open(dialog: TemplateRef<any>) {
+    this.purchaseService.getPRList().subscribe(
+      (data) => {
+          this.pr_list = data;
+     
+              this.dailog_ref = this.dialogService.open(dialog, { context: this.pr_list  })
+                .onClose.subscribe(data => {
+                  //  this.product_list = data
+                  console.log(data)
+                  this.not_approved = data
+                   this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_no);
+                   if (data.status !== 'APPROVED'){
+                     this.nbtoastService.warning("Selected PR is  Not Approved");
+                     return;
+                   }
+                   this.purchaseService.getPRDetails(data.id).subscribe(
+                     (pr_data) => {
+                       console.log(pr_data)
+                        this.store_id = pr_data.store_id;
+                        let pr_products = pr_data['selected_product_list']
+                        pr_products.forEach(element => {
+                          this.selected_product_list.push({
+                            id:'',
+                            product_id: element.product,
+                            product_code: element.product_code,
+                            product_name: element.product_name,
+                            description: element.product_description,
+                            qty: element.required_qty,
+                            unit_id: element.unit,
+                            delivery_date: moment(element.expected_date),
+                            unit_price: 0.0,
+                            gst: 0.0,
+                            amount: 0.0,
+                            disc_percent: 0.0,
+                            disc_amount: 0.0,
+                            gst_amount: 0.0,
+                            total_amount:0.0,
+  
+                          });
+                        });
+                       
+                     },
+                     (error) => {
+                        this.nbtoastService.danger("Unable to get PR details")
+                     }
+
+                   )
+                     
+                });
+            },
+            (error) => {
+                this.nbtoastService.danger("Unable to get PR List");
+            }
+          )
+    //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
+
+  }
+
 
   save_po(): any {
+    if(this.not_approved.status == "APPROVED"){
     const formdata = new FormData()
     if(this.po_id){
       formdata.append('id', this.po_id);  
@@ -331,63 +404,12 @@ export class PurchaseOrderComponent implements OnInit {
         this.nbtoastService.danger(error);
       }
     )
+  }else{
+    this.nbtoastService.success(`PO is Not approved`);
   }
+}
 
-  pr_open(dialog: TemplateRef<any>) {
-    this.purchaseService.getPRList().subscribe(
-      (data) => {
-          this.pr_list = data;
-     
-              this.dailog_ref = this.dialogService.open(dialog, { context: this.pr_list  })
-                .onClose.subscribe(data => {
-                  //  this.product_list = data
-                   this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_no);
-                   if (data.status !== 'APPROVED'){
-                     this.nbtoastService.warning("Selected PR is  Not Approved");
-                     return;
-                   }
-                   this.purchaseService.getPRDetails(data.id).subscribe(
-                     (pr_data) => {
-                        this.store_id = pr_data.store_id;
-                        let pr_products = pr_data['selected_product_list']
-                        pr_products.forEach(element => {
-                          this.selected_product_list.push({
-                            id:'',
-                            product_id: element.product,
-                            product_code: element.product_code,
-                            product_name: element.product_name,
-                            description: element.product_description,
-                            qty: element.required_qty,
-                            unit_id: element.unit,
-                            delivery_date: moment(element.expected_date),
-                            unit_price: 0.0,
-                            gst: 0.0,
-                            amount: 0.0,
-                            disc_percent: 0.0,
-                            disc_amount: 0.0,
-                            gst_amount: 0.0,
-                            total_amount:0.0,
   
-                          });
-                        });
-                       
-                     },
-                     (error) => {
-                        this.nbtoastService.danger("Unable to get PR details")
-                     }
-
-                   )
-                     
-                });
-            },
-            (error) => {
-                this.nbtoastService.danger("Unable to get PR List");
-            }
-          )
-    //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
-
-  }
-
   formatDate(date) {
     var d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -408,8 +430,10 @@ export class PurchaseOrderComponent implements OnInit {
     this.purchaseService.deleteProductFromPO(data).subscribe(
       (data) => {
         this.nbtoastService.info("Item Removed");
-        
         this.calculate_total();
+        
+       
+        
       },
       (error) =>{
         this.nbtoastService.danger("Unable remove product");

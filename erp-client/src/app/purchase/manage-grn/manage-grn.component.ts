@@ -41,6 +41,9 @@ export class ManageGrnComponent implements OnInit {
   vendor_id: any;
   unit_list: [];
   store_id;
+  grndate: any;
+  invoicedate: any;
+  submitted: boolean=false;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -198,10 +201,23 @@ export class ManageGrnComponent implements OnInit {
     );
   }
 
+  date_check(){
+    this.grndate = this.grnMasterForm.controls['grnDateFormControl'].value;
+    this.invoicedate = this.grnMasterForm.controls['invoiceDateFormControl'].value;
+    let Gdate = new Date(this.grndate)
+
+    console.log(this)
+    let Idate = new Date(this.invoicedate)
+
+    if(Gdate < Idate){
+      this.nbtoastService.danger("Error:Date is Invalid");
+    }
+  }
+
   calculate(item) {
 
     item.accepted_qty = item.received_qty - item.rejected_qty;
-    item.amount = item.received_qty * item.unit_price;
+    item.amount = item.accepted_qty * item.unit_price;
     item.gst_amount = item.amount * item.gst / 100;
     item.total = item.amount + item.gst_amount;
     this.sub_total = 0;
@@ -220,8 +236,9 @@ export class ManageGrnComponent implements OnInit {
         this.sgst = this.sgst / 2;
         this.cgst = this.sgst;
     } else {
-      this.igst = this.sgst;
+      this.igst = this.sgst/2;
       this.sgst = 0;
+      this.cgst = this.sgst/2
     }
     this.grand_total = this.sub_total + ((this.sgst + this.cgst) * this.sub_total / 100)
   }
@@ -251,6 +268,7 @@ export class ManageGrnComponent implements OnInit {
   }
 
   saveGRN(): any {
+    
     const formData = new FormData();
     if (this.grn_id) {
       formData.append('id', this.grn_id);
@@ -329,4 +347,21 @@ export class ManageGrnComponent implements OnInit {
 
     return [year, month, day].join('-');
   }
+
+get f() { return this.grnMasterForm.controls; }
+
+onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.grnMasterForm.invalid) {
+        return;
+    }
+    if (!this.grnMasterForm.invalid){
+      return this.submitted = false;
+    }
+
+    
+  
+}
 }

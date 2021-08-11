@@ -15,7 +15,7 @@ class PurchaseService:
 
     @classmethod
     def generate_pr_code(cls):
-        prefix_code = 'D5N' + '/21-22' + '/PR/'
+        prefix_code = 'D5N' + '/21-22' + '/PR'
         code = get_next_value(prefix_code)
         code = prefix_code + '-' + str(code)
         return code
@@ -60,7 +60,7 @@ class PurchaseService:
             'description',
             'store',
             'required_qty',
-            'unit',
+           'unit',
             'expected_date',
             'active',
         )

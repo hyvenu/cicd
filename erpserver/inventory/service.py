@@ -95,6 +95,9 @@ class InventoryService:
             'brand__id',
             'brand__brand_name',
             'product_attributes',
+            'product_price__unit__PrimaryUnit',
+            'product_price__qty',
+            'product_price__unit_price',
         )
 
         # for prd in product_dict:

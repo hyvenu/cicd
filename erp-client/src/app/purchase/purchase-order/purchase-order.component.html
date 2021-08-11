@@ -93,7 +93,7 @@
                     <div class="form-group col-md-4">
                         <label for="payment_terms">Payment Terms <span style="color: red;">*</span></label>
                         <!-- <input nbInput formControlName="paymentTermsFormControl" name="payment_terms" placeholder="Payment Terms" /> -->
-                        <nb-select name="tans_type" formControlName="paymentTermsFormControl" [(selected)]="selectedTransportType">
+                        <nb-select name="tans_type" formControlName="paymentTermsFormControl" [(selected)]="selectedPaymentType">
                             <nb-option *ngFor="let o of payments_terms_list" value="{{o.key}}">
                                 {{ o.value }}
                             </nb-option>
