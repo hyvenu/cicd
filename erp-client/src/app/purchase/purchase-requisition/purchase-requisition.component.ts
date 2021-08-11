@@ -78,6 +78,7 @@ export class PurchaseRequisitionComponent implements OnInit {
       userFormControl: ['', [Validators.required]],
       departFormControl: ['', [Validators.required]],
       statusFormControl: ['', [Validators.required]],
+      // qtyFormControl: ['', [Validators.required]],
     });
 
     this.prForm.controls['userFormControl'].setValue(this.login_user);
@@ -96,8 +97,23 @@ export class PurchaseRequisitionComponent implements OnInit {
         this.prForm.controls['statusFormControl'].setValue(data.status);
         // this.prForm.controls['departFormControl'].setValue(data.dept__department_name);
         
-        this.selected_product_list = data.selected_product_list;
-        this.deleterow = true
+       data.selected_product_list.forEach(element => {
+         console.log(element)
+         this.selected_product_list.push({
+          id: element.id,
+          product_code: element.product_code,
+          product_name: element.product_name,
+          description: element.description,
+          store: element.store,
+          required_qty:element.required_qty,
+          unit: element.unit,
+          expected_date:moment(element.expected_date) ,
+          active:''
+        });
+         })
+       
+        console.log(data.selected_product_list)
+        
 
       });
     }
@@ -123,6 +139,7 @@ export class PurchaseRequisitionComponent implements OnInit {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
       .onClose.subscribe(data => {
         //  this.product_list = data
+        console.log(data)
         
         if(this.selected_product_list.some(element => element.product_name == data.product_name)){
           this.nbtoastService.danger("product name already exist");
@@ -135,15 +152,16 @@ export class PurchaseRequisitionComponent implements OnInit {
           product_name: data.product_name,
           description: '',
           store: this.store_name,
-          required_qty: '',
-          unit: '',
+          required_qty: data.product_price__qty,
+          unit: data.product_price__unit__PrimaryUnit,
+          // unit_price:data.product_price__unit_price,
           expected_date: '',
           active:''
         });
       }
       });
     //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
-    console.log(this.selectedOption);
+   
   }
 
   onDepartmentChange() {
@@ -227,7 +245,10 @@ export class PurchaseRequisitionComponent implements OnInit {
     );
   }
 
+
+
   savePR(): any {
+    
     const formData = this.saveFormData();
     this.purchaseService.savePR(formData).subscribe(
       (data) => {
@@ -240,12 +261,16 @@ export class PurchaseRequisitionComponent implements OnInit {
         this.nbtoastService.danger(error.detail);
       }
     );
+    
 
   }
+
+ 
 
 
   private saveFormData() {
     this.onSubmit();
+    // if(this.prForm.controls['qtyFormControl'].value != ""){
     const formData = new FormData();
     // console.log(this.formatDate(this.prForm.controls['prDateFormControl'].value))
     if (this.pr_id){
@@ -269,6 +294,7 @@ export class PurchaseRequisitionComponent implements OnInit {
     // }
     console.log(this.selected_product_list);
     return formData;
+  // }
   }
 
   get f() { return this.prForm.controls; }
