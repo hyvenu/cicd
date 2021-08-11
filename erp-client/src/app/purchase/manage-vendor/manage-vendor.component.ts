@@ -2,12 +2,13 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import { Router } from '@angular/router';
-import { NbToastrService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { PurchaseService } from '../purchase.service';
 import { NbSelectModule } from '@nebular/theme';
 import { ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { Router,NavigationEnd } from '@angular/router';
+import { State } from 'src/app/models/state';
 
 
 @Component({
@@ -16,6 +17,10 @@ import { Router,NavigationEnd } from '@angular/router';
   styleUrls: ['./manage-vendor.component.scss']
 })
 export class ManageVendorComponent implements OnInit {
+
+
+  
+
 
   vendorMasterForm: FormGroup;
   vendor_code: any;
@@ -82,10 +87,16 @@ export class ManageVendorComponent implements OnInit {
   imgSrcPan: string;
   imgSrcGst: string;
   submitted: boolean=false;
+  selectionModel:any;
+  dailog_ref: any;
+  state: State[]=[];
+  state_list: any;
+  states: string;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
     private nbtoastService: NbToastrService,
+    private dialogService: NbDialogService,
     private routes: Router,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,) {
@@ -139,6 +150,8 @@ export class ManageVendorComponent implements OnInit {
   
 
   ngOnInit(): void {
+    
+   
     this.IsVendorInfo = true;
     this.vendorMasterForm  =  this.formBuilder.group({
       // vendorStateCodeFormControl: ['', [Validators.required]],
@@ -181,6 +194,8 @@ export class ManageVendorComponent implements OnInit {
       //
     });
 
+    
+
     let param1 = this.route.snapshot.queryParams["id"];
 
     if (param1) {
@@ -190,7 +205,7 @@ export class ManageVendorComponent implements OnInit {
           this.vendorMasterForm.controls['vendorCodeFormControl'].setValue(data.vendor_code);
           this.vendorMasterForm.controls['vendorNameFormControl'].setValue(data.vendor_name);
           this.vendorMasterForm.controls['vendorTypeFormControl'].setValue(data.vendor_type);
-          // this.vendorMasterForm.controls['vendorStateCodeFormControl'].setValue(data.state_code);
+          this.vendorMasterForm.controls['vendorStateCodeFormControl'].setValue(data.state_code);
           // this.vendorMasterForm.controls['vendorStateNameFormControl'].setValue(data.state_name);
           // this.vendorMasterForm.controls['vendorRegionFormControl'].setValue(data.region);
           // this.vendorMasterForm.controls['corporateOfficeFormControl'].setValue(data.corp_ofc_addr);
@@ -222,9 +237,50 @@ export class ManageVendorComponent implements OnInit {
 
           });
         }
-      
+        // this.onChange()
+      this.state = this.purchaseService.getSate()
+     
+
     
   }
+
+  state_open(dialog: TemplateRef<any>) {
+    this.dailog_ref = this.dialogService.open(dialog, { context: this.state})
+      .onClose.subscribe(data => {
+        this.state_list = data
+        console.log(this.state_list)
+        this.vendorMasterForm.controls['vendorStateCodeFormControl'].setValue(data.value);
+        
+
+      }
+      );
+  }
+
+
+  // onChange(){
+    //this.stateCode = this.selectionModel.value;
+    //For one Result use find method
+    
+    //  this.showRate=this.rateData.find((o)=>o.name == this.selectionModel.name));
+
+    //For more Result use filter method
+    //  this.showRate=this.rateData.filter((o)=>o.name == this.selectionModel.name))
+   // let d=this.customerForm.get(['stateNameFormControl']).value;
+    // console.log(this.stateCode);
+    // console.log(d)/* ; */
+
+  //   this.vendorMasterForm.get('vendorStateCodeFormControl').valueChanges.subscribe(
+  //     tt=>{
+  //       if(tt){
+  //         let searchInState=this.state.filter(s=>s.name===tt)[0];
+  //         this.vendorMasterForm.get(['vendorStateCodeFormControl']).setValue(searchInState.value);
+  //       }
+         
+        
+  //     });
+    
+  // }
+  
 
 
   change_tab() {

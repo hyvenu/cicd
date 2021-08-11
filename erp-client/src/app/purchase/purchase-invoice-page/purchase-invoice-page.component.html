@@ -1,6 +1,6 @@
 <div id="bill">
 <nb-card>
-    <nb-card-header style="text-align: center;">Invoice</nb-card-header>
+    <nb-card-header style="text-align: center;font-size: large;"><b >Invoice</b> </nb-card-header>
     <nb-card-body>
         <!-- <div class="row">
             <div class="col-md-2">
@@ -130,13 +130,13 @@
                     <td colspan="6">
                         <div class="row">
                            
-                            <div class="col-md-10" style="text-align: left;">
-                               &nbsp; <img src="../assets/images/D5N_Logo.jpg"  width="60px" height="60px" alt=""><b><span style="font-weight: 500;"></span></b> <br>
+                            <div class="col-md-12" style="text-align: left;">
+                               &nbsp; <img src="../assets/images/D5N_Logo.jpg"  width="60px" height="60px" alt=""><b><span style="font-weight: 500;text-align: center;"><h2>{{store_name}}</h2>
+                                <h6>{{address}}</h6></span></b> <br>
                                
                             </div>
-                            <div style="text-align: center;">
-                                <h2>{{store_name}}</h2>
-                                <h6>{{address}}</h6>
+                            <div style="text-align:center;">
+                                
                             </div>
                 
                         </div>
@@ -157,13 +157,11 @@
                         <h6>Shipping Details (Ship To)</h6>
                         <p><b>Name:</b> {{vendor_name}}</p>
                         <p><b>Address:</b>  {{shipping_address}}</p>
-                        <p><b>State:</b>  Karnataka</p>
-                        <p><b>Phone No:</b>  9448059232</p>
-                        <p><b>GSTIN:</b>  29AHKPR7842N1ZB</p>
+                      
                      </td>
                      <td colspan="3" style="text-align: left;">
-                        <p>PO No. :{{po_number}}</p><br>
-                        <p>Date :{{po_date}} </p><br>
+                        <p> <b>PO No.</b>  :{{po_number}}</p><br>
+                        <p> <b>Date :</b>{{po_date}}  </p><br>
                         <p><b>Dispatch Doc No:</b> </p><br>
                         <p><b>Date:</b> </p>
                      </td>
@@ -172,16 +170,14 @@
                     <td colspan="3" style="text-align: left;">
                        <h6>Billing Details (Bill To)</h6>
                        <p><b>Name:</b> {{vendor_name}}</p>
-                       <p><b>Address:</b>  {{shipping_address}}</p>
-                       <p><b>State:</b>  Karnataka</p>
-                       <p><b>Phone No:</b>  9448059232</p>
-                       <p><b>GSTIN:</b>  29AHKPR7842N1ZB</p>
+                       <p><b>Address:</b>  {{shipping_address}}{{vendor_number}}</p>
+                      
                     </td>
                     <td colspan="3" style="text-align: left;">
-                       <p>PO No. :{{po_number}}</p><br>
-                       <p>Date :{{po_date}} </p><br>
-                       <p><b>Dispatch Doc No:</b> </p><br>
-                       <p><b>Date:</b> </p>
+                        <p> <b>PO No.</b>  :{{po_number}}</p><br>
+                        <p> <b>Date :</b> {{po_date}} </p><br>
+                        <p><b>Dispatch Doc No:</b> </p><br>
+                        <p><b>Date:</b> </p>
                     </td>
                 </tr>
                 <tr>
@@ -189,7 +185,7 @@
                     <th>Item Name</th>
                     <th>Qty</th>
                     <th>Rate</th>
-                    <th>tax per</th>
+                    
                     <th>tax amount</th>
                     <th>Amount</th>
                 </tr>
@@ -197,7 +193,6 @@
                     <td >{{item.product__product_name}}</td>
                     <td>{{item.qty}}</td>
                     <td>{{item.unit_price}}</td>
-                    <td>{{item.disc_amount}}</td>
                    <td>{{item.gst_amount}}</td>
                     <td>{{item.total_amount}}</td>
                 </tr>
@@ -206,7 +201,7 @@
                 </tr>
 
                 <tr>
-                    <td colspan="3" >
+                    <td colspan="3" style="visibility: hidden;" >
                         
                         <table class="table-bordered diftab">
                             <thead> 
@@ -247,12 +242,11 @@
                     </td>
                     <td colspan="3" style="text-align: left;">
                         <h6>Total Amount</h6>
-                        <p>Discount Amount: </p>
-                        <p>per Tax:  {{shipping_address}}</p>
-                        <p>Taxable Amount:  </p>
-                        <p>Post Tax:  </p>
-                        <p>CGST:  </p>
-                        <p>SCGST:  </p>
+                        <p>Discount Amount: {{disc_amount}}</p>
+                       
+                        <p>CGST: {{cgst}} </p>
+                        <p>SGST:{{sgst}}  </p>
+                        <p>iGST:{{igst}}  </p>
                         
                         
                         <hr>
@@ -262,12 +256,12 @@
 
                 </tr>
                 <tr>
-                    <td colspan="6" style="text-align: left;">Rupees:One Thousand Two Hundred</td>
+                    <td colspan="6" style="text-align: left;"><b>Rupess:</b> {{grandTotal | amountToWord}}</td>
                 </tr>
                 <tr>
                     <td colspan="6">
                         <div class="row">
-                            <div class="col-md-6" style="text-align: left;">
+                            <div class="col-md-12" style="text-align: left;">
                                 <b><h6>Terms and Conditions</h6></b>
                                 <p>1. All the dispute will be Subject to Bangalore Jurisdiction. <br>
                                     2. In all claims the company decision is final and binding. <br>

@@ -7,8 +7,8 @@ class VendorService:
 
     @classmethod
     def generate_vendor_code(cls, vendor_type):
-        if vendor_type == "FARMER":
-            v_type = 'F'
+        if vendor_type == "SUPPLIER":
+            v_type = 'S'
         else:
             v_type = 'WS'
 

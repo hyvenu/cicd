@@ -27,6 +27,7 @@ import { GrnListComponent } from './grn-list/grn-list.component';
 
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { PurchaseInvoicePageComponent } from './purchase-invoice-page/purchase-invoice-page.component';
+import { AmountToWordPipe } from './amount-to-word.pipe';
 
 
 const routes: Routes = [
@@ -42,7 +43,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ManageVendorComponent,VendorListComponent, PurchaseRequisitionComponent, PurchaseRequisitionListComponent, ManageGrnComponent, PurchaseOrderComponent, PurchaseOrderListComponent, GrnListComponent, PurchaseInvoicePageComponent],
+  declarations: [ManageVendorComponent,VendorListComponent, PurchaseRequisitionComponent, PurchaseRequisitionListComponent, ManageGrnComponent, PurchaseOrderComponent, PurchaseOrderListComponent, GrnListComponent, PurchaseInvoicePageComponent, AmountToWordPipe],
   imports: [
     CommonModule,
     ReactiveFormsModule,

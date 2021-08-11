@@ -51,17 +51,31 @@
                         <div *ngIf=" submitted && f.emailId.errors.email"> Email Must Be Valid </div>
                     </div>
                 </div>
-                <div class="form-group col-md-3">
+                <!-- <div class="form-group col-md-3">
+                    <label for="stateName">State<span style="color: red;">*</span></label>
+                    <select style="width: 14em;height:2.5em" class="form-control" [(ngModel)]="selectionModel" nbInput
+                    name="stateName" formControlName="vendorStateCodeFormControl"
+                     (change)="onChange()" >
+                 <option value="" disabled selected>Please select</option> -->
+                        <!-- <option *ngFor="let item of state" value="item.value" >
+                                 {{ item.name}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && f.vendorStateCodeFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.vendorStateCodeFormControl.errors.required">State Name is required</div>
+                    </div>
+                </div> --> 
+              <div class="form-group col-md-3">
                     <label for="vendorStateCode">State Code<span style="color: red;">*</span> </label>
-                    <input nbInput formControlName="vendorStateCodeFormControl" name="vendorStateCode"
+                    <input nbInput formControlName="vendorStateCodeFormControl" (keypress)="state_open(state_dialog)" (click)="state_open(state_dialog)" name="vendorStateCode"
                         placeholder="State Code " class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.vendorStateCodeFormControl.errors }"
                         />
                        <div *ngIf="submitted && f.vendorStateCodeFormControl.errors" class="invalid-feedback">
                             <div *ngIf=" submitted && f.vendorStateCodeFormControl.errors.required"> State Code is Required</div> 
-                           <!-- <div *ngIf=" submitted && f.vendorStateCodeFormControl.errors.email"> Email Must Be Valid </div> -->
+                           
                        </div> 
-                </div>
+                </div> 
                 <!--<div class="col-md-2">
                     <label for="vendorStateName">State </label>
                     <input nbInput formControlName="vendorStateNameFormControl" name="vendorStateName"
@@ -308,3 +322,21 @@
         </form>
     </nb-tab>
 </nb-tabset>
+
+<ng-template #state_dialog let-data let-ref="dialogRef">
+    <nb-card size="medium">
+        <nb-card-header>State List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchState" /></nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of state | search_filter:'name':searchState ">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.name }}-{{item.value}}</i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+

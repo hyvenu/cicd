@@ -29,6 +29,10 @@ export class PurchaseInvoicePageComponent implements OnInit {
   store_name: any;
   address: any;
   store_list: any;
+  sgst: any;
+  cgst: any;
+  igst: any;
+  disc_amount: any;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -64,6 +68,13 @@ export class PurchaseInvoicePageComponent implements OnInit {
           this.gst_no = this.invoice_details.vendor__gst_no
           this.po_number = this.invoice_details.po_number
           this.po_date = this.invoice_details.po_date
+          this.vendor_number = this.invoice_details.mobile_no;
+          this.disc_amount = this.invoice_details.order_details[0].disc_amount;
+          console.log(this.disc_amount)
+          this.sgst = this.invoice_details.sgst
+          this.cgst = this.invoice_details.cgst
+          this.igst = this.invoice_details.igst
+          
           
           
           

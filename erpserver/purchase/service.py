@@ -278,6 +278,7 @@ class PurchaseService:
             'invoice_amount',
             'terms_conditions',
             'store_id',
+
         )[0]
 
         po_data_list['order_details'] = list(PoOrderDetails.objects.filter(po_order_id=po_id).all().values(

@@ -343,7 +343,7 @@ export class PurchaseOrderComponent implements OnInit {
                   //  this.product_list = data
                    this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_no);
                    if (data.status !== 'APPROVED'){
-                     this.nbtoastService.warning("Selected PR is  Rejected");
+                     this.nbtoastService.warning("Selected PR is  Not Approved");
                      return;
                    }
                    this.purchaseService.getPRDetails(data.id).subscribe(
@@ -403,11 +403,13 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   delete_product(id): any {
+   
     const data = { 'id' : id}
     this.purchaseService.deleteProductFromPO(data).subscribe(
       (data) => {
         this.nbtoastService.info("Item Removed");
-        this.ngOnInit();
+        
+        this.calculate_total();
       },
       (error) =>{
         this.nbtoastService.danger("Unable remove product");
