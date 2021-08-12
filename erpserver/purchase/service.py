@@ -61,6 +61,7 @@ class PurchaseService:
             'store',
             'required_qty',
            'unit',
+            'unit__PrimaryUnit',
             'expected_date',
             'active',
         )

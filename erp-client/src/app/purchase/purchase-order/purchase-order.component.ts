@@ -147,7 +147,7 @@ export class PurchaseOrderComponent implements OnInit {
           this.store_id = data.store_id;
           this.vendor_id = data.vendor_id;
           this.selected_vendor = this.vendor_list.find(item => item.id == data.vendor_id)
-          this.not_approved = this.pr_list.find(item => item.status == data.status)
+          this.not_approved = this.pr_list.find(item => item.pr_number == data.pr_no)
           console.log(this.not_approved)
           console.log(this.selected_vendor)
           for(let i=0;i<data.order_details.length;i++){
@@ -193,6 +193,7 @@ export class PurchaseOrderComponent implements OnInit {
         this.nbtoastService.danger(error, "Error")
       }
     );
+    this.calculate_total();
 
   }
 
@@ -405,7 +406,7 @@ export class PurchaseOrderComponent implements OnInit {
       }
     )
   }else{
-    this.nbtoastService.success(`PO is Not approved`);
+    this.nbtoastService.danger(`PO is Not approved`);
   }
 }
 
@@ -430,7 +431,8 @@ export class PurchaseOrderComponent implements OnInit {
     this.purchaseService.deleteProductFromPO(data).subscribe(
       (data) => {
         this.nbtoastService.info("Item Removed");
-        this.calculate_total();
+        this.ngOnInit()
+       
         
        
         

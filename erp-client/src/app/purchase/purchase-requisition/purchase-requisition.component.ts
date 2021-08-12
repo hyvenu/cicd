@@ -88,6 +88,7 @@ export class PurchaseRequisitionComponent implements OnInit {
       
       this.purchaseService.getPRDetails(param1).subscribe((data) => {
         console.log(data)
+        this.deleterow = true
         this.pr_id = data.id
         this.pr_status = data.status
         this.prForm.controls['prNoFormControl'].setValue(data.pr_no);
@@ -152,9 +153,8 @@ export class PurchaseRequisitionComponent implements OnInit {
           product_name: data.product_name,
           description: '',
           store: this.store_name,
-          required_qty: data.product_price__qty,
-          unit: data.product_price__unit__PrimaryUnit,
-          // unit_price:data.product_price__unit_price,
+          required_qty: '',
+          unit:'',
           expected_date: '',
           active:''
         });
@@ -201,6 +201,7 @@ export class PurchaseRequisitionComponent implements OnInit {
   }
 
   delete(item): any {
+    this.deleterow = true
     const formData = new FormData()
     formData.append('id', item.id);
     this.purchaseService.deleteProductFromPR(formData).subscribe(
@@ -221,10 +222,6 @@ export class PurchaseRequisitionComponent implements OnInit {
     if (index !== -1) {
         this.selected_product_list.splice(index, 1);
     } 
-   
-
-  
-   
   }
 
   rejectPR():any {
