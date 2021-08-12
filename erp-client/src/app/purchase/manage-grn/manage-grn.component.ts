@@ -234,7 +234,7 @@ export class ManageGrnComponent implements OnInit {
     this.sub_total = st;
     if (this.vendor_state_code == '29') {
         this.sgst = this.sgst / 2;
-        this.cgst = this.sgst;
+        this.cgst = this.sgst/2;
     } else {
       this.igst = this.sgst/2;
       this.sgst = 0;

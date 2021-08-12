@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { sub } from 'date-fns';
+import { getWeekYearWithOptions } from 'date-fns/fp';
 import { AdminService } from 'src/app/admin/admin.service';
 import { InventoryService } from 'src/app/inventory/inventory.service';
 import { OrderService } from '../order.service';
@@ -20,6 +21,8 @@ export class SalesBillComponent implements OnInit {
 
   currentlyChecked: CheckBoxType;
   passed_flag:boolean = true;
+  customernew_id: any;
+  booking_historys: any;
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -97,6 +100,8 @@ export class SalesBillComponent implements OnInit {
     private dialogService: NbDialogService,
   ) { }
 
+
+
   ngOnInit(): void {
     this.user_name = sessionStorage.getItem('first_name');
     console.log(this.user_name)
@@ -147,27 +152,37 @@ export class SalesBillComponent implements OnInit {
     this.adminService.getCustomerList().subscribe(
       (data) => {
         this.customer_list = data;
-       // this.customer_id = this.customer_list.id
-         
+        // this.customernew_id = data.id
+        // console.log(this.customernew_id)
+      
+    
+        
         
       },
       (error) => {
         this.nbtoastService.danger("Unable to get customer List")
       }
     )
+ 
+    
 
     let customer = this.route.snapshot.queryParams['id']
 
     if(customer){
       this.adminService.getCustomerDetails(customer).subscribe(
         (data)=>{
+          console.log(data)
         this.invoiceForm.controls['customerNameFormControl'].setValue(data.customer_name);
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(data.phone_number);
-       this.invoiceForm.controls['customerEmailFormControl'].setValue(data.customer_name);
+       this.invoiceForm.controls['customerEmailFormControl'].setValue(data.customer_email);
+       this.customer_id = data.id;
+       this.booking_history = this.booking_historys.find(item => item.customer == data.id)
+       console.log(data.id)
 
         }
       )
     }
+    
     
   }
 
@@ -203,7 +218,8 @@ export class SalesBillComponent implements OnInit {
   open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
-       this.customer_object = data   
+       this.customer_object = data 
+       console.log(this.customer_object)  
        this.customer_id = data.id; 
        console.log(this.customer_id)   
        this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
@@ -213,7 +229,7 @@ export class SalesBillComponent implements OnInit {
        this.adminService.getBookinHistory(this.customer_object.id).subscribe(
         (data2)=>{
           this.booking_history = data2
-          
+          console.log(this.booking_history)
           this.booking_history.forEach(element => {
                this.booking_id= element.id              
           });

@@ -289,11 +289,12 @@ export class PurchaseOrderComponent implements OnInit {
       this.sgst = total_gst / 2;
       this.cgst = total_gst / 2;
       } else {
-      this.igst = total_gst;
+      this.igst = total_gst/2;
+      this.cgst = total_gst/2;
       }
     }else {
-      this.igst = total_gst/2 ;
-      this.cgst = total_gst / 2;
+      this.igst = total_gst;
+      ;
     }
 
     this.invoice_amount = (parseFloat(this.igst) + parseFloat(this.cgst) + parseFloat(this.sgst) + parseFloat(this.total_amount)).toFixed(2);
