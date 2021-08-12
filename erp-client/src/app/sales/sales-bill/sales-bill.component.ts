@@ -152,6 +152,7 @@ export class SalesBillComponent implements OnInit {
     this.adminService.getCustomerList().subscribe(
       (data) => {
         this.customer_list = data;
+        console.log("customer_list", this.customer_list)
         // this.customernew_id = data.id
         // console.log(this.customernew_id)
       
@@ -176,8 +177,9 @@ export class SalesBillComponent implements OnInit {
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(data.phone_number);
        this.invoiceForm.controls['customerEmailFormControl'].setValue(data.customer_email);
        this.customer_id = data.id;
-       this.booking_history = this.booking_historys.find(item => item.customer == data.id)
+      //  this.booking_history = this.booking_historys.find(item => item.customer == data.id)
        console.log(data.id)
+       this.get_bookingHistory(this.customer_id)
 
         }
       )
@@ -226,42 +228,45 @@ export class SalesBillComponent implements OnInit {
        this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
        this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
-       this.adminService.getBookinHistory(this.customer_object.id).subscribe(
-        (data2)=>{
-          this.booking_history = data2
-          console.log(this.booking_history)
-          this.booking_history.forEach(element => {
-               this.booking_id= element.id              
-          });
-          console.log(this.booking_id)
-          
-          this.booking_history.forEach(element => {
-            this.invoice_items.push(
-              {item_id:"",
-                booking_id:element.id,
-                service_id:element.service__id,
-                item_description:element.service__service_name,
-                quantity:0,
-                unit:"",
-                price:element.service__price,
-                item_total:0,
-                tax:element.service__service_gst,
-                gst_value:0
-              }
-            )
-            
-            
-          });
-          
-         
-        }
-      )
+      this.get_bookingHistory(this.customer_object.id)
       
     }
     );
     
 
 
+  }
+  get_bookingHistory(id){
+    this.adminService.getBookinHistory(id).subscribe(
+      (data2)=>{
+        this.booking_history = data2
+        console.log(this.booking_history)
+        this.booking_history.forEach(element => {
+             this.booking_id= element.id              
+        });
+        console.log(this.booking_id)
+        
+        this.booking_history.forEach(element => {
+          this.invoice_items.push(
+            {item_id:"",
+              booking_id:element.id,
+              service_id:element.service__id,
+              item_description:element.service__service_name,
+              quantity:0,
+              unit:"",
+              price:element.service__price,
+              item_total:0,
+              tax:element.service__service_gst,
+              gst_value:0
+            }
+          )
+          
+          
+        });
+        
+       
+      }
+    )
   }
   onEvnetChange(event) {
     this.event = event.target.value;
