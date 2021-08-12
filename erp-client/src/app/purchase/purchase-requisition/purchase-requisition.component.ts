@@ -32,7 +32,7 @@ export class PurchaseRequisitionComponent implements OnInit {
   selectedOption;
   pr_id;
   store_id;
-  deleterow=false;
+  deleterow=true;
   selected_product_list = [];
   submitted: boolean=false;
 
@@ -88,7 +88,7 @@ export class PurchaseRequisitionComponent implements OnInit {
       
       this.purchaseService.getPRDetails(param1).subscribe((data) => {
         console.log(data)
-        this.deleterow = true
+        
         this.pr_id = data.id
         this.pr_status = data.status
         this.prForm.controls['prNoFormControl'].setValue(data.pr_no);
@@ -141,7 +141,7 @@ export class PurchaseRequisitionComponent implements OnInit {
       .onClose.subscribe(data => {
         //  this.product_list = data
         console.log(data)
-        
+        this.deleterow = false
         if(this.selected_product_list.some(element => element.product_name == data.product_name)){
           this.nbtoastService.danger("product name already exist");
         }else{
@@ -201,7 +201,7 @@ export class PurchaseRequisitionComponent implements OnInit {
   }
 
   delete(item): any {
-    this.deleterow = true
+    
     const formData = new FormData()
     formData.append('id', item.id);
     this.purchaseService.deleteProductFromPR(formData).subscribe(
@@ -217,10 +217,11 @@ export class PurchaseRequisitionComponent implements OnInit {
   }
 
   remove_item(item): void{
-    this.deleterow=false
+   
     const index: number = this.selected_product_list.indexOf(item);
     if (index !== -1) {
         this.selected_product_list.splice(index, 1);
+        this.nbtoastService.success("Product deleted from PR Successfully")
     } 
   }
 
