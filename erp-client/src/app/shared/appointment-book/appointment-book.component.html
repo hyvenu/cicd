@@ -61,7 +61,7 @@
             <div class="form-row">
                 <div class="form-group col-md-2">
                     <label >Service <span style="color: red;">*</span></label>
-                    <nb-select style="width: 20em;" name="services" formControlName="serviceFormControl" [(selected)]="selected_service" multiple >
+                    <nb-select style="width: 20em;" name="services" [(ngModel)]="service" formControlName="serviceFormControl" [(selected)]="selected_service" multiple >
                         <nb-option *ngFor="let o of service_list" value="{{o.id}}" >
                             {{ o.service_name }}-{{o.price}}-{{o.service_gst}}%gst-{{o.service_hour}}
                         </nb-option>
