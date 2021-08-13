@@ -143,11 +143,12 @@
                             <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
                             <td><input nbInput  fieldSize="small"placeholder=""  value="{{item.product_name}} - {{item.description}}" readonly/></td>
                             <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
-                            <td ><nb-select size="small" class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
+                            <!-- <td ><nb-select size="small" class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
                                 <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                     {{ o.PrimaryUnit }}
                                 </nb-option>
-                            </nb-select></td>
+                            </nb-select></td> -->
+                            <td><input nbInput  oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Unit" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_id" (change)="calculate_sub_total(item);"/></td>
                             <td ><input nbInput fieldSize="small"  [(ngModel)]="item.delivery_date" [nbDatepicker]="del_datepicker" [ngModelOptions]="{standalone: true}"
                                 placeholder="Date" /></td>
                             <td><input nbInput  fieldSize="small" style="width: 8em;" min="0" placeholder="Unit Price" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate_sub_total(item);"  /></td>    

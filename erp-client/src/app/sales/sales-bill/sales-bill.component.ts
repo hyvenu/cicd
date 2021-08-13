@@ -194,7 +194,7 @@ export class SalesBillComponent implements OnInit {
     
     const data = {item_id:'',item_description:'',quantity:'',unit:'',price:'',item_total:'',gst_value:'',tax:''}
     this.invoice_items.push(data)
-    this.calculate_price()
+    //this.calculate_price()
     // this.calculate_gst()
     // this.calculate_totalGst()
   }

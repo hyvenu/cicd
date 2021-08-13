@@ -148,8 +148,8 @@ export class PurchaseRequisitionComponent implements OnInit {
           product_name: data.product_name,
           description: '',
           store: this.store_name,
-          required_qty: '',
-          unit: '',
+          required_qty: data.product_price__qty,
+          unit: data.product_price__unit__PrimaryUnit,
           // unit_price:data.product_price__unit_price,
           expected_date: '',
           active:''

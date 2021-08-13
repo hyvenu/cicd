@@ -227,7 +227,7 @@ export class ManageGrnComponent implements OnInit {
     this.selected_product_list.forEach(element => {
       console.log("chnaged event called " + this.sub_total);
 
-      st = (st + Number(element.amount));
+      st = (st + Number(element.total));
       console.log("chnaged event called " + this.sub_total);
       this.sgst = this.sgst + Number(element.gst);
     });

@@ -55,6 +55,7 @@ class PurchaseService:
             'id',
             'pr_no_rf',
             'product',
+            'product__product_price__unit_price',
             'product_code',
             'product_name',
             'description',

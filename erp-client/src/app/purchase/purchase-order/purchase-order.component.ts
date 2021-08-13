@@ -214,6 +214,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
       .onClose.subscribe(data => {
         //  this.product_list = data
+        console.log(data)
         if(this.selected_product_list.some(element => element.product_name == data.product_name)){
           this.nbtoastService.danger("product name already exist");
         }else{
@@ -223,10 +224,10 @@ export class PurchaseOrderComponent implements OnInit {
           product_code: data.product_code,
           product_name: data.product_name,
           description: data.product_description,
-          qty: 0,
-          unit_id: '',
+          qty: data.product_price__qty,
+          unit_id: data.product_price__unit__PrimaryUnit,
           delivery_date: '',
-          unit_price: 0.0,
+          unit_price: data.product_price__unit_price,
           gst: 0.0,
           amount: 0.0,
           disc_percent: 0.0,
@@ -318,6 +319,7 @@ export class PurchaseOrderComponent implements OnInit {
                    this.purchaseService.getPRDetails(data.id).subscribe(
                      (pr_data) => {
                        console.log(pr_data)
+                       console.log(pr_data.selected_product_list[0].product__product_price__unit_price)
                         this.store_id = pr_data.store_id;
                         let pr_products = pr_data['selected_product_list']
                         pr_products.forEach(element => {
@@ -330,7 +332,7 @@ export class PurchaseOrderComponent implements OnInit {
                             qty: element.required_qty,
                             unit_id: element.unit,
                             delivery_date: moment(element.expected_date),
-                            unit_price: 0.0,
+                            unit_price: element.product__product_price__unit_price,
                             gst: 0.0,
                             amount: 0.0,
                             disc_percent: 0.0,
