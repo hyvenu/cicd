@@ -98,6 +98,8 @@ class InventoryService:
             'product_price__unit__PrimaryUnit',
             'product_price__qty',
             'product_price__unit_price',
+            'product_price__tax',
+            'product_price__unit',
         )
 
         # for prd in product_dict:

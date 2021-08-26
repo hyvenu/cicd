@@ -151,3 +151,15 @@ class AppointmentSchedule(AuditUuidModelMixin):
 
     def __str__(self):
         return str(self.pk)
+
+
+class AppointmentForMultipleService(AuditUuidModelMixin):
+    appointment = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE,null=True, blank=True)
+    service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+

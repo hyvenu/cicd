@@ -9,6 +9,7 @@ import { ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Identifiers } from '@angular/compiler';
 import * as moment from 'moment';
+import { parse } from 'date-fns';
 
 @Component({
   selector: 'app-manage-grn',
@@ -44,6 +45,9 @@ export class ManageGrnComponent implements OnInit {
   grndate: any;
   invoicedate: any;
   submitted: boolean=false;
+  total_gst: number;
+  vendor_list: any;
+  select_code: any;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -55,6 +59,15 @@ export class ManageGrnComponent implements OnInit {
     private dialogService: NbDialogService,) { }
 
   ngOnInit(): void {
+
+    this.purchaseService.getVendorList().subscribe(
+      (data) => {
+        this.vendor_list = data;
+      },
+      (error) => {
+        this.nbtoastService.danger("Error while getting vendor list")
+      }
+    )
     this.IsGrnInfo = true;
     this.selected_product_list = [];
     this.sub_total = 0;
@@ -84,6 +97,7 @@ export class ManageGrnComponent implements OnInit {
     if (param) {
       this.purchaseService.getGRNDetails(param).subscribe(
         (data) => {
+          console.log(data)
           // this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
           this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
           this.grnMasterForm.controls['grnNumberFormControl'].setValue(data.grn_code);
@@ -100,15 +114,20 @@ export class ManageGrnComponent implements OnInit {
           this.grnMasterForm.controls['transporterNameFormControl'].setValue(data.transporter_name);
           this.grnMasterForm.controls['statutoryDetailsFormControl'].setValue(data.statutory_details);
           this.grnMasterForm.controls['noteFormControl'].setValue(data.note);
-          this.grnMasterForm.controls['invoiceDocumentFormControl'].setValue(data.invoice_doc);
-          
+          // this.grnMasterForm.controls['invoiceDocumentFormControl'].setValue(data.invoice_doc);
+          this.vendor_id=data.vendor
           this.store_id = data.store_id;
-
+          this.select_code = this.vendor_list.find(item => item.id == this.vendor_id)
+          this.vendor_state_code= this.select_code.state_code
+          console.log(this.vendor_state_code)
+          console.log(this.store_id)
+          
+          
           this.sub_total = data.sub_total;
           this.grand_total = (data.grand_total);
-          this.sgst = data.sgst;
-          this.cgst = (data.cgst);
-          this.igst = (data.igst);
+          this.sgst = parseFloat(data.sgst);
+          this.cgst = parseFloat(data.cgst);
+          this.igst = parseFloat(data.igst);
           this.selected_product_list = data.product_list;
           
           this.selected_product_list.forEach((element) => {
@@ -118,6 +137,8 @@ export class ManageGrnComponent implements OnInit {
 
         });
     }
+
+   
     
     this.inventoryService.getUnitMasterList().subscribe(
       (data) => {
@@ -139,9 +160,11 @@ export class ManageGrnComponent implements OnInit {
             //  this.product_list = data
             this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
             this.purchaseService.getVendor(data.vendor_id).subscribe((data2) => {
+              console.log(data2)
               this.vendor_code = data2.vendor_code;
-              this.vendor_id = data.vendor_id;
-              this.vendor_state_code = data.state_code;
+              this.vendor_id = data2.id;
+              this.vendor_state_code = data2.state_code;
+              
               this.store_id = data.store_id;
               this.grnMasterForm.controls['vendorNameFormControl'].setValue(data2.vendor_name);
               this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data2.branch_ofc_addr);
@@ -221,7 +244,7 @@ export class ManageGrnComponent implements OnInit {
     item.gst_amount = item.amount * item.gst / 100;
     item.total = item.amount + item.gst_amount;
     this.sub_total = 0;
-    this.sgst = 0;
+    this.total_gst = 0;
     let st = 0;
     
     this.selected_product_list.forEach(element => {
@@ -229,16 +252,16 @@ export class ManageGrnComponent implements OnInit {
 
       st = (st + Number(element.total));
       console.log("chnaged event called " + this.sub_total);
-      this.sgst = this.sgst + Number(element.gst);
+      this.total_gst = this.total_gst + Number(element.gst_amount);
     });
     this.sub_total = st;
     if (this.vendor_state_code == '29') {
-        this.sgst = this.sgst / 2;
-        this.cgst = this.sgst/2;
+        this.sgst = this.total_gst / 2;
+        this.cgst = this.total_gst/2;
     } else {
-      this.igst = this.sgst/2;
+      this.igst = this.total_gst/2;
       this.sgst = 0;
-      this.cgst = this.sgst/2
+      this.cgst = this.total_gst/2
     }
     this.grand_total = this.sub_total + ((this.sgst + this.cgst) * this.sub_total / 100)
   }

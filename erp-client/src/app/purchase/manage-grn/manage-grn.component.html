@@ -1,3 +1,4 @@
+
 <div class="form-row">
     <a nbButton [routerLink]="['/GrnList']" status="success" size="small">Back to Purchase order list</a>
 </div>
@@ -19,7 +20,7 @@
                         <div *ngIf="submitted && f.grnDateFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.grnDateFormControl.errors.required">GRN Date is required</div>
                         </div> 
-                    <nb-datepicker #datepicker></nb-datepicker>
+                    <nb-datepicker format="yyyy-MM-DD"  #datepicker></nb-datepicker>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="invoiceDate">Invoice Date<span style="color: red;">*</span></label>
@@ -29,7 +30,7 @@
                         <div *ngIf="submitted && f.invoiceDateFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.invoiceDateFormControl.errors.required">Invoice Date is required</div>
                         </div> 
-                    <nb-datepicker format="DD-MM-yyyy" #invoicedatepicker></nb-datepicker>
+                    <nb-datepicker format="yyyy-MM-DD"  #invoicedatepicker></nb-datepicker>
                 </div>
              
             </div><br>
@@ -186,7 +187,7 @@
                                 <td><input nbInput [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" [nbDatepicker]="expiry_date_datepicker"
                                     placeholder="Date" />
                                     <!-- <input [nbDatepicker]="datepicker"> -->
-                                    <nb-datepicker format="DD-MM-yyyy"  #expiry_date_datepicker></nb-datepicker>
+                                    <nb-datepicker format="yyyy-MM-DD"  #expiry_date_datepicker></nb-datepicker>
                                     </td>
                             </tr>
                         </tbody>

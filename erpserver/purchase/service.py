@@ -63,6 +63,7 @@ class PurchaseService:
             'required_qty',
            'unit',
             'unit__PrimaryUnit',
+            'product__product_price__tax',
             'expected_date',
             'active',
         )
@@ -289,6 +290,7 @@ class PurchaseService:
             "product_name",
             "product_code",
             "unit_id",
+            "unit__PrimaryUnit",
             "qty",
             "delivery_date",
             "unit_price",
@@ -422,7 +424,7 @@ class PurchaseService:
         grn_req.igst = grn_data['igst']
         grn_req.store_id = grn_data['store_id']
 
-        if len(file.getlist('panDoc[]')) > 0:
+        if len(file.getlist('invoiceDoc[]')) > 0:
             for image in file.getlist('invoiceDoc[]'):
                 grn_req.invoice_doc = image
 
@@ -494,6 +496,7 @@ class PurchaseService:
             'igst',
             'store_id',
             'invoice_doc',
+            
         )[0]
 
         grn_data_list['product_list'] = list(GRNProductList.objects.filter(grn=grn_id).all().values(

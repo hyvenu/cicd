@@ -14,7 +14,7 @@ User = get_user_model()
 
 class OrderRequest(AuditUuidModelMixin):
     order_raised_date = models.DateTimeField(null=True)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE,default="")
     order_number = models.CharField(max_length=20, unique=True, null=True)
     order_status = models.IntegerField(null=True)
     shipping_address = models.ForeignKey(CustomerAddress, on_delete=models.CASCADE, null=True,
@@ -38,7 +38,7 @@ class OrderRequest(AuditUuidModelMixin):
 
 
 class OrderDetails(AuditUuidModelMixin):
-    order = models.ForeignKey(OrderRequest, on_delete=models.CASCADE)
+    order = models.ForeignKey(OrderRequest, on_delete=models.CASCADE, default="")
     product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, null=True)
     pack_unit = models.ForeignKey(ProductPriceMaster, on_delete=models.CASCADE, null=True)
     service_name = models.CharField(max_length=255, null=True)
@@ -55,7 +55,7 @@ class OrderDetails(AuditUuidModelMixin):
 
 
 class OrderEvents(AuditUuidModelMixin):
-    order = models.ForeignKey(OrderRequest, on_delete=models.CASCADE)
+    order = models.ForeignKey(OrderRequest, on_delete=models.CASCADE,default="")
     event_date = models.DateTimeField(null=True, blank=True)
     order_status = models.IntegerField(default=0, null=True)
     description = models.CharField(max_length=2000, null=True, default=None)

@@ -28,6 +28,7 @@ export class AppointmentBookComponent implements OnInit {
   submitted: boolean = false;
   passed_flag:boolean = false;
   service;
+  selectedService: any;
 
 
 
@@ -111,7 +112,7 @@ export class AppointmentBookComponent implements OnInit {
              this.nbtoastService.success("Booking information updated")
              this.bookingForm.reset();
              this.booking_id=null;
-             this.service = null;
+             this.selected_service = null;
              
           },  
           (error) => {

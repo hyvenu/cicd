@@ -9,8 +9,8 @@ User = get_user_model()
 
 
 class Cart(AuditUuidModelMixin):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,default="")
     pack_unit = models.ForeignKey(ProductPriceMaster, on_delete=models.CASCADE,null=True)
     unit_price = models.DecimalField(max_digits=10,decimal_places=2,default=0)
     qty = models.IntegerField(null=True, default=0)
@@ -23,15 +23,15 @@ class Cart(AuditUuidModelMixin):
 
 
 class WishList(AuditUuidModelMixin):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wish_list")
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="wish_product")
+    user = models.ForeignKey(User,default="", on_delete=models.CASCADE, related_name="wish_list")
+    product = models.ForeignKey(ProductMaster,default="", on_delete=models.CASCADE, related_name="wish_product")
 
     class Meta:
         pass
 
 class Rating(AuditUuidModelMixin):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default="")
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,default="")
     rating = models.IntegerField(null=True,default=0)
     comment = models.CharField(null=True, max_length=1000)
     isdelete = models.BooleanField(null=True,default=False)

@@ -25,6 +25,6 @@ class Transaction(AuditUuidModelMixin):
     transaction_date = models.DateTimeField()
     receipt_id = models.CharField(max_length=50)
     customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    payment = models.ForeignKey(Payments, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payments, on_delete=models.CASCADE,default="")
     amount = models.DecimalField(max_digits=10,decimal_places=2,default=0)
 

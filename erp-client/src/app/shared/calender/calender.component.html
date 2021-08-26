@@ -1,4 +1,4 @@
-<nb-card>
+<!-- <nb-card>
 <div class="row text-center">
     <div class="col-md-4">
       <div class="btn-group">
@@ -89,11 +89,11 @@
       (eventTimesChanged)="eventTimesChanged($event)"
     >
     </mwl-calendar-day-view>
-  </div>
+  </div> -->
   
   <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
   
-  <br /><br /><br />
+  <!-- <br /><br /><br />
   
   <h3>
     Edit events
@@ -181,4 +181,17 @@
     </table>
   </div>
 </nb-card> 
-   
+    -->
+
+  <div>
+    <button stats=sucess>Previous</button><label for="">Select Date</label><button>Next</button>
+    <input nbInput name="bookingDate" autocomplete="off" placeholder="Select Date" [(ngModel)]="date" [nbDatepicker]="booking_date" 
+     class="form-control"/>
+    <nb-datepicker #booking_date format="yyyy-MM-DD" (dateChange)="onStartDateChanged($event)"></nb-datepicker>
+</div><br>
+	<div id="container">
+	
+	
+	
+	</div>
+	

@@ -14,7 +14,7 @@ class Groups(AuditUuidModelMixin):
 
 class SubGroups(AuditUuidModelMixin):
     sub_group_name = models.CharField(max_length=1000)
-    category = models.ForeignKey(Groups,on_delete=models.CASCADE())
+    category = models.ForeignKey(Groups,on_delete=models.CASCADE(),default="")
 
     def __str__(self):
         return  self.group_name

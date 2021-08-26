@@ -35,6 +35,7 @@ export class PurchaseRequisitionComponent implements OnInit {
   deleterow=false;
   selected_product_list = [];
   submitted: boolean=false;
+  unit_name: any;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -102,7 +103,8 @@ export class PurchaseRequisitionComponent implements OnInit {
          console.log(element)
          this.selected_product_list.push({
            ...element,
-           expected_date:moment(element.expected_date) ,
+           unit_name:element.unit__PrimaryUnit,
+           expected_date:moment(element.expected_date),
            active:'',
 
         });
@@ -135,6 +137,7 @@ export class PurchaseRequisitionComponent implements OnInit {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
       .onClose.subscribe(data => {
         //  this.product_list = data
+        this.unit_name = data.product_price__unit__PrimaryUnit
         console.log(data)
         
         if(this.selected_product_list.some(element => element.product_name == data.product_name)){
@@ -149,7 +152,8 @@ export class PurchaseRequisitionComponent implements OnInit {
           description: '',
           store: this.store_name,
           required_qty: data.product_price__qty,
-          unit: data.product_price__unit__PrimaryUnit,
+          unit: data.product_price__unit,
+          unit_name:this.unit_name,
           // unit_price:data.product_price__unit_price,
           expected_date: '',
           active:''

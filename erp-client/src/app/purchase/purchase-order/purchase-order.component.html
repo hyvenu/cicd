@@ -148,11 +148,11 @@
                                     {{ o.PrimaryUnit }}
                                 </nb-option>
                             </nb-select></td> -->
-                            <td><input nbInput  oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Unit" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_id" (change)="calculate_sub_total(item);"/></td>
+                            <td><input nbInput  oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Unit" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_name" (change)="calculate_sub_total(item);"/></td>
                             <td ><input nbInput fieldSize="small"  [(ngModel)]="item.delivery_date" [nbDatepicker]="del_datepicker" [ngModelOptions]="{standalone: true}"
                                 placeholder="Date" /></td>
                             <td><input nbInput  fieldSize="small" style="width: 8em;" min="0" placeholder="Unit Price" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate_sub_total(item);"  /></td>    
-                            <td><input nbInput  fieldSize="small" style="width: 5em;" min="0" placeholder="GST %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" (change)="calculate_sub_total(item);"/></td>    
+                            <td><input nbInput  fieldSize="small" style="width: 5em;" min="0" placeholder="GST %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" value="gst" (input)="calculate_sub_total(item);"/></td>    
                             <td><input nbInput  fieldSize="small"   placeholder="Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly /></td> 
                             <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="Disc %" min="0" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_percent" (change)="calculate_sub_total(item);"/></td> 
                             <td><input nbInput  fieldSize="small"   placeholder="Disc Amt." type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_amount" readonly/></td> 

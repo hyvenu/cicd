@@ -61,6 +61,8 @@ export class PurchaseOrderComponent implements OnInit {
   submitted: boolean = false;
   selectedPaymentType:any;
   not_approved: any;
+  gst:0.0;
+  pr_id: any;
 
 
   constructor(
@@ -145,9 +147,10 @@ export class PurchaseOrderComponent implements OnInit {
           this.purchaseOrderForm.controls['packPrecntFormControl'].setValue(data.packing_perct);
           this.purchaseOrderForm.controls['termsConditionFormControl'].setValue(data.terms_conditions);
           this.store_id = data.store_id;
+          console.log(this.store_id)
           this.vendor_id = data.vendor_id;
           this.selected_vendor = this.vendor_list.find(item => item.id == data.vendor_id)
-          this.not_approved = this.pr_list.find(item => item.pr_number == data.pr_no)
+          this.not_approved = this.pr_list.find(item => item.pr_no == data.pr_number)
           console.log(this.not_approved)
           console.log(this.selected_vendor)
           for(let i=0;i<data.order_details.length;i++){
@@ -155,7 +158,15 @@ export class PurchaseOrderComponent implements OnInit {
             data.order_details[i].delivery_date = moment(data.order_details[i].delivery_date)
             data.qty = parseInt(data.order_details[i].qty)
           };
-          this.selected_product_list = data.order_details;
+          //this.selected_product_list = data.order_details;
+          console.log(data.order_details)
+          data.order_details.forEach(element => {
+            this.selected_product_list.push({
+              ...element,
+            unit_name:element.unit__PrimaryUnit,
+            })
+          });
+          console.log(this.selected_product_list)
           this.packing_amount = parseFloat(data.packing_amount);
           this.total_amount = parseFloat(data.total_amount);
           this.sub_total = parseFloat(data.sub_total);
@@ -225,18 +236,21 @@ export class PurchaseOrderComponent implements OnInit {
           product_name: data.product_name,
           description: data.product_description,
           qty: data.product_price__qty,
-          unit_id: data.product_price__unit__PrimaryUnit,
+          unit_id: data.product_price__unit,
           delivery_date: '',
           unit_price: data.product_price__unit_price,
-          gst: 0.0,
+          unit_name:data.product_price__unit__PrimaryUnit,
+          gst: data.product_price__tax,
           amount: 0.0,
           disc_percent: 0.0,
           disc_amount: 0.0,
           gst_amount: 0.0,
 
         });
+        this.calculate_total()
       }
       });
+      
     //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
 
   }
@@ -311,17 +325,23 @@ export class PurchaseOrderComponent implements OnInit {
                   //  this.product_list = data
                   console.log(data)
                   this.not_approved = data
+                  this.pr_id = data.id
+                  console.log(this.pr_id)
                    this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_no);
-                   if (data.status !== 'APPROVED'){
+                   if (data.status == 'WAITING_FOR_APPROVAL'){
                      this.nbtoastService.warning("Selected PR is  Not Approved");
                      return;
+                   }else if(data.status == 'REJECTED'){
+                    this.nbtoastService.warning("Selected PR is  REJECTED");
+                    return;
                    }
-                   this.purchaseService.getPRDetails(data.id).subscribe(
+                   this.purchaseService.getPRDetails(this.pr_id).subscribe(
                      (pr_data) => {
                        console.log(pr_data)
                        console.log(pr_data.selected_product_list[0].product__product_price__unit_price)
                         this.store_id = pr_data.store_id;
                         let pr_products = pr_data['selected_product_list']
+                        console.log(pr_products)
                         pr_products.forEach(element => {
                           this.selected_product_list.push({
                             id:'',
@@ -331,18 +351,20 @@ export class PurchaseOrderComponent implements OnInit {
                             description: element.product_description,
                             qty: element.required_qty,
                             unit_id: element.unit,
+                            unit_name:element.unit__PrimaryUnit,
                             delivery_date: moment(element.expected_date),
                             unit_price: element.product__product_price__unit_price,
-                            gst: 0.0,
+                            gst: element.product__product_price__tax,
                             amount: 0.0,
                             disc_percent: 0.0,
                             disc_amount: 0.0,
                             gst_amount: 0.0,
                             total_amount:0.0,
-  
+                            
                           });
+                          
                         });
-                       
+                        
                      },
                      (error) => {
                         this.nbtoastService.danger("Unable to get PR details")
@@ -429,7 +451,7 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   delete_product(id): any {
-   
+    
     const data = { 'id' : id}
     this.purchaseService.deleteProductFromPO(data).subscribe(
       (data) => {

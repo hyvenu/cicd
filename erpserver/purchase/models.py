@@ -19,7 +19,7 @@ class POOrderRequest(AuditUuidModelMixin):
     po_date = models.DateTimeField(default=None, null=True)
     shipping_address = models.CharField(max_length=2000, null=True)
     transport_type = models.CharField(max_length=200)
-    vendor = models.ForeignKey(VendorMaster, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(VendorMaster,default="", on_delete=models.CASCADE)
     payment_terms = models.CharField(max_length=200, null=True)
     other_reference = models.CharField(max_length=2000, null=True)
     terms_of_delivery = models.CharField(max_length=2000, null=True)
@@ -41,10 +41,10 @@ class POOrderRequest(AuditUuidModelMixin):
 
 class PoOrderDetails(AuditUuidModelMixin):
     po_order = models.ForeignKey(POOrderRequest, on_delete=models.CASCADE, default=None)
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,default="")
     product_code = models.CharField(max_length=50, null=True, default=None)
     product_name = models.CharField(max_length=255, null=True, default=None)
-    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE)
+    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE,default="")
     qty = models.IntegerField()
     delivery_date = models.DateField(null=True)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -62,11 +62,11 @@ class PurchaseRequisition(AuditUuidModelMixin):
     pr_no = models.CharField(max_length=50)
     pr_date = models.DateField()
     created_user = models.CharField(max_length=100)
-    dept = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="department")
+    dept = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="department",default="")
     status = models.CharField(max_length=50, null=True)
     approved_by = models.CharField(max_length=50, null=True)
     approved_date = models.DateField(null=True)
-    store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_pur_req")
+    store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE,default="", related_name="store_pur_req")
 
     class Meta:
         pass
@@ -76,15 +76,15 @@ class PurchaseRequisition(AuditUuidModelMixin):
 
 
 class PurchaseRequisitionProductList(AuditUuidModelMixin):
-    pr_no_rf = models.ForeignKey(PurchaseRequisition, on_delete=models.CASCADE, related_name="purchase_requisition")
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, null=True, related_name="pr_product")
+    pr_no_rf = models.ForeignKey(PurchaseRequisition,default="", on_delete=models.CASCADE, related_name="purchase_requisition")
+    product = models.ForeignKey(ProductMaster,default="", on_delete=models.CASCADE, null=True, related_name="pr_product")
     product_code = models.CharField(max_length=30, null=True)
     product_name = models.CharField(max_length=30, null=True)
     description = models.CharField(max_length=100, default='')
     store = models.CharField(max_length=50, null=True)
     store_obj = models.ForeignKey(Store, on_delete=models.CASCADE, null=True, related_name="store_pr")
     required_qty = models.IntegerField(null=True, default=0)
-    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="purchase_requisition_unit")
+    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, default="",related_name="purchase_requisition_unit")
     expected_date = models.DateField(null=True)
     active = models.BooleanField(default=True)
 
@@ -119,8 +119,8 @@ class GRNMaster(AuditUuidModelMixin):
 
 
 class GRNProductList(AuditUuidModelMixin):
-    grn = models.ForeignKey(GRNMaster, on_delete=models.CASCADE, related_name="grn_product_list")
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="grn_product")
+    grn = models.ForeignKey(GRNMaster, on_delete=models.CASCADE, related_name="grn_product_list",default="")
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="grn_product",default="")
     product_code = models.CharField(max_length=30, null=True)
     product_name = models.CharField(max_length=30, null=True)
     description = models.CharField(max_length=100, null=True)
@@ -130,7 +130,7 @@ class GRNProductList(AuditUuidModelMixin):
     received_qty = models.IntegerField()
     rejected_qty = models.IntegerField()
     accepted_qty = models.IntegerField()
-    unit_id = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="grn_unit")
+    unit_id = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="grn_unit",default="")
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
