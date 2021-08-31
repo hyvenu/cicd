@@ -64,7 +64,7 @@
                 <div class="form-group col-md-3">
                     <label for="poNumber">PO Number<span style="color: red;">*</span></label>
                     <input nbInput formControlName="poNumberFormControl" name="poNumber" placeholder="PO Number"
-                        (keypress)="po_open(dialog)"    [ngClass]="{ 'is-invalid': submitted && f.poNumberFormControl.errors }" class=" form-control"/>
+                        (keypress)="po_open(dialog)"    (click)="po_open(dialog)" readonly [ngClass]="{ 'is-invalid': submitted && f.poNumberFormControl.errors }" class=" form-control"/>
                         <div *ngIf="submitted && f.poNumberFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.poNumberFormControl.errors.required">PO Number is required</div>
                         </div> 
@@ -100,12 +100,13 @@
                                 placeholder="Vehicle Number" />
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="timeIn">Time In </label>
+                            <label for="timeIn">Time In </label> <br>
                             <input nbInput formControlName="timeInFormControl" name="timeIn" value=""
                                 placeholder="Time In" />
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="timeOut">Time Out </label>
+                            <label for="timeOut">Time Out </label> <br>
+
                             <input nbInput formControlName="timeOutFormControl" name="timeOut" value=""
                                 placeholder="Time Out" />
                         </div>

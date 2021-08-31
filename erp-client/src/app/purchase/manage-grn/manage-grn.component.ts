@@ -10,6 +10,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Identifiers } from '@angular/compiler';
 import * as moment from 'moment';
 import { parse } from 'date-fns';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-grn',
@@ -48,6 +49,7 @@ export class ManageGrnComponent implements OnInit {
   total_gst: number;
   vendor_list: any;
   select_code: any;
+  url = `${environment.BASE_SERVICE_URL}/`;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -93,11 +95,13 @@ export class ManageGrnComponent implements OnInit {
     });
 
     let param = this.route.snapshot.queryParams['id'];
+    
     this.store_id = sessionStorage.getItem('store_id');
     if (param) {
       this.purchaseService.getGRNDetails(param).subscribe(
         (data) => {
           console.log(data)
+          this.grn_id = data.id
           // this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
           this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
           this.grnMasterForm.controls['grnNumberFormControl'].setValue(data.grn_code);
@@ -115,6 +119,7 @@ export class ManageGrnComponent implements OnInit {
           this.grnMasterForm.controls['statutoryDetailsFormControl'].setValue(data.statutory_details);
           this.grnMasterForm.controls['noteFormControl'].setValue(data.note);
           // this.grnMasterForm.controls['invoiceDocumentFormControl'].setValue(data.invoice_doc);
+          this.imgSrc = this.url+ data.invoice_doc;
           this.vendor_id=data.vendor
           this.store_id = data.store_id;
           this.select_code = this.vendor_list.find(item => item.id == this.vendor_id)
@@ -128,12 +133,23 @@ export class ManageGrnComponent implements OnInit {
           this.sgst = parseFloat(data.sgst);
           this.cgst = parseFloat(data.cgst);
           this.igst = parseFloat(data.igst);
-          this.selected_product_list = data.product_list;
+          // this.selected_product_list = data.product_list;
           
-          this.selected_product_list.forEach((element) => {
-            element.expiry_date = moment(element.expiry_date);
-            // console.log("expiry " + element.expiry_date);
-          });
+          // this.selected_product_list.forEach((element) => {
+          //   element.expiry_date = moment(element.expiry_date);
+          //   // console.log("expiry " + element.expiry_date);
+          // });
+
+          data.product_list.forEach(element => {
+            console.log(element)
+            this.selected_product_list.push({
+              ...element,
+              expiry_date:moment(element.expiry_date),
+              product_id:element.product,
+              active:'',
+   
+           });
+            })
 
         });
     }
@@ -263,7 +279,7 @@ export class ManageGrnComponent implements OnInit {
       this.sgst = 0;
       this.cgst = this.total_gst/2
     }
-    this.grand_total = this.sub_total + ((this.sgst + this.cgst) * this.sub_total / 100)
+    this.grand_total = this.sub_total + ((this.sgst + this.cgst + this.igst))
   }
 
 

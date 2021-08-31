@@ -114,6 +114,13 @@ def get_store_details(request):
     store_details = store_service.get_store_details(store_id)
     return JsonResponse(store_details, safe=False, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def save_Appointment(request):
+    data = request.data
+    store_service = StoreService()
+    ap_res = store_service.save_Appointment(data)
+    return JsonResponse(ap_res, safe=False)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])

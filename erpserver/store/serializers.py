@@ -148,6 +148,11 @@ class EmployeeSerializer(serializers.ModelSerializer):
             'department__department_name')[0]['department__department_name']
         return data
 
+class AppointmentForMultipleService(serializers.ModelSerializer):
+    class Meta:
+        model = models.AppointmentSchedule
+        fields = ['id','appointment_id',' service']
+
 
 class AppointmentScheduleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -159,3 +164,5 @@ class AppointmentScheduleSerializer(serializers.ModelSerializer):
         response = super().to_representation(instance)
         response['assigned_staff_det'] = EmployeeSerializer(instance.assigned_staff).data
         return response
+
+

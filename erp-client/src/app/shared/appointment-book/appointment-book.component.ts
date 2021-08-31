@@ -17,7 +17,7 @@ export class AppointmentBookComponent implements OnInit {
 
   selected_service: [];
 
-  service_list:any;
+  service_array:any;
 
   booking_id: any;
   customer_data: any;
@@ -29,6 +29,13 @@ export class AppointmentBookComponent implements OnInit {
   passed_flag:boolean = false;
   service;
   selectedService: any;
+  service_list: any;
+  calendar_data: [];
+  start_date: any;
+  end_date: any;
+  start_time: any;
+  end_time: string;
+  date: string;
 
 
 
@@ -59,7 +66,24 @@ export class AppointmentBookComponent implements OnInit {
       endTimeFormControl: ['', [Validators.required]],
       serviceFormControl:['',[Validators.required]]
     })
+     this.start_date = this.route.snapshot.queryParams['start']
+     this.end_date = this.route.snapshot.queryParams['end']
+     console.log((this.start_date))
+     console.log(this.end_date)
+     if(this.start_date && this.end_date){
+     this.start_time=this.start_date.substr(16,5)
+     console.log((this.start_time))
+     this.end_time = this.end_date.substr(16,5)
 
+     this.date = new Date(this.start_date).toISOString().substr(0,10)
+     
+     console.log(this.end_date.substr(16,5)) 
+     this.bookingForm.controls['endTimeFormControl'].setValue(this.end_time);
+     this.bookingForm.controls['startTimeFormControl'].setValue(this.start_time);
+     this.bookingForm.controls['bookingDateFormControl'].setValue(moment(this.date));
+     }
+    
+    this.service_array = this.bookingForm.controls['serviceFormControl'].value;
     let param = this.route.snapshot.queryParams['id'];
 
     if(param){
@@ -100,7 +124,7 @@ export class AppointmentBookComponent implements OnInit {
     form_data.append('customer',this.customer_id)
     form_data.append('customer_name', this.bookingForm.controls['customerNameFormControl'].value);
     form_data.append('phone_number', this.bookingForm.controls['phoneNumberFormControl'].value);
-    form_data.append('service', this.bookingForm.controls['serviceFormControl'].value);
+    form_data.append('service',this.bookingForm.controls['serviceFormControl'].value);
     form_data.append('start_time', this.bookingForm.controls['startTimeFormControl'].value);
     form_data.append('end_time', this.bookingForm.controls['endTimeFormControl'].value);
     form_data.append('booking_date', moment(this.bookingForm.controls['bookingDateFormControl'].value).format("YYYY-MM-DD"));
@@ -110,6 +134,7 @@ export class AppointmentBookComponent implements OnInit {
         this.adminService.updateBooking(this.booking_id,form_data).subscribe(
           (data) => {
              this.nbtoastService.success("Booking information updated")
+             this.routes.navigate(["/ViewBooking"]);
              this.bookingForm.reset();
              this.booking_id=null;
              this.selected_service = null;
@@ -123,6 +148,7 @@ export class AppointmentBookComponent implements OnInit {
       this.adminService.saveBooking(form_data).subscribe(
         (data) => {
            this.nbtoastService.success("Booking information saved")
+           this.routes.navigate(["/ViewBooking"]);
            this.bookingForm.reset();
            this.booking_id=null;
            this.service = null;
@@ -134,8 +160,6 @@ export class AppointmentBookComponent implements OnInit {
     }
   }
   }
-
-  
 
   open_customer_list(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_data })

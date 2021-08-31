@@ -184,10 +184,10 @@
     -->
 
   <div>
-    <button stats=sucess>Previous</button><label for="">Select Date</label><button>Next</button>
+    <label for="">Select Date</label>
     <input nbInput name="bookingDate" autocomplete="off" placeholder="Select Date" [(ngModel)]="date" [nbDatepicker]="booking_date" 
      class="form-control"/>
-    <nb-datepicker #booking_date format="yyyy-MM-DD" (dateChange)="onStartDateChanged($event)"></nb-datepicker>
+    <nb-datepicker #booking_date format="yyyy-MM-DD" (dateChange)="onStartDateChanged($event)"></nb-datepicker><span style="float: right;"><button nbButton status="info" size="small" (click)="previousDate()">Previous</button>&nbsp;<button nbButton status="info" size="small" (click)="nextDate()">Next</button></span>
 </div><br>
 	<div id="container">
 	

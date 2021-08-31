@@ -229,25 +229,26 @@ export class PurchaseOrderComponent implements OnInit {
         if(this.selected_product_list.some(element => element.product_name == data.product_name)){
           this.nbtoastService.danger("product name already exist");
         }else{
-        this.selected_product_list.push({
-          id:'',
-          product_id: data.id,
-          product_code: data.product_code,
-          product_name: data.product_name,
-          description: data.product_description,
-          qty: data.product_price__qty,
-          unit_id: data.product_price__unit,
-          delivery_date: '',
-          unit_price: data.product_price__unit_price,
-          unit_name:data.product_price__unit__PrimaryUnit,
-          gst: data.product_price__tax,
-          amount: 0.0,
-          disc_percent: 0.0,
-          disc_amount: 0.0,
-          gst_amount: 0.0,
-
-        });
-        this.calculate_total()
+          const item = {
+            id:'',
+            product_id: data.id,
+            product_code: data.product_code,
+            product_name: data.product_name,
+            description: data.product_description,
+            qty: data.product_price__qty,
+            unit_id: data.product_price__unit,
+            delivery_date: '',
+            unit_price: data.product_price__unit_price,
+            unit_name:data.product_price__unit__PrimaryUnit,
+            gst: data.product_price__tax,
+            amount: 0.0,
+            disc_percent: 0.0,
+            disc_amount: 0.0,
+            gst_amount: 0.0,
+  
+          }
+        this.selected_product_list.push(item);
+        this.calculate_sub_total(item)
       }
       });
       
@@ -303,6 +304,7 @@ export class PurchaseOrderComponent implements OnInit {
      if (this.selected_vendor.state_code == '29') {
       this.sgst = total_gst / 2;
       this.cgst = total_gst / 2;
+      this.igst=0
       } else {
       this.igst = total_gst/2;
       this.cgst = total_gst/2;
@@ -343,7 +345,7 @@ export class PurchaseOrderComponent implements OnInit {
                         let pr_products = pr_data['selected_product_list']
                         console.log(pr_products)
                         pr_products.forEach(element => {
-                          this.selected_product_list.push({
+                          const item = {
                             id:'',
                             product_id: element.product,
                             product_code: element.product_code,
@@ -361,8 +363,9 @@ export class PurchaseOrderComponent implements OnInit {
                             gst_amount: 0.0,
                             total_amount:0.0,
                             
-                          });
-                          
+                          };
+                          this.selected_product_list.push(item);
+                          this.calculate_sub_total(item)
                         });
                         
                      },
@@ -453,14 +456,16 @@ export class PurchaseOrderComponent implements OnInit {
   delete_product(id): any {
     
     const data = { 'id' : id}
+    
     this.purchaseService.deleteProductFromPO(data).subscribe(
       (data) => {
         this.nbtoastService.info("Item Removed");
-        this.ngOnInit()
-       
+        this.selected_product_list = this.selected_product_list.filter(item =>
+          item.id != id
+        )
         
-       
-        
+        this.selected_product_list.forEach(item =>
+          this.calculate_sub_total(item))
       },
       (error) =>{
         this.nbtoastService.danger("Unable remove product");
