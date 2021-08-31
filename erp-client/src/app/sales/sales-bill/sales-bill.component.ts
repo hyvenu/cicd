@@ -55,16 +55,16 @@ export class SalesBillComponent implements OnInit {
   product_list: any;
   selected_product: any;
   selected_product_data: any;
-  subtotal: number=0;
-  gstTotal:number=0;
+  subtotal: any=0;
+  gstTotal:any=0;
   selectedSubTotal:any;
   selectedGstPercentage:any=0;
   event: any;
   selectedDiscount:any=0;
-  grandTotal:number=0;
+  grandTotal:any=0;
   customer_id: any;
   product_id: any;
-  gstValue: number=0;
+  gstValue: any=0;
   totalGst: any = 0;
   selectedTotalGst;
   poType: string | Blob="";
@@ -87,7 +87,7 @@ export class SalesBillComponent implements OnInit {
   cardChecked:any;
   store_name: string;
   user_name: string;
-
+  total_include_tax:any=0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -145,7 +145,7 @@ export class SalesBillComponent implements OnInit {
     this.gstTotal=0;
     
     // this.calculate_total();
-    this.calculate_price();
+    //this.calculate_price();
     // this.calculate_totalGst();
     // this.calculate_gst();
     console.log(this.selectedSubTotal)
@@ -157,7 +157,7 @@ export class SalesBillComponent implements OnInit {
         // console.log(this.customernew_id)
       
     
-        
+
         
       },
       (error) => {
@@ -185,14 +185,23 @@ export class SalesBillComponent implements OnInit {
       )
     }
     
-    
+    this.onEvnetChange(this.event); 
   }
 
 
 
   add_items():any {
     
-    const data = {item_id:'',item_description:'',quantity:'',unit:'',price:'',item_total:'',gst_value:'',tax:''}
+    const data = {
+      item_id:'',
+      item_description:'',
+      quantity:'',
+      unit:'',
+      price:'',
+      item_total:'',
+      gst_value:'',
+      tax:''
+    }
     this.invoice_items.push(data)
     //this.calculate_price()
     // this.calculate_gst()
@@ -293,42 +302,75 @@ export class SalesBillComponent implements OnInit {
   calculate_price(): void {
    
     this.selectedDiscount =0;
-    for(let i=0;i<this.invoice_items.length;i++)
+    let total_item_price:any =0;
+    let total_basic_price:any =0;
+    let total_gst_value: any =0;
+
+    this.invoice_items.forEach(element => {
+      console.log('pro ele',element)
+      let tot_price :any = (element.price * element.quantity )
+      let gst_tot: any =((tot_price * element.tax)/100)
+      let item_tot = tot_price + gst_tot;
+
+      console.log('tot pri',tot_price)
+      console.log('tot gst',gst_tot)
+      total_basic_price += tot_price;
+      total_gst_value += gst_tot;
+      //element.price = parseFloat(tot_price).toFixed(2);
+      element.gst_value = parseFloat(gst_tot).toFixed(2);
+      element.item_total = parseFloat(item_tot).toFixed(2);
+
+      
+    });
+
+   /*  for(let i=0;i<this.invoice_items.length;i++)
     {
-      let price = ((parseFloat(this.invoice_items[i].quantity) * (parseFloat(this.invoice_items[i].price))));
+      let price = ((parseFloat(this.invoice_items[i].quantity) * (parseFloat(this.invoice_items[i].sell_price))));
       if(price !=NaN && this.invoice_items[i].quantity != "")
       {
-        this.invoice_items[i].item_total = price;
+        this.invoice_items[i].price = price;
       }     
-    }
+    } */
 
-    for(let i=0;i<this.invoice_items.length;i++)
+   /*  for(let i=0;i<this.invoice_items.length;i++)
     {
       let gst_price = (((parseInt(this.invoice_items[i].tax)*(parseInt(this.invoice_items[i].price)/100))));
       if(gst_price !=NaN && this.invoice_items[i].tax!= "")
       {
         this.invoice_items[i].gst_value = gst_price * this.invoice_items[i].quantity;
       }     
-    }
+    } */
 
-    for(var val of this.invoice_items){
-       this.subtotal = 0;
-    this.gstValue = 0;
+  /*   for(var val of this.invoice_items){
+      this.subtotal = 0;
+      this.gstValue = 0;
       
       this.subtotal += val.item_total ;
       this.gstValue += val.gst_value ;
      // return this.subtotal;
-    }
+    } */
+   /*  this.invoice_items.forEach(val => {
+      total_item_price = total_item_price + val.item_total;
+      total_gst_value = total_gst_value + val.gst_value;
+    }); */
+    //this.subtotal = parseFloat(total_item_price).toFixed(2) ;
+    this.subtotal = parseFloat(total_basic_price).toFixed(2) ;
+    this.gstValue = parseFloat(total_gst_value).toFixed(2) ;
 
-    this.selectedTotalGst = this.subtotal + this.gstValue;
-
+    console.log('siub tot',this.subtotal + 'gst', this.gstValue)
+    let includeGST:any = (parseFloat(this.subtotal) + parseFloat(this.gstValue));
+    this.selectedTotalGst = parseFloat(includeGST).toFixed(2)
+    console.log('inc gst',this.selectedTotalGst)
+    
+    this.selectedDiscount =this.invoiceForm.get('discountFormControl').value;
     if (this.selectedDiscount >= 0) {
-      let amount = parseInt(this.selectedTotalGst) - parseInt(this.selectedDiscount);
-      this.grandTotal = amount;
+      
+      //let amount :any = this.selectedTotalGst - this.selectedDiscount;
+     
+      this.grandTotal = Math.round(this.selectedTotalGst - this.selectedDiscount)  ;
+    }else if(this.selectedDiscount === NaN ){
+      this.grandTotal =0;
     }
-
-
-
 
     // this.calculate_gatVal()
     // this.calculate_totalGst()
@@ -346,10 +388,10 @@ export class SalesBillComponent implements OnInit {
      
 
   // }
-  calculateGrandTotal(){
+/*   calculateGrandTotal(){
     let amount = parseInt(this.selectedTotalGst) - parseInt(this.selectedDiscount);
     this.grandTotal = amount;
-  }
+  } */
 
   // calculate_total(){
   //   let subTotal = 0;
@@ -380,16 +422,24 @@ export class SalesBillComponent implements OnInit {
                  this.product_id = data.id 
                  console.log(this.product_id)
                  data.product_price.forEach(element => {
-                   {item.booking_id="",
+                   console.log('ele',element)
+                   {
+                   
+                    let sellPrice:any = parseFloat(element.sell_price) * element.qty ;
+                    let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
+                    let total:any = sellPrice + gstVal;
+
+                    item.booking_id="",
                     item.service_id="",
-                     item.item_id=element.product_id,
-                     console.log(item.item_id)
-                    item.price=element.sell_price,
-                    item.quantity=0,
+                    item.item_id=element.product_id,
+                    console.log(item.item_id)
+                    //item.price= parseFloat(sellPrice).toFixed(2),
+                    item.price= element.sell_price
+                    item.quantity= element.qty ? element.qty : 0,
                     item.unit=element.unit.PrimaryUnit,
                     item.tax=element.tax,
-                    item.item_total = 0,
-                    item.gst_value = 0
+                    item.item_total = parseFloat(total).toFixed(2),
+                    item.gst_value =  parseFloat(gstVal).toFixed(2)
                     
                   }
                  });
@@ -430,6 +480,7 @@ export class SalesBillComponent implements OnInit {
           console.log(this.booking_id)
           
           this.booking_history.forEach(element => {
+            console.log('ele',element)
             this.invoice_items.push(
               {item_id:"",
                 booking_id:element.id,
@@ -473,7 +524,7 @@ export class SalesBillComponent implements OnInit {
     formData.append('other_reference',this.otherRefrence)
     formData.append('terms_of_delivery',this.termsOfDelivery)
     formData.append('note',this.note)
-    formData.append('sub_total', this.invoiceForm.controls['subTotalFormControl'].value);
+    formData.append('sub_total', this.subtotal);
 
     formData.append('packing_perct',this.packingPerct)
     formData.append('packing_amount',this.packingAmount)
@@ -484,7 +535,7 @@ export class SalesBillComponent implements OnInit {
     
     
     formData.append('store_id',sessionStorage.getItem('store_id'))
-    formData.append('grand_total', this.invoiceForm.controls['grandTotalFormControl'].value);
+    formData.append('grand_total', this.grandTotal)
     formData.append('card', this.invoiceForm.controls['cardFormControl'].value);
     formData.append('cash', this.invoiceForm.controls['cashFormControl'].value);
     formData.append('upi', this.invoiceForm.controls['upiFormControl'].value);

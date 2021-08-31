@@ -68,7 +68,7 @@ $box.prop("checked", false);
            
             <tr>
                 <td rowspan="7" colspan="4">
-                    <table class="table table-responsive">
+                    <table class="table table-responsive text-wrap">
                     <thead>
                         <th><button nbButton size="tiny" (click)="add_items()" status="success">Add</button></th>
                         
@@ -88,11 +88,16 @@ $box.prop("checked", false);
                             
                             <td>
                                 <input class="form-control form-control-sm" type="text"  name="{{item.item_description}}" [(ngModel)]="item.item_description" placeholder="Item Description"  [ngModelOptions]="{standalone: true}"
-                                style="width: 10em;" (input)="calculate_price()" (keypress)="open_product_name(dialog_product,item)" />&nbsp;
+                                    style="width: 10em;" (input)="calculate_price()" 
+                                    (keypress)="open_product_name(dialog_product,item)"
+                                    (click)="open_product_name(dialog_product,item)"
+                                />&nbsp;
                             </td>
                             <td>
                                 <input class="form-control form-control-sm" type="text" name="{{item.quantity}}" [(ngModel)]="item.quantity" placeholder="Quantity"  [ngModelOptions]="{standalone: true}"
-                                value="{{item.quantity}}" (change)="calculate_price()"  size="small" style="width: 3em;"/>&nbsp;
+                                    value="{{item.quantity}}" (change)="calculate_price()"  size="small" style="width: 3em;"
+                                    type="number" min="0" 
+                                />&nbsp;
                             </td>
                             <td>
                                 <input class="form-control form-control-sm"   name="{{item.unit}}" [(ngModel)]="item.unit" placeholder="unit"  [ngModelOptions]="{standalone: true}"
@@ -131,7 +136,7 @@ $box.prop("checked", false);
                 <td colspan="3" style="text-align: center;">Gst: <br><input size="small" style="width: 10em;" step="0.1"  nbInput formControlName="gstFormControl" name="gstFormControl"  value="{{gstValue}}" placeholder="GST" [(ngModel)]="selectedGstPercentage" ></td>
             </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Total:Include GST <br><input size="small" style="width: 10em;" step="0.1" (change)="calculate_price()" type="number" nbInput [value]="totalGst"  formControlName="gstTotalFormControl" name="salesNewFormControl" placeholder="INR" [(ngModel)]="selectedTotalGst" ></td>
+                <td colspan="3"style="text-align: center;">Total:Include GST <br><input size="small" style="width: 10em;" step="0.1"  nbInput value="{{selectedTotalGst}}"  formControlName="gstTotalFormControl" name="salesNewFormControl" placeholder="INR" [(ngModel)]="selectedTotalGst" ></td>
                 
              </tr>
             <tr>
