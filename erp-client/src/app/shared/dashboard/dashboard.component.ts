@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   orders_data: [];
   options: any;
   headspacount: any;
+  
 
   barChartOptions: ChartOptions = {
     responsive: true,
@@ -45,11 +46,12 @@ export class DashboardComponent implements OnInit {
     responsive: true,
   };
   
-  pieChartLabels: Label[] = [['Head Spa', ''], ['Hair Straightening'], 'SPA'];
-  pieChartData: SingleDataSet = [500, 500, 100];
-  pieChartType: ChartType = 'pie';
-  pieChartLegend = true;
-  pieChartPlugins = [];
+  public pieChartLabels: Label[] = [];
+  // public pieChartLabels: Label[] = [['Head Spa'], ['Hair ','Straightening'], 'SPA'];
+  public pieChartData:ChartDataSets[];
+  public pieChartType: ChartType = 'pie';
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
   
   // Line 
    lineChartData: ChartDataSets[] = [
@@ -85,17 +87,24 @@ export class DashboardComponent implements OnInit {
   ) {
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
+    
    }
 
   ngOnInit(): void {
     this.get_orders_data();
     this.get_bookingservice();
+    
+    
+    this.pieChartData = [0,0,0];
+    console.log(this.pieChartData)
+
   }
 
   get_orders_data(){
     const order_data  = { 'store_id': sessionStorage.getItem('store_id')}
     this.orderService.getOrderList(order_data).subscribe(
       (data) => {
+        console.log(data)
           if(data.length > 0){
           this.orders_data = data;
           }else{
@@ -126,7 +135,20 @@ export class DashboardComponent implements OnInit {
         let count = this.appointmentlist.filter(item=> item.service__service_name == "head spa").length;
         this.headspacount = count; 
         console.log(this.headspacount)
+        this.pieChartData = [100, this.headspacount, 100]
+        this.pieChartLabels = this.appointmentlist.reduce((acc,v) =>{
+          const label = v.service__service_name
+          if(!acc.includes(label)){
+            return [...acc,label]
+          }
+          return acc
+        },[])
+        // const labels = this.appointmentlist.map(item => item.service__service_name)
+        
       }
     )
   }
 }
+
+
+head spa = 4
