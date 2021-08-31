@@ -1,48 +1,49 @@
 
-<nb-card accent="info">
-    <nb-card-header>Invoice </nb-card-header>
-        <nb-card-body>
-            <form action="">
-                <div class="form-row">
-                    <div class="col-md-2">
-                        <img src="../assets/images/D5N_Logo.jpg"  width="120px" height="120px" alt="">
-                    </div>
-                    <div class="col-md-4">
-                        <p> store Id:{{store_name}}</p>
-                        
-                    </div>
-                    <div class="col-md-4">
-                        <p> Invoice No:{{invoice_no}}</p>
-                        <p>Invoice Date:{{invoice_date}}</p>
-                    </div>
-                    <!-- <div class="col-md-4">
-                        <p> GstIN:oD231212232</p>
-                        <p>PAN:21/2/2019</p>
-                    </div> -->
+<nb-card accent="info" id="bill" >
+    
+    <nb-card-header class="text-center">Invoice </nb-card-header>
+    <nb-card-body>
+        <form action="">
+            <div class="form-row">
+                <div class="col-md-2">
+                    <img src="../assets/images/D5N_Logo.jpg"  width="120px" height="120px" alt="">
+                </div>
+                <div class="col-md-4">
+                    <p class="text-capitalize"> store Id:{{store_name}}</p>
                     
                 </div>
-                <hr>
-                <div id="bill">
+                <div class="col-md-4">
+                    <p> Invoice No:{{invoice_no}}</p>
+                    <p>Invoice Date:{{invoice_date}}</p>
+                </div>
+                <!-- <div class="col-md-4">
+                    <p> GstIN:oD231212232</p>
+                    <p>PAN:21/2/2019</p>
+                </div> -->
+                
+            </div>
+            <hr>
+            <!--  <div id="bill"> -->
                 <div class="form-row" >
                     <!-- <span style="text-align: center;"><h1>Invoice</h1></span> -->
                     <div class="col-md-4">
                         Customer Name <br>
                         <h6>{{customer_name}}</h6>
-                       
+                    
 
                     </div>
                     <div class="col-md-4">
-                       Customer Billing Address <br>
-                       <h6>{{customer_addr}}</h6>
+                    Customer Billing Address <br>
+                    <h6>{{customer_addr}}</h6>
                     </div>
                     <div class="col-md-4">
-                       
+                    
                     </div>
-                  
+                
                     
                 </div>
                 <hr>
-                
+            
                 <table style="text-align: center;" class="table table-responsive">
                     <thead>
                         <th>Product</th>
@@ -50,11 +51,10 @@
                         <th>Qty</th>
                         <th>Price</th>
                         <th>Total</th>
-                       
-                        <th>Discount</th>
+                    
                         <th>GST%</th>
                         
-                       
+                    
                     </thead>
                     
                     <tbody  >
@@ -65,9 +65,7 @@
                             <td>{{item.qty}}</td>
                             <td>{{item.unit_price}}</td>
                             <td>{{item.subtotal_amount}}</td>
-                            
-                            <td>{{invoice_details.discount_price}}</td>
-                           <td>{{item.gst}}</td>
+                            <td>{{item.gst}}</td>
                             <td></td>
                             
                         </tr>
@@ -79,34 +77,36 @@
 
                             </td>
                         </tr>
-                       
+                    
                     </tbody>
                 
                 </table>
-                </div>
-                <hr>
-                <div class="form-row">
-                    <div class="col-md-4">
-                        <p>Condition apply please refer to product page</p>
-                      
+            <!-- </div> -->
+            <hr>
+            <div class="form-row">
+                <div class="col-md-4 text-center">
+                    <p>Condition apply please refer to product page</p>
 
+                </div>
+                <div class="col-md-4 text-center">
+                    <p>Order Throught</p> 
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex-1 text-center">
+                        <p>For <b>D5N</b> </p><br>
+                        <p>Authorised Signatory</p>
                     </div>
-                    <div class="col-md-4">
-                        <p>Order Throught</p>
-                        
-                      
-                    </div>
-                    <div class="col-md-4">
-                     <img src="" alt="No IMg">
-                     <p>IT MALl Authorization </p>
-                     <p>Signature</p>
-                    </div>
-                  
                     
                 </div>
-                <button class="btn btn-secondary" type="button" id="print">Print Bill</button>
+                
+                
+            </div>
+            
 
-            </form>
-        </nb-card-body>
+        </form>
+        
+    </nb-card-body>
    
 </nb-card>
+
+<button class="btn btn-secondary" type="button" id="print">Print Bill</button>

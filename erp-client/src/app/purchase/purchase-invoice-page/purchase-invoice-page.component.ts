@@ -18,6 +18,8 @@ export class PurchaseInvoicePageComponent implements OnInit {
   invoice_details: any;
   grandTotal: any;
   vendor_name: any;
+  vendor_phone_no:any;
+  shipping_phone_no:any;
   shipping_address: any;
   vendor_number: any;
   gst_no: any;
@@ -60,15 +62,22 @@ export class PurchaseInvoicePageComponent implements OnInit {
         (data)=>{
           
           this.invoice_details = data
-          console.log(this.invoice_details)
+          console.log('invoice data',this.invoice_details)
           this.grandTotal = this.invoice_details.invoice_amount
           this.vendor_name = this.invoice_details.vendor__vendor_name
           this.shipping_address = this.invoice_details.shipping_address
-          this.vendor_number = this.invoice_details.vendor__mobile_no
+         // this.vendor_number = this.invoice_details.vendor__mobile_no
           this.gst_no = this.invoice_details.vendor__gst_no
           this.po_number = this.invoice_details.po_number
           this.po_date = this.invoice_details.po_date
-          this.vendor_number = this.invoice_details.mobile_no;
+          this.shipping_phone_no = this.invoice_details.mobile_no;
+
+          this.purchaseService.getVendor(this.invoice_details.vendor_id).subscribe(
+            (data)=>{
+              console.log('vendor data',data)
+              this.vendor_number= data.mobile_no;
+            }
+          )
           this.disc_amount = this.invoice_details.order_details[0].disc_amount;
           console.log(this.disc_amount)
           this.sgst = this.invoice_details.sgst
