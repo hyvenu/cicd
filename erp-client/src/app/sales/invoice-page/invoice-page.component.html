@@ -1,5 +1,11 @@
-
-<nb-card accent="info" id="bill" >
+<html>
+<head>
+   
+     
+</head>
+<body >
+    
+<nb-card accent="info" id="print-section" >
     
     <nb-card-header class="text-center">Invoice </nb-card-header>
     <nb-card-body>
@@ -7,6 +13,7 @@
             <div class="form-row">
                 <div class="col-md-2">
                     <img src="../assets/images/D5N_Logo.jpg"  width="120px" height="120px" alt="">
+                    
                 </div>
                 <div class="col-md-4">
                     <p class="text-capitalize"> store Id:{{store_name}}</p>
@@ -109,4 +116,6 @@
    
 </nb-card>
 
-<button class="btn btn-secondary" type="button" id="print">Print Bill</button>
+<button class="btn btn-secondary" type="button" printSectionId="print-section" ngxPrint >Print Bill</button>
+</body>
+</html>

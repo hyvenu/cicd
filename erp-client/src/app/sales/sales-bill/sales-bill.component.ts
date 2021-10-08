@@ -256,16 +256,17 @@ export class SalesBillComponent implements OnInit {
         console.log(this.booking_id)
         
         this.booking_history.forEach(element => {
+          console.log(element)
           this.invoice_items.push(
             {item_id:"",
               booking_id:element.id,
-              service_id:element.service__id,
-              item_description:element.service__service_name,
+              service_id:element.service_details[0].service__id,
+              item_description:element.service_details[0].service__service_name,
               quantity:0,
               unit:"",
-              price:element.service__price,
+              price:element.service_details[0].service__price,
               item_total:0,
-              tax:element.service__service_gst,
+              tax:element.service_details[0].service__service_gst,
               gst_value:0
             }
           )
@@ -484,7 +485,7 @@ export class SalesBillComponent implements OnInit {
             this.invoice_items.push(
               {item_id:"",
                 booking_id:element.id,
-                service_id:element.service__id,
+                service_id:element.service_details[0].service__service_id,
                 item_description:element.service__service_name,
                 quantity:0,
                 unit:"",
@@ -576,9 +577,10 @@ export class SalesBillComponent implements OnInit {
 
   billPaid(){
     let data = {
-      'is_paid':new Boolean(this.passed_flag).toString()
+      'is_paid':new Boolean(this.passed_flag).toString(),
+      'id':this.booking_id
     }
-    this.adminService.updateBooking(this.booking_id,data).subscribe(
+    this.adminService.updateIsPaid(data).subscribe(
       (data)=>{
         this.nbtoastService.success("Bill Paid")
       }

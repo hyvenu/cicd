@@ -25,8 +25,12 @@ $box.prop("checked", false);
    <div style="float: left;" [formGroup]="invoiceForm" >
         <table class="table table-striped" style="width: 50%;border-collapse: collapse;">
             <tr>
+                <div style="float: left;">
+                   
+                    <button nbButton status="info" [routerLink]="['/ManageCustomer']">Create Customer</button>
+                </div>
                 <th colspan="7" style="text-align: center;">Invoice </th>
-               
+                
             </tr>
             <tr>
                 <td>
@@ -150,9 +154,9 @@ $box.prop("checked", false);
             </tr>
             <tr>
   
-                <td><input type="checkbox" formControlName="cardFormControl" class="radio" value="1" [checked]="currentlyChecked === check_box_type.CASH" (click)="selectCheckBox(check_box_type.CASH)" [(ngModel)]="cardChecked" name="method" id=""> CARD</td>
-                <td><input type="checkbox" formControlName="cashFormControl" class="radio" value="1" [checked]="currentlyChecked === check_box_type.CARD" (click)="selectCheckBox(check_box_type.CARD)" name="method" id=""> CASH</td>
-                <td><input type="checkbox" formControlName="upiFormControl" class="radio" value="1" [checked]="currentlyChecked === check_box_type.UPI" (click)="selectCheckBox(check_box_type.UPI)" name="method" id=""> UPI</td>
+                <td><input type="checkbox" formControlName="cardFormControl" class="radio" value="" [checked]="currentlyChecked === check_box_type.CASH" (click)="selectCheckBox(check_box_type.CASH)"  name="method" id=""> CARD</td>
+                <td><input type="checkbox" formControlName="cashFormControl" class="radio" value="" [checked]="currentlyChecked === check_box_type.CARD" (click)="selectCheckBox(check_box_type.CARD)" name="method" id=""> CASH</td>
+                <td><input type="checkbox" formControlName="upiFormControl" class="radio" value="" [checked]="currentlyChecked === check_box_type.UPI" (click)="selectCheckBox(check_box_type.UPI)" name="method" id=""> UPI</td>
             </tr>
             <tr >
                 <!-- <td *ngIf="cardChecked" colspan="3" style="text-align: center;"> <input nbInput size="small" style="width: 10em;" formControlName="cardNoFormControl" name="salesNewFormControl" placeholder="Card No" ></td> -->

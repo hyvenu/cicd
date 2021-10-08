@@ -30,8 +30,8 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="bookingDate">Booking Date <span style="color: red;">*</span> </label>
-                    <input nbInput name="bookingDate"  [nbDatepicker]="booking_date" formControlName="bookingDateFormControl"
-                    [ngClass]="{ 'is-invalid': submitted && f.bookingDateFormControl.errors  }" class="form-control"/>
+                    <input nbInput name="bookingDate"  [nbDatepicker]="booking_date"  formControlName="bookingDateFormControl"
+                    [ngClass]="{ 'is-invalid': submitted && f.bookingDateFormControl.errors  }" class="form-control" />
                     <div *ngIf="submitted && f.bookingDateFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.bookingDateFormControl.errors.required"> Booking Date is Required</div>
                     </div>
@@ -61,7 +61,7 @@
             <div class="form-row">
                 <div class="form-group col-md-2">
                     <label >Service <span style="color: red;">*</span></label>
-                    <nb-select style="width: 20em;" name="services" [(ngModel)]="service" formControlName="serviceFormControl" [(selected)]="selected_service" >
+                    <nb-select style="width: 20em;" name="services" [(ngModel)]="service" formControlName="serviceFormControl" [(selected)]="selected_service" multiple >
                         <nb-option *ngFor="let o of service_list" value="{{o.id}}" >
                             {{ o.service_name }}-{{o.price}}-{{o.service_gst}}%Gst-{{o.service_hour}}HourService
                         </nb-option>
@@ -104,9 +104,15 @@
                 [(ngModel)]="searchPhoneNo" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data |search_filter:'phone_number':searchPhoneNo ">
-                    <i class="mr-auto mt-2 mt-lg-0"> {{item.phone_number }}</i>
+                <nb-list-item *ngFor="let item of data |search_filter:'phone_number':searchPhoneNo">
+                    <i class="mr-auto mt-2 mt-lg-0"> {{item.phone_number }}-{{item.customer_code }}</i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data | search_filter:'customer_code':searchPhoneNo ">
+                    <i  class="mr-auto mt-2 mt-lg-0"> {{item.phone_number }}-{{item.customer_code }}</i>
+                    <button  nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
             </nb-list>
         </nb-card-body>

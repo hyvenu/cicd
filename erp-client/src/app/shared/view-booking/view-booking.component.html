@@ -4,8 +4,9 @@
     </nb-card-header>
     <nb-card-body>
         <div class="row">
-            <div class="col-md-4" *ngFor="let item of booking_list">
-                <nb-card  [ngStyle]="{'background-color': item.assigned_staff__id ? '#74b9ff':'#ecf0f1'}">
+            <ng-container  *ngFor="let item of booking_list">
+                
+                <nb-card *ngFor="let service of item.service_list" style="margin-right: 0.5rem;"  [ngStyle]="{'background-color': item.assigned_staff__id ? '#74b9ff':'#ecf0f1'}">
                     <nb-card-header>
                         <p>Name : {{ item.customer_name }}</p>
                         <em>Phone Number: {{ item.phone_number }}</em>
@@ -13,7 +14,9 @@
                     <nb-card-body>
                         <p>Booking Date : {{ item.booking_date }}</p>
                         <p> Time : {{ item.start_time}} - {{ item.end_time}} </p>
-                        <p>Service:{{item.service__service_name}}</p>
+                        
+                        <p >Service:{{service.service__service_name}}</p>
+                        
                         <p *ngIf="item.assigned_staff__id" style="color:rgb(47, 0, 255);font-size: small;"> Assigned Stylist : {{ item.assigned_staff__employee_name }}</p>
                     </nb-card-body>
                     <nb-card-footer>
@@ -25,7 +28,8 @@
                            </div>
                     </nb-card-footer>
                 </nb-card>
-            </div>
+                
+            </ng-container>
         </div>
     </nb-card-body>
 </nb-card>

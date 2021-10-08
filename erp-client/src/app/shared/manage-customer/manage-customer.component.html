@@ -38,11 +38,11 @@
             </div><br>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="customerAddress">Address <span style="color: red;">*</span> </label><br>
+                    <label for="customerAddress">Address  </label><br>
                     <textarea nbInput  name="customerAddress" class="form-control" placeholder="Address" formControlName="customerAddressFormControl" [ngClass]="{ 'is-invalid': submitted && f.customerAddressFormControl.errors }" ></textarea>
-                    <div *ngIf="submitted && f.customerAddressFormControl.errors" class="invalid-feedback">
+                    <!-- <div *ngIf="submitted && f.customerAddressFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.customerAddressFormControl.errors.required">Address is required</div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="form-group col-md-4">
                     <label >Purchase/Service Bill <span style="color: red;">*</span></label>

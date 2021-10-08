@@ -71,15 +71,19 @@ export class AdminService {
   }
 
   public saveBooking(data) {
-    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/`, data)
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/save_appointment`, data)
   }
 
   public removeFromBooking(data){
     return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/`, data)
   }
 
-  public updateBooking(id,data) {
-    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment/` + id + '/', data)
+  public updateBooking(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/save_appointment` , data)
+  }
+
+  public updateIsPaid(data) {
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/update_is_paid` , data)
   }
 
   public getAppointmentListOfCalendar(){
@@ -87,7 +91,7 @@ export class AdminService {
   }
 
   public getAppointmentList(){
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_list`, {})
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_details`, {})
   }
 
   // public getAppointmentLists(id){

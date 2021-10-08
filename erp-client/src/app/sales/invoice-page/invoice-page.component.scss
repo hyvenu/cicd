@@ -1,0 +1,21 @@
+@media print{
+    @page {
+        /* dimensions for the whole page */
+        size: A5;
+        
+        margin: 0;
+    }
+}
+
+html {
+    /* off-white, so body edge is visible in browser */
+    background: #eee;
+}
+
+body {
+    /* A5 dimensions */
+    height: 210mm;
+    width: 148.5mm;
+
+    margin: 0;
+}

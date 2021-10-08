@@ -95,10 +95,10 @@ export class ManageBrandComponent implements OnInit {
         (data) => {
           this.nbtoastService.success("Saved Successfully");
           this.brand_image=null;
-          
-          this.brandMasterFrom.reset();
-          this.myInputVariable.nativeElement.value = "";
-          this.refresh()
+          this.ngOnInit()
+          // this.brandMasterFrom.reset();
+          // this.myInputVariable.nativeElement.value = "";
+          // this.refresh()
         },
         (error) =>{
           this.nbtoastService.danger(error.error.detail);
@@ -126,10 +126,10 @@ export class ManageBrandComponent implements OnInit {
           (data) => {
             this.nbtoastService.success("Saved Successfully");
             this.brand_image=null;
-            
-            this.brandMasterFrom.reset()
-            this.myInputVariable.nativeElement.value = "";
-            this.refresh()
+            this.ngOnInit()
+            // this.brandMasterFrom.reset()
+            // this.myInputVariable.nativeElement.value = "";
+            // this.refresh()
           },
           (error) =>{
             this.nbtoastService.danger(error.error.detail);

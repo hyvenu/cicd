@@ -135,7 +135,7 @@ class AppointmentSchedule(AuditUuidModelMixin):
     # Relationships
     is_paid = models.BooleanField(default="", null=True)
     assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
-    service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
+    # service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
     # Fields
     booking_date = models.DateField(null=True, blank=True)

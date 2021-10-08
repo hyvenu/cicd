@@ -23,10 +23,10 @@ export class InvoicePageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const printBtn: HTMLElement = document.getElementById('print');
-printBtn.onclick = function () {
-  printDiv('bill');
-};
+//     const printBtn: HTMLElement = document.getElementById('print');
+// printBtn.onclick = function () {
+//   printDiv('bill');
+// };
 
     let invoice = this.route.snapshot.queryParams['id']
 
@@ -51,5 +51,21 @@ printBtn.onclick = function () {
 
 
   }
+  // CallPrint(bill) {
+  //   var prtContent = document.getElementById(bill);
+  //   var WinPrint = window.open('', '', 'left=0,top=0,width=600,height=400,toolbar=1,scrollbars=1,status=0');
+    // WinPrint.document.write('<html><head><title></title></head>');
+    // WinPrint.document.write('<body style="font-family:verdana; font-size:14px;width:110px;height:200px:" >');
+    // WinPrint.document.write(prtContent.innerHTML);
+    // WinPrint.document.write('</body></html>');
+    // WinPrint.document.close();
+    // WinPrint.focus();
+    // WinPrint.print();
+    // WinPrint.close();
+    //prtContent.innerHTML = "";
+// }
+  // printPage(){
+  //   window.print()
+  // }
 
 }

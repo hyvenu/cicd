@@ -101,8 +101,9 @@ export class ManageCustomerComponent implements OnInit {
 
 customerForm:FormGroup;
   Bills_list=[
+    {name:"Print", value:"Print"},
     {name:"Emailed",value:"Emailed"},
-    {name:"Not a option", value:"Not an option"},
+    {name:"Sms", value:"Sms"},
   ]
   customer_id: any;
   bill: any;
@@ -134,7 +135,7 @@ customerForm:FormGroup;
       phoneNumberFormControl:['',[Validators.required,Validators.pattern('^[0-9]{10}$')],],
       customerEmailFormControl:['',[Validators.required,Validators.email],],
       customerServiceBillFormControl:['',[Validators.required]],
-      customerAddressFormControl:['',[Validators.required]],
+      customerAddressFormControl:['',[]],
 
     })
 

@@ -36,6 +36,7 @@ export class AppointmentBookComponent implements OnInit {
   start_time: any;
   end_time: string;
   date: string;
+  assigned_staf=""
 
 
 
@@ -127,14 +128,16 @@ export class AppointmentBookComponent implements OnInit {
     form_data.append('service',this.bookingForm.controls['serviceFormControl'].value);
     form_data.append('start_time', this.bookingForm.controls['startTimeFormControl'].value);
     form_data.append('end_time', this.bookingForm.controls['endTimeFormControl'].value);
+    // form_data.append('assigned_staff', this.assigned_staf);
     form_data.append('booking_date', moment(this.bookingForm.controls['bookingDateFormControl'].value).format("YYYY-MM-DD"));
     form_data.append('is_paid',new Boolean(this.passed_flag).toString())
 
     if (this.booking_id) {
-        this.adminService.updateBooking(this.booking_id,form_data).subscribe(
+        this.adminService.updateBooking(form_data).subscribe(
           (data) => {
+            console.log(data)
              this.nbtoastService.success("Booking information updated")
-             this.routes.navigate(["/ViewBooking"]);
+            //  this.routes.navigate(["/ViewBooking"]);
              this.bookingForm.reset();
              this.booking_id=null;
              this.selected_service = null;
@@ -147,6 +150,7 @@ export class AppointmentBookComponent implements OnInit {
     }else {
       this.adminService.saveBooking(form_data).subscribe(
         (data) => {
+          console.log(data)
            this.nbtoastService.success("Booking information saved")
            this.routes.navigate(["/ViewBooking"]);
            this.bookingForm.reset();
@@ -177,6 +181,7 @@ export class AppointmentBookComponent implements OnInit {
   open_phone_list(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_data })
     .onClose.subscribe(data => {
+      console.log(data)
        this.selected_customer = data     
        this.customer_id  = data.id
        this.bookingForm.controls['customerNameFormControl'].setValue(data.customer_name);

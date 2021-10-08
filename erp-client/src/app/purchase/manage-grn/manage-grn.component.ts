@@ -29,10 +29,10 @@ export class ManageGrnComponent implements OnInit {
 
   ];
 
-  sgst: number = 0;
-  cgst: number = 0;
-  igst: number = 0;
-  sub_total: number = 0;
+  sgst: any = 0;
+  cgst: any = 0;
+  igst: any = 0;
+  sub_total: any = 0;
   grand_total: number = 0;
   invoiceDoc = [];
   imgSrc: any;
@@ -194,7 +194,8 @@ export class ManageGrnComponent implements OnInit {
 
                     this.inventoryService.getProduct(element['product_id']).subscribe(
                       (product) => {
-                        this.selected_product_list.push({
+                       
+                         const item ={
                           slno: i++,
                           product_id: product['id'],
                           product_code: product['product_code'],
@@ -213,7 +214,9 @@ export class ManageGrnComponent implements OnInit {
                           total: (Number(element['amount']) + Number(element['gst_amount'])),
                           batch_code: '',
                           expiry_date: null,
-                        });
+                         };
+                         this.selected_product_list.push(item)
+                        this.calculate(item)
                       });
                     console.log(element['product_id']);
                   });
@@ -222,9 +225,13 @@ export class ManageGrnComponent implements OnInit {
                 }
               );
             });
-
-            this.sub_total = data.sub_total
-            this.grand_total = data.invoice_amount
+            
+            // this.sub_total = parseFloat(data.sub_total)
+            // this.sgst = data.sgst
+            // this.cgst = data.cgst
+            // this.igst = data.igst
+            // this.grand_total = (parseFloat(this.sub_total) +parseFloat(this.sgst)+ parseFloat(this.cgst) + parseFloat(this.igst))
+           
             console.log('grand total ' + this.grand_total)
             if (this.vendor_state_code == '29') {
               this.sgst = data.sgst
@@ -279,7 +286,8 @@ export class ManageGrnComponent implements OnInit {
       this.sgst = 0;
       this.cgst = this.total_gst/2
     }
-    this.grand_total = this.sub_total + ((this.sgst + this.cgst + this.igst))
+    this.grand_total = (parseFloat(this.sub_total)+parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst))
+    console.log(this.grand_total)
   }
 
 

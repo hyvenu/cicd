@@ -8,6 +8,7 @@ import { NbThemeModule, NbLayoutModule,NbButtonModule ,NbCardModule,NbListModule
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import {NgxPrintModule} from 'ngx-print';
 import { SalesOrderComponent } from './sales-order/sales-order.component';
 import { MainPipe } from '../pipe.module';
 import { SalesBillComponent } from './sales-bill/sales-bill.component';
@@ -43,6 +44,7 @@ const routes: Routes = [
     NbSelectModule,
     NgxPermissionsModule.forRoot(),
     NbDatepickerModule,
+    NgxPrintModule,
   ],
   providers:[NbToastrService, NbDialogService],
 })

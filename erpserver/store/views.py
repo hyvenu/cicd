@@ -122,6 +122,21 @@ def save_Appointment(request):
     ap_res = store_service.save_Appointment(data)
     return JsonResponse(ap_res, safe=False)
 
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated, ])
+def update_is_paid(request):
+    data = request.data
+    store_service = StoreService()
+    ap_res = store_service.update(data)
+    return JsonResponse(ap_res, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_appointment_details(request):
+    store_service = StoreService()
+    app_res = store_service.get_appointment_details()
+    return JsonResponse(app_res, safe=False)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
 def get_appointment_list(request):

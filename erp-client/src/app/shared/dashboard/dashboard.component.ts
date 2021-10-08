@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import {  ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import * as moment from 'moment';
 
 
 import { Color, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
@@ -31,15 +32,14 @@ export class DashboardComponent implements OnInit {
     //   }
     // }
   };
-  barChartLabels: Label[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+  barChartLabels: Label[] = [];
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   
 
-  barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Booking' },
-    // { data: [28, 48, 40, 19, 86, 27, 90], label: 'Cancel' }
-  ];
+  barChartData: any =[
+    { data: [], label: 'Bookings' },
+  ];;
 
    // Pie
   pieChartOptions: ChartOptions = {
@@ -48,19 +48,21 @@ export class DashboardComponent implements OnInit {
   
   public pieChartLabels: Label[] = [];
   // public pieChartLabels: Label[] = [['Head Spa'], ['Hair ','Straightening'], 'SPA'];
-  public pieChartData:ChartDataSets[];
+  public pieChartData:any[]=[];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
   
   // Line 
-   lineChartData: ChartDataSets[] = [
-    { data: [50,100,200,250,300,400,130], label: 'Daily Booknig',
+   lineChartData: any[] = [
+    { data: [], label: 'Daily Booknig',
        },
-    { data: [10,30,20,50,30,40,10], label: 'Sales',
-      },
+      //  { data: [50,100,200,250,300,400,130], label: 'Daily Booknig',
+      // },
+    // { data: [10,30,20,50,30,40,10], label: 'Sales',
+    //   },
   ];
-   lineChartLabels: Label[] = ['1', '2', '3', '4', '5', '6', '7'];
+   lineChartLabels: Label[] = [];
   // public lineChartOptions: (ChartOptions & { annotation: any }) = {
   //   responsive: true,
   // };
@@ -95,8 +97,11 @@ export class DashboardComponent implements OnInit {
     this.get_bookingservice();
     
     
-    this.pieChartData = [0,0,0];
-    console.log(this.pieChartData)
+    // this.pieChartData = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    //console.log(this.pieChartData)
+    // this.barChartData= [
+    //   { data:[0,0,0,0,0], label:"Bookings"}
+    // ]
 
   }
 
@@ -130,21 +135,37 @@ export class DashboardComponent implements OnInit {
   get_bookingservice(){
     this.adminService.getAppointmentList().subscribe(
       data=>{
-        this.appointmentlist = data
-        console.log(this.appointmentlist)
-        let count = this.appointmentlist.filter(item=> item.service__service_name == "head spa").length;
-        this.headspacount = count; 
-        console.log(this.headspacount)
-        this.pieChartData = [100, this.headspacount, 100]
-        this.pieChartLabels = this.appointmentlist.reduce((acc,v) =>{
+        console.log(data)
+        const appointment_details = data.reduce((acc,v) =>{
           const label = v.service__service_name
-          if(!acc.includes(label)){
-            return [...acc,label]
-          }
+          acc[label] = (acc[label] || 0) + 1
           return acc
-        },[])
-        // const labels = this.appointmentlist.map(item => item.service__service_name)
+        },{})
+        this.pieChartLabels = Object.keys(appointment_details)
+        this.pieChartData = Object.values(appointment_details)
+      
+        const appointment_booking_details = data.reduce((acc,v) =>{
+          let d = moment(v.booking_date);
+          const bookdate = d.format('MMM YYYY')
+          acc[bookdate] = (acc[bookdate] || 0) + 1
+          return acc
+        },{})
+        this.barChartLabels = Object.keys(appointment_booking_details)
+        this.barChartData.forEach(b_data => {
+          b_data.data = Object.values(appointment_booking_details)
+        })
+       // this.barChartData[0].data = 
         
+       const daily_booking_details = data.reduce((acc,v) =>{
+        let d = moment(v.booking_date);
+        const bookdate = d.format('DD')
+        acc[bookdate] = (acc[bookdate] || 0) + 1
+        return acc
+      },{})
+      this.lineChartLabels = Object.keys(daily_booking_details)
+      this.lineChartData.forEach(l_data => {
+        l_data.data = Object.values(daily_booking_details)
+      })
       }
     )
   }
