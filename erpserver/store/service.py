@@ -70,6 +70,8 @@ class StoreService:
                 if 'id' in ap_data:
                     appointment_obj = AppointmentSchedule.objects.get(id=ap_data['id'])
                     appointment_obj.assigned_staff_id = ap_data['assigned_staff']
+                    appointment_obj.customer_id = ap_data['customer']
+
                 else:
                     appointment_obj = AppointmentSchedule()
 

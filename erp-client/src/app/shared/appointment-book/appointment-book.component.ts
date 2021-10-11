@@ -93,8 +93,7 @@ export class AppointmentBookComponent implements OnInit {
     console.log("booking id"+this.app_id)
     this.assigned = this.route.snapshot.queryParams['assign']
     console.log(this.assigned)
-    this.cus_id = this.route.snapshot.queryParams['customer_id']
-    console.log(this.cus_id)
+    
 
     this.adminService.getCustomerList().subscribe(
       (data) =>{
@@ -122,6 +121,8 @@ export class AppointmentBookComponent implements OnInit {
   edit_oppintment(){
     this.adminService.getAppointmentDetailsById(this.app_id).subscribe(
       (data) =>{
+        this.customer_id = this.route.snapshot.queryParams['customer_id']
+        console.log(this.cus_id)
         console.log(data)
         console.log(data.service_list)
         this.appointment_id=data.id
@@ -152,10 +153,11 @@ export class AppointmentBookComponent implements OnInit {
       form_data.append('id', this.app_id);  
       form_data.append('assigned_staff', this.assigned);
       // form_data.append('service',service_id);
+      // form_data.append('customer',this.cus_id)
     }
 
     form_data.append('store',sessionStorage.getItem('store_id'));
-    form_data.append('customer',this.cus_id)
+    form_data.append('customer',this.customer_id)
     form_data.append('customer_name', this.bookingForm.controls['customerNameFormControl'].value);
     form_data.append('phone_number', this.bookingForm.controls['phoneNumberFormControl'].value);
     form_data.append('service',this.bookingForm.controls['serviceFormControl'].value);
