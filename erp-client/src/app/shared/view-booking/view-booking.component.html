@@ -24,7 +24,7 @@
                         (click)="stylist_open(stylist_dialog, item)"  placeholder="Select Stylist" readonly> <br><br>
                         <div  class="form-group">
                             <button *ngIf="item.assigned_staff__id" nbButton status="info"  size="small" (click)="checkOutToBill(item.customer__id)"  >CheckOut</button>
-                            <button nbButton size="small" staus="info" style="float: right;" (click)="appointmentBooking(item.id)">Modify</button>
+                            <button nbButton size="small" staus="info" style="float: right;" (click)="appointmentBooking(item.id,item.assigned_staff__id,item.customer__id)">Modify</button>
                             <!-- <a *ngIf="item.assigned_staff__id" style="text-decoration: none;color: white;" href="/SalesBill" class="btn btn-info">CheckOut</a> -->
                            </div>
                     </nb-card-footer>

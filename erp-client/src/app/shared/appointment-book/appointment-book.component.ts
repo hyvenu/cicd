@@ -39,6 +39,8 @@ export class AppointmentBookComponent implements OnInit {
   assigned_staf=""
   app_id: any;
   serv: any;
+  cus_id: any;
+  assigned: any;
 
 
 
@@ -89,8 +91,10 @@ export class AppointmentBookComponent implements OnInit {
     this.service_array = this.bookingForm.controls['serviceFormControl'].value;
      this.app_id = this.route.snapshot.queryParams['id'];
     console.log("booking id"+this.app_id)
-    this.assigned_staf = this.route.snapshot.queryParamMap['assigned_staff']
-    console.log(this.assigned_staf)
+    this.assigned = this.route.snapshot.queryParams['assign']
+    console.log(this.assigned)
+    this.cus_id = this.route.snapshot.queryParams['customer_id']
+    console.log(this.cus_id)
 
     this.adminService.getCustomerList().subscribe(
       (data) =>{
@@ -129,7 +133,7 @@ export class AppointmentBookComponent implements OnInit {
         //     console.log("service_list"+this.service_list)
         //   }
         // )
-        // this.service = data.service_list[0].service__id
+        this.service = [data.service_list[0].service__id]
         this.bookingForm.controls['startTimeFormControl'].setValue(data.start_time);
         this.bookingForm.controls['endTimeFormControl'].setValue(data.end_time);
         // this.bookingForm.controls['serviceFormControl'].setValue(data.service__id);
@@ -144,12 +148,14 @@ export class AppointmentBookComponent implements OnInit {
     if(this.bookingForm.valid){
     let form_data = new FormData();
     if(this.app_id){
+      // let service_id = this.bookingForm.controls['serviceFormControl'].value.split(',')
       form_data.append('id', this.app_id);  
-      form_data.append('assigned_staff', this.assigned_staf);
+      form_data.append('assigned_staff', this.assigned);
+      // form_data.append('service',service_id);
     }
 
     form_data.append('store',sessionStorage.getItem('store_id'));
-    form_data.append('customer',this.customer_id)
+    form_data.append('customer',this.cus_id)
     form_data.append('customer_name', this.bookingForm.controls['customerNameFormControl'].value);
     form_data.append('phone_number', this.bookingForm.controls['phoneNumberFormControl'].value);
     form_data.append('service',this.bookingForm.controls['serviceFormControl'].value);
