@@ -178,25 +178,25 @@ export class AppointmentBookComponent implements OnInit {
     }
 
     dateCheck(){
-      let start_time:any
-      let end_time:any
-       this.bookingForm.controls['startTimeFormControl'].valueChanges.subscribe(
-        (data) =>{
-          start_time = data
-          console.log(start_time)
+      // let start_time:any
+      // let end_time:any
+      //  this.bookingForm.controls['startTimeFormControl'].valueChanges.subscribe(
+      //   (data) =>{
+      //     start_time = data
+      //     console.log(start_time)
           
-        }
-      )
-      this.bookingForm.controls['endTimeFormControl'].valueChanges.subscribe(
-        (data) =>{
-          end_time = data
-          console.log(end_time)
+      //   }
+      // )
+      // this.bookingForm.controls['endTimeFormControl'].valueChanges.subscribe(
+      //   (data) =>{
+      //     end_time = data
+      //     console.log(end_time)
           
-        }
-      )
-      if (start_time.toString() < end_time.toString()){
-        this.nbtoastService.danger("Time you selected is invalid"); 
-      }
+      //   }
+      // )
+      // if (start_time.toString() < end_time.toString()){
+      //   this.nbtoastService.danger("Time you selected is invalid"); 
+      // }
     }
 
     

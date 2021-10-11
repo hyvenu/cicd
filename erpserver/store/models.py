@@ -133,8 +133,8 @@ class Employee(AuditUuidModelMixin):
 
 class AppointmentSchedule(AuditUuidModelMixin):
     # Relationships
-    is_paid = models.BooleanField(default="", null=True)
-    assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    # is_paid = models.BooleanField(default="", null=True)
+    assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE,default="", null=True, blank=True)
     # service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
     # Fields
@@ -156,6 +156,7 @@ class AppointmentSchedule(AuditUuidModelMixin):
 class AppointmentForMultipleService(AuditUuidModelMixin):
     appointment = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE,null=True, blank=True)
     service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True, blank=True)
+    s_paid = models.BooleanField(default="", null=True)
 
     class Meta:
         pass

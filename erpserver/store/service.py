@@ -69,8 +69,11 @@ class StoreService:
             for item in service_arr:
                 if 'id' in ap_data:
                     appointment_obj = AppointmentSchedule.objects.get(id=ap_data['id'])
-                    appointment_obj.assigned_staff_id = ap_data['assigned_staff']
-                    
+                    if ap_data['assigned_staff'] == "null":
+                        pass
+                    else:
+                        appointment_obj.assigned_staff_id = ap_data['assigned_staff']
+
 
                 else:
                     appointment_obj = AppointmentSchedule()
@@ -142,10 +145,11 @@ class StoreService:
         return appointment_obj.id
 
     def get_Appointment(self, customer_id):
-        appointment = AppointmentSchedule.objects.filter(customer_id=customer_id, is_paid=False).all().values(
+        appointment = AppointmentSchedule.objects.filter(customer_id=customer_id, is_paid=False,).exclude(assigned_staff_id__isnull=True).all().values(
             'id',
             'customer__id',
             'customer_name',
+            'assigned_staff',
             'booking_date',
             'assigned_staff__employee_name',
             'phone_number',

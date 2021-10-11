@@ -45,12 +45,12 @@ export class ManageCustomerComponent implements OnInit {
       booking_date:{
         title: 'Booking Date',
       },
-      service__service_name:{
+      service_list:{
         title: 'Service Name',
-        // type:'string',
-        // valuePrepareFunction:(cell, row) =>{
-        //   return row.service.service_name;
-        // },  
+        type:'string',
+        valuePrepareFunction:(service_list) =>{
+          return service_list[0].service__service_name;
+        },  
       },
       assigned_staff__employee_name:{
         title: 'Assigned Staff',
@@ -171,15 +171,15 @@ customerForm:FormGroup;
     }
 
 
-    // this.adminService.getAppointmentList().subscribe(
-    //   (data) => {
-    //     this.data = data;
-    //     console.log(data)
-    //   },
-    //   (error) => {
-    //     this.nbtoastService.danger("Unable to get customer List")
-    //   }
-    // )
+    this.adminService.getViewbookingList().subscribe(
+      (data) => {
+        this.data = data;
+        console.log(data)
+      },
+      (error) => {
+        this.nbtoastService.danger("Unable to get customer List")
+      }
+    )
 
     this.adminService.getCustomerList().subscribe(
       (data)=>{

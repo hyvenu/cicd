@@ -54,6 +54,7 @@ export class ManageProductComponent implements OnInit {
   myInputVariable: ElementRef;
   submitted: boolean=false;
   searchBrand: any;
+  update_flag: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -90,6 +91,7 @@ export class ManageProductComponent implements OnInit {
     ]
     let param1 = this.route.snapshot.queryParams["id"];
     if (param1) {
+        this.update_flag = false
         this.inventoryService.getProduct(param1).subscribe(
           (data) => {
             this.productMasterFrom.controls['categoryNameFormControl'].setValue(data.category.category_name);

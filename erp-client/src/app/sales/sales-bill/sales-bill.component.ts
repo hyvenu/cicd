@@ -23,6 +23,7 @@ export class SalesBillComponent implements OnInit {
   passed_flag:boolean = true;
   customernew_id: any;
   booking_historys: any;
+  service_id: any;
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -251,7 +252,10 @@ export class SalesBillComponent implements OnInit {
         this.booking_history = data2
         console.log(this.booking_history)
         this.booking_history.forEach(element => {
-             this.booking_id= element.id              
+          console.log(element)
+             this.booking_id= element.id  
+             this.service_id = element.service_details[0].service__id
+               console.log("servic id" +this.service_id)              
         });
         console.log(this.booking_id)
         
@@ -262,8 +266,8 @@ export class SalesBillComponent implements OnInit {
               booking_id:element.id,
               service_id:element.service_details[0].service__id,
               item_description:element.service_details[0].service__service_name,
-              quantity:0,
-              unit:"",
+              quantity:1,
+              unit:"nos",
               price:element.service_details[0].service__price,
               item_total:0,
               tax:element.service_details[0].service__service_gst,
@@ -273,7 +277,7 @@ export class SalesBillComponent implements OnInit {
           
           
         });
-        
+        this.calculate_price()
        
       }
     )
@@ -476,7 +480,9 @@ export class SalesBillComponent implements OnInit {
           this.booking_history = data2
           
           this.booking_history.forEach(element => {
-               this.booking_id= element.id              
+               this.booking_id= element.id  
+               this.service_id = element.service_details.map(item => {item.service__service_id})
+               console.log("servic id" +this.service_id)          
           });
           console.log(this.booking_id)
           
@@ -487,8 +493,8 @@ export class SalesBillComponent implements OnInit {
                 booking_id:element.id,
                 service_id:element.service_details[0].service__service_id,
                 item_description:element.service__service_name,
-                quantity:0,
-                unit:"",
+                quantity:1,
+                unit:"nos",
                 price:element.service__price,
                 item_total:0,
                 tax:element.service__service_gst,
@@ -578,7 +584,8 @@ export class SalesBillComponent implements OnInit {
   billPaid(){
     let data = {
       'is_paid':new Boolean(this.passed_flag).toString(),
-      'id':this.customer_id
+      'id':this.customer_id,
+      'service_id':this.service_id
     }
     this.adminService.updateIsPaid(data).subscribe(
       (data)=>{

@@ -155,6 +155,7 @@ class AppointmentForMultipleService(serializers.ModelSerializer):
 
 
 class AppointmentScheduleSerializer(serializers.ModelSerializer):
+    assigned_staff = serializers.CharField(max_length=230, allow_blank=True, default="")
     class Meta:
         model = models.AppointmentSchedule
         fields = ['id', 'assigned_staff', 'service', 'booking_date', 'end_time', 'customer_name', 'start_time',
