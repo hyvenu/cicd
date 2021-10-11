@@ -54,7 +54,9 @@ class StoreService:
     @transaction.atomic
     def update(self, data):
         if 'id' in data:
-            AppointmentSchedule.objects.filter(customer__id=data['id']).update(is_paid='True')
+
+            app_id =AppointmentForMultipleService.objects.filter(service_id=data['service_id']).values('appointment_id')[0]['appointment_id']
+            AppointmentSchedule.objects.filter(id=app_id).update(is_paid=True)
             # if data['is_paid'] == "true":
             #     appointment_obj.is_paid = True
             # else:

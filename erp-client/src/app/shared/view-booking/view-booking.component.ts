@@ -48,10 +48,10 @@ export class ViewBookingComponent implements OnInit {
         //  });
           console.log("booking_list",this.booking_list)
           
-            // let sort:any = this.booking_list.sort((a, b) => {
-            //   return <any>(b.phone_number) - <any>(a.phone_number);
-            // });
-            // console.log("sorted array" +sort)
+            let sort:any = this.booking_list.sort((a, b) => {
+              return <any>(b.phone_number) - <any>(a.phone_number);
+            });
+            console.log("sorted array" +sort)
           
       },
       (error) => {
