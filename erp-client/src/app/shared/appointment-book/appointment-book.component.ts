@@ -76,7 +76,7 @@ export class AppointmentBookComponent implements OnInit {
       endTimeFormControl: ['', [Validators.required]],
       serviceFormControl:['',[Validators.required]]
     })
-    this.onChange()
+    // this.onChange()
     this.dateCheck()
      this.start_date = this.route.snapshot.queryParams['start']
      this.end_date = this.route.snapshot.queryParams['end']
@@ -100,6 +100,7 @@ export class AppointmentBookComponent implements OnInit {
     console.log("booking id"+this.app_id)
     this.assigned = this.route.snapshot.queryParams['assign']
     console.log(this.assigned)
+    
     
 
     this.adminService.getCustomerList().subscribe(
@@ -162,20 +163,20 @@ export class AppointmentBookComponent implements OnInit {
  
   }
 
-  onChange(){
-    this.bookingForm.controls['bookingDateFormControl'].valueChanges.subscribe(
-      (data)=> {  
-        console.log(new Date(data))
-        let dateofdata = new Date(data)
-        console.log(dateofdata)
-        console.log(this.current_date)
-        if(moment(dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
-          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
-        }
+  // onChange(){
+  //   this.bookingForm.controls['bookingDateFormControl'].valueChanges.subscribe(
+  //     (data)=> {  
+  //       console.log(new Date(data))
+  //       let dateofdata = new Date(data)
+  //       console.log(dateofdata)
+  //       console.log(this.current_date)
+  //       if(moment(dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+  //         this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+  //       }
 
-      })
+  //     })
      
-    }
+  //   }
 
     dateCheck(){
       // let start_time:any
