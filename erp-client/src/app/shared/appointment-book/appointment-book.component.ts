@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { AdminService } from 'src/app/admin/admin.service';
+import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { tr } from 'date-fns/locale';
 
@@ -41,6 +42,7 @@ export class AppointmentBookComponent implements OnInit {
   serv: any;
   cus_id: any;
   assigned: any;
+  current_date :any = new Date();
 
 
 
@@ -49,9 +51,11 @@ export class AppointmentBookComponent implements OnInit {
     private nbtoastService: NbToastrService,
     private dialogService: NbDialogService,
     private routes: Router,
+    private datePipe: DatePipe,
     private route: ActivatedRoute,
     private adminService:AdminService,
-    ) { }
+    
+    ) { this.current_date = new Date() }
 
     keyPress(event: any) {
       const pattern = /[0-9\+\-\ ]/;
@@ -71,6 +75,8 @@ export class AppointmentBookComponent implements OnInit {
       endTimeFormControl: ['', [Validators.required]],
       serviceFormControl:['',[Validators.required]]
     })
+    this.check_date_of_req()
+    this.onChange()
      this.start_date = this.route.snapshot.queryParams['start']
      this.end_date = this.route.snapshot.queryParams['end']
      console.log((this.start_date))
@@ -144,6 +150,45 @@ export class AppointmentBookComponent implements OnInit {
        
   });
   }
+
+  check_date_of_req():void{
+    // let dateOfReq = this.bookingForm.get('bookingDateFormControl').value;
+    // console.log("date from form",dateOfReq)
+    // if(dateOfReq < this.current_date ){
+    //   this.bookingForm.controls['bookingDateFormControl'].setValue('')
+    //   this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+    // }
+ 
+  }
+
+  onChange(){
+    this.bookingForm.controls['bookingDateFormControl'].valueChanges.subscribe(
+      (data)=> {  
+        console.log(new Date(data))
+        let dateofdata = new Date(data)
+        console.log(dateofdata)
+        console.log(this.current_date)
+        if(moment(dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+        }
+
+      })
+      let start_time = this.bookingForm.controls['startTimeFormControl'].valueChanges.subscribe(
+        (data) =>{
+          console.log(data)
+        }
+      )
+      let end_time = this.bookingForm.controls['endTimeFormControl'].valueChanges.subscribe(
+        (data) =>{
+          console.log(data)
+        }
+      )
+      if (start_time < end_time){
+        this.nbtoastService.danger("Time you selected is invalid"); 
+      }
+    }
+
+    
 
   saveBooking():void {
     if(this.bookingForm.valid){
