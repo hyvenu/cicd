@@ -137,7 +137,7 @@ export class DashboardComponent implements OnInit {
       data=>{
         console.log(data)
         const appointment_details = data.reduce((acc,v) =>{
-          const label = v.service__service_name
+          const label = v.service_list[0].service__service_name
           acc[label] = (acc[label] || 0) + 1
           return acc
         },{})

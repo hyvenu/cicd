@@ -55,7 +55,7 @@ export class AdminService {
   }
 
   public getServiceList(){
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreService/`, {})
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_store_service_list`, {})
   }
 
   public saveService(data) {
@@ -94,6 +94,10 @@ export class AdminService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_details`, {})
   }
 
+  public getViewbookingList(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_viewbooking_details`, {})
+  }
+
   // public getAppointmentLists(id){
   //   return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_list/` + id + '/')
   // }
@@ -101,6 +105,10 @@ export class AdminService {
 
   public getAppointmentDetails(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointments/` + id + '/')
+  }
+
+  public getAppointmentDetailsById(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_details_by_id?id= ${id}`)
   }
 
   public getEmployeeList() {

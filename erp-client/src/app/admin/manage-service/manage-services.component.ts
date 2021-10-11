@@ -48,6 +48,7 @@ export class ManageServiceComponent implements OnInit {
     }
   }
   submitted: boolean = false;
+  pattern = '[0-9]*'
 
   constructor(private formBuilder: FormBuilder,
               private adminService: AdminService,
@@ -60,7 +61,7 @@ export class ManageServiceComponent implements OnInit {
     this.ServiceFrom  =  this.formBuilder.group({
       ServiceNameFormControl: ['', [Validators.required]],
       ServiceDescFormControl: ['', [Validators.required]],
-      ServicePriceFormControl: ['', [Validators.required]],
+      ServicePriceFormControl: ['', [Validators.required,Validators.pattern(this.pattern)]],
       gstFormControl: ['', [Validators.required]],
       serviceHourFormControl:['',[Validators.required]],
     });

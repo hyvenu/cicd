@@ -264,7 +264,7 @@ export class CalenderComponent implements OnInit {
           }
 
           this.events.push({
-            name: element.service__service_name +  "-"  + element.customer__customer_name,
+            name: element.service_list[0].service__service_name +  "-"  + element.customer__customer_name,
             location: element.assigned_staff__id,
             start: start,
             end: end,

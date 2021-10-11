@@ -578,7 +578,7 @@ export class SalesBillComponent implements OnInit {
   billPaid(){
     let data = {
       'is_paid':new Boolean(this.passed_flag).toString(),
-      'id':this.booking_id
+      'id':this.customer_id
     }
     this.adminService.updateIsPaid(data).subscribe(
       (data)=>{

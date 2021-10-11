@@ -27,9 +27,9 @@ export class AppointmentBookComponent implements OnInit {
   appointment_id: any;
   submitted: boolean = false;
   passed_flag:boolean = false;
-  service;
+  service=[];
   selectedService: any;
-  service_list: any;
+  service_list: any=[];
   calendar_data: [];
   start_date: any;
   end_date: any;
@@ -37,6 +37,8 @@ export class AppointmentBookComponent implements OnInit {
   end_time: string;
   date: string;
   assigned_staf=""
+  app_id: any;
+  serv: any;
 
 
 
@@ -85,41 +87,66 @@ export class AppointmentBookComponent implements OnInit {
      }
     
     this.service_array = this.bookingForm.controls['serviceFormControl'].value;
-    let param = this.route.snapshot.queryParams['id'];
-
-    if(param){
-      this.adminService.getAppointmentDetails(param).subscribe(
-        (data) =>{
-          
-          this.appointment_id=data.id
-          
-          
-          this.bookingForm.controls['customerNameFormControl'].setValue(data.customer_name);
-          this.bookingForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
-          
-         
-    });
-  }
-    
-    this.adminService.getServiceList().subscribe(
-      (data) =>{
-        this.service_list = data;
-      },
-      (error) =>{
-        this.nbtoastService.danger("unable to get service list");
-      }
-    )
+     this.app_id = this.route.snapshot.queryParams['id'];
+    console.log("booking id"+this.app_id)
+    this.assigned_staf = this.route.snapshot.queryParamMap['assigned_staff']
+    console.log(this.assigned_staf)
 
     this.adminService.getCustomerList().subscribe(
       (data) =>{
         this.customer_data = data;
       } 
     )
+    
+    this.adminService.getServiceList().subscribe(
+      (data) =>{
+        this.service_list = data;
+        console.log("srr" +this.service_list)
+
+        if(this.app_id){
+          this.edit_oppintment()
+        }
+      },
+      (error) =>{
+        this.nbtoastService.danger("unable to get service list");
+      }
+    )
+
+
+  }
+
+  edit_oppintment(){
+    this.adminService.getAppointmentDetailsById(this.app_id).subscribe(
+      (data) =>{
+        console.log(data)
+        console.log(data.service_list)
+        this.appointment_id=data.id
+        this.bookingForm.controls['bookingDateFormControl'].setValue(moment(data.booking_date));
+        // let ser_id = this.adminService.getServiceList().subscribe(
+        //   (serv) =>{
+        //     console.log("service list"+data)
+        //     this.serv = serv.find(item => item.id = data.service_list[0].service__id)
+        //     console.log("service_list"+this.service_list)
+        //   }
+        // )
+        // this.service = data.service_list[0].service__id
+        this.bookingForm.controls['startTimeFormControl'].setValue(data.start_time);
+        this.bookingForm.controls['endTimeFormControl'].setValue(data.end_time);
+        // this.bookingForm.controls['serviceFormControl'].setValue(data.service__id);
+        this.bookingForm.controls['customerNameFormControl'].setValue(data.customer_name);
+        this.bookingForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
+        
+       
+  });
   }
 
   saveBooking():void {
     if(this.bookingForm.valid){
     let form_data = new FormData();
+    if(this.app_id){
+      form_data.append('id', this.app_id);  
+      form_data.append('assigned_staff', this.assigned_staf);
+    }
 
     form_data.append('store',sessionStorage.getItem('store_id'));
     form_data.append('customer',this.customer_id)
@@ -155,7 +182,7 @@ export class AppointmentBookComponent implements OnInit {
            this.routes.navigate(["/ViewBooking"]);
            this.bookingForm.reset();
            this.booking_id=null;
-           this.service = null;
+           this.service = [];
         },  
         (error) => {
             this.nbtoastService.danger("Failed to update");

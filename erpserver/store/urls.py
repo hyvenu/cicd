@@ -29,7 +29,10 @@ urlpatterns = (
     path('api/v1/get_appointment_list', views.get_appointment_list, name="get_appointment_list"),
     path('api/v1/get_employee_list', views.get_employee_list, name="get_employee_list"),
     path('api/v1/get_store_list', views.get_store_list, name="get_store_list"),
+    path('api/v1/get_store_service_list', views.get_store_service_list, name="get_store_service_list"),
     path('api/v1/get_store_details', views.get_store_details, name="get_store_details"),
     path('api/v1/get_appointment_details', views.get_appointment_details, name="get_appointment_details"),
+    path('api/v1/get_viewbooking_details', views.get_viewbooking_details, name="get_viewbooking_details"),
+    path('api/v1/get_appointment_details_by_id', views.get_appointment_details_by_id, name="get_appointment_details_by_id"),
 
 )

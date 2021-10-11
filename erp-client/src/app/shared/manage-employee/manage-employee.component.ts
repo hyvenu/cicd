@@ -62,6 +62,7 @@ export class ManageEmployeeComponent implements OnInit {
   dep_id: any;
   dailog_ref: any;
   selected_dep: any;
+  searchDept:any;
 
 
   constructor(
@@ -97,7 +98,7 @@ export class ManageEmployeeComponent implements OnInit {
     if(param){
       this.adminService.getEmployeeDetails(param).subscribe(
         (data) =>{
-          
+          console.log(data)
           this.employee_id=data.id
            console.log(this.employee_id)
           this.employeeForm.controls['employeeCodeFormControl'].setValue(data.employee_code);
@@ -105,6 +106,7 @@ export class ManageEmployeeComponent implements OnInit {
           this.employeeForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
           this.employeeForm.controls['departmentFormControl'].setValue(data.department_name);
           this.employeeForm.controls['employeeAddressFormControl'].setValue(data.employee_address);
+          this.dep_id = data.department
           console.log(data.employee_address);
    
         }
@@ -143,6 +145,7 @@ export class ManageEmployeeComponent implements OnInit {
   dep_open(dialog: TemplateRef<any>) {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.department_list })
       .onClose.subscribe(data => {
+        this.searchDept =""
         this.selected_dep = data;
         this.dep_id = this.selected_dep.id
         this.employeeForm.controls['departmentFormControl'].setValue(data.department_name);

@@ -101,7 +101,12 @@ export class ManageBrandComponent implements OnInit {
           // this.refresh()
         },
         (error) =>{
-          this.nbtoastService.danger(error.error.detail);
+          if(error === "exist"){
+            this.nbtoastService.danger("Brand Name already"+" "+error);
+            }
+            else{
+              this.nbtoastService.danger(error);
+            }
         }
       )
     }

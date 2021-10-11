@@ -139,6 +139,30 @@ def get_appointment_details(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
+def get_store_list(request):
+    store_service = StoreService()
+    app_res = store_service.get_store_list()
+    return JsonResponse(app_res, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_viewbooking_details(request):
+    store_service = StoreService()
+    app_res = store_service.get_viewbooking_details()
+    return JsonResponse(app_res, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_appointment_details_by_id(request):
+    store_service = StoreService()
+
+    appo_id = request.query_params['id']
+    app_id = appo_id.lstrip()
+    app_obj = store_service.get_appointment_details_byid(app_id)
+    return JsonResponse(app_obj, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
 def get_appointment_list(request):
     store_service = StoreService()
     appointment_list = store_service.get_appointment_list()
@@ -146,9 +170,9 @@ def get_appointment_list(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
-def get_store_list(request):
+def get_store_service_list(request):
     store_service = StoreService()
-    store_list = store_service.get_store_list()
+    store_list = store_service.get_store_service_list()
     return JsonResponse(store_list, safe=False)
 
 

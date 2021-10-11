@@ -48,7 +48,7 @@ class AppSettings(AuditUuidModelMixin):
 
 class Department(AuditUuidModelMixin):
     department_id = models.CharField(max_length=230, default="")
-    department_name = models.CharField(max_length=100, default="")
+    department_name = models.CharField(max_length=100, default="", unique=True)
 
     class Meta:
         pass
@@ -108,7 +108,7 @@ class Customer(AuditUuidModelMixin):
     phone_number = models.CharField(max_length=30, null=True, default=None, unique=True)
     customer_email = models.CharField(max_length=255, default=None)
     customer_service_bill = models.CharField(max_length=255, default="")
-    customer_address = models.CharField(max_length=255, default=None)
+    customer_address = models.CharField(max_length=255, default="",null=True)
 
     class Meta:
         pass

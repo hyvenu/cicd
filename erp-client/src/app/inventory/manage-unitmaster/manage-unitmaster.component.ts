@@ -56,7 +56,12 @@ export class ManageUnitmasterComponent implements OnInit {
           this.ngOnInit();
         },
         (error) =>{
-          this.nbtoastService.danger(error);
+          if(error === "exist"){
+            this.nbtoastService.danger("Primary Unit or Secondary Unit already"+" "+error);
+            }
+            else{
+              this.nbtoastService.danger(error);
+            }
         }
       )    
     }

@@ -20,11 +20,12 @@
         </div>
         <div class=" form-group col-md-3">
             <label for="ServicePriceFormControl"> Price <span style="color: red;">*</span></label>
-            <input type="number" nbInput formControlName="ServicePriceFormControl" name="Price" placeholder=" Price"
-            oninput="validity.valid || (value='')" min="0"
+            <input type="number" min="0" nbInput formControlName="ServicePriceFormControl" name="Price" placeholder=" Price"
+            
             [ngClass]="{ 'is-invalid': submitted && f.ServicePriceFormControl.errors }" class="form-control"/>
                     <div *ngIf="submitted && f.ServicePriceFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.ServicePriceFormControl.errors.required">Price is required</div>
+                        <div *ngIf="f.ServicePriceFormControl.errors.pattern">symbol not allowed</div>
                     </div>
 
         </div>

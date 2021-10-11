@@ -61,7 +61,12 @@ export class ManageCategoryComponent implements OnInit {
           this.ngOnInit();
         },
         (error) =>{
-          this.nbtoastService.danger(error);
+          if(error === "exist"){
+            this.nbtoastService.danger("Category Code or Category Name already"+" "+error);
+            }
+            else{
+              this.nbtoastService.danger(error);
+            }
         }
       )
     }

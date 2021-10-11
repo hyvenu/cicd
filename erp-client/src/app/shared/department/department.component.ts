@@ -101,7 +101,12 @@ export class DepartmentComponent implements OnInit {
         this.departmentMasterForm.reset()
       },
       (error) => {
-          this.nbtoastService.danger("Department name already exist");
+        if(error === 400){
+        this.nbtoastService.danger("Department Name" +error);
+        }
+        else{
+          this.nbtoastService.danger(error);
+        }
       }
     );
     }else{
@@ -116,9 +121,13 @@ export class DepartmentComponent implements OnInit {
         
       },
       (error) => {
-        console.log(error);
-          this.nbtoastService.danger("Department name already exist");
-       
+        console.log(error)
+        if(error === "exist"){
+          this.nbtoastService.danger("Department Name already"+" "+error);
+          }
+          else{
+            this.nbtoastService.danger(error);
+          }
       }
     );
     }

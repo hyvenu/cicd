@@ -43,7 +43,7 @@ export class JwtInterceptor implements HttpInterceptor {
               } else if (err.status === 0) {
                 return throwError('Unable to Connect to the Server');
               } else if (err.status === 400){
-                return throwError(err.error.details)
+                return throwError("exist")
               } else {
                 return throwError(err.error);
               }

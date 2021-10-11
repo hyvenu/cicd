@@ -54,7 +54,7 @@ export class StoreComponent implements OnInit {
         storeAddressFormControl: ['',[Validators.required]],
         storePinCodeFormControl: ['',[Validators.required,Validators.pattern('^[0-9]{6}$')]],
         storeCityFormControl: ['',[Validators.required]],
-        gstFormControl: ['',[Validators.required,Validators.minLength(15)]],
+        gstFormControl: ['',[Validators.required,Validators.minLength(15),Validators.maxLength(15)]],
         mainBranchFormControl: [''],
       }
     )

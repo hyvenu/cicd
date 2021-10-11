@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="department">Department Name: </label><br>
+                    <label for="department">Department Name<span style="color: red;">*</span></label><br>
                     <input nbInput name="Department" formControlName="departmentFormControl" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.departmentFormControl.errors  }" (click)="dep_open(dep_dialog)" (keypress)="dep_open(dep_dialog)" required/>
                     <div *ngIf="submitted && f.departmentFormControl.errors" class="invalid-feedback">

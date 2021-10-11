@@ -31,6 +31,7 @@ export class ManageSubcategoryComponent implements OnInit {
   selectedFiles = [];
   subcat_image: string;
   url:string;
+  
 
   @ViewChild('myInput')
   myInputVariable: ElementRef;
@@ -91,6 +92,7 @@ export class ManageSubcategoryComponent implements OnInit {
   open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.categories_list })
     .onClose.subscribe(data => {
+      this.searchCatgory = ""
        this.selected_category = data       
        this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
        
@@ -142,7 +144,12 @@ export class ManageSubcategoryComponent implements OnInit {
           
         },
         (error) =>{
-          this.nbtoastService.danger(error);
+          if(error === "exist"){
+            this.nbtoastService.danger("Sub  Category Code already"+" "+error);
+            }
+            else{
+              this.nbtoastService.danger(error);
+            }
         }
       )    
     }

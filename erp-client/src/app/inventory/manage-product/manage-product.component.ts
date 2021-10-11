@@ -53,6 +53,7 @@ export class ManageProductComponent implements OnInit {
   @ViewChild('myInput')
   myInputVariable: ElementRef;
   submitted: boolean=false;
+  searchBrand: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -161,6 +162,7 @@ export class ManageProductComponent implements OnInit {
   cat_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.categories_list })
     .onClose.subscribe(data => {
+      this.searchCategory = ""
        this.selected_category = data       
        this.productMasterFrom.controls['categoryNameFormControl'].setValue(data.category_name);
        this.getProductCode();
@@ -171,6 +173,7 @@ export class ManageProductComponent implements OnInit {
   sub_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.sub_categories })
     .onClose.subscribe(data => {
+      this.searchSubCategory =""
        this.selected_sub_ategory = data       
        this.productMasterFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);
        this.getProductCode();
@@ -181,6 +184,7 @@ export class ManageProductComponent implements OnInit {
   brand_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.brand_list })
     .onClose.subscribe(data => {
+      this.searchBrand = ""
        this.selected_brand = data       
        this.productMasterFrom.controls['brandNameFormControl'].setValue(data.brand_name);
        this.getProductCode();

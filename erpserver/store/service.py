@@ -3,7 +3,7 @@ import ast
 from django.db import transaction
 
 from store.models import StoreUser, Store, SiteSettings, AppointmentSchedule, AppointmentForMultipleService, Department, \
-    Employee
+    Employee, StoreServices
 
 
 class StoreService:
@@ -52,14 +52,14 @@ class StoreService:
 
     @classmethod
     @transaction.atomic
-    def update(self,data):
+    def update(self, data):
         if 'id' in data:
-            appointment_obj = AppointmentSchedule.objects.get(id=data['id'])
-            if data['is_paid'] == "true":
-                appointment_obj.is_paid = True
-            else:
-                appointment_obj.is_paid = False
-        appointment_obj.save()
+            AppointmentSchedule.objects.filter(customer__id=data['id']).update(is_paid='True')
+            # if data['is_paid'] == "true":
+            #     appointment_obj.is_paid = True
+            # else:
+            #     appointment_obj.is_paid = False
+            # appointment_obj.save()
 
     @classmethod
     @transaction.atomic
@@ -154,20 +154,77 @@ class StoreService:
         for item in list(appointment):
             item['service_details'] = list(
                 AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
-                        "id",
-                        "appointment__id",
-                        "service__id",
-                        "service__service_name",
-                        "service__price",
-                        "service__service_gst",
+                    "id",
+                    "appointment__id",
+                    "service__id",
+                    "service__service_name",
+                    "service__price",
+                    "service__service_gst",
 
-                    ))
+                ))
         return list(appointment)
 
     @classmethod
     def get_appointment_details(cls):
         final_list = []
         app_data_list = AppointmentSchedule.objects.all().values(
+            'id',
+            'assigned_staff__id',
+            'assigned_staff__employee_name',
+            'store_id',
+            'booking_date',
+            'end_time',
+            'customer_name',
+            'start_time',
+            'phone_number',
+            'appointment_status',
+            'customer__id',
+            'customer__customer_name',
+
+        )
+
+        for item in list(app_data_list):
+            item['service_list'] = list(
+                AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
+                    "id",
+                    "appointment__id",
+                    "service__id",
+                    "service__service_name",
+                ))
+
+        return list(app_data_list)
+
+    @classmethod
+    def get_appointment_details_byid(self, app_id):
+        appointment_data_list = AppointmentSchedule.objects.filter(id=app_id).all().values(
+            'id',
+            'assigned_staff__id',
+            'assigned_staff__employee_name',
+            'store_id',
+            'booking_date',
+            'end_time',
+            'customer_name',
+            'start_time',
+            'phone_number',
+            'appointment_status',
+            'customer__id',
+            'customer__customer_name',
+
+        )[0]
+
+        appointment_data_list['service_list'] = list(
+            AppointmentForMultipleService.objects.filter(appointment_id=app_id).all().values(
+                "id",
+                "appointment__id",
+                "service__id",
+                "service__service_name",
+            ))
+        return appointment_data_list
+
+    @classmethod
+    def get_viewbooking_details(cls):
+        final_list = []
+        app_data_list = AppointmentSchedule.objects.filter(is_paid=False).values(
             'id',
             'assigned_staff__id',
             'assigned_staff__employee_name',
@@ -211,6 +268,19 @@ class StoreService:
 
         )
         return list(appointment_list)
+
+    def get_store_service_list(self):
+        store_list = StoreServices.objects.all().values(
+            'id',
+            'store',
+            'service_name',
+            'service_desc',
+            'price',
+            'service_gst',
+            'service_hour',
+        )
+        return list(store_list)
+
 
     def get_employee_list(self):
         employee_list = Employee.objects.all().values(

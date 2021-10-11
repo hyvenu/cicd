@@ -37,7 +37,7 @@ export class ViewBookingComponent implements OnInit {
     
     
   
-    this.adminService.getAppointmentList().subscribe(
+    this.adminService.getViewbookingList().subscribe(
       (data) => {
           this.booking_list = data;
          this.service_list = this.booking_list.service_list
@@ -120,6 +120,11 @@ export class ViewBookingComponent implements OnInit {
 
   checkOutToBill(item){
     this.routes.navigateByUrl("/SalesBill?id=" + item)
+    
+  }
+
+  appointmentBooking(id){
+    this.routes.navigateByUrl("/ManageBooking?id="+ id)
     
   }
 
