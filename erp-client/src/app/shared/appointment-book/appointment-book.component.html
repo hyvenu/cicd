@@ -53,7 +53,7 @@
                     <label for="endTime">End Time <span style="color: red;">*</span></label>
                     <input type="time" nbInput name="endTime" formControlName="endTimeFormControl" 
                     [ngClass]="{ 'is-invalid': submitted && f.endTimeFormControl.errors  }" class="form-control"/>
-                    <div *ngIf="submitted && f.endTimeFormControl.errors" class="invalid-feedback">
+                    <div *ngIf="submitted && f.endTimeFormControl.errors" class="invalid-feedback" (change)="dateCheck()">
                         <div *ngIf="submitted && f.endTimeFormControl.errors.required"> End Time is Required</div>
                         
                     </div>

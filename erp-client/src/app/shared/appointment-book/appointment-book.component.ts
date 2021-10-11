@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { AdminService } from 'src/app/admin/admin.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Time } from '@angular/common';
 import * as moment from 'moment';
 import { tr } from 'date-fns/locale';
 
@@ -43,6 +43,7 @@ export class AppointmentBookComponent implements OnInit {
   cus_id: any;
   assigned: any;
   current_date :any = new Date();
+  searchCategory:any;
 
 
 
@@ -75,8 +76,8 @@ export class AppointmentBookComponent implements OnInit {
       endTimeFormControl: ['', [Validators.required]],
       serviceFormControl:['',[Validators.required]]
     })
-    this.check_date_of_req()
     this.onChange()
+    this.dateCheck()
      this.start_date = this.route.snapshot.queryParams['start']
      this.end_date = this.route.snapshot.queryParams['end']
      console.log((this.start_date))
@@ -173,17 +174,27 @@ export class AppointmentBookComponent implements OnInit {
         }
 
       })
-      let start_time = this.bookingForm.controls['startTimeFormControl'].valueChanges.subscribe(
+     
+    }
+
+    dateCheck(){
+      let start_time:any
+      let end_time:any
+       this.bookingForm.controls['startTimeFormControl'].valueChanges.subscribe(
         (data) =>{
-          console.log(data)
+          start_time = data
+          console.log(start_time)
+          
         }
       )
-      let end_time = this.bookingForm.controls['endTimeFormControl'].valueChanges.subscribe(
+      this.bookingForm.controls['endTimeFormControl'].valueChanges.subscribe(
         (data) =>{
-          console.log(data)
+          end_time = data
+          console.log(end_time)
+          
         }
       )
-      if (start_time < end_time){
+      if (start_time.toString() < end_time.toString()){
         this.nbtoastService.danger("Time you selected is invalid"); 
       }
     }
@@ -248,6 +259,7 @@ export class AppointmentBookComponent implements OnInit {
   open_customer_list(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_data })
     .onClose.subscribe(data => {
+      this.searchCategory=""
        this.selected_customer = data     
        this.customer_id  = data.id
        this.bookingForm.controls['customerNameFormControl'].setValue(data.customer_name);
