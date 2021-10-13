@@ -145,7 +145,7 @@ export class ManageSubcategoryComponent implements OnInit {
         },
         (error) =>{
           if(error === "exist"){
-            this.nbtoastService.danger("Sub  Category Code already"+" "+error);
+            this.nbtoastService.danger("Sub Category Code or Subcategory Nmae already"+" "+error);
             }
             else{
               this.nbtoastService.danger(error);
@@ -169,10 +169,9 @@ export class ManageSubcategoryComponent implements OnInit {
         this.inventoryService.updateSubCategory(this.subcategory_id, data).subscribe(
           (data) => {
             
-            this.nbtoastService.success("Saved Successfully");
+            this.nbtoastService.success("SubCategory Updated Successfully");
             this.subcat_image = null;
-            this.ngOnInit()
-            this.subcategoryFrom.reset();
+            this.refresh()
             this.myInputVariable.nativeElement.value = "";
             
           

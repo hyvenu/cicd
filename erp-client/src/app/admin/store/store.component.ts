@@ -119,7 +119,7 @@ export class StoreComponent implements OnInit {
       
       this.adminService.updateStore(this.store_id, formData).subscribe(
         (data) => {
-          this.nbtoastService.success("Store Information saved successfully")
+          this.nbtoastService.success("Store Information Updated successfully")
           this.storeForm.reset()
         },
         (error) =>{

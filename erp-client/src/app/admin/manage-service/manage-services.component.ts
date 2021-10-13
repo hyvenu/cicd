@@ -112,7 +112,7 @@ export class ManageServiceComponent implements OnInit {
         }
         this.adminService.updateService(this.Service_id, data).subscribe(
           (data) => {
-            this.nbtoastService.success("Saved Successfully");
+            this.nbtoastService.success("Service Updated Successfully");
             this.ngOnInit();
           },
           (error) =>{

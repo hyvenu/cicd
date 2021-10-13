@@ -81,7 +81,7 @@ export class ManageCategoryComponent implements OnInit {
         }
         this.inventoryService.updateCategory(this.category_id, data).subscribe(
           (data) => {
-            this.nbtoastService.success("Saved Successfully");
+            this.nbtoastService.success("Category Updated Successfully");
             this.ngOnInit();
           },
           (error) =>{
