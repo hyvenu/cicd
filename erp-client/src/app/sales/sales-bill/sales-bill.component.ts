@@ -418,9 +418,11 @@ export class SalesBillComponent implements OnInit {
           this.dailog_ref= this.dialogService.open(dialog, { context: this.product_list })
           .onClose.subscribe(data => {
             
+            
              this.selected_product = data  
-              
+             
              item.item_description = this.selected_product.product_name
+             
              this.inventoryService.getProduct(this.selected_product.id).subscribe(
                (data) =>{
                  this.selected_product_data = data
@@ -449,12 +451,13 @@ export class SalesBillComponent implements OnInit {
                     
                   }
                  });
-                 
+                 this.calculate_price()
                  
                }
              )
              
              
+              
           }
           );
       },
@@ -493,20 +496,20 @@ export class SalesBillComponent implements OnInit {
             this.invoice_items.push(
               {item_id:"",
                 booking_id:element.id,
-                service_id:element.service_details[0].service__service_id,
-                item_description:element.service__service_name,
+                service_id:element.service_details[0].service__id,
+                item_description:element.service_details[0].service__service_name,
                 quantity:1,
                 unit:"nos",
-                price:element.service__price,
+                price:element.service_details[0].service__price,
                 item_total:0,
-                tax:element.service__service_gst,
+                tax:element.service_details[0].service__service_gst,
                 gst_value:0
               }
             )
             
             
           });
-          
+          this.calculate_price()
          
         }
       )
