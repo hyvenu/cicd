@@ -171,6 +171,7 @@ export class ManageSubcategoryComponent implements OnInit {
             
             this.nbtoastService.success("SubCategory Updated Successfully");
             this.subcat_image = null;
+            this.subcategoryFrom.reset();
             this.refresh()
             this.myInputVariable.nativeElement.value = "";
             

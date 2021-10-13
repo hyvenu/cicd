@@ -43,6 +43,18 @@ export class ManageBrandComponent implements OnInit {
     this.brandMasterFrom.controls['brandImageFormControl'].setValue("");
     this.createFlag = true;
 
+    // this.inventoryService.getBrandMasterList().subscribe(
+    //   (data) => {
+    //       this.brandMasterList = data;
+    //   },
+    //   (error) => {
+    //       this.nbtoastService.danger(error,"Error")
+    //   }
+    // );
+    this.get_brandmaster()
+
+  }
+  get_brandmaster(){
     this.inventoryService.getBrandMasterList().subscribe(
       (data) => {
           this.brandMasterList = data;
@@ -51,8 +63,6 @@ export class ManageBrandComponent implements OnInit {
           this.nbtoastService.danger(error,"Error")
       }
     );
-
-
   }
 
   onFileChange(event) {
@@ -95,10 +105,10 @@ export class ManageBrandComponent implements OnInit {
         (data) => {
           this.nbtoastService.success("Saved Successfully");
           this.brand_image=null;
-          this.ngOnInit()
-          // this.brandMasterFrom.reset();
-          // this.myInputVariable.nativeElement.value = "";
-          // this.refresh()
+          this.brandMasterFrom.reset();
+          this.refresh()
+          this.myInputVariable.nativeElement.value = "";
+          this.get_brandmaster()
         },
         (error) =>{
           if(error === "exist"){
@@ -129,12 +139,11 @@ export class ManageBrandComponent implements OnInit {
         }
         this.inventoryService.updateBrand(this.brand_id, data).subscribe(
           (data) => {
-            this.nbtoastService.success("Saved Successfully");
+            this.nbtoastService.success("Brand Update Successfully");
             this.brand_image=null;
-            this.ngOnInit()
-            // this.brandMasterFrom.reset()
-            // this.myInputVariable.nativeElement.value = "";
-            // this.refresh()
+            this.brandMasterFrom.reset()
+            this.myInputVariable.nativeElement.value = "";
+            this.get_brandmaster()
           },
           (error) =>{
             this.nbtoastService.danger(error.error.detail);

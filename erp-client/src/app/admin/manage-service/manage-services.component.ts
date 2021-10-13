@@ -48,7 +48,7 @@ export class ManageServiceComponent implements OnInit {
     }
   }
   submitted: boolean = false;
-  pattern = '[0-9]*'
+  pattern = '[0.0-9.0]*'
 
   constructor(private formBuilder: FormBuilder,
               private adminService: AdminService,

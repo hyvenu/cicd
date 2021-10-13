@@ -437,7 +437,9 @@ export class SalesBillComponent implements OnInit {
                     let sellPrice:any = parseFloat(element.sell_price) * element.qty ;
                     let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
                     let total:any = sellPrice + gstVal;
-
+                    if(this.invoice_items.some(item => item.item_description == element.item_description)){
+                      this.nbtoastService.danger("product name already exist");
+                    }else{
                     item.booking_id="",
                     item.service_id="",
                     item.item_id=element.product_id,
@@ -449,7 +451,7 @@ export class SalesBillComponent implements OnInit {
                     item.tax=element.tax,
                     item.item_total = parseFloat(total).toFixed(2),
                     item.gst_value =  parseFloat(gstVal).toFixed(2)
-                    
+                    }
                   }
                  });
                  this.calculate_price()
