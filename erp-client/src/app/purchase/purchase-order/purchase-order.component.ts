@@ -306,8 +306,8 @@ export class PurchaseOrderComponent implements OnInit {
       this.cgst = total_gst / 2;
       this.igst=0
       } else {
-      this.igst = total_gst/2;
-      this.cgst = total_gst/2;
+      this.igst = total_gst;
+      // this.cgst = total_gst/2;
       }
     }else {
       this.igst = total_gst;

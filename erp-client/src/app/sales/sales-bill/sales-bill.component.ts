@@ -230,6 +230,7 @@ export class SalesBillComponent implements OnInit {
   open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
+      this.invoice_items = []
        this.customer_object = data 
        console.log(this.customer_object)  
        this.customer_id = data.id; 
@@ -469,6 +470,7 @@ export class SalesBillComponent implements OnInit {
   open_phone_list(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
+      this.invoice_items = []
        this.customer_object = data   
        this.customer_id = data.id;    
        this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);

@@ -44,6 +44,7 @@ export class AppointmentBookComponent implements OnInit {
   assigned: any;
   current_date :any = new Date();
   searchCategory:any;
+  dateofdata: Date;
 
 
 
@@ -76,8 +77,8 @@ export class AppointmentBookComponent implements OnInit {
       endTimeFormControl: ['', [Validators.required]],
       serviceFormControl:['',[Validators.required]]
     })
-    // this.onChange()
-    this.dateCheck()
+    
+    // this.dateCheck()
      this.start_date = this.route.snapshot.queryParams['start']
      this.end_date = this.route.snapshot.queryParams['end']
      console.log((this.start_date))
@@ -122,7 +123,7 @@ export class AppointmentBookComponent implements OnInit {
         this.nbtoastService.danger("unable to get service list");
       }
     )
-
+    this.onChange()
 
   }
 
@@ -135,6 +136,10 @@ export class AppointmentBookComponent implements OnInit {
         console.log(data.service_list)
         this.appointment_id=data.id
         this.bookingForm.controls['bookingDateFormControl'].setValue(moment(data.booking_date));
+        let date =data.booking_date
+        this.dateofdata = new Date(date)
+        this.onChange()
+        console.log(this.dateofdata)
         // let ser_id = this.adminService.getServiceList().subscribe(
         //   (serv) =>{
         //     console.log("service list"+data)
@@ -163,20 +168,20 @@ export class AppointmentBookComponent implements OnInit {
  
   }
 
-  // onChange(){
-  //   this.bookingForm.controls['bookingDateFormControl'].valueChanges.subscribe(
-  //     (data)=> {  
-  //       console.log(new Date(data))
-  //       let dateofdata = new Date(data)
-  //       console.log(dateofdata)
-  //       console.log(this.current_date)
-  //       if(moment(dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
-  //         this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
-  //       }
+  onChange(){
+    this.bookingForm.controls['bookingDateFormControl'].valueChanges.subscribe(
+      (data)=> {  
+        console.log(new Date(data))
+        this.dateofdata = new Date(data)
+        console.log(this.dateofdata)
+        console.log(this.current_date)
+        if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+        }
 
-  //     })
+      })
      
-  //   }
+    }
 
     dateCheck(){
       // let start_time:any

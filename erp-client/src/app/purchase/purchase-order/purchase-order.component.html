@@ -5,7 +5,53 @@
 <nb-tabset>
     <nb-tab tabTitle="Purchase Order">
         <form id="purchaseOrderForm" [formGroup]="purchaseOrderForm" (ngSubmit)="onSubmit()">
-            <nb-card accent="info">
+            
+        <nb-card accent="info">
+            <nb-card-header>Vendor Information</nb-card-header>
+            <nb-card-body>
+                <div class="form-row">
+                
+                    <div class="form-group col-md-4">
+                        <label for="vendor">Vendor Code <span style="color: red;">*</span></label>
+                        <input nbInput formControlName="vendorCodeFormControl" name="vendor" placeholder="Select Vendor" (keypress)="vendor_open(vendor_dialog)" 
+                        [ngClass]="{ 'is-invalid': submitted && f.vendorCodeFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.vendorCodeFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.vendorCodeFormControl.errors.required">Vendor Code is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="vendor_name">Vendor Name</label>
+                        <input nbInput formControlName="vendorNameFormControl" name="vendor_name" placeholder="Vendor Name" readonly/>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="payment_terms">Payment Terms <span style="color: red;">*</span></label>
+                        <!-- <input nbInput formControlName="paymentTermsFormControl" name="payment_terms" placeholder="Payment Terms" /> -->
+                        <nb-select name="tans_type" formControlName="paymentTermsFormControl" [(selected)]="selectedPaymentType">
+                            <nb-option *ngFor="let o of payments_terms_list" value="{{o.key}}">
+                                {{ o.value }}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+                </div><br>
+                <div class="form-row" >
+                    <div class="form-group col-md-4">
+                        <label for="other_ref">Other Reference</label>
+                        <input nbInput formControlName="otherRefFormControl" name="other_ref" placeholder="Other Reference" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="terms_delivery">Terms of Delivery</label>
+                        <input nbInput formControlName="termsDeliveryFormControl" name="terms_delivery" placeholder="Terms of Delivery" />
+                    </div>
+                </div><br>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="note">Note </label><br>
+                        <textarea nbInput formControlName="noteFormControl" name="note" placeholder="Note" ></textarea>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        <nb-card accent="info">
             <nb-card-header> </nb-card-header>     
             <nb-card-body>
             <div class="form-row">
@@ -72,51 +118,6 @@
             </div>
             
         </nb-card-body>
-        </nb-card>
-        <nb-card accent="info">
-            <nb-card-header>Vendor Information</nb-card-header>
-            <nb-card-body>
-                <div class="form-row">
-                
-                    <div class="form-group col-md-4">
-                        <label for="vendor">Vendor Code <span style="color: red;">*</span></label>
-                        <input nbInput formControlName="vendorCodeFormControl" name="vendor" placeholder="Select Vendor" (keypress)="vendor_open(vendor_dialog)" 
-                        [ngClass]="{ 'is-invalid': submitted && f.vendorCodeFormControl.errors }" class="form-control" >
-                        <div *ngIf="submitted && f.vendorCodeFormControl.errors" class="invalid-feedback">
-                            <div *ngIf="f.vendorCodeFormControl.errors.required">Vendor Code is required</div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="vendor_name">Vendor Name</label>
-                        <input nbInput formControlName="vendorNameFormControl" name="vendor_name" placeholder="Vendor Name" readonly/>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="payment_terms">Payment Terms <span style="color: red;">*</span></label>
-                        <!-- <input nbInput formControlName="paymentTermsFormControl" name="payment_terms" placeholder="Payment Terms" /> -->
-                        <nb-select name="tans_type" formControlName="paymentTermsFormControl" [(selected)]="selectedPaymentType">
-                            <nb-option *ngFor="let o of payments_terms_list" value="{{o.key}}">
-                                {{ o.value }}
-                            </nb-option>
-                        </nb-select>
-                    </div>
-                </div><br>
-                <div class="form-row" >
-                    <div class="form-group col-md-4">
-                        <label for="other_ref">Other Reference</label>
-                        <input nbInput formControlName="otherRefFormControl" name="other_ref" placeholder="Other Reference" />
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="terms_delivery">Terms of Delivery</label>
-                        <input nbInput formControlName="termsDeliveryFormControl" name="terms_delivery" placeholder="Terms of Delivery" />
-                    </div>
-                </div><br>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="note">Note </label><br>
-                        <textarea nbInput formControlName="noteFormControl" name="note" placeholder="Note" ></textarea>
-                    </div>
-                </div>
-            </nb-card-body>
         </nb-card>
         <nb-card accent="info" >
             <nb-card-header>Product Details <button nbButton size="small" status="success" (click)="product_open(product_dialog)">  + ADD </button> </nb-card-header>

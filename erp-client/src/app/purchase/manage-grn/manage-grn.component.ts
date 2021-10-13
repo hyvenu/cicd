@@ -282,9 +282,9 @@ export class ManageGrnComponent implements OnInit {
         this.sgst = this.total_gst / 2;
         this.cgst = this.total_gst/2;
     } else {
-      this.igst = this.total_gst/2;
+      this.igst = this.total_gst;
       this.sgst = 0;
-      this.cgst = this.total_gst/2
+      this.cgst = 0;
     }
     this.grand_total = (parseFloat(this.sub_total)+parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst))
     console.log(this.grand_total)
