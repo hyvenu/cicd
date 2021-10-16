@@ -64,7 +64,7 @@ class StoreService:
             # else:
             #     appointment_obj.is_paid = False
             # appointment_obj.save()
-        return app_id
+
 
     @classmethod
     @transaction.atomic

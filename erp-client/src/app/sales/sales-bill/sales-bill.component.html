@@ -144,7 +144,7 @@ $box.prop("checked", false);
                 
              </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;" type="number" oninput="validity.valid || (value='')" min="0" [value]="selectedDiscount"  (change)="calculate_price()" nbInput formControlName="discountFormControl"  name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
+                <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;" type="number" oninput="validity.valid || (value='')" min="0" [value]="selectedDiscount"  (change)="calculate_price()" nbInput formControlName="discountFormControl" value=0 name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
             </tr>
             <tr>
                 <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small"  style="width: 10em;" value="{{grandTotal}}"  step="0.1" nbInput formControlName="grandTotalFormControl" name="grandTotalFormControl" placeholder="Grand Total" readonly></td>

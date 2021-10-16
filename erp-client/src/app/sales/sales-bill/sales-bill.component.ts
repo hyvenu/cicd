@@ -28,7 +28,7 @@ export class SalesBillComponent implements OnInit {
   searchProduct
   searchPhoneNo: string;
   searchCus: string;
-  serviceIds;
+  serviceIds = [];
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -256,14 +256,14 @@ export class SalesBillComponent implements OnInit {
   get_bookingHistory(id){
     this.adminService.getBookinHistory(id).subscribe(
       (data2)=>{
-        
+        this.serviceIds = []
         this.booking_history = data2
         console.log(this.booking_history)
         this.booking_history.forEach(element => {
           console.log(element)
              this.booking_id= element.id  
-             this.service_id = element.service_details[0].id
-              console.log("servic id" +this.service_id) 
+             this.serviceIds.push(element.service_details[0].id)
+              console.log("servic id" +this.serviceIds) 
             
 
                          
@@ -282,7 +282,7 @@ export class SalesBillComponent implements OnInit {
         
         this.booking_history.forEach(element => {
           console.log(element)
-          this.serviceIds=[]
+          
           this.invoice_items.push(
             {item_id:"",
               booking_id:element.id,
@@ -297,12 +297,7 @@ export class SalesBillComponent implements OnInit {
             }
           )
           
-          this.invoice_items.forEach(element => {
-            console.log(element)  
-            
-            this.serviceIds.push(element.id) 
-            console.log("service details"+this.serviceIds)
-          });
+   
           
           
         });

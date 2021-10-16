@@ -9,7 +9,7 @@ import { printDiv } from '../print_div';
   styleUrls: ['./invoice-page.component.scss']
 })
 export class InvoicePageComponent implements OnInit {
-  invoice_details: any;
+  invoice_details: any=[];
   invoice_data: any;
   grandTotal: any;
   customer_name: any;
@@ -17,6 +17,9 @@ export class InvoicePageComponent implements OnInit {
   store_name: any;
   invoice_no: any;
   invoice_date: any;
+  data: any=[];
+  discount: any;
+  sum: any=0;
 
   constructor(private route: ActivatedRoute,
               private orderservice:OrderService) { }
@@ -33,6 +36,7 @@ export class InvoicePageComponent implements OnInit {
     if(invoice){
       this.orderservice.getPODetails(invoice).subscribe(
         (data)=>{
+          
           console.log("invoice details"+data)
           this.invoice_details = data
           this.grandTotal = this.invoice_details.grand_total
@@ -41,6 +45,17 @@ export class InvoicePageComponent implements OnInit {
           this.store_name = this.invoice_details.store__store_name
           this.invoice_no = this.invoice_details.invoice_no
           this.invoice_date= this.invoice_details.po_date
+          this.data = JSON.stringify(this.invoice_details)
+          let da =JSON.parse(this.data)
+          da.forEach(element => {
+            console.log(element)
+            
+            this.sum += element.discount_price;
+            
+            
+          });
+          console.log(this.sum)
+
         
         
           
