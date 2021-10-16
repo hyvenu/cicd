@@ -22,8 +22,8 @@ export class ManageProductComponent implements OnInit {
   sub_categories;
   
   dailog_ref;
-  selected_category: any;
-  selected_sub_ategory: any;
+  selected_category: any="";
+  selected_sub_ategory: any="";
   atrribute_name: any;
   product_id:any;
   searchCategory:any;
@@ -33,7 +33,7 @@ export class ManageProductComponent implements OnInit {
   product_attributes = []
   product_packingtypes = []
   brand_list: any;
-  selected_brand: any;
+  selected_brand: any="";
   product_list: string | Partial<any>;
   selected_product: any;
   selected_unit: any;
@@ -286,6 +286,39 @@ export class ManageProductComponent implements OnInit {
 
   saveProduct():any {
     const formData = new FormData();
+    if (!this.product_packingtypes.length ) {
+      this.nbtoastService.danger('Please Enter At Least ONE Product in Details Section')
+    }else{
+      let dd:boolean;
+      this.product_packingtypes.forEach(
+        a =>{
+          if(!a.unit && !a.qty && !a.sell_price && !a.safety_stock_level && !a.unit_price && !a.serial_number && !a.tax){
+            dd=false
+            this.nbtoastService.danger('Please Provide Qty & Unit in Details Section');
+          }else if(!a.sell_price){
+            dd=false
+            this.nbtoastService.danger('Please Provide Unit in Details Section');
+          }else if(!a.unit_price){
+            dd=false
+            this.nbtoastService.danger('Please Provide Unit Price in Details Section');
+          }else if(!a.safety_stock_level){
+            dd=false
+            this.nbtoastService.danger('Please Provide Saftey Stock in Details Section');
+          }else if(!a.serial_number){
+            dd=false
+            this.nbtoastService.danger('Please Provide Serial Number in Details Section');
+          }else if(!a.tax){
+            dd=false
+            this.nbtoastService.danger('Please Provide Gst% in Details Section');
+          }
+          else{
+            dd=true
+          }
+        }
+      )
+      console.log(dd)
+      if(dd){
+
     if (this.product_id){
       formData.append('id', this.product_id)
     }
@@ -306,7 +339,14 @@ export class ManageProductComponent implements OnInit {
 
     this.inventoryService.saveProduct(formData).subscribe(
       (data) => {
+        if(this.product_id){
+          this.nbtoastService.success("Product Updated Successfully")
+          
+        }
+        else{
         this.nbtoastService.success("Product Saved Successfully")
+        }
+        this.product_attributes=[]
         this.imgSrc=null;
         this.reset();
         this.routes.navigate(["/ManageProductMaster"]);
@@ -315,7 +355,8 @@ export class ManageProductComponent implements OnInit {
         this.nbtoastService.danger(error.error.detail);
       }
     )
-
+    }
+  }
 
 
   }
@@ -347,6 +388,7 @@ export class ManageProductComponent implements OnInit {
       
     }
   }
+
   onSubmit() {
     const formData = new FormData();
     formData.append('product_id',this.product_id)

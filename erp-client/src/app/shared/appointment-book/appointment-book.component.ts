@@ -126,7 +126,7 @@ export class AppointmentBookComponent implements OnInit {
         this.nbtoastService.danger("unable to get service list");
       }
     )
-    this.onChange()
+    // this.onChange()
 
   }
 

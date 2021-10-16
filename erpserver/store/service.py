@@ -53,17 +53,18 @@ class StoreService:
     @classmethod
     @transaction.atomic
     def update(self, data):
-        if 'id' in data:
-            service_arr = data['service_id']
-            for item in service_arr:
-                app_id =AppointmentForMultipleService.objects.filter(service_id=item).values('appointment_id')[0]['appointment_id']
-                AppointmentSchedule.objects.filter(id=app_id).update(is_paid=True)
+
+        service_arr = data['service_id']
+        for item in service_arr:
+            app_id =AppointmentForMultipleService.objects.filter(id=item).values('appointment_id')[0]['appointment_id']
+            AppointmentSchedule.objects.filter(id=app_id).update(is_paid=True)
 
             # if data['is_paid'] == "true":
             #     appointment_obj.is_paid = True
             # else:
             #     appointment_obj.is_paid = False
             # appointment_obj.save()
+        return app_id
 
     @classmethod
     @transaction.atomic

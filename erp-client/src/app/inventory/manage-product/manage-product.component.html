@@ -87,7 +87,7 @@
                             <input nbInput type="text" name="cst_atrribute_name"
                                 formControlName="atrributeNameFormControl" placeholder="Atrribute Name"
                                 value=" " />&nbsp;
-                            <button nbButton (click)="add_attribute()" status="success">Add</button>
+                            <button nbButton type="button" (click)="add_attribute()" status="success">Add</button>
                         </nb-card-header>
                         <nb-card-body>
                             <nb-list-item *ngFor="let atrribute of product_attributes">
@@ -107,7 +107,7 @@
                 <div class="form-group col-md-12">
                     <nb-card accent="info">
                         <nb-card-header>
-                            <b><u>Product Packing Types: </u>&nbsp; </b>
+                            <b><u>Product Packing Types: <span style="color: red;">*</span></u>&nbsp; </b>
                             <button nbButton (click)="add_types()" status="success">Add</button>
                         </nb-card-header>
                         <nb-card-body>
@@ -222,7 +222,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <button [nbSpinner]="loading"  nbSpinnerStatus="success" nbButton status="success" (click)="saveProduct();" *ngxPermissionsOnly="['inventory.add_productmaster']"  >Save</button>&nbsp;&nbsp;
+                    <button [nbSpinner]="loading"  type="submit" nbSpinnerStatus="success" nbButton status="success" (click)="saveProduct();" *ngxPermissionsOnly="['inventory.add_productmaster']"  >Save</button>&nbsp;&nbsp;
                     <!-- <button nbButton status="success" (click)="change_tab();" >Next</button>&nbsp;&nbsp; -->
 
                 </div>
@@ -357,3 +357,4 @@
         </nb-card-footer>
     </nb-card>
 </ng-template>
+<!-- orderacceptance create purchase order -->

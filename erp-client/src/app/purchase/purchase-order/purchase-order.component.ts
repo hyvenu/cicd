@@ -424,7 +424,11 @@ export class PurchaseOrderComponent implements OnInit {
     this.purchaseService.savePO(formdata).subscribe(
       (data) => {
         console.log(data)
+        if(this.po_id){
+          this.nbtoastService.success(`PO Updated SuccessFully ${data}`);
+        }else{
         this.nbtoastService.success(`PO Created SuccessFully ${data}`);
+        }
         this.ngOnInit();
         this.routes.navigateByUrl("/PurchaseInvoicePage?id=" + data)
         

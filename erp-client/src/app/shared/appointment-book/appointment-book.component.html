@@ -36,7 +36,7 @@
                     <div *ngIf="submitted && f.bookingDateFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.bookingDateFormControl.errors.required"> Booking Date is Required</div>
                     </div>
-                    <nb-datepicker #booking_date format="yyyy-MM-DD" (change)='check_date_of_req();'></nb-datepicker>
+                    <nb-datepicker #booking_date format="yyyy-MM-DD" (change)='onChange();'></nb-datepicker>
                 </div>
             </div>
             <div class="form-row">
@@ -69,6 +69,52 @@
                     </nb-select>
                 </div>
             </div> <br>
+            <!-- <nb-card accent="info">
+                <nb-card-header>Add Service</nb-card-header>
+                <nb-card-body>
+                    <button nbButton (click)="open(dialog);" status="success" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">Add </button> <span style="color: red;">*</span>&nbsp;&nbsp;
+                    
+                    <table class="table table-responsive">
+                        <thead>
+                            <th></th>
+                            <th>Service Name</th> -->
+                            <!-- <th>Product Name</th>
+                            <!-- <th>Description</th> -->
+                            <!-- <th>Store</th>
+                            <th>Required Qty</th>
+                            <th>Unit</th>
+                            
+                            <th>Required Date</th> -->
+                        <!-- </thead>
+                        <tbody>
+                            <tr  [class.hidden]="!item.active">
+                                <td *ngIf="!delete"><button nbButton (click)="remove_item(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
+                                <td *ngIf="delete" ><button nbButton (click)="delete(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
+                                <td><input class="form-control form-control-sm"  style="width: 10em;"  placeholder="" readonly value={{item.product_code}}/></td> -->
+                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="" readonly value={{item.product_name}}/></td>
+                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="description" [(ngModel)]="item.description"/></td> -->
+                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="store name" readonly [(ngModel)]="item.store"/></td>
+                                <td><input class="form-control form-control-sm" style="width: 10em;" type="number" min="0"  placeholder="Quantity" [(ngModel)]="item.required_qty" oninput="validity.valid || (value='')" /></td>
+                             <td><input class="form-control form-control-sm" style="width: 10em;" name="item.unit_name"   placeholder="Unit " [(ngModel)]="item.unit_name"  />  </td> -->
+                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" name="item.unit_price"   placeholder="Unit Price " [(ngModel)]="item.unit_price"  /> -->
+                                  <!-- <td>  <nb-select size="small" name="item.unit" [(selected)]="item.unit"> 
+                                    <nb-option  *ngFor="let o of unit_list" value="{{o.id}}">
+                                        {{ o.PrimaryUnit }}
+                                    </nb-option>
+                                </nb-select> -->
+                            <!-- </td> -->
+                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" [(ngModel)]="item.expected_date" [nbDatepicker]="datepicker"
+                                    placeholder="Date" /> -->
+                                    <!-- <input [nbDatepicker]="datepicker"> -->
+                                    <!-- <nb-datepicker format="yyyy-MM-DD" #datepicker></nb-datepicker> --> -->
+                                    <!-- <input nbInput  value={{item.expected_date}} /></td> -->
+<!--                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </nb-card-body> -->
+                
+            <!-- </nb-card> -->
             <div class="form-row">
                 <div class="form-group col-md-2">
                  <button nbButton status="success"  size="small" (click)="saveBooking();">Save</button>

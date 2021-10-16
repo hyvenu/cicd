@@ -36,6 +36,9 @@ export class PurchaseRequisitionComponent implements OnInit {
   selected_product_list = [];
   submitted: boolean=false;
   unit_name: any;
+  dateofdata: Date;
+  current_date: any;
+  
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -125,8 +128,24 @@ export class PurchaseRequisitionComponent implements OnInit {
       }
     );
 
-
+      this.onChange()
   }
+
+  onChange(){
+    this.prForm.controls['prDateFormControl'].valueChanges.subscribe(
+      (data)=> {  
+        console.log(new Date(data))
+        this.dateofdata = new Date(data)
+        console.log(this.dateofdata)
+        console.log(this.current_date)
+        if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+        }
+
+      })
+     
+    }
+
 
   toggle(event) {
     this.checked = event.target.checked;
@@ -136,6 +155,7 @@ export class PurchaseRequisitionComponent implements OnInit {
   open(dialog: TemplateRef<any>) {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
       .onClose.subscribe(data => {
+        this.searchProduct = ""
         //  this.product_list = data
         this.unit_name = data.product_price__unit__PrimaryUnit
         console.log(data)

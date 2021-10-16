@@ -262,8 +262,10 @@ export class SalesBillComponent implements OnInit {
         this.booking_history.forEach(element => {
           console.log(element)
              this.booking_id= element.id  
-             this.service_id = element.service_details[0].service__id
-               console.log("servic id" +this.service_id)  
+             this.service_id = element.service_details[0].id
+              console.log("servic id" +this.service_id) 
+            
+
                          
         });
         // let serviceids:any =this.booking_history.forEach(element => {
@@ -296,9 +298,9 @@ export class SalesBillComponent implements OnInit {
           )
           
           this.invoice_items.forEach(element => {
-            console.log(this.serviceIds)
+            console.log(element)  
             
-            this.serviceIds.push(element.service_id) 
+            this.serviceIds.push(element.id) 
             console.log("service details"+this.serviceIds)
           });
           
