@@ -142,6 +142,7 @@ export class ManageBrandComponent implements OnInit {
             this.nbtoastService.success("Brand Update Successfully");
             this.brand_image=null;
             this.brandMasterFrom.reset()
+            this.refresh()
             this.myInputVariable.nativeElement.value = "";
             this.get_brandmaster()
           },
