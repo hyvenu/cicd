@@ -157,8 +157,10 @@ export class DashboardComponent implements OnInit {
        // this.barChartData[0].data = 
         
        const daily_booking_details = data.reduce((acc,v) =>{
+        
         let d = moment(v.booking_date);
-        const bookdate = d.format('DD')
+        
+        const bookdate = d.format('MMM DD')
         acc[bookdate] = (acc[bookdate] || 0) + 1
         return acc
       },{})

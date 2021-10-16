@@ -25,6 +25,9 @@ export class SalesBillComponent implements OnInit {
   customernew_id: any;
   booking_historys: any;
   service_id: any;
+  searchProduct
+  searchPhoneNo: string;
+  searchCus: string;
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -231,6 +234,7 @@ export class SalesBillComponent implements OnInit {
   open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
+      this.searchCus = ""
       this.invoice_items = []
        this.customer_object = data 
        console.log(this.customer_object)  
@@ -251,6 +255,7 @@ export class SalesBillComponent implements OnInit {
   get_bookingHistory(id){
     this.adminService.getBookinHistory(id).subscribe(
       (data2)=>{
+        
         this.booking_history = data2
         console.log(this.booking_history)
         this.booking_history.forEach(element => {
@@ -418,7 +423,7 @@ export class SalesBillComponent implements OnInit {
          
           this.dailog_ref= this.dialogService.open(dialog, { context: this.product_list })
           .onClose.subscribe(data => {
-            
+            this.searchProduct =""
             
              this.selected_product = data  
              console.log(this.selected_product)
@@ -478,6 +483,7 @@ export class SalesBillComponent implements OnInit {
   open_phone_list(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
+      this.searchPhoneNo = ""
       this.invoice_items = []
        this.customer_object = data   
        this.customer_id = data.id;    
@@ -487,6 +493,7 @@ export class SalesBillComponent implements OnInit {
        this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_name);
        this.adminService.getBookinHistory(this.customer_object.id).subscribe(
         (data2)=>{
+          
           this.booking_history = data2
           
           this.booking_history.forEach(element => {
