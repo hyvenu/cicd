@@ -41,7 +41,7 @@ export class AppointmentBookComponent implements OnInit {
   app_id: any;
   serv: any;
   cus_id: any;
-  assigned: any;
+  assigned: any = "null"
   current_date :any = new Date();
   searchCategory:any;
   dateofdata: Date;
@@ -83,7 +83,9 @@ export class AppointmentBookComponent implements OnInit {
      this.end_date = this.route.snapshot.queryParams['end']
      console.log((this.start_date))
      console.log(this.end_date)
-     if(this.start_date && this.end_date){
+     if(this.start_date && this.end_date ){
+      this.assigned = this.route.snapshot.queryParams['assign']
+      console.log(this.assigned)
      this.start_time=this.start_date.substr(16,5)
      console.log((this.start_time))
      this.end_time = this.end_date.substr(16,5)
@@ -99,8 +101,7 @@ export class AppointmentBookComponent implements OnInit {
     this.service_array = this.bookingForm.controls['serviceFormControl'].value;
      this.app_id = this.route.snapshot.queryParams['id'];
     console.log("booking id"+this.app_id)
-    this.assigned = this.route.snapshot.queryParams['assign']
-    console.log(this.assigned)
+    
     
     
 
@@ -116,6 +117,8 @@ export class AppointmentBookComponent implements OnInit {
         console.log("srr" +this.service_list)
 
         if(this.app_id){
+          this.assigned = this.route.snapshot.queryParams['assign']
+          console.log(this.assigned)
           this.edit_oppintment()
         }
       },
@@ -225,7 +228,7 @@ export class AppointmentBookComponent implements OnInit {
     form_data.append('service',this.bookingForm.controls['serviceFormControl'].value);
     form_data.append('start_time', this.bookingForm.controls['startTimeFormControl'].value);
     form_data.append('end_time', this.bookingForm.controls['endTimeFormControl'].value);
-    // form_data.append('assigned_staff', this.assigned_staf);
+    form_data.append('assigned_staff', this.assigned);
     form_data.append('booking_date', moment(this.bookingForm.controls['bookingDateFormControl'].value).format("YYYY-MM-DD"));
     form_data.append('is_paid',new Boolean(this.passed_flag).toString())
 

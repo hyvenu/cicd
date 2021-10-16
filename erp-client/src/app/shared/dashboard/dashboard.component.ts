@@ -133,7 +133,7 @@ export class DashboardComponent implements OnInit {
 
 
   get_bookingservice(){
-    this.adminService.getAppointmentList().subscribe(
+    this.adminService.getDashboardbookingDetails().subscribe(
       data=>{
         console.log(data)
         const appointment_details = data.reduce((acc,v) =>{

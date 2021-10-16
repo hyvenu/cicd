@@ -137,7 +137,7 @@ export class CalenderComponent implements OnInit {
       this.event_details  = e.detail.event
       console.log(this.event_details);
       
-      this.routes.navigateByUrl("/ManageBooking?start=" +this.event_details["start"] + "&end="+this.event_details["end"])
+      this.routes.navigateByUrl("/ManageBooking?start=" +this.event_details["start"] + "&end="+this.event_details["end"]+ "&assign="+this.event_details["location"])
     });
     this.myCalendar.on('event:click.skedtape', (e) => {
       

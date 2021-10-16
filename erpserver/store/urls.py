@@ -33,6 +33,7 @@ urlpatterns = (
     path('api/v1/get_store_details', views.get_store_details, name="get_store_details"),
     path('api/v1/get_appointment_details', views.get_appointment_details, name="get_appointment_details"),
     path('api/v1/get_viewbooking_details', views.get_viewbooking_details, name="get_viewbooking_details"),
+    path('api/v1/get_dashboard_booking_details', views.get_dashboard_booking_details, name="get_dashboard_booking_details"),
     path('api/v1/get_appointment_details_by_id', views.get_appointment_details_by_id, name="get_appointment_details_by_id"),
 
 )

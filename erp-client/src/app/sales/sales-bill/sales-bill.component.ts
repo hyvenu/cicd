@@ -421,8 +421,9 @@ export class SalesBillComponent implements OnInit {
             
             
              this.selected_product = data  
+             console.log(this.selected_product)
              
-             item.item_description = this.selected_product.product_name
+             
              
              this.inventoryService.getProduct(this.selected_product.id).subscribe(
                (data) =>{
@@ -437,9 +438,10 @@ export class SalesBillComponent implements OnInit {
                     let sellPrice:any = parseFloat(element.sell_price) * element.qty ;
                     let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
                     let total:any = sellPrice + gstVal;
-                    if(this.invoice_items.some(item => item.item_description == element.item_description)){
+                    if(this.invoice_items.some(item => item.item_description == this.selected_product.product_name)){
                       this.nbtoastService.danger("product name already exist");
                     }else{
+                    item.item_description = this.selected_product.product_name
                     item.booking_id="",
                     item.service_id="",
                     item.item_id=element.product_id,

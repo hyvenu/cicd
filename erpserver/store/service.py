@@ -114,7 +114,7 @@ class StoreService:
             for item in service_arr:
                 if 'id' in ap_data:
                     appointment_obj = AppointmentSchedule.objects.get(id=ap_data['id'])
-                    appointment_obj.assigned_staff_id = ap_data['assigned_staff']
+
                 else:
                     appointment_obj = AppointmentSchedule()
 
@@ -122,6 +122,11 @@ class StoreService:
                     appointment_obj.is_paid = True
                 else:
                     appointment_obj.is_paid = False
+                if ap_data['assigned_staff'] == "null":
+                    pass
+                else:
+                    appointment_obj.assigned_staff_id = ap_data['assigned_staff']
+
                 appointment_obj.store_id = ap_data['store']
                 appointment_obj.booking_date = ap_data['booking_date']
                 appointment_obj.end_time = ap_data['end_time']
@@ -233,6 +238,36 @@ class StoreService:
     def get_viewbooking_details(cls):
         final_list = []
         app_data_list = AppointmentSchedule.objects.filter(is_paid=False).values(
+            'id',
+            'assigned_staff__id',
+            'assigned_staff__employee_name',
+            'store_id',
+            'booking_date',
+            'end_time',
+            'customer_name',
+            'start_time',
+            'phone_number',
+            'appointment_status',
+            'customer__id',
+            'customer__customer_name',
+
+        )
+
+        for item in list(app_data_list):
+            item['service_list'] = list(
+                AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
+                    "id",
+                    "appointment__id",
+                    "service__id",
+                    "service__service_name",
+                ))
+
+        return list(app_data_list)
+
+    @classmethod
+    def get_booking_details_dashboard(cls):
+        final_list = []
+        app_data_list = AppointmentSchedule.objects.all().values(
             'id',
             'assigned_staff__id',
             'assigned_staff__employee_name',
