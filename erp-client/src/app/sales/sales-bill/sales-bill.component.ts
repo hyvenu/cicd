@@ -28,6 +28,7 @@ export class SalesBillComponent implements OnInit {
   searchProduct
   searchPhoneNo: string;
   searchCus: string;
+  serviceIds;
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -262,12 +263,24 @@ export class SalesBillComponent implements OnInit {
           console.log(element)
              this.booking_id= element.id  
              this.service_id = element.service_details[0].service__id
-               console.log("servic id" +this.service_id)              
+               console.log("servic id" +this.service_id)  
+                         
         });
+        // let serviceids:any =this.booking_history.forEach(element => {
+        //   console.log(element)
+        //      this.booking_id= element.id  
+        //      this.service_id = element.service_details[0].service__id
+        //        console.log("servic id" +this.service_id)  
+                         
+        // });
+        // console.log(serviceids)
+        // this.serviceIds.push(this.serviceIds)
+        console.log(this.serviceIds)
         console.log(this.booking_id)
         
         this.booking_history.forEach(element => {
           console.log(element)
+          this.serviceIds=[]
           this.invoice_items.push(
             {item_id:"",
               booking_id:element.id,
@@ -281,6 +294,13 @@ export class SalesBillComponent implements OnInit {
               gst_value:0
             }
           )
+          
+          this.invoice_items.forEach(element => {
+            console.log(this.serviceIds)
+            
+            this.serviceIds.push(element.service_id) 
+            console.log("service details"+this.serviceIds)
+          });
           
           
         });
@@ -490,7 +510,7 @@ export class SalesBillComponent implements OnInit {
        this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
-       this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_name);
+       this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
        this.adminService.getBookinHistory(this.customer_object.id).subscribe(
         (data2)=>{
           
@@ -602,7 +622,8 @@ export class SalesBillComponent implements OnInit {
     let data = {
       'is_paid':new Boolean(this.passed_flag).toString(),
       'id':this.customer_id,
-      'service_id':this.service_id
+      'service_id':this.serviceIds
+      
     }
     this.adminService.updateIsPaid(data).subscribe(
       (data)=>{

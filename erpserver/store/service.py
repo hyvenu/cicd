@@ -54,9 +54,11 @@ class StoreService:
     @transaction.atomic
     def update(self, data):
         if 'id' in data:
+            service_arr = data['service_id']
+            for item in service_arr:
+                app_id =AppointmentForMultipleService.objects.filter(service_id=item).values('appointment_id')[0]['appointment_id']
+                AppointmentSchedule.objects.filter(id=app_id).update(is_paid=True)
 
-            app_id =AppointmentForMultipleService.objects.filter(service_id=data['service_id']).values('appointment_id')[0]['appointment_id']
-            AppointmentSchedule.objects.filter(id=app_id).update(is_paid=True)
             # if data['is_paid'] == "true":
             #     appointment_obj.is_paid = True
             # else:
@@ -239,6 +241,7 @@ class StoreService:
         final_list = []
         app_data_list = AppointmentSchedule.objects.filter(is_paid=False).values(
             'id',
+            'is_paid',
             'assigned_staff__id',
             'assigned_staff__employee_name',
             'store_id',
