@@ -15,6 +15,8 @@ export class ManageProductComponent implements OnInit {
 
   productMasterFrom: FormGroup;
 
+  @ViewChild('attribute') inputName; 
+
   createFlag = true;
 
   categories_list;
@@ -53,6 +55,10 @@ export class ManageProductComponent implements OnInit {
   @ViewChild('myInput')
   myInputVariable: ElementRef;
   submitted: boolean=false;
+  cat_id: any;
+  searchBrand: string;
+  attr: string;
+  Attribute: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -161,7 +167,10 @@ export class ManageProductComponent implements OnInit {
   cat_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.categories_list })
     .onClose.subscribe(data => {
-       this.selected_category = data       
+      this.searchCategory=""
+       this.selected_category = data    
+       this.cat_id = this.selected_category.id  
+       console.log(this.cat_id) 
        this.productMasterFrom.controls['categoryNameFormControl'].setValue(data.category_name);
        this.getProductCode();
     }
@@ -171,6 +180,7 @@ export class ManageProductComponent implements OnInit {
   sub_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.sub_categories })
     .onClose.subscribe(data => {
+      this.searchSubCategory=""
        this.selected_sub_ategory = data       
        this.productMasterFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);
        this.getProductCode();
@@ -181,6 +191,7 @@ export class ManageProductComponent implements OnInit {
   brand_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.brand_list })
     .onClose.subscribe(data => {
+      this.searchBrand=""
        this.selected_brand = data       
        this.productMasterFrom.controls['brandNameFormControl'].setValue(data.brand_name);
        this.getProductCode();
@@ -231,6 +242,7 @@ export class ManageProductComponent implements OnInit {
   }
 
   add_attribute():any {
+    this.inputName.nativeElement.value = ' ';
     const name = this.productMasterFrom.controls['atrributeNameFormControl'].value;
     const data = {name: name,value:''}
     this.product_attributes.push(data)
@@ -287,7 +299,7 @@ export class ManageProductComponent implements OnInit {
   saveProduct():any {
     const formData = new FormData();
     if (!this.product_packingtypes.length ) {
-      this.nbtoastService.danger('Please Enter At Least ONE Product in Details Section')
+      this.nbtoastService.danger('Please Enter  Product in Product Packing Types')
     }else{
       let dd:boolean;
       this.product_packingtypes.forEach(
@@ -322,7 +334,7 @@ export class ManageProductComponent implements OnInit {
     if (this.product_id){
       formData.append('id', this.product_id)
     }
-    formData.append('category', this.selected_category.id);
+    formData.append('category', this.cat_id);
     formData.append('sub_category', this.selected_sub_ategory.id);
     formData.append('brand', this.selected_brand.id);
     formData.append('product_code', this.productMasterFrom.controls['productCodeFormControl'].value);

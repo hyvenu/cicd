@@ -230,7 +230,8 @@ export class AppointmentBookComponent implements OnInit {
             
           this.selected_product_list.push({
             
-            id: data.id,
+            id: '',
+            service_id:data.id,
             service_name: data.service_name,
        
           });

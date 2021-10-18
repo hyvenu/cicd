@@ -475,7 +475,7 @@ export class PurchaseOrderComponent implements OnInit {
         }else{
         this.nbtoastService.success(`PO Created SuccessFully ${data}`);
         }
-        this.ngOnInit();
+        
         this.routes.navigateByUrl("/PurchaseInvoicePage?id=" + data)
         
       },

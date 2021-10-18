@@ -85,7 +85,7 @@
                         <nb-card-header>
                             <b><u>Product Attribute's: </u>&nbsp; </b>
                             <input nbInput type="text" name="cst_atrribute_name"
-                                formControlName="atrributeNameFormControl" placeholder="Atrribute Name"
+                                formControlName="atrributeNameFormControl" placeholder="Atrribute Name" #attribute [(ngModel)]="Attribute"
                                 value=" " />&nbsp;
                             <button nbButton type="button" (click)="add_attribute()" status="success">Add</button>
                         </nb-card-header>
