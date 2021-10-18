@@ -299,29 +299,29 @@ export class ManageProductComponent implements OnInit {
   saveProduct():any {
     const formData = new FormData();
     if (!this.product_packingtypes.length ) {
-      this.nbtoastService.danger('Please Enter  Product in Product Packing Types')
+      this.nbtoastService.danger('Please Enter  Product Details in Product Packing Types')
     }else{
       let dd:boolean;
       this.product_packingtypes.forEach(
         a =>{
           if(!a.unit && !a.qty && !a.sell_price && !a.safety_stock_level && !a.unit_price && !a.serial_number && !a.tax){
             dd=false
-            this.nbtoastService.danger('Please Provide Qty & Unit in Details Section');
+            this.nbtoastService.danger('Please Provide Qty & Unit in Product Packing Types');
           }else if(!a.sell_price){
             dd=false
-            this.nbtoastService.danger('Please Provide Unit in Details Section');
+            this.nbtoastService.danger('Please Provide Unit in Product Packing Types');
           }else if(!a.unit_price){
             dd=false
-            this.nbtoastService.danger('Please Provide Unit Price in Details Section');
+            this.nbtoastService.danger('Please Provide Unit Price in Product Packing Types');
           }else if(!a.safety_stock_level){
             dd=false
-            this.nbtoastService.danger('Please Provide Saftey Stock in Details Section');
+            this.nbtoastService.danger('Please Provide Saftey Stock in Product Packing Types');
           }else if(!a.serial_number){
             dd=false
-            this.nbtoastService.danger('Please Provide Serial Number in Details Section');
+            this.nbtoastService.danger('Please Provide Serial Number in Product Packing Types');
           }else if(!a.tax){
             dd=false
-            this.nbtoastService.danger('Please Provide Gst% in Details Section');
+            this.nbtoastService.danger('Please Provide Gst% in Product Packing Types');
           }
           else{
             dd=true
