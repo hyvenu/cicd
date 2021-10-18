@@ -97,6 +97,7 @@ export class ManageProductComponent implements OnInit {
     if (param1) {
         this.inventoryService.getProduct(param1).subscribe(
           (data) => {
+            console.log(data)
             this.productMasterFrom.controls['categoryNameFormControl'].setValue(data.category.category_name);
             this.productMasterFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category.sub_category_name);
             this.productMasterFrom.controls['brandNameFormControl'].setValue(data.brand.brand_name);
@@ -105,6 +106,8 @@ export class ManageProductComponent implements OnInit {
             this.productMasterFrom.controls['hsncodeFormControl'].setValue(data.hsn_code);
             this.productMasterFrom.controls['descFormControl'].setValue(data.description);
             this.selected_category = data.category;
+            this.cat_id = data.category.id
+            console.log(this.cat_id)
             this.selected_sub_ategory = data.sub_category;
             this.selected_brand = data.brand;
             this.product_id = data.id;
