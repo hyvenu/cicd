@@ -110,9 +110,12 @@ class StoreService:
                 #     else:
                 if 'id' in item and len(item['id']) > 0:
                     service = AppointmentForMultipleService.objects.get(id=item['id'])
-                    service.appointment = appointment_obj
-                    service.service_id = item['service_id']
-                    service.save()
+                else:
+                    service = AppointmentForMultipleService()
+
+                service.appointment = appointment_obj
+                service.service_id = item['service_id']
+                service.save()
         else:
             service_arr = ast.literal_eval(ap_data['service'])
             for item in service_arr:

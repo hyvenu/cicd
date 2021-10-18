@@ -169,19 +169,35 @@ export class ManageGrnComponent implements OnInit {
         this.nbtoastService.danger(error, "Error")
       }
     );
-    this.onChange()
+    this.onChanges()
+    
   }
 
-  onChange(){
-    this.selected_product_list.forEach(element => {
-      console.log(element)
-      this.dateofdata = new Date(element.expiry_date)
+  onChanges(){
+    this.grnMasterForm.controls['grnDateFormControl'].valueChanges.subscribe(
+      (data)=> {  
+        console.log(new Date(data))
+        this.dateofdata = new Date(data)
+        console.log(this.dateofdata)
+        console.log(this.current_date)
+        if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+        }
+
+      })
+     
+    }
+  
+
+  onChange(item){
+    
+      this.dateofdata = new Date(item.expiry_date)
       console.log(this.dateofdata)
         console.log(this.current_date)
         if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
           this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
         }
-    });
+    
     // this.purchaseOrderForm.controls['poDateFormControl'].valueChanges.subscribe(
     //   (data)=> {  
     //     console.log(new Date(data))

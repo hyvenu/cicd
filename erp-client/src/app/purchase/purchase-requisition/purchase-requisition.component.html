@@ -91,7 +91,7 @@
                                 <td><input class="form-control form-control-sm" style="width: 10em;" [(ngModel)]="item.expected_date" [nbDatepicker]="datepicker"
                                     placeholder="Date" />
                                     <!-- <input [nbDatepicker]="datepicker"> -->
-                                    <nb-datepicker format="yyyy-MM-DD" #datepicker></nb-datepicker>
+                                    <nb-datepicker format="yyyy-MM-DD" (dateChange) = "onChanges(item.expiry_date,$event)" #datepicker></nb-datepicker>
                                     <!-- <input nbInput  value={{item.expected_date}} /></td> -->
                                
                             </tr>

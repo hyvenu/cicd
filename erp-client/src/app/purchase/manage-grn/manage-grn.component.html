@@ -193,7 +193,7 @@
                                 <td><input nbInput [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" [nbDatepicker]="expiry_date_datepicker"
                                     placeholder="Date" />
                                     <!-- <input [nbDatepicker]="datepicker"> -->
-                                    <nb-datepicker format="yyyy-MM-DD"  #expiry_date_datepicker></nb-datepicker>
+                                    <nb-datepicker format="yyyy-MM-DD"  (change)="onChange(item.expiry_date)" #expiry_date_datepicker></nb-datepicker>
                                     </td>
                             </tr>
                         </tbody>

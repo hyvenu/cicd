@@ -146,6 +146,15 @@ export class PurchaseRequisitionComponent implements OnInit {
      
     }
 
+    onChanges(item){
+    
+      this.dateofdata = new Date(item.expiry_date)
+      console.log(this.dateofdata)
+        console.log(this.current_date)
+        if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+        }
+      }
 
   toggle(event) {
     this.checked = event.target.checked;
@@ -279,9 +288,9 @@ export class PurchaseRequisitionComponent implements OnInit {
           if(!a.expected_date && !a.product_code && !a.product_name && !a.required_quantity){
             dd=false
             this.nbtoastService.danger('Please Provide Product  Details Section');
-          }else if(!a.expected_date){
+          }else if(a.expected_date == "NaN-NaN-NaN"){
             dd=false
-            this.nbtoastService.danger('Please Provide Unit in Details Section');
+            this.nbtoastService.danger('Please Provide Required Date in Details Section');
           }
           else{
             dd=true
