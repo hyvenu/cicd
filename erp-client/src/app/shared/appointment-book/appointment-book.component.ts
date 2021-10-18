@@ -135,6 +135,7 @@ export class AppointmentBookComponent implements OnInit {
   edit_oppintment(){
     this.adminService.getAppointmentDetailsById(this.app_id).subscribe(
       (data) =>{
+        console.log(data)
         this.customer_id = this.route.snapshot.queryParams['customer_id']
         console.log(this.cus_id)
         console.log(data)
@@ -144,7 +145,8 @@ export class AppointmentBookComponent implements OnInit {
         data.service_list.forEach(element => {
           console.log(element)
           this.selected_product_list.push({
-            id: element.id,
+            id:data.service_list[0].id,
+            service_id:element.service__id,
             service_name: element.service__service_name,
           })
         });
@@ -286,7 +288,12 @@ export class AppointmentBookComponent implements OnInit {
       this.adminService.saveBooking(form_data).subscribe(
         (data) => {
           console.log(data)
-           this.nbtoastService.success("Booking information saved")
+          if(this.app_id){
+            this.nbtoastService.success("Booking information Updated")
+          }else{
+            this.nbtoastService.success("Booking information Saved")
+          }
+           
            this.routes.navigate(["/ViewBooking"]);
            
            this.booking_id=null;
