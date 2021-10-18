@@ -181,6 +181,13 @@ export class AppointmentBookComponent implements OnInit {
  
   }
 
+  remove_item(item): void{
+    const index: number = this.selected_product_list.indexOf(item);
+    if (index !== -1) {
+        this.selected_product_list.splice(index, 1);
+    } 
+  }
+
   onChange(){
     this.bookingForm.controls['bookingDateFormControl'].valueChanges.subscribe(
       (data)=> {  
