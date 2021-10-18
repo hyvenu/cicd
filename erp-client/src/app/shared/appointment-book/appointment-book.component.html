@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
+            <!-- <div class="form-row">
                 <div class="form-group col-md-2">
                     <label >Service <span style="color: red;">*</span></label>
                     <nb-select style="width: 20em;" name="services" [(ngModel)]="service" formControlName="serviceFormControl" [(selected)]="selected_service" multiple >
@@ -68,53 +68,30 @@
                         </nb-option>
                     </nb-select>
                 </div>
-            </div> <br>
-            <!-- <nb-card accent="info">
+            </div> <br> -->
+            <nb-card accent="info">
                 <nb-card-header>Add Service</nb-card-header>
                 <nb-card-body>
-                    <button nbButton (click)="open(dialog);" status="success" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">Add </button> <span style="color: red;">*</span>&nbsp;&nbsp;
+                    <button nbButton (click)="open(dialog_service);" status="success" size="small" >Add </button> <span style="color: red;">*</span>&nbsp;&nbsp;
                     
                     <table class="table table-responsive">
                         <thead>
-                            <th></th>
-                            <th>Service Name</th> -->
-                            <!-- <th>Product Name</th>
-                            <!-- <th>Description</th> -->
-                            <!-- <th>Store</th>
-                            <th>Required Qty</th>
-                            <th>Unit</th>
                             
-                            <th>Required Date</th> -->
-                        <!-- </thead>
+                            <th>Service Name</th>
+                        
+                        </thead>
                         <tbody>
-                            <tr  [class.hidden]="!item.active">
-                                <td *ngIf="!delete"><button nbButton (click)="remove_item(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
-                                <td *ngIf="delete" ><button nbButton (click)="delete(item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
-                                <td><input class="form-control form-control-sm"  style="width: 10em;"  placeholder="" readonly value={{item.product_code}}/></td> -->
-                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="" readonly value={{item.product_name}}/></td>
-                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="description" [(ngModel)]="item.description"/></td> -->
-                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="store name" readonly [(ngModel)]="item.store"/></td>
-                                <td><input class="form-control form-control-sm" style="width: 10em;" type="number" min="0"  placeholder="Quantity" [(ngModel)]="item.required_qty" oninput="validity.valid || (value='')" /></td>
-                             <td><input class="form-control form-control-sm" style="width: 10em;" name="item.unit_name"   placeholder="Unit " [(ngModel)]="item.unit_name"  />  </td> -->
-                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" name="item.unit_price"   placeholder="Unit Price " [(ngModel)]="item.unit_price"  /> -->
-                                  <!-- <td>  <nb-select size="small" name="item.unit" [(selected)]="item.unit"> 
-                                    <nb-option  *ngFor="let o of unit_list" value="{{o.id}}">
-                                        {{ o.PrimaryUnit }}
-                                    </nb-option>
-                                </nb-select> -->
-                            <!-- </td> -->
-                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" [(ngModel)]="item.expected_date" [nbDatepicker]="datepicker"
-                                    placeholder="Date" /> -->
-                                    <!-- <input [nbDatepicker]="datepicker"> -->
-                                    <!-- <nb-datepicker format="yyyy-MM-DD" #datepicker></nb-datepicker> --> -->
-                                    <!-- <input nbInput  value={{item.expected_date}} /></td> -->
-<!--                                
+                            <tr  *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
+                                <td ><button nbButton (click)="remove_item(item);" status="danger" size="small" >X</button><br></td>
+                                
+                                <td><input class="form-control form-control-sm"  style="width: 10em;"  placeholder="" readonly value={{item.service_name}}/></td>
+                                
                             </tr>
                         </tbody>
                     </table>
-                </nb-card-body> -->
+                </nb-card-body> 
                 
-            <!-- </nb-card> -->
+            </nb-card>
             <div class="form-row">
                 <div class="form-group col-md-2">
                  <button nbButton status="success"  size="small" (click)="saveBooking();">Save</button>
@@ -168,4 +145,22 @@
         </nb-card-footer>
     </nb-card>
 </ng-template>
+
+
+<ng-template #dialog_service let-data let-ref="dialogRef" >
+    <nb-card size="large" >
+      <nb-card-header>service List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchService" /> </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+            <nb-list-item *ngFor="let item of service_list| search_filter:'product_name':searchProduct">
+              <i class="mr-auto mt-2 mt-lg-0"> {{ item.service_name }}-{{item.price}}-{{item.service_gst}}%Gst-{{item.service_hour}}HourService</i>
+              <button nbButton (click)="ref.close(item)" size="small">Select</button>
+            </nb-list-item>
+          </nb-list>
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>
 

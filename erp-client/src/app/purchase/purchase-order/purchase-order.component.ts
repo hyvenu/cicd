@@ -63,6 +63,12 @@ export class PurchaseOrderComponent implements OnInit {
   not_approved: any;
   gst:0.0;
   pr_id: any;
+  searchPR: string;
+  searchProduct: string;
+  searchVendor: string;
+  packpercnt = 0
+  dateofdata: Date;
+  current_date :any = new Date();
 
 
   constructor(
@@ -105,6 +111,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.cgst = 0.0;
     this.sgst = 0.0;
     this.igst = 0.0;
+    
 
     this.purchaseService.getVendorList().subscribe(
       (data) => {
@@ -205,12 +212,29 @@ export class PurchaseOrderComponent implements OnInit {
       }
     );
     this.calculate_total();
+    this.onChange()
 
   }
+
+  onChange(){
+    this.purchaseOrderForm.controls['poDateFormControl'].valueChanges.subscribe(
+      (data)=> {  
+        console.log(new Date(data))
+        this.dateofdata = new Date(data)
+        console.log(this.dateofdata)
+        console.log(this.current_date)
+        if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+        }
+
+      })
+     
+    }
 
   vendor_open(dialog: TemplateRef<any>) {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.vendor_list })
       .onClose.subscribe(data => {
+        this.searchVendor=""
         this.selected_vendor = data;
         this.vendor_id = this.selected_vendor.id;
         this.purchaseOrderForm.controls['vendorCodeFormControl'].setValue(data.vendor_code);
@@ -224,6 +248,7 @@ export class PurchaseOrderComponent implements OnInit {
   product_open(dialog: TemplateRef<any>) {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
       .onClose.subscribe(data => {
+        this.searchProduct=""
         //  this.product_list = data
         console.log(data)
         if(this.selected_product_list.some(element => element.product_name == data.product_name)){
@@ -325,6 +350,8 @@ export class PurchaseOrderComponent implements OnInit {
               this.dailog_ref = this.dialogService.open(dialog, { context: this.pr_list  })
                 .onClose.subscribe(data => {
                   //  this.product_list = data
+                  this.selected_product_list=[]
+                  this.searchPR=""
                   console.log(data)
                   this.not_approved = data
                   this.pr_id = data.id
@@ -387,8 +414,27 @@ export class PurchaseOrderComponent implements OnInit {
 
 
   save_po(): any {
+    this.onSubmit()
     if(this.not_approved.status == "APPROVED"){
+      
     const formdata = new FormData()
+    if (!this.selected_product_list.length ) {
+      this.nbtoastService.danger('Please Enter At Least ONE Product in Details Section')
+    }else{
+      let dd:boolean;
+      this.selected_product_list.forEach(
+        a =>{
+          if(!a.delivery_date){
+            dd=false
+            this.nbtoastService.danger('Please Provide Product delivery Details Section');
+          }
+          else{
+            dd=true
+          }
+        }
+      )
+      console.log(dd)
+      if(dd){
     if(this.po_id){
       formdata.append('id', this.po_id);  
     }
@@ -441,6 +487,8 @@ export class PurchaseOrderComponent implements OnInit {
     this.nbtoastService.danger(`PO is Not approved`);
   }
 }
+    }
+}
 
   
   formatDate(date) {
@@ -457,10 +505,10 @@ export class PurchaseOrderComponent implements OnInit {
     return [year, month, day].join('-');
   }
 
-  delete_product(id): any {
+  delete_product(id,item): any {
     
     const data = { 'id' : id}
-    
+    if(id !== ""){
     this.purchaseService.deleteProductFromPO(data).subscribe(
       (data) => {
         this.nbtoastService.info("Item Removed");
@@ -475,6 +523,12 @@ export class PurchaseOrderComponent implements OnInit {
         this.nbtoastService.danger("Unable remove product");
       }
     )
+    }else{
+      const index: number = this.selected_product_list.indexOf(item);
+      if (index !== -1) {
+          this.selected_product_list.splice(index, 1);
+      } 
+    }
   }
 
 

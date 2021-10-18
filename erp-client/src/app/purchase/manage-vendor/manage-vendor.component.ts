@@ -158,7 +158,7 @@ export class ManageVendorComponent implements OnInit {
       // vendorStateNameFormControl: ['', [Validators.required]],      
       vendorStateCodeFormControl: ['', [Validators.required]],   
       // corporateOfficeFormControl: ['', [Validators.required]],   
-      branchOfficeFormControl: ['', []],
+      branchOfficeFormControl: ['', [Validators.required]],
       vendorTypeFormControl:['', [Validators.required]],   
       //vendorRegionFormControl: ['', [Validators.required]],
       // postalCode: ['', [Validators.required]],

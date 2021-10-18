@@ -70,7 +70,7 @@ class StoreService:
     @transaction.atomic
     def save_Appointment(self, ap_data):
         if 'id' in ap_data:
-            service_arr = ap_data['service'].split(',')
+            service_arr = ast.literal_eval(ap_data['service'])
             for item in service_arr:
                 if 'id' in ap_data:
                     appointment_obj = AppointmentSchedule.objects.get(id=ap_data['id'])
@@ -110,10 +110,10 @@ class StoreService:
                 #     else:
                 service = AppointmentForMultipleService.objects.get(appointment_id=ap_data['id'])
                 service.appointment = appointment_obj
-                service.service_id = item
+                service.service_id = item['id']
                 service.save()
         else:
-            service_arr = ap_data['service'].split(',')
+            service_arr = ast.literal_eval(ap_data['service'])
             for item in service_arr:
                 if 'id' in ap_data:
                     appointment_obj = AppointmentSchedule.objects.get(id=ap_data['id'])
@@ -147,9 +147,10 @@ class StoreService:
                 #     if 'id' in ap_data:
                 #         service = AppointmentForMultipleService.objects.get(appointment_id=ap_data['id'])
                 #     else:
+
                 service = AppointmentForMultipleService()
                 service.appointment = appointment_obj
-                service.service_id = item
+                service.service_id = item['id']
                 service.save()
 
         return appointment_obj.id

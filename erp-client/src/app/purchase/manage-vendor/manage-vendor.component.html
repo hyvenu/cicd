@@ -92,7 +92,7 @@
 
             <div class="form-row">
             <div class="col-md-12">
-                   <label><u>Address</u></label><br>
+                   <label><u>Address<span style="color: red;">*</span></u></label><br>
                    
             </div>
 
@@ -106,7 +106,12 @@
                 <div class="col-md-5">
                     <label for="branchOffice">Branch Offices </label><br>
                     <textarea nbInput class="form-control" formControlName="branchOfficeFormControl" name="branchOffice"
-                        placeholder="Branch Office"> </textarea>
+                        placeholder="Branch Office"  [ngClass]="{ 'is-invalid': submitted && f.branchOfficeFormControl.errors }"> </textarea>
+                         <div *ngIf="submitted && f.branchOfficeFormControl.errors" class="invalid-feedback">
+                            <div *ngIf=" submitted && f.branchOfficeFormControl.errors.required"> 
+                            Address is Required</div> 
+                           
+                       </div> 
                 </div>
 
             </div><br>

@@ -1,4 +1,6 @@
 
+
+
 <div class="form-row">
     <a nbButton [routerLink]="['/GrnList']" status="success" size="small">Back to Purchase order list</a>
 </div>
@@ -9,8 +11,8 @@
         <form id="" [formGroup]="grnMasterForm" (ngSubmit)=onSubmit()>
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="grnNumber">GRN Number <span style="color: red;">*</span></label>
-                    <input nbInput formControlName="grnNumberFormControl" name="grnNumber" placeholder="GRN Number"
+                    <label for="grnNumber">GRN Number </label>
+                    <input nbInput formControlName="grnNumberFormControl" name="grnNumber" placeholder="Auto Generated"
                         [readonly]="true" />
                 </div>
                 <div class="form-group col-md-3">
@@ -59,7 +61,10 @@
                 <div class="form-group col-md-3">
                     <label for="invoiceNumber">Invoice Number<span style="color: red;">*</span> </label>
                     <input nbInput  (keypress)="date_check()" formControlName="invoiceNumberFormControl" name="invoiceNumber"
-                        placeholder="Invoice Number" />
+                        placeholder="Invoice Number" [ngClass]="{ 'is-invalid': submitted && f.invoiceNumberFormControl.errors }" class=" form-control"/>
+                        <div *ngIf="submitted && f.invoiceNumberFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.invoiceNumberFormControl.errors.required">PO Number is required</div>
+                        </div> 
                 </div>
                 <div class="form-group col-md-3">
                     <label for="poNumber">PO Number<span style="color: red;">*</span></label>
@@ -101,13 +106,13 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="timeIn">Time In </label> <br>
-                            <input nbInput formControlName="timeInFormControl" name="timeIn" value=""
+                            <input type="time" nbInput formControlName="timeInFormControl" name="timeIn" value=""
                                 placeholder="Time In" />
                         </div>
                         <div class="form-group col-md-4">
                             <label for="timeOut">Time Out </label> <br>
 
-                            <input nbInput formControlName="timeOutFormControl" name="timeOut" value=""
+                            <input type="time" nbInput formControlName="timeOutFormControl" name="timeOut" value=""
                                 placeholder="Time Out" />
                         </div>
                     </div><br>
@@ -163,26 +168,26 @@
                             <tr *ngFor="let item of selected_product_list; let i=index" [class.hidden]="!item.active">
                                 <!-- <td><button nbButton (click)="delete(item);" status="danger" size="small"
                                         *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td> -->
-                                <td><input nbInput placeholder=""  value={{i+1}} /></td>
-                                <td><input nbInput placeholder=""  value={{item.product_code}} /></td>
-                                <td><input nbInput placeholder=""  value={{item.product_name}} /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.hsn_code" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.received_qty" (change)="calculate(item);" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.rejected_qty" (change)="calculate(item);" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.accepted_qty" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder=""  value={{i+1}} readonly/></td>
+                                <td><input nbInput placeholder=""  value={{item.product_code}} readonly /></td>
+                                <td><input nbInput placeholder=""  value={{item.product_name}} readonly /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.hsn_code"  readonly/></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}"  [(ngModel)]="item.received_qty" (change)="calculate(item);"  readonly/></td>
+                                <td><input type="number"  oninput="validity.valid || (value='')" nbInput placeholder="" [ngModelOptions]="{standalone: true}" min="0" [max]="item.received_qty" [(ngModel)]="item.rejected_qty" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.accepted_qty" (change)="calculate(item);" readonly/></td>
                                 <!-- <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_id" (change)="calculate(item);" /></td> -->
                                 <td ><nb-select class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
                                     <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
                                         {{ o.PrimaryUnit }}
                                     </nb-option>
                                 </nb-select></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.po_qty" (change)="calculate(item);" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate(item);" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" (change)="calculate(item);" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.description" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" (change)="calculate(item);" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" (change)="calculate(item);" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.total" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.po_qty" readonly (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" readonly (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.description" readonly /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" readonly (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.total" readonly (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.batch_code" /></td>
                                 <!-- <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" /></td> -->
                                 <td><input nbInput [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" [nbDatepicker]="expiry_date_datepicker"

@@ -37,7 +37,7 @@ export class PurchaseRequisitionComponent implements OnInit {
   submitted: boolean=false;
   unit_name: any;
   dateofdata: Date;
-  current_date: any;
+  current_date :any = new Date();
   
 
   constructor(private formBuilder: FormBuilder,
@@ -270,18 +270,45 @@ export class PurchaseRequisitionComponent implements OnInit {
   savePR(): any {
     
     const formData = this.saveFormData();
+    if (!this.selected_product_list.length ) {
+      this.nbtoastService.danger('Please Enter At Least ONE Product in Details Section')
+    }else{
+      let dd:boolean;
+      this.selected_product_list.forEach(
+        a =>{
+          if(!a.expected_date && !a.product_code && !a.product_name && !a.required_quantity){
+            dd=false
+            this.nbtoastService.danger('Please Provide Product  Details Section');
+          }else if(!a.expected_date){
+            dd=false
+            this.nbtoastService.danger('Please Provide Unit in Details Section');
+          }
+          else{
+            dd=true
+          }
+        }
+      )
+      console.log(dd)
+      if(dd){
+
     this.purchaseService.savePR(formData).subscribe(
       (data) => {
-        
+        if(this.pr_id){
+          this.nbtoastService.success("PR Details Updated Successfully, PR number is : " + data)
+        }else{
+
+       
         this.nbtoastService.success("PR Details Saved Successfully, PR number is : " + data)
-        this.ngOnInit();
+        }
+        
         this.routes.navigate(['/PurchaseRequisitionList'])
       },
       (error) => {
-        this.nbtoastService.danger(error.detail);
+        this.nbtoastService.danger("Failed to Save");
       }
     );
-    
+      }
+    }
 
   }
 

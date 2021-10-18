@@ -108,7 +108,7 @@
                 <div class="form-group col-md-4">
                     <label for="ship_address">Shipping Address <span style="color: red;">*</span></label>
                     <textarea nbInput formControlName="shipAddressFormControl" name="ship_address" 
-                        placeholder="Shipping Address" [ngClass]="{ 'is-invalid': submitted && f.shipAddressFormControl.errors }">
+                        placeholder="Shipping Address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.shipAddressFormControl.errors }">
                        </textarea>
                        <div *ngIf="submitted && f.shipAddressFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.shipAddressFormControl.errors.required">Shipping Address is required</div>
@@ -120,7 +120,8 @@
         </nb-card-body>
         </nb-card>
         <nb-card accent="info" >
-            <nb-card-header>Product Details <button nbButton size="small" status="success" (click)="product_open(product_dialog)">  + ADD </button> </nb-card-header>
+            <nb-card-header>Product Details <button nbButton size="small" status="success"  
+                 (click)="product_open(product_dialog)">  + ADD </button> </nb-card-header>
             <nb-card-body>
                 <table class="table table-hovered">
                     <thead style="font-size: smaller;" >
@@ -140,7 +141,7 @@
                     </thead>
                     <tbody style="font-size: smaller;" >
                         <tr *ngFor="let item of selected_product_list">
-                            <td><button nbButton (click)="delete_product(item.id);" size="small" status="danger">X</button></td>
+                            <td><button nbButton (click)="delete_product(item.id,item);" size="small" status="danger">X</button></td>
                             <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
                             <td><input nbInput  fieldSize="small"placeholder=""  value="{{item.product_name}} - {{item.description}}" readonly/></td>
                             <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty" (change)="calculate_sub_total(item);"/></td>
@@ -188,7 +189,7 @@
                         <tr>
                             <td> {{ sub_total | currency:'INR' }}</td>
                             <td></td>
-                            <td> <input nbInput  min="0" fieldSize ="small" formControlName="packPrecntFormControl" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_total()" [value]="0.00" /></td>
+                            <td> <input nbInput  min="0" fieldSize ="small" formControlName="packPrecntFormControl" [(ngModel)]="packpercnt" name="packpercnt" size="tiny" placeholder="Packing %" (change)="calculate_total()" [value]="0.00" /></td>
                             <td> {{ packing_amount | currency : 'INR' }}</td>
                             <td> {{ total_amount | currency : 'INR' }} </td>
                             <td> {{ sgst | currency : 'INR' }}  </td>
@@ -214,7 +215,7 @@
                     </div>
             </nb-card-body>
             <nb-card-footer>
-                <button nbButton (click)="save_po();" status="success" *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
+                <button nbButton type="submit" size="small" status="success" (click)="save_po();"  *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
             </nb-card-footer>    
         </nb-card>
         </form>

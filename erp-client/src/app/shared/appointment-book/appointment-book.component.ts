@@ -45,6 +45,8 @@ export class AppointmentBookComponent implements OnInit {
   current_date :any = new Date();
   searchCategory:any;
   dateofdata: Date;
+  searchService: string;
+  selected_product_list: any = [];
 
 
 
@@ -75,7 +77,7 @@ export class AppointmentBookComponent implements OnInit {
       startTimeFormControl: ['', [Validators.required]],
       bookingDateFormControl: ['', [Validators.required]],
       endTimeFormControl: ['', [Validators.required]],
-      serviceFormControl:['',[Validators.required]]
+      // serviceFormControl:['',[Validators.required]]
     })
     
     // this.dateCheck()
@@ -98,7 +100,7 @@ export class AppointmentBookComponent implements OnInit {
      this.bookingForm.controls['bookingDateFormControl'].setValue(moment(this.date));
      }
     
-    this.service_array = this.bookingForm.controls['serviceFormControl'].value;
+    // this.service_array = this.bookingForm.controls['serviceFormControl'].value;
      this.app_id = this.route.snapshot.queryParams['id'];
     console.log("booking id"+this.app_id)
     
@@ -139,10 +141,16 @@ export class AppointmentBookComponent implements OnInit {
         console.log(data.service_list)
         this.appointment_id=data.id
         this.bookingForm.controls['bookingDateFormControl'].setValue(moment(data.booking_date));
-        let date =data.booking_date
-        this.dateofdata = new Date(date)
+        data.service_list.forEach(element => {
+          console.log(element)
+          this.selected_product_list.push({
+            id: element.id,
+            service_name: element.service__service_name,
+          })
+        });
+        
         this.onChange()
-        console.log(this.dateofdata)
+       
         // let ser_id = this.adminService.getServiceList().subscribe(
         //   (serv) =>{
         //     console.log("service list"+data)
@@ -208,6 +216,32 @@ export class AppointmentBookComponent implements OnInit {
       // }
     }
 
+    open(dialog: TemplateRef<any>) {
+      this.dailog_ref = this.dialogService.open(dialog, { context: this.service_list })
+        .onClose.subscribe(data => {
+          this.searchService = ""
+          //  this.product_list = data
+          
+          console.log(data)
+          
+          if(this.selected_product_list.some(element => element.service_name == data.service_name)){
+            this.nbtoastService.danger("Service name already exist");
+          }else{
+            
+          this.selected_product_list.push({
+            
+            id: data.id,
+            service_name: data.service_name,
+       
+          });
+        }
+        });
+      //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
+     
+    }
+
+    
+
     
 
   saveBooking():void {
@@ -225,7 +259,7 @@ export class AppointmentBookComponent implements OnInit {
     form_data.append('customer',this.customer_id)
     form_data.append('customer_name', this.bookingForm.controls['customerNameFormControl'].value);
     form_data.append('phone_number', this.bookingForm.controls['phoneNumberFormControl'].value);
-    form_data.append('service',this.bookingForm.controls['serviceFormControl'].value);
+    form_data.append('service',JSON.stringify(this.selected_product_list));
     form_data.append('start_time', this.bookingForm.controls['startTimeFormControl'].value);
     form_data.append('end_time', this.bookingForm.controls['endTimeFormControl'].value);
     form_data.append('assigned_staff', this.assigned);
@@ -237,8 +271,8 @@ export class AppointmentBookComponent implements OnInit {
           (data) => {
             console.log(data)
              this.nbtoastService.success("Booking information updated")
-            //  this.routes.navigate(["/ViewBooking"]);
-             this.bookingForm.reset();
+            this.routes.navigate(["/ViewBooking"]);
+             
              this.booking_id=null;
              this.selected_service = null;
              
@@ -253,7 +287,7 @@ export class AppointmentBookComponent implements OnInit {
           console.log(data)
            this.nbtoastService.success("Booking information saved")
            this.routes.navigate(["/ViewBooking"]);
-           this.bookingForm.reset();
+           
            this.booking_id=null;
            this.service = [];
         },  
