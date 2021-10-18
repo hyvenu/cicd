@@ -92,11 +92,11 @@ export class ViewBookingComponent implements OnInit {
         form_data.append('assigned_staff',item.assigned_staff.id)
 
       }
-        const service_ids = item.service_list.map(service => {return service.service__id})
+        const service_ids =[{ service_id:item.service_list.map(service => {return service.service__id})}]
        form_data.append('store',sessionStorage.getItem('store_id'));
        form_data.append('customer_name', item.customer_name);
        form_data.append('phone_number', item.phone_number);
-       form_data.append('service',service_ids);
+       form_data.append('service',JSON.stringify(service_ids));
        form_data.append('start_time', item.start_time);
        form_data.append('end_time', item.end_time);
        form_data.append('booking_date', item.booking_date);

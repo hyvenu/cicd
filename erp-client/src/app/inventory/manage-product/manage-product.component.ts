@@ -59,6 +59,7 @@ export class ManageProductComponent implements OnInit {
   searchBrand: string;
   attr: string;
   Attribute: string;
+  searchUnit: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -229,6 +230,7 @@ export class ManageProductComponent implements OnInit {
           this.unit_list = data;
           this.dailog_ref= this.dialogService.open(dialog, { context: this.unit_list })
           .onClose.subscribe(data => {
+            this.searchUnit=""
             console.log(data);
              this.selected_unit = data      
              type.unit = data.PrimaryUnit 
