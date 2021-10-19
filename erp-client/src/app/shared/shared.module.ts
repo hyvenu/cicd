@@ -36,6 +36,10 @@ import { ChartsModule } from 'ng2-charts';
 import { ManageEmployeeComponent } from './manage-employee/manage-employee.component';
 import { DepartmentComponent } from './department/department.component';
 import { DepartmentListComponent } from './department-list/department-list.component';
+import { DesignationComponent } from './designation/designation.component';
+import { DesignationListComponent } from './designation-list/designation-list.component';
+import { ManageEnquiryComponent } from './manage-enquiry/manage-enquiry.component';
+import { ManageEnquiryListComponent } from './manage-enquiry-list/manage-enquiry-list.component';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -50,10 +54,14 @@ const routes: Routes = [
   { path: 'ManageEmployee' , component:ManageEmployeeComponent},
   { path: 'Department', component:DepartmentComponent},
   { path: 'DepartmentList', component:DepartmentListComponent},
+  { path: 'Designation', component:DesignationComponent},
+  { path: 'DesignationList', component:DesignationListComponent},
+  { path: 'Enquiry', component:ManageEnquiryComponent},
+  { path: 'EnquiryList', component:ManageEnquiryListComponent},
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent, DepartmentComponent, DepartmentListComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent, DepartmentComponent, DepartmentListComponent, DesignationComponent, DesignationListComponent, ManageEnquiryComponent, ManageEnquiryListComponent],
   imports: [
     CommonModule,
     BrowserModule,

@@ -220,6 +220,10 @@ export class SalesBillComponent implements OnInit {
         this.invoice_items.splice(index, 1);
     } 
     this.calculate_price()
+  //   this.invoice_items.forEach((element,index)=>{
+  //     if(element.service_id=== item.service_id) delete this.invoice_items[index];
+  //  });
+  //  console.log(this.invoice_items)
     // this.calculate_gst()
     // this.calculate_totalGst()
   }

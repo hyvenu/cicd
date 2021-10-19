@@ -10,6 +10,12 @@ def generate_department_code():
     code = prefix_code + '-' + str(code)
     return code
 
+def generate_designation_code():
+    prefix_code = 'D5N-DSG'
+    code = get_next_value(prefix_code)
+    code = prefix_code + '-' + str(code)
+    return code
+
 
 def generate_employee_code():
     prefix_code = 'D5N-EMP'
@@ -75,6 +81,21 @@ class DepartmentSerializer(serializers.ModelSerializer):
         return desig
 
 
+class DesignationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Designation
+        fields = [
+            'id',
+            'designation_id',
+            'designation_name',
+        ]
+
+    def create(self, validated_data):
+        validated_data['designation_id'] = generate_designation_code()
+        desig = super().create(validated_data)
+        return desig
+
+
 class StoreShipLocationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.StoreShipLocations
@@ -135,7 +156,9 @@ class CustomerSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Employee
-        fields = ['id', 'employee_code', 'employee_name', 'phone_number', 'department', 'employee_address']
+        fields = ['id', 'employee_code', 'employee_name', 'phone_number', 'department', 'employee_address',
+                  'dob', 'doj', 'salary', 'job_designation', 'admin_rights', 'attendance_id', 'pan_card', 'account_number',
+                  'ifsc', 'hrms_id', 'gender', 'employee_category', 'pay_out', 'job_designation', 'grade', 'login_access']
 
     def create(self, validated_data):
         validated_data['employee_code'] = generate_employee_code()

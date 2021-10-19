@@ -1,4 +1,4 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PurchaseService } from '../purchase.service';
 import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
@@ -17,6 +17,8 @@ import * as moment from 'moment';
 })
 export class PurchaseRequisitionComponent implements OnInit {
 
+  @ViewChild('date')
+  myInputVariable: ElementRef;
   IsPRInfo: boolean;
   prForm: FormGroup;
   dailog_ref;
@@ -38,6 +40,8 @@ export class PurchaseRequisitionComponent implements OnInit {
   unit_name: any;
   dateofdata: Date;
   current_date :any = new Date();
+  expiry_date: Date;
+  date:boolean=false;
   
 
   constructor(private formBuilder: FormBuilder,
@@ -146,14 +150,22 @@ export class PurchaseRequisitionComponent implements OnInit {
      
     }
 
-    onChanges(item){
-    
-      this.dateofdata = new Date(item.expiry_date)
-      console.log(this.dateofdata)
+    onChanges(date,item){
+      let dd:any= new Date(date)
+      this.expiry_date = new Date(date.expected_date)
+      console.log(new Date(date))
+      console.log(item)
+      console.log((this.expiry_date))
         console.log(this.current_date)
-        if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+        if(moment(dd).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
           this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+          this.myInputVariable.nativeElement.value = "";
+          this.date=true
         }
+      }
+
+      dateRes(item){
+
       }
 
   toggle(event) {

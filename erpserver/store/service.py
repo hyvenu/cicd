@@ -108,7 +108,7 @@ class StoreService:
                 #     if 'id' in item:
                 #         service = AppointmentForMultipleService.objects.get(id=item['id'])
                 #     else:
-                if 'id' in item and len(item['id']) > 0:
+                if 'id' in item and len(item['id']) > 0 :
                     service = AppointmentForMultipleService.objects.get(id=item['id'])
                 else:
                     service = AppointmentForMultipleService()
@@ -342,6 +342,22 @@ class StoreService:
             'phone_number',
             'employee_address',
             'department__department_name',
+            'dob',
+            'doj',
+            'salary',
+            'job_designation__designation_name',
+            'admin_rights',
+            'attendance_id',
+            'pan_card',
+            'account_number',
+            'ifsc',
+            'hrms_id',
+            'gender',
+            'employee_category',
+            'pay_out',
+
+            'grade',
+            'login_access',
 
         )
         return list(employee_list)

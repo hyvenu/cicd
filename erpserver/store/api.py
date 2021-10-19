@@ -28,6 +28,10 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = models.Department.objects.all()
     serializer_class = serializers.DepartmentSerializer
 
+class DesignationViewSet(viewsets.ModelViewSet):
+    queryset = models.Designation.objects.all()
+    serializer_class = serializers.DesignationSerializer
+
 
 class StoreShipLocationsViewSet(viewsets.ModelViewSet):
     queryset = models.StoreShipLocations.objects.all()

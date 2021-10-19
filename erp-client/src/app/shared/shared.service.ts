@@ -96,17 +96,33 @@ export class SharedService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`)    
   }
 
+  public getDesignationList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Designation/`)    
+  }
+
 
   public getDepartmentDetails(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/` + id + '/')
+  }
+
+  public getDesignationDetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Designation/` + id + '/')
   }
 
   public saveDepartment(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`, data);
   }
 
+  public saveDesignation(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Designation/`, data);
+  }
+
   public updateDepartment(data,id){
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`+ id + '/', data)
+  }
+
+  public updateDesignation(data,id){
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Designation/`+ id + '/', data)
   }
 
 

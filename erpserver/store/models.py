@@ -53,6 +53,12 @@ class Department(AuditUuidModelMixin):
     class Meta:
         pass
 
+class Designation(AuditUuidModelMixin):
+    designation_id = models.CharField(max_length=230, default="")
+    designation_name = models.CharField(max_length=100, default="", unique=True)
+
+    class Meta:
+        pass
 
 class StoreShipLocations(AuditUuidModelMixin):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="store_locations")
@@ -123,6 +129,21 @@ class Employee(AuditUuidModelMixin):
     phone_number = models.CharField(max_length=10, default=None, null=True, unique=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     employee_address = models.CharField(max_length=255, default="")
+    dob = models.CharField(max_length=255, default=None)
+    doj = models.CharField(max_length=255, default=None)
+    salary = models.IntegerField(null=True, blank=True, default=0)
+    job_designation = models.ForeignKey(Designation, on_delete=models.CASCADE, null=True, blank=True)
+    admin_rights = models.CharField(max_length=255, default=None)
+    attendance_id = models.CharField(max_length=255, default=None)
+    pan_card = models.CharField(max_length=255, default=None)
+    account_number = models.IntegerField(null=True, blank=True, default=0)
+    ifsc = models.CharField(max_length=255, default=None)
+    hrms_id = models.CharField(max_length=255, default=None)
+    gender = models.CharField(max_length=255, default=None)
+    employee_category = models.CharField(max_length=255, default=None)
+    pay_out = models.CharField(max_length=255, default=None)
+    grade = models.CharField(max_length=255, default=None)
+    login_access = models.CharField(max_length=255, default=None)
 
     class Meta:
         pass
