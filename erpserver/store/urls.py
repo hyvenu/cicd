@@ -12,6 +12,7 @@ router.register("StoreShip", api.StoreShipLocationsViewSet)
 router.register("ProductCampaign", api.ProductCampaignsViewSet)
 router.register("SiteSettings", api.SiteSettingsViewSet)
 router.register("StoreService", api.StoreServicesViewSet)
+router.register("Enquiry", api.EnquiryViewSet)
 router.register("Customer", api.CustomerViewSet)
 router.register("Appointment", api.AppointmentScheduleViewSet)
 router.register("Employee", api.EmpolyeeViewSet)
@@ -29,6 +30,7 @@ urlpatterns = (
     path('api/v1/update_is_paid', views.update_is_paid, name="update_is_paid"),
     path('api/v1/get_appointment_list', views.get_appointment_list, name="get_appointment_list"),
     path('api/v1/get_employee_list', views.get_employee_list, name="get_employee_list"),
+    path('api/v1/get_enquiry_list', views.get_enquiry_list, name="get_enquiry_list"),
     path('api/v1/get_store_list', views.get_store_list, name="get_store_list"),
     path('api/v1/get_store_service_list', views.get_store_service_list, name="get_store_service_list"),
     path('api/v1/get_store_details', views.get_store_details, name="get_store_details"),

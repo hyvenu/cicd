@@ -1,1 +1,6 @@
-<p>manage-enquiry-list works!</p>
+<div class="row">
+    <a nbButton [routerLink]="['/Enquiry']" status="success" size="small" ngxPermission="['']" >Manage Enquiry </a>
+</div><br>
+<div class="row">
+<ng2-smart-table [settings]="Settings" [source]="data"></ng2-smart-table>
+</div>

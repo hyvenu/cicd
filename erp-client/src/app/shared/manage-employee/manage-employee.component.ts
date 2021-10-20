@@ -157,7 +157,7 @@ export class ManageEmployeeComponent implements OnInit {
           this.employeeForm.controls['DOBFormControl'].setValue(moment(data.dob));
           this.employeeForm.controls['DOJFormControl'].setValue(moment(data.doj));
           this.employeeForm.controls['SalaryFormControl'].setValue(data.salary);
-          this.employeeForm.controls['jobDesignationFormControl'].setValue(data.designation);
+          this.employeeForm.controls['jobDesignationFormControl'].setValue(data.designation_name);
           this.employeeForm.controls['adminRightsFormControl'].setValue(data.admin_rights);
           this.employeeForm.controls['attendanceIdFormControl'].setValue(data.attendance_id);
           this.employeeForm.controls['panCardFormControl'].setValue(data.pan_card);

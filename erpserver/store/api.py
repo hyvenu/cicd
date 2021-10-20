@@ -56,6 +56,10 @@ class StoreServicesViewSet(viewsets.ModelViewSet):
     queryset = models.StoreServices.objects.all()
     serializer_class = serializers.StoreServiceSerializer
 
+class EnquiryViewSet(viewsets.ModelViewSet):
+    queryset = models.Enquiry.objects.all()
+    serializer_class = serializers.EnquirySerializer
+
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = models.Customer.objects.all()
     serializer_class = serializers.CustomerSerializer

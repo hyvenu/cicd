@@ -1,7 +1,7 @@
 import { AppRoutingModule } from './../app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule , CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
@@ -91,6 +91,9 @@ const routes: Routes = [
     ChartsModule,
     Ng2SmartTableModule,
     
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   providers:[NbMenuService,
     LoaderService,
