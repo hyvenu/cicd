@@ -157,12 +157,18 @@ export class AdminService {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`+ id + '/', data)
   }
 
+  
+
   public updateEnquiry(data,id){
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Enquiry/`+ id + '/', data)
   }
 
   public getEmployeeDetails(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/` + id + '/')
+  }
+
+  public getEnquiryDetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Enquiry/` + id + '/')
   }
 
   public saveInvoice(data){

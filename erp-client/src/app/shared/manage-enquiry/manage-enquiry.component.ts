@@ -80,35 +80,32 @@ export class ManageEnquiryComponent implements OnInit {
     })
 
     this.enquiry_id = this.route.snapshot.queryParams['id'];
+    console.log(this.enquiry_id)
 
     if(this.enquiry_id){
-      this.adminService.getEmployeeDetails(this.enquiry_id).subscribe(
+      this.adminService.getEnquiryDetails(this.enquiry_id).subscribe(
         (data) =>{
           console.log(data)
          
-          this.enquiryForm.controls['employeeCodeFormControl'].setValue(data.employee_code);
-          this.enquiryForm.controls['employeeNameFormControl'].setValue(data.employee_name);
+          this.enquiryForm.controls['enquiryCodeFormControl'].setValue(data.enquiry_code);
+          this.enquiryForm.controls['fullNameFormControl'].setValue(data.full_name);
           this.enquiryForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
-          this.enquiryForm.controls['departmentFormControl'].setValue(data.department_name);
-          this.enquiryForm.controls['employeeAddressFormControl'].setValue(data.employee_address);
-          this.enquiryForm.controls['DOBFormControl'].setValue(moment(data.dob));
-          this.enquiryForm.controls['DOJFormControl'].setValue(moment(data.doj));
-          this.enquiryForm.controls['SalaryFormControl'].setValue(data.salary);
-          this.enquiryForm.controls['jobDesignationFormControl'].setValue(data.designation_name);
-          this.enquiryForm.controls['adminRightsFormControl'].setValue(data.admin_rights);
-          this.enquiryForm.controls['attendanceIdFormControl'].setValue(data.attendance_id);
-          this.enquiryForm.controls['panCardFormControl'].setValue(data.pan_card);
-          this.enquiryForm.controls['accountNumberFormControl'].setValue(data.account_number);
-          this.enquiryForm.controls['ifscFormControl'].setValue(data.ifsc);
-          this.enquiryForm.controls['hrmsIdFormControl'].setValue(data.hrms_id);
+          this.enquiryForm.controls['serviceNameFormControl'].setValue(data.service_name);
+          this.enquiryForm.controls['customerEmailFormControl'].setValue(data.customer_email);
           this.enquiryForm.controls['genderFormControl'].setValue(data.gender);
-          this.enquiryForm.controls['employeeCategoryFormControl'].setValue(data.employee_category);
-          this.enquiryForm.controls['payOutFormControl'].setValue(data.pay_out);
-          this.enquiryForm.controls['gradeFormControl'].setValue(data.grade);
-          this.enquiryForm.controls['loginAccessFormControl'].setValue(data.login_access);
+          this.enquiryForm.controls['localityFormControl'].setValue(data.locality);
+          this.enquiryForm.controls['enquiryDateFormControl'].setValue(moment(data.enquiry_date));
+          this.enquiryForm.controls['leadSourceFormControl'].setValue(data.lead_source);
+          this.enquiryForm.controls['enquiryTypeFormControl'].setValue(data.enquiry_type);
+          this.enquiryForm.controls['DateFormControl'].setValue(data.date);
+          this.enquiryForm.controls['timeFormControl'].setValue(data.time);
+          this.enquiryForm.controls['staffNameFormControl'].setValue(data.employee_name);
+          this.enquiryForm.controls['messageFormControl'].setValue(data.message);
+          this.enquiryForm.controls['callTagFormControl'].setValue(data.call_log);
+      
           this.serv_id = data.service
           
-          this.emp_id = data.staff_id
+          this.emp_id = data.staff_name
          
    
         }
@@ -190,9 +187,8 @@ export class ManageEnquiryComponent implements OnInit {
     formdata.append('time',this.enquiryForm.controls['timeFormControl'].value);
     formdata.append('staff_name',this.emp_id);
     formdata.append('message',this.enquiryForm.controls['messageFormControl'].value);
-    formdata.append('cold',this.enquiryForm.controls['coldFormControl'].value);
-    formdata.append('warm',this.enquiryForm.controls['warmFormControl'].value);
-    formdata.append('hot',this.enquiryForm.controls['hotFormControl'].value);
+    formdata.append('call_log',this.enquiryForm.controls['callTagFormControl'].value);
+  
     
     
 
@@ -230,7 +226,7 @@ export class ManageEnquiryComponent implements OnInit {
       formdata.append('time',this.enquiryForm.controls['timeFormControl'].value);
       formdata.append('staff_name',this.emp_id);
       formdata.append('message',this.enquiryForm.controls['messageFormControl'].value);
-      formdata.append('call_tag',this.enquiryForm.controls['callTagFormControl'].value);
+      formdata.append('call_log',this.enquiryForm.controls['callTagFormControl'].value);
       
       
 

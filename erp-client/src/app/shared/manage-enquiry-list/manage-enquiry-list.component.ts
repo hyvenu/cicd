@@ -33,7 +33,7 @@ export class ManageEnquiryListComponent implements OnInit {
         title: 'Enquiry Code',
         type:'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageEmployee?id=${row.id}">${row.enquiry_code}</a>`;
+          return `<a href="Enquiry?id=${row.id}">${row.enquiry_code}</a>`;
         }
       },
       full_name:{

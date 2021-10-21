@@ -209,7 +209,7 @@ class EnquirySerializer(serializers.ModelSerializer):
         data['service_name'] = models.Enquiry.objects.filter(service_id=data['service']).all().values(
             'service__service_name')[0]['service__service_name']
 
-        data['staff_name'] = \
+        data['employee_name'] = \
         models.Enquiry.objects.filter(staff_name_id=data['staff_name']).all().values(
             'staff_name__employee_name')[0]['staff_name__employee_name']
         return data
