@@ -216,6 +216,7 @@ export class SalesBillComponent implements OnInit {
 
   remove_item(item): void{
     const index: number = this.invoice_items.indexOf(item);
+    this.serviceIds.splice(index, 1)
     if (index !== -1) {
         this.invoice_items.splice(index, 1);
     } 

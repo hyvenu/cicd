@@ -1,0 +1,175 @@
+
+<div class="conatiner">
+    <div class="form-row">
+            <a nbButton [routerLink]="['/']" status="success" size="small">Back to Purchase order list</a>
+    </div>
+    <nb-tabset>
+        <nb-tab tabTitle="Purchase Order">
+            <form id="enquiryForm" [formGroup]="memeberForm" (ngSubmit)="onSubmit()">
+                
+            <nb-card accent="info">
+                <nb-card-header>Personal Details</nb-card-header>
+                <nb-card-body>
+                    <div class="form-row">
+                    
+                        <div class="form-group col-md-4">
+                            <label for="vendor">Member Code <span style="color: red;">*</span></label>
+                            <input nbInput formControlName="vendorCodeFormControl" name="vendor" placeholder="Select Vendor"  
+                            [ngClass]="{ 'is-invalid': submitted && f.vendorCodeFormControl.errors }" class="form-control" >
+                            <div *ngIf="submitted && f.vendorCodeFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.vendorCodeFormControl.errors.required">Vendor Code is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="vendor_name">Full Name</label>
+                            <input nbInput formControlName="vendorNameFormControl" name="vendor_name" placeholder="Vendor Name" readonly/>
+                        </div>
+                     
+                    </div><br>
+                    <div class="form-row" >
+                        <div class="form-group col-md-4">
+                            <label for="other_ref"> Contact Number</label>
+                            <input nbInput formControlName="otherRefFormControl" name="other_ref" placeholder="Other Reference" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="terms_delivery">Email</label>
+                            <input nbInput formControlName="termsDeliveryFormControl" name="terms_delivery" placeholder="Terms of Delivery" />
+                        </div>
+                    </div><br>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="note">Gender </label><br>
+                            <textarea nbInput formControlName="noteFormControl" name="note" placeholder="Note" ></textarea>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="note">Locality </label><br>
+                            <textarea nbInput formControlName="noteFormControl" name="note" placeholder="Note" ></textarea>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="po_date"> Date Of Birth <span style="color: red;">*</span></label>
+                            <input nbInput formControlName="poDateFormControl" class="form-control" name="po_date" [nbDatepicker]="po_date" placeholder="PO Date" 
+                            [ngClass]="{ 'is-invalid': submitted && f.poDateFormControl.errors }" />
+                                <div *ngIf="submitted && f.poDateFormControl.errors" class="invalid-feedback">
+                                    <div *ngIf="f.poDateFormControl.errors.required">PO Date is required</div>
+                                </div>
+                            <nb-datepicker #po_date format="yyyy-MM-DD"></nb-datepicker>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+            <nb-card accent="info">
+                <nb-card-header> </nb-card-header>     
+                <nb-card-body>
+                <div class="form-row">
+                  
+                
+                    
+                    <div class="form-group col-md-4">
+                        <label for="pr_number">Select PR Number <span style="color: red;">*</span></label>
+                        <input nbInput formControlName="prNumberFormControl"  name="pr_number" placeholder="PR Number" 
+                        [ngClass]="{ 'is-invalid': submitted && f.prNumberFormControl.errors }" class="form-control" />
+                            <div *ngIf="submitted && f.prNumberFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.prNumberFormControl.errors.required">PR Number is required</div>
+                            </div> 
+                    </div>
+                </div><br>
+    
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="po_number">PO Number</label>
+                        <input nbInput formControlName="poNumberFormControl" name="po_number" placeholder="System Generated" readonly
+                        />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="user">PO Raised By </label>
+                        <input nbInput formControlName="userFormControl" name="user" 
+                            placeholder="user" readonly>
+                    </div>
+                   
+                </div><br>
+                <div class="form-row">
+    
+                    <div class="form-group col-md-4">
+                        <label for="ship_address">Shipping Address <span style="color: red;">*</span></label>
+                        <textarea nbInput formControlName="shipAddressFormControl" name="ship_address" 
+                            placeholder="Shipping Address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.shipAddressFormControl.errors }">
+                           </textarea>
+                           <div *ngIf="submitted && f.shipAddressFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.shipAddressFormControl.errors.required">Shipping Address is required</div>
+                        </div>
+                          
+                    </div>
+                </div>
+                
+            </nb-card-body>
+            </nb-card>
+            
+                
+            <nb-card accent="info">
+                <nb-card-header>PO Summary</nb-card-header>
+                <nb-card-body>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="terms_conditions">Terms & Conditions</label>
+                                <textarea nbInput formControlName="termsConditionFormControl" name="ship_address" 
+                                    placeholder="Terms & Conditions" ></textarea>
+                            </div>
+                        </div>
+                </nb-card-body>
+                <nb-card-footer>
+                    <button nbButton type="submit" size="small" status="success" *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
+                </nb-card-footer>    
+            </nb-card>
+            </form>
+        </nb-tab>
+    </nb-tabset>
+    </div>
+    <!-- <ng-template #vendor_dialog let-data let-ref="dialogRef">
+        <nb-card size="medium">
+            <nb-card-header>Vendor List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchVendor" /></nb-card-header>
+            <nb-card-body>
+                <nb-list>
+                    <nb-list-item *ngFor="let item of vendor_list | search_filter:'vendor_name':searchVendor ">
+                        <i class="mr-auto mt-2 mt-lg-0">{{ item.vendor_name }} - {{item.vendor_code }}</i>
+                        <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                    </nb-list-item>
+                </nb-list>
+            </nb-card-body>
+            <nb-card-footer>
+                <button nbButton (click)="ref.close()">Close</button>
+            </nb-card-footer>
+        </nb-card>
+    </ng-template>
+    <ng-template #product_dialog let-data let-ref="dialogRef" >
+        <nb-card size="large" >
+          <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data | search_filter:'product_name':searchProduct">
+                  <i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i>
+                  <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+              </nb-list>
+          </nb-card-body>
+          <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+          </nb-card-footer>
+        </nb-card>
+      </ng-template>
+      <ng-template #pr_dialog let-data let-ref="dialogRef" >
+        <nb-card size="large" >
+          <nb-card-header>PR List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchPR" /> </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data | search_filter:'pr_no':searchPR">
+                  <i class="mr-auto mt-2 mt-lg-0">{{ item.pr_no }} </i>
+                  <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+              </nb-list>
+          </nb-card-body>
+          <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+          </nb-card-footer>
+        </nb-card>
+      </ng-template>
+     -->

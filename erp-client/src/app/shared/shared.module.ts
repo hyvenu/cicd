@@ -40,6 +40,8 @@ import { DesignationComponent } from './designation/designation.component';
 import { DesignationListComponent } from './designation-list/designation-list.component';
 import { ManageEnquiryComponent } from './manage-enquiry/manage-enquiry.component';
 import { ManageEnquiryListComponent } from './manage-enquiry-list/manage-enquiry-list.component';
+import { ManageMembersComponent } from './manage-members/manage-members.component';
+import { ManageMembersListComponent } from './manage-members-list/manage-members-list.component';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -61,7 +63,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent, DepartmentComponent, DepartmentListComponent, DesignationComponent, DesignationListComponent, ManageEnquiryComponent, ManageEnquiryListComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent, DepartmentComponent, DepartmentListComponent, DesignationComponent, DesignationListComponent, ManageEnquiryComponent, ManageEnquiryListComponent, ManageMembersComponent, ManageMembersListComponent],
   imports: [
     CommonModule,
     BrowserModule,
