@@ -23,6 +23,12 @@ def generate_employee_code():
     code = prefix_code + '-' + str(code)
     return code
 
+def generate_enquiry_code():
+    prefix_code = 'D5N-ENQ'
+    code = get_next_value(prefix_code)
+    code = prefix_code + '-' + str(code)
+    return code
+
 
 def generate_customer_code():
     prefix_code = 'D5N-CUS'
@@ -165,16 +171,49 @@ class EmployeeSerializer(serializers.ModelSerializer):
         emp = super().create(validated_data)
         return emp
 
+
     def to_representation(self, instance):
         data = super(EmployeeSerializer, self).to_representation(instance)
         data['department_name'] = models.Employee.objects.filter(department_id=data['department']).all().values(
             'department__department_name')[0]['department__department_name']
+
+
+        data['designation_name'] = models.Employee.objects.filter(job_designation_id=data['job_designation']).all().values(
+            'job_designation__designation_name')[0]['job_designation__designation_name']
         return data
+
+
 
 class AppointmentForMultipleService(serializers.ModelSerializer):
     class Meta:
         model = models.AppointmentSchedule
         fields = ['id','appointment_id',' service']
+
+
+
+class EnquirySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Enquiry
+        fields = ['id', 'enquiry_code', 'full_name', 'phone_number', 'service', 'customer_email',
+                      'gender', 'locality', 'enquiry_date', 'lead_source', 'enquiry_type', 'date', 'time',
+                      'staff_name',
+                      'message', 'call_log',]
+
+    def create(self, validated_data):
+        validated_data['enquiry_code'] = generate_enquiry_code()
+        enq = super().create(validated_data)
+        return enq
+
+    def to_representation(self, instance):
+        data = super(EnquirySerializer, self).to_representation(instance)
+        data['service_name'] = models.Enquiry.objects.filter(service_id=data['service']).all().values(
+            'service__service_name')[0]['service__service_name']
+
+        data['employee_name'] = \
+        models.Enquiry.objects.filter(staff_name_id=data['staff_name']).all().values(
+            'staff_name__employee_name')[0]['staff_name__employee_name']
+        return data
+
 
 
 class AppointmentScheduleSerializer(serializers.ModelSerializer):

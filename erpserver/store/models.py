@@ -53,12 +53,14 @@ class Department(AuditUuidModelMixin):
     class Meta:
         pass
 
+
 class Designation(AuditUuidModelMixin):
     designation_id = models.CharField(max_length=230, default="")
     designation_name = models.CharField(max_length=100, default="", unique=True)
 
     class Meta:
         pass
+
 
 class StoreShipLocations(AuditUuidModelMixin):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="store_locations")
@@ -98,13 +100,14 @@ class StoreServices(AuditUuidModelMixin):
     service_desc = models.TextField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     service_gst = models.CharField(max_length=100, default="", null=True, blank=True)
-    service_hour = models.CharField(max_length=100, default="",)
+    service_hour = models.CharField(max_length=100, default="", )
 
     class Meta:
         pass
 
     def __str__(self):
         return str(self.pk)
+
 
 
 class Customer(AuditUuidModelMixin):
@@ -114,7 +117,7 @@ class Customer(AuditUuidModelMixin):
     phone_number = models.CharField(max_length=30, null=True, default=None, unique=True)
     customer_email = models.CharField(max_length=255, default=None)
     customer_service_bill = models.CharField(max_length=255, default="")
-    customer_address = models.CharField(max_length=255, default="",null=True)
+    customer_address = models.CharField(max_length=255, default="", null=True)
 
     class Meta:
         pass
@@ -155,7 +158,7 @@ class Employee(AuditUuidModelMixin):
 class AppointmentSchedule(AuditUuidModelMixin):
     # Relationships
     is_paid = models.BooleanField(default="", null=True)
-    assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE,default="", null=True, blank=True)
+    assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE, default="", null=True, blank=True)
     # service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
     # Fields
@@ -175,7 +178,7 @@ class AppointmentSchedule(AuditUuidModelMixin):
 
 
 class AppointmentForMultipleService(AuditUuidModelMixin):
-    appointment = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE,null=True, blank=True)
+    appointment = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE, null=True, blank=True)
     service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
@@ -183,4 +186,30 @@ class AppointmentForMultipleService(AuditUuidModelMixin):
 
     def __str__(self):
         return str(self.pk)
+
+
+
+class Enquiry(AuditUuidModelMixin):
+    enquiry_code = models.CharField(max_length=230, default="")
+    full_name = models.CharField(max_length=100, default="")
+    phone_number = models.CharField(max_length=100, default="")
+    service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
+    customer_email = models.CharField(max_length=100, default="")
+    gender = models.CharField(max_length=100, default="")
+    locality = models.CharField(max_length=100, default="")
+    enquiry_date = models.CharField(max_length=100, default="")
+    lead_source = models.CharField(max_length=100, default="")
+    enquiry_type = models.CharField(max_length=100, default="")
+    date = models.CharField(max_length=100, default="")
+    time = models.CharField(max_length=100, default="")
+    staff_name = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    message = models.CharField(max_length=100, default="")
+    # cold = models.CharField(max_length=100, default="")
+    # warm = models.CharField(max_length=100, default="")
+    # hot = models.CharField(max_length=100, default="")
+    call_log = models.CharField(max_length=100, default="")
+
+    class Meta:
+        pass
+
 

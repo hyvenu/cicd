@@ -1,9 +1,9 @@
 <div class="conatiner">
     <div class="form-row">
-            <a nbButton [routerLink]="['/']" status="success" size="small">Back to Purchase order list</a>
+            <a nbButton [routerLink]="['/EnquiryList']" status="success" size="small">Back to Enquiry list</a>
     </div>
     <nb-tabset>
-        <nb-tab tabTitle="Purchase Order">
+        <nb-tab tabTitle="Enquiry Details">
             <form id="enquiryForm" [formGroup]="enquiryForm" (ngSubmit)="onSubmit()">
                 
             <nb-card accent="info">
@@ -12,116 +12,211 @@
                     <div class="form-row">
                     
                         <div class="form-group col-md-4">
-                            <label for="vendor">Enquiry Code <span style="color: red;">*</span></label>
-                            <input nbInput formControlName="vendorCodeFormControl" name="vendor" placeholder="Select Vendor"  
-                            [ngClass]="{ 'is-invalid': submitted && f.vendorCodeFormControl.errors }" class="form-control" >
-                            <div *ngIf="submitted && f.vendorCodeFormControl.errors" class="invalid-feedback">
-                                <div *ngIf="f.vendorCodeFormControl.errors.required">Vendor Code is required</div>
-                            </div>
+                            <label for="enquiry">Enquiry Code <span style="color: red;">*</span></label>
+                            <input nbInput formControlName="enquiryCodeFormControl" name="enquiry" placeholder="Auto generated"  
+                            class="form-control" >
+                            
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="vendor_name">Full Name</label>
-                            <input nbInput formControlName="vendorNameFormControl" name="vendor_name" placeholder="Vendor Name" readonly/>
+                            <label for="vendor_name">Full Name<span style="color: red;">*</span></label>
+                            <input nbInput formControlName="fullNameFormControl" name="fullName" placeholder="Name" 
+                            [ngClass]="{ 'is-invalid': submitted && f.fullNameFormControl.errors }" class="form-control" >
+                            <div *ngIf="submitted && f.fullNameFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.fullNameFormControl.errors.required"> Name  is required</div>
+                            </div>
                         </div>
                      
                     </div><br>
                     <div class="form-row" >
                         <div class="form-group col-md-4">
-                            <label for="other_ref"> Contact Number</label>
-                            <input nbInput formControlName="otherRefFormControl" name="other_ref" placeholder="Other Reference" />
+                            <label for="phoneNumber">Contact Number <span style="color: red;">*</span> </label>
+                            <input nbInput type="text" name="phoneNumber" (keypress)="keyPress($event)" placeholder="Phone Number" formControlName="phoneNumberFormControl" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.phoneNumberFormControl.errors  }" required/>
+                            <div *ngIf="submitted && f.phoneNumberFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.phoneNumberFormControl.errors.required"> Contact Number is Required</div>
+                                <div *ngIf="submitted &&  f.phoneNumberFormControl.errors?.pattern ">Contact number must be at least 10 numbers </div>
+                            </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="terms_delivery">Email</label>
-                            <input nbInput formControlName="termsDeliveryFormControl" name="terms_delivery" placeholder="Terms of Delivery" />
+                            <label>Email <span style="color: red;">*</span></label>
+                            <input type="text" nbInput formControlName="customerEmailFormControl" placeholder="Email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerEmailFormControl.errors }" />
+                            <div *ngIf="submitted && f.customerEmailFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.customerEmailFormControl.errors.required">Email is required</div>
+                                <div *ngIf="f.customerEmailFormControl.errors.email">Email must be a valid email address</div>
+                            </div>
                         </div>
                     </div><br>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="note">Gender </label><br>
-                            <textarea nbInput formControlName="noteFormControl" name="note" placeholder="Note" ></textarea>
+                            <label for="gender">Gender<span style="color: red;">*</span></label><br>
+                            <nb-select name="gender"  formControlName="genderFormControl" [(selected)]="selectedGender" >
+                                <nb-option *ngFor="let o of options" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="note">Locality </label><br>
-                            <textarea nbInput formControlName="noteFormControl" name="note" placeholder="Note" ></textarea>
+                            <label for="vendor_name">Locality</label>
+                            <input nbInput formControlName="localityFormControl" name="locality" placeholder="Locality" 
+                            [ngClass]="{ 'is-invalid': submitted && f.localityFormControl.errors }" class="form-control" >
+                            <div *ngIf="submitted && f.localityFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.localityFormControl.errors.required"> Locality  is required</div>
+                            </div>
                         </div>
                     </div>
                 </nb-card-body>
             </nb-card>
             <nb-card accent="info">
-                <nb-card-header> </nb-card-header>     
+                <nb-card-header> Lead Information</nb-card-header>     
                 <nb-card-body>
                 <div class="form-row">
                   
                     <div class="form-group col-md-4">
                         <label for="po_date">Enquiry Date <span style="color: red;">*</span></label>
-                        <input nbInput formControlName="poDateFormControl" class="form-control" name="po_date" [nbDatepicker]="po_date" placeholder="PO Date" 
-                        [ngClass]="{ 'is-invalid': submitted && f.poDateFormControl.errors }" />
-                            <div *ngIf="submitted && f.poDateFormControl.errors" class="invalid-feedback">
-                                <div *ngIf="f.poDateFormControl.errors.required">PO Date is required</div>
+                        <input nbInput formControlName="enquiryDateFormControl" class="form-control" name="po_date" [nbDatepicker]="enquiry_date" placeholder="Enquiry Date" 
+                        [ngClass]="{ 'is-invalid': submitted && f.enquiryDateFormControl.errors }" />
+                            <div *ngIf="submitted && f.enquiryDateFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.enquiryDateFormControl.errors.required">Enquiry Date is required</div>
                             </div>
-                        <nb-datepicker #po_date format="yyyy-MM-DD"></nb-datepicker>
+                        <nb-datepicker #enquiry_date format="yyyy-MM-DD"></nb-datepicker>
                     </div>
                     
                     <div class="form-group col-md-4">
-                        <label for="pr_number">Select PR Number <span style="color: red;">*</span></label>
-                        <input nbInput formControlName="prNumberFormControl"  name="pr_number" placeholder="PR Number" 
-                        [ngClass]="{ 'is-invalid': submitted && f.prNumberFormControl.errors }" class="form-control" />
-                            <div *ngIf="submitted && f.prNumberFormControl.errors" class="invalid-feedback">
-                                <div *ngIf="f.prNumberFormControl.errors.required">PR Number is required</div>
+                        <label for="pr_number">Service Name <span style="color: red;">*</span></label>
+                        <input nbInput formControlName="serviceNameFormControl"  name="service" placeholder="Service Name" 
+                        [ngClass]="{ 'is-invalid': submitted && f.serviceNameFormControl.errors }" class="form-control" (click)="open_service_list(dialog_service)" (keypress)="open_service_list(dialog_service)" />
+                            <div *ngIf="submitted && f.serviceNameFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.serviceNameFormControl.errors.required">Service Name is required</div>
                             </div> 
                     </div>
-                </div><br>
-    
-                <div class="form-row">
                     <div class="form-group col-md-4">
-                        <label for="po_number">PO Number</label>
-                        <input nbInput formControlName="poNumberFormControl" name="po_number" placeholder="System Generated" readonly
-                        />
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="user">PO Raised By </label>
-                        <input nbInput formControlName="userFormControl" name="user" 
-                            placeholder="user" readonly>
-                    </div>
-                   
-                </div><br>
-                <div class="form-row">
-    
-                    <div class="form-group col-md-4">
-                        <label for="ship_address">Shipping Address <span style="color: red;">*</span></label>
-                        <textarea nbInput formControlName="shipAddressFormControl" name="ship_address" 
-                            placeholder="Shipping Address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.shipAddressFormControl.errors }">
-                           </textarea>
-                           <div *ngIf="submitted && f.shipAddressFormControl.errors" class="invalid-feedback">
-                            <div *ngIf="f.shipAddressFormControl.errors.required">Shipping Address is required</div>
+                        <label for="vendor_name">Lead Source</label>
+                        <input nbInput formControlName="leadSourceFormControl" name="locality" placeholder="Lead Source" 
+                        [ngClass]="{ 'is-invalid': submitted && f.leadSourceFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.leadSourceFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.leadSourceFormControl.errors.required"> Locality  is required</div>
                         </div>
-                          
                     </div>
-                </div>
+                    <div class="form-group col-md-4">
+                        <label for="vendor_name">Enquiry Type </label>
+                        <input nbInput formControlName="enquiryTypeFormControl" name="locality" placeholder="Enquiry Type" 
+                        [ngClass]="{ 'is-invalid': submitted && f.enquiryTypeFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.enquiryTypeFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.enquiryTypeFormControl.errors.required"> Locality  is required</div>
+                        </div>
+                    </div>
+                </div><br>
+    
                 
             </nb-card-body>
             </nb-card>
-            
-                
             <nb-card accent="info">
-                <nb-card-header>PO Summary</nb-card-header>
+                <nb-card-header> Schedule Enquiry Follow Up</nb-card-header>     
                 <nb-card-body>
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="terms_conditions">Terms & Conditions</label>
-                                <textarea nbInput formControlName="termsConditionFormControl" name="ship_address" 
-                                    placeholder="Terms & Conditions" ></textarea>
+                <div class="form-row">
+                  
+                    <div class="form-group col-md-4">
+                        <label for="po_date">Date  <span style="color: red;">*</span></label>
+                        <input nbInput type="date" formControlName="DateFormControl" class="form-control" name="po_date"  placeholder="PO Date" 
+                         />
+                            <div *ngIf="submitted && f.DateFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.DateFormControl.errors.required">Enquiry Date is required</div>
                             </div>
-                        </div>
-                </nb-card-body>
-                <nb-card-footer>
-                    <button nbButton type="submit" size="small" status="success" *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
-                </nb-card-footer>    
+                        
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="po_date">Time  <span style="color: red;">*</span></label>
+                        <input nbInput type="time" formControlName="timeFormControl" class="form-control" name="po_date"  placeholder="Time" 
+                         />
+                            <div *ngIf="submitted && f.timeFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.timeFormControl.errors.required">Enquiry Date is required</div>
+                            </div>
+                        
+                    </div>
+                    
+                    <div class="form-group col-md-4">
+                        <label for="pr_number">Staff Name <span style="color: red;">*</span></label>
+                        <input nbInput formControlName="staffNameFormControl"  name="pr_number" placeholder="Staff Name" 
+                        [ngClass]="{ 'is-invalid': submitted && f.staffNameFormControl.errors }" class="form-control"
+                        (click)="open_employee_list(dialog_employee)" (keypress)="open_service_list(dialog_employee)" />
+                            <div *ngIf="submitted && f.staffNameFormControl.errors" class="invalid-feedback">
+                               
+                                <div *ngIf="f.staffNameFormControl.errors.required">Staff Name is required</div>
+                            </div> 
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="customerAddress">Message</label><br>
+                        <textarea nbInput  maxlength="250" name="customerAddress" class="form-control" placeholder="MaxLength 250 Character" formControlName="messageFormControl" [ngClass]="{ 'is-invalid': submitted && f.messageFormControl.errors }" ></textarea>
+                        <!-- <div *ngIf="submitted && f.customerAddressFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.customerAddressFormControl.errors.required">Address is required</div>
+                        </div> -->
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="call_tag">Call Tag </label> <br>
+                        <nb-select name="gender"  formControlName="callTagFormControl" [(selected)]="selectedTag" >
+                            <nb-option *ngFor="let o of tag" value="{{o.value}}">
+                                {{ o.name }}
+                            </nb-option>
+                        </nb-select>
+                        
+                          
+                                            
+                    </div>
+                </div><br>
+    
+                
+            </nb-card-body>
+            
             </nb-card>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                 <button nbButton status="success" type="submit" (click)= "saveEnquiry()" size="small" >Save</button>
+                </div>
+            </div>
+                
+          
             </form>
         </nb-tab>
     </nb-tabset>
     </div>
+
+    <ng-template #dialog_service let-data let-ref="dialogRef" >
+        <nb-card size="large" >
+          <nb-card-header>service List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchService" /> </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of service_list| search_filter:'service_name':searchService">
+                  <i class="mr-auto mt-2 mt-lg-0"> {{ item.service_name }}</i>
+                  <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+              </nb-list>
+          </nb-card-body>
+          <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+          </nb-card-footer>
+        </nb-card>
+      </ng-template>
+    
+
+      <ng-template #dialog_employee let-data let-ref="dialogRef" >
+        <nb-card size="large" >
+          <nb-card-header>Employee List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchEmployee" /> </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of employee_list| search_filter:'employee_name':searchEmployee">
+                  <i class="mr-auto mt-2 mt-lg-0"> {{ item.employee_name }}</i>
+                  <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+              </nb-list>
+          </nb-card-body>
+          <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+          </nb-card-footer>
+        </nb-card>
+      </ng-template>
+    
+    
     <!-- <ng-template #vendor_dialog let-data let-ref="dialogRef">
         <nb-card size="medium">
             <nb-card-header>Vendor List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchVendor" /></nb-card-header>

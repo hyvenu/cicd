@@ -3,7 +3,7 @@ import ast
 from django.db import transaction
 
 from store.models import StoreUser, Store, SiteSettings, AppointmentSchedule, AppointmentForMultipleService, Department, \
-    Employee, StoreServices
+    Employee, StoreServices, Enquiry
 
 
 class StoreService:
@@ -345,7 +345,6 @@ class StoreService:
             'dob',
             'doj',
             'salary',
-            'job_designation__designation_name',
             'admin_rights',
             'attendance_id',
             'pan_card',
@@ -361,3 +360,28 @@ class StoreService:
 
         )
         return list(employee_list)
+
+    def get_enquiry_list(self):
+        enquiry_list = Enquiry.objects.all().values(
+            'id',
+            'enquiry_code',
+            'full_name',
+            'phone_number',
+            'service',
+            'service__service_name',
+            'staff_name__employee_name',
+            'customer_email',
+            'gender',
+            'locality',
+            'enquiry_date',
+            'lead_source',
+            'enquiry_type',
+            'date',
+            'time',
+            'staff_name',
+            'message',
+            'call_log',
+
+
+        )
+        return list(enquiry_list)
