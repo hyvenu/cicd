@@ -60,6 +60,8 @@ const routes: Routes = [
   { path: 'DesignationList', component:DesignationListComponent},
   { path: 'Enquiry', component:ManageEnquiryComponent},
   { path: 'EnquiryList', component:ManageEnquiryListComponent},
+  { path: 'Members', component:ManageMembersComponent},
+  { path: 'MembersList', component:ManageMembersListComponent},
 ];
 
 @NgModule({

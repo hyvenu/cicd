@@ -60,6 +60,8 @@ class EnquiryViewSet(viewsets.ModelViewSet):
     queryset = models.Enquiry.objects.all()
     serializer_class = serializers.EnquirySerializer
 
+
+
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = models.Customer.objects.all()
     serializer_class = serializers.CustomerSerializer
@@ -71,3 +73,8 @@ class AppointmentScheduleViewSet(viewsets.ModelViewSet):
 class EmpolyeeViewSet(viewsets.ModelViewSet):
     queryset = models.Employee.objects.all()
     serializer_class = serializers.EmployeeSerializer
+
+
+class MembersDetailsViewSet(viewsets.ModelViewSet):
+    queryset = models.MembersDetails.objects.all()
+    serializer_class = serializers.MembersDetailsSerializer

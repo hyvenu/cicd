@@ -213,3 +213,38 @@ class Enquiry(AuditUuidModelMixin):
         pass
 
 
+class MembersDetails(AuditUuidModelMixin):
+    members_code = models.CharField(max_length=255, default=None)
+    full_name = models.CharField(max_length=255, default=None)
+    phone_number = models.CharField(max_length=10, default=None, null=True, unique=True)
+    customer_email = models.CharField(max_length=255, default="")
+    gender = models.CharField(max_length=255, default="")
+    locality = models.CharField(max_length=255, default=None)
+    vacinated = models.CharField(max_length=255, default=None)
+    lead_source = models.CharField(max_length=255, default=None)
+    dob = models.CharField(max_length=255, default=None)
+    sales_rep = models.CharField(max_length=255, default=None)
+    members_maneger = models.CharField(max_length=255, default=None)
+    batch = models.CharField(max_length=255, default=None)
+    attendance_id = models.CharField(max_length=255, default=None)
+    club_id = models.CharField(max_length=255, default=None)
+    gst_no = models.CharField(max_length=255, default=None)
+    emergency_ccontact = models.CharField(max_length=255, default=None)
+    emergency_number = models.CharField(max_length=255, default=None)
+    relationship = models.CharField(max_length=255, default=None)
+    notification = models.CharField(max_length=255, default=None)
+    sms = models.CharField(max_length=255, default=None)
+    email = models.CharField(max_length=255, default=None)
+    occupation = models.CharField(max_length=255, default=None)
+    offical_mail = models.CharField(max_length=255, default=None)
+    company_name = models.CharField(max_length=255, default=None)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+
+
+

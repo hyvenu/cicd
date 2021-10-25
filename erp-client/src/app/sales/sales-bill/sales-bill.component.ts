@@ -218,6 +218,7 @@ export class SalesBillComponent implements OnInit {
   
     const index: number = this.invoice_items.indexOf(item);
     this.serviceIds.splice(index, 1)
+    console.log(this.serviceIds)
     if (index !== -1) {
         this.invoice_items.splice(index, 1);
     } 

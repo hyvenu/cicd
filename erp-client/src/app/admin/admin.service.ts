@@ -133,6 +133,14 @@ export class AdminService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Enquiry/`,data)
   }
 
+  public SaveMember(data){
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/MembersDetails/`,data)
+  }
+
+  public updateMember(data,id){
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/MembersDetails/`+ id + '/', data)
+  }
+
   public SaveCustomer(data){
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/`,data)
   }

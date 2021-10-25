@@ -67,6 +67,7 @@ export class ManageEnquiryComponent implements OnInit {
       enquiryDateFormControl:['',[Validators.required]],
       serviceNameFormControl:['',[Validators.required]],
       leadSourceFormControl:['',[Validators.required]],
+      
       enquiryTypeFormControl:['',[Validators.required]],
       DateFormControl:['',[Validators.required]],
       timeFormControl:['',[Validators.required]],
