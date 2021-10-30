@@ -22,8 +22,8 @@ export class CalenderComponent implements OnInit {
   employeeData: any;
   booking_list: any;
   next_previous_date:any=null;
- 
- 
+
+
 
   date:any
   event_details: Promise<boolean>;
@@ -39,14 +39,14 @@ export class CalenderComponent implements OnInit {
 
   ngOnInit(): void {
 
-   
+
     this.get_employee()
 
 
- 
+
 
   }
-  
+
   onStartDateChanged = (event) => {
     console.log(event._i);
     const specific_date = new Date(event)
@@ -63,7 +63,7 @@ export class CalenderComponent implements OnInit {
       specific_date.setHours(24,0,0,0);
       this.calendarFun(current_date, specific_date)
     }
-    
+
 
   }
 
@@ -72,7 +72,7 @@ export class CalenderComponent implements OnInit {
     this.next_previous_date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
     }else{
       this.next_previous_date = new Date(this.next_previous_date.getTime() + 24 * 60 * 60 * 1000)
-     
+
     }
     const start = new Date(this.next_previous_date)
     const end = new Date(this.next_previous_date)
@@ -86,7 +86,7 @@ export class CalenderComponent implements OnInit {
       this.next_previous_date = new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
       }else{
         this.next_previous_date = new Date(this.next_previous_date.getTime() - 24 * 60 * 60 * 1000)
-       
+
       }
       const start = new Date(this.next_previous_date)
       const end = new Date(this.next_previous_date)
@@ -133,31 +133,31 @@ export class CalenderComponent implements OnInit {
 
 
     this.myCalendar.on('event:dragEnded.skedtape', (e) => {
-      
+
       this.event_details  = e.detail.event
       console.log(this.event_details);
-      
+
       this.routes.navigateByUrl("/ManageBooking?start=" +this.event_details["start"] + "&end="+this.event_details["end"])
     });
     this.myCalendar.on('event:click.skedtape', (e) => {
-      
+
       this.myCalendar.skedTape('removeEvent', e.detail.event.id);
     });
     this.myCalendar.on('timeline:click.skedtape', (e, api) => {
-          
+
       try {
         this.myCalendar.skedTape('startAdding', {
           name: '',
           duration: 60 * 60 * 1000
         });
-        
+
       }
-      
+
       catch (e) {
         if (e.name !== 'SkedTape.CollisionError') throw e;
         //alert('Already exists');
       }
-     
+
     });
 
 
@@ -274,7 +274,7 @@ export class CalenderComponent implements OnInit {
         });
         const start = this.today(7, 0);
         const end = this.today(24, 0)
-        
+
         this.calendarFun(start, end)
 
       },
