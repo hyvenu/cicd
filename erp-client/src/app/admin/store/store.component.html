@@ -47,7 +47,7 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="storeGst">GST Number <span style="color: red;">*</span></label>
-                    <input type="text" formControlName="gstFormControl"   placeholder="GST Number" nbInput name="storeGst" 
+                    <input type="text" formControlName="gstFormControl" maxlength="15"   placeholder="GST Number" nbInput name="storeGst" 
                     [ngClass]="{ 'is-invalid': submitted && f.gstFormControl.errors  }" class="form-control" />
                     <div *ngIf="submitted && f.gstFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.gstFormControl.errors.required"> Gst Number is Required</div>

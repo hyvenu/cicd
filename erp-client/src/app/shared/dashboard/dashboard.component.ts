@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import {  ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import * as moment from 'moment';
+import {sortBy} from 'lodash';
 
 
 import { Color, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
@@ -133,7 +134,7 @@ export class DashboardComponent implements OnInit {
 
 
   get_bookingservice(){
-    this.adminService.getAppointmentList().subscribe(
+    this.adminService.getDashboardbookingDetails().subscribe(
       data=>{
         console.log(data)
         const appointment_details = data.reduce((acc,v) =>{
@@ -155,10 +156,13 @@ export class DashboardComponent implements OnInit {
           b_data.data = Object.values(appointment_booking_details)
         })
        // this.barChartData[0].data = 
+        let sortedData = sortBy(data, 'booking_date');
+        console.log(sortedData)
+       const daily_booking_details = sortedData.reduce((acc,v) =>{
         
-       const daily_booking_details = data.reduce((acc,v) =>{
         let d = moment(v.booking_date);
-        const bookdate = d.format('DD')
+        
+        const bookdate = d.format('MMM DD')
         acc[bookdate] = (acc[bookdate] || 0) + 1
         return acc
       },{})

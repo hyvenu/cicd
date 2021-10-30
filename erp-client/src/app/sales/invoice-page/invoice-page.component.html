@@ -58,7 +58,7 @@
                         <th>Qty</th>
                         <th>Price</th>
                         <th>Total</th>
-                    
+                        <th>Disc Amount</th>
                         <th>GST%</th>
                         
                     
@@ -72,6 +72,7 @@
                             <td>{{item.qty}}</td>
                             <td>{{item.unit_price}}</td>
                             <td>{{item.subtotal_amount}}</td>
+                            <td>{{invoice_details.discount_price}}</td>
                             <td>{{item.gst}}</td>
                             <td></td>
                             
@@ -116,6 +117,7 @@
    
 </nb-card>
 
-<button class="btn btn-secondary" type="button" printSectionId="print-section" ngxPrint >Print Bill</button>
+
 </body>
+<button class="btn btn-secondary" type="button" printSectionId="print-section" ngxPrint >Print Bill</button>
 </html>

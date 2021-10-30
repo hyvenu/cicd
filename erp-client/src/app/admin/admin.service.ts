@@ -98,6 +98,9 @@ export class AdminService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_viewbooking_details`, {})
   }
 
+  public getDashboardbookingDetails(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_dashboard_booking_details`, {})
+  }
   // public getAppointmentLists(id){
   //   return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_list/` + id + '/')
   // }
@@ -114,11 +117,28 @@ export class AdminService {
   public getEmployeeList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_employee_list`, {})
   }
+
+  public getEnquiryList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_enquiry_list`, {})
+
+  }
   public getCustomerList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/`, {})
   }
   public SaveEmployee(data){
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`,data)
+  }
+
+  public SaveEnquiry(data){
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Enquiry/`,data)
+  }
+
+  public SaveMember(data){
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/MembersDetails/`,data)
+  }
+
+  public updateMember(data,id){
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/MembersDetails/`+ id + '/', data)
   }
 
   public SaveCustomer(data){
@@ -145,8 +165,18 @@ export class AdminService {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`+ id + '/', data)
   }
 
+  
+
+  public updateEnquiry(data,id){
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Enquiry/`+ id + '/', data)
+  }
+
   public getEmployeeDetails(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/` + id + '/')
+  }
+
+  public getEnquiryDetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Enquiry/` + id + '/')
   }
 
   public saveInvoice(data){

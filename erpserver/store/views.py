@@ -114,6 +114,7 @@ def get_store_details(request):
     store_details = store_service.get_store_details(store_id)
     return JsonResponse(store_details, safe=False, status=status.HTTP_200_OK)
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
 def save_Appointment(request):
@@ -121,6 +122,7 @@ def save_Appointment(request):
     store_service = StoreService()
     ap_res = store_service.save_Appointment(data)
     return JsonResponse(ap_res, safe=False)
+
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated, ])
@@ -130,12 +132,14 @@ def update_is_paid(request):
     ap_res = store_service.update(data)
     return JsonResponse(ap_res, safe=False)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
 def get_appointment_details(request):
     store_service = StoreService()
     app_res = store_service.get_appointment_details()
     return JsonResponse(app_res, safe=False)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
@@ -144,12 +148,22 @@ def get_store_list(request):
     app_res = store_service.get_store_list()
     return JsonResponse(app_res, safe=False)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
 def get_viewbooking_details(request):
     store_service = StoreService()
     app_res = store_service.get_viewbooking_details()
     return JsonResponse(app_res, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_dashboard_booking_details(request):
+    store_service = StoreService()
+    app_res = store_service.get_viewbooking_details()
+    return JsonResponse(app_res, safe=False)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
@@ -161,12 +175,14 @@ def get_appointment_details_by_id(request):
     app_obj = store_service.get_appointment_details_byid(app_id)
     return JsonResponse(app_obj, safe=False)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
 def get_appointment_list(request):
     store_service = StoreService()
     appointment_list = store_service.get_appointment_list()
     return JsonResponse(appointment_list, safe=False)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
@@ -181,4 +197,12 @@ def get_store_service_list(request):
 def get_employee_list(request):
     store_service = StoreService()
     employee_list = store_service.get_employee_list()
+    return JsonResponse(employee_list, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_enquiry_list(request):
+    store_service = StoreService()
+    employee_list = store_service.get_enquiry_list()
     return JsonResponse(employee_list, safe=False)

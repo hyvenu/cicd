@@ -1,4 +1,4 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PurchaseService } from '../purchase.service';
 import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
@@ -17,6 +17,8 @@ import * as moment from 'moment';
 })
 export class PurchaseRequisitionComponent implements OnInit {
 
+  @ViewChild('date')
+  myInputVariable: ElementRef;
   IsPRInfo: boolean;
   prForm: FormGroup;
   dailog_ref;
@@ -36,6 +38,11 @@ export class PurchaseRequisitionComponent implements OnInit {
   selected_product_list = [];
   submitted: boolean=false;
   unit_name: any;
+  dateofdata: Date;
+  current_date :any = new Date();
+  expiry_date: Date;
+  date:boolean=false;
+  
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -125,8 +132,41 @@ export class PurchaseRequisitionComponent implements OnInit {
       }
     );
 
-
+      this.onChange()
   }
+
+  onChange(){
+    this.prForm.controls['prDateFormControl'].valueChanges.subscribe(
+      (data)=> {  
+        console.log(new Date(data))
+        this.dateofdata = new Date(data)
+        console.log(this.dateofdata)
+        console.log(this.current_date)
+        if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+        }
+
+      })
+     
+    }
+
+    onChanges(date,item){
+      let dd:any= new Date(date)
+      this.expiry_date = new Date(date.expected_date)
+      console.log(new Date(date))
+      console.log(item)
+      console.log((this.expiry_date))
+        console.log(this.current_date)
+        if(moment(dd).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+          this.myInputVariable.nativeElement.value = "";
+          this.date=true
+        }
+      }
+
+      dateRes(item){
+
+      }
 
   toggle(event) {
     this.checked = event.target.checked;
@@ -136,6 +176,7 @@ export class PurchaseRequisitionComponent implements OnInit {
   open(dialog: TemplateRef<any>) {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
       .onClose.subscribe(data => {
+        this.searchProduct = ""
         //  this.product_list = data
         this.unit_name = data.product_price__unit__PrimaryUnit
         console.log(data)
@@ -250,18 +291,45 @@ export class PurchaseRequisitionComponent implements OnInit {
   savePR(): any {
     
     const formData = this.saveFormData();
+    if (!this.selected_product_list.length ) {
+      this.nbtoastService.danger('Please Enter At Least ONE Product in Details Section')
+    }else{
+      let dd:boolean;
+      this.selected_product_list.forEach(
+        a =>{
+          if(!a.expected_date && !a.product_code && !a.product_name && !a.required_quantity){
+            dd=false
+            this.nbtoastService.danger('Please Provide Product  Details Section');
+          }else if(a.expected_date == "NaN-NaN-NaN"){
+            dd=false
+            this.nbtoastService.danger('Please Provide Required Date in Details Section');
+          }
+          else{
+            dd=true
+          }
+        }
+      )
+      console.log(dd)
+      if(dd){
+
     this.purchaseService.savePR(formData).subscribe(
       (data) => {
-        
+        if(this.pr_id){
+          this.nbtoastService.success("PR Details Updated Successfully, PR number is : " + data)
+        }else{
+
+       
         this.nbtoastService.success("PR Details Saved Successfully, PR number is : " + data)
-        this.ngOnInit();
+        }
+        
         this.routes.navigate(['/PurchaseRequisitionList'])
       },
       (error) => {
-        this.nbtoastService.danger(error.detail);
+        this.nbtoastService.danger("Failed to Save");
       }
     );
-    
+      }
+    }
 
   }
 

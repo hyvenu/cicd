@@ -48,7 +48,7 @@ export class ManageServiceComponent implements OnInit {
     }
   }
   submitted: boolean = false;
-  pattern = '[0-9]*'
+  pattern = '[0.0-9.0]*'
 
   constructor(private formBuilder: FormBuilder,
               private adminService: AdminService,
@@ -112,7 +112,7 @@ export class ManageServiceComponent implements OnInit {
         }
         this.adminService.updateService(this.Service_id, data).subscribe(
           (data) => {
-            this.nbtoastService.success("Saved Successfully");
+            this.nbtoastService.success("Service Updated Successfully");
             this.ngOnInit();
           },
           (error) =>{

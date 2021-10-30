@@ -1,7 +1,7 @@
 import { AppRoutingModule } from './../app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule , CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
@@ -36,6 +36,12 @@ import { ChartsModule } from 'ng2-charts';
 import { ManageEmployeeComponent } from './manage-employee/manage-employee.component';
 import { DepartmentComponent } from './department/department.component';
 import { DepartmentListComponent } from './department-list/department-list.component';
+import { DesignationComponent } from './designation/designation.component';
+import { DesignationListComponent } from './designation-list/designation-list.component';
+import { ManageEnquiryComponent } from './manage-enquiry/manage-enquiry.component';
+import { ManageEnquiryListComponent } from './manage-enquiry-list/manage-enquiry-list.component';
+import { ManageMembersComponent } from './manage-members/manage-members.component';
+import { ManageMembersListComponent } from './manage-members-list/manage-members-list.component';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -50,10 +56,16 @@ const routes: Routes = [
   { path: 'ManageEmployee' , component:ManageEmployeeComponent},
   { path: 'Department', component:DepartmentComponent},
   { path: 'DepartmentList', component:DepartmentListComponent},
+  { path: 'Designation', component:DesignationComponent},
+  { path: 'DesignationList', component:DesignationListComponent},
+  { path: 'Enquiry', component:ManageEnquiryComponent},
+  { path: 'EnquiryList', component:ManageEnquiryListComponent},
+  { path: 'Members', component:ManageMembersComponent},
+  { path: 'MembersList', component:ManageMembersListComponent},
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent, DepartmentComponent, DepartmentListComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent, DepartmentComponent, DepartmentListComponent, DesignationComponent, DesignationListComponent, ManageEnquiryComponent, ManageEnquiryListComponent, ManageMembersComponent, ManageMembersListComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -83,6 +95,9 @@ const routes: Routes = [
     ChartsModule,
     Ng2SmartTableModule,
     
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   providers:[NbMenuService,
     LoaderService,

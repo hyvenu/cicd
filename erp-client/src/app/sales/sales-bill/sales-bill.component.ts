@@ -1,3 +1,4 @@
+import { isNgTemplate } from '@angular/compiler';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,6 +25,10 @@ export class SalesBillComponent implements OnInit {
   customernew_id: any;
   booking_historys: any;
   service_id: any;
+  searchProduct
+  searchPhoneNo: string;
+  searchCus: string;
+  serviceIds = [];
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -210,11 +215,16 @@ export class SalesBillComponent implements OnInit {
   }
 
   remove_item(item): void{
+  
     const index: number = this.invoice_items.indexOf(item);
+    this.serviceIds.splice(index, 1)
+    console.log(this.serviceIds)
     if (index !== -1) {
         this.invoice_items.splice(index, 1);
     } 
     this.calculate_price()
+  
+   console.log(this.invoice_items)
     // this.calculate_gst()
     // this.calculate_totalGst()
   }
@@ -230,6 +240,7 @@ export class SalesBillComponent implements OnInit {
   open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
+      this.searchCus = ""
       this.invoice_items = []
        this.customer_object = data 
        console.log(this.customer_object)  
@@ -250,18 +261,33 @@ export class SalesBillComponent implements OnInit {
   get_bookingHistory(id){
     this.adminService.getBookinHistory(id).subscribe(
       (data2)=>{
+        this.serviceIds = []
         this.booking_history = data2
         console.log(this.booking_history)
         this.booking_history.forEach(element => {
           console.log(element)
              this.booking_id= element.id  
-             this.service_id = element.service_details[0].service__id
-               console.log("servic id" +this.service_id)              
+             this.serviceIds.push(element.service_details[0].id)
+              console.log("servic id" +this.serviceIds) 
+            
+
+                         
         });
+        // let serviceids:any =this.booking_history.forEach(element => {
+        //   console.log(element)
+        //      this.booking_id= element.id  
+        //      this.service_id = element.service_details[0].service__id
+        //        console.log("servic id" +this.service_id)  
+                         
+        // });
+        // console.log(serviceids)
+        // this.serviceIds.push(this.serviceIds)
+        console.log(this.serviceIds)
         console.log(this.booking_id)
         
         this.booking_history.forEach(element => {
           console.log(element)
+          
           this.invoice_items.push(
             {item_id:"",
               booking_id:element.id,
@@ -275,6 +301,8 @@ export class SalesBillComponent implements OnInit {
               gst_value:0
             }
           )
+          
+   
           
           
         });
@@ -417,11 +445,12 @@ export class SalesBillComponent implements OnInit {
          
           this.dailog_ref= this.dialogService.open(dialog, { context: this.product_list })
           .onClose.subscribe(data => {
-            
+            this.searchProduct =""
             
              this.selected_product = data  
+             console.log(this.selected_product)
              
-             item.item_description = this.selected_product.product_name
+             
              
              this.inventoryService.getProduct(this.selected_product.id).subscribe(
                (data) =>{
@@ -436,7 +465,10 @@ export class SalesBillComponent implements OnInit {
                     let sellPrice:any = parseFloat(element.sell_price) * element.qty ;
                     let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
                     let total:any = sellPrice + gstVal;
-
+                    if(this.invoice_items.some(item => item.item_description == this.selected_product.product_name)){
+                      this.nbtoastService.danger("product name already exist");
+                    }else{
+                    item.item_description = this.selected_product.product_name
                     item.booking_id="",
                     item.service_id="",
                     item.item_id=element.product_id,
@@ -448,7 +480,7 @@ export class SalesBillComponent implements OnInit {
                     item.tax=element.tax,
                     item.item_total = parseFloat(total).toFixed(2),
                     item.gst_value =  parseFloat(gstVal).toFixed(2)
-                    
+                    }
                   }
                  });
                  this.calculate_price()
@@ -473,15 +505,17 @@ export class SalesBillComponent implements OnInit {
   open_phone_list(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
+      this.searchPhoneNo = ""
       this.invoice_items = []
        this.customer_object = data   
        this.customer_id = data.id;    
        this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
-       this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_name);
+       this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
        this.adminService.getBookinHistory(this.customer_object.id).subscribe(
         (data2)=>{
+          
           this.booking_history = data2
           
           this.booking_history.forEach(element => {
@@ -590,7 +624,8 @@ export class SalesBillComponent implements OnInit {
     let data = {
       'is_paid':new Boolean(this.passed_flag).toString(),
       'id':this.customer_id,
-      'service_id':this.service_id
+      'service_id':this.serviceIds
+      
     }
     this.adminService.updateIsPaid(data).subscribe(
       (data)=>{

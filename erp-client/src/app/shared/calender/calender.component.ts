@@ -24,9 +24,13 @@ export class CalenderComponent implements OnInit {
   next_previous_date:any=null;
 
 
+  current_date :any = new Date();
+
+
 
   date:any
   event_details: Promise<boolean>;
+
 
 
   constructor(private nbtoastService: NbToastrService,
@@ -136,8 +140,12 @@ export class CalenderComponent implements OnInit {
 
       this.event_details  = e.detail.event
       console.log(this.event_details);
-
-      this.routes.navigateByUrl("/ManageBooking?start=" +this.event_details["start"] + "&end="+this.event_details["end"])
+      console.log(this.current_date)
+      if( this.event_details["start"] < this.current_date){
+        this.nbtoastService.danger(" You Have Selected Invalid Date or Time For Booking");
+      }else{
+        this.routes.navigateByUrl("/ManageBooking?start=" +this.event_details["start"] + "&end="+this.event_details["end"]+ "&assign="+this.event_details["location"])
+      }
     });
     this.myCalendar.on('event:click.skedtape', (e) => {
 

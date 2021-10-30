@@ -1,0 +1,409 @@
+<div class="conatiner">
+    <div class="form-row">
+            <a nbButton [routerLink]="['/MembersList']" status="success" size="small">Back to Members list</a>
+    </div>
+    <nb-tabset>
+        <nb-tab tabTitle="Members Details">
+            <form id="membersForm" [formGroup]="membersForm" (ngSubmit)="onSubmit()">
+                
+            <nb-card accent="info">
+                <nb-card-header>Personal Details</nb-card-header>
+                <nb-card-body>
+                    <div class="form-row">
+                    
+                        <div class="form-group col-md-4">
+                            <label for="enquiry">Member Code <span style="color: red;">*</span></label>
+                            <input nbInput formControlName="membersCodeFormControl" name="enquiry" placeholder="Auto generated"  
+                            class="form-control" >
+                            
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="vendor_name">Full Name<span style="color: red;">*</span></label>
+                            <input nbInput formControlName="fullNameFormControl" name="fullName" placeholder="Name" 
+                            [ngClass]="{ 'is-invalid': submitted && f.fullNameFormControl.errors }" class="form-control" >
+                            <div *ngIf="submitted && f.fullNameFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.fullNameFormControl.errors.required"> Name  is required</div>
+                            </div>
+                        </div>
+                     
+                    </div><br>
+                    <div class="form-row" >
+                        <div class="form-group col-md-4">
+                            <label for="phoneNumber">Contact Number <span style="color: red;">*</span> </label>
+                            <input nbInput type="text" name="phoneNumber" (keypress)="keyPress($event)" placeholder="Phone Number" formControlName="phoneNumberFormControl" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.phoneNumberFormControl.errors  }" required/>
+                            <div *ngIf="submitted && f.phoneNumberFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.phoneNumberFormControl.errors.required"> Contact Number is Required</div>
+                                <div *ngIf="submitted &&  f.phoneNumberFormControl.errors?.pattern ">Contact number must be at least 10 numbers </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Email <span style="color: red;">*</span></label>
+                            <input type="text" nbInput formControlName="customerEmailFormControl" placeholder="Email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerEmailFormControl.errors }" />
+                            <div *ngIf="submitted && f.customerEmailFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.customerEmailFormControl.errors.required">Email is required</div>
+                                <div *ngIf="f.customerEmailFormControl.errors.email">Email must be a valid email address</div>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="gender">Gender<span style="color: red;">*</span></label><br>
+                            <nb-select name="gender"  formControlName="genderFormControl" [(selected)]="selectedGender" >
+                                <nb-option *ngFor="let o of options" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="vendor_name">Locality</label>
+                            <input nbInput formControlName="localityFormControl" name="locality" placeholder="Locality" 
+                            [ngClass]="{ 'is-invalid': submitted && f.localityFormControl.errors }" class="form-control" >
+                            <div *ngIf="submitted && f.localityFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.localityFormControl.errors.required"> Locality  is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="po_date">Date Of Birth <span style="color: red;">*</span></label>
+                            <input nbInput formControlName="dateOfBirthFormControl" class="form-control" name="po_date" [nbDatepicker]="enquiry_date" placeholder="Enquiry Date" 
+                            [ngClass]="{ 'is-invalid': submitted && f.dateOfBirthFormControl.errors }" />
+                                <div *ngIf="submitted && f.dateOfBirthFormControl.errors" class="invalid-feedback">
+                                    <div *ngIf="f.dateOfBirthFormControl.errors.required">Enquiry Date is required</div>
+                                </div>
+                            <nb-datepicker #enquiry_date format="yyyy-MM-DD"></nb-datepicker>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="gender">Vacinated<span style="color: red;">*</span></label><br>
+                            <nb-select name="gender"  formControlName="vacinatedFormControl" [(selected)]="selectedVaccin" >
+                                <nb-option *ngFor="let o of vacinated" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+            <nb-card accent="info">
+                <nb-card-header> Lead Information</nb-card-header>     
+                <nb-card-body>
+                <div class="form-row">
+                  
+               
+                    
+                 
+                    <div class="form-group col-md-4">
+                        <label for="vendor_name">Lead Source</label>
+                        <input nbInput formControlName="leadSourceFormControl" name="locality" placeholder="Lead Source" 
+                        [ngClass]="{ 'is-invalid': submitted && f.leadSourceFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.leadSourceFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.leadSourceFormControl.errors.required"> LeacSource  is required</div>
+                        </div>
+                    </div>
+               
+                </div><br>
+    
+                
+            </nb-card-body>
+            </nb-card>
+            <nb-card accent="info">
+                <nb-card-header> Members Manager</nb-card-header>     
+                <nb-card-body>
+                <div class="form-row">
+                  
+                    <div class="form-group col-md-4">
+                        <label for="gender">Sales Rep<span style="color: red;">*</span></label><br>
+                        <nb-select name="gender"  formControlName="salesRepFormControl" [(selected)]="selectedsalesRep" >
+                            <nb-option *ngFor="let o of salesrep" value="{{o.value}}">
+                                {{ o.name }}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="gender">Member Manager<span style="color: red;">*</span></label><br>
+                        <nb-select name="gender"  formControlName="MemberManegerFormControl" [(selected)]="selectedManeger" >
+                            <nb-option *ngFor="let o of manage" value="{{o.value}}">
+                                {{ o.name }}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+                    
+                    <div class="form-group col-md-4">
+                        <label for="gender">Batch<span style="color: red;">*</span></label><br>
+                        <nb-select name="gender"  formControlName="batchFormControl" [(selected)]="selectedBatch" >
+                            <nb-option *ngFor="let o of batch" value="{{o.value}}">
+                                {{ o.name }}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+                
+               
+                </div><br>
+    
+                
+            </nb-card-body>
+            
+            </nb-card>
+                  <nb-card accent="info">
+                <nb-card-header> IDS</nb-card-header>     
+                <nb-card-body>
+                <div class="form-row">
+                  
+                    <div class="form-group col-md-4">
+                        <label for="vendor_name">Attendance Id</label>
+                        <input nbInput formControlName="AttendanceIdFormControl" name="locality" placeholder="Attendance Id" 
+                        [ngClass]="{ 'is-invalid': submitted && f.AttendanceIdFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.AttendanceIdFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.AttendanceIdFormControl.errors.required"> Attendance Id  is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="vendor_name">Club Id</label>
+                        <input nbInput formControlName="clubIdFormControl" name="locality" placeholder="Club Id" 
+                        [ngClass]="{ 'is-invalid': submitted && f.clubIdFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.clubIdFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.clubIdFormControl.errors.required"> CLub Id  is required</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-4">
+                        <label for="vendor_name">GST No</label>
+                        <input nbInput formControlName="gstNoFormControl" name="locality" placeholder="Gst No" 
+                        [ngClass]="{ 'is-invalid': submitted && f.gstNoFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.gstNoFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.gstNoFormControl.errors.required"> GST NO  is required</div>
+                        </div>
+                    </div>
+            
+               
+                </div><br>
+    
+                
+            </nb-card-body>
+            
+            </nb-card>
+
+            <nb-card accent="info">
+                <nb-card-header> Emergency Contact</nb-card-header>     
+                <nb-card-body>
+                <div class="form-row">
+                  
+                    <div class="form-group col-md-4">
+                        <label for="vendor_name">Full Name<span style="color: red;">*</span></label>
+                        <input nbInput formControlName="emergencyFullNameFormControl" name="fullName" placeholder="Name" 
+                        [ngClass]="{ 'is-invalid': submitted && f.emergencyFullNameFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.emergencyFullNameFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.emergencyFullNameFormControl.errors.required"> Name  is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="phoneNumber">Contact Number <span style="color: red;">*</span> </label>
+                        <input nbInput type="text" name="emergencyPhoneNumber" (keypress)="keyPress($event)" placeholder="Phone Number" formControlName="emergencyPhoneNumberFormControl" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.emergencyPhoneNumberFormControl.errors  }" required/>
+                        <div *ngIf="submitted && f.emergencyPhoneNumberFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="submitted && f.emergencyPhoneNumberFormControl.errors.required"> Contact Number is Required</div>
+                            <div *ngIf="submitted &&  f.emergencyPhoneNumberFormControl.errors?.pattern ">Contact number must be at least 10 numbers </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-4">
+                        <label for="vendor_name">Relation Ship</label>
+                        <input nbInput formControlName="relationShipFormControl" name="locality" placeholder="Relation ship" 
+                        [ngClass]="{ 'is-invalid': submitted && f.relationShipFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.relationShipFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.relationShipFormControl.errors.required"> Relationship   is required</div>
+                        </div>
+                    </div>
+            
+               
+                </div><br>
+    
+                
+            </nb-card-body>
+            
+            </nb-card>
+
+            <nb-card accent="info">
+                <nb-card-header> Members Manager</nb-card-header>     
+                <nb-card-body>
+                <div class="form-row">
+                  
+                    <div class="form-group col-md-4">
+                        <label for="gender">Push Notification<span style="color: red;">*</span></label><br>
+                        <nb-select name="gender"  formControlName="notificationFormControl" [(selected)]="selectedNotification" >
+                            <nb-option *ngFor="let o of notification" value="{{o.value}}">
+                                {{ o.name }}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="gender">SMS<span style="color: red;">*</span></label><br>
+                        <nb-select name="gender"  formControlName="smsFormControl" [(selected)]="selectedSms" >
+                            <nb-option *ngFor="let o of sms" value="{{o.value}}">
+                                {{ o.name }}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+                    
+                    <div class="form-group col-md-4">
+                        <label for="gender">Email<span style="color: red;">*</span></label><br>
+                        <nb-select name="gender"  formControlName="emailFormControl" [(selected)]="selectedEmail" >
+                            <nb-option *ngFor="let o of email" value="{{o.value}}">
+                                {{ o.name }}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+               
+               
+                </div><br>
+    
+                
+            </nb-card-body>
+            
+            </nb-card>
+
+
+            <nb-card accent="info">
+                <nb-card-header> Personal Info Of Primary Contact</nb-card-header>     
+                <nb-card-body>
+                <div class="form-row">
+                  
+                    <div class="form-group col-md-4">
+                        <label for="vendor_name">Occupation<span style="color: red;">*</span></label>
+                        <input nbInput formControlName="ocupationFormControl" name="fullName" placeholder="Name" 
+                        [ngClass]="{ 'is-invalid': submitted && f.ocupationFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.ocupationFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.ocupationFormControl.errors.required"> Occupation  is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="phoneNumber">Offical Email <span style="color: red;">*</span> </label>
+                        <input nbInput type="text" name="emergencyPhoneNumber"  placeholder="Email" formControlName="officalEmailFormControl" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.officalEmailFormControl.errors  }" required/>
+                        <div *ngIf="submitted && f.officalEmailFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="submitted && f.officalEmailFormControl.errors.required"> Email is Required</div>
+                           
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-4">
+                        <label for="vendor_name">Company Name</label>
+                        <input nbInput formControlName="companyNameFormControl" name="locality" placeholder="Relation ship" 
+                        [ngClass]="{ 'is-invalid': submitted && f.companyNameFormControl.errors }" class="form-control" >
+                        <div *ngIf="submitted && f.companyNameFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.companyNameFormControl.errors.required">Company   is required</div>
+                        </div>
+                    </div>
+            
+               
+                </div><br>
+    
+                
+            </nb-card-body>
+            
+            </nb-card>
+
+
+
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                 <button nbButton status="success" type="submit" (click)= "saveInfo()" size="small" >Save</button>
+                </div>
+            </div>
+                
+          
+            </form>
+        </nb-tab>
+    </nb-tabset>
+    </div>
+
+    <ng-template #dialog_service let-data let-ref="dialogRef" >
+        <nb-card size="large" >
+          <nb-card-header>service List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchService" /> </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of service_list| search_filter:'service_name':searchService">
+                  <i class="mr-auto mt-2 mt-lg-0"> {{ item.service_name }}</i>
+                  <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+              </nb-list>
+          </nb-card-body>
+          <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+          </nb-card-footer>
+        </nb-card>
+      </ng-template>
+    
+
+      <ng-template #dialog_employee let-data let-ref="dialogRef" >
+        <nb-card size="large" >
+          <nb-card-header>Employee List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchEmployee" /> </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of employee_list| search_filter:'employee_name':searchEmployee">
+                  <i class="mr-auto mt-2 mt-lg-0"> {{ item.employee_name }}</i>
+                  <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+              </nb-list>
+          </nb-card-body>
+          <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+          </nb-card-footer>
+        </nb-card>
+      </ng-template>
+    
+    
+    <!-- <ng-template #vendor_dialog let-data let-ref="dialogRef">
+        <nb-card size="medium">
+            <nb-card-header>Vendor List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchVendor" /></nb-card-header>
+            <nb-card-body>
+                <nb-list>
+                    <nb-list-item *ngFor="let item of vendor_list | search_filter:'vendor_name':searchVendor ">
+                        <i class="mr-auto mt-2 mt-lg-0">{{ item.vendor_name }} - {{item.vendor_code }}</i>
+                        <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                    </nb-list-item>
+                </nb-list>
+            </nb-card-body>
+            <nb-card-footer>
+                <button nbButton (click)="ref.close()">Close</button>
+            </nb-card-footer>
+        </nb-card>
+    </ng-template>
+    <ng-template #product_dialog let-data let-ref="dialogRef" >
+        <nb-card size="large" >
+          <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data | search_filter:'product_name':searchProduct">
+                  <i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i>
+                  <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+              </nb-list>
+          </nb-card-body>
+          <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+          </nb-card-footer>
+        </nb-card>
+      </ng-template>
+      <ng-template #pr_dialog let-data let-ref="dialogRef" >
+        <nb-card size="large" >
+          <nb-card-header>PR List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchPR" /> </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data | search_filter:'pr_no':searchPR">
+                  <i class="mr-auto mt-2 mt-lg-0">{{ item.pr_no }} </i>
+                  <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+              </nb-list>
+          </nb-card-body>
+          <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+          </nb-card-footer>
+        </nb-card>
+      </ng-template>
+     -->

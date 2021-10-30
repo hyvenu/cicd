@@ -76,7 +76,7 @@ export class ManageUnitmasterComponent implements OnInit {
         }
         this.inventoryService.updateUnit(this.unit_id, data).subscribe(
           (data) => {
-            this.nbtoastService.success("Saved Successfully");
+            this.nbtoastService.success("Unit Updated Successfully");
             this.ngOnInit();
           },
           (error) =>{

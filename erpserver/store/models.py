@@ -54,6 +54,14 @@ class Department(AuditUuidModelMixin):
         pass
 
 
+class Designation(AuditUuidModelMixin):
+    designation_id = models.CharField(max_length=230, default="")
+    designation_name = models.CharField(max_length=100, default="", unique=True)
+
+    class Meta:
+        pass
+
+
 class StoreShipLocations(AuditUuidModelMixin):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="store_locations")
     pin_code = models.CharField(max_length=50, null=True)
@@ -90,15 +98,16 @@ class StoreServices(AuditUuidModelMixin):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
     service_name = models.TextField(max_length=100)
     service_desc = models.TextField(max_length=100)
-    price = models.IntegerField(default=0)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     service_gst = models.CharField(max_length=100, default="", null=True, blank=True)
-    service_hour = models.CharField(max_length=100, default="",)
+    service_hour = models.CharField(max_length=100, default="", )
 
     class Meta:
         pass
 
     def __str__(self):
         return str(self.pk)
+
 
 
 class Customer(AuditUuidModelMixin):
@@ -108,7 +117,7 @@ class Customer(AuditUuidModelMixin):
     phone_number = models.CharField(max_length=30, null=True, default=None, unique=True)
     customer_email = models.CharField(max_length=255, default=None)
     customer_service_bill = models.CharField(max_length=255, default="")
-    customer_address = models.CharField(max_length=255, default="",null=True)
+    customer_address = models.CharField(max_length=255, default="", null=True)
 
     class Meta:
         pass
@@ -123,6 +132,21 @@ class Employee(AuditUuidModelMixin):
     phone_number = models.CharField(max_length=10, default=None, null=True, unique=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     employee_address = models.CharField(max_length=255, default="")
+    dob = models.CharField(max_length=255, default=None)
+    doj = models.CharField(max_length=255, default=None)
+    salary = models.IntegerField(null=True, blank=True, default=0)
+    job_designation = models.ForeignKey(Designation, on_delete=models.CASCADE, null=True, blank=True)
+    admin_rights = models.CharField(max_length=255, default=None)
+    attendance_id = models.CharField(max_length=255, default=None)
+    pan_card = models.CharField(max_length=255, default=None)
+    account_number = models.IntegerField(null=True, blank=True, default=0)
+    ifsc = models.CharField(max_length=255, default=None)
+    hrms_id = models.CharField(max_length=255, default=None)
+    gender = models.CharField(max_length=255, default=None)
+    employee_category = models.CharField(max_length=255, default=None)
+    pay_out = models.CharField(max_length=255, default=None)
+    grade = models.CharField(max_length=255, default=None)
+    login_access = models.CharField(max_length=255, default=None)
 
     class Meta:
         pass
@@ -134,7 +158,7 @@ class Employee(AuditUuidModelMixin):
 class AppointmentSchedule(AuditUuidModelMixin):
     # Relationships
     is_paid = models.BooleanField(default="", null=True)
-    assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE,default="", null=True, blank=True)
+    assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE, default="", null=True, blank=True)
     # service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
     # Fields
@@ -154,7 +178,7 @@ class AppointmentSchedule(AuditUuidModelMixin):
 
 
 class AppointmentForMultipleService(AuditUuidModelMixin):
-    appointment = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE,null=True, blank=True)
+    appointment = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE, null=True, blank=True)
     service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
@@ -162,4 +186,65 @@ class AppointmentForMultipleService(AuditUuidModelMixin):
 
     def __str__(self):
         return str(self.pk)
+
+
+
+class Enquiry(AuditUuidModelMixin):
+    enquiry_code = models.CharField(max_length=230, default="")
+    full_name = models.CharField(max_length=100, default="")
+    phone_number = models.CharField(max_length=100, default="")
+    service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
+    customer_email = models.CharField(max_length=100, default="")
+    gender = models.CharField(max_length=100, default="")
+    locality = models.CharField(max_length=100, default="")
+    enquiry_date = models.CharField(max_length=100, default="")
+    lead_source = models.CharField(max_length=100, default="")
+    enquiry_type = models.CharField(max_length=100, default="")
+    date = models.CharField(max_length=100, default="")
+    time = models.CharField(max_length=100, default="")
+    staff_name = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    message = models.CharField(max_length=100, default="")
+    # cold = models.CharField(max_length=100, default="")
+    # warm = models.CharField(max_length=100, default="")
+    # hot = models.CharField(max_length=100, default="")
+    call_log = models.CharField(max_length=100, default="")
+
+    class Meta:
+        pass
+
+
+class MembersDetails(AuditUuidModelMixin):
+    members_code = models.CharField(max_length=255, default=None)
+    full_name = models.CharField(max_length=255, default=None)
+    phone_number = models.CharField(max_length=10, default=None, null=True, unique=True)
+    customer_email = models.CharField(max_length=255, default="")
+    gender = models.CharField(max_length=255, default="")
+    locality = models.CharField(max_length=255, default=None)
+    vacinated = models.CharField(max_length=255, default=None)
+    lead_source = models.CharField(max_length=255, default=None)
+    dob = models.CharField(max_length=255, default=None)
+    sales_rep = models.CharField(max_length=255, default=None)
+    members_maneger = models.CharField(max_length=255, default=None)
+    batch = models.CharField(max_length=255, default=None)
+    attendance_id = models.CharField(max_length=255, default=None)
+    club_id = models.CharField(max_length=255, default=None)
+    gst_no = models.CharField(max_length=255, default=None)
+    emergency_ccontact = models.CharField(max_length=255, default=None)
+    emergency_number = models.CharField(max_length=255, default=None)
+    relationship = models.CharField(max_length=255, default=None)
+    notification = models.CharField(max_length=255, default=None)
+    sms = models.CharField(max_length=255, default=None)
+    email = models.CharField(max_length=255, default=None)
+    occupation = models.CharField(max_length=255, default=None)
+    offical_mail = models.CharField(max_length=255, default=None)
+    company_name = models.CharField(max_length=255, default=None)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+
+
 

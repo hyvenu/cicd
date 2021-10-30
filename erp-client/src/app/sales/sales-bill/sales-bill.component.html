@@ -40,7 +40,7 @@ $box.prop("checked", false);
                 <td>
                     <label for="">Phone Number</label> <br><input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl" (click)="open_phone_list(phone_dialog)"  name="salesNewFormControl" placeholder="Phone Number" ></td>
                 <td ><label for="">Email</label><br>
-                     <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" ></td>
+                     <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" readonly></td>
                 <td><input type="hidden" name=""></td>
                
                 
@@ -144,7 +144,7 @@ $box.prop("checked", false);
                 
              </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;" type="number" oninput="validity.valid || (value='')" min="0" [value]="selectedDiscount"  (change)="calculate_price()" nbInput formControlName="discountFormControl"  name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
+                <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;" type="number" oninput="validity.valid || (value='')" min="0" [value]="selectedDiscount"  (change)="calculate_price()" nbInput formControlName="discountFormControl" value=0 name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
             </tr>
             <tr>
                 <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small"  style="width: 10em;" value="{{grandTotal}}"  step="0.1" nbInput formControlName="grandTotalFormControl" name="grandTotalFormControl" placeholder="Grand Total" readonly></td>
@@ -219,10 +219,10 @@ $box.prop("checked", false);
 
 <ng-template #dialog let-data let-ref="dialogRef" >
     <nb-card size="large" >
-      <nb-card-header>Customer List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchCatgory" /> </nb-card-header>
+      <nb-card-header>Customer List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchCus" /> </nb-card-header>
       <nb-card-body>
         <nb-list>
-            <nb-list-item *ngFor="let item of customer_list | search_filter:'customer_name':searchCatgory ">
+            <nb-list-item *ngFor="let item of customer_list | search_filter:'customer_name':searchCus ">
               <i class="mr-auto mt-2 mt-lg-0">{{ item.customer_name }}-{{item.service__service_name}} </i>              
               <button nbButton (click)="ref.close(item)" size="small">Select</button>
             </nb-list-item>

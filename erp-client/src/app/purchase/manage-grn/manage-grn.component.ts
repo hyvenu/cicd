@@ -50,6 +50,11 @@ export class ManageGrnComponent implements OnInit {
   vendor_list: any;
   select_code: any;
   url = `${environment.BASE_SERVICE_URL}/`;
+  dateofdata: any =[];
+  current_date :any = new Date();
+  searchPO: string;
+  qty_recived: any;
+  qty_rejected: any;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -164,89 +169,141 @@ export class ManageGrnComponent implements OnInit {
         this.nbtoastService.danger(error, "Error")
       }
     );
+    this.onChanges()
+    
   }
 
-  po_open(dialog: TemplateRef<any>) {
-    this.purchaseService.getPOList().subscribe(
-      (data) => {
-        this.po_list = data;
-        console.log(this.po_list);
-        this.dailog_ref = this.dialogService.open(dialog, { context: this.po_list })
-          .onClose.subscribe(data => {
-            //  this.product_list = data
-            this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
-            this.purchaseService.getVendor(data.vendor_id).subscribe((data2) => {
-              console.log(data2)
-              this.vendor_code = data2.vendor_code;
-              this.vendor_id = data2.id;
-              this.vendor_state_code = data2.state_code;
+  onChanges(){
+    this.grnMasterForm.controls['grnDateFormControl'].valueChanges.subscribe(
+      (data)=> {  
+        console.log(new Date(data))
+        this.dateofdata = new Date(data)
+        console.log(this.dateofdata)
+        console.log(this.current_date)
+        if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+        }
+
+      })
+     
+    }
+  
+
+  onChange(item){
+    
+      this.dateofdata = new Date(item.expiry_date)
+      console.log(this.dateofdata)
+        console.log(this.current_date)
+        if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+        }
+    
+    // this.purchaseOrderForm.controls['poDateFormControl'].valueChanges.subscribe(
+    //   (data)=> {  
+    //     console.log(new Date(data))
+    //     this.dateofdata = new Date(data)
+    //     console.log(this.dateofdata)
+    //     console.log(this.current_date)
+    //     if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+    //       this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+    //     }
+
+    //   })
+     
+    }
+
+    check_acc_rej(item){
+    
+    this.qty_recived = item.received_qty
+    this.qty_rejected = item.rejected_qty
+    if(this.qty_rejected > this.qty_recived){
+      this.nbtoastService.danger('Out of Limit') 
+    }
+
+    }
+
+
+    po_open(dialog: TemplateRef<any>) {
+      this.purchaseService.getPOList().subscribe(
+        (data) => {
+          this.po_list = data;
+          console.log(this.po_list);
+          this.dailog_ref = this.dialogService.open(dialog, { context: this.po_list })
+            .onClose.subscribe(data => {
+              this.searchPO=""
+              //  this.product_list = data
+              this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
+              this.purchaseService.getVendor(data.vendor_id).subscribe((data2) => {
+                console.log(data2)
+                this.vendor_code = data2.vendor_code;
+                this.vendor_id = data2.id;
+                this.vendor_state_code = data2.state_code;
+                
+                this.store_id = data.store_id;
+                this.grnMasterForm.controls['vendorNameFormControl'].setValue(data2.vendor_name);
+                this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data2.branch_ofc_addr);
+  
+                this.purchaseService.getPODetails(data.id).subscribe(
+                  (po_details) => {
+                    // this.selected_product_list = po_details.order_details;
+                    this.selected_product_list = [];
+                    let i = 1;
+                    po_details.order_details.forEach(element => {
+  
+                      this.inventoryService.getProduct(element['product_id']).subscribe(
+                        (product) => {
+                         
+                           const item ={
+                            slno: i++,
+                            product_id: product['id'],
+                            product_code: product['product_code'],
+                            product_name: product['product_name'],
+                            description: product['description'],
+                            hsn_code: product['hsn_code'],
+                            amount: element['amount'],
+                            po_qty: element['qty'],
+                            received_qty: element['qty'],
+                            rejected_qty: 0,
+                            accepted_qty: element['qty'],
+                            unit_id: element['unit_id'],
+                            unit_price: element['unit_price'],
+                            gst: element['gst'],
+                            gst_amount: element['gst_amount'],
+                            total: (Number(element['amount']) + Number(element['gst_amount'])),
+                            batch_code: '',
+                            expiry_date: null,
+                           };
+                           this.selected_product_list.push(item)
+                          this.calculate(item)
+                        });
+                      console.log(element['product_id']);
+                    });
+  
+  
+                  }
+                );
+              });
               
-              this.store_id = data.store_id;
-              this.grnMasterForm.controls['vendorNameFormControl'].setValue(data2.vendor_name);
-              this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data2.branch_ofc_addr);
-
-              this.purchaseService.getPODetails(data.id).subscribe(
-                (po_details) => {
-                  // this.selected_product_list = po_details.order_details;
-                  this.selected_product_list = [];
-                  let i = 1;
-                  po_details.order_details.forEach(element => {
-
-                    this.inventoryService.getProduct(element['product_id']).subscribe(
-                      (product) => {
-                       
-                         const item ={
-                          slno: i++,
-                          product_id: product['id'],
-                          product_code: product['product_code'],
-                          product_name: product['product_name'],
-                          description: product['description'],
-                          hsn_code: product['hsn_code'],
-                          amount: element['amount'],
-                          po_qty: element['qty'],
-                          received_qty: element['qty'],
-                          rejected_qty: 0,
-                          accepted_qty: element['qty'],
-                          unit_id: element['unit_id'],
-                          unit_price: element['unit_price'],
-                          gst: element['gst'],
-                          gst_amount: element['gst_amount'],
-                          total: (Number(element['amount']) + Number(element['gst_amount'])),
-                          batch_code: '',
-                          expiry_date: null,
-                         };
-                         this.selected_product_list.push(item)
-                        this.calculate(item)
-                      });
-                    console.log(element['product_id']);
-                  });
-
-
-                }
-              );
+              // this.sub_total = parseFloat(data.sub_total)
+              // this.sgst = data.sgst
+              // this.cgst = data.cgst
+              // this.igst = data.igst
+              // this.grand_total = (parseFloat(this.sub_total) +parseFloat(this.sgst)+ parseFloat(this.cgst) + parseFloat(this.igst))
+             
+              console.log('grand total ' + this.grand_total)
+              if (this.vendor_state_code == '29') {
+                this.sgst = data.sgst
+                this.cgst = data.cgst
+              } else {
+                this.igst = data.igst
+  
+              }
             });
-            
-            // this.sub_total = parseFloat(data.sub_total)
-            // this.sgst = data.sgst
-            // this.cgst = data.cgst
-            // this.igst = data.igst
-            // this.grand_total = (parseFloat(this.sub_total) +parseFloat(this.sgst)+ parseFloat(this.cgst) + parseFloat(this.igst))
-           
-            console.log('grand total ' + this.grand_total)
-            if (this.vendor_state_code == '29') {
-              this.sgst = data.sgst
-              this.cgst = data.cgst
-            } else {
-              this.igst = data.igst
-
-            }
-          });
-
-
-      }
-    );
-  }
-
+  
+  
+        }
+      );
+    }
   date_check(){
     this.grndate = this.grnMasterForm.controls['grnDateFormControl'].value;
     this.invoicedate = this.grnMasterForm.controls['invoiceDateFormControl'].value;
@@ -288,6 +345,7 @@ export class ManageGrnComponent implements OnInit {
     }
     this.grand_total = (parseFloat(this.sub_total)+parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst))
     console.log(this.grand_total)
+    this.check_acc_rej(item)
   }
 
 
@@ -317,6 +375,23 @@ export class ManageGrnComponent implements OnInit {
   saveGRN(): any {
     
     const formData = new FormData();
+    if (!this.selected_product_list.length ) {
+      this.nbtoastService.danger('Please Enter At Least ONE Product in Details Section')
+    }else{
+      let dd:boolean;
+      this.selected_product_list.forEach(
+        a =>{
+          if(!a.expiry_date){
+            dd=false
+            this.nbtoastService.danger('Please Provide Product Expiry Date Details Section');
+          }
+          else{
+            dd=true
+          }
+        }
+      )
+      console.log(dd)
+      if(dd){
     if (this.grn_id) {
       formData.append('id', this.grn_id);
       formData.append('grn_code', this.grnMasterForm.controls['grnNumberFormControl'].value);
@@ -379,6 +454,8 @@ export class ManageGrnComponent implements OnInit {
         }
       );
     }
+  }
+}
   }
 
   formatDate(date) {

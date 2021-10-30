@@ -57,6 +57,18 @@ export class AppComponent implements OnInit {
         link: 'DepartmentList',
       },
       {
+        title: 'Designation',
+        link: 'DesignationList',
+      },
+      {
+        title: 'Enquiry',
+        link: 'EnquiryList',
+      },
+      {
+        title: 'Members ',
+        link: 'Members',
+      },
+      {
         title: 'Manage Employee',
         link: 'ManageEmployee',
       },

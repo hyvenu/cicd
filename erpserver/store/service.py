@@ -3,7 +3,7 @@ import ast
 from django.db import transaction
 
 from store.models import StoreUser, Store, SiteSettings, AppointmentSchedule, AppointmentForMultipleService, Department, \
-    Employee, StoreServices
+    Employee, StoreServices, Enquiry
 
 
 class StoreService:
@@ -53,21 +53,24 @@ class StoreService:
     @classmethod
     @transaction.atomic
     def update(self, data):
-        if 'id' in data:
 
-            app_id =AppointmentForMultipleService.objects.filter(service_id=data['service_id']).values('appointment_id')[0]['appointment_id']
+        service_arr = data['service_id']
+        for item in service_arr:
+            app_id =AppointmentForMultipleService.objects.filter(id=item).values('appointment_id')[0]['appointment_id']
             AppointmentSchedule.objects.filter(id=app_id).update(is_paid=True)
+
             # if data['is_paid'] == "true":
             #     appointment_obj.is_paid = True
             # else:
             #     appointment_obj.is_paid = False
             # appointment_obj.save()
 
+
     @classmethod
     @transaction.atomic
     def save_Appointment(self, ap_data):
         if 'id' in ap_data:
-            service_arr = ap_data['service'].split(',')
+            service_arr = ast.literal_eval(ap_data['service'])
             for item in service_arr:
                 if 'id' in ap_data:
                     appointment_obj = AppointmentSchedule.objects.get(id=ap_data['id'])
@@ -105,16 +108,20 @@ class StoreService:
                 #     if 'id' in item:
                 #         service = AppointmentForMultipleService.objects.get(id=item['id'])
                 #     else:
-                service = AppointmentForMultipleService.objects.get(appointment_id=ap_data['id'])
+                if 'id' in item and len(item['id']) > 0 :
+                    service = AppointmentForMultipleService.objects.get(id=item['id'])
+                else:
+                    service = AppointmentForMultipleService()
+
                 service.appointment = appointment_obj
-                service.service_id = item
+                service.service_id = item['service_id']
                 service.save()
         else:
-            service_arr = ap_data['service'].split(',')
+            service_arr = ast.literal_eval(ap_data['service'])
             for item in service_arr:
                 if 'id' in ap_data:
                     appointment_obj = AppointmentSchedule.objects.get(id=ap_data['id'])
-                    appointment_obj.assigned_staff_id = ap_data['assigned_staff']
+
                 else:
                     appointment_obj = AppointmentSchedule()
 
@@ -122,6 +129,11 @@ class StoreService:
                     appointment_obj.is_paid = True
                 else:
                     appointment_obj.is_paid = False
+                if ap_data['assigned_staff'] == "null":
+                    pass
+                else:
+                    appointment_obj.assigned_staff_id = ap_data['assigned_staff']
+
                 appointment_obj.store_id = ap_data['store']
                 appointment_obj.booking_date = ap_data['booking_date']
                 appointment_obj.end_time = ap_data['end_time']
@@ -139,9 +151,10 @@ class StoreService:
                 #     if 'id' in ap_data:
                 #         service = AppointmentForMultipleService.objects.get(appointment_id=ap_data['id'])
                 #     else:
+
                 service = AppointmentForMultipleService()
                 service.appointment = appointment_obj
-                service.service_id = item
+                service.service_id = item['service_id']
                 service.save()
 
         return appointment_obj.id
@@ -234,6 +247,37 @@ class StoreService:
         final_list = []
         app_data_list = AppointmentSchedule.objects.filter(is_paid=False).values(
             'id',
+            'is_paid',
+            'assigned_staff__id',
+            'assigned_staff__employee_name',
+            'store_id',
+            'booking_date',
+            'end_time',
+            'customer_name',
+            'start_time',
+            'phone_number',
+            'appointment_status',
+            'customer__id',
+            'customer__customer_name',
+
+        )
+
+        for item in list(app_data_list):
+            item['service_list'] = list(
+                AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
+                    "id",
+                    "appointment__id",
+                    "service__id",
+                    "service__service_name",
+                ))
+
+        return list(app_data_list)
+
+    @classmethod
+    def get_booking_details_dashboard(cls):
+        final_list = []
+        app_data_list = AppointmentSchedule.objects.all().values(
+            'id',
             'assigned_staff__id',
             'assigned_staff__employee_name',
             'store_id',
@@ -298,6 +342,46 @@ class StoreService:
             'phone_number',
             'employee_address',
             'department__department_name',
+            'dob',
+            'doj',
+            'salary',
+            'admin_rights',
+            'attendance_id',
+            'pan_card',
+            'account_number',
+            'ifsc',
+            'hrms_id',
+            'gender',
+            'employee_category',
+            'pay_out',
+
+            'grade',
+            'login_access',
 
         )
         return list(employee_list)
+
+    def get_enquiry_list(self):
+        enquiry_list = Enquiry.objects.all().values(
+            'id',
+            'enquiry_code',
+            'full_name',
+            'phone_number',
+            'service',
+            'service__service_name',
+            'staff_name__employee_name',
+            'customer_email',
+            'gender',
+            'locality',
+            'enquiry_date',
+            'lead_source',
+            'enquiry_type',
+            'date',
+            'time',
+            'staff_name',
+            'message',
+            'call_log',
+
+
+        )
+        return list(enquiry_list)

@@ -15,6 +15,8 @@ export class ManageProductComponent implements OnInit {
 
   productMasterFrom: FormGroup;
 
+  @ViewChild('attribute') inputName; 
+
   createFlag = true;
 
   categories_list;
@@ -22,8 +24,8 @@ export class ManageProductComponent implements OnInit {
   sub_categories;
   
   dailog_ref;
-  selected_category: any;
-  selected_sub_ategory: any;
+  selected_category: any="";
+  selected_sub_ategory: any="";
   atrribute_name: any;
   product_id:any;
   searchCategory:any;
@@ -33,7 +35,7 @@ export class ManageProductComponent implements OnInit {
   product_attributes = []
   product_packingtypes = []
   brand_list: any;
-  selected_brand: any;
+  selected_brand: any="";
   product_list: string | Partial<any>;
   selected_product: any;
   selected_unit: any;
@@ -53,8 +55,11 @@ export class ManageProductComponent implements OnInit {
   @ViewChild('myInput')
   myInputVariable: ElementRef;
   submitted: boolean=false;
-  searchBrand: any;
-  update_flag: boolean = true;
+  cat_id: any;
+  searchBrand: string;
+  attr: string;
+  Attribute: string;
+  searchUnit: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -91,9 +96,9 @@ export class ManageProductComponent implements OnInit {
     ]
     let param1 = this.route.snapshot.queryParams["id"];
     if (param1) {
-        this.update_flag = false
         this.inventoryService.getProduct(param1).subscribe(
           (data) => {
+            console.log(data)
             this.productMasterFrom.controls['categoryNameFormControl'].setValue(data.category.category_name);
             this.productMasterFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category.sub_category_name);
             this.productMasterFrom.controls['brandNameFormControl'].setValue(data.brand.brand_name);
@@ -102,6 +107,8 @@ export class ManageProductComponent implements OnInit {
             this.productMasterFrom.controls['hsncodeFormControl'].setValue(data.hsn_code);
             this.productMasterFrom.controls['descFormControl'].setValue(data.description);
             this.selected_category = data.category;
+            this.cat_id = data.category.id
+            console.log(this.cat_id)
             this.selected_sub_ategory = data.sub_category;
             this.selected_brand = data.brand;
             this.product_id = data.id;
@@ -164,8 +171,10 @@ export class ManageProductComponent implements OnInit {
   cat_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.categories_list })
     .onClose.subscribe(data => {
-      this.searchCategory = ""
-       this.selected_category = data       
+      this.searchCategory=""
+       this.selected_category = data    
+       this.cat_id = this.selected_category.id  
+       console.log(this.cat_id) 
        this.productMasterFrom.controls['categoryNameFormControl'].setValue(data.category_name);
        this.getProductCode();
     }
@@ -175,7 +184,7 @@ export class ManageProductComponent implements OnInit {
   sub_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.sub_categories })
     .onClose.subscribe(data => {
-      this.searchSubCategory =""
+      this.searchSubCategory=""
        this.selected_sub_ategory = data       
        this.productMasterFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);
        this.getProductCode();
@@ -186,7 +195,7 @@ export class ManageProductComponent implements OnInit {
   brand_open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.brand_list })
     .onClose.subscribe(data => {
-      this.searchBrand = ""
+      this.searchBrand=""
        this.selected_brand = data       
        this.productMasterFrom.controls['brandNameFormControl'].setValue(data.brand_name);
        this.getProductCode();
@@ -221,6 +230,7 @@ export class ManageProductComponent implements OnInit {
           this.unit_list = data;
           this.dailog_ref= this.dialogService.open(dialog, { context: this.unit_list })
           .onClose.subscribe(data => {
+            this.searchUnit=""
             console.log(data);
              this.selected_unit = data      
              type.unit = data.PrimaryUnit 
@@ -237,6 +247,7 @@ export class ManageProductComponent implements OnInit {
   }
 
   add_attribute():any {
+    this.inputName.nativeElement.value = ' ';
     const name = this.productMasterFrom.controls['atrributeNameFormControl'].value;
     const data = {name: name,value:''}
     this.product_attributes.push(data)
@@ -292,10 +303,43 @@ export class ManageProductComponent implements OnInit {
 
   saveProduct():any {
     const formData = new FormData();
+    if (!this.product_packingtypes.length ) {
+      this.nbtoastService.danger('Please Enter  Product Details in Product Packing Types')
+    }else{
+      let dd:boolean;
+      this.product_packingtypes.forEach(
+        a =>{
+          if(!a.unit && !a.qty && !a.sell_price && !a.safety_stock_level && !a.unit_price && !a.serial_number && !a.tax){
+            dd=false
+            this.nbtoastService.danger('Please Provide Qty & Unit in Product Packing Types');
+          }else if(!a.sell_price){
+            dd=false
+            this.nbtoastService.danger('Please Provide Unit in Product Packing Types');
+          }else if(!a.unit_price){
+            dd=false
+            this.nbtoastService.danger('Please Provide Unit Price in Product Packing Types');
+          }else if(!a.safety_stock_level){
+            dd=false
+            this.nbtoastService.danger('Please Provide Saftey Stock in Product Packing Types');
+          }else if(!a.serial_number){
+            dd=false
+            this.nbtoastService.danger('Please Provide Serial Number in Product Packing Types');
+          }else if(!a.tax){
+            dd=false
+            this.nbtoastService.danger('Please Provide Gst% in Product Packing Types');
+          }
+          else{
+            dd=true
+          }
+        }
+      )
+      console.log(dd)
+      if(dd){
+
     if (this.product_id){
       formData.append('id', this.product_id)
     }
-    formData.append('category', this.selected_category.id);
+    formData.append('category', this.cat_id);
     formData.append('sub_category', this.selected_sub_ategory.id);
     formData.append('brand', this.selected_brand.id);
     formData.append('product_code', this.productMasterFrom.controls['productCodeFormControl'].value);
@@ -312,7 +356,14 @@ export class ManageProductComponent implements OnInit {
 
     this.inventoryService.saveProduct(formData).subscribe(
       (data) => {
+        if(this.product_id){
+          this.nbtoastService.success("Product Updated Successfully")
+          
+        }
+        else{
         this.nbtoastService.success("Product Saved Successfully")
+        }
+        this.product_attributes=[]
         this.imgSrc=null;
         this.reset();
         this.routes.navigate(["/ManageProductMaster"]);
@@ -321,7 +372,8 @@ export class ManageProductComponent implements OnInit {
         this.nbtoastService.danger(error.error.detail);
       }
     )
-
+    }
+  }
 
 
   }
@@ -353,6 +405,7 @@ export class ManageProductComponent implements OnInit {
       
     }
   }
+
   onSubmit() {
     const formData = new FormData();
     formData.append('product_id',this.product_id)

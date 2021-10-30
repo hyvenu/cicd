@@ -29,7 +29,7 @@ export class ManageVendorComponent implements OnInit {
   vendorTypeStr: any;
   paymentTermsStr: any;
   vendor_id:any;
-  
+  searchState;
 
   IsVendorInfo: boolean;
   options = [
@@ -158,7 +158,7 @@ export class ManageVendorComponent implements OnInit {
       // vendorStateNameFormControl: ['', [Validators.required]],      
       vendorStateCodeFormControl: ['', [Validators.required]],   
       // corporateOfficeFormControl: ['', [Validators.required]],   
-      branchOfficeFormControl: ['', []],
+      branchOfficeFormControl: ['', [Validators.required]],
       vendorTypeFormControl:['', [Validators.required]],   
       //vendorRegionFormControl: ['', [Validators.required]],
       // postalCode: ['', [Validators.required]],
@@ -247,6 +247,7 @@ export class ManageVendorComponent implements OnInit {
   state_open(dialog: TemplateRef<any>) {
     this.dailog_ref = this.dialogService.open(dialog, { context: this.state})
       .onClose.subscribe(data => {
+        this.searchState = ""
         this.state_list = data
         console.log(this.state_list)
         this.vendorMasterForm.controls['vendorStateCodeFormControl'].setValue(data.value);
@@ -391,7 +392,12 @@ export class ManageVendorComponent implements OnInit {
 
   this.purchaseService.saveVendor(formData).subscribe(
     (data) => {
+      if(this.vendor_id){
+        this.nbtoastService.success("Vendor Details Updated Successfully")
+      }
+      else{
       this.nbtoastService.success("Vendor Details Saved Successfully")
+      }
       this.ngOnInit();
       this.routes.navigate(['/ManageVendortMaster'])
     },

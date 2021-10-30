@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
+import * as moment from 'moment';
 import { AdminService } from 'src/app/admin/admin.service';
 import { InventoryService } from 'src/app/inventory/inventory.service';
 import { printDiv } from 'src/app/sales/print_div';
@@ -69,7 +70,7 @@ export class PurchaseInvoicePageComponent implements OnInit {
          // this.vendor_number = this.invoice_details.vendor__mobile_no
           this.gst_no = this.invoice_details.vendor__gst_no
           this.po_number = this.invoice_details.po_number
-          this.po_date = this.invoice_details.po_date
+          this.po_date = moment(this.invoice_details.po_date).format("YYYY-MM-DD")
           this.shipping_phone_no = this.invoice_details.mobile_no;
 
           this.purchaseService.getVendor(this.invoice_details.vendor_id).subscribe(
