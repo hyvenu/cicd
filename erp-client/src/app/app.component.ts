@@ -167,10 +167,10 @@ export class AppComponent implements OnInit {
                title: 'Purchase Order',
                link: 'PurchaseOrderList', // goes into angular `routerLink`
             },
-            {
-              title: 'Purchase Invoice',
-              link: 'PurchaseInvoicePage', // goes into angular `routerLink`
-           },
+//             {
+//               title: 'Purchase Invoice',
+//               link: 'PurchaseInvoicePage', // goes into angular `routerLink`
+//            },
            {
                title: 'Manage GRN',
                link: 'GrnList'
@@ -187,24 +187,24 @@ export class AppComponent implements OnInit {
               link: 'OrderList', // goes into angular `routerLink`
               hidden: this.check_permission('sales.view_orderrequest')
             },
-            {
-              title: 'Sales Order',
-              link: 'SalesOrder', // goes into angular `routerLink`
-              // hidden: this.check_permission('sales.view_orderrequest')
-            },
-            {
-              title: 'Sales Records',
-              link: 'SalesDetails', // goes into angular `routerLink`
-              // hidden: this.check_permission('sales.view_orderrequest')
-            },
+//             {
+//               title: 'Sales Order',
+//               link: 'SalesOrder', // goes into angular `routerLink`
+//               // hidden: this.check_permission('sales.view_orderrequest')
+//             },
+//             {
+//               title: 'Sales Records',
+//               link: 'SalesDetails', // goes into angular `routerLink`
+//               // hidden: this.check_permission('sales.view_orderrequest')
+//             },
             {
               title: 'Sales Bill',
               link: 'SalesBill',
             },
-            {
-              title: 'Invoice',
-              link: 'InvoicePage',
-            }
+//             {
+//               title: 'Invoice',
+//               link: 'InvoicePage',
+//             }
           ]
         },
         {
