@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NbToastrService } from '@nebular/theme';
 import { AdminService } from 'src/app/admin/admin.service';
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 declare var $: any;
