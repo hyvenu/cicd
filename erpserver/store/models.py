@@ -118,6 +118,7 @@ class Customer(AuditUuidModelMixin):
     customer_email = models.CharField(max_length=255, default=None)
     customer_service_bill = models.CharField(max_length=255, default="")
     customer_address = models.CharField(max_length=255, default="", null=True)
+    advance_amount = models.IntegerField(null=True)
 
     class Meta:
         pass

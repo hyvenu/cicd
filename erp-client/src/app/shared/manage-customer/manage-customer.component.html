@@ -55,6 +55,15 @@
                         <div *ngIf="f.customerServiceBillFormControl.errors.required">bill is required</div>
                     </div>
                 </div>
+                <div class="form-group col-md-4">
+                    <label>Advance Amount </label>
+                    <input type="text" nbInput formControlName="advanceAmountFormControl" [(ngModel)]="advance" placeholder="Amount" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.advanceAmountFormControl.errors }" />
+                    <div *ngIf="submitted && f.advanceAmountFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.advanceAmountFormControl.errors.required">Advance Amount Required</div>
+                        <!-- <div *ngIf="f.advanceAmountFormControl.errors.email">Email must be a valid email address</div> -->
+                    </div>
+                </div>
             </div> <br>
            
            

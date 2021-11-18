@@ -161,7 +161,8 @@ class CustomerSerializer(serializers.ModelSerializer):
                   'phone_number',
                   'customer_email',
                   'customer_service_bill',
-                  'customer_address']
+                  'customer_address',
+                  'advance_amount']
 
     def create(self, validated_data):
         validated_data['customer_code'] = generate_customer_code()

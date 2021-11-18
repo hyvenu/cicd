@@ -96,7 +96,7 @@ export class ManageCustomerComponent implements OnInit {
     },
   };
   createdFlag=false;
-
+  advance:any=0
 
 
 customerForm:FormGroup;
@@ -136,6 +136,7 @@ customerForm:FormGroup;
       customerEmailFormControl:['',[Validators.required,Validators.email],],
       customerServiceBillFormControl:['',[Validators.required]],
       customerAddressFormControl:['',[]],
+      advanceAmountFormControl:['',[]],
 
     })
 
@@ -153,6 +154,7 @@ customerForm:FormGroup;
           this.customerForm.controls['customerEmailFormControl'].setValue(data.customer_email);
           this.customerForm.controls['customerAddressFormControl'].setValue(data.customer_address);
           this.customerForm.controls['customerServiceBillFormControl'].setValue(data.customer_service_bill);
+          this.customerForm.controls['advanceAmountFormControl'].setValue(data.advance_amount);
          
           this.adminService.getBookinHistory(param).subscribe(
             (data) => {
@@ -205,6 +207,7 @@ customerForm:FormGroup;
     formdata.append('customer_email',this.customerForm.controls['customerEmailFormControl'].value)
     formdata.append('customer_service_bill',this.customerForm.controls['customerServiceBillFormControl'].value)
     formdata.append('customer_address',this.customerForm.controls['customerAddressFormControl'].value)
+    formdata.append('advance_amount',this.customerForm.controls['advanceAmountFormControl'].value)
 
     
     this.adminService.updateCustomer(formdata,this.customer_id).subscribe(
@@ -230,10 +233,11 @@ customerForm:FormGroup;
     formdata.append('customer_email',this.customerForm.controls['customerEmailFormControl'].value)
     formdata.append('customer_service_bill',this.customerForm.controls['customerServiceBillFormControl'].value)
     formdata.append('customer_address',this.customerForm.controls['customerAddressFormControl'].value)
+    formdata.append('advance_amount',this.customerForm.controls['advanceAmountFormControl'].value)
 
     this.adminService.SaveCustomer(formdata).subscribe(
       (data)=>{
-        this.nbtoastService.success("Employee Saved Successfully")
+        this.nbtoastService.success("Customer Saved Successfully")
         
        this.customerForm.reset();
        this.routes.navigate(["/ManageBooking"])

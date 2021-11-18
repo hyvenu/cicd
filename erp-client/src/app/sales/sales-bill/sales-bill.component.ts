@@ -29,6 +29,7 @@ export class SalesBillComponent implements OnInit {
   searchPhoneNo: string;
   searchCus: string;
   serviceIds = [];
+  advanceAmount:any=0;
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -63,16 +64,16 @@ export class SalesBillComponent implements OnInit {
   selected_product_data: any;
   subtotal: any=0;
   gstTotal:any=0;
-  selectedSubTotal:any;
+  selectedSubTotal:any=0.00;
   selectedGstPercentage:any=0;
   event: any;
-  selectedDiscount:any=0;
+  selectedDiscount:any=0.00;
   grandTotal:any=0;
   customer_id: any;
   product_id: any;
   gstValue: any=0;
   totalGst: any = 0;
-  selectedTotalGst;
+  selectedTotalGst:any=0.00;
   poType: string | Blob="";
   shippingAddress: string | Blob="";
   transportType: string | Blob="";
@@ -94,6 +95,7 @@ export class SalesBillComponent implements OnInit {
   store_name: string;
   user_name: string;
   total_include_tax:any=0;
+  balanceAmount:any=0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -138,6 +140,8 @@ export class SalesBillComponent implements OnInit {
       
       userIdFormControl:['',],
       supervisorIdFormControl:['',],
+      advanceAmountFormControl:['',],
+      balanceAmountFormControl:['',],
 
       
       
@@ -182,6 +186,7 @@ export class SalesBillComponent implements OnInit {
         this.invoiceForm.controls['customerNameFormControl'].setValue(data.customer_name);
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(data.phone_number);
        this.invoiceForm.controls['customerEmailFormControl'].setValue(data.customer_email);
+       this.invoiceForm.controls['advanceAmountFormControl'].setValue(data.advance_amount);
        this.customer_id = data.id;
       //  this.booking_history = this.booking_historys.find(item => item.customer == data.id)
        console.log(data.id)
@@ -250,6 +255,7 @@ export class SalesBillComponent implements OnInit {
        this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
        this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
+       this.invoiceForm.controls['advanceAmountFormControl'].setValue(this.customer_object.advance_amount);
       this.get_bookingHistory(this.customer_object.id)
       
     }
@@ -404,6 +410,12 @@ export class SalesBillComponent implements OnInit {
       this.grandTotal = Math.round(this.selectedTotalGst - this.selectedDiscount)  ;
     }else if(this.selectedDiscount === NaN ){
       this.grandTotal =0;
+    }
+    if(this.advanceAmount > this.grandTotal){
+      this.balanceAmount=0
+    }else{
+      this.balanceAmount =parseFloat( this.grandTotal) - parseFloat(this.advanceAmount)
+      console.log(this.balanceAmount)
     }
 
     // this.calculate_gatVal()

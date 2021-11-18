@@ -55,7 +55,7 @@ $box.prop("checked", false);
                                
             </tr>
             <tr> 
-                 <td colspan="3" style="text-align: center;">Subtotal: <br> <input step="0.1" type="number" nbInput size="small" (change)="calculate_price()" style="width: 10em;"  value="{{subtotal}}"  formControlName="subTotalFormControl"  name="subTotalFormControl" [(ngModel)]="selectedSubTotal" placeholder="Subtotal" ><br>
+                 <td colspan="3" style="text-align: center;">Subtotal: <br> <input step="0.1" type="number" nbInput size="small" (change)="calculate_price()" style="width: 10em;"  [value]="subtotal"  formControlName="subTotalFormControl"  name="subTotalFormControl" [(ngModel)]="selectedSubTotal" placeholder="Subtotal" ><br>
                     <!-- <div class="form-group col-md-2"> 
                         <label >Gst</label>
                         <nb-select name="services"  formControlName="gstCalculateFormControl" [(selected)]="selectedGST" [(ngModel)]="selectedGstEvent"  (Change)="gstCalculation()"   >
@@ -147,7 +147,13 @@ $box.prop("checked", false);
                 <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;" type="number" oninput="validity.valid || (value='')" min="0" [value]="selectedDiscount"  (change)="calculate_price()" nbInput formControlName="discountFormControl" value=0 name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
             </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small"  style="width: 10em;" value="{{grandTotal}}"  step="0.1" nbInput formControlName="grandTotalFormControl" name="grandTotalFormControl" placeholder="Grand Total" readonly></td>
+                <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small"  style="width: 10em;" value="{{grandTotal}}"  step="0.1" nbInput formControlName="grandTotalFormControl" [(ngModel)]="grandTotal" name="grandTotalFormControl" placeholder="Grand Total" readonly></td>
+            </tr>
+            <tr>
+                <td colspan="3"style="text-align: center;">Advance Amount: <br><input size="small"  style="width: 10em;" value="{{advanceAmount}}"  step="0.1" nbInput formControlName="advanceAmountFormControl" [(ngModel)]="advanceAmount" name="advanceAmountFormControl" placeholder="Advance Amount " readonly></td>
+            </tr>
+            <tr>
+                <td colspan="3"style="text-align: center;">Balance Amount: <br><input size="small"  style="width: 10em;" value="{{balanceAmount}}"  step="0.1" nbInput formControlName="balanceAmountFormControl" [(ngModel)]="balanceAmount" name="balanceAmountFormControl" placeholder="Balance Amount " readonly></td>
             </tr>
             <tr>
                 <th colspan="3" style="text-align: center;">PAY</th>
