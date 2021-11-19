@@ -14,6 +14,7 @@ import { MainPipe } from '../pipe.module';
 import { SalesBillComponent } from './sales-bill/sales-bill.component';
 import { InvoicePageComponent } from './invoice-page/invoice-page.component';
 import { SalesDetailsComponent } from './sales-details/sales-details.component';
+import { AmountToWordPipe } from './amount-to-word.pipe';
 
 const routes: Routes = [
   { path: 'OrderList' , component: OrderListComponent,canActivate:[AuthGuard]},
@@ -24,7 +25,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [OrderListComponent, OrderViewComponent, SalesOrderComponent, SalesBillComponent, InvoicePageComponent, SalesDetailsComponent],
+  declarations: [OrderListComponent, OrderViewComponent, SalesOrderComponent, SalesBillComponent, InvoicePageComponent, SalesDetailsComponent,AmountToWordPipe],
   imports: [
     CommonModule,
     ReactiveFormsModule,

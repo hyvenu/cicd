@@ -201,10 +201,10 @@ export class AppComponent implements OnInit {
               title: 'Sales Bill',
               link: 'SalesBill',
             },
-//             {
-//               title: 'Invoice',
-//               link: 'InvoicePage',
-//             }
+            {
+              title: 'Invoice',
+              link: 'InvoicePage',
+            }
           ]
         },
         {

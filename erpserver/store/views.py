@@ -129,7 +129,16 @@ def save_Appointment(request):
 def update_is_paid(request):
     data = request.data
     store_service = StoreService()
-    ap_res = store_service.update(data)
+    ap_res = store_service.update_bill(data)
+    return JsonResponse(ap_res, safe=False)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated, ])
+def update_advance_amount(request):
+    data = request.data
+    store_service = StoreService()
+    ap_res = store_service.update_advance_amount(data)
     return JsonResponse(ap_res, safe=False)
 
 

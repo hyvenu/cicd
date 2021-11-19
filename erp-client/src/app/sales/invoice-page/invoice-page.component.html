@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
 <head>
    
      
@@ -22,18 +22,18 @@
                 <div class="col-md-4">
                     <p> Invoice No:{{invoice_no}}</p>
                     <p>Billing Date:{{invoice_date}}</p>
-                </div>
+                </div> -->
                 <!-- <div class="col-md-4">
                     <p> GstIN:oD231212232</p>
                     <p>PAN:21/2/2019</p>
                 </div> -->
-                
+<!--                 
             </div>
-            <hr>
+            <hr> -->
             <!--  <div id="bill"> -->
-                <div class="form-row" >
+                <!-- <div class="form-row" > -->
                     <!-- <span style="text-align: center;"><h1>Invoice</h1></span> -->
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         Customer Name <br>
                         <h6>{{customer_name}}</h6>
                     
@@ -88,9 +88,9 @@
                     
                     </tbody>
                 
-                </table>
+                </table> -->
             <!-- </div> -->
-            <hr>
+            <!-- <hr>
             <div class="form-row">
                 <div class="col-md-4 text-center">
                     <p>Condition apply please refer to product page</p>
@@ -120,4 +120,829 @@
 
 </body>
 <button class="btn btn-secondary" type="button" printSectionId="print-section" ngxPrint >Print Bill</button>
-</html>
+</html> -->
+
+
+<!-- <div id="bill">
+    <nb-card>
+        <nb-card-header style="text-align: center;font-size: large;"><b >Invoice</b> </nb-card-header>
+        <nb-card-body>
+<table class="table-bordered " >
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <div class="row">
+                   
+                    <div class="col-md-12" style="text-align: left;">
+                        <h3>STICKER</h3>
+                       <!-- &nbsp; <img src="../assets/images/D5N_Logo.jpg"  width="60px" height="60px" alt=""><b><span style="font-weight: 500;text-align: center;">--><b><span><h2>{{store_name}}</h2>
+                        <!-- <h6></h6></span></b> <br>
+                       
+                    </div>
+                    <div style="text-align:center;">
+                        
+                    </div>
+        
+                </div>
+                <div class="row">
+                    <div class="col-md-6" style="text-align: left;">
+                        <p><b>GSTIN:</b> {{gst}}</p>
+                        <p><b>STATE :</b>  Karnataka [29]</p>
+                    </div>
+                    <div class="col-md-6" style="text-align: right;">
+                        <p><b>Email Id:</b> adarsh@Sticker.in</p>
+                        <p><b>Phone No.:</b>  080-23324566</p>
+                    </div>
+                </div>
+            </td>
+         </tr> -->
+         <!-- <tr >
+             <td colspan="3" style="text-align: left;">
+                <h6>Shipping Details (Ship To)</h6>
+                <p><b>Name:</b> </p> 
+                <p><b>Address:</b>  </p>
+                <p> <b>Phone No.</b>  :</p>
+              
+             </td>
+             <td colspan="3" style="text-align: left;">
+                <p> <b>Invoice No.</b>  :{{invoice_no}}</p><br>
+                <p> <b>Billing Date :</b>: {{invoice_date}}  </p><br>
+                 <p><b>Dispatch Doc No:</b> </p><br>
+                <p><b>Date:</b> </p> -->
+             <!-- </td> -->
+             
+             
+         <!-- </tr> -->
+         <!-- <tr  >
+            <td colspan="3" style="text-align: left;">
+               <h6>Billing Details (Bill To)</h6>
+               <p><b>Name:</b>{{customer_name}} </p>
+               <p><b>Address:</b> {{customer_addr}} </p>
+               <p> <b>Phone No.</b>  :</p>
+              
+            </td> -->
+            <!-- <td colspan="3" style="text-align: left;">
+                <p> <b>PO No.</b>  :</p><br>
+                <p> <b>Date :</b>  </p><br>
+                <p><b>Dispatch Doc No:</b> </p><br>
+                <p><b>Date:</b> </p>
+            </td> -->
+        <!-- </tr>
+        <tr >
+            <th><button nbButton size="tiny" (click)="add_items()" status="success">Add</button></th>
+            <th>Product</th>
+                        
+            <th>Qty</th>
+            <th>Price</th>
+            <th>GST%</th>
+            <th>Disc Amount</th>
+            <th>Total</th>
+           
+            
+        </tr>
+        <tr *ngFor = "let item of invoice_details.order_details">
+            <td></td>
+            <td *ngIf="item.service__service_name"><input type="text" [(ngModel)]= "item.service__service_name"></td>
+            <td *ngIf="item.product__product_name"><input type="text" [(ngModel)]= "item.product__product_name">{{item.product__product_name}}</td>
+            
+            <td> <input type="text" style="width: 7em;" [(ngModel)]="item.qty"></td>
+            <td><input type="text" [(ngModel)]="item.unit_price"></td>
+            <td><input type="text" [(ngModel)]="item.gst"></td>
+            <td><input type="text" [(ngModel)]="invoice_details.discount_price"></td>
+            <td><input type="text" [(ngModel)]="item.subtotal_amount"></td>
+           
+            
+            <td></td>
+            
+        </tr>
+        <tr *ngFor="let item of invoice_items; let  i = index">
+            <td><button nbButton (click)="remove_item(item);" status="danger" size="small">X</button></td>
+            
+            <td>
+                <input style="width: 7em;"  [(ngModel)]="item.item_description" readonly />&nbsp;
+            </td>
+            <td>
+                <input style="width: 7em;" [(ngModel)]="item.item_description" readonly />&nbsp;
+            </td>
+            <td>
+                <input style="width: 7em;" [(ngModel)]="item.item_description" readonly />&nbsp;
+            </td>
+            <td>
+                <input style="width: 7em;" [(ngModel)]="item.item_description" readonly />&nbsp;
+            </td>
+            <td>
+                <input style="width: 7em;" [(ngModel)]="item.item_description" readonly />&nbsp;
+            </td>
+            <td>
+                <input style="width: 7em;" [(ngModel)]="item.item_description" readonly />&nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="7"></td>
+        </tr>
+
+        <tr>
+            <td colspan="3" style="visibility: hidden;" >
+                
+                <table class="table-bordered diftab">
+                    <thead> 
+                    <tr>
+                        <th>HSNCODE</th>
+                        <th>TAXABLE AMT</th>
+                        <th>CGST RATE</th>
+                        <th>CGST AMT</th>
+                        <th>SCGST RATE</th>
+                        <th>SCGST AMT</th>
+                        <th>IGST RATE</th>
+                        <th>IGST AMT</th>
+                    </tr>
+               </thead> 
+                 <tbody> 
+                    <tr>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Total</td>
+                        
+                        <td>CGST</td>
+                        <td>0.00</td>
+                        <td>SGST</td>
+                        <td>0.00</td>
+                        <td>IGST</td>
+                        <td>0.00</td>
+                    </tr> 
+                 </tbody>
+                </table> 
+            </td>
+            <td colspan="4" style="text-align: left;">
+                <h6>Total Amount</h6>
+                    
+               
+               
+                
+                
+                <hr>
+                <p style="text-align: left;"><b>Grand Total:</b>  {{grandTotal}}</p>
+             </td>
+            
+
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align: left;"><b>Rupess:</b> {{grandTotal }}</td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                <div class="row">
+                    <div class="col-md-12" style="text-align: left;">
+                        <b><h6>Terms and Conditions</h6></b>
+                        <p>1. All the dispute will be Subject to Bangalore Jurisdiction. <br>
+                            2. In all claims the company decision is final and binding. <br>
+                            3. In case if the payment are not made within due date 24% Interest will be charged p. a. <br>
+                            4. The Warranty commence from the date of Invoice .
+                         </p>
+                      
+                    </div>
+                 
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" style="text-align: left;">
+                <div class="d-flex-1 text-center">
+                    <p>RECEIVED THE MATERIAL IN GOOD CONDITION</p><br>
+                    <p>RECEIVER'S SIGNATURE AND SEAL</p>
+                </div>
+            </td>
+            <td colspan="4" style="text-align: left;">
+                <div class="d-flex-1 text-center">
+                    <p>For <b>STICKER</b></p><br>
+                    <p>Authorised Signatory</p>
+                </div>
+                
+            </td>
+        </tr>
+    </tbody>
+
+
+</table>
+
+
+<hr>
+
+
+</nb-card-body>
+</nb-card>
+</div>
+<button class="btn btn-secondary" type="button" id="print">Print Bill</button> --> 
+
+
+
+  
+<div class="d-flex justify-content-center">Purchase order</div>
+<!-- 
+<div id="bill">
+    <div class="container border border-dark">
+    <nb-card >
+        <nb-card-header style="text-align: center;font-size: large;" class="border-bottom border-dark"  >
+            <div><b >Cognovit Power Solutions pvt ltd</b></div> 
+            <div class="row ">         
+                <div class="col-md-12" style="text-align: left;">
+                   &nbsp; <img src="/assets/images/LOGO.png"  width="60px" height="60px" alt=""><b><span style="font-weight: 500;text-align: center;">
+                    <h2>{{store_name}}</h2>
+                    <h6>{{address}}</h6></span></b> <br>
+                </div>
+                <div style="text-align:center;">
+                    
+                </div>
+    
+            </div>
+            <div class="row">
+                <div class="col-sm-4" style="text-align: right;">
+                    <div class="row"><p><b>GSTIN :</b>29AAFCC5030L1ZK</p></div>
+                   <div class="row"><p><b>STATE :</b>Karnataka [29]</p></div>
+                    
+                </div>
+                <div class="col-sm-4"></div>
+                <div class= "col-sm-4" style="text-align: right;">
+                    <div class="row"><p><b>Email Id :</b>adarsh@D5N.in</p></div>
+                    <div class="row"><p><b>Phone No.:</b>080-23324566</p></div>
+                    
+                </div>
+            </div>
+        </nb-card-header>
+        <nb-card-body >
+            <div class="">
+                <div class="row  border-bottom border-dark p-0 m-0">
+                    <div class="col-6 border-right border-dark p-0">
+                       <b>vendor name</b>
+                       <div class="container">
+                            <div class="row">
+                                <div class="col-sm-2 text-capitalize"><b>Name</b></div>
+                                <div class="col-sm-10 text-uppercase"><b>:Sha</b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2 text-capitalize"><b>Address</b></div>
+                                <div class="col-sm-10 text-capitalize ">
+                                    <div class="d-flex flex-nowrap">
+                                       <b>:</b>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.
+                                    </div>
+                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2 text-capitalize"><b>State</b></div>
+                                <div class="col-sm-6 text-capitalize"><b>:</b>Karnataka </div>
+                                <div class="col-sm-2 text-capitalize"><b>code</b></div>
+                                <div class="col-sm-2 text-capitalize"><b>:</b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2 text-capitalize"><b>phone no</b></div>
+                                <div class="col-sm-8 text-capitalize"><b>:</b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2 text-uppercase"><b>gstin</b></div>
+                                <div class="col-sm-10 text-capitalize"><b>:</b></div>
+                            </div>
+                        </div>  
+                     
+                       
+                        <div class="container">
+                           <div class="d-flex flex-nowrap">
+                              <div class="p-2 bd-highlight"><b>Address</b></div>
+                              <div class="p-2 bd-highlight"> <b>:</b>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit. </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="container">
+                            <div class="row justify-content-end">
+                                <div class="col-sm-1  text-capitalize">
+                                    <b>Date</b> 
+                                </div>
+                                <div class="col-sm-4">
+                                    <b>: </b>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="container mt-2">
+                            <div class="row">
+                                <div class="col-sm-2  text-capitalize"><b>PO no</b></div>
+                                <div class="col-sm-10 text-capitalize"><b>:</b></div>
+                            </div>
+                        </div> 
+                        <div class="container mt-4">
+                            <div class="row">
+                                <div class="col-sm-2 text-capitalize"><b>date</b></div>
+                                <div class="col-sm-10 text-capitalize"><b>:</b></div>
+                            </div>
+                        </div> 
+                        <div class="container mt-4">
+                            <div class="row">
+                                <div class="col-sm-4 text-capitalize"><b>dispatch doc no</b></div>
+                                <div class="col-sm-4 text-capitalize"><b>:</b> </div>
+                                <div class="col-sm-1 text-capitalize"><b>date</b></div>
+                                <div class="col-sm-3 text-capitalize"><b>:</b></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+          
+           
+        </nb-card-body>
+    </nb-card>
+    </div>
+</div>
+ -->
+
+<div id="bill">
+   <div class="container-fluid">      
+      <div class="card border border-dark">
+         <div class="card-header border-bottom ">
+
+<!--             <div class="row">
+                           
+               <div class="col-md-12" style="text-align: left;">
+                  &nbsp; <img src="/assets/images/LOGO.png"  width="60px" height="60px" alt="">
+                  <b>
+                     <span style="text-align: center;">
+                        <h6>{{store_name}}</h6>
+                        <p>{{address}}</p>
+                     </span>
+                  </b>          
+               </div>
+               <div style="text-align:center;">
+                   
+               </div>
+            </div> -->
+            <div class="d-flex justify-content-between">
+               <div class="d-flex-1">
+                  &nbsp; <img src = "/assets/images/Saffaran-Trade-Mark.png" style = "height:56px">
+               </div>
+               <div class="d-flex-1 text-center" >
+                  <h2 class="text-uppercase"><i>{{store_name}}</i></h2>
+                  <p class="text-uppercase"><b>{{address}} - {{store_pincode}}</b></p> 
+                  
+               </div> 
+               <div class="d-flex-1 " ></div>
+            </div>
+            
+             
+            <div class="row">
+               <div class="col-sm-1">
+
+               </div>
+               <div class="col-sm-4">
+                  <div class="row">
+                     <div class="col-sm-4 text-uppercase"><b>gstin</b></div>
+                     <div class="col-sm-8 text-uppercase "><b>:</b> {{gst}}</div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>State</b></div>
+                     <div class="col-sm-8 text-capitalize "><b>:</b> </div>
+                  </div>
+                  <!-- <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>pan no</b></div>
+                     <div class="col-sm-8 text-capitalize "><b>:</b> AAECS0037J</div>
+                  </div> -->
+               </div>
+               <div class="col-sm-1">
+
+               </div>
+               <div class="col-sm-6">
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>email id</b></div>
+                     <div class="col-sm-8  "><b>: </b></div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>TEL</b></div>
+                     <div class="col-sm-8 text-capitalize "><b>: </b></div>
+                  </div>
+
+                <!--   <div class="d-flex flex-nowrap">
+                     <div class="p-2 bd-highlight text-capitalize"><b>email id</b></div>
+                     <div class="p-2 bd-highlight"><b>:</b> shashi@gmail.in</div>
+                  </div>
+                  <div class="d-flex flex-nowrap">
+                     <div class="p-2 bd-highlight text-capitalize"><b>phone no</b></div>
+                     <div class="p-2 bd-highlight "><b>:</b> 080-23324566</div>
+                  </div> -->
+               </div>
+
+            </div>
+            
+         </div>
+
+         <div class="card-body border-top ">
+            <div class="row border-bottom ">
+                <div class="col-sm-6 border-right  ">
+                  <h6 class="text-center"><b>Vendor details</b> </h6>
+                  <div class="row mt-2">
+                     <div class="col-sm-4 text-capitalize"><b>Name</b></div>
+                     <div class="col-sm-8 text-uppercase"><b>:</b></div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>Address</b></div>
+                     <div class="col-sm-8 text-capitalize ">
+                         <div class="d-flex flex-nowrap">
+                            <b>:  </b>
+                         </div>
+                      </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>State</b></div>
+                     <div class="col-sm-4 text-capitalize"><b>:</b> </div>
+                     <div class="col-sm-2 text-capitalize"><b>code</b></div>
+                     <div class="col-sm-2 text-capitalize"><b>:</b>  </div>
+                 </div>
+                 <div class="row ">
+                     <div class="col-sm-4 text-capitalize"><b>phone no</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:</b>  </div>
+                  </div>
+                  <div class="row mt-2">
+                     <div class="col-sm-4 text-uppercase"><b>gstin</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:</b>  </div>
+                  </div>
+               </div>
+               
+               <div class="col-sm-6 ">
+                 <!--  <div class="row justify-content-end">
+                     <div class="col-sm-2  text-capitalize"><b>Date</b></div>
+                     <div class="col-sm-4"><b>: </b> </div>
+                  </div> -->
+                  <div class="row mt-2">
+                     <div class="col-sm-4  text-capitalize"><b>PO no</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:</b>  </div>
+                  </div>
+                  <div class="row mt-2">
+                     <div class="col-sm-4 text-capitalize"><b>PO date</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:</b> </div>
+                  </div>
+                
+                 <!--  <div class="row mt-2">
+                     <div class="col-sm-4 text-capitalize"><b>dispatch doc no</b></div>
+                     <div class="col-sm-2 text-capitalize"><b>:</b>  </div>
+                     <div class="col-sm-2 text-capitalize"><b>date</b></div>
+                     <div class="col-sm-4 text-capitalize"><b>:</b> </div>
+                  </div> -->
+                  
+               </div>
+            </div>
+
+            <!-- <div class="row border-bottom mt-2">
+               <div class="col-sm-6 border-right ">
+                  <h6 class="mt-2 text-center"><b>Shipping details</b> </h6>
+                  <div class="row mt-2">
+                     <div class="col-sm-4 text-capitalize"><b>Name</b></div>
+                     <div class="col-sm-8 text-uppercase"><b>: {{vendor_contact_name}}</b></div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>Address</b></div>
+                     <div class="col-sm-8 text-capitalize ">
+                         <div class="d-flex flex-nowrap">
+                            <b>: {{shipping_address}}</b>
+                         </div>
+                      </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>State</b></div>
+                     <div class="col-sm-4 text-capitalize"><b>:</b> {{state}}</div>
+                     <div class="col-sm-2 text-capitalize"><b>code</b></div>
+                     <div class="col-sm-2 text-capitalize"><b>:</b> {{state_code}} </div>
+                  </div>
+                  <div class="row ">
+                     <div class="col-sm-4 text-capitalize"><b>phone no</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:</b> {{vendor_number}} </div>
+                  </div>
+                  <div class="row mt-2">
+                     <div class="col-sm-4 text-uppercase"><b>gstin</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:</b> {{gst_no}} </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 ">
+                  <div class="row mt-2">
+                     <div class="col-sm-4 text-capitalize"><b>Type of payment</b></div>
+                     <div class="col-sm-8 text-uppercase "><b>:</b>{{payment}}</div>
+                  </div> <br />
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>Shipping Method</b></div>
+                     <div class="col-sm-8 text-uppercase "><b>:</b> {{shipping_method}} </div>
+                  </div> 
+                  <br />
+                
+                  
+               </div>
+            </div>   -->
+
+            <div class="">
+               <table class="table table-sm table-bordered border-primary text-nowrap">
+                     <thead>
+                        <tr >
+                            <th><button nbButton size="tiny" (click)="add_items()" status="success">Add</button></th>
+                            <th>Product</th>
+                                        
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>GST%</th>
+                            <th>Disc Amount</th>
+                            <th>Total</th>
+                           
+                            
+                        </tr>
+                
+                     </thead>
+                     <tbody >
+                        <tr *ngFor = "let item of invoice_details.order_details">
+                            <td></td>
+                            <td *ngIf="item.service__service_name"><input type="text" [(ngModel)]= "item.service__service_name"></td>
+                            <td *ngIf="item.product__product_name"><input type="text" [(ngModel)]= "item.product__product_name"></td>
+                            
+                            <td> <input type="text" style="width: 5em;"  [(ngModel)]="item.qty" readonly></td>
+                            <td><input type="text" style="width: 5em;"   [(ngModel)]="item.unit_price" readonly></td>
+                            <td><input type="text" style="width: 5em;"   [(ngModel)]="item.gst" readonly></td>
+                            <td><input type="text" style="width: 5em;"   [(ngModel)]="invoice_details.discount_price" readonly></td>
+                            <td><input type="text" style="width: 5em;"   [(ngModel)]="item.subtotal_amount" readonly></td>
+                           
+                            
+                            <td></td>
+                            
+                        </tr>
+                        <tr *ngFor="let item of invoice_items; let  i = index">
+                            <td><button nbButton (click)="remove_item(item);" status="danger" size="small">X</button></td>
+                            
+                            <td>
+                                <input     [(ngModel)]="item.item_description"  />&nbsp;
+                            </td>
+                            <td>
+                                <input style="width: 5em;"   [(ngModel)]="item.qty" (change)="calculate_price()"  />&nbsp;
+                            </td>
+                            <td>
+                                <input style="width: 5em;"   [(ngModel)]="item.unit_price" (change)="calculate_price()" />&nbsp;
+                            </td>
+                            <td>
+                                <input style="width: 5em;"   [(ngModel)]="item.gst" (change)="calculate_price()"  />&nbsp;
+                            </td>
+                            <td>
+                                <input style="width: 5em;"   [(ngModel)]="item.discount_price" (change)="calculate_price()" />&nbsp;
+                            </td>
+                            <td>
+                                <input style="width: 5em;"   [(ngModel)]="item.subtotal_amount"   />&nbsp;
+                            </td>
+                        </tr>
+                     </tbody>
+               </table>
+            </div>
+
+            <div class="row">
+            
+               <!-- <div class="col-lg-4 col-sm-5">
+                  <table class="table ">
+                     <tbody>
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">CGST amount</strong> </td>
+                           <td class="right">
+                              <strong class="text-dark">{{cgst}} </strong>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">SGST amount</strong> </td>
+                           <td class="right">
+                              <strong class="text-dark">{{sgst}}</strong>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">IGST amount</strong> </td>
+                           <td class="right">
+                              <strong class="text-dark">{{igst}}</strong>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">packing gst</strong> 
+                           </td>
+                           <td class="right">
+                              <strong class="text-dark">{{packing_gst}}% </strong>
+                           </td>
+                        </tr> 
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">packing amount</strong> </td>
+                           <td class="right">
+                              <strong class="text-dark">{{packing_price}} </strong>
+                           </td>
+                        </tr> 
+                     </tbody>
+                  </table>
+               </div> -->
+               <div class="col-lg-4 col-sm-5 ml-auto">
+                  <table class="table ">
+                     <tbody>
+                       <!--  <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">total basic value </strong>
+                           </td>
+                           <td class="right ">
+                              <strong class="text-dark">{{total_price}} </strong>
+                           </td>
+                        </tr>
+                        <tr>
+                              <td class="left">
+                                 <strong class="text-dark text-capitalize">Discount Amount</strong>
+                              </td>
+                              <td class="right">
+                                 <strong class="text-dark">{{disc_amount}} </strong>
+                              </td>
+                        </tr> -->
+                       <!--  <tr>
+                              <td class="left">
+                                 <strong class="text-dark text-capitalize">Pre tax</strong>
+                              </td>
+                              <td class="right">
+                                 <strong class="text-dark">0 </strong>
+                              </td>
+                        </tr> -->
+                       <!--  <tr>
+                              <td class="left">
+                                 <strong class="text-dark text-capitalize">taxable amount</strong> </td>
+                              <td class="right">
+                                 <strong class="text-dark">{{taxable_price}} </strong>
+                              </td>
+                        </tr> -->
+                       <!--  <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">post tax</strong> </td>
+                           <td class="right">
+                              <strong class="text-dark">0</strong>
+                           </td>
+                        </tr> -->
+                        <!-- <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">CGST amount</strong> </td>
+                           <td class="right">
+                              <strong class="text-dark">{{cgst}} </strong>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">SGST amount</strong> </td>
+                           <td class="right">
+                              <strong class="text-dark">{{sgst}}</strong>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">IGST amount</strong> </td>
+                           <td class="right">
+                              <strong class="text-dark">{{igst}}</strong>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">packing amount</strong> </td>
+                           <td class="right">
+                              <strong class="text-dark">{{packing_price}} </strong>
+                           </td>
+                        </tr> 
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize">packing gst</strong> 
+                           </td>
+                           <td class="right">
+                              <strong class="text-dark">{{packing_gst}}% </strong>
+                           </td>
+                        </tr>  -->
+                       <!--  <tr>
+                           <td class="left"><strong class="text-dark text-capitalize "> </strong></td>
+                           <td class="right"><strong class="text-dark"> </strong></td>
+                        </tr>
+                        <tr>
+                           <td class="left"></td>
+                           <td class="right"></td>
+                        </tr>
+                        <tr class="h-5">
+                           <td class="left" ></td>
+                           <td class="right"></td>
+                        </tr> -->
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize ">grand total</strong> 
+                           </td>
+                           <td class="right">
+                              <strong class="text-dark">{{grandTotal}} </strong>
+                           </td>
+                        </tr>
+                        
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+
+            <div class="row border-top  ">
+               <div class="col-md-12" >
+                  <div class="row">
+                     <div class="col-md-6 text-capitalize">
+                        <b>Amount in words</b> 
+                     </div>
+                     <div class="col-md-6 text-capitalize">
+                        {{grandTotal | amountToWord}}
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="row border-top  ">
+               <div class="col-md-6" style="text-align: left;">
+                  <b><h6>Terms and Conditions</h6></b>
+               <!--    <div class="row mt-2">
+                     <div class="col-md-1">
+                        1.
+                     </div>
+                     <div class="col-md-11">
+                        All the dispute will be Subject to Bangalore Jurisdiction.
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-1">
+                        2.
+                     </div>
+                     <div class="col-md-11">
+                        In all claims the company decision is final and binding.
+                     </div>
+                  </div>
+                  <div class="row ">
+                     <div class="col-md-1">
+                        3. 
+                     </div>
+                     <div class="col-md-11">
+                       In case if the payment are not made within due date 24% Interest will be charged p. a.
+                     </div>
+                  </div>
+                  <div class="row mt-2">
+                     <div class="col-md-1">
+                        4. 
+                     </div>
+                     <div class="col-md-11">
+                       The Warranty commence from the date of Invoice .
+                     </div>
+                  </div>
+                  -->
+               </div>    
+            
+            </div>
+         </div>
+         <div class="card-footer bg-white mb-5">
+            <div class="row ">
+               <div class="col-6 border-right  ">
+                  <div class="d-flex-1 text-left p-0">
+                     <p > <b> Prepared By </b> <b class="text-capitalize"></b> </p>
+                     <p class="mt-5">Authorised Signatory</p>
+                  </div>
+               </div>
+               <div class="col-6">
+                  <div class="d-flex-1 text-center p-0">
+                     <p >For <b class="text-uppercase">Saffran(p) LTD.</b> </p>
+                     <p class="mt-5">Authorised Signatory</p>
+                  </div>
+                 <!--  <div class="d-flex justify-content-center">
+                    
+                  </div> -->
+                  
+               </div>
+            </div>
+         </div>
+         
+      </div>
+      <div class="d-flex justify-content-center">
+         <p><span>*</span> This is a computer generated bill and does not requires signature</p>
+      </div>
+      <div class="d-flex justify-content-start">
+         <p>Powered by Sanadi Technologies-ERP</p>
+      </div>
+   </div>
+</div>
+<div class="container">
+    <button class="btn btn-secondary justify-content-center" type="button" id="print">
+        Print 
+    </button>
+</div> 
+
+
+<!-- <div class="container">
+    <button class="btn btn-secondary justify-content-center" type="button" id="print">
+        Print Bill
+    </button>
+</div> -->
+

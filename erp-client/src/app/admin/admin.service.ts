@@ -85,6 +85,11 @@ export class AdminService {
   public updateIsPaid(data) {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/update_is_paid` , data)
   }
+ 
+
+  public updateAdvanceAmount(data) {
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/update_advance_amount` , data)
+  }
 
   public getAppointmentListOfCalendar(){
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Appointment`,{})

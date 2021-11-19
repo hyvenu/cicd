@@ -30,6 +30,7 @@ export class SalesBillComponent implements OnInit {
   searchCus: string;
   serviceIds = [];
   advanceAmount:any=0;
+  updateAmount: number;
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -413,9 +414,12 @@ export class SalesBillComponent implements OnInit {
     }
     if(this.advanceAmount > this.grandTotal){
       this.balanceAmount=0
+      this.updateAmount = this.advanceAmount - this.grandTotal
+      console.log(this.updateAmount)
     }else{
       this.balanceAmount =parseFloat( this.grandTotal) - parseFloat(this.advanceAmount)
       console.log(this.balanceAmount)
+      this.updateAmount = 0
     }
 
     // this.calculate_gatVal()
@@ -616,6 +620,7 @@ export class SalesBillComponent implements OnInit {
     this.service.savePO(formData).subscribe(
       (data) => {
         this.billPaid()
+        this.advanceAmountUpdate()
         console.log(data)
         this.nbtoastService.success("Invoice Saved Successfully")
         
@@ -645,6 +650,18 @@ export class SalesBillComponent implements OnInit {
       }
     )
 
+  }
+
+  advanceAmountUpdate(){
+    let data = {
+      'advance_amount':this.updateAmount,
+      'id':this.customer_id
+    }
+    this.adminService.updateAdvanceAmount(data).subscribe(
+      data =>{
+        this.nbtoastService.success("amount updated")
+      }
+    )
   }
 
  

@@ -3,7 +3,7 @@ import ast
 from django.db import transaction
 
 from store.models import StoreUser, Store, SiteSettings, AppointmentSchedule, AppointmentForMultipleService, Department, \
-    Employee, StoreServices, Enquiry
+    Employee, StoreServices, Enquiry, Customer
 
 
 class StoreService:
@@ -52,11 +52,11 @@ class StoreService:
 
     @classmethod
     @transaction.atomic
-    def update(self, data):
+    def update_bill(self, data):
 
         service_arr = data['service_id']
         for item in service_arr:
-            app_id =AppointmentForMultipleService.objects.filter(id=item).values('appointment_id')[0]['appointment_id']
+            app_id = AppointmentForMultipleService.objects.filter(id=item).values('appointment_id')[0]['appointment_id']
             AppointmentSchedule.objects.filter(id=app_id).update(is_paid=True)
 
             # if data['is_paid'] == "true":
@@ -65,6 +65,12 @@ class StoreService:
             #     appointment_obj.is_paid = False
             # appointment_obj.save()
 
+    @classmethod
+    @transaction.atomic
+    def update_advance_amount(self, data):
+
+        if 'id' in data:
+            Customer.objects.filter(id=data['id']).update(advance_amount=data['advance_amount'])
 
     @classmethod
     @transaction.atomic
@@ -108,7 +114,7 @@ class StoreService:
                 #     if 'id' in item:
                 #         service = AppointmentForMultipleService.objects.get(id=item['id'])
                 #     else:
-                if 'id' in item and len(item['id']) > 0 :
+                if 'id' in item and len(item['id']) > 0:
                     service = AppointmentForMultipleService.objects.get(id=item['id'])
                 else:
                     service = AppointmentForMultipleService()
@@ -160,7 +166,8 @@ class StoreService:
         return appointment_obj.id
 
     def get_Appointment(self, customer_id):
-        appointment = AppointmentSchedule.objects.filter(customer_id=customer_id, is_paid=False,).exclude(assigned_staff_id__isnull=True).all().values(
+        appointment = AppointmentSchedule.objects.filter(customer_id=customer_id, is_paid=False, ).exclude(
+            assigned_staff_id__isnull=True).all().values(
             'id',
             'customer__id',
             'customer_name',
@@ -333,7 +340,6 @@ class StoreService:
         )
         return list(store_list)
 
-
     def get_employee_list(self):
         employee_list = Employee.objects.all().values(
             'id',
@@ -381,7 +387,6 @@ class StoreService:
             'staff_name',
             'message',
             'call_log',
-
 
         )
         return list(enquiry_list)
