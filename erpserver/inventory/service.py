@@ -106,6 +106,27 @@ class InventoryService:
         #     pass
         return list(product_dict)
 
+    def get_product_by_slno(self, sl_no):
+        product = list(ProductPriceMaster.objects.filter(serial_number=sl_no).all().values(
+            "buy_price",
+            "sell_price",
+            "product",
+            "product__product_name",
+            "unit",
+            "unit__PrimaryUnit",
+            "tax",
+            "unit_price",
+            "qty",
+            "id",
+            "bar_code",
+            "safety_stock_level",
+            "serial_number",
+        ))
+
+        return list(product)
+
+
+
     @classmethod
     def get_product_pack_types(cls, product_id):
         pack_type = ProductPriceMaster.objects.filter(product_id=product_id).all().values(

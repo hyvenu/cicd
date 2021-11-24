@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'src/app/admin/admin.service';
 import { OrderService } from '../order.service';
 import { printDiv } from '../print_div';
+import { AmountToWordPipe } from '../amount-to-word.pipe';
+
 
 @Component({
   selector: 'app-invoice-page',
@@ -27,20 +29,24 @@ export class InvoicePageComponent implements OnInit {
   gst: any;
   invoice_items: any=[];
   store_pincode: any;
+  customer_number: any;
+  pincode: any;
+ 
 
   constructor(private route: ActivatedRoute,
               private orderservice:OrderService,
-              private adminService: AdminService,) { }
+              private adminService: AdminService,
+              ) { }
 
   ngOnInit(): void {
 
     this.store_id = sessionStorage.getItem('store_id');
     console.log(this.store_id)
 
-//     const printBtn: HTMLElement = document.getElementById('print');
-// printBtn.onclick = function () {
-//   printDiv('bill');
-// };
+    const printBtn: HTMLElement = document.getElementById('print');
+printBtn.onclick = function () {
+  printDiv('bill');
+};
 
     let invoice = this.route.snapshot.queryParams['id']
 
@@ -56,6 +62,7 @@ export class InvoicePageComponent implements OnInit {
           this.store_name = this.invoice_details.store__store_name
           this.invoice_no = this.invoice_details.invoice_no
           this.invoice_date= this.invoice_details.po_date
+          this.customer_number = this.invoice_details.customer__phone_number
           this.data = JSON.stringify(data)
           console.log(this.data)
           let da =JSON.parse(this.data)
@@ -85,6 +92,7 @@ export class InvoicePageComponent implements OnInit {
         console.log(this.store_name)
         this.address = data[0].address
         this.gst = data[0].gst_no
+        this.pincode = data[0].pin_code
         console.log(this.gst)
         this.store_pincode = data[0].pincode
       }
@@ -170,21 +178,21 @@ export class InvoicePageComponent implements OnInit {
   }
 
 
-  // CallPrint(bill) {
-  //   var prtContent = document.getElementById(bill);
-  //   var WinPrint = window.open('', '', 'left=0,top=0,width=600,height=400,toolbar=1,scrollbars=1,status=0');
-    // WinPrint.document.write('<html><head><title></title></head>');
-    // WinPrint.document.write('<body style="font-family:verdana; font-size:14px;width:110px;height:200px:" >');
-    // WinPrint.document.write(prtContent.innerHTML);
-    // WinPrint.document.write('</body></html>');
-    // WinPrint.document.close();
-    // WinPrint.focus();
-    // WinPrint.print();
-    // WinPrint.close();
-    //prtContent.innerHTML = "";
-// }
-  // printPage(){
-  //   window.print()
-  // }
+  CallPrint(bill) {
+    var prtContent = document.getElementById(bill);
+    var WinPrint = window.open('', '', 'left=0,top=0,width=600,height=400,toolbar=1,scrollbars=1,status=0');
+    WinPrint.document.write('<html><head><title></title></head>');
+    WinPrint.document.write('<body style="font-family:verdana; font-size:14px;width:110px;height:200px:" >');
+    WinPrint.document.write(prtContent.innerHTML);
+    WinPrint.document.write('</body></html>');
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+    prtContent.innerHTML = "";
+}
+  printPage(){
+    window.print()
+  }
 
 }

@@ -187,6 +187,18 @@ def delete_product_image(request):
         return JsonResponse("Failed to remove", safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def get_product_by_slno(request):
+    inventory_service = InventoryService()
+    data = request.data
+    offer_details = inventory_service.get_product_by_slno(data['serial_number'])
+    if offer_details:
+        return JsonResponse(offer_details, safe=False, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse("Invalid Serial Number", safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_product_stock(request):

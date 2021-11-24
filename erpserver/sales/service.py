@@ -418,6 +418,7 @@ class OrderService:
         sales_order_req.terms_of_delivery = sales_data['terms_of_delivery']
         sales_order_req.note = sales_data['note']
         sales_order_req.sub_total = sales_data['sub_total']
+        sales_order_req.upi_type = sales_data['upi_type']
         sales_order_req.discount_price = sales_data['discount_price']
         sales_order_req.grand_total = sales_data['grand_total']
         sales_order_req.packing_perct = sales_data['packing_perct']
@@ -426,21 +427,25 @@ class OrderService:
         sales_order_req.sgst = sales_data['sgst']
         sales_order_req.cgst = sales_data['cgst']
         sales_order_req.igst = sales_data['igst']
-        if sales_data['card'] == "true":
-            sales_order_req.card = True
-        else:
-            sales_order_req.card = False
-        if sales_data['cash'] == "true":
-            sales_order_req.cash = True
-        else:
-            sales_order_req.cash = False
-        if sales_data['upi'] == "true":
-            sales_order_req.upi = True
-        else:
-            sales_order_req.upi = False
-
+        # if sales_data['card'] == "true":
+        #     sales_order_req.card = True
+        # else:
+        #     sales_order_req.card = False
+        # if sales_data['cash'] == "true":
+        #     sales_order_req.cash = True
+        # else:
+        #     sales_order_req.cash = False
+        # if sales_data['upi'] == "true":
+        #     sales_order_req.upi = True
+        # else:
+        #     sales_order_req.upi = False
+        sales_order_req.balance_amount = sales_data['balance_amount']
+        sales_order_req.advance_amount = sales_data['advance_amount']
+        sales_order_req.amount = sales_data['amount']
+        sales_order_req.change = sales_data['change']
         # sales_order_req.invoice_amount = sales_data['invoice_amount']
         sales_order_req.terms_conditions = sales_data['terms_conditions']
+        sales_order_req.transaction_id = sales_data['transaction_id']
         sales_order_req.user_id = sales_data['user_id']
         sales_order_req.store_id = sales_data['store_id']
         sales_order_req.customer_id = sales_data['customer']
@@ -512,9 +517,6 @@ class OrderService:
             'cgst',
             'igst',
             # 'invoice_amount',
-            "card",
-            "cash",
-            "upi",
             "transaction_id",
             "exchange",
             "cancel_invoice",

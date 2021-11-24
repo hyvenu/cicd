@@ -1,4 +1,5 @@
-   <!-- <nb-tabset>
+
+ <!-- <nb-tabset>
        <nb-tab tabTitle="Invoice"> -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script>
@@ -20,27 +21,35 @@ $box.prop("checked", false);
 }
 });
         </script>
+           
 <nb-card>
     <nb-card-body>
-   <div style="float: left;" [formGroup]="invoiceForm" >
+   <form style="float: left;" [formGroup]="invoiceForm" (ngSubmit)="onSubmit()" >
         <table class="table table-striped" style="width: 50%;border-collapse: collapse;">
             <tr>
                 <div style="float: left;">
                    
-                    <button nbButton status="info" [routerLink]="['/ManageCustomer']">Create Customer</button>
+                    <button type="button" nbButton status="info" [routerLink]="['/ManageCustomer']">Create Customer</button>
                 </div>
                 <th colspan="7" style="text-align: center;">Invoice </th>
                 
             </tr>
             <tr>
                 <td>
-                    <label for="">Customer Name</label><br>
+                    <label for="">Customer Name <span style="color: red;">*</span> </label><br>
                     <input nbInput formControlName="customerNameFormControl" size="small" style="width: 10em;" name="CustomerNameFormControl" placeholder="Customer Name"
-                    (keypress)="open(dialog)" (click)="open(dialog)" ></td>
+                    (keypress)="open(dialog)"
+                    (click)="open(dialog)" readonly     [ngClass]="{ 'is-invalid': submitted && f.customerNameFormControl.errors }" class="form-control" >
+                    <div *ngIf="submitted && f.customerNameFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.customerNameFormControl.errors.required">Customer Name is required</div>
+                    </div></td>
                 <td>
-                    <label for="">Phone Number</label> <br><input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl" (click)="open_phone_list(phone_dialog)"  name="salesNewFormControl" placeholder="Phone Number" ></td>
+                    <label for="">Phone Number<span style="color: red;">*</span></label> <br><input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl"   name="salesNewFormControl" placeholder="Phone Number" (keypress)="open(phone_dialog)"
+                    (click)="open_phone_list(phone_dialog)" ></td>
                 <td ><label for="">Email</label><br>
-                     <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" readonly></td>
+                     <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" readonly
+                     >
+                    </td>
                 <td><input type="hidden" name=""></td>
                
                 
@@ -51,11 +60,12 @@ $box.prop("checked", false);
             <tr >
                 <td rowspan="2" colspan="4" >
                     <label for="">BarCode</label> <br>
-                    <input nbInput size="small" style="width: 10em;" formControlName="barCodeFormControl" name="barCodeFormControl" placeholder="Bar Code" ></td>
+                    <input nbInput size="small" style="width: 10em;" (keydown.enter)="bar_code()"  #focus [(ngModel)]="barcode" formControlName="barCodeFormControl" id="barcode" name="barCodeFormControl" placeholder="Bar Code" ></td>
                                
             </tr>
+            
             <tr> 
-                 <td colspan="3" style="text-align: center;">Subtotal: <br> <input step="0.1" type="number" nbInput size="small" (change)="calculate_price()" style="width: 10em;"  [value]="subtotal"  formControlName="subTotalFormControl"  name="subTotalFormControl" [(ngModel)]="selectedSubTotal" placeholder="Subtotal" ><br>
+                 <td colspan="3" style="text-align: center;">Subtotal: <br> <input step="0.1"  nbInput size="small" (change)="calculate_price()" style="width: 8em;"  value="{{subtotal}}" readonly formControlName="subTotalFormControl"  name="subTotalFormControl" [(ngModel)]="selectedSubTotal" placeholder="Subtotal" ><br>
                     <!-- <div class="form-group col-md-2"> 
                         <label >Gst</label>
                         <nb-select name="services"  formControlName="gstCalculateFormControl" [(selected)]="selectedGST" [(ngModel)]="selectedGstEvent"  (Change)="gstCalculation()"   >
@@ -71,17 +81,17 @@ $box.prop("checked", false);
             </tr>
            
             <tr>
-                <td rowspan="7" colspan="4">
+                <td rowspan="11  " colspan="4">
                     <table class="table table-responsive text-wrap">
                     <thead>
-                        <th><button nbButton size="tiny" (click)="add_items()" status="success">Add</button></th>
+                        <th><button type="button" nbButton size="tiny" (click)="add_items()" status="success">Add</button></th>
                         
                         <th>Item Description</th>
                         <th>Quantity</th>
                         <th>Unit </th>
+                        <th>Unit Price</th>
                         <th>Gst%</th>
-                        <th>Price</th>
-                        <th>gst val</th>
+                        <th>Gst value</th>
                         <th>Item Total</th>
                         
                        
@@ -94,37 +104,38 @@ $box.prop("checked", false);
                                 <input class="form-control form-control-sm" type="text"  name="{{item.item_description}}" [(ngModel)]="item.item_description" placeholder="Item Description"  [ngModelOptions]="{standalone: true}"
                                     style="width: 10em;" (input)="calculate_price()" 
                                     (keypress)="open_product_name(dialog_product,item)"
-                                    (click)="open_product_name(dialog_product,item)" readonly
+                                    (click)="open_product_name(dialog_product,item)" 
                                 />&nbsp;
                             </td>
                             <td>
-                                <input class="form-control form-control-sm" type="text" name="{{item.quantity}}" [(ngModel)]="item.quantity" placeholder="Quantity"  [ngModelOptions]="{standalone: true}"
-                                    value="{{item.quantity}}" (change)="calculate_price()"  size="small" style="width: 4em;"
+                                <input class="form-control form-control-sm" type="text" name="{{item.quantity}}" [(ngModel)]="item.quantity" placeholder="QTY"  [ngModelOptions]="{standalone: true}"
+                                    value="{{item.quantity}}" (change)="calculate_price()"  size="small" style="width: 5em;"
                                     type="number" min="0" 
                                 />&nbsp;
                             </td>
                             <td>
-                                <input class="form-control form-control-sm"   name="{{item.unit}}" [(ngModel)]="item.unit" placeholder="unit"  [ngModelOptions]="{standalone: true}"
-                                value="{{item.unit}}" size="small" oninput="validity.valid || (value='')"  style="width: 4em;" readonly/>&nbsp;
+                                <input class="form-control form-control-sm"   name="{{item.unit_name}}" [(ngModel)]="item.unit_name" placeholder="unit_name"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.unit_name}}" size="small" oninput="validity.valid || (value='')"  style="width: 4em;" readonly/>&nbsp;
                             </td>
                             <td>
-                                <input class="form-control form-control-sm" type="number" min="0"  name="{{item.tax}}" [(ngModel)]="item.tax" placeholder="Gst %"  [ngModelOptions]="{standalone: true}"
-                                value="{{item.tax}}" size="small" oninput="validity.valid || (value='')"  (change)="calculate_price()" style="width: 4em;"/>&nbsp;
+                                <input class="form-control form-control-sm"  min="0"  name="{{item.price}}" [(ngModel)]="item.price" placeholder="Price"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.price}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" />&nbsp;
                                 
                             </td>
                             <td>
-                                <input class="form-control form-control-sm" type="number" min="0"  name="{{item.price}}" [(ngModel)]="item.price" placeholder="Price"  [ngModelOptions]="{standalone: true}"
-                                value="{{item.price}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 6em;" />&nbsp;
+                                <input class="form-control form-control-sm"  min="0" type="number" name="{{item.tax}}" [(ngModel)]="item.tax" placeholder="Gst %"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.tax}}" size="small" oninput="validity.valid || (value='')"  (change)="calculate_price()" style="width: 5em;"/>&nbsp;
+                                
+                            </td>
+   
+                            <td>
+                                <input class="form-control form-control-sm"  min="0"  name="{{item.gst_value}}" [(ngModel)]="item.gst_value" placeholder="val"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.gst_value}}" size="small" step="0.1" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" readonly/>&nbsp;
                                 
                             </td>
                             <td>
-                                <input class="form-control form-control-sm" type="number" min="0"  name="{{item.gst_value}}" [(ngModel)]="item.gst_value" placeholder="val"  [ngModelOptions]="{standalone: true}"
-                                value="{{item.gst_value}}" size="small" step="0.1" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 6em;" readonly/>&nbsp;
-                                
-                            </td>
-                            <td>
-                                <input class="form-control form-control-sm" type="number" min="0"  step="0.1" name="{{item.item_total}}" [(ngModel)]="item.item_total" placeholder="Total"  [ngModelOptions]="{standalone: true}"
-                                value="{{item.item_total}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 6em;" readonly/>&nbsp;
+                                <input class="form-control form-control-sm"  min="0"  step="0.1" name="{{item.item_total}}" [(ngModel)]="item.item_total" placeholder="Total"  [ngModelOptions]="{standalone: true}"
+                                value="{{item.item_total}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" readonly/>&nbsp;
                                 
                             </td>
       
@@ -137,17 +148,25 @@ $box.prop("checked", false);
                     </table>
                 </td>
                 
-                <td colspan="3" style="text-align: center;">Gst: <br><input size="small" style="width: 10em;" step="0.1"  nbInput formControlName="gstFormControl" name="gstFormControl"  value="{{gstValue}}" placeholder="GST" [(ngModel)]="selectedGstPercentage" readonly></td>
+                <td colspan="3" style="text-align: center;">Gst: <br><input size="small" style="width: 8em;" step="0.1"  nbInput formControlName="gstFormControl" name="gstFormControl"  value="{{gstValue}}" placeholder="GST" [(ngModel)]="selectedGstPercentage" readonly></td>
             </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Total:Include GST <br><input size="small" style="width: 10em;" step="0.1"  nbInput value="{{selectedTotalGst}}"  formControlName="gstTotalFormControl" name="salesNewFormControl" placeholder="INR" [(ngModel)]="selectedTotalGst" readonly></td>
+                <td colspan="3"style="text-align: center;">Total:Include GST <br><input size="small" style="width: 8em;" step="0.1"  nbInput value="{{selectedTotalGst}}"  formControlName="gstTotalFormControl" name="salesNewFormControl" placeholder="INR" [(ngModel)]="selectedTotalGst" readonly></td>
                 
              </tr>
+             <!-- <tr>
+                <td colspan="3"style="text-align: center;">Cupon: <br><input size="small" style="width: 8em;" #cupon type="text" oninput="validity.valid || (value='')"    nbInput formControlName="cuponFormControl"  name="cuponFormControl" [(ngModel)]="selectedCupon" (change)="verify_code()"  placeholder="Cupon Code" ><br>
+                    <div>
+                        <strong *ngIf="promo_code_error" style="color: red;">Not a vaild promo code</strong>
+                        <strong *ngIf="promo_code_error == false"  style="color: rgb(21, 255, 0);">Vaild promo code</strong>
+                    </div></td>
+     
+            </tr> -->
             <tr>
-                <td colspan="3"style="text-align: center;">Cupon/Discount: <br><input size="small" style="width: 10em;" type="number" oninput="validity.valid || (value='')" min="0" [value]="selectedDiscount"  (change)="calculate_price()" nbInput formControlName="discountFormControl" value=0 name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
+                <td colspan="3"style="text-align: center;">Discount Amount: <br><input size="small" style="width: 8em;" type="number" oninput="validity.valid || (value='')" min="0" [value]="selectedDiscount"  (ngModelChange)="calculate_price()" nbInput formControlName="discountFormControl" value=0 name="discountFormControl"  [(ngModel)]="selectedDiscount" placeholder="INR" ></td>
             </tr>
             <tr>
-                <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small"  style="width: 10em;" value="{{grandTotal}}"  step="0.1" nbInput formControlName="grandTotalFormControl" [(ngModel)]="grandTotal" name="grandTotalFormControl" placeholder="Grand Total" readonly></td>
+                <td colspan="3"style="text-align: center;">Grand Total: <br><input size="small"  style="width: 8em;" value="{{grandTotal}}"  step="0.1" nbInput formControlName="grandTotalFormControl"  [(ngModel)]="grandTotal" name="grandTotalFormControl" placeholder="Grand Total" readonly></td>
             </tr>
             <tr>
                 <td colspan="3"style="text-align: center;">Advance Amount: <br><input size="small"  style="width: 10em;" value="{{advanceAmount}}"  step="0.1" nbInput formControlName="advanceAmountFormControl" [(ngModel)]="advanceAmount" name="advanceAmountFormControl" placeholder="Advance Amount " readonly></td>
@@ -156,14 +175,50 @@ $box.prop("checked", false);
                 <td colspan="3"style="text-align: center;">Balance Amount: <br><input size="small"  style="width: 10em;" value="{{balanceAmount}}"  step="0.1" nbInput formControlName="balanceAmountFormControl" [(ngModel)]="balanceAmount" name="balanceAmountFormControl" placeholder="Balance Amount " readonly></td>
             </tr>
             <tr>
-                <th colspan="3" style="text-align: center;">PAY</th>
+                <td colspan="3"style="text-align: center;">Amount: <br><input size="small"  style="width: 8em;" value="{{amount}}"  step="0.1" nbInput formControlName="amountFormControl"  [(ngModel)]="amount" name="amountFormControl" (change)="calculate_price()" placeholder="Amount" ></td>
             </tr>
             <tr>
+                <td colspan="3"style="text-align: center;">Change: <br><input size="small"  style="width: 8em;" value="{{change}}"  step="0.1" nbInput formControlName="changeFormControl"  [(ngModel)]="change" name="changeFormControl" placeholder="Change" readonly></td>
+            </tr>
+            <!-- <tr>
+                <th colspan="3" style="text-align: center;">PAY</th>
+            </tr> -->
+            <tr>
+                <td colspan="3" style="text-align: center;">
+                    <label for="event">Payment Method:<span style="color: red;">*</span></label><br>
+                    <nb-select (change)="onEvnetChange($event)" placeholder="Payment Method" name="events"
+                      formControlName="paymentFormControl" [(selected)]="selectedEvents" [(ngModel)]="selectedPayEvents">
+                      <nb-option *ngFor="let e of Events" value="{{e.value}}">{{e.name}}</nb-option>
+                    </nb-select>
+                </td><br>
+               
+            </tr> 
+            <tr></tr>
+            <tr *ngIf="selectedEvents === 'UPI'">
+                <td colspan="3" style="text-align: center;">
+                    <label for="event">UPI Type<span style="color: red;">*</span></label><br>
+                    <nb-select (change)="onEvnetChange($event)" placeholder="UPI Type" name="upitype"
+                      formControlName="upiTypeFormControl"  [(ngModel)]="selectedUpiEvents">
+                      <nb-option *ngFor="let e of Upi" value="{{e.value}}">{{e.name}}</nb-option>
+                    </nb-select>
+                </td><br>
+               
+            </tr> 
+
+            
+            <tr style="text-align: center;" *ngIf="selectedEvents === 'UPI' || selectedEvents === 'CARD' ">
+                <td (change)="onEvnetChange($event)" colspan="3"style="text-align: center;">Transaction Id:<span style="color: red;">*</span> <br><input size="small"  style="width: 14em;" value="{{transaction}}"  step="0.1" nbInput formControlName="TransactionIdFormControl"  [ngClass]="{ 'is-invalid': submitted && f.customerNameFormControl.errors }" class="form-control" [(ngModel)]="transaction" name="TransactionIdFormControl" placeholder="Transaction  Id" >
+                <div *ngIf="submitted && f.TransactionIdFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.TransactionIdFormControl.errors.required">Transaction Id is required</div>
+                    </div></td>
+            </tr>
+   
+            <!-- <tr>
   
                 <td><input type="checkbox" formControlName="cardFormControl" class="radio" value="" [checked]="currentlyChecked === check_box_type.CASH" (click)="selectCheckBox(check_box_type.CASH)"  name="method" id=""> CARD</td>
                 <td><input type="checkbox" formControlName="cashFormControl" class="radio" value="" [checked]="currentlyChecked === check_box_type.CARD" (click)="selectCheckBox(check_box_type.CARD)" name="method" id=""> CASH</td>
                 <td><input type="checkbox" formControlName="upiFormControl" class="radio" value="" [checked]="currentlyChecked === check_box_type.UPI" (click)="selectCheckBox(check_box_type.UPI)" name="method" id=""> UPI</td>
-            </tr>
+            </tr> -->
             <tr >
                 <!-- <td *ngIf="cardChecked" colspan="3" style="text-align: center;"> <input nbInput size="small" style="width: 10em;" formControlName="cardNoFormControl" name="salesNewFormControl" placeholder="Card No" ></td> -->
             </tr>
@@ -176,11 +231,11 @@ $box.prop("checked", false);
                 <th colspan="3" style="text-align: center;">Customer Info</th>
             </tr> -->
             <tr >
-                <td  colspan="7"><input  type="checkbox" formControlName="exchangeFormControl" name="" id=""> <span style="color: blue;">&nbsp;Return/Exchange</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <!-- <td  colspan="7"><input  type="checkbox" formControlName="exchangeFormControl" name="" id=""> <span style="color: blue;">&nbsp;Return/Exchange</span> &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" formControlName="cancelInvoiceFormControl" name="" id=""> <span style="color: red;">&nbsp;Cancel Invoice</span> &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" formControlName="refundFormControl" name="" id=""> <span style="color: green;">&nbsp;Refund</span> 
                 <input type="hidden" name="">
-                </td>
+                </td> -->
                 
                 <!-- <td colspan="3" style="text-align: center;"> 
                         <button nbButton size="small" status="info" >Customer</button>
@@ -206,18 +261,18 @@ $box.prop("checked", false);
                
             </tr> -->
             <tr>
-                <td colspan="4">
+                <!-- <td colspan="4"> -->
                     <!-- <input nbInput size="small" style="width: 10em;" formControlName="storeIdFormControl" name="storeIdFormControl" placeholder="Store Id" >&nbsp; -->
-                    <input nbInput size="small" style="width: 10em;" formControlName="userIdFormControl" name="userIdFormControl" value="{{user_name}}" placeholder="{{user_name}}" >&nbsp;
+                    <!-- <input nbInput size="small" style="width: 10em;" formControlName="userIdFormControl" name="userIdFormControl" value="{{user_name}}" placeholder="{{user_name}}" >&nbsp;
                     <input nbInput size="small" type="hidden" style="width: 10em;" formControlName="supervisorIdFormControl" name="supervisorIdFormControl" placeholder="Supervisor Id" >
-                </td>
+                </td> -->
                 
                 <td colspan="3" style="text-align:center;">
                     <button nbButton status="success" (click)="saveBill()"  size="small" >Save</button>
                 </td>
             </tr>
         </table>
-    </div>
+    </form>
     </nb-card-body>
 </nb-card>
 <!-- </nb-tab>
@@ -228,8 +283,8 @@ $box.prop("checked", false);
       <nb-card-header>Customer List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchCus" /> </nb-card-header>
       <nb-card-body>
         <nb-list>
-            <nb-list-item *ngFor="let item of customer_list | search_filter:'customer_name':searchCus ">
-              <i class="mr-auto mt-2 mt-lg-0">{{ item.customer_name }}-{{item.service__service_name}} </i>              
+            <nb-list-item *ngFor="let item of customer_list| search_filter:'customer_name':searchCus">
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.customer_name }} </i>              
               <button nbButton (click)="ref.close(item)" size="small">Select</button>
             </nb-list-item>
           </nb-list>
@@ -259,12 +314,12 @@ $box.prop("checked", false);
 
 
   <ng-template #dialog_product let-data let-ref="dialogRef">
-    <nb-card size="medium">
-        <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
+    <nb-card size="large" style="width: 500px;">
+        <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchPro" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of product_list| search_filter:'product_name':searchProduct ">
-                    <i class="mr-auto mt-2 mt-lg-0"> {{ item.product_name }}  </i>
+                <nb-list-item *ngFor="let item of product_list | search_filter:'product_name,product_price__qty,product_price__sell_price,product_price__serial_number':searchPro">
+                    <i class="mr-auto mt-2 mt-lg-0"> {{ item.product_name }}-QTY({{item.product_price__qty}}) </i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
             </nb-list>
@@ -274,15 +329,49 @@ $box.prop("checked", false);
         </nb-card-footer>
     </nb-card>
 </ng-template>
+
+<ng-template #dialog_single_product let-data let-ref="dialogRef">
+    <nb-card size="large" style="width: 600px;">
+        <nb-card-header>Product Price List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of multi_product_list |  search_filter:'product__product_name,qty,serial_number,sell_price':searchProduct">
+                    <i class="mr-auto mt-2 mr-2 mt-lg-0"> 
+                    <table class="table">
+                        <tr>
+                            
+                            <th>Product Name</th>
+                            <th>Product Quantity</th>
+                            <th>Serial Number</th>
+                            <th>Sell Price</th>
+                          </tr>
+                          <tr>
+                            <td>{{item.product__product_name}}</td>
+                            <td>{{item.qty}}</td>
+                            <td>{{item.serial_number}}</td>
+                            <td>{{item.sell_price}}</td>
+                          </tr>
+                    </table>    
+                    </i>&nbsp;&nbsp;
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
 
 <ng-template #phone_dialog let-data let-ref="dialogRef">
     <nb-card size="medium">
         <nb-card-header>customer Phone Number <input type="text" nbInput size="small" placeholder="Search .."
-                [(ngModel)]="searchPhoneNo" /> </nb-card-header>
+                [(ngModel)]="searchPh" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of customer_list |search_filter:'phone_number':searchPhoneNo ">
-                    <i class="mr-auto mt-2 mt-lg-0"> {{item.phone_number }}</i>
+                <nb-list-item *ngFor="let item of customer_list |search_filter:'phone_number,customer_name':searchPh ">
+                    <i class="mr-auto mt-2 mt-lg-0"> {{item.phone_number }}-{{item.customer_name}}</i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
             </nb-list>
@@ -293,4 +382,20 @@ $box.prop("checked", false);
     </nb-card>
 </ng-template>
 
-
+<ng-template #barcode_dialog let-data let-ref="dialogRef">
+    <nb-card size="medium">
+        <nb-card-header>Barcode Number <input type="text" nbInput size="small" placeholder="Search .."
+                [(ngModel)]="searchBarCode" /> </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of all_product |search_filter:'serial_number':searchBarCode ">
+                    <i class="mr-auto mt-2 mt-lg-0"> {{item.serial_number }}</i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>

@@ -360,7 +360,6 @@ class StoreService:
             'gender',
             'employee_category',
             'pay_out',
-
             'grade',
             'login_access',
 

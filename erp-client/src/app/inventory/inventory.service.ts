@@ -18,6 +18,10 @@ export class InventoryService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/`, {})
   }
 
+  public get_product_by_slno(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_product_by_slno`, data)
+  }
+  
   public saveCategory(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/`, data)
   }

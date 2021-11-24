@@ -31,6 +31,9 @@ export class SalesBillComponent implements OnInit {
   serviceIds = [];
   advanceAmount:any=0;
   updateAmount: number;
+  submitted: boolean=false;
+  barcode: any;
+  customerName:any
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -47,6 +50,26 @@ export class SalesBillComponent implements OnInit {
     {name:"ExclusiveGst", value:"ExclusiveGst"},
 
   ]
+
+  Upi = [
+    {value:'Phone Pay', name: 'Phone Pay'},
+    {value:'Google Pay', name: 'Google Pay'},
+    {value:'Amazon Pay', name: 'Amazon Pay'},
+    {value:' Others', name: ' Others'},
+
+   
+    // {value:'Long Leave', name: 'Long Leave'},
+  ]
+
+  Events = [
+    {value:'CARD', name: 'CARD'},
+    {value:'CASH', name: 'CASH'},
+    {value:'UPI', name: 'UPI'},
+   
+    // {value:'Long Leave', name: 'Long Leave'},
+  ]
+
+  transaction:any=0;
   selectedGST:any;
   selectedGstEvent:any;
   createFlag = false
@@ -97,6 +120,10 @@ export class SalesBillComponent implements OnInit {
   user_name: string;
   total_include_tax:any=0;
   balanceAmount:any=0;
+  selectedPayEvents:any;
+  selectedEvents:any
+  amount:any=0;
+  change:any=0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -118,7 +145,7 @@ export class SalesBillComponent implements OnInit {
 
     this.invoiceForm = this.formBuilder.group({
       invoiceCodeFormControl:['',],
-      customerNameFormControl:[''],
+      customerNameFormControl: ['',Validators.required],
       barCodeFormControl:['',],
       quantityFormControl:['',],
       subTotalFormControl:['',],
@@ -129,6 +156,7 @@ export class SalesBillComponent implements OnInit {
       cardFormControl:['',],
       cashFormControl:['',],
       upiFormControl:['',],
+      TransactionIdFormControl:['',Validators.required],
       
      
       exchangeFormControl:['',],
@@ -143,6 +171,10 @@ export class SalesBillComponent implements OnInit {
       supervisorIdFormControl:['',],
       advanceAmountFormControl:['',],
       balanceAmountFormControl:['',],
+      amountFormControl:['',],
+      changeFormControl:['',],
+      paymentFormControl:['',],
+      upiTypeFormControl:['',]
 
       
       
@@ -421,6 +453,11 @@ export class SalesBillComponent implements OnInit {
       console.log(this.balanceAmount)
       this.updateAmount = 0
     }
+    if(this.balanceAmount > this.amount){
+      this.change = 0;
+    }else{
+      this.change = (parseFloat(this.amount)-parseFloat(this.balanceAmount) )
+    }
 
     // this.calculate_gatVal()
     // this.calculate_totalGst()
@@ -492,7 +529,7 @@ export class SalesBillComponent implements OnInit {
                     //item.price= parseFloat(sellPrice).toFixed(2),
                     item.price= element.sell_price
                     item.quantity= element.qty ? element.qty : 0,
-                    item.unit=element.unit.PrimaryUnit,
+                    item.unit_name=element.unit.PrimaryUnit,
                     item.tax=element.tax,
                     item.item_total = parseFloat(total).toFixed(2),
                     item.gst_value =  parseFloat(gstVal).toFixed(2)
@@ -515,6 +552,57 @@ export class SalesBillComponent implements OnInit {
     )
 
   }
+
+
+  bar_code(){
+    let serial_no = this.invoiceForm.controls['barCodeFormControl'].value
+    console.log(serial_no)
+    
+    let data = { serial_number:serial_no  }
+    this.inventoryService.get_product_by_slno(data).subscribe(
+      data =>{
+        this.selected_product_data = data
+        console.log(this.selected_product_data)
+        data.forEach(element => {
+          console.log('ele',element)
+          {
+
+           let sellPrice:any = parseFloat(element.unit_price) * element.qty ;
+           let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
+           let total:any = sellPrice + gstVal;
+           if(this.invoice_items.some(item => item.item_description == this.selected_product_data[0].product__product_name)){
+             this.nbtoastService.danger("product name already exist");
+           }else{
+           this.invoice_items.push( {
+              item_id:element.product,
+              booking_id:"",
+              service_id:"",
+               item_description :element.product__product_name,
+               //item.price= parseFloat(sellPrice).toFixed(2),
+               price: element.unit_price,
+               quantity: element.qty ? element.qty : 0.00,
+               unit:element.unit,
+               unit_name:element.unit__PrimaryUnit,
+               tax:element.tax,
+               item_total :parseFloat(total).toFixed(2),
+               gst_value :parseFloat(gstVal).toFixed(2),
+             })
+           }
+           
+         }
+         
+        });
+        console.log(this.invoice_items)
+        this.calculate_price()
+      },
+      (error) => {
+        this.nbtoastService.danger("Invalid Serial Number");
+
+      }
+    )
+      this.barcode = ""
+  }
+
 
 
 
@@ -575,7 +663,7 @@ export class SalesBillComponent implements OnInit {
   saveBill():any {
    
     const formData = new FormData();
-
+    if(this.invoiceForm.controls['customerNameFormControl'].value != "" ){
     formData.append('po_type',this.poType)
     formData.append('pr_number',this.prNumber)
     formData.append('po_raised_by',this.poRaised)
@@ -598,9 +686,13 @@ export class SalesBillComponent implements OnInit {
     
     formData.append('store_id',sessionStorage.getItem('store_id'))
     formData.append('grand_total', this.grandTotal)
-    formData.append('card', this.invoiceForm.controls['cardFormControl'].value);
-    formData.append('cash', this.invoiceForm.controls['cashFormControl'].value);
-    formData.append('upi', this.invoiceForm.controls['upiFormControl'].value);
+    // formData.append('card', this.invoiceForm.controls['cardFormControl'].value);
+    // formData.append('cash', this.invoiceForm.controls['cashFormControl'].value);
+    // formData.append('upi', this.invoiceForm.controls['upiFormControl'].value);
+
+    formData.append('payment_terms',this.invoiceForm.controls['paymentFormControl'].value)
+    formData.append('upi_type',this.invoiceForm.controls['upiTypeFormControl'].value)
+    formData.append('transaction_id', this.invoiceForm.controls['TransactionIdFormControl'].value)
 
     formData.append('customer',this.customer_id)
     
@@ -615,6 +707,11 @@ export class SalesBillComponent implements OnInit {
     formData.append('user_id',this.user_name);
     formData.append('supervisor_id',this.invoiceForm.controls['supervisorIdFormControl'].value);
     formData.append('card_no',this.invoiceForm.controls['cardNoFormControl'].value);
+
+    formData.append('advance_amount',this.invoiceForm.controls['advanceAmountFormControl'].value);
+    formData.append('balance_amount',this.invoiceForm.controls['balanceAmountFormControl'].value);
+    formData.append('amount',this.invoiceForm.controls['amountFormControl'].value);
+    formData.append('change',this.invoiceForm.controls['changeFormControl'].value);
     
     formData.append('invoice_items',JSON.stringify(this.invoice_items));
     this.service.savePO(formData).subscribe(
@@ -635,6 +732,7 @@ export class SalesBillComponent implements OnInit {
        
       }
     )
+    }
   }
 
   billPaid(){
@@ -663,6 +761,24 @@ export class SalesBillComponent implements OnInit {
       }
     )
   }
+
+  get f() { return this.invoiceForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.invoiceForm.invalid) {
+        return;
+    }
+    if (!this.invoiceForm.invalid){
+      return this.submitted = false;
+    }
+
+    
+  
+}
+
 
  
 
