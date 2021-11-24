@@ -333,7 +333,7 @@
         <nb-card-header>State List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchState" /></nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of state | search_filter:'name':searchState ">
+                <nb-list-item *ngFor="let item of state | search_filter:'name,value':searchState ">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.name }}-{{item.value}}</i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>

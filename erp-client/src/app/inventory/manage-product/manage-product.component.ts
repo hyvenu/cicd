@@ -30,7 +30,7 @@ export class ManageProductComponent implements OnInit {
   product_id:any;
   searchCategory:any;
   searchSubCategory:any;
-  
+  searchProduct:any
 
   product_attributes = []
   product_packingtypes = []
@@ -324,10 +324,11 @@ export class ManageProductComponent implements OnInit {
           }else if(!a.serial_number){
             dd=false
             this.nbtoastService.danger('Please Provide Serial Number in Product Packing Types');
-          }else if(!a.tax){
-            dd=false
-            this.nbtoastService.danger('Please Provide Gst% in Product Packing Types');
           }
+          // }else if(!a.tax){
+          //   dd=false
+          //   this.nbtoastService.danger('Please Provide Gst% in Product Packing Types');
+          // }
           else{
             dd=true
           }
@@ -369,7 +370,12 @@ export class ManageProductComponent implements OnInit {
         this.routes.navigate(["/ManageProductMaster"]);
       },
       (error) =>{
-        this.nbtoastService.danger(error.error.detail);
+        if(error === "exist"){
+          this.nbtoastService.danger("Product Name Or Serial Number already"+" "+error);
+          }
+          else{
+            this.nbtoastService.danger(error);
+          }
       }
     )
     }

@@ -171,6 +171,24 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+
+
+    # def validate_account_number(self, value):
+    #     if not value:
+    #         return 0
+    #     try:
+    #         return int(value)
+    #     except ValueError:
+    #         raise serializers.ValidationError('You must supply an integer')
+    #
+    # def validate_salary(self, value):
+    #     if not value:
+    #         return 0
+    #     try:
+    #         return int(value)
+    #     except ValueError:
+    #         raise serializers.ValidationError('You must supply an integer')
+
     class Meta:
         model = models.Employee
         fields = ['id', 'employee_code', 'employee_name', 'phone_number', 'department', 'employee_address',

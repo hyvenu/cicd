@@ -123,3 +123,11 @@
     font-weight: bold;
     line-height: 6px;
 }
+:host::ng-deep ng2-smart-table  small {
+    display: block;
+    white-space: nowrap;
+    width: 10em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+

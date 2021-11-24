@@ -26,9 +26,9 @@
 </form><br>
 <div>
     <nb-card>
-        <nb-card-header>Unit Master List</nb-card-header>
+        <nb-card-header>Unit Master List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchUnit" /></nb-card-header>
         <nb-card-body>
-            <nb-list-item *ngFor="let unit of unitMasterList">
+            <nb-list-item *ngFor="let unit of unitMasterList | search_filter:'PrimaryUnit,SecondaryUnit':searchUnit">
                 <i class="mr-auto mt-2 mt-lg-0">Primary Unit : {{ unit.PrimaryUnit }} -- Secondary Unit : {{ unit.SecondaryUnit }} </i>
                 <button nbButton size="small" (click)="selected_unit(unit)" >Select</button>
               </nb-list-item>

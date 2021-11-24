@@ -55,8 +55,8 @@ export class DesignationComponent implements OnInit {
     if (this.desg_id) {
       formData.append('id', this.desg_id);
       // formData.append('department_id', this.departmentMasterForm.controls['departmentCodeFormControl'].value);
-      formData.append('department_id', this.designationMasterForm.controls['departmentCodeFormControl'].value);
-    formData.append('department_name', this.designationMasterForm.controls['departmentNameFormControl'].value);
+      formData.append('designation_id', this.designationMasterForm.controls['designationCodeFormControl'].value);
+    formData.append('designation_name', this.designationMasterForm.controls['designationNameFormControl'].value);
     // formData.append('active',this.departmentMasterForm.controls['categoryActivateFormControl'].value);
 
     this.sharedService.updateDesignation(formData,this.desg_id).subscribe(
@@ -67,12 +67,9 @@ export class DesignationComponent implements OnInit {
         this.designationMasterForm.reset()
       },
       (error) => {
-        if(error === 400){
-        this.nbtoastService.danger("Designation Name" +error);
-        }
-        else{
+       
           this.nbtoastService.danger(error);
-        }
+        
       }
     );
     }else{

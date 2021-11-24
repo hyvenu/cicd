@@ -16,6 +16,7 @@ export class ManageUnitmasterComponent implements OnInit {
   unitMasterList;
   unit_id;
   submitted: boolean;
+  searchUnit:any
 
   constructor(
     private formBuilder: FormBuilder,

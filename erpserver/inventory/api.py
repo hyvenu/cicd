@@ -58,7 +58,10 @@ class ProductMasterViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        if 'id' in serializer.initial_data:
+            serializer.is_valid(raise_exception=False)
+        else:
+            serializer.is_valid(raise_exception=True)
         inventoryService = InventoryService()
         serializer_data = inventoryService.save_product(serializer)
         headers = self.get_success_headers(serializer.data)

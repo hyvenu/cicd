@@ -95,6 +95,8 @@ export class ManageEmployeeComponent implements OnInit {
   selectedGender:any;
   selectedGrade:any;
   selectedLogin:any;
+  account:any=0;
+  salary:any=0;
   
 
 
@@ -124,21 +126,21 @@ export class ManageEmployeeComponent implements OnInit {
       phoneNumberFormControl:['',[Validators.required,Validators.pattern('^[0-9]{10}$')]],
       departmentFormControl:['',[Validators.required]],
       employeeAddressFormControl:['',[Validators.required]],
-      DOBFormControl:['',[Validators.required]],
-      DOJFormControl:['',[Validators.required]],
-      SalaryFormControl:['',[Validators.required]],
+      DOBFormControl:['',[]],
+      DOJFormControl:['',[]],
+      SalaryFormControl:['',[]],
       jobDesignationFormControl:['',[Validators.required]],
-      adminRightsFormControl:['',[Validators.required]],
-      attendanceIdFormControl:['',[Validators.required]],
-      panCardFormControl:['',[Validators.required]],
-      accountNumberFormControl:['',[Validators.required]],
-      ifscFormControl:['',[Validators.required]],
-      hrmsIdFormControl:['',[Validators.required]],
-      genderFormControl:['',[Validators.required]],
-      employeeCategoryFormControl:['',[Validators.required]],
-      payOutFormControl:['',[Validators.required]],
-      gradeFormControl:['',[Validators.required]],
-      loginAccessFormControl:['',[Validators.required]],
+      adminRightsFormControl:['',[]],
+      attendanceIdFormControl:['',[]],
+      panCardFormControl:['',[Validators.maxLength(10),Validators.minLength(10)]],
+      accountNumberFormControl:['',[]],
+      ifscFormControl:['',[]],
+      hrmsIdFormControl:['',[]],
+      genderFormControl:['',[]],
+      employeeCategoryFormControl:['',[]],
+      payOutFormControl:['',[]],
+      gradeFormControl:['',[]],
+      loginAccessFormControl:['',[]],
 
     })
     let param = this.route.snapshot.queryParams['id'];
@@ -149,13 +151,16 @@ export class ManageEmployeeComponent implements OnInit {
           console.log(data)
           this.employee_id=data.id
            console.log(this.employee_id)
+           this.des_id = data.job_designation
+           console.log(this.des_id)
+           this.dep_id = data.department
+           console.log(data.employee_address);
           this.employeeForm.controls['employeeCodeFormControl'].setValue(data.employee_code);
           this.employeeForm.controls['employeeNameFormControl'].setValue(data.employee_name);
           this.employeeForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
           this.employeeForm.controls['departmentFormControl'].setValue(data.department_name);
           this.employeeForm.controls['employeeAddressFormControl'].setValue(data.employee_address);
-          this.employeeForm.controls['DOBFormControl'].setValue(moment(data.dob));
-          this.employeeForm.controls['DOJFormControl'].setValue(moment(data.doj));
+         
           this.employeeForm.controls['SalaryFormControl'].setValue(data.salary);
           this.employeeForm.controls['jobDesignationFormControl'].setValue(data.designation_name);
           this.employeeForm.controls['adminRightsFormControl'].setValue(data.admin_rights);
@@ -169,10 +174,9 @@ export class ManageEmployeeComponent implements OnInit {
           this.employeeForm.controls['payOutFormControl'].setValue(data.pay_out);
           this.employeeForm.controls['gradeFormControl'].setValue(data.grade);
           this.employeeForm.controls['loginAccessFormControl'].setValue(data.login_access);
-          this.des_id = data.job_designation
-          console.log(this.des_id)
-          this.dep_id = data.department
-          console.log(data.employee_address);
+          this.employeeForm.controls['DOBFormControl'].setValue(moment((data.dob).format("YYYY-MM-DD")));
+          this.employeeForm.controls['DOJFormControl'].setValue(moment(data.doj).format("YYYY-MM-DD"));
+         
    
         }
       )

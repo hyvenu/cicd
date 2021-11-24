@@ -278,7 +278,7 @@
         <nb-card-header>Category List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchCategory" /></nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data | search_filter:'category_name':searchCategory ">
+                <nb-list-item *ngFor="let item of data | search_filter:'category_name,category_code':searchCategory ">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.category_name }} - {{item.category_code }}</i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
@@ -295,7 +295,7 @@
         <nb-card-header>Sub Category List<input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchSubCategory" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data | search_filter:'sub_category_name':searchSubCategory ">
+                <nb-list-item *ngFor="let item of data | search_filter:'sub_category_name,sub_category_code':searchSubCategory ">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.sub_category_name }} - {{item.sub_category_code }}</i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
@@ -326,10 +326,10 @@
 
 <ng-template #product_dialog let-data let-ref="dialogRef">
     <nb-card size="medium">
-        <nb-card-header>Product List </nb-card-header>
+        <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data">
+                <nb-list-item *ngFor="let item of data | search_filter:'product_code,product_name':searchProduct ">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.product_code }} - {{ item.product_name }}  </i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
