@@ -97,6 +97,7 @@ export class ManageEmployeeComponent implements OnInit {
   selectedLogin:any;
   account:any=0;
   salary:any=0;
+  dateValue=""
   
 
 
@@ -174,8 +175,18 @@ export class ManageEmployeeComponent implements OnInit {
           this.employeeForm.controls['payOutFormControl'].setValue(data.pay_out);
           this.employeeForm.controls['gradeFormControl'].setValue(data.grade);
           this.employeeForm.controls['loginAccessFormControl'].setValue(data.login_access);
-          this.employeeForm.controls['DOBFormControl'].setValue(moment((data.dob).format("YYYY-MM-DD")));
-          this.employeeForm.controls['DOJFormControl'].setValue(moment(data.doj).format("YYYY-MM-DD"));
+
+          if(data.dob == null){
+            this.employeeForm.controls['DOBFormControl'].setValue("");
+          }else{
+            this.employeeForm.controls['DOBFormControl'].setValue(moment(data.dob));
+          }
+          if(data.doj == null){
+            this.employeeForm.controls['DOJFormControl'].setValue("");
+          }else{
+            this.employeeForm.controls['DOJFormControl'].setValue(moment(data.doj));
+          }
+          
          
    
         }
@@ -253,7 +264,9 @@ export class ManageEmployeeComponent implements OnInit {
   
 
   saveEmployee(){
-    if(this.employeeForm.valid){
+    console.log(moment(this.employeeForm.controls['DOBFormControl'].value));
+    console.log(moment(this.employeeForm.controls['DOJFormControl'].value).format("YYYY-MM-DD"));
+    
     let formdata = new FormData();
     if(this.employee_id){
 
@@ -263,8 +276,22 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('phone_number',this.employeeForm.controls['phoneNumberFormControl'].value);
     formdata.append('department',this.dep_id);
     formdata.append('employee_address',this.employeeForm.controls['employeeAddressFormControl'].value);
-    formdata.append('dob',this.employeeForm.controls['DOBFormControl'].value);
-    formdata.append('doj',this.employeeForm.controls['DOJFormControl'].value);
+   
+    if(moment(this.employeeForm.controls['DOJFormControl'].value).format("YYYY-MM-DD") == "Invalid date" ){
+      formdata.append('doj',this.dateValue);
+    }else{
+      formdata.append('doj',moment(this.employeeForm.controls['DOJFormControl'].value).format("YYYY-MM-DD"));
+    }
+
+    if(moment(this.employeeForm.controls['DOBFormControl'].value).format("YYYY-MM-DD") == "Invalid date"){
+      formdata.append('dob',this.dateValue);
+    }else{
+      formdata.append('dob',moment(this.employeeForm.controls['DOBFormControl'].value).format("YYYY-MM-DD"));
+    }
+
+   
+    
+    
     formdata.append('salary',this.employeeForm.controls['SalaryFormControl'].value);
     formdata.append('job_designation',this.des_id);
     formdata.append('admin_rights',this.employeeForm.controls['adminRightsFormControl'].value);
@@ -304,8 +331,17 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('phone_number',this.employeeForm.controls['phoneNumberFormControl'].value)
     formdata.append('department',this.dep_id)
     formdata.append('employee_address',this.employeeForm.controls['employeeAddressFormControl'].value)
-    formdata.append('dob',this.employeeForm.controls['DOBFormControl'].value);
-    formdata.append('doj',this.employeeForm.controls['DOJFormControl'].value);
+    if(moment(this.employeeForm.controls['DOJFormControl'].value).format("YYYY-MM-DD") == "Invalid date" ){
+      formdata.append('doj',this.dateValue);
+    }else{
+      formdata.append('doj',moment(this.employeeForm.controls['DOJFormControl'].value).format("YYYY-MM-DD"));
+    }
+
+    if(moment(this.employeeForm.controls['DOBFormControl'].value).format("YYYY-MM-DD") == "Invalid date"){
+      formdata.append('dob',this.dateValue);
+    }else{
+      formdata.append('dob',moment(this.employeeForm.controls['DOBFormControl'].value).format("YYYY-MM-DD"));
+    }
     formdata.append('salary',this.employeeForm.controls['SalaryFormControl'].value);
     formdata.append('job_designation',this.des_id);
     formdata.append('admin_rights',this.employeeForm.controls['adminRightsFormControl'].value);
@@ -337,8 +373,8 @@ export class ManageEmployeeComponent implements OnInit {
     }
     )
     
-  }
-  }
+    }
+  
 
   }
   refresh(){

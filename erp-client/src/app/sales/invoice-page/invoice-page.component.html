@@ -207,8 +207,9 @@
                         <tbody>
                            <tr *ngFor="let item of invoice_details.order_details">
                               <!-- <td></td> -->
-                              <td *ngIf="item.service__service_name">{{item.service__service_name}}</td>
-                              <td *ngIf="item.product__product_name">{{item.product__product_name}}</td>
+                              <!-- <td *ngIf="item.service__service_name">{{item.service__service_name}}</td>
+                              <td *ngIf="item.product__product_name">{{item.product__product_name}}</td> -->
+                              <td>{{item.product_name}}</td>
 
                               <td>{{item.qty}}</td>
                               <td>{{item.unit_price}}</td>

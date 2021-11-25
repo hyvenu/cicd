@@ -101,9 +101,9 @@ $box.prop("checked", false);
                             <td><button nbButton (click)="remove_item(item);" status="danger" size="small">X</button></td>
                             
                             <td>
-                                <input class="form-control form-control-sm" type="text"  name="{{item.item_description}}" [(ngModel)]="item.item_description" placeholder="Item Description"  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm" type="text" #desc  name="{{item.item_description}}" [(ngModel)]="item.item_description"   placeholder="Item Description"  [ngModelOptions]="{standalone: true}"
                                     style="width: 10em;" (input)="calculate_price()" 
-                                    (keypress)="open_product_name(dialog_product,item)"
+                                    (change)="get_value($event,item)"
                                     (click)="open_product_name(dialog_product,item)" 
                                 />&nbsp;
                             </td>

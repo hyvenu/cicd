@@ -124,6 +124,8 @@ export class SalesBillComponent implements OnInit {
   selectedEvents:any
   amount:any=0;
   change:any=0;
+  extra:any;
+ desc:any
 
   constructor(
     private formBuilder: FormBuilder,
@@ -237,6 +239,8 @@ export class SalesBillComponent implements OnInit {
   add_items():any {
     
     const data = {
+      service_id:'',
+      booking_id:'',
       item_id:'',
       item_description:'',
       quantity:'',
@@ -274,6 +278,13 @@ export class SalesBillComponent implements OnInit {
 //    this.calculateGrandTotal();
 //  }
 
+  get_value(event,item){
+    
+    this.desc = event.target.value
+    console.log(`change event be:${this.desc}`)
+    console.log(`change event after: ${item.item_description}`)
+    console.log(`change event ${JSON.stringify(this.invoice_items)}`)
+  }
 
   open(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })

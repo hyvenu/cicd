@@ -464,7 +464,7 @@ class OrderService:
             sales_order_details.service_id = item['service_id']
             sales_order_details.booking_id = item['booking_id']
             # po_product.product_code = item['product_code']
-            # po_product.product_name = item['product_name']
+            sales_order_details.product_name = item['item_description']
             sales_order_details.unit_id = None
             sales_order_details.unit_text = item['unit']
             sales_order_details.qty = item['quantity']
@@ -521,6 +521,7 @@ class OrderService:
             "exchange",
             "cancel_invoice",
             "refund",
+
             "discount_price",
             "grand_total",
             'terms_conditions',
@@ -539,6 +540,7 @@ class OrderService:
             "id",
             # "product__id",
             # # "product_name",
+            "product_name",
             # # "product_code",
             # "unit_id",
             "qty",

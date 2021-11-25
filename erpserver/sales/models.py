@@ -119,7 +119,7 @@ class SalesOrderDetails(AuditUuidModelMixin):
 
     booking = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE, default=None, null=True)
     # product_code = models.CharField(max_length=50, null=True, default=None)
-    # product_name = models.CharField(max_length=255, null=True, default=None)
+    product_name = models.CharField(max_length=255, null=True, default=None)
     unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, null=True)
     qty = models.IntegerField(null=True)
     unit_text = models.CharField(max_length=1000, null=True)

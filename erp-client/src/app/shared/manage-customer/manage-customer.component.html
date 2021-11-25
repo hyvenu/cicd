@@ -16,6 +16,10 @@
                     </div>
                     
                 </div>
+                <div class=" form-group col-md-3">
+                    <label for="active">Active</label>
+                    <input type="checkbox" [(ngModel)]="marked" [checked]="true" formControlName="customerActiveFormControl" id="active" name="active"/>
+                </div>
             </div><br>
             <div class="form-row">
                 <div class="form-group col-md-4">
@@ -33,6 +37,16 @@
                     <div *ngIf="submitted && f.customerEmailFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.customerEmailFormControl.errors.required">Email is required</div>
                         <div *ngIf="f.customerEmailFormControl.errors.email">Email must be a valid email address</div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="storeGst">GST Number </label>
+                    <input type="text" formControlName="gstFormControl" maxlength="15"   placeholder="GST Number" nbInput name="storeGst" 
+                    [ngClass]="{ 'is-invalid': submitted && f.gstFormControl.errors  }" class="form-control" />
+                    <div *ngIf="submitted && f.gstFormControl.errors" class="invalid-feedback">
+                        <!-- <div *ngIf="submitted && f.gstFormControl.errors.required"> Gst Number is Required</div> -->
+                        <div *ngIf="submitted &&  f.gstFormControl.errors.minlength ">Gst number must be 15 numbers </div>
+                        <div *ngIf="submitted &&  f.gstFormControl.errors.maxlength ">Gst number must be 15 numbers </div>
                     </div>
                 </div>
             </div><br>
@@ -88,9 +102,29 @@
        
     </nb-tab>
     <nb-tab tabTitle="Customer List" (clkick)="ngOnInit()">
-        <div class="row">
-            <ng2-smart-table [settings]="setting" [source]="source"></ng2-smart-table>
-            </div>
+       
+
+            <nb-card>
+                <nb-tabset>
+                    <nb-tab tabTitle="Active Customer List">
+                        <div class="row">
+                            <ng2-smart-table [settings]="setting" [source]="source"></ng2-smart-table>
+                            </div>
+                    </nb-tab>
+                
+                </nb-tabset>
+            </nb-card>
+
+            <nb-card>
+                <nb-tabset>
+                    <nb-tab tabTitle="Inactive Customer List">
+                        <div class="row">
+                            <ng2-smart-table [settings]="setting" [source]="source"></ng2-smart-table>
+                            </div>
+                    </nb-tab>
+                
+                </nb-tabset>
+            </nb-card>
     </nb-tab>
    
 </nb-tabset>

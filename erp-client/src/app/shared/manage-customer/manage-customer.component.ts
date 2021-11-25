@@ -96,7 +96,8 @@ export class ManageCustomerComponent implements OnInit {
     },
   };
   createdFlag=false;
-  advance:any=0
+  advance:any=0;
+  marked:boolean=true;
 
 
 customerForm:FormGroup;
@@ -137,6 +138,8 @@ customerForm:FormGroup;
       customerServiceBillFormControl:['',[Validators.required]],
       customerAddressFormControl:['',[]],
       advanceAmountFormControl:['',[]],
+      gstFormControl: ['',[Validators.minLength(15),Validators.maxLength(15)]],
+      customerActiveFormControl:['',],
 
     })
 
@@ -155,6 +158,7 @@ customerForm:FormGroup;
           this.customerForm.controls['customerAddressFormControl'].setValue(data.customer_address);
           this.customerForm.controls['customerServiceBillFormControl'].setValue(data.customer_service_bill);
           this.customerForm.controls['advanceAmountFormControl'].setValue(data.advance_amount);
+          this.customerForm.controls['gstFormControl'].setValue(data.gst);
          
           this.adminService.getBookinHistory(param).subscribe(
             (data) => {
@@ -208,6 +212,7 @@ customerForm:FormGroup;
     formdata.append('customer_service_bill',this.customerForm.controls['customerServiceBillFormControl'].value)
     formdata.append('customer_address',this.customerForm.controls['customerAddressFormControl'].value)
     formdata.append('advance_amount',this.customerForm.controls['advanceAmountFormControl'].value)
+    formdata.append('gst',this.customerForm.controls['gstFormControl'].value)
 
     
     this.adminService.updateCustomer(formdata,this.customer_id).subscribe(
@@ -234,6 +239,7 @@ customerForm:FormGroup;
     formdata.append('customer_service_bill',this.customerForm.controls['customerServiceBillFormControl'].value)
     formdata.append('customer_address',this.customerForm.controls['customerAddressFormControl'].value)
     formdata.append('advance_amount',this.customerForm.controls['advanceAmountFormControl'].value)
+    formdata.append('gst',this.customerForm.controls['gstFormControl'].value)
 
     this.adminService.SaveCustomer(formdata).subscribe(
       (data)=>{
