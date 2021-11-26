@@ -19,6 +19,8 @@ export class PurchaseRequisitionComponent implements OnInit {
 
   @ViewChild('date')
   myInputVariable: ElementRef;
+  @ViewChild('requiredDate')
+  requiredDate: ElementRef;
   IsPRInfo: boolean;
   prForm: FormGroup;
   dailog_ref;
@@ -42,6 +44,7 @@ export class PurchaseRequisitionComponent implements OnInit {
   current_date :any = new Date();
   expiry_date: Date;
   date:boolean=false;
+  flag:boolean=true;
   
 
   constructor(private formBuilder: FormBuilder,
@@ -93,7 +96,7 @@ export class PurchaseRequisitionComponent implements OnInit {
 
     let param1 = this.route.snapshot.queryParams["id"];
     if (param1) {
-      
+      this.flag = false
       this.purchaseService.getPRDetails(param1).subscribe((data) => {
         console.log(data)
         this.pr_id = data.id
@@ -126,27 +129,31 @@ export class PurchaseRequisitionComponent implements OnInit {
     this.inventoryService.getProductList().subscribe(
       (data) => {
         this.product_list = data;
+        console.log(data)
       },
       (error) => {
         this.nbtoastService.danger(error, "Error")
       }
     );
-
-      this.onChange()
+      
+        // this.onChange()
+      
+      
   }
 
-  onChange(){
-    this.prForm.controls['prDateFormControl'].valueChanges.subscribe(
-      (data)=> {  
-        console.log(new Date(data))
-        this.dateofdata = new Date(data)
+  onChange(date){
+    
+        console.log(new Date(date))
+        this.dateofdata = new Date(date)
         console.log(this.dateofdata)
         console.log(this.current_date)
         if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
           this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+          this.myInputVariable.nativeElement.value = "";
+          
         }
 
-      })
+     
      
     }
 
@@ -159,14 +166,12 @@ export class PurchaseRequisitionComponent implements OnInit {
         console.log(this.current_date)
         if(moment(dd).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
           this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
-          this.myInputVariable.nativeElement.value = "";
+          this.requiredDate.nativeElement.value = "";
           this.date=true
         }
       }
 
-      dateRes(item){
-
-      }
+   
 
   toggle(event) {
     this.checked = event.target.checked;
@@ -193,6 +198,7 @@ export class PurchaseRequisitionComponent implements OnInit {
           description: '',
           store: this.store_name,
           required_qty: data.product_price__qty,
+          finished_qty:0,
           unit: data.product_price__unit,
           unit_name:this.unit_name,
           // unit_price:data.product_price__unit_price,
@@ -241,19 +247,27 @@ export class PurchaseRequisitionComponent implements OnInit {
     );
   }
 
-  delete(item): any {
+  delete(id,item): any {
     const formData = new FormData()
-    formData.append('id', item.id);
+    formData.append('id', id);
+    if(id !== ""){
     this.purchaseService.deleteProductFromPR(formData).subscribe(
       (data) => {
         this.nbtoastService.success("Product deleted from PR Successfully, Product code is : " + data)
-        this.ngOnInit();
+        this.selected_product_list = this.selected_product_list.filter(item =>
+          item.id != id
+        )
         
       },
       (error) => {
         this.nbtoastService.danger("unable to remove products");
       }
-    );
+    )   }else{
+      const index: number = this.selected_product_list.indexOf(item);
+      if (index !== -1) {
+          this.selected_product_list.splice(index, 1);
+      } 
+    }
   }
 
   remove_item(item): void{
@@ -331,6 +345,10 @@ export class PurchaseRequisitionComponent implements OnInit {
       }
     }
 
+  }
+
+  print(){
+    this.routes.navigateByUrl("/PrInvoice?id=" +this.pr_id)
   }
 
  

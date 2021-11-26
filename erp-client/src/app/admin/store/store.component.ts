@@ -52,6 +52,8 @@ export class StoreComponent implements OnInit {
       {
         storeNameFormControl: ['',[Validators.required]],
         storeAddressFormControl: ['',[Validators.required]],
+        storePhoneNumberFormControl:['',[Validators.required,Validators.pattern('^[0-9]{10}$')]],
+        storeEmailFormControl:['',[Validators.required,Validators.email]],
         storePinCodeFormControl: ['',[Validators.required,Validators.pattern('^[0-9]{6}$')]],
         storeCityFormControl: ['',[Validators.required]],
         gstFormControl: ['',[Validators.required,Validators.minLength(15),Validators.maxLength(15)]],
@@ -70,6 +72,8 @@ export class StoreComponent implements OnInit {
           this.storeForm.controls['storeCityFormControl'].setValue(data.city);
           this.storeForm.controls['gstFormControl'].setValue(data.gst_no);
           this.storeForm.controls['mainBranchFormControl'].setValue(data.is_head_office);
+          this.storeForm.controls['storePhoneNumberFormControl'].setValue(data.store_number);
+          this.storeForm.controls['storeEmailFormControl'].setValue(data.email);
 
         },
         (error) =>{
@@ -87,6 +91,8 @@ export class StoreComponent implements OnInit {
     if (this.storeForm.dirty && this.storeForm.valid){
       let formData = new FormData()
       formData.append("store_name",this.storeForm.get(['storeNameFormControl']).value);
+      formData.append("store_number",this.storeForm.get(['storePhoneNumberFormControl']).value);
+      formData.append("email",this.storeForm.get(['storeEmailFormControl']).value);
       formData.append("address",this.storeForm.get(['storeAddressFormControl']).value);
       formData.append("pin_code",this.storeForm.get(['storePinCodeFormControl']).value);
       formData.append("city",this.storeForm.get(['storeCityFormControl']).value);
@@ -112,6 +118,8 @@ export class StoreComponent implements OnInit {
       let formData = new FormData()      
       formData.append("store_name",this.storeForm.controls['storeNameFormControl'].value);
       formData.append("address",this.storeForm.controls['storeAddressFormControl'].value);
+      formData.append("store_number",this.storeForm.get(['storePhoneNumberFormControl']).value);
+      formData.append("email",this.storeForm.get(['storeEmailFormControl']).value);
       formData.append("pin_code",this.storeForm.controls['storePinCodeFormControl'].value);
       formData.append("city",this.storeForm.controls['storeCityFormControl'].value);
       formData.append("gst_no",this.storeForm.controls['gstFormControl'].value);

@@ -28,7 +28,7 @@ import { GrnListComponent } from './grn-list/grn-list.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { PurchaseInvoicePageComponent } from './purchase-invoice-page/purchase-invoice-page.component';
 import { AmountToWordPipe } from './amount-to-word.pipe';
-
+import { PrInvoiceComponent } from './pr-invoice/pr-invoice.component';
 
 const routes: Routes = [
    { path: 'ManageVendor' , component: ManageVendorComponent,canActivate:[AuthGuard]},
@@ -40,10 +40,11 @@ const routes: Routes = [
    { path: 'ManageGrn', component:ManageGrnComponent, canActivate:[AuthGuard]},
    { path: 'GrnList', component:GrnListComponent, canActivate:[AuthGuard]},
    { path: 'PurchaseInvoicePage', component:PurchaseInvoicePageComponent, canActivate:[AuthGuard]},
+   { path: 'PrInvoice' , component:PrInvoiceComponent, canActivate:[AuthGuard]},
 ];
 
 @NgModule({
-  declarations: [ManageVendorComponent,VendorListComponent, PurchaseRequisitionComponent, PurchaseRequisitionListComponent, ManageGrnComponent, PurchaseOrderComponent, PurchaseOrderListComponent, GrnListComponent, PurchaseInvoicePageComponent, AmountToWordPipe],
+  declarations: [ManageVendorComponent,VendorListComponent, PurchaseRequisitionComponent, PurchaseRequisitionListComponent, ManageGrnComponent, PurchaseOrderComponent, PurchaseOrderListComponent, GrnListComponent, PurchaseInvoicePageComponent,AmountToWordPipe, PrInvoiceComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

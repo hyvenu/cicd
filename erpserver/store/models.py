@@ -11,7 +11,9 @@ User = get_user_model()
 
 class Store(AuditUuidModelMixin):
     store_name = models.CharField(max_length=255, null=False)
+    store_number = models.CharField(max_length=255, null=False)
     address = models.TextField(max_length=500, null=False)
+    email = models.CharField(max_length=255, null=False)
     city = models.CharField(max_length=100, null=True, blank=False)
     pin_code = models.CharField(max_length=10, null=True, blank=False)
     gst_no = models.CharField(max_length=50, null=True, blank=False)
@@ -117,7 +119,7 @@ class Customer(AuditUuidModelMixin):
     phone_number = models.CharField(max_length=30, null=True, default=None, unique=True)
     customer_email = models.CharField(max_length=255, default=None)
     customer_service_bill = models.CharField(max_length=255, default="")
-    customer_address = models.CharField(max_length=255, default="", null=True)
+    customer_address = models.CharField(max_length=255, default="",blank=True, null=True)
     advance_amount = models.BigIntegerField(null=True)
     gst = models.CharField(max_length=255, default="", null=True)
     active = models.BooleanField(null=True,default=True)

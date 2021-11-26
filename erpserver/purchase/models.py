@@ -46,6 +46,8 @@ class PoOrderDetails(AuditUuidModelMixin):
     product_name = models.CharField(max_length=255, null=True, default=None)
     unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE,default="")
     qty = models.IntegerField()
+    order_qty = models.IntegerField(default=0)
+    finished_qty = models.IntegerField(default=0)
     delivery_date = models.DateField(null=True)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -54,6 +56,10 @@ class PoOrderDetails(AuditUuidModelMixin):
     disc_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    status = models.BooleanField(default=False, null=True)
+    rejected_qty = models.IntegerField(null=True, default=0)
+    accepted_qty = models.IntegerField(null=True, default=0)
+
     class Meta:
         pass
 
@@ -84,6 +90,7 @@ class PurchaseRequisitionProductList(AuditUuidModelMixin):
     store = models.CharField(max_length=50, null=True)
     store_obj = models.ForeignKey(Store, on_delete=models.CASCADE, null=True, related_name="store_pr")
     required_qty = models.IntegerField(null=True, default=0)
+    finished_qty = models.IntegerField(null=True, default=0)
     unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, default="",related_name="purchase_requisition_unit")
     expected_date = models.DateField(null=True)
     active = models.BooleanField(default=True)
@@ -93,6 +100,7 @@ class PurchaseRequisitionProductList(AuditUuidModelMixin):
 
 
 class GRNMaster(AuditUuidModelMixin):
+    po = models.ForeignKey(POOrderRequest, null=True, blank=True, on_delete=models.CASCADE, related_name="po")
     grn_code = models.CharField(max_length=50)
     grn_date = models.DateField(null=True)
     grn_status = models.CharField(max_length=50, null=True, default=None)

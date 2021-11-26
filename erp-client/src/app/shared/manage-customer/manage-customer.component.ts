@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { AdminService } from 'src/app/admin/admin.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage-customer',
@@ -71,6 +72,48 @@ export class ManageCustomerComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
+      delete: false,   
+      custom: [
+        {
+          name: 'delete',
+          title: '<i style="color:red" class="fa fa-trash"></i>',
+        },
+      ],   
+      },
+      
+    columns: {
+      id: {
+        title: 'id',
+        hide:true
+      },
+      customer_code: {
+        title: 'Customer Code',        
+        type: 'html',
+        valuePrepareFunction: (cell, row) => {
+          return `<a href="ManageCustomer?id=${row.id}">${row.customer_code}</a>`;
+        }
+      },
+      customer_name: {
+        title: 'Customer Name',
+      },
+      phone_number:{
+        title: 'Phone Number',
+      },
+    
+ 
+    },
+  };
+
+
+
+  inactive:[];
+
+
+  inSetting = {
+    // selectMode: 'multi',
+    actions: {
+      add: false,
+      edit: false,
       delete: false,      
       },
     columns: {
@@ -95,6 +138,7 @@ export class ManageCustomerComponent implements OnInit {
  
     },
   };
+
   createdFlag=false;
   advance:any=0;
   marked:boolean=true;
@@ -159,7 +203,7 @@ customerForm:FormGroup;
           this.customerForm.controls['customerServiceBillFormControl'].setValue(data.customer_service_bill);
           this.customerForm.controls['advanceAmountFormControl'].setValue(data.advance_amount);
           this.customerForm.controls['gstFormControl'].setValue(data.gst);
-         
+          this.customerForm.controls['customerActiveFormControl'].setValue(data.active);
           this.adminService.getBookinHistory(param).subscribe(
             (data) => {
               this.data = data;
@@ -175,8 +219,6 @@ customerForm:FormGroup;
 
     });
     }
-
-
     this.adminService.getViewbookingList().subscribe(
       (data) => {
         this.data = data;
@@ -187,9 +229,33 @@ customerForm:FormGroup;
       }
     )
 
+    
+    this.active_customer()
+    
+    this.inactive_customer()
+
+    
+  }
+
+  active_customer(){
     this.adminService.getCustomerList().subscribe(
       (data)=>{
-        this.source = data;
+        this.source = data.filter(item => item.active === true);
+      },
+      (error) => {
+        this.nbtoastService.danger("Unable to get customer List")
+      } 
+
+    )
+   
+
+  }
+
+  inactive_customer(){
+
+    this.adminService.getCustomerList().subscribe(
+      (data)=>{
+        this.inactive = data.filter(item => item.active === false);
       },
       (error) => {
         this.nbtoastService.danger("Unable to get customer List")
@@ -197,9 +263,28 @@ customerForm:FormGroup;
 
     )
 
+
+
+  }
+
+
+
+  delete_customer(id){
+    this.adminService.deleteCustomer(id).subscribe((data) =>
+      {
+        this.active_customer()
+        this.inactive_customer()
+        this.nbtoastService.success("customer Deleted Successfully")
+       this.ngOnInit()
+      })
+  }
+
+  onCustom(event) {
+    this.delete_customer(event.data.id);
   }
 
   saveCustomer(){
+    console.log(this.customerForm.controls['customerActiveFormControl'].value)
     if(this.customerForm.valid){
     let formdata = new FormData();
     if(this.customer_id){
@@ -213,6 +298,7 @@ customerForm:FormGroup;
     formdata.append('customer_address',this.customerForm.controls['customerAddressFormControl'].value)
     formdata.append('advance_amount',this.customerForm.controls['advanceAmountFormControl'].value)
     formdata.append('gst',this.customerForm.controls['gstFormControl'].value)
+    formdata.append('active',this.customerForm.controls['customerActiveFormControl'].value)
 
     
     this.adminService.updateCustomer(formdata,this.customer_id).subscribe(
@@ -240,6 +326,7 @@ customerForm:FormGroup;
     formdata.append('customer_address',this.customerForm.controls['customerAddressFormControl'].value)
     formdata.append('advance_amount',this.customerForm.controls['advanceAmountFormControl'].value)
     formdata.append('gst',this.customerForm.controls['gstFormControl'].value)
+    formdata.append('active',this.customerForm.controls['customerActiveFormControl'].value)
 
     this.adminService.SaveCustomer(formdata).subscribe(
       (data)=>{

@@ -47,6 +47,8 @@ class StoreService:
             'city',
             'pin_code',
             'gst_no',
+            'store_number',
+            'email',
         )
         return list(store)
 

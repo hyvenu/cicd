@@ -57,7 +57,9 @@ class StoreSerializer(serializers.ModelSerializer):
             "city",
             "pin_code",
             "gst_no",
-            "is_head_office"
+            "is_head_office",
+            "email",
+            "store_number",
         ]
 
 
@@ -162,6 +164,8 @@ class CustomerSerializer(serializers.ModelSerializer):
                   'customer_email',
                   'customer_service_bill',
                   'customer_address',
+                  'gst',
+                  'active',
                   'advance_amount']
 
     def create(self, validated_data):

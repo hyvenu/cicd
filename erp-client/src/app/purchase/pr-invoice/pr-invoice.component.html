@@ -1,6 +1,5 @@
-
   
-<div class="d-flex justify-content-center">Purchase order</div>
+<div class="d-flex justify-content-center"><h6 class="text-center"><b>Purchase Requisition details</b> </h6></div>
 <!-- 
 <div id="bill">
     <div class="container border border-dark">
@@ -160,10 +159,7 @@
                      <div class="col-sm-4 text-uppercase"><b>gstin</b></div>
                      <div class="col-sm-8 text-uppercase "><b>:</b> {{store_gst}}</div>
                   </div>
-                  <div class="row">
-                     <div class="col-sm-4 text-capitalize"><b>State</b></div>
-                     <div class="col-sm-8 text-capitalize "><b>:</b> KARNATAKA [{{state_code}}]</div>
-                  </div>
+                 
                   <!-- <div class="row">
                      <div class="col-sm-4 text-capitalize"><b>pan no</b></div>
                      <div class="col-sm-8 text-capitalize "><b>:</b> AAECS0037J</div>
@@ -199,48 +195,41 @@
          <div class="card-body border-top ">
             <div class="row border-bottom ">
                 <div class="col-sm-6 border-right  ">
-                  <h6 class="text-center"><b>Vendor details</b> </h6>
+                  
                   <div class="row mt-2">
-                     <div class="col-sm-4 text-capitalize"><b>Name</b></div>
-                     <div class="col-sm-8 text-uppercase"><b>: {{vendor_name}}</b></div>
+                     <div class="col-sm-4 text-capitalize"><b>User</b></div>
+                     <div class="col-sm-8 text-uppercase"><b>: {{pr_user}} </b></div>
                   </div>
-                  <div class="row">
-                     <div class="col-sm-4 text-capitalize"><b>Address</b></div>
+                  <div class="row mt-2">
+                     <div class="col-sm-4 text-capitalize"><b>Department</b></div>
                      <div class="col-sm-8 text-capitalize ">
                          <div class="d-flex flex-nowrap">
-                            <b>:  {{vendor_address}}</b>
+                            <b>: {{dep_name}} </b>
                          </div>
                       </div>
                   </div>
-                  <br />
-                  <div class="row">
-                     <div class="col-sm-4 text-capitalize"><b>State</b></div>
-                     <div class="col-sm-4 text-capitalize"><b>:</b> {{state}} </div>
-                     <div class="col-sm-2 text-capitalize"><b>code</b></div>
-                     <div class="col-sm-2 text-capitalize"><b>:</b> {{state_code}} </div>
-                 </div>
-                 <div class="row ">
-                     <div class="col-sm-4 text-capitalize"><b>phone no</b></div>
-                     <div class="col-sm-8 text-capitalize"><b>:</b> {{vendor_number}} </div>
-                  </div>
+                  
                   <div class="row mt-2">
-                     <div class="col-sm-4 text-uppercase"><b>gstin</b></div>
-                     <div class="col-sm-8 text-capitalize"><b>:</b> {{gst_no}} </div>
-                  </div>
+                     <div class="col-sm-4 text-capitalize"><b>PR Status</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>: {{pr_status}}</b>  </div>
+                     
+                 </div>
+               
+                 
                </div>
                
                <div class="col-sm-6 ">
                  <!--  <div class="row justify-content-end">
                      <div class="col-sm-2  text-capitalize"><b>Date</b></div>
-                     <div class="col-sm-4"><b>: </b> </div>
+                     <div class="col-sm-4"><b>: {{pr_date}}</b> </div>
                   </div> -->
                   <div class="row mt-2">
-                     <div class="col-sm-4  text-capitalize"><b>PO no</b></div>
-                     <div class="col-sm-8 text-capitalize"><b>:</b> {{po_number}} </div>
+                     <div class="col-sm-4  text-capitalize"><b>PR Number</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:{{pr_no}}</b>  </div>
                   </div>
                   <div class="row mt-2">
-                     <div class="col-sm-4 text-capitalize"><b>PO date</b></div>
-                     <div class="col-sm-8 text-capitalize"><b>:</b> {{po_date}}</div>
+                     <div class="col-sm-4 text-capitalize"><b>PR Date</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:{{pr_date}}</b> </div>
                   </div>
                 
                  <!--  <div class="row mt-2">
@@ -251,83 +240,35 @@
                   </div> -->
                   
                </div>
-            </div>
+            </div><br><br>
 
-            <div class="row border-bottom mt-2">
-               <div class="col-sm-6 border-right ">
-                  <h6 class="mt-2 text-center"><b>Shipping details</b> </h6>
-                  <div class="row mt-2">
-                     <div class="col-sm-4 text-capitalize"><b>Name</b></div>
-                     <div class="col-sm-8 text-uppercase"><b>: {{vendor_contact_name}}</b></div>
-                  </div>
-                  <div class="row">
-                     <div class="col-sm-4 text-capitalize"><b>Address</b></div>
-                     <div class="col-sm-8 text-capitalize ">
-                         <div class="d-flex flex-nowrap">
-                            <b>: {{shipping_address}}</b>
-                         </div>
-                      </div>
-                  </div>
-                  <br />
-                  <div class="row">
-                     <div class="col-sm-4 text-capitalize"><b>State</b></div>
-                     <div class="col-sm-4 text-capitalize"><b>:</b> {{state}}</div>
-                     <div class="col-sm-2 text-capitalize"><b>code</b></div>
-                     <div class="col-sm-2 text-capitalize"><b>:</b> {{state_code}} </div>
-                  </div>
-                  <div class="row ">
-                     <div class="col-sm-4 text-capitalize"><b>phone no</b></div>
-                     <div class="col-sm-8 text-capitalize"><b>:</b> {{vendor_number}} </div>
-                  </div>
-                  <div class="row mt-2">
-                     <div class="col-sm-4 text-uppercase"><b>gstin</b></div>
-                     <div class="col-sm-8 text-capitalize"><b>:</b> {{gst_no}} </div>
-                  </div>
-               </div>
-               <div class="col-sm-6 ">
-                  <div class="row mt-2">
-                     <div class="col-sm-4 text-capitalize"><b>Type of payment</b></div>
-                     <div class="col-sm-8 text-uppercase "><b>:</b>{{payment}}</div>
-                  </div> <br />
-                  <div class="row">
-                     <div class="col-sm-4 text-capitalize"><b>Shipping Method</b></div>
-                     <div class="col-sm-8 text-uppercase "><b>:</b> {{shipping_method}} </div>
-                  </div> 
-                  <br />
-                
-                  
-               </div>
-            </div>  
+ 
 
             <div class="">
                <table class="table table-sm table-bordered border-primary text-nowrap">
                      <thead>
                         <tr>
-                           <th>Item Name</th>
+                           <th>Product Code</th>
                            <!-- <th >Item Description</th> -->
-                           <th>Qty</th>
+                           <th>Product Name</th>
+                           <th>Store</th>
+                           <th>Required Quantity</th>
                            <th>Unit</th>
-                           <th>Unit Price</th>
-                           <th>Basic Value</th>
-                           <th>Discount</th>
-                           <th>GST%</th>
-                           <th>GST Amount</th>
-                           <th>Total Price</th>
+                           <th>Required Date</th>
+                          
                           
                         </tr>
                      </thead>
                      <tbody style="height: 200px;">
-                        <tr *ngFor="let item of order_details">
-                           <td class="text-capitalize">{{item.product__product_name}}</td>
+                        <tr *ngFor="let item of pr_details">
+                           <td class="text-capitalize">{{item.product_code}}</td>
                            <!-- <td class="text-capitalize">{{item.description}}</td> -->
-                           <td>{{item.qty}}</td>
+                           <td class="text-capitalize">{{item.product_name}}</td>
+                           <td>{{item.store}}</td>
+                           <td>{{item.required_qty}}</td>
                            <td>{{item.unit__PrimaryUnit}}</td>
-                           <td>{{item.unit_price}}</td>
-                           <td>{{item.amount}}</td>
-                           <td>{{item.disc_amount}}</td>
-                           <td>{{item.gst}}</td>
-                           <td>{{item.gst_amount}}</td>
-                           <td>{{item.total_amount}}</td>
+                           <td>{{item.expected_date}}</td>
+                           
                        </tr>
                      </tbody>
                </table>
@@ -335,15 +276,15 @@
 
             <div class="row">
             
-               <div class="col-lg-4 col-sm-5">
+               <!-- <div class="col-lg-4 col-sm-5">
                   <table class="table ">
                      <tbody>
                         <tr>
                            <td class="left">
                               <strong class="text-dark text-capitalize">CGST amount</strong> </td>
-                           <td class="right">
-                              <strong class="text-dark">{{cgst}} </strong>
-                           </td>
+                           <tdstrong class="text-dark"> </strong>
+                           </td> class="right">
+                              <
                         </tr>
                         <tr>
                            <td class="left">
@@ -376,10 +317,10 @@
                         </tr> 
                      </tbody>
                   </table>
-               </div>
-               <div class="col-lg-4 col-sm-5 ml-auto">
+               </div> -->
+               <!-- <div class="col-lg-4 col-sm-5 ml-auto">
                   <table class="table ">
-                     <tbody>
+                     <tbody> -->
                        <!--  <tr>
                            <td class="left">
                               <strong class="text-dark text-capitalize">total basic value </strong>
@@ -466,21 +407,21 @@
                            <td class="left" ></td>
                            <td class="right"></td>
                         </tr> -->
-                        <tr>
+                        <!-- <tr>
                            <td class="left">
                               <strong class="text-dark text-capitalize ">grand total</strong> 
                            </td>
                            <td class="right">
                               <strong class="text-dark">{{grandTotal}} </strong>
                            </td>
-                        </tr>
+                        </tr> -->
                         
-                     </tbody>
+                     <!-- </tbody>
                   </table>
-               </div>
-            </div>
+               </div> -->
+            </div> 
 
-            <div class="row border-top  ">
+            <!-- <div class="row border-top  ">
                <div class="col-md-12" >
                   <div class="row">
                      <div class="col-md-6 text-capitalize">
@@ -491,7 +432,7 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div> -->
 
             <div class="row border-top  ">
                <div class="col-md-6" style="text-align: left;">
@@ -575,3 +516,4 @@
         Print Bill
     </button>
 </div> -->
+

@@ -262,7 +262,7 @@ export class ManageProductComponent implements OnInit {
 
   add_types():any {
     
-    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:'',unit_price:'',safety_stock_level:'',serial_number:''}
+    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:0,unit_price:'',safety_stock_level:'',serial_number:''}
     this.product_packingtypes.push(data)
   }
 

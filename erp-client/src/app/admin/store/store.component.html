@@ -12,7 +12,16 @@
                         <div *ngIf="f.storeNameFormControl.errors.required">Name is required</div>
                     </div>
                 </div>
+                <div class="form-group col-md-3">
+                    <label for="storeName">Branch Phone Number<span style="color: red;">*</span></label>
+                    <input type="text" formControlName="storePhoneNumberFormControl" maxlength="10" nbInput name="storeNumber" placeholder="Store Phone Number"  [ngClass]="{ 'is-invalid': submitted && f.storePhoneNumberFormControl.errors }" class="form-control"/>
+                    <div *ngIf="submitted && f.storePhoneNumberFormControl.errors"  class="invalid-feedback">
+                        <div *ngIf="f.storePhoneNumberFormControl.errors.required">Branch Phone Number is required</div>
+                        <div *ngIf="f.storePhoneNumberFormControl.errors.pattren">Branch Phone Number must be atleast 10 digits</div>
+                    </div>
+                </div>
             </div>
+            
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="storeAddress">Branch Address <span style="color: red;">*</span></label>
@@ -20,6 +29,14 @@
                     [ngClass]="{ 'is-invalid': submitted && f.storeAddressFormControl.errors }" class="form-control"></textarea>
                     <div *ngIf="submitted && f.storeAddressFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.storeAddressFormControl.errors.required">Address is required</div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="storeName">Branch Email<span style="color: red;">*</span></label>
+                    <input type="text" formControlName="storeEmailFormControl" nbInput name="storeNumber" placeholder="Store Email"  [ngClass]="{ 'is-invalid': submitted && f.storeEmailFormControl.errors }" class="form-control"/>
+                    <div *ngIf="submitted && f.storeEmailFormControl.errors"  class="invalid-feedback">
+                        <div *ngIf="f.storeEmailFormControl.errors.required">Branch Email is required</div>
+                        <div *ngIf="f.storeEmailFormControl.errors.email">Branch Email must be valid</div>
                     </div>
                 </div>
             </div>

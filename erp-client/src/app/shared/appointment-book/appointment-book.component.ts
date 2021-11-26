@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
@@ -47,7 +47,8 @@ export class AppointmentBookComponent implements OnInit {
   dateofdata: Date;
   searchService: string;
   selected_product_list: any = [];
-
+  @ViewChild('date')
+  myInputVariable: ElementRef;
 
 
   constructor(
@@ -132,6 +133,22 @@ export class AppointmentBookComponent implements OnInit {
 
   }
 
+  onChange(date){
+    
+    console.log(new Date(date))
+    this.dateofdata = new Date(date)
+    console.log(this.dateofdata)
+    console.log(this.current_date)
+    if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+      this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+      this.myInputVariable.nativeElement.value = "";
+      
+    }
+
+ 
+ 
+}
+
   edit_oppintment(){
     this.adminService.getAppointmentDetailsById(this.app_id).subscribe(
       (data) =>{
@@ -151,7 +168,7 @@ export class AppointmentBookComponent implements OnInit {
           })
         });
         
-        this.onChange()
+       
        
         // let ser_id = this.adminService.getServiceList().subscribe(
         //   (serv) =>{
@@ -188,20 +205,20 @@ export class AppointmentBookComponent implements OnInit {
     } 
   }
 
-  onChange(){
-    this.bookingForm.controls['bookingDateFormControl'].valueChanges.subscribe(
-      (data)=> {  
-        console.log(new Date(data))
-        this.dateofdata = new Date(data)
-        console.log(this.dateofdata)
-        console.log(this.current_date)
-        if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
-          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
-        }
+  // onChange(){
+  //   this.bookingForm.controls['bookingDateFormControl'].valueChanges.subscribe(
+  //     (data)=> {  
+  //       console.log(new Date(data))
+  //       this.dateofdata = new Date(data)
+  //       console.log(this.dateofdata)
+  //       console.log(this.current_date)
+  //       if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+  //         this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+  //       }
 
-      })
+  //     })
      
-    }
+  //   }
 
     dateCheck(){
       // let start_time:any

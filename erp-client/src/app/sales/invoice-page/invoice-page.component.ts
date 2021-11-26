@@ -31,6 +31,8 @@ export class InvoicePageComponent implements OnInit {
   store_pincode: any;
   customer_number: any;
   pincode: any;
+  phone: any;
+  email: any;
  
 
   constructor(private route: ActivatedRoute,
@@ -93,6 +95,8 @@ printBtn.onclick = function () {
         this.address = data[0].address
         this.gst = data[0].gst_no
         this.pincode = data[0].pin_code
+        this.phone = data[0].store_number
+        this.email = data[0].email
         console.log(this.gst)
         this.store_pincode = data[0].pincode
       }

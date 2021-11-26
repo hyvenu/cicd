@@ -15,7 +15,7 @@ class PurchaseService:
 
     @classmethod
     def generate_pr_code(cls):
-        prefix_code = 'D5N' + '/21-22' + '/PR'
+        prefix_code = 'SAF' + '/21-22' + '/PR'
         code = get_next_value(prefix_code)
         code = prefix_code + '-' + str(code)
         return code
@@ -28,10 +28,30 @@ class PurchaseService:
             'pr_date',
             'created_user',
             'dept__department_name',
+            'dept__id',
             'status',
             'approved_by',
             'approved_date',
         )
+
+        for item in list(pr_list):
+            item['pr_list'] = list(PurchaseRequisitionProductList.objects. \
+            filter(pr_no_rf=item['id'],).all().values(
+                'id',
+                'pr_no_rf',
+                'description',
+                'product_code',
+                'product_name',
+                'store',
+                'store_obj',
+                'required_qty',
+                'finished_qty',
+                'unit',
+                'expected_date',
+                'active',
+                'product',
+            ))
+
         return list(pr_list)
 
     @classmethod
@@ -61,7 +81,8 @@ class PurchaseService:
             'description',
             'store',
             'required_qty',
-           'unit',
+            'finished_qty',
+            'unit',
             'unit__PrimaryUnit',
             'product__product_price__tax',
             'expected_date',
@@ -116,6 +137,7 @@ class PurchaseService:
             )[0]
             pr_list.store_obj_id = store['id']
             pr_list.required_qty = int(product['required_qty'])
+            pr_list.finished_qty = int(product['finished_qty'])
             pr_list.unit_id = product['unit']
             pr_list.expected_date = product['expected_date']
             pr_list.save()
@@ -185,14 +207,14 @@ class PurchaseService:
 
     @classmethod
     def generate_po_number(cls):
-        perfix = 'D5N' + '/21-22' + '/PO/'
+        perfix = 'SAF' + '/21-22' + '/PO/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
 
     @classmethod
     def generate_grn_code(cls):
-        perfix = 'D5N' + '/21-22' + '/GRN/'
+        perfix = 'SAF' + '/21-22' + '/GRN/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
@@ -220,7 +242,7 @@ class PurchaseService:
         po_order_req.sub_total = po_data['sub_total']
         po_order_req.packing_perct = po_data['packing_perct']
         po_order_req.packing_amount = po_data['packing_amount']
-        po_order_req.total_amount = po_data['total_amount']
+        # po_order_req.total_amount = po_data['total_amount']
         po_order_req.sgst = po_data['sgst']
         po_order_req.cgst = po_data['cgst']
         po_order_req.igst = po_data['igst']
@@ -235,12 +257,15 @@ class PurchaseService:
                 po_product = PoOrderDetails.objects.get(id=item['id'])
             else:
                 po_product = PoOrderDetails()
+
             po_product.po_order = po_order_req
             po_product.product_id = item['product_id']
             po_product.product_code = item['product_code']
             po_product.product_name = item['product_name']
             po_product.unit_id = item['unit_id']
             po_product.qty = item['qty']
+            po_product.order_qty = item['order_qty']
+            po_product.finished_qty = item['finished_qty']
             po_product.delivery_date = str(item['delivery_date'])[0:10]
             po_product.unit_price = item['unit_price']
             po_product.gst = item['gst']
@@ -249,6 +274,13 @@ class PurchaseService:
             po_product.disc_amount = item['disc_amount']
             po_product.gst_amount = item['gst_amount']
             po_product.total_amount = item['total_amount']
+            po_product.accepted_qty = item['accepted_qty']
+            po_product.rejected_qty = item['rejected_qty']
+            if item["status"] == "true":
+                po_product.status = True
+            else:
+                po_product.status = False
+
             po_product.save()
         return po_order_req.po_number
 
@@ -265,6 +297,7 @@ class PurchaseService:
             'shipping_address',
             'transport_type',
             'vendor_id',
+
             'vendor__vendor_name',
             'vendor__vendor_code',
             'payment_terms',
@@ -274,7 +307,6 @@ class PurchaseService:
             'sub_total',
             'packing_perct',
             'packing_amount',
-            'total_amount',
             'sgst',
             'cgst',
             'igst',
@@ -292,6 +324,7 @@ class PurchaseService:
             "unit_id",
             "unit__PrimaryUnit",
             "qty",
+            "finished_qty",
             "delivery_date",
             "unit_price",
             "gst",
@@ -300,6 +333,10 @@ class PurchaseService:
             "disc_amount",
             "gst_amount",
             "total_amount",
+            "status",
+            'order_qty',
+            "accepted_qty",
+            "rejected_qty",
         ))
         return po_data_list
 
@@ -325,7 +362,6 @@ class PurchaseService:
             'sub_total',
             'packing_perct',
             'packing_amount',
-            'total_amount',
             'sgst',
             'cgst',
             'igst',
@@ -340,7 +376,9 @@ class PurchaseService:
             "product__product_name",
             "product_code",
             "unit_id",
+            "unit__PrimaryUnit",
             "qty",
+            "finished_qty",
             "delivery_date",
             "unit_price",
             "gst",
@@ -371,9 +409,9 @@ class PurchaseService:
             'terms_of_delivery',
             'note',
             'sub_total',
+            'po_raised_by',
             'packing_perct',
             'packing_amount',
-            'total_amount',
             'sgst',
             'cgst',
             'igst',
@@ -402,6 +440,7 @@ class PurchaseService:
             grn_req = GRNMaster()
             grn_req.grn_code = cls.generate_grn_code()
 
+        grn_req.po_id = grn_data['po']
         grn_req.grn_date = grn_data['grn_date']
         grn_req.po_number = grn_data['po_number']
         grn_req.invoice_number = grn_data['invoice_number']
@@ -473,6 +512,7 @@ class PurchaseService:
         final_list = []
         grn_data_list = GRNMaster.objects.filter(id=grn_id).all().values(
             'id',
+            'po',
             'grn_code',
             'grn_date',
             'grn_status',
@@ -496,7 +536,7 @@ class PurchaseService:
             'igst',
             'store_id',
             'invoice_doc',
-            
+
         )[0]
 
         grn_data_list['product_list'] = list(GRNProductList.objects.filter(grn=grn_id).all().values(

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
+import * as moment from 'moment';
 import { InventoryService } from 'src/app/inventory/inventory.service';
 import { PurchaseService } from '../purchase.service';
 
@@ -34,6 +35,10 @@ export class PurchaseOrderListComponent implements OnInit {
       },
       po_date: {
         title: 'PO Date',
+        type:'html',
+        valuePrepareFunction: (cell, row) => {
+          return `${moment(row.po_date).format("YYYY-MM-DD")}`;
+      }
       },
       invoice_amount: {
         title: 'Invoice Amount',
@@ -45,6 +50,7 @@ export class PurchaseOrderListComponent implements OnInit {
       
     },
   };
+  podate: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -60,6 +66,8 @@ export class PurchaseOrderListComponent implements OnInit {
     this.purchaseService.getPOList().subscribe(
       (data) => {
         this.po_list = data;
+        this.podate = moment(data.po_date).format("YYYY-MM-DD")
+        console.log(this.podate)
       },
       (error) => {
         this.nbtoastService.danger("Unable to get PO List")

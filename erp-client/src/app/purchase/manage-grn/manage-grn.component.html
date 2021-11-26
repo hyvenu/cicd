@@ -1,14 +1,15 @@
 
 
 
+
 <div class="form-row">
-    <a nbButton [routerLink]="['/GrnList']" status="success" size="small">Back to Purchase order list</a>
+    <a nbButton [routerLink]="['/GrnList']" status="success" size="small">Back to GRN List</a>
 </div>
 
 <nb-tabset>
     <nb-tab tabTitle="GRN Information" [active]="IsGrnInfo">
 
-        <form id="" [formGroup]="grnMasterForm" (ngSubmit)=onSubmit()>
+        <form id="" [formGroup]="grnMasterForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)=onSubmit()>
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="grnNumber">GRN Number </label>
@@ -17,8 +18,8 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="grnDate">GRN Date<span style="color: red;">*</span></label>
-                    <input nbInput formControlName="grnDateFormControl" id="grnDate" name="grnDate" [nbDatepicker]="datepicker"
-                        placeholder="GRN Date"    [ngClass]="{ 'is-invalid': submitted && f.grnDateFormControl.errors }" class=" form-control"/>
+                    <input nbInput formControlName="grnDateFormControl" id="grnDate" name="grnDate" [nbDatepicker]="datepicker" (ngModelChange)="onChange(datepicker.value)"
+                        placeholder="GRN Date" #date1   [ngClass]="{ 'is-invalid': submitted && f.grnDateFormControl.errors }" class=" form-control"/>
                         <div *ngIf="submitted && f.grnDateFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.grnDateFormControl.errors.required">GRN Date is required</div>
                         </div> 
@@ -83,12 +84,12 @@
                 <div class="form-group col-md-3">
                     <label for="vendorName">Vendor Name <span style="color: red;">*</span></label>
                     <input nbInput formControlName="vendorNameFormControl" name="vendorName"
-                        placeholder="Vendor Name" />
+                        placeholder="Vendor Name" readonly />
                 </div>
                 <div class="form-group col-md-3">
                     <label for="vendorAddress">Vendor Address <span style="color: red;">*</span></label>
                     <textarea nbInput formControlName="vendorAddressFormControl" name="corporateOffice"
-                        placeholder="Vendor Address"></textarea>
+                        placeholder="Vendor Address" readonly></textarea>
                 </div>
             </div><br>
 
@@ -181,6 +182,7 @@
                                         {{ o.PrimaryUnit }}
                                     </nb-option>
                                 </nb-select></td>
+                                
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.po_qty" readonly (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" readonly (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly (change)="calculate(item);" /></td>
@@ -190,10 +192,10 @@
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.total" readonly (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.batch_code" /></td>
                                 <!-- <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" /></td> -->
-                                <td><input nbInput [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" [nbDatepicker]="expiry_date_datepicker"
+                                <td><input nbInput [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" (ngModelChange)="onChanges(datepicker.value,item.expiry_date)" #date [nbDatepicker]="expiry_date_datepicker"
                                     placeholder="Date" />
                                     <!-- <input [nbDatepicker]="datepicker"> -->
-                                    <nb-datepicker format="yyyy-MM-DD"  (change)="onChange(item.expiry_date)" #expiry_date_datepicker></nb-datepicker>
+                                    <nb-datepicker format="yyyy-MM-DD"  #expiry_date_datepicker></nb-datepicker>
                                     </td>
                             </tr>
                         </tbody>
@@ -228,7 +230,12 @@
                                 (change)="onFileChange($event, 'image');" />
                         </div>
                         <div class=" form-group col-md-4">
-                            <img src="{{imgSrc}}" class="rounded" alt="No Image"  width="80" height="80" *ngIf="imgSrc"/>
+                            <img  src="{{imgSrc}}" class="rounded" alt="No Image"  width="80" height="80" *ngIf="imgSrc && !DocFileExist"/>
+                            
+                            <a href="{{imgSrc}}"  download="GRN-Doc" >
+                                <label *ngIf="DocFileExist">{{FileName1}}</label><br>
+                                <input type="button" value="Download" *ngIf="DocFileExist" >
+                            </a>
                         </div>
                     </div><br>
                     <button nbButton (click)="saveGRN();" status="success" >Save</button>

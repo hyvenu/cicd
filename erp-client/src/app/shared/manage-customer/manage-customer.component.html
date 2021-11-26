@@ -108,7 +108,7 @@
                 <nb-tabset>
                     <nb-tab tabTitle="Active Customer List">
                         <div class="row">
-                            <ng2-smart-table [settings]="setting" [source]="source"></ng2-smart-table>
+                            <ng2-smart-table [settings]="setting" [source]="source" (custom)="onCustom($event)"></ng2-smart-table>
                             </div>
                     </nb-tab>
                 
@@ -119,7 +119,7 @@
                 <nb-tabset>
                     <nb-tab tabTitle="Inactive Customer List">
                         <div class="row">
-                            <ng2-smart-table [settings]="setting" [source]="source"></ng2-smart-table>
+                            <ng2-smart-table [settings]="inSetting" [source]="inactive" (custom)="onCustom($event)"></ng2-smart-table>
                             </div>
                     </nb-tab>
                 

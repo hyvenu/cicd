@@ -158,6 +158,10 @@ export class AdminService {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/`+ id + '/', data)
   }
 
+  public deleteCustomer(id){
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/`+ id + '/')
+  }
+
   public getBookinHistory(id){
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_booking_history?customer_id=`+ id )
   }

@@ -61,11 +61,7 @@ class POOrderRequestSerializer(serializers.ModelSerializer):
             'po_order',
         ]
 
-    # def to_representation(self, instance):
-    #     data = super(POOrderRequestSerializer, self).to_representation(instance)
-    #     data['mobile_no'] = models.POOrderRequest.objects.filter(vendor_id=data['vendor']).all().values(
-    #         'vendor__mobile_no')[0]['vendor__mobile_no']
-    #     return data
+
 
 
 class GRNMasterSerializer(serializers.ModelSerializer):
