@@ -332,6 +332,8 @@ export class PurchaseOrderComponent implements OnInit {
             rejected_qty: 0,
             accepted_qty: 0,
             status: "false",
+            order_qty:0,
+            finished_qty:0,
 
           }
           this.selected_product_list.push(item);
