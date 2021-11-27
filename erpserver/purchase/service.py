@@ -382,6 +382,7 @@ class PurchaseService:
             "delivery_date",
             "unit_price",
             "gst",
+            "order_qty",
             "amount",
             "disc_percent",
             "disc_amount",
