@@ -17,7 +17,7 @@
                     <input type="text" formControlName="storePhoneNumberFormControl" maxlength="10" nbInput name="storeNumber" placeholder="Store Phone Number"  [ngClass]="{ 'is-invalid': submitted && f.storePhoneNumberFormControl.errors }" class="form-control"/>
                     <div *ngIf="submitted && f.storePhoneNumberFormControl.errors"  class="invalid-feedback">
                         <div *ngIf="f.storePhoneNumberFormControl.errors.required">Branch Phone Number is required</div>
-                        <div *ngIf="f.storePhoneNumberFormControl.errors.pattren">Branch Phone Number must be atleast 10 digits</div>
+                        <div *ngIf="f.storePhoneNumberFormControl.errors?.pattern">Branch Phone Number must be atleast 10 digits</div>
                     </div>
                 </div>
             </div>
