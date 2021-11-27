@@ -103,6 +103,7 @@ export class StoreComponent implements OnInit {
         (data) => {
           this.nbtoastService.success("Store Information saved successfully")
           this.storeForm.reset();
+          this.routes.navigate(["/ManageStoreList"]);
           this.ngOnInit();
         },
         (error) =>{
@@ -129,6 +130,7 @@ export class StoreComponent implements OnInit {
         (data) => {
           this.nbtoastService.success("Store Information Updated successfully")
           this.storeForm.reset()
+          this.routes.navigate(["/ManageStoreList"]);
         },
         (error) =>{
           this.nbtoastService.danger("Unable to save store information")

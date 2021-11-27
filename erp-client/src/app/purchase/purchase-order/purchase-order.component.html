@@ -151,7 +151,7 @@
                                 <td><button nbButton (click)="delete_product(item.id,item);" size="small" status="danger">X</button></td>
                                 <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
                                 <td><input nbInput  fieldSize="small"placeholder=""  value="{{item.product_name}} - {{item.description}}" readonly/></td>
-                                <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty"  readonly/></td>
+                                <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty"  /></td>
                                 <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.order_qty" (change)="calculate_sub_total(item);"/></td>
                                 <td><input nbInput  fieldSize="small" type="number" min="0"  style="width: 8em;" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.finished_qty" readonly/></td>
                                 <td *ngIf="flag"><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.rejected_qty" (change)="calculate_sub_total(item);" readonly/></td>

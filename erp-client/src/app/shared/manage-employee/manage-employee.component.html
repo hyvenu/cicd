@@ -110,7 +110,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="department"> Pancard Number</label><br>
-                    <input nbInput name="panCard" formControlName="panCardFormControl" class="form-control"
+                    <input nbInput name="panCard" maxlength="10" minlength="10" formControlName="panCardFormControl" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.panCardFormControl.errors  }" placeholder="Pancard Number"  />
                     <div *ngIf="submitted && f.panCardFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.panCardFormControl.errors.required">Pancard Number is required</div>

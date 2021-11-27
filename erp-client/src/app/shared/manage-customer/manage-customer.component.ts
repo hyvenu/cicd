@@ -114,7 +114,13 @@ export class ManageCustomerComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false,      
+      delete: false,  
+      custom: [
+        {
+          name: 'delete',
+          title: '<i style="color:red" class="fa fa-trash"></i>',
+        },
+      ],      
       },
     columns: {
       id: {
@@ -340,7 +346,12 @@ customerForm:FormGroup;
           
       },
       (error) => {
-        this.nbtoastService.danger("Failed to save");
+        if(error === "exist"){
+          this.nbtoastService.danger("Phone Number already"+" "+error);
+          }
+          else{
+            this.nbtoastService.danger(error);
+          }
     }
     )
     }

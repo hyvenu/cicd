@@ -152,8 +152,8 @@
       <nb-card-header>service List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchService" /> </nb-card-header>
       <nb-card-body>
         <nb-list>
-            <nb-list-item *ngFor="let item of service_list| search_filter:'product_name':searchService">
-              <i class="mr-auto mt-2 mt-lg-0"> {{ item.service_name }}-{{item.price}}-{{item.service_gst}}%Gst-{{item.service_hour}}HourService</i>
+            <nb-list-item *ngFor="let item of service_list| search_filter:'service_name,price,service_gst,service_hour':searchService">
+              <i class="mr-auto mt-2 mt-lg-0"> {{ item.service_name }}-{{item.price}}-{{item.service_gst}}%Gst-{{item.service_hour}}</i>
               <button nbButton (click)="ref.close(item)" size="small">Select</button>
             </nb-list-item>
           </nb-list>

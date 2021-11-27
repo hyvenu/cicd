@@ -22,6 +22,7 @@ export class ViewBookingComponent implements OnInit {
   app_id: any;
   passed_flag: any=false;
   service_id:any=[];
+  searchStylist: any;
 
 
   
@@ -71,6 +72,7 @@ export class ViewBookingComponent implements OnInit {
   }
 
   stylist_open(dialog: TemplateRef<any>,item) {
+    this.searchStylist = ""
     this.dailog_ref= this.dialogService.open(dialog, { context: this.stylist_list })
     .onClose.subscribe(data => {
       console.log("sty",data)

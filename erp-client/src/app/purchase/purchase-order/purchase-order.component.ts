@@ -474,14 +474,17 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   pr_open(dialog: TemplateRef<any>) {
+    
+    this.pr_products = []
     this.purchaseService.getPRList().subscribe(
       (data) => {
         // if(data.)
         this.pr_list = data;
-
+        
         this.dailog_ref = this.dialogService.open(dialog, { context: this.pr_list })
           .onClose.subscribe(data => {
             //  this.product_list = data
+            
             this.selected_product_list = []
             this.searchPR = ""
             this.selected_List = data;
@@ -584,7 +587,7 @@ export class PurchaseOrderComponent implements OnInit {
                   // this.pr_product_array.push(pr_products)
                   console.log(this.pr_product_array)
                 });
-
+               
               },
               (error) => {
                 this.nbtoastService.danger("Unable to get PR details")

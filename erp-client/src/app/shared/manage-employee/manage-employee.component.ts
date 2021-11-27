@@ -264,10 +264,11 @@ export class ManageEmployeeComponent implements OnInit {
   
 
   saveEmployee(){
-    console.log(moment(this.employeeForm.controls['DOBFormControl'].value));
-    console.log(moment(this.employeeForm.controls['DOJFormControl'].value).format("YYYY-MM-DD"));
-    
     let formdata = new FormData();
+
+    if(this.employeeForm.valid){
+
+    
     if(this.employee_id){
 
 
@@ -369,14 +370,20 @@ export class ManageEmployeeComponent implements OnInit {
           
       },
       (error) => {
-        this.nbtoastService.danger("Failed to save");
+        if(error === "exist"){
+          this.nbtoastService.danger("Phone Number already"+" "+error);
+          }
+          else{
+            this.nbtoastService.danger(error);
+          }
     }
     )
     
     }
   
-
   }
+  }
+
   refresh(){
     window.location.reload()
   }

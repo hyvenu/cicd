@@ -131,7 +131,7 @@ class GRNProductList(AuditUuidModelMixin):
     product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="grn_product",default="")
     product_code = models.CharField(max_length=30, null=True)
     product_name = models.CharField(max_length=30, null=True)
-    description = models.CharField(max_length=100, null=True)
+    description = models.CharField(max_length=4000, null=True)
     hsn_code = models.CharField(max_length=30, null=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     po_qty = models.IntegerField()

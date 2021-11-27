@@ -197,7 +197,7 @@
                               <th>Qty</th>
                               <th>Price</th>
                               <th>GST%</th>
-                              <th>Disc Amount</th>
+                              <!-- <th>Disc Amount</th> -->
                               <th>Total</th>
 
 
@@ -214,7 +214,7 @@
                               <td>{{item.qty}}</td>
                               <td>{{item.unit_price}}</td>
                               <td>{{item.gst}}</td>
-                              <td>{{invoice_details.discount_price}}</td>
+                              <!-- <td>{{invoice_details.discount_price}}</td> -->
 
                               <td>{{item.subtotal_amount}}</td>
 
@@ -384,6 +384,14 @@
                                              <td class="left" ></td>
                                              <td class="right"></td>
                                           </tr> -->
+                                 <tr>
+                                 <td class="left">
+                                    <strong class="text-dark text-capitalize "> Discount Amount</strong>
+                                 </td>
+                                 <td class="right">
+                                    <strong class="text-dark">{{invoice_details.discount_price}} </strong>
+                                 </td>
+                              </tr>
                               <tr>
                                  <td class="left">
                                     <strong class="text-dark text-capitalize ">grand total</strong>
@@ -392,6 +400,7 @@
                                     <strong class="text-dark">{{grandTotal}} </strong>
                                  </td>
                               </tr>
+                           
 
                            </tbody>
                         </table>
