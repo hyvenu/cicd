@@ -95,7 +95,7 @@ export class ViewBookingComponent implements OnInit {
 
       }
         let service_ids=[];
-        service_ids =[{ "id":(item.service_list.map(service => {return service.id})).toString(),"service_id":(item.service_list.map(service => {return service.service__id}).toString())}]
+        service_ids =[{ "id":(item.service_list.map(service => {return service.id})).toString(),"service_id":(item.service_list.map(service => {return service.service__id}).toString()),"stylist_id":item.assigned_staff.id}]
        form_data.append('store',sessionStorage.getItem('store_id'));
        form_data.append('customer_name', item.customer_name);
        form_data.append('phone_number', item.phone_number);

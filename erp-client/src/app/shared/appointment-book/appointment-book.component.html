@@ -76,17 +76,19 @@
                     
                     <table class="table table-responsive">
                         <thead>
-                            
+                            <th></th>
                             <th>Service Name</th>
+                            <th>Stylist</th>
                         
                         </thead>
                         <tbody>
                             <tr  *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
                                 <td ><button nbButton (click)="remove_item(item);" status="danger" size="small" >X</button><br></td>
                                 
-                                <td><input class="form-control form-control-sm"  style="width: 10em;"  placeholder="" readonly value={{item.service_name}}/></td>
-                                
+                                <td><input class="form-control form-control-sm"  style="width: 10em;" [ngModelOptions]="{standalone: true}" placeholder="" readonly [(ngModel)]="item.service_name" value={{item.service_name}}/></td>
+                                <td><input class="form-control form-control-sm"  style="width: 10em;" [ngModelOptions]="{standalone: true}" (click)="stylist_open(stylist_dialog,item)" [(ngModel)]="item.stylist_name"  placeholder="" readonly value={{item.stylist_name}}/></td>
                             </tr>
+                           
                         </tbody>
                     </table>
                 </nb-card-body> 
@@ -163,4 +165,22 @@
       </nb-card-footer>
     </nb-card>
   </ng-template>
+
+
+  <ng-template #stylist_dialog let-data let-ref="dialogRef">
+    <nb-card size="medium">
+        <nb-card-header>Stylist <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchStylist" /> </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <nb-list-item *ngFor="let item of data | search_filter:'employee_name':searchStylist">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
 

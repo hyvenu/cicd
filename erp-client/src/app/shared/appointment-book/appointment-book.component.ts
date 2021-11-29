@@ -50,6 +50,9 @@ export class AppointmentBookComponent implements OnInit {
   @ViewChild('date')
   myInputVariable: ElementRef;
   service_id: any;
+  stylist_list: any=[];
+  searchStylist: string;
+  stylist_id: any='';
 
 
   constructor(
@@ -114,6 +117,15 @@ export class AppointmentBookComponent implements OnInit {
         this.customer_data = data;
       } 
     )
+
+    this.adminService.getEmployeeList().subscribe(
+      (data) => {
+        this.stylist_list = data;
+      },
+      (error) => {
+          this.nbtoastService.danger("Unable get appointment data");
+      }
+    )
     
     this.adminService.getServiceList().subscribe(
       (data) =>{
@@ -168,6 +180,8 @@ export class AppointmentBookComponent implements OnInit {
             id:element.id,
             service_id:element.service__id,
             service_name: element.service__service_name,
+            stylist_name: data.assigned_staff__employee_name,
+            stylist_id:this.assigned
           })
         });
         
@@ -245,6 +259,19 @@ export class AppointmentBookComponent implements OnInit {
       // }
     }
 
+    stylist_open(dialog: TemplateRef<any>,item) {
+      this.dailog_ref = this.dialogService.open(dialog, { context: this.stylist_list })
+      .onClose.subscribe(data => {
+        console.log(data)
+        this.searchStylist = ""
+        //  this.product_list = data
+        item.stylist_name=data.employee_name
+        item.stylist_id=data.id
+        console.log(this.stylist_id);
+        
+      })
+    }
+
     open(dialog: TemplateRef<any>) {
       this.dailog_ref = this.dialogService.open(dialog, { context: this.service_list })
         .onClose.subscribe(data => {
@@ -262,6 +289,7 @@ export class AppointmentBookComponent implements OnInit {
             id: this.service_id,
             service_id:data.id,
             service_name: data.service_name,
+            stylist_id:this.stylist_id
        
           });
         }

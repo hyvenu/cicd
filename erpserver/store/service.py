@@ -82,10 +82,8 @@ class StoreService:
             for item in service_arr:
                 if 'id' in ap_data:
                     appointment_obj = AppointmentSchedule.objects.get(id=ap_data['id'])
-                    if ap_data['assigned_staff'] == "null":
-                        pass
-                    else:
-                        appointment_obj.assigned_staff_id = ap_data['assigned_staff']
+
+                    appointment_obj.assigned_staff_id = item['stylist_id']
 
 
                 else:
@@ -137,10 +135,8 @@ class StoreService:
                     appointment_obj.is_paid = True
                 else:
                     appointment_obj.is_paid = False
-                if ap_data['assigned_staff'] == "null":
-                    pass
-                else:
-                    appointment_obj.assigned_staff_id = ap_data['assigned_staff']
+
+                appointment_obj.assigned_staff_id = item['stylist_id']
 
                 appointment_obj.store_id = ap_data['store']
                 appointment_obj.booking_date = ap_data['booking_date']
