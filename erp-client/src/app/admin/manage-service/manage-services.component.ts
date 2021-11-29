@@ -94,7 +94,13 @@ export class ManageServiceComponent implements OnInit {
           this.ngOnInit();
         },
         (error) =>{
-          this.nbtoastService.danger(error);
+          console.log(error)
+          if(error === "exist"){
+            this.nbtoastService.danger("Service Name already"+" "+error);
+            }
+            else{
+              this.nbtoastService.danger(error);
+            }
         }
       )
     }

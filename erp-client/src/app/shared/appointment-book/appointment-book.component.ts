@@ -49,6 +49,7 @@ export class AppointmentBookComponent implements OnInit {
   selected_product_list: any = [];
   @ViewChild('date')
   myInputVariable: ElementRef;
+  service_id: any;
 
 
   constructor(
@@ -158,11 +159,13 @@ export class AppointmentBookComponent implements OnInit {
         console.log(data)
         console.log(data.service_list)
         this.appointment_id=data.id
+        this.service_id = data.service_list[0].id
+        console.log(this.service_id)
         this.bookingForm.controls['bookingDateFormControl'].setValue(moment(data.booking_date));
         data.service_list.forEach(element => {
           console.log(element)
           this.selected_product_list.push({
-            id:data.service_list[0].id,
+            id:element.id,
             service_id:element.service__id,
             service_name: element.service__service_name,
           })
@@ -256,7 +259,7 @@ export class AppointmentBookComponent implements OnInit {
             
           this.selected_product_list.push({
             
-            id: '',
+            id: this.service_id,
             service_id:data.id,
             service_name: data.service_name,
        

@@ -193,11 +193,14 @@ export class ManageGrnComponent implements OnInit {
               po.order_details.forEach(element => {
                     console.log('po ele',element)
                 data.product_list.forEach(pro => {
+                  console.log(pro);
+                  
                   if (pro.product == element.product_id) {
                     console.log('dd', pro)
                     if (pro.accepted_qty != pro.received_qty) {
                       this.selected_product_list.push({
                         ...pro,
+                        expiry_date:moment(pro.expiry_date),
                         product_id:pro.product
                       })
                     }
