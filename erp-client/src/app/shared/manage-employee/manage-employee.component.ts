@@ -311,16 +311,23 @@ export class ManageEmployeeComponent implements OnInit {
     this.adminService.updateEmployee(formdata,this.employee_id).subscribe(
       (data)=>{
         this.nbtoastService.success("Employee Updated Successfully")
-        // this.ngOnInit()
-        // window.location.reload();
-        //  this.ngOnInit()
-        // this.employeeForm.reset();
+        
         this.get_employee()
-        // this.employeeForm.reset()
-        // this.salary=0;
-        // this.account=0;
-        this.routes.navigateByUrl("/ManageEmployee");
-        this.refresh()
+       
+        // this.employeeForm.reset({SalaryFormControl:0,accountNumberFormControl:0});
+        
+        this.routes.navigate(["/ManageEmployee"])
+        .then(()=>{
+          window.location.reload();
+        })
+        // this.refresh()
+        // this.employeeForm.controls['SalaryFormControl'].setValue(0)
+        // setTimeout(()=>this.salary=0,800)
+        
+
+        
+        
+        
           
       },
       (error) => {
