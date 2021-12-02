@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    <label>Email <span style="color: red;">*</span></label>
+                    <label>Email </label>
                     <input type="text" nbInput formControlName="customerEmailFormControl" placeholder="Email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerEmailFormControl.errors }" />
                     <div *ngIf="submitted && f.customerEmailFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.customerEmailFormControl.errors.required">Email is required</div>

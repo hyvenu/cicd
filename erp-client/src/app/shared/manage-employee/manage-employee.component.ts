@@ -314,10 +314,13 @@ export class ManageEmployeeComponent implements OnInit {
         // this.ngOnInit()
         // window.location.reload();
         //  this.ngOnInit()
-        this.employeeForm.reset();
+        // this.employeeForm.reset();
         this.get_employee()
-        
-        
+        // this.employeeForm.reset()
+        // this.salary=0;
+        // this.account=0;
+        this.routes.navigateByUrl("/ManageEmployee");
+        this.refresh()
           
       },
       (error) => {
@@ -364,8 +367,11 @@ export class ManageEmployeeComponent implements OnInit {
         this.nbtoastService.success("Employee Saved Successfully")
         
         // this.ngOnInit()
-        this.employeeForm.reset()
+        
         this.get_employee()
+        this.refresh()
+        // this.employeeForm.reset()
+        
         
           
       },
@@ -375,7 +381,7 @@ export class ManageEmployeeComponent implements OnInit {
           }
           else{
             this.nbtoastService.danger(error);
-          }
+          } 
     }
     )
     

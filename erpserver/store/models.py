@@ -117,7 +117,7 @@ class Customer(AuditUuidModelMixin):
     customer_code = models.CharField(max_length=255, default=None)
     customer_name = models.CharField(max_length=255, default=None)
     phone_number = models.CharField(max_length=30, null=True, default=None, unique=True)
-    customer_email = models.CharField(max_length=255, default=None)
+    customer_email = models.CharField(max_length=255, default=None,null=True,blank=True)
     customer_service_bill = models.CharField(max_length=255, default="")
     customer_address = models.CharField(max_length=255, default="",blank=True, null=True)
     advance_amount = models.BigIntegerField(null=True)

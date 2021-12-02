@@ -184,7 +184,7 @@ customerForm:FormGroup;
       customerCodeFormControl:['',[]],
       customerNameFormControl:['',[Validators.required]],
       phoneNumberFormControl:['',[Validators.required,Validators.pattern('^[0-9]{10}$')],],
-      customerEmailFormControl:['',[Validators.required,Validators.email],],
+      customerEmailFormControl:['',[Validators.email],],
       customerServiceBillFormControl:['',[Validators.required]],
       customerAddressFormControl:['',[]],
       advanceAmountFormControl:['',[]],
