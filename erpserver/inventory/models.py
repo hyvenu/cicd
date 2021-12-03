@@ -131,7 +131,7 @@ class ProductPriceMaster(AuditUuidModelMixin):
     bar_code = models.ImageField(upload_to="static/upload/product/barcodes", blank=True)
     product_identifier = models.CharField(max_length=12, default=0)
     safety_stock_level = models.IntegerField(default=0, null=True, blank=True)
-    serial_number = models.CharField(max_length=50, default=0, unique=True, blank=True)
+    serial_number = models.CharField(max_length=30, unique=True, null=True, blank=True)
 
     class Meta:
         pass

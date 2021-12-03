@@ -370,6 +370,8 @@ export class ManageProductComponent implements OnInit {
         this.routes.navigate(["/ManageProductMaster"]);
       },
       (error) =>{
+        console.log(error);
+        
         if(error === "exist"){
           this.nbtoastService.danger("Product Name Or Serial Number already"+" "+error);
           }

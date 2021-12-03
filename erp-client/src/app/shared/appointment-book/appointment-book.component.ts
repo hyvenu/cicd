@@ -133,9 +133,12 @@ export class AppointmentBookComponent implements OnInit {
         console.log("srr" +this.service_list)
 
         if(this.app_id){
+
           this.assigned = this.route.snapshot.queryParams['assign']
+         
           console.log(this.assigned)
           this.edit_oppintment()
+
         }
       },
       (error) =>{
@@ -167,6 +170,9 @@ export class AppointmentBookComponent implements OnInit {
       (data) =>{
         console.log(data)
         this.customer_id = this.route.snapshot.queryParams['customer_id']
+        if(this.customer_id == undefined){
+          this.customer_id = data.customer__id
+        }
         console.log(this.cus_id)
         console.log(data)
         console.log(data.service_list)
@@ -174,6 +180,10 @@ export class AppointmentBookComponent implements OnInit {
         this.service_id = data.service_list[0].id
         console.log(this.service_id)
         this.bookingForm.controls['bookingDateFormControl'].setValue(moment(data.booking_date));
+        if(this.assigned == undefined){
+          this.assigned = data.assigned_staff__id
+        }
+        
         data.service_list.forEach(element => {
           console.log(element)
           this.selected_product_list.push({
