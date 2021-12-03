@@ -280,9 +280,8 @@ export class AppointmentBookComponent implements OnInit {
           
           console.log(data)
           
-          if(this.selected_product_list.some(element => element.service_name == data.service_name)){
-            this.nbtoastService.danger("Service name already exist");
-          }else{
+          
+          
             
           this.selected_product_list.push({
             
@@ -292,7 +291,7 @@ export class AppointmentBookComponent implements OnInit {
             stylist_id:this.stylist_id
        
           });
-        }
+        
         });
       //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
      

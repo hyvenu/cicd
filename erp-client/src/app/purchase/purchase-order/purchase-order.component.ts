@@ -187,12 +187,16 @@ export class PurchaseOrderComponent implements OnInit {
           //this.selected_product_list = data.order_details;
           console.log(data.order_details)
           data.order_details.forEach(element => {
-            this.selected_product_list.push({
-              ...element,
-              status: element.status.toString(),
-              unit_name: element.unit__PrimaryUnit,
 
-            })
+            if(element.qty != element.order_qty){
+              this.selected_product_list.push({
+                ...element,
+                status: element.status.toString(),
+                unit_name: element.unit__PrimaryUnit,
+  
+              })
+            }
+           
           });
           this.selected_pr_data = {
             ...this.not_approved,

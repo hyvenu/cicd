@@ -279,6 +279,37 @@ class StoreService:
         return list(app_data_list)
 
     @classmethod
+    def get_all_viewbooking_details(cls):
+        final_list = []
+        app_data_list = AppointmentSchedule.objects.all().values(
+            'id',
+            'is_paid',
+            'assigned_staff__id',
+            'assigned_staff__employee_name',
+            'store_id',
+            'booking_date',
+            'end_time',
+            'customer_name',
+            'start_time',
+            'phone_number',
+            'appointment_status',
+            'customer__id',
+            'customer__customer_name',
+
+        )
+
+        for item in list(app_data_list):
+            item['service_list'] = list(
+                AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
+                    "id",
+                    "appointment__id",
+                    "service__id",
+                    "service__service_name",
+                ))
+
+        return list(app_data_list)
+
+    @classmethod
     def get_booking_details_dashboard(cls):
         final_list = []
         app_data_list = AppointmentSchedule.objects.all().values(

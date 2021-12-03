@@ -225,7 +225,7 @@ customerForm:FormGroup;
 
     });
     }
-    this.adminService.getViewbookingList().subscribe(
+    this.adminService.getAllViewbookingList().subscribe(
       (data) => {
         this.data = data;
         console.log(data)

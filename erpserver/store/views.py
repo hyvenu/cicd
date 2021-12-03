@@ -168,6 +168,14 @@ def get_viewbooking_details(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
+def get_all_viewbooking_details(request):
+    store_service = StoreService()
+    app_res = store_service.get_all_viewbooking_details()
+    return JsonResponse(app_res, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
 def get_dashboard_booking_details(request):
     store_service = StoreService()
     app_res = store_service.get_viewbooking_details()
