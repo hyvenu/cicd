@@ -72,6 +72,12 @@ def get_po_details(request):
     pr_obj = purchase_service.get_po_details(po_id)
     return JsonResponse(pr_obj, safe=False)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_pos_list(request):
+    purchase_service = OrderService()
+    pos = list(purchase_service.get_pos_list())
+    return JsonResponse(pos, safe=False)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
@@ -81,6 +87,7 @@ def get_po_list(request):
     return JsonResponse(po, safe=False)
 
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
 def save_po(request):
@@ -88,6 +95,22 @@ def save_po(request):
     purchase_service = OrderService()
     pr_res = purchase_service.save_sales_order(data)
     return JsonResponse(pr_res, safe=False)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def save_sales_refund(request):
+    data = request.data
+    purchase_service = OrderService()
+    re_res = purchase_service.save_sales_refund(data)
+    return JsonResponse(re_res, safe=False)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def save_sales_exchange(request):
+    data = request.data
+    purchase_service = OrderService()
+    ex_res = purchase_service.save_sales_exchange(data)
+    return JsonResponse(ex_res, safe=False)
 
 
 @api_view(['POST'])

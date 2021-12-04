@@ -96,7 +96,7 @@ class ProductMaster(AuditUuidModelMixin):
                                       default="static/assets/image/no-image.jpg")
     description = models.CharField(max_length=2000)
     product_name = models.CharField(max_length=30, unique=True, null=True, blank=True)
-
+    active = models.BooleanField(default=True)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, related_name="product_category",
                                  default=None)
     sub_category = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, related_name="product_sub_category",

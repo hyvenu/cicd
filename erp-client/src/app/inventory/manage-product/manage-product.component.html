@@ -37,6 +37,10 @@
                 <div *ngIf="f.brandNameFormControl.errors.required">BrandName is required</div>
             </div> 
                 </div><br>
+                <div class=" form-group col-md-3">
+                    <label for="active">Active</label>
+                    <input type="checkbox" [(ngModel)]="marked" [checked]="true" formControlName="productActivateFormControl" id="active" name="active"/>
+                </div>
 
             </div>
             <div class="form-row">

@@ -22,7 +22,7 @@ export class ManageProductComponent implements OnInit {
   categories_list;
   
   sub_categories;
-  
+  marked:boolean=true;
   dailog_ref;
   selected_category: any="";
   selected_sub_ategory: any="";
@@ -85,6 +85,7 @@ export class ManageProductComponent implements OnInit {
       atrributeNameFormControl: [''],
       packtypeFormControl: [''],
       productsListFormControl: [''],
+      productActivateFormControl:[''],
       image: ['', Validators.required], //making the image required here  
       fileSource: new FormControl('', [Validators.required])
     });
@@ -347,6 +348,7 @@ export class ManageProductComponent implements OnInit {
     formData.append('product_name', this.productMasterFrom.controls['productNameFormControl'].value);
     formData.append('hsn_code', this.productMasterFrom.controls['hsncodeFormControl'].value);
     formData.append('description', this.productMasterFrom.controls['descFormControl'].value);
+    formData.append('product_activate', this.productMasterFrom.controls['productActivateFormControl'].value);
     formData.append('product_attributes', JSON.stringify(this.product_attributes));
     formData.append('product_pack_types', JSON.stringify(this.product_packingtypes));
     // formData.append('product_images', this.productMasterFrom.controls['fileSource'].value);

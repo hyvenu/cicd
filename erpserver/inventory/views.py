@@ -168,6 +168,13 @@ def get_product_list(request):
     prd_list = inventory_service.get_product_list()
     return JsonResponse(prd_list, safe=False)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_all_product_list(request):
+    inventory_service = InventoryService()
+    prd_list = inventory_service.get_all_product_list()
+    return JsonResponse(prd_list, safe=False)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated,])
 def get_product_pack_type(request):
@@ -206,3 +213,19 @@ def get_product_stock(request):
     data = request.query_params['store_id']
 
     stock = inventory_service.get_product_stock
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_product_details(request):
+    inventory_service = InventoryService()
+    p_id = request.query_params['id']
+    p_obj = inventory_service.get_product_list_by_id(p_id)
+    return JsonResponse(p_obj, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_all_product_list(request):
+    inventory_service = InventoryService()
+    pr_list = inventory_service.get_all_product_list()
+    return JsonResponse(pr_list, safe=False)

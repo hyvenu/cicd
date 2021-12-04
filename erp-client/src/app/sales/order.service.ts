@@ -25,6 +25,18 @@ export class OrderService {
   public savePO(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/save_po`, data)
   }
+
+  public save_sales_refund(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/save_sales_refund`, data)
+  }
+  public save_sales_exchange(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/save_sales_exchange`, data)
+  }
+
+  public getPOSList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_pos_list`)
+  }
+
   public getPOList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_po_list`)
   }

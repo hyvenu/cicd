@@ -15,6 +15,8 @@ import { SalesBillComponent } from './sales-bill/sales-bill.component';
 import { InvoicePageComponent } from './invoice-page/invoice-page.component';
 import { SalesDetailsComponent } from './sales-details/sales-details.component';
 import { AmountToWordPipe } from './amount-to-word.pipe';
+import { RefundComponent } from './refund/refund.component';
+import { ExchangeComponent } from './exchange/exchange.component';
 
 const routes: Routes = [
   { path: 'OrderList' , component: OrderListComponent,canActivate:[AuthGuard]},
@@ -22,10 +24,12 @@ const routes: Routes = [
   { path: 'SalesOrder' , component: SalesOrderComponent,canActivate:[AuthGuard]},
   { path: 'InvoicePage' , component:InvoicePageComponent ,canActivate:[AuthGuard]},
   { path: 'SalesDetails', component:SalesDetailsComponent, canActivate:[AuthGuard]},
+  { path: 'Refund', component:RefundComponent, canActivate:[AuthGuard]},
+  { path: 'Exchange', component:ExchangeComponent, canActivate:[AuthGuard]},
 ]
 
 @NgModule({
-  declarations: [OrderListComponent, OrderViewComponent, SalesOrderComponent, SalesBillComponent, InvoicePageComponent, SalesDetailsComponent,AmountToWordPipe],
+  declarations: [OrderListComponent, OrderViewComponent, SalesOrderComponent, SalesBillComponent, InvoicePageComponent, SalesDetailsComponent,AmountToWordPipe, RefundComponent, ExchangeComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

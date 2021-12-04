@@ -106,6 +106,98 @@ class InventoryService:
         #     pass
         return list(product_dict)
 
+    def get_product_list_by_id(self, p_id):
+        product = ProductMaster.objects.filter(active=True, id=p_id).all().values(
+            'id',
+            'product_code',
+            'product_name',
+            'description',
+            'hsn_code',
+            'category__id',
+            'category__category_name',
+            'category__category_code',
+            'sub_category__id',
+            'sub_category__sub_category_name',
+            'sub_category__sub_category_code',
+            'brand__id',
+            'brand__brand_name',
+            'product_attributes',
+            'product_price__serial_number',
+            'product_price__sell_price',
+            'product_price__unit__PrimaryUnit',
+            'product_price__qty',
+            'product_price__unit_price',
+            'product_price__tax',
+            'product_price__unit',
+            'active',
+        )[0]
+
+        product['product_price'] = list(ProductPriceMaster.objects.filter(product=p_id).all().values(
+            "buy_price",
+            "sell_price",
+            "product",
+            "product__product_name",
+            "unit",
+            "unit__PrimaryUnit",
+            "tax",
+            "unit_price",
+            "qty",
+            "id",
+            "bar_code",
+            "safety_stock_level",
+            "serial_number",
+        ))
+
+        return product
+
+
+    def get_all_product_list(self):
+        product_list = []
+        product_dict = ProductMaster.objects.all().values(
+            'id',
+            'product_code',
+            'product_name',
+            'description',
+            'hsn_code',
+            'category__id',
+            'category__category_name',
+            'category__category_code',
+            'sub_category__id',
+            'sub_category__sub_category_name',
+            'sub_category__sub_category_code',
+            'brand__id',
+            'brand__brand_name',
+            'product_attributes',
+            'product_price__serial_number',
+            'product_price__sell_price',
+            'product_price__unit__PrimaryUnit',
+            'product_price__qty',
+            'product_price__unit_price',
+            'product_price__tax',
+            'product_price__unit',
+            'active',
+        )
+
+        for item in list(product_dict):
+            item["product_price"] = list(ProductPriceMaster.objects.filter(product=item['id']).all().values(
+                "buy_price",
+                "sell_price",
+                "product",
+                "product__product_name",
+                "unit",
+                "tax",
+                "unit_price",
+                "qty",
+                "id",
+                "bar_code",
+                "safety_stock_level",
+                "serial_number",
+            ))
+
+        # for prd in product_dict:
+        #     pass
+        return list(product_dict)
+
     def get_product_by_slno(self, sl_no):
         product = list(ProductPriceMaster.objects.filter(serial_number=sl_no).all().values(
             "buy_price",

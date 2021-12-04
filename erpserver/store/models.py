@@ -120,7 +120,7 @@ class Customer(AuditUuidModelMixin):
     customer_email = models.CharField(max_length=255, default=None,null=True,blank=True)
     customer_service_bill = models.CharField(max_length=255, default="")
     customer_address = models.CharField(max_length=255, default="",blank=True, null=True)
-    advance_amount = models.BigIntegerField(null=True)
+    advance_amount = models.DecimalField(max_digits=10, decimal_places=1, default=0)
     gst = models.CharField(max_length=255, default="", null=True)
     active = models.BooleanField(null=True,default=True)
 

@@ -14,7 +14,8 @@ from engine.payment_service import PaymentService
 from engine.pdf_service import get_pdf
 from engine.promo_code_service import PromoCodeService
 from inventory.models import ProductMaster, ProductPriceMaster, ProductImages, ProductStock
-from sales.models import OrderRequest, OrderDetails, OrderEvents, SalesOrderRequest, SalesOrderDetails
+from sales.models import OrderRequest, OrderDetails, OrderEvents, SalesOrderRequest, SalesOrderDetails,SalesRefund, \
+    SalesRefundDetails, SalesExchange, SalesExchangeDetails
 from security.models import CustomerAddress
 from store.models import StoreShipLocations, Store
 import ast
@@ -446,6 +447,8 @@ class OrderService:
         # sales_order_req.invoice_amount = sales_data['invoice_amount']
         sales_order_req.terms_conditions = sales_data['terms_conditions']
         sales_order_req.transaction_id = sales_data['transaction_id']
+        sales_order_req.total_include_gst = sales_data['total_include_gst']
+        sales_order_req.total_gst_amount = sales_data['total_gst_amount']
         sales_order_req.user_id = sales_data['user_id']
         sales_order_req.store_id = sales_data['store_id']
         sales_order_req.customer_id = sales_data['customer']
@@ -465,7 +468,7 @@ class OrderService:
             sales_order_details.booking_id = item['booking_id']
             # po_product.product_code = item['product_code']
             sales_order_details.product_name = item['item_description']
-            sales_order_details.unit_id = None
+            sales_order_details.unit_id = item['unit']
             sales_order_details.unit_text = item['unit']
             sales_order_details.qty = item['quantity']
             # po_product.delivery_date = str(item['delivery_date'])[0:10]
@@ -482,6 +485,192 @@ class OrderService:
             sales_order_details.save()
 
         return sales_order_req.po_number
+
+    @classmethod
+    def generate_refund_no(cls, invoice):
+        prefix = 'SAF' + '-' + invoice + '-' + 'REV' + '/20-21-'
+        code = get_next_value(prefix, 1)
+        code = prefix + str(code).zfill(5)
+        return code
+
+    @classmethod
+    @transaction.atomic()
+    def save_sales_refund(cls, sales_data):
+        if 'id' in sales_data:
+            sales_refund_req = SalesRefund.objects.get(id=sales_data['id'])
+        else:
+            sales_refund_req = SalesRefund()
+            invoice_number = SalesOrderRequest.objects.filter(id=sales_data['invoice_no']).values('invoice_no')[0][
+                'invoice_no']
+            sales_refund_req.refund_number = cls.generate_refund_no(invoice_number)
+            # sales_order_req.transaction_id = cls.generate_transaction_id()
+
+        sales_refund_req.shipping_address = sales_data['shipping_address']
+        sales_refund_req.transport_type = sales_data['transport_type']
+        sales_refund_req.invoice_no_id = sales_data['invoice_no']
+        sales_refund_req.refund_date = datetime.datetime.now()  # sales_data['po_date']
+
+        # sales_refund_req.pr_number = sales_data['pr_number']
+        # sales_order_req.vendor_id = sales_data['vendor_id']
+        sales_refund_req.payment_terms = sales_data['payment_terms']
+        sales_refund_req.refund_amount = sales_data['refund_amount']
+        sales_refund_req.total_gst_amount = sales_data['total_gst_amount']
+        sales_refund_req.upi_type = sales_data['upi_type']
+        sales_refund_req.other_reference = sales_data['other_reference']
+        sales_refund_req.terms_of_delivery = sales_data['terms_of_delivery']
+        sales_refund_req.note = sales_data['note']
+        sales_refund_req.sub_total = sales_data['sub_total']
+        sales_refund_req.discount_price = sales_data['discount_price']
+        sales_refund_req.grand_total = sales_data['grand_total']
+        sales_refund_req.packing_perct = sales_data['packing_perct']
+        sales_refund_req.packing_amount = sales_data['packing_amount']
+        # sales_order_req.total_amount = sales_data['total_amount']
+        sales_refund_req.sgst = sales_data['sgst']
+        sales_refund_req.cgst = sales_data['cgst']
+        sales_refund_req.igst = sales_data['igst']
+        # if sales_data['card'] == "true":
+        #     sales_order_req.card = True
+        # else:
+        #     sales_order_req.card = False
+        # if sales_data['cash'] == "true":
+        #     sales_order_req.cash = True
+        # else:
+        #     sales_order_req.cash = False
+        # if sales_data['upi'] == "true":
+        #     sales_order_req.upi = True
+        # else:
+        #     sales_order_req.upi = False
+
+        # sales_order_req.invoice_amount = sales_data['invoice_amount']
+        sales_refund_req.terms_conditions = sales_data['terms_conditions']
+        sales_refund_req.transaction_id = sales_data['transaction_id']
+        sales_refund_req.total_include_gst = sales_data['total_include_gst']
+        sales_refund_req.user_id = sales_data['user_id']
+        sales_refund_req.store_id = sales_data['store_id']
+        sales_refund_req.customer_id = sales_data['customer_id']
+
+        sales_refund_req.save()
+
+        sales_invoice_list = ast.literal_eval(sales_data['invoice_items'])
+        for item in sales_invoice_list:
+            if 'id' in item and len(item['id']) > 0:
+                sales_refund_details = SalesRefundDetails.objects.get(id=item['id'])
+            else:
+                sales_refund_details = SalesRefundDetails()
+
+            sales_refund_details.refund_order = sales_refund_req
+            sales_refund_details.product_id = item['item_id']
+            # po_product.product_code = item['product_code']
+            # po_product.product_name = item['product_name']
+            sales_refund_details.unit_id = item['unit']
+            sales_refund_details.unit_text = item['unit']
+            sales_refund_details.qty = item['quantity']
+            # po_product.delivery_date = str(item['delivery_date'])[0:10]
+            sales_refund_details.unit_price = item['price']
+            sales_refund_details.gst = item['tax']
+            # so_invoice.amount = item['amount']
+            sales_refund_details.subtotal_amount = item['item_total']
+            sales_refund_details.barcode = sales_data['barcode']
+            # so_invoice.disc_amount = item['disc_amount']
+            sales_refund_details.gst_amount = item['gst_value']
+            # sales_order_details.unit = item['unit']
+            # so_invoice.total = item['total']
+
+            sales_refund_details.save()
+
+        return sales_refund_req.refund_number
+
+    @classmethod
+    def generate_exchange_no(cls, invoice):
+        prefix = 'SAF' + '-' + invoice + '-' + 'REV' + '/20-21-'
+        code = get_next_value(prefix, 1)
+        code = prefix + str(code).zfill(5)
+        return code
+
+    @classmethod
+    @transaction.atomic()
+    def save_sales_exchange(cls, sales_data):
+        if 'id' in sales_data:
+            sales_exchange_req = SalesExchange.objects.get(id=sales_data['id'])
+        else:
+            sales_exchange_req = SalesExchange()
+            invoice_number = SalesOrderRequest.objects.filter(id=sales_data['invoice_no']).values('invoice_no')[0][
+                'invoice_no']
+            sales_exchange_req.exchange_number = cls.generate_exchange_no(invoice_number)
+            # sales_order_req.transaction_id = cls.generate_transaction_id()
+
+        sales_exchange_req.shipping_address = sales_data['shipping_address']
+        sales_exchange_req.transport_type = sales_data['transport_type']
+        sales_exchange_req.exchange_date = datetime.datetime.now()  # sales_data['po_date']
+
+        # sales_refund_req.pr_number = sales_data['pr_number']
+        # sales_order_req.vendor_id = sales_data['vendor_id']
+        sales_exchange_req.payment_terms = sales_data['payment_terms']
+        sales_exchange_req.total_gst_amount = sales_data['total_gst_amount']
+        sales_exchange_req.upi_type = sales_data['upi_type']
+        sales_exchange_req.other_reference = sales_data['other_reference']
+        sales_exchange_req.terms_of_delivery = sales_data['terms_of_delivery']
+        sales_exchange_req.note = sales_data['note']
+        sales_exchange_req.sub_total = sales_data['sub_total']
+        sales_exchange_req.discount_price = sales_data['discount_price']
+        sales_exchange_req.grand_total = sales_data['grand_total']
+        sales_exchange_req.packing_perct = sales_data['packing_perct']
+        sales_exchange_req.packing_amount = sales_data['packing_amount']
+        # sales_order_req.total_amount = sales_data['total_amount']
+        sales_exchange_req.sgst = sales_data['sgst']
+        sales_exchange_req.cgst = sales_data['cgst']
+        sales_exchange_req.igst = sales_data['igst']
+        # if sales_data['card'] == "true":
+        #     sales_order_req.card = True
+        # else:
+        #     sales_order_req.card = False
+        # if sales_data['cash'] == "true":
+        #     sales_order_req.cash = True
+        # else:
+        #     sales_order_req.cash = False
+        # if sales_data['upi'] == "true":
+        #     sales_order_req.upi = True
+        # else:
+        #     sales_order_req.upi = False
+
+        # sales_order_req.invoice_amount = sales_data['invoice_amount']
+        sales_exchange_req.terms_conditions = sales_data['terms_conditions']
+        sales_exchange_req.transaction_id = sales_data['transaction_id']
+        sales_exchange_req.total_include_gst = sales_data['total_include_gst']
+        sales_exchange_req.user_id = sales_data['user_id']
+        sales_exchange_req.store_id = sales_data['store_id']
+        sales_exchange_req.customer_id = sales_data['customer_id']
+
+        sales_exchange_req.save()
+
+        sales_invoice_list = ast.literal_eval(sales_data['invoice_items'])
+        for item in sales_invoice_list:
+            if 'id' in item and len(item['id']) > 0:
+                sales_exchange_details = SalesExchangeDetails.objects.get(id=item['id'])
+            else:
+                sales_exchange_details = SalesExchangeDetails()
+
+            sales_exchange_details.refund_order = sales_exchange_req
+            sales_exchange_details.product_id = item['item_id']
+            # po_product.product_code = item['product_code']
+            # po_product.product_name = item['product_name']
+            sales_exchange_details.unit_id = item['unit']
+            sales_exchange_details.unit_text = item['unit']
+            sales_exchange_details.qty = item['quantity']
+            # po_product.delivery_date = str(item['delivery_date'])[0:10]
+            sales_exchange_details.unit_price = item['price']
+            sales_exchange_details.gst = item['tax']
+            # so_invoice.amount = item['amount']
+            sales_exchange_details.subtotal_amount = item['item_total']
+            sales_exchange_details.barcode = sales_data['barcode']
+            # so_invoice.disc_amount = item['disc_amount']
+            sales_exchange_details.gst_amount = item['gst_value']
+            # sales_order_details.unit = item['unit']
+            # so_invoice.total = item['total']
+
+            sales_exchange_details.save()
+
+        return sales_exchange_req.exchange_number
 
     @classmethod
     def generate_bar_code(cls, items_identifier):
@@ -585,6 +774,70 @@ class OrderService:
 
         )
         return list(po_data_list)
+
+    @classmethod
+    def get_pos_list(cls):
+        pos_data_list = SalesOrderRequest.objects.all().values(
+            'id',
+            'po_type',
+            'po_date',
+            'po_number',
+            # 'pr_number',
+            'shipping_address',
+            'transport_type',
+            'payment_terms',
+            'other_reference',
+            # 'cupon',
+            'terms_of_delivery',
+            "transaction_id",
+            'payment_terms',
+            'note',
+            'sub_total',
+            'packing_perct',
+            'packing_amount',
+            'total_gst_amount',
+            "grand_total",
+            # 'total_amount',
+            'sgst',
+            'cgst',
+            'igst',
+            'total_include_gst',
+            # 'invoice_amount',
+            'terms_conditions',
+            "invoice_no",
+            'store_id',
+            'customer_id',
+            "customer__customer_name",
+            "customer__customer_address",
+            "customer__phone_number",
+            "customer__customer_email",
+            "upi_type",
+            "discount_price",
+
+        )
+        for item in list(pos_data_list):
+            item['order_details'] = list(SalesOrderDetails.objects.filter(po_order_id=item['id']).all().values(
+
+                "id",
+                # "product__id",
+                # # "product_name",
+                # # "product_code",
+                "unit_id",
+                "qty",
+                'product',
+                # "delivery_date",
+                "unit_price",
+                "gst",
+                "unit__PrimaryUnit",
+                "product__product_name",
+                # "amount",
+                "barcode",
+                "gst_amount",
+                "subtotal_amount",
+
+            ))
+
+        return list(pos_data_list)
 
     @classmethod
     @transaction.atomic
