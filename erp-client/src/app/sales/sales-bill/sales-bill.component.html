@@ -283,8 +283,8 @@ $box.prop("checked", false);
       <nb-card-header>Customer List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchCus" /> </nb-card-header>
       <nb-card-body>
         <nb-list>
-            <nb-list-item *ngFor="let item of customer_list| search_filter:'customer_name':searchCus">
-              <i class="mr-auto mt-2 mt-lg-0">{{ item.customer_name }} </i>              
+            <nb-list-item *ngFor="let item of customer_list| search_filter:'customer_name,phone_number':searchCus">
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.customer_name }}-{{item.phone_number }} </i>              
               <button nbButton (click)="ref.close(item)" size="small">Select</button>
             </nb-list-item>
           </nb-list>

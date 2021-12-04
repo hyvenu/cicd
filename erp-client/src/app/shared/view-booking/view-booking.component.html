@@ -39,8 +39,8 @@
         <nb-card-header>Stylist <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchStylist" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data | search_filter:'employee_name':searchStylist">
-                    <i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i>
+                <nb-list-item *ngFor="let item of data | search_filter:'employee_name,phone_number':searchStylist">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }}-{{ item.phone_number }} </i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
             </nb-list>
