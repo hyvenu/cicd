@@ -563,7 +563,7 @@ class OrderService:
             # po_product.product_code = item['product_code']
             # po_product.product_name = item['product_name']
             sales_refund_details.unit_id = item['unit']
-            sales_refund_details.unit_text = item['unit']
+            sales_refund_details.unit_text = item['unit_name']
             sales_refund_details.qty = item['quantity']
             # po_product.delivery_date = str(item['delivery_date'])[0:10]
             sales_refund_details.unit_price = item['price']
