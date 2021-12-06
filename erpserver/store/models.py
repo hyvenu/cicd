@@ -121,7 +121,7 @@ class Customer(AuditUuidModelMixin):
     customer_service_bill = models.CharField(max_length=255, default="")
     customer_address = models.CharField(max_length=255, default="",blank=True, null=True)
     advance_amount = models.DecimalField(max_digits=10, decimal_places=1, default=0)
-    gst = models.CharField(max_length=255, default="", null=True)
+    gst = models.CharField(max_length=255, default="", null=True,blank=True)
     active = models.BooleanField(null=True,default=True)
 
     class Meta:

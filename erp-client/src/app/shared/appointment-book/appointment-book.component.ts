@@ -215,6 +215,31 @@ export class AppointmentBookComponent implements OnInit {
   });
   }
 
+  open(dialog: TemplateRef<any>) {
+    this.dailog_ref = this.dialogService.open(dialog, { context: this.service_list })
+      .onClose.subscribe(data => {
+        this.searchService = ""
+        //  this.product_list = data
+        
+        console.log(data)
+        
+        
+        
+          
+        this.selected_product_list.push({
+    
+          id: this.service_id,
+          service_id:data.id,
+          service_name: data.service_name,
+          stylist_id:this.stylist_id
+     
+        });
+      
+      });
+    //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
+   
+  }
+
   check_date_of_req():void{
     // let dateOfReq = this.bookingForm.get('bookingDateFormControl').value;
     // console.log("date from form",dateOfReq)
@@ -282,30 +307,7 @@ export class AppointmentBookComponent implements OnInit {
       })
     }
 
-    open(dialog: TemplateRef<any>) {
-      this.dailog_ref = this.dialogService.open(dialog, { context: this.service_list })
-        .onClose.subscribe(data => {
-          this.searchService = ""
-          //  this.product_list = data
-          
-          console.log(data)
-          
-          
-          
-            
-          this.selected_product_list.push({
-            
-            id: this.service_id,
-            service_id:data.id,
-            service_name: data.service_name,
-            stylist_id:this.stylist_id
-       
-          });
-        
-        });
-      //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
-     
-    }
+   
 
     
 
