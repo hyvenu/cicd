@@ -1,8 +1,11 @@
 eclipse.preferences.version=1
-encoding/Employee_rpt.jrxml=UTF-8
 encoding/Enquiry_rpt.jrxml=UTF-8
 encoding/Grn_rpt.jrxml=UTF-8
 encoding/Material_Sales_rpt.jrxml=UTF-8
+encoding/RptEmployeeReport.jrxml=UTF-8
+encoding/RptSafetystockReport.jrxml=UTF-8
 encoding/RptSalesReport.jrxml=UTF-8
-encoding/Safety_Stock_rpt.jrxml=UTF-8
+encoding/RptSalesbydayReport.jrxml=UTF-8
+encoding/RptSalesbyserviceReport.jrxml=UTF-8
+encoding/RptSalesbystaffReport.jrxml=UTF-8
 encoding/Stock_rpt.jrxml=UTF-8

@@ -62,7 +62,7 @@ left join store_store as Store on Stock.store_id=Store.id where
 Product.product_code= $P{Product_Code} and
    Product.product_name= $P{Product_name}  and 
    Category.category_name= $P{Category_Name} and
-    Sub_Category.sub_category_name= $P{Sub-Category_Name} ]]>
+    Sub_Category.sub_category_name= $P{Sub-Category_Name}]]>
 		</queryString>
 		<field name="category_name" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="category_name"/>
@@ -250,9 +250,9 @@ Product.product_code= $P{Product_Code} and
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="209" splitType="Stretch">
+		<band height="96" splitType="Stretch">
 			<componentElement>
-				<reportElement x="27" y="8" width="733" height="92" uuid="fb7fb4e8-68cd-4723-b602-7327f500b146">
+				<reportElement x="27" y="8" width="693" height="72" uuid="fb7fb4e8-68cd-4723-b602-7327f500b146">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -275,7 +275,7 @@ Product.product_code= $P{Product_Code} and
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="72" uuid="e303b8ad-fbe8-49e8-849f-9064f03907cd">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="1548cfac-5506-4094-b336-7bfede6ceab8"/>
@@ -294,7 +294,7 @@ Product.product_code= $P{Product_Code} and
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="72" uuid="d12124bb-3dcd-4f86-8cae-d3c49f734d00">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="d9cecdd1-42fc-4c89-8743-33a0ac653186"/>
@@ -313,7 +313,7 @@ Product.product_code= $P{Product_Code} and
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="86" uuid="0baed369-9d19-453e-a152-b4d481126e22">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="86" height="30" uuid="bec5896b-e88e-423a-836b-df290e6b6b92"/>
@@ -332,7 +332,7 @@ Product.product_code= $P{Product_Code} and
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="72" uuid="157c50fe-a99d-4299-9c0c-1d1849bb0b67">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="6267bae0-fde6-4509-86cc-3ad7c085e771"/>
@@ -351,7 +351,7 @@ Product.product_code= $P{Product_Code} and
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="78" uuid="1f45e05f-c342-47ec-a04b-c81a30db3d3c">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="78" height="30" uuid="926afb91-cf82-491a-b7c0-6c9d90ff8d5f"/>
@@ -370,7 +370,7 @@ Product.product_code= $P{Product_Code} and
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="80" uuid="e8ea66fc-e204-4de2-b63c-fcaec6107dda">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="c107767b-5b0b-4520-8aa4-8d512a135996"/>
@@ -389,7 +389,7 @@ Product.product_code= $P{Product_Code} and
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="72" uuid="785020da-8dd5-49e4-8202-d8758a81bb72">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="f2504481-c33e-4696-a4b6-f9db43e001c3"/>
@@ -408,7 +408,7 @@ Product.product_code= $P{Product_Code} and
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="72" uuid="a5825ce4-4395-4fd1-96e1-97e895ef3277">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="1fd74ead-26b4-4595-b651-8177fc0b83c6"/>
@@ -427,7 +427,7 @@ Product.product_code= $P{Product_Code} and
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="72" uuid="4723beb8-b24c-471a-b049-dc9ecedf3355">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="1ec5bf2a-be07-4fbf-ae1d-204e89cb30a0"/>
@@ -450,7 +450,22 @@ Product.product_code= $P{Product_Code} and
 		</band>
 	</detail>
 	<columnFooter>
-		<band splitType="Stretch"/>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="340" y="10" width="51" height="22" uuid="31b51a7e-72b8-46a3-9db4-3c64b0892718"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Candara" size="15"/>
+				</textElement>
+				<text><![CDATA[Page :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="380" y="6" width="30" height="30" uuid="b24f965c-9ea1-4f47-bd88-323ae4cd30be"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Candara" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band splitType="Stretch"/>
