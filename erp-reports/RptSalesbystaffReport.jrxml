@@ -298,7 +298,7 @@ Store.address,Store.city,Store.pin_code FROM store_store as Store;]]>
 							<textField>
 								<reportElement x="0" y="0" width="62" height="30" uuid="f3c62b68-4ca9-44e5-847f-c3fa6ce77231"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{booking_date}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[DATEFORMAT($F{booking_date},"dd-MMM-YYY")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
