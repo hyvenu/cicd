@@ -44,7 +44,7 @@
 Stock.quantity as Item_Sold, Price.unit_price as Gross_Sales,
  Price.unit_price as Net_Sales, Price.tax,
   ((Price.unit_price*Price.tax)/100)+Price.unit_price as Total_Sales
-FROM d5n.store_appointmentschedule as Appointment_Schedule
+FROM store_appointmentschedule as Appointment_Schedule
 inner join sales_salesorderdetails as Sales_Order on Sales_Order.booking_id=Appointment_Schedule.id
 left join purchase_purchaserequisitionproductlist as Purchase_Product on Purchase_Product.product_id=Sales_Order.product_id
 left join inventory_productstock as Stock on Stock.product_id=Purchase_Product.product_id
@@ -110,7 +110,7 @@ group by Appointment_Schedule.booking_date]]>
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store;]]>
+		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
