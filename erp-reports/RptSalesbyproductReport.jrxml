@@ -214,7 +214,7 @@ group by Appointment_Schedule.booking_date]]>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="90" y="10" width="370" height="58" uuid="764c30e8-981d-44cb-bb2d-4575ffdc1dc2"/>
+				<reportElement x="90" y="10" width="370" height="50" uuid="764c30e8-981d-44cb-bb2d-4575ffdc1dc2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="25"/>
 				</textElement>
