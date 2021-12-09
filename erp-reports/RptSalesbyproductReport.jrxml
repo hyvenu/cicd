@@ -214,7 +214,7 @@ group by Appointment_Schedule.booking_date]]>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="90" y="10" width="370" height="50" uuid="764c30e8-981d-44cb-bb2d-4575ffdc1dc2"/>
+				<reportElement x="90" y="10" width="370" height="58" uuid="764c30e8-981d-44cb-bb2d-4575ffdc1dc2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="25"/>
 				</textElement>
@@ -280,7 +280,9 @@ group by Appointment_Schedule.booking_date]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField isBlankWhenNull="true">
 								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="dd2f5285-dcfa-4ffb-bae2-70e91c196b69"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="11"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Item_Sold}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -299,7 +301,9 @@ group by Appointment_Schedule.booking_date]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField isBlankWhenNull="true">
 								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="b4907bd3-f8e4-484c-b461-8528474c5b80"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="11"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Gross_Sales}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -344,7 +348,9 @@ group by Appointment_Schedule.booking_date]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField isBlankWhenNull="true">
 								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="e01c477c-c44d-43a1-b797-e1337db49436"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="11"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Net_Sales}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -363,7 +369,9 @@ group by Appointment_Schedule.booking_date]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField isBlankWhenNull="true">
 								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="d3986b3c-3b10-4628-b524-3f35eb772ced"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="11"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{tax}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -382,7 +390,9 @@ group by Appointment_Schedule.booking_date]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField isBlankWhenNull="true">
 								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="bd72351c-f351-43e9-ad5d-ca107cc02d9b"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="11"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Total_Sales}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
