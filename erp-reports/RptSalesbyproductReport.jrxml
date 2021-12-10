@@ -12,7 +12,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Table_CH" mode="Opaque" backcolor="#C7DAEB">
+	<style name="Table_CH" mode="Opaque" backcolor="#CCDDED">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -30,7 +30,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<subDataset name="Sales_by_Product" uuid="83978bf3-c8dd-4b5d-9e98-f9cf1f8442e3">
+	<subDataset name="Sales_by_Product" uuid="8fc70e73-2daf-4401-a0d0-2412edb16f3c">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 		<parameter name="From_Date" class="java.sql.Date">
@@ -40,45 +40,45 @@
 			<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT Appointment_Schedule.booking_date,
-Stock.quantity as Item_Sold, Price.unit_price as Gross_Sales,
- Price.unit_price as Net_Sales, Price.tax,
-  ((Price.unit_price*Price.tax)/100)+Price.unit_price as Total_Sales
-FROM store_appointmentschedule as Appointment_Schedule
-inner join sales_salesorderdetails as Sales_Order on Sales_Order.booking_id=Appointment_Schedule.id
-left join purchase_purchaserequisitionproductlist as Purchase_Product on Purchase_Product.product_id=Sales_Order.product_id
-left join inventory_productstock as Stock on Stock.product_id=Purchase_Product.product_id
-left join inventory_productpricemaster as Price on Price.product_id=Stock.product_id
-where Appointment_Schedule.booking_date between  $P{From_Date} and  $P{To Date} 
--- left join sales_salesorderrequest as Order_Request on Order_Request.customer_id=Appointment_Schedule.customer_id
-group by Appointment_Schedule.booking_date]]>
+			<![CDATA[SELECT distinct Appointment_Schedule.booking_date,
+count(distinct Price.qty) as Item_Sold, sum(distinct Price.unit_price) as Gross_Sales,
+ sum(Order_Request.discount_price)as Discount,
+ sum(distinct Price.unit_price)-sum(Order_Request.discount_price) as Net_Sales, Price.tax,
+((sum(distinct Price.unit_price)-sum(Order_Request.discount_price))*(Price.tax))/100 +
+sum(distinct Price.unit_price)-sum(Order_Request.discount_price) as Total_Sales
+
+FROM d5n.store_appointmentschedule as Appointment_Schedule
+
+inner join sales_salesorderrequest as Order_Request on Order_Request.customer_id=Appointment_Schedule.customer_id
+inner join sales_salesorderdetails as Sales_Order on Sales_Order.po_order_id=Order_Request.id
+ left join inventory_productpricemaster as Price on Price.product_id=Sales_Order.product_id
+ where Sales_Order.product_id is not null
+ and Appointment_Schedule.booking_date between  $P{From_Date} and  $P{To Date} 
+group by Appointment_Schedule.booking_date, Price.product_id is not null]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
 			<property name="com.jaspersoft.studio.field.label" value="booking_date"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="store_appointmentschedule"/>
-			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="Item_Sold" class="java.lang.Integer">
+		<field name="Item_Sold" class="java.lang.Long">
 			<property name="com.jaspersoft.studio.field.name" value="Item_Sold"/>
 			<property name="com.jaspersoft.studio.field.label" value="Item_Sold"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="inventory_productstock"/>
 		</field>
 		<field name="Gross_Sales" class="java.math.BigDecimal">
 			<property name="com.jaspersoft.studio.field.name" value="Gross_Sales"/>
 			<property name="com.jaspersoft.studio.field.label" value="Gross_Sales"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="inventory_productpricemaster"/>
+		</field>
+		<field name="Discount" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="Discount"/>
+			<property name="com.jaspersoft.studio.field.label" value="Discount"/>
 		</field>
 		<field name="Net_Sales" class="java.math.BigDecimal">
 			<property name="com.jaspersoft.studio.field.name" value="Net_Sales"/>
 			<property name="com.jaspersoft.studio.field.label" value="Net_Sales"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="inventory_productpricemaster"/>
 		</field>
 		<field name="tax" class="java.math.BigDecimal">
 			<property name="com.jaspersoft.studio.field.name" value="tax"/>
 			<property name="com.jaspersoft.studio.field.label" value="tax"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="inventory_productpricemaster"/>
-			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="Total_Sales" class="java.math.BigDecimal">
 			<property name="com.jaspersoft.studio.field.name" value="Total_Sales"/>
@@ -92,6 +92,9 @@ group by Appointment_Schedule.booking_date]]>
 		</group>
 		<group name="Gross_Sales">
 			<groupExpression><![CDATA[$F{Gross_Sales}]]></groupExpression>
+		</group>
+		<group name="Discount">
+			<groupExpression><![CDATA[$F{Discount}]]></groupExpression>
 		</group>
 		<group name="Net_Sales">
 			<groupExpression><![CDATA[$F{Net_Sales}]]></groupExpression>
@@ -229,16 +232,16 @@ group by Appointment_Schedule.booking_date]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="78" splitType="Stretch">
+		<band height="79" splitType="Stretch">
 			<componentElement>
-				<reportElement x="1" y="4" width="550" height="66" uuid="5e15d8d9-d59b-46e7-aa28-58bcf8716f79">
+				<reportElement x="0" y="4" width="560" height="66" uuid="914cb036-cc7d-49d3-a710-2727ee08f29e">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Sales_by_Product" uuid="1e49bfef-6a41-44f8-9b7d-e505f1e7f85d">
+					<datasetRun subDataset="Sales_by_Product" uuid="7bdbbb78-18b7-4c58-9fcd-292e3b2aac72">
 						<datasetParameter name="From_Date">
 							<datasetParameterExpression><![CDATA[$P{From_Date}]]></datasetParameterExpression>
 						</datasetParameter>
@@ -247,11 +250,11 @@ group by Appointment_Schedule.booking_date]]>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="69" uuid="5b8c443c-8910-4ea4-a586-466ebbe09f8f">
+					<jr:column width="68" uuid="e4d8b8c4-0c73-4534-a2a9-d205333791c4">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="69" height="30" uuid="6a923668-a708-41a4-8e43-9eeb5dd3d753"/>
+								<reportElement x="0" y="0" width="68" height="30" uuid="21d0beb0-d1ad-4ce8-80b2-6079e5d6dcad"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Candara" size="14"/>
 								</textElement>
@@ -259,18 +262,18 @@ group by Appointment_Schedule.booking_date]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isBlankWhenNull="true">
-								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="f03a5a89-040f-4a45-b1d8-55eb29455436"/>
+							<textField>
+								<reportElement x="0" y="0" width="68" height="30" uuid="f6117bed-2d83-420a-846c-6bfeefeafe21"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[DATEFORMAT($F{booking_date},"dd-MMM-YYY")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="69" uuid="4786c6da-e414-4502-ae77-da5d79568f5c">
+					<jr:column width="68" uuid="2f9761a9-1d21-43d4-b1c2-17eb8a3212f8">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="69" height="30" uuid="a55cc2e6-5fe1-4ced-b6ac-69032596f950"/>
+								<reportElement x="0" y="0" width="68" height="30" uuid="5a34f981-3b21-4398-8098-498e2f0493da"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Candara" size="14"/>
 								</textElement>
@@ -278,20 +281,18 @@ group by Appointment_Schedule.booking_date]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isBlankWhenNull="true">
-								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="dd2f5285-dcfa-4ffb-bae2-70e91c196b69"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="11"/>
-								</textElement>
+							<textField>
+								<reportElement x="0" y="0" width="68" height="30" uuid="6850e861-53b3-486d-b923-e16681967a2d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{Item_Sold}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="69" uuid="88307b71-0f8f-4d34-81d4-e44990cf7823">
+					<jr:column width="68" uuid="7ddb4723-d6a3-4058-bd69-574561a5893b">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="69" height="30" uuid="324cc1e6-badf-4ec5-ba66-ad3298122035"/>
+								<reportElement x="0" y="0" width="68" height="30" uuid="b94cadfe-837a-4ee0-84da-52a47abdc149"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Candara" size="14"/>
 								</textElement>
@@ -299,33 +300,37 @@ group by Appointment_Schedule.booking_date]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isBlankWhenNull="true">
-								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="b4907bd3-f8e4-484c-b461-8528474c5b80"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="11"/>
-								</textElement>
+							<textField>
+								<reportElement x="0" y="0" width="68" height="30" uuid="fec12dc2-e3b4-4c97-a8dd-68c6be3d7cd7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{Gross_Sales}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="76" uuid="c16cb764-e7e4-4a9f-b145-c574fa0fece5">
+					<jr:column width="68" uuid="18d8b0f5-602c-46a0-a1b7-125cdfc5e297">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="76" height="30" uuid="5778e273-c56d-4357-95ee-59c07727d907"/>
+								<reportElement x="0" y="0" width="68" height="30" uuid="d07442d6-b913-432f-a5df-bb846185b164"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Candara" size="14"/>
 								</textElement>
-								<text><![CDATA[Discounct]]></text>
+								<text><![CDATA[Discount]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="Table_TD" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="68" height="30" uuid="4f3e0812-2db4-4e3c-83e0-e02e3fa6a1b0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{Discount}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
-					<jr:column width="76" uuid="6cd7f7a9-c7d2-40a8-84fa-6b4474b2d296">
+					<jr:column width="68" uuid="830c21b6-d8eb-42bc-b63f-a444dd0bcfbe">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="76" height="30" uuid="c9631f42-f3f7-4af2-9312-391cbac671e3"/>
+								<reportElement x="0" y="0" width="68" height="30" uuid="b5044ca2-34c0-4ff5-a28b-a9187a8a755e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Candara" size="14"/>
 								</textElement>
@@ -334,53 +339,49 @@ group by Appointment_Schedule.booking_date]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30"/>
 					</jr:column>
-					<jr:column width="69" uuid="7a176eb2-97e5-4a78-9543-566d5c21d074">
+					<jr:column width="68" uuid="91711ee2-71d2-4e22-b2d6-322f8430a173">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="69" height="30" uuid="895881cf-a2d9-4625-9120-e4e2efec1e83"/>
+								<reportElement x="0" y="0" width="68" height="30" uuid="1f378e69-752c-4c37-9c43-a895a039598f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Candara" size="14"/>
 								</textElement>
-								<text><![CDATA[Net Sales]]></text>
+								<text><![CDATA[Net_Sales]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isBlankWhenNull="true">
-								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="e01c477c-c44d-43a1-b797-e1337db49436"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="11"/>
-								</textElement>
+							<textField>
+								<reportElement x="0" y="0" width="68" height="30" uuid="b786f522-8e3d-4449-be1f-67a8bf8d6f21"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{Net_Sales}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="69" uuid="4436f55d-3b50-44e7-b9b9-49fcacf77d87">
+					<jr:column width="68" uuid="e70ab08a-f515-473e-8a98-565c43374850">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="69" height="30" uuid="db409529-00ad-4abc-a260-261d7821532c"/>
+								<reportElement x="0" y="0" width="68" height="30" uuid="b4cb0fd8-85e0-4bb4-b248-65092da78592"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Candara" size="14"/>
 								</textElement>
-								<text><![CDATA[Tax]]></text>
+								<text><![CDATA[tax]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isBlankWhenNull="true">
-								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="d3986b3c-3b10-4628-b524-3f35eb772ced"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="11"/>
-								</textElement>
+							<textField>
+								<reportElement x="0" y="0" width="68" height="30" uuid="4fc7f628-dc77-4fce-9dd7-13be551ba62a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{tax}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="69" uuid="aecb7507-c823-4cd9-b3e8-9f6d328bcd84">
+					<jr:column width="68" uuid="46c5d834-d6f7-4f42-9a7b-23be3e9f0c76">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="69" height="30" uuid="0018f90b-f7ac-4b67-a717-774b8ca72758"/>
+								<reportElement x="0" y="0" width="68" height="30" uuid="cd7a9edb-a387-4529-96af-aa3e7a7a188a"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Candara" size="14"/>
 								</textElement>
@@ -388,12 +389,10 @@ group by Appointment_Schedule.booking_date]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isBlankWhenNull="true">
-								<reportElement style="Table_TD" x="0" y="0" width="69" height="30" uuid="bd72351c-f351-43e9-ad5d-ca107cc02d9b"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="11"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{Total_Sales}]]></textFieldExpression>
+							<textField>
+								<reportElement x="0" y="0" width="68" height="30" uuid="c25996b1-2148-4a39-97bc-9dd486d3b11e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[ABS($F{Total_Sales})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
