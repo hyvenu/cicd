@@ -76,7 +76,7 @@ class UnitMaster(AuditUuidModelMixin):
     SecondaryUnit = models.CharField(max_length=300, unique=True)
 
     class Meta:
-        pass
+        verbose_name_plural = "Units"
 
     def __str__(self):
         return str(self.PrimaryUnit) + "-" + str(self.SecondaryUnit)

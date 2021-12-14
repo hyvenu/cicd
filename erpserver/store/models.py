@@ -5,6 +5,7 @@ from django.db import models
 from django.urls import reverse
 
 from audit_fields.models import AuditUuidModelMixin
+#from inventory import models as imd
 
 User = get_user_model()
 
@@ -39,6 +40,9 @@ class StoreUser(AuditUuidModelMixin):
     class Meta:
         pass
 
+    def __str__(self):
+        return str(self.user)
+
 
 class AppSettings(AuditUuidModelMixin):
     app_key = models.CharField(max_length=50)
@@ -55,6 +59,9 @@ class Department(AuditUuidModelMixin):
     class Meta:
         pass
 
+    def __str__(self):
+        return str(self.department_name)
+
 
 class Designation(AuditUuidModelMixin):
     designation_id = models.CharField(max_length=230, default="")
@@ -62,6 +69,9 @@ class Designation(AuditUuidModelMixin):
 
     class Meta:
         pass
+
+    def __str__(self):
+        return str(self.designation_name)
 
 
 class StoreShipLocations(AuditUuidModelMixin):
@@ -102,13 +112,15 @@ class StoreServices(AuditUuidModelMixin):
     service_desc = models.CharField(max_length=4000)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     service_gst = models.CharField(max_length=100, default="", null=True, blank=True)
-    service_hour = models.CharField(max_length=100, default="", )
+    service_hour = models.CharField(max_length=100, default="") 
+    #unit = models.CharField(max_length=100, default="") 
+    unit = models.ForeignKey("inventory.UnitMaster", on_delete=models.CASCADE)
 
     class Meta:
-        pass
+        verbose_name_plural = "Services"
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.service_name)
 
 
 
@@ -128,7 +140,7 @@ class Customer(AuditUuidModelMixin):
         pass
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.customer_name)
 
 
 class Employee(AuditUuidModelMixin):
@@ -157,21 +169,16 @@ class Employee(AuditUuidModelMixin):
         pass
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.employee_name)
 
 
 class AppointmentSchedule(AuditUuidModelMixin):
     # Relationships
-    is_paid = models.BooleanField(default="", null=True)
-    assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE, default="", null=True, blank=True)
+    is_paid = models.BooleanField(default="", null=True)    
     # service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
     # Fields
-    booking_date = models.DateField(null=True, blank=True)
-    end_time = models.CharField(max_length=30, null=True, blank=True)
-    customer_name = models.TextField(max_length=100, null=True, blank=True)
-    start_time = models.CharField(max_length=30, null=True, blank=True)
-    phone_number = models.TextField(max_length=100, null=True, blank=True)
+    booking_date = models.DateField(null=True, blank=True)      
     appointment_status = models.CharField(max_length=30, null=True, default='NOT_ASSIGNED')
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -179,18 +186,21 @@ class AppointmentSchedule(AuditUuidModelMixin):
         pass
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.booking_date)+" : "+str(self.customer)
 
 
 class AppointmentForMultipleService(AuditUuidModelMixin):
     appointment = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE, null=True, blank=True)
+    assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
     service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True, blank=True)
+    start_time = models.CharField(max_length=30, null=True, blank=True)
+    end_time = models.CharField(max_length=30, null=True, blank=True)
 
     class Meta:
         pass
 
     def __str__(self):
-        return str(self.pk)
+        return "{} - {} - {} - {}".format(self.service, self.assigned_staff, self.start_time, self.end_time)
 
 
 

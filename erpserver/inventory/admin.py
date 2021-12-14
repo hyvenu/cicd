@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.admin import ModelAdmin
 
-from inventory.models import ProductCategory, ProductSubCategory, ProductBrandMaster, ProductMaster, ProductPriceMaster, \
+from inventory.models import ProductCategory, ProductSubCategory, ProductBrandMaster, UnitMaster, ProductMaster, ProductPriceMaster, \
     ProductImages
 from vendor.models import VendorMaster
 
@@ -29,6 +29,7 @@ class ProductSubCategoryForm(ModelAdmin):
 admin.site.register(ProductCategory,ProductCategoryForm)
 admin.site.register(ProductSubCategory,ProductSubCategoryForm)
 admin.site.register(ProductBrandMaster)
+admin.site.register(UnitMaster)
 admin.site.register(ProductMaster)
 admin.site.register(ProductPriceMaster)
 admin.site.register(ProductImages)
