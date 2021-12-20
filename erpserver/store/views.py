@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponseRedirect, JsonResponse
+from rest_framework.parsers import JSONParser 
 from django.shortcuts import render
 
 # Create your views here.
@@ -96,6 +97,17 @@ def get_site_settings(request):
     site_settings = store_service.get_Site_Settings(setting_type)
     return JsonResponse(site_settings, safe=False, status=status.HTTP_200_OK)
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated, ])
+def delete_booking(request, app_id):
+    store_service = StoreService()    
+    #pdata = JSONParser().parse(request)
+    #pdata = request.data
+    print("pdata %s"%app_id)
+    #app_id = request.GET.get('app_id')
+    #app_id = pdata['app_id']
+    count = store_service.delete_appointment(app_id)
+    return JsonResponse(count, safe=False, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
@@ -104,6 +116,14 @@ def get_booking_history(request):
     customer_id = request.GET.get('customer_id')
     booking_history = store_service.get_Appointment(customer_id)
     return JsonResponse(booking_history, safe=False, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_app_forbill(request, app_id):
+    store_service = StoreService()
+    #app_id = request.GET.get('app_id')
+    booking_history = store_service.get_app_forbill(app_id)
+    return JsonResponse(booking_history, safe=False, status=status.HTTP_200_OK)    
 
 
 @api_view(['GET'])
@@ -149,6 +169,12 @@ def get_appointment_details(request):
     app_res = store_service.get_appointment_details()
     return JsonResponse(app_res, safe=False)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_appointment_details_calendar(request, store_id, date):
+    store_service = StoreService()
+    app_res = store_service.get_appointment_details_calendar(store_id, date)
+    return JsonResponse(app_res, safe=False)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])

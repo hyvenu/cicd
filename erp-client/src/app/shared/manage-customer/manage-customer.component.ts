@@ -19,7 +19,7 @@ export class ManageCustomerComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false,      
+      delete: false,
       },
     columns: {
       id: {
@@ -27,7 +27,7 @@ export class ManageCustomerComponent implements OnInit {
         hide:true
       },
       // departme_id: {
-      //   title: 'Department Code',        
+      //   title: 'Department Code',
       //   type: 'html',
       //   valuePrepareFunction: (cell, row) => {
       //     return `<a href="Department?id=${row.id}">${row.department_id}</a>`;
@@ -49,22 +49,24 @@ export class ManageCustomerComponent implements OnInit {
       service_list:{
         title: 'Service Name',
         type:'string',
-        valuePrepareFunction:(service_list) =>{
-          return service_list[0].service__service_name;
-        },  
+        //valuePrepareFunction:(service_list) =>{
+          //return service_list[0].service__service_name;
+        //},
       },
-      assigned_staff__employee_name:{
-        title: 'Assigned Staff',
+      //assigned_staff__employee_name:{
+        //title: 'Assigned Staff',
         // type:'string',
         // // valuePrepareFunction: (cell, row)=> {
         // //   return row.assigned_staff_det.employee_name;
         // // }
-      }
- 
+      //}
+
     },
   };
 
   source:[];
+  activeCust:[];
+  inactiveCust:[];
 
 
   setting = {
@@ -72,22 +74,22 @@ export class ManageCustomerComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false,   
+      delete: false,
       custom: [
         {
           name: 'delete',
           title: '<i style="color:red" class="fa fa-trash"></i>',
         },
-      ],   
+      ],
       },
-      
+
     columns: {
       id: {
         title: 'id',
         hide:true
       },
       customer_code: {
-        title: 'Customer Code',        
+        title: 'Customer Code',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="ManageCustomer?id=${row.id}">${row.customer_code}</a>`;
@@ -99,8 +101,8 @@ export class ManageCustomerComponent implements OnInit {
       phone_number:{
         title: 'Phone Number',
       },
-    
- 
+
+
     },
   };
 
@@ -114,13 +116,13 @@ export class ManageCustomerComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false,  
+      delete: false,
       custom: [
         {
           name: 'delete',
           title: '<i style="color:red" class="fa fa-trash"></i>',
         },
-      ],      
+      ],
       },
     columns: {
       id: {
@@ -128,7 +130,7 @@ export class ManageCustomerComponent implements OnInit {
         hide:true
       },
       customer_code: {
-        title: 'Customer Code',        
+        title: 'Customer Code',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="ManageCustomer?id=${row.id}">${row.customer_code}</a>`;
@@ -140,8 +142,8 @@ export class ManageCustomerComponent implements OnInit {
       phone_number:{
         title: 'Phone Number',
       },
-    
- 
+
+
     },
   };
 
@@ -157,9 +159,11 @@ customerForm:FormGroup;
     {name:"Sms", value:"Sms"},
   ]
   customer_id: any;
+  isCustomer_id = false;
   bill: any;
   submitted=false;
-  
+  customerList: any;
+
   @ViewChild('form') form;
   constructor(
     private formBuilder: FormBuilder,
@@ -196,9 +200,10 @@ customerForm:FormGroup;
     let param = this.route.snapshot.queryParams['id'];
 
     if(param){
+      this.isCustomer_id = true;
       this.adminService.getCustomerDetails(param).subscribe(
         (data) =>{
-          
+
           this.customer_id=data.id
            console.log(this.customer_id)
           this.customerForm.controls['customerCodeFormControl'].setValue(data.customer_code);
@@ -219,12 +224,13 @@ customerForm:FormGroup;
               this.nbtoastService.danger("Unable to get customer List")
             }
           )
-          
+
 
 
 
     });
     }
+
     this.adminService.getAllViewbookingList().subscribe(
       (data) => {
         this.data = data;
@@ -235,25 +241,38 @@ customerForm:FormGroup;
       }
     )
 
-    
-    this.active_customer()
-    
-    this.inactive_customer()
+    this.get_customer_list();
 
-    
   }
 
-  active_customer(){
-    this.adminService.getCustomerList().subscribe(
-      (data)=>{
-        this.source = data.filter(item => item.active === true);
-      },
-      (error) => {
-        this.nbtoastService.danger("Unable to get customer List")
-      } 
+  get_customer_list() {
+      this.adminService.getCustomerList().subscribe(
+        (data)=>{
+          this.customerList = data;
+          console.log("Cust List");
+          console.log(this.customerList);
+          this.active();
+          this.inActive();
+          //this.source = this.customerList.filter(item => item.active === true);
+          //this.inactive = this.customerList.filter(item => item.active === false);
 
-    )
-   
+        },
+        (error) => {
+          this.nbtoastService.danger("Unable to get customer List")
+        }
+      )
+  }
+
+  active() {
+    this.activeCust= this.customerList.filter(item => item.active === true);
+  }
+  inActive() {
+    this.inactiveCust = this.customerList.filter(item => item.active === false);
+  }
+  /*
+  active_customer(){
+    this.source = this.customerList.filter(item => item.active === true);
+
 
   }
 
@@ -265,7 +284,7 @@ customerForm:FormGroup;
       },
       (error) => {
         this.nbtoastService.danger("Unable to get customer List")
-      } 
+      }
 
     )
 
@@ -273,15 +292,16 @@ customerForm:FormGroup;
 
   }
 
-
+*/
 
   delete_customer(id){
     this.adminService.deleteCustomer(id).subscribe((data) =>
       {
-        this.active_customer()
-        this.inactive_customer()
+        //this.active_customer()
+        //this.inactive_customer()
+        this.get_customer_list();
         this.nbtoastService.success("customer Deleted Successfully")
-       this.ngOnInit()
+        //this.ngOnInit()
       })
   }
 
@@ -294,7 +314,7 @@ customerForm:FormGroup;
     if(this.customerForm.valid){
     let formdata = new FormData();
     if(this.customer_id){
-     
+
     formdata.append('id',this.customer_id);
     formdata.append('customer_code',this.customerForm.controls['customerCodeFormControl'].value)
     formdata.append('customer_name',this.customerForm.controls['customerNameFormControl'].value)
@@ -306,18 +326,18 @@ customerForm:FormGroup;
     formdata.append('gst',this.customerForm.controls['gstFormControl'].value)
     formdata.append('active',this.customerForm.controls['customerActiveFormControl'].value)
 
-    
+
     this.adminService.updateCustomer(formdata,this.customer_id).subscribe(
       (data) => {
         this.nbtoastService.success("customer details updated Successfully")
         this.ngOnInit()
         this.customerForm.reset();
-        
+
         this.routes.navigate(["/ManageBooking"]);
-        
-        
-        
-        
+
+
+
+
       },
       (error) => {
           this.nbtoastService.danger("Failed to Update");
@@ -337,13 +357,13 @@ customerForm:FormGroup;
     this.adminService.SaveCustomer(formdata).subscribe(
       (data)=>{
         this.nbtoastService.success("Customer Saved Successfully")
-        
+
        this.customerForm.reset();
        this.routes.navigate(["/ManageBooking"])
-       
-       
-        
-          
+
+
+
+
       },
       (error) => {
         if(error === "exist"){
@@ -356,7 +376,7 @@ customerForm:FormGroup;
     )
     }
   }
-  
+
 }
 
 get f() { return this.customerForm.controls; }
@@ -372,10 +392,10 @@ get f() { return this.customerForm.controls; }
           return this.submitted = false;
         }
 
-        
-      
+
+
     }
 
 
-  
+
 }

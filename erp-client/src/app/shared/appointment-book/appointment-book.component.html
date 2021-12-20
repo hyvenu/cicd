@@ -9,7 +9,7 @@
                     [ngClass]="{ 'is-invalid': submitted && f.customerNameFormControl.errors  }" class="form-control" />
                     <div *ngIf="submitted && f.customerNameFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.customerNameFormControl.errors.required"> Customer Name is Required</div>
-                        
+
                     </div>
                 </div>
                 <div class="form-group col-md-4">
@@ -39,27 +39,31 @@
                     <nb-datepicker #booking_date format="yyyy-MM-DD" ></nb-datepicker>
                 </div>
             </div>
-            <div class="form-row">
+            <!--
+              <div class="form-row">
                 <div class="form-group col-md-2">
                     <label for="startTime">Start Time <span style="color: red;">*</span></label>
-                    <input type="time" nbInput name="startTime" formControlName="startTimeFormControl" 
+                    <input type="time" nbInput name="startTime" formControlName="startTimeFormControl"
                     [ngClass]="{ 'is-invalid': submitted && f.startTimeFormControl.errors  }" class="form-control"/>
                     <div *ngIf="submitted && f.startTimeFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.startTimeFormControl.errors.required"> Start Time is Required</div>
-                       
+
                     </div>
                 </div>
                 <div class="form-group col-md-2">
                     <label for="endTime">End Time <span style="color: red;">*</span></label>
-                    <input type="time" nbInput name="endTime" formControlName="endTimeFormControl" 
+                    <input type="time" nbInput name="endTime" formControlName="endTimeFormControl"
                     [ngClass]="{ 'is-invalid': submitted && f.endTimeFormControl.errors  }" class="form-control"/>
                     <div *ngIf="submitted && f.endTimeFormControl.errors" class="invalid-feedback" (change)="dateCheck()">
                         <div *ngIf="submitted && f.endTimeFormControl.errors.required"> End Time is Required</div>
-                        
+
                     </div>
                 </div>
             </div>
-            <!-- <div class="form-row">
+
+
+
+              <div class="form-row">
                 <div class="form-group col-md-2">
                     <label >Service <span style="color: red;">*</span></label>
                     <nb-select style="width: 20em;" name="services" [(ngModel)]="service" formControlName="serviceFormControl" [(selected)]="selected_service" multiple >
@@ -73,26 +77,37 @@
                 <nb-card-header>Add Service</nb-card-header>
                 <nb-card-body>
                     <button nbButton (click)="open(dialog_service);" status="success" size="small" >Add </button> <span style="color: red;">*</span>&nbsp;&nbsp;
-                    
+
                     <table class="table table-responsive">
                         <thead>
                             <th></th>
                             <th>Service Name</th>
                             <th>Stylist</th>
-                        
+                            <th>Start Time</th>
+                            <th>End Time</th>
                         </thead>
                         <tbody>
-                            <tr  *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
+                            <tr *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
                                 <td ><button nbButton (click)="remove_item(item);" status="danger" size="small" >X</button><br></td>
-                                
+
                                 <td><input class="form-control form-control-sm"  style="width: 10em;" [ngModelOptions]="{standalone: true}" placeholder="" readonly [(ngModel)]="item.service_name" value={{item.service_name}}/></td>
                                 <td><input class="form-control form-control-sm"  style="width: 10em;" [ngModelOptions]="{standalone: true}" (click)="stylist_open(stylist_dialog,item)" [(ngModel)]="item.stylist_name"  placeholder="" readonly value={{item.stylist_name}}/></td>
+                                <td><input type="time" nbInput #startTime value={{item.start_time}} (change)="dateCheckStart(startTime.value, item)" />
+                                  <div *ngIf="submitted && f.startTimeFormControl.errors" class="invalid-feedback">
+                                      <div *ngIf="submitted && f.startTimeFormControl.errors.required"> Start Time is Required</div>
+
+                                  </div></td>
+                                <td><input type="time" nbInput #endTime value={{item.end_time}} (change)="dateCheckEnd(endTime.value, item)" />
+                                  <div *ngIf="submitted && f.endTimeFormControl.errors" class="invalid-feedback">
+                                      <div *ngIf="submitted && f.endTimeFormControl.errors.required"> End Time is Required</div>
+
+                                  </div></td>
                             </tr>
-                           
+
                         </tbody>
                     </table>
-                </nb-card-body> 
-                
+                </nb-card-body>
+
             </nb-card>
             <div class="form-row">
                 <div class="form-group col-md-2">
@@ -100,7 +115,7 @@
                 </div>
 
             </div>
-            
+
         </form>
     </nb-tab>
 </nb-tabset>
@@ -135,7 +150,7 @@
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
             </nb-list>
-           
+
         </nb-card-body>
         <nb-card-footer>
             <button nbButton (click)="ref.close()">Close</button>

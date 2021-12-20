@@ -25,7 +25,7 @@ export class ViewBookingComponent implements OnInit {
   searchStylist: any;
 
 
-  
+
 
   constructor(private adminService: AdminService,
               private nbtoastService: NbToastrService,
@@ -33,32 +33,11 @@ export class ViewBookingComponent implements OnInit {
               private routes: Router,
               private route: ActivatedRoute,) { }
 
- 
+
 
   ngOnInit(): void {
-    
-    
-  
-    this.adminService.getViewbookingList().subscribe(
-      (data) => {
-          this.booking_list = data;
 
-         this.service_list = this.booking_list.service_list
-        //  this.service_id = this.service_list.forEach(element => {
-        //    element.service__id
-        //  });
-          console.log("booking_list",this.booking_list)
-          
-            let sort:any = this.booking_list.sort((a, b) => {
-              return <any>(b.phone_number) - <any>(a.phone_number);
-            });
-            console.log("sorted array" +sort)
-          
-      },
-      (error) => {
-          this.nbtoastService.danger("Unable get appointment data");
-      }
-    )
+    this.get_booking_list();
 
 
     this.adminService.getEmployeeList().subscribe(
@@ -71,14 +50,37 @@ export class ViewBookingComponent implements OnInit {
     )
   }
 
+  get_booking_list() {
+    this.adminService.getViewbookingList().subscribe(
+      (data) => {
+          this.booking_list = data;
+
+         //this.service_list = this.booking_list.service_list
+        //  this.service_id = this.service_list.forEach(element => {
+        //    element.service__id
+        //  });
+          console.log("booking_list",this.booking_list)
+
+            let sort:any = this.booking_list.sort((a, b) => {
+              return <any>(b.phone_number) - <any>(a.phone_number);
+            });
+            console.log("sorted array" +sort)
+
+      },
+      (error) => {
+          this.nbtoastService.danger("Unable get appointment data");
+      }
+    )
+  }
+
   stylist_open(dialog: TemplateRef<any>,item) {
     this.searchStylist = ""
     this.dailog_ref= this.dialogService.open(dialog, { context: this.stylist_list })
     .onClose.subscribe(data => {
       console.log("sty",data)
-       item.assigned_staff = data 
-       console.log(item.assigned_staff.id)  
-       console.log(item.id)  
+       item.assigned_staff = data
+       console.log(item.assigned_staff.id)
+       console.log(item.id)
        this.app_id = item.id
        this.customer_id = item.customer__id
        console.log(this.customer_id)
@@ -90,7 +92,7 @@ export class ViewBookingComponent implements OnInit {
        console.log("service",this.service_id)
        let form_data = new FormData();
        if(this.app_id){
-        form_data.append('id', this.app_id);  
+        form_data.append('id', this.app_id);
         form_data.append('assigned_staff',item.assigned_staff.id)
 
       }
@@ -105,38 +107,59 @@ export class ViewBookingComponent implements OnInit {
        form_data.append('booking_date', item.booking_date);
        form_data.append('customer', this.customer_id);
        form_data.append('is_paid',new Boolean(this.passed_flag).toString())
-       
+
       //  this.checkoutToBill(this.customer_id)
-       
+
 
        this.adminService.updateBooking(form_data).subscribe(
         (data) => {
-          
+
            this.nbtoastService.success("Assigned Stylist")
            this.ngOnInit()
           //  this.routes.navigateByUrl("/SalesBill?id=" + this.customer_id)
-           
-           
-        },  
+
+
+        },
         (error) => {
             this.nbtoastService.danger("Failed to update");
         }
       )
 
-        
+
     }
     );
-    
+
   }
 
   checkOutToBill(item){
     this.routes.navigateByUrl("/SalesBill?id=" + item)
-    
+
   }
 
-  appointmentBooking(id,assign,cus_id){
-    this.routes.navigateByUrl("/ManageBooking?id="+ id + "&assign=" + assign + "&customer_id=" + cus_id )
-    
+  appointmentBooking(id, cus_id){
+    this.routes.navigateByUrl("/ManageBooking?id="+ id + "&customer_id=" + cus_id )
+
+  }
+
+  appointmentDelete(id){
+    this.adminService.deleteAppointment(id).subscribe({
+      next: data => {
+        let arr = data
+        if (data[0] > 0) {
+          console.log("refreshing booking list");
+          this.get_booking_list();
+        }
+        console.log("Del Result: "+data);
+        return data;
+    },
+    error: error => {
+        let errorMessage = error.message;
+        console.error('Error Message:', errorMessage);
+        console.error('Error Stack:', error);
+    }
+      })
+
+
   }
 
 

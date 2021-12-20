@@ -85,7 +85,7 @@ export class AdminService {
   public updateIsPaid(data) {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/update_is_paid` , data)
   }
- 
+
 
   public updateAdvanceAmount(data) {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/update_advance_amount` , data)
@@ -97,6 +97,14 @@ export class AdminService {
 
   public getAppointmentList(){
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_details`, {})
+  }
+
+  public getAppointmentListCalendar(store_id, date){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_details_calendar/`+store_id+"/"+date, {})
+  }
+
+  public deleteAppointment(data){
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/delete_appointment/`+ data, {})
   }
 
   public getViewbookingList(){
@@ -170,6 +178,10 @@ export class AdminService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_booking_history?customer_id=`+ id )
   }
 
+  public getAppForBill(id){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_app_forbill/`+ id )
+  }
+
   // public getBookingHistoryList(){
   //   return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_list`,{})
   // }
@@ -178,7 +190,7 @@ export class AdminService {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Employee/`+ id + '/', data)
   }
 
-  
+
 
   public updateEnquiry(data,id){
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Enquiry/`+ id + '/', data)

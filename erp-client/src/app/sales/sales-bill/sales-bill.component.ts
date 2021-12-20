@@ -23,6 +23,7 @@ export class SalesBillComponent implements OnInit {
   currentlyChecked: CheckBoxType;
   passed_flag:boolean = true;
   customernew_id: any;
+  app_id: any;
   booking_historys: any;
   service_id: any;
   searchProduct
@@ -62,7 +63,7 @@ export class SalesBillComponent implements OnInit {
     {value:'Amazon Pay', name: 'Amazon Pay'},
     {value:' Others', name: ' Others'},
 
-   
+
     // {value:'Long Leave', name: 'Long Leave'},
   ]
 
@@ -70,7 +71,7 @@ export class SalesBillComponent implements OnInit {
     {value:'CARD', name: 'CARD'},
     {value:'CASH', name: 'CASH'},
     {value:'UPI', name: 'UPI'},
-   
+
     // {value:'Long Leave', name: 'Long Leave'},
   ]
   @ViewChild('dialog_single_product', { static: true }) dialog_single_product: TemplateRef<any>;
@@ -81,7 +82,7 @@ export class SalesBillComponent implements OnInit {
   createFlag = false
   invoiceForm : FormGroup;
   dailog_ref: any;
-  booking_history: any;
+  appointment_obj: any;
   booking_id: any;
   invoice_items: any;
   customer_object: any;
@@ -97,7 +98,8 @@ export class SalesBillComponent implements OnInit {
   selectedSubTotal:any=0.00;
   selectedGstPercentage:any=0;
   event: any;
-  selectedDiscount:any=0.00;
+  //selectedDiscount:any=0.00;
+  totalDiscount:any=0;
   grandTotal:any=0;
   customer_id: any;
   product_id: any;
@@ -165,8 +167,8 @@ export class SalesBillComponent implements OnInit {
       cashFormControl:['',],
       upiFormControl:['',],
       TransactionIdFormControl:['',Validators.required],
-      
-     
+
+
       exchangeFormControl:['',],
       cancelInvoiceFormControl:['',],
       refundFormControl:['',],
@@ -174,7 +176,7 @@ export class SalesBillComponent implements OnInit {
       customerMobileNumberFormControl:['',],
       customerEmailFormControl:['',],
       cardNoFormControl:['',],
-      
+
       userIdFormControl:['',],
       supervisorIdFormControl:['',],
       advanceAmountFormControl:['',],
@@ -184,8 +186,8 @@ export class SalesBillComponent implements OnInit {
       paymentFormControl:['',],
       upiTypeFormControl:['',]
 
-      
-      
+
+
 
     });
     this.invoice_items=[];
@@ -194,7 +196,7 @@ export class SalesBillComponent implements OnInit {
     this.grandTotal=0;
     this.totalGst=0;
     this.gstTotal=0;
-    
+
     // this.calculate_total();
     //this.calculate_price();
     // this.calculate_totalGst();
@@ -206,20 +208,23 @@ export class SalesBillComponent implements OnInit {
         console.log("customer_list", this.customer_list)
         // this.customernew_id = data.id
         // console.log(this.customernew_id)
-      
-    
 
-        
+
+
+
       },
       (error) => {
         this.nbtoastService.danger("Unable to get customer List")
       }
     )
- 
-    
 
+    this.app_id = this.route.snapshot.queryParams['id']
+    if(this.app_id){
+      this.get_bookingHistory(this.app_id)
+    }
+
+    /*
     let customer = this.route.snapshot.queryParams['id']
-
     if(customer){
       this.adminService.getCustomerDetails(customer).subscribe(
         (data)=>{
@@ -229,21 +234,22 @@ export class SalesBillComponent implements OnInit {
        this.invoiceForm.controls['customerEmailFormControl'].setValue(data.customer_email);
        this.invoiceForm.controls['advanceAmountFormControl'].setValue(data.advance_amount);
        this.customer_id = data.id;
-      //  this.booking_history = this.booking_historys.find(item => item.customer == data.id)
+      //  this.appointment_obj = this.appointment_objs.find(item => item.customer == data.id)
        console.log(data.id)
        this.get_bookingHistory(this.customer_id)
 
         }
       )
     }
-    
-    this.onEvnetChange(this.event); 
+    */
+
+    this.onEvnetChange(this.event);
   }
 
 
 
   add_items():any {
-    
+
     const data = {
       service_id:'',
       booking_id:'',
@@ -263,15 +269,15 @@ export class SalesBillComponent implements OnInit {
   }
 
   remove_item(item): void{
-  
+
     const index: number = this.invoice_items.indexOf(item);
     this.serviceIds.splice(index, 1)
     console.log(this.serviceIds)
     if (index !== -1) {
         this.invoice_items.splice(index, 1);
-    } 
+    }
     this.calculate_price()
-  
+
    console.log(this.invoice_items)
     // this.calculate_gst()
     // this.calculate_totalGst()
@@ -285,7 +291,7 @@ export class SalesBillComponent implements OnInit {
 //  }
 
   get_value(event,item){
-    
+
     this.desc = event.target.value
     console.log(`change event be:${this.desc}`)
     console.log(`change event after: ${item.item_description}`)
@@ -297,81 +303,93 @@ export class SalesBillComponent implements OnInit {
     .onClose.subscribe(data => {
       this.searchCus = ""
       this.invoice_items = []
-       this.customer_object = data 
-       console.log(this.customer_object)  
-       this.customer_id = data.id; 
-       console.log(this.customer_id)   
+       this.customer_object = data
+       console.log(this.customer_object)
+       this.customer_id = data.id;
+       console.log(this.customer_id)
        this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
        this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
        this.invoiceForm.controls['advanceAmountFormControl'].setValue(this.customer_object.advance_amount);
-      this.get_bookingHistory(this.customer_object.id)
-      
+      //this.get_bookingHistory(this.customer_object.id)
+
     }
     );
-    
+
 
 
   }
-  get_bookingHistory(id){
-    this.adminService.getBookinHistory(id).subscribe(
-      (data2)=>{
+  get_bookingHistory(id) {
+    console.log("Called APP DEts");
+    this.adminService.getAppForBill(id).subscribe(
+      (data)=>{
         this.serviceIds = []
-        this.booking_history = data2
-        console.log(this.booking_history)
-        this.booking_history.forEach(element => {
-          console.log(element)
-             this.booking_id= element.id  
-             this.serviceIds.push(element.service_details[0].id)
-              console.log("servic id" +this.serviceIds) 
-            
+        this.appointment_obj = data[0]
+        console.log("Booking Obj: ")
+        console.log(this.appointment_obj)
 
-                         
-        });
-        // let serviceids:any =this.booking_history.forEach(element => {
+        this.invoiceForm.controls['customerNameFormControl'].setValue(this.appointment_obj.customer__customer_name);
+        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.appointment_obj.customer__phone_number);
+        this.invoiceForm.controls['customerEmailFormControl'].setValue(this.appointment_obj.customer__customer_email);
+        this.invoiceForm.controls['advanceAmountFormControl'].setValue(this.appointment_obj.customer__advance_amount);
+        this.customer_id = this.appointment_obj.customer__id;
+
+        /*
+        this.appointment_obj.forEach(element => {
+          console.log(element)
+             this.booking_id= element.id
+             this.serviceIds.push(element.service_details[0].id)
+              console.log("servic id" +this.serviceIds)
+        });*/
+
+
+        // let serviceids:any =this.appointment_obj.forEach(element => {
         //   console.log(element)
-        //      this.booking_id= element.id  
+        //      this.booking_id= element.id
         //      this.service_id = element.service_details[0].service__id
-        //        console.log("servic id" +this.service_id)  
-                         
+        //        console.log("servic id" +this.service_id)
+
         // });
         // console.log(serviceids)
         // this.serviceIds.push(this.serviceIds)
-        console.log(this.serviceIds)
-        console.log(this.booking_id)
-        
-        this.booking_history.forEach(element => {
-          console.log(element)
-          
+        //console.log(this.serviceIds)
+        //console.log(this.booking_id)
+
+        let services = this.appointment_obj.service_list
+        services.forEach(element => {
+          //console.log("Service List: ")
+          //console.log(element)
+
           this.invoice_items.push(
-            {item_id:"",
-              booking_id:element.id,
-              service_id:element.service_details[0].service__id,
-              item_description:element.service_details[0].service__service_name,
-              quantity:1,
-              unit:"",
-              unit_name:"nos",
-              price:element.service_details[0].service__price,
-              item_total:0,
-              tax:element.service_details[0].service__service_gst,
-              gst_value:0
+            { item_id:"",
+              booking_id: this.appointment_obj.id,
+              service_id: element.service__id,
+              item_description: element.service__service_name,
+              quantity: 1,
+              unit: element.service__unit__PrimaryUnit,
+              price: element.service__price,
+              discount: 0,
+              item_total: 0,
+              tax: element.service__service_gst,
+              gst_value: 0
             }
           )
-          
-   
-          
-          
+
         });
+
+        console.log("invoice items list: ")
+        console.log(this.invoice_items)
+
         this.calculate_price()
-       
+
       }
     )
   }
   onEvnetChange(event) {
     this.event = event.target.value;
     this.calculate_price()
-     
+
   }
 
   // gstCalculation(){
@@ -380,38 +398,44 @@ export class SalesBillComponent implements OnInit {
   //     let subtotalValue = this.invoiceForm.controls['subTotalFormControl'].value
   //     gsttotal = parseInt(subtotalValue) * 10/100;
   //     this.gstTotal = gsttotal
-      
-      
+
+
   //   }else if(this.selectedGstEvent == "exclusiveGst"){
   //     gsttotal = parseInt(this.invoiceForm.controls['subTotalFormControl'].value) * parseInt(this.invoiceForm.controls['gstTotalFormControl'].value)/100;
   //     this.gstTotal = gsttotal
-      
+
   //   }
-    
+
   // }
 
   calculate_price(): void {
-   
-    this.selectedDiscount =0;
-    let total_item_price:any =0;
+
+    let total_discount:any =0;
+    let total_grand:any =0;
     let total_basic_price:any =0;
     let total_gst_value: any =0;
 
     this.invoice_items.forEach(element => {
       console.log('pro ele',element)
-      let tot_price :any = (element.price * element.quantity )
-      let gst_tot: any =((tot_price * element.tax)/100)
-      let item_tot = tot_price + gst_tot;
+      let net_price:any = (element.price - element.discount)
+      let tot_price:any = (net_price * element.quantity )
+      let gst_tot:any =((tot_price * element.tax)/100)
+      let item_tot:any = tot_price + gst_tot;
 
       console.log('tot pri',tot_price)
       console.log('tot gst',gst_tot)
       total_basic_price += tot_price;
       total_gst_value += gst_tot;
-      //element.price = parseFloat(tot_price).toFixed(2);
+
+      total_discount += parseFloat(element.discount);
+      total_grand += item_tot;
+
       element.gst_value = parseFloat(gst_tot).toFixed(2);
       element.item_total = parseFloat(item_tot).toFixed(2);
 
-      
+
+
+
     });
 
    /*  for(let i=0;i<this.invoice_items.length;i++)
@@ -420,7 +444,7 @@ export class SalesBillComponent implements OnInit {
       if(price !=NaN && this.invoice_items[i].quantity != "")
       {
         this.invoice_items[i].price = price;
-      }     
+      }
     } */
 
    /*  for(let i=0;i<this.invoice_items.length;i++)
@@ -429,13 +453,13 @@ export class SalesBillComponent implements OnInit {
       if(gst_price !=NaN && this.invoice_items[i].tax!= "")
       {
         this.invoice_items[i].gst_value = gst_price * this.invoice_items[i].quantity;
-      }     
+      }
     } */
 
   /*   for(var val of this.invoice_items){
       this.subtotal = 0;
       this.gstValue = 0;
-      
+
       this.subtotal += val.item_total ;
       this.gstValue += val.gst_value ;
      // return this.subtotal;
@@ -448,26 +472,32 @@ export class SalesBillComponent implements OnInit {
     this.subtotal = parseFloat(total_basic_price).toFixed(2) ;
     this.gstValue = parseFloat(total_gst_value).toFixed(2) ;
 
+    this.totalDiscount = parseFloat(total_discount).toFixed(2);
+    this.grandTotal = parseFloat(total_grand).toFixed(2);
+
     console.log('siub tot',this.subtotal + 'gst', this.gstValue)
     let includeGST:any = (parseFloat(this.subtotal) + parseFloat(this.gstValue));
     this.selectedTotalGst = parseFloat(includeGST).toFixed(2)
     console.log('inc gst',this.selectedTotalGst)
-    
-    this.selectedDiscount =this.invoiceForm.get('discountFormControl').value;
-    if (this.selectedDiscount >= 0) {
-      
+
+    //this.selectedDiscount =this.invoiceForm.get('discountFormControl').value;
+    //if (this.selectedDiscount >= 0) {
+
       //let amount :any = this.selectedTotalGst - this.selectedDiscount;
-     
-      this.grandTotal = Math.round(this.selectedTotalGst - this.selectedDiscount)  ;
-    }else if(this.selectedDiscount === NaN ){
-      this.grandTotal =0;
-    }
-    if(this.advanceAmount > this.grandTotal){
-      this.balanceAmount=0
-      this.updateAmount = this.advanceAmount - this.grandTotal
-      console.log(this.updateAmount)
+
+      //this.grandTotal = Math.round(this.selectedTotalGst - this.selectedDiscount)  ;
+    //}else if(this.selectedDiscount === NaN ){
+      //this.grandTotal =0;
+    //}
+    if(parseFloat(this.advanceAmount) > parseFloat(this.grandTotal)){
+      this.balanceAmount = 0
+      this.balanceAmount = parseFloat( this.advanceAmount) - parseFloat(this.grandTotal)
+      if(this.balanceAmount < 0)
+      {
+        this.balanceAmount = this.balanceAmount*-1; // multiply by -1
+      }
     }else{
-      this.balanceAmount =parseFloat( this.grandTotal) - parseFloat(this.advanceAmount)
+      this.balanceAmount = parseFloat( this.grandTotal) - parseFloat(this.advanceAmount)
       console.log(this.balanceAmount)
       this.updateAmount = 0
     }
@@ -482,7 +512,7 @@ export class SalesBillComponent implements OnInit {
     // this.calculateGrandTotal()
   }
 
-  
+
   // calculate_gst(){
   //   let gstvalue = 0;
   //   for(var val of this.invoice_items){
@@ -490,7 +520,7 @@ export class SalesBillComponent implements OnInit {
   //    // return this.subtotal;
   //   }
   //   this.calculateGrandTotal();
-     
+
 
   // }
 /*   calculateGrandTotal(){
@@ -505,35 +535,35 @@ export class SalesBillComponent implements OnInit {
   //    // return this.subtotal;
   //   }
   //   this.calculate_totalGst();
-    
-    
-    
+
+
+
   // }
   // open_product_name(dialog: TemplateRef<any>, item) {
   //   this.inventoryService.getProductList().subscribe(
   //     (data) => {
   //         this.product_list = data;
-         
+
   //         this.dailog_ref= this.dialogService.open(dialog, { context: this.product_list })
   //         .onClose.subscribe(data => {
   //           this.searchProduct =""
-            
-  //            this.selected_product = data  
+
+  //            this.selected_product = data
   //            console.log(this.selected_product)
-             
-             
-             
+
+
+
   //            this.inventoryService.getProduct(this.selected_product.id).subscribe(
   //              (data) =>{
   //                this.selected_product_data = data
   //                console.log(this.selected_product_data)
-  //                this.product_id = data.id 
+  //                this.product_id = data.id
   //                console.log(this.product_id)
   //                data.product_price.forEach(element => {
   //                  console.log('ele',element)
   //                  console.log(element.unit.id)
   //                  {
-                   
+
   //                   let sellPrice:any = parseFloat(element.sell_price) * element.qty ;
   //                   let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
   //                   let total:any = sellPrice + gstVal;
@@ -557,12 +587,12 @@ export class SalesBillComponent implements OnInit {
   //                 }
   //                });
   //                this.calculate_price()
-                 
+
   //              }
   //            )
-             
-             
-              
+
+
+
   //         }
   //         );
   //     },
@@ -595,7 +625,7 @@ export class SalesBillComponent implements OnInit {
             //    (data) =>{
             //      this.selected_product_data = data
             //      console.log(this.selected_product_data)
-            //      this.product_id = data.id 
+            //      this.product_id = data.id
             //      console.log(this.product_id)
             //      data.product_price.forEach(element => {
             //        console.log('ele',element)
@@ -670,7 +700,7 @@ export class SalesBillComponent implements OnInit {
               /*  this.invoice_items.push({
                  item_id:this.selectedPro.product_id,
                  item_description : this.selected_product.product_name,
-                 
+
                  // console.log(item.item_id)
                  //item.price= parseFloat(sellPrice).toFixed(2),
                  price: this.selectedPro.sell_price,
@@ -695,9 +725,9 @@ export class SalesBillComponent implements OnInit {
             }
 
 
-            
+
             this.calculate_price()
-            // this.remaingAmount = Math.round(parseFloat(this.selectedTotalGst)- parseFloat(this.includegstremaing)) 
+            // this.remaingAmount = Math.round(parseFloat(this.selectedTotalGst)- parseFloat(this.includegstremaing))
 
 
 
@@ -710,7 +740,7 @@ export class SalesBillComponent implements OnInit {
   bar_code(){
     let serial_no = this.invoiceForm.controls['barCodeFormControl'].value
     console.log(serial_no)
-    
+
     let data = { serial_number:serial_no  }
     this.inventoryService.get_product_by_slno(data).subscribe(
       data =>{
@@ -741,9 +771,9 @@ export class SalesBillComponent implements OnInit {
                gst_value :parseFloat(gstVal).toFixed(2),
              })
            }
-           
+
          }
-         
+
         });
         console.log(this.invoice_items)
         this.calculate_price()
@@ -764,25 +794,27 @@ export class SalesBillComponent implements OnInit {
     .onClose.subscribe(data => {
       this.searchPhoneNo = ""
       this.invoice_items = []
-       this.customer_object = data   
-       this.customer_id = data.id;    
+       this.customer_object = data
+       this.customer_id = data.id;
        this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
        this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
+
+      /*
        this.adminService.getBookinHistory(this.customer_object.id).subscribe(
         (data2)=>{
-          
-          this.booking_history = data2
-          
-          this.booking_history.forEach(element => {
-               this.booking_id= element.id  
+
+          this.appointment_obj = data2
+
+          this.appointment_obj.forEach(element => {
+               this.booking_id= element.id
                this.service_id = element.service_details.map(item => {item.service__service_id})
-               console.log("servic id" +this.service_id)          
+               console.log("servic id" +this.service_id)
           });
           console.log(this.booking_id)
-          
-          this.booking_history.forEach(element => {
+
+          this.appointment_obj.forEach(element => {
             console.log('ele',element)
             this.invoice_items.push(
               {item_id:"",
@@ -797,26 +829,29 @@ export class SalesBillComponent implements OnInit {
                 gst_value:0
               }
             )
-            
-            
+
+
           });
+
           this.calculate_price()
-         
+
+            }
+          )
+*/
         }
-      )
-      
-    }
-    );
+        );
+
   }
 
 
 
-  
+
 
   saveBill():any {
-   
+
     const formData = new FormData();
     if(this.invoiceForm.controls['customerNameFormControl'].value != "" ){
+    formData.append('app_id',this.app_id)
     formData.append('po_type',this.poType)
     formData.append('pr_number',this.prNumber)
     formData.append('po_raised_by',this.poRaised)
@@ -835,8 +870,8 @@ export class SalesBillComponent implements OnInit {
     formData.append('cgst',this.cgst)
     formData.append('igst',this.igst)
     formData.append('terms_conditions',this.termsConditions)
-    
-    
+
+
     formData.append('store_id',sessionStorage.getItem('store_id'))
     formData.append('grand_total', this.grandTotal)
     // formData.append('card', this.invoiceForm.controls['cardFormControl'].value);
@@ -848,9 +883,9 @@ export class SalesBillComponent implements OnInit {
     formData.append('transaction_id', this.invoiceForm.controls['TransactionIdFormControl'].value)
 
     formData.append('customer',this.customer_id)
-    
+
     formData.append('barcode',this.invoiceForm.controls['barCodeFormControl'].value)
-     
+
     formData.append('discount_price', this.invoiceForm.controls['discountFormControl'].value);
     formData.append('gst_amount', this.invoiceForm.controls['gstFormControl'].value);
     formData.append('exchange', this.invoiceForm.controls['exchangeFormControl'].value);
@@ -867,7 +902,7 @@ export class SalesBillComponent implements OnInit {
     formData.append('balance_amount',this.invoiceForm.controls['balanceAmountFormControl'].value);
     formData.append('amount',this.invoiceForm.controls['amountFormControl'].value);
     formData.append('change',this.invoiceForm.controls['changeFormControl'].value);
-    
+
     formData.append('invoice_items',JSON.stringify(this.invoice_items));
     this.service.savePO(formData).subscribe(
       (data) => {
@@ -875,16 +910,16 @@ export class SalesBillComponent implements OnInit {
         this.advanceAmountUpdate()
         console.log(data)
         this.nbtoastService.success("Invoice Saved Successfully")
-        
-        
+
+
         this.routes.navigateByUrl("/InvoicePage?id=" + data)
-        
-        
-        
+
+
+
       },
       (error) =>{
         this.nbtoastService.danger("unable to save");
-       
+
       }
     )
     }
@@ -895,7 +930,7 @@ export class SalesBillComponent implements OnInit {
       'is_paid':new Boolean(this.passed_flag).toString(),
       'id':this.customer_id,
       'service_id':this.serviceIds
-      
+
     }
     this.adminService.updateIsPaid(data).subscribe(
       (data)=>{
@@ -907,7 +942,7 @@ export class SalesBillComponent implements OnInit {
 
   advanceAmountUpdate(){
     let data = {
-      'advance_amount':this.updateAmount,
+      'advance_amount':this.balanceAmount,
       'id':this.customer_id
     }
     this.adminService.updateAdvanceAmount(data).subscribe(
@@ -930,11 +965,11 @@ export class SalesBillComponent implements OnInit {
       return this.submitted = false;
     }
 
-    
-  
+
+
 }
 
 
- 
+
 
 }

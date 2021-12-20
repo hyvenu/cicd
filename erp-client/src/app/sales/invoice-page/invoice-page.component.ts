@@ -33,7 +33,7 @@ export class InvoicePageComponent implements OnInit {
   pincode: any;
   phone: any;
   email: any;
- 
+
 
   constructor(private route: ActivatedRoute,
               private orderservice:OrderService,
@@ -55,9 +55,10 @@ printBtn.onclick = function () {
     if(invoice){
       this.orderservice.getPODetails(invoice).subscribe(
         (data)=>{
-          
+
           console.log("invoice details"+data)
           this.invoice_details = data
+          console.log("invoice date:"+this.invoice_details.po_date)
           this.grandTotal = this.invoice_details.grand_total
           this.customer_name = this.invoice_details.customer__customer_name
           this.customer_addr = this.invoice_details.customer__customer_address
@@ -70,16 +71,16 @@ printBtn.onclick = function () {
           let da =JSON.parse(this.data)
           da.forEach(element => {
             console.log(element)
-            
+
             this.sum += element.discount_price;
-            
-            
+
+
           });
           console.log(this.sum)
 
-        
-        
-          
+
+
+
 
         }
       )
@@ -105,7 +106,7 @@ printBtn.onclick = function () {
 
   }
   add_items():any {
-    
+
     const data = {
       item_id:'',
       item_description:'',
@@ -122,14 +123,14 @@ printBtn.onclick = function () {
   }
 
   remove_item(item): void{
-  
+
     const index: number = this.invoice_items.indexOf(item);
-    
+
     if (index !== -1) {
         this.invoice_items.splice(index, 1);
-    } 
+    }
     this.calculate_price()
-  
+
    console.log(this.invoice_items)
     // this.calculate_gst()
     // this.calculate_totalGst()
@@ -142,17 +143,17 @@ printBtn.onclick = function () {
 
     this.invoice_items.forEach(element => {
       // console.log(element)
-      
+
         total_price = element.qty * element.unit_price;
         gst = (total_price * element.gst)/100;
         total_price = total_price+ gst
         total_amount = total_price - element.discount_price;
         element.subtotal_amount=total_amount;
-      
-      
+
+
     });
     this.calculate_grandTotal()
-    
+
   }
 
   calculate_grandTotal(){
@@ -161,7 +162,7 @@ printBtn.onclick = function () {
     this.invoice_items.forEach(element => {
       console.log(element.subtotal_amount)
       tot += element.subtotal_amount
-     
+
     })
     this.grandTotal = parseFloat(tot)
     console.log(tot)
@@ -172,13 +173,13 @@ printBtn.onclick = function () {
    console.log(grandTotal)
    if(tot==0.0){
     this.grandTotal =  parseFloat(grandTotal);
-    
+
    }else{
     this.grandTotal = parseFloat(tot) + parseFloat(grandTotal);
    }
    console.log(this.grandTotal)
-     
-    
+
+
   }
 
 

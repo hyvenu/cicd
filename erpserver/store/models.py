@@ -111,7 +111,7 @@ class StoreServices(AuditUuidModelMixin):
     service_name = models.CharField(max_length=100,unique=True)
     service_desc = models.CharField(max_length=4000)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    service_gst = models.CharField(max_length=100, default="", null=True, blank=True)
+    service_gst = models.CharField(max_length=100, default="0", blank=True)
     service_hour = models.CharField(max_length=100, default="") 
     #unit = models.CharField(max_length=100, default="") 
     unit = models.ForeignKey("inventory.UnitMaster", on_delete=models.CASCADE)
@@ -121,7 +121,6 @@ class StoreServices(AuditUuidModelMixin):
 
     def __str__(self):
         return str(self.service_name)
-
 
 
 class Customer(AuditUuidModelMixin):

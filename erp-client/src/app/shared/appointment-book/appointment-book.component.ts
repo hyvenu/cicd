@@ -63,7 +63,7 @@ export class AppointmentBookComponent implements OnInit {
     private datePipe: DatePipe,
     private route: ActivatedRoute,
     private adminService:AdminService,
-    
+
     ) { this.current_date = new Date() }
 
     keyPress(event: any) {
@@ -76,17 +76,17 @@ export class AppointmentBookComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.bookingForm  =  this.formBuilder.group({   
+    this.bookingForm  =  this.formBuilder.group({
       customerNameFormControl: ['', [Validators.required]],
       phoneNumberFormControl: ['', [Validators.required]],
-      startTimeFormControl: ['', [Validators.required]],
+      //startTimeFormControl: ['', [Validators.required]],
       bookingDateFormControl: ['', [Validators.required]],
-      endTimeFormControl: ['', [Validators.required]],
+      //endTimeFormControl: ['', [Validators.required]],
       // serviceFormControl:['',[Validators.required]]
     })
-    
+
     // this.dateCheck()
-     this.start_date = this.route.snapshot.queryParams['start']
+     /*this.start_date = this.route.snapshot.queryParams['start']
      this.end_date = this.route.snapshot.queryParams['end']
      console.log((this.start_date))
      console.log(this.end_date)
@@ -98,24 +98,24 @@ export class AppointmentBookComponent implements OnInit {
      this.end_time = this.end_date.substr(16,5)
 
      this.date = new Date(this.start_date).toISOString().substr(0,10)
-     
-     console.log(this.end_date.substr(16,5)) 
+
+     console.log(this.end_date.substr(16,5))
      this.bookingForm.controls['endTimeFormControl'].setValue(this.end_time);
      this.bookingForm.controls['startTimeFormControl'].setValue(this.start_time);
      this.bookingForm.controls['bookingDateFormControl'].setValue(moment(this.date));
      }
-    
+    */
     // this.service_array = this.bookingForm.controls['serviceFormControl'].value;
      this.app_id = this.route.snapshot.queryParams['id'];
     console.log("booking id"+this.app_id)
-    
-    
-    
+
+
+
 
     this.adminService.getCustomerList().subscribe(
       (data) =>{
         this.customer_data = data;
-      } 
+      }
     )
 
     this.adminService.getEmployeeList().subscribe(
@@ -126,7 +126,7 @@ export class AppointmentBookComponent implements OnInit {
           this.nbtoastService.danger("Unable get appointment data");
       }
     )
-    
+
     this.adminService.getServiceList().subscribe(
       (data) =>{
         this.service_list = data;
@@ -134,8 +134,8 @@ export class AppointmentBookComponent implements OnInit {
 
         if(this.app_id){
 
-          this.assigned = this.route.snapshot.queryParams['assign']
-         
+          //this.assigned = this.route.snapshot.queryParams['assign']
+
           console.log(this.assigned)
           this.edit_oppintment()
 
@@ -150,19 +150,19 @@ export class AppointmentBookComponent implements OnInit {
   }
 
   onChange(date){
-    
+
     console.log(new Date(date))
     this.dateofdata = new Date(date)
     console.log(this.dateofdata)
     console.log(this.current_date)
     if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
-      this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+      this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date");
       this.myInputVariable.nativeElement.value = "";
-      
+
     }
 
- 
- 
+
+
 }
 
   edit_oppintment(){
@@ -177,26 +177,28 @@ export class AppointmentBookComponent implements OnInit {
         console.log(data)
         console.log(data.service_list)
         this.appointment_id=data.id
-        this.service_id = data.service_list[0].id
+        //this.service_id = data.service_list[0].id
         console.log(this.service_id)
         this.bookingForm.controls['bookingDateFormControl'].setValue(moment(data.booking_date));
         if(this.assigned == undefined){
-          this.assigned = data.assigned_staff__id
+          this.assigned = data.service_list.assigned_staff__id
         }
-        
+
         data.service_list.forEach(element => {
           console.log(element)
           this.selected_product_list.push({
             id:element.id,
             service_id:element.service__id,
             service_name: element.service__service_name,
-            stylist_name: data.assigned_staff__employee_name,
-            stylist_id:this.assigned
+            stylist_name: element.assigned_staff__employee_name,
+            stylist_id: element.assigned_staff__id,
+            start_time: element.start_time,
+            end_time: element.end_time
           })
         });
-        
-       
-       
+
+
+
         // let ser_id = this.adminService.getServiceList().subscribe(
         //   (serv) =>{
         //     console.log("service list"+data)
@@ -204,14 +206,14 @@ export class AppointmentBookComponent implements OnInit {
         //     console.log("service_list"+this.service_list)
         //   }
         // )
-        this.service = [data.service_list[0].service__id]
-        this.bookingForm.controls['startTimeFormControl'].setValue(data.start_time);
-        this.bookingForm.controls['endTimeFormControl'].setValue(data.end_time);
+        //this.service = [data.service_list[0].service__id]
+    //this.bookingForm.controls['startTimeFormControl'].setValue(data.start_time);
+    //this.bookingForm.controls['endTimeFormControl'].setValue(data.end_time);
         // this.bookingForm.controls['serviceFormControl'].setValue(data.service__id);
-        this.bookingForm.controls['customerNameFormControl'].setValue(data.customer_name);
-        this.bookingForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
-        
-       
+        this.bookingForm.controls['customerNameFormControl'].setValue(data.customer__customer_name);
+        this.bookingForm.controls['phoneNumberFormControl'].setValue(data.customer__phone_number);
+
+
   });
   }
 
@@ -220,24 +222,24 @@ export class AppointmentBookComponent implements OnInit {
       .onClose.subscribe(data => {
         this.searchService = ""
         //  this.product_list = data
-        
+
         console.log(data)
-        
-        
-        
-          
+
         this.selected_product_list.push({
-    
-          id: this.service_id,
-          service_id:data.id,
+
+          //id: this.service_id,
+          id: this.app_id,
+          service_id: data.id,
           service_name: data.service_name,
-          stylist_id:this.stylist_id
-     
+          stylist_id: "",
+          start_time: "",
+          end_time: ""
+
         });
-      
+
       });
     //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
-   
+
   }
 
   check_date_of_req():void{
@@ -245,56 +247,61 @@ export class AppointmentBookComponent implements OnInit {
     // console.log("date from form",dateOfReq)
     // if(dateOfReq < this.current_date ){
     //   this.bookingForm.controls['bookingDateFormControl'].setValue('')
-    //   this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+    //   this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date");
     // }
- 
+
   }
 
   remove_item(item): void{
     const index: number = this.selected_product_list.indexOf(item);
     if (index !== -1) {
         this.selected_product_list.splice(index, 1);
-    } 
+    }
   }
 
   // onChange(){
   //   this.bookingForm.controls['bookingDateFormControl'].valueChanges.subscribe(
-  //     (data)=> {  
+  //     (data)=> {
   //       console.log(new Date(data))
   //       this.dateofdata = new Date(data)
   //       console.log(this.dateofdata)
   //       console.log(this.current_date)
   //       if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
-  //         this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date"); 
+  //         this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date");
   //       }
 
   //     })
-     
+
   //   }
 
-    dateCheck(){
+    dateCheckStart(time, item){
+      item.start_time = time
       // let start_time:any
       // let end_time:any
       //  this.bookingForm.controls['startTimeFormControl'].valueChanges.subscribe(
       //   (data) =>{
       //     start_time = data
       //     console.log(start_time)
-          
+
       //   }
       // )
       // this.bookingForm.controls['endTimeFormControl'].valueChanges.subscribe(
       //   (data) =>{
       //     end_time = data
       //     console.log(end_time)
-          
+
       //   }
       // )
       // if (start_time.toString() < end_time.toString()){
-      //   this.nbtoastService.danger("Time you selected is invalid"); 
+      //   this.nbtoastService.danger("Time you selected is invalid");
       // }
     }
 
-    stylist_open(dialog: TemplateRef<any>,item) {
+    dateCheckEnd(time, item){
+      item.end_time = time
+    }
+
+    stylist_open(dialog: TemplateRef<any>, item) {
       this.dailog_ref = this.dialogService.open(dialog, { context: this.stylist_list })
       .onClose.subscribe(data => {
         console.log(data)
@@ -303,54 +310,51 @@ export class AppointmentBookComponent implements OnInit {
         item.stylist_name=data.employee_name
         item.stylist_id=data.id
         console.log(this.stylist_id);
-        
+
       })
     }
 
-   
 
-    
 
-    
+
+
+
 
   saveBooking():void {
     if(this.bookingForm.valid){
     let form_data = new FormData();
     if(this.app_id){
       // let service_id = this.bookingForm.controls['serviceFormControl'].value.split(',')
-      form_data.append('id', this.app_id);  
-      form_data.append('assigned_staff', this.assigned);
+      form_data.append('id', this.app_id);
+      //form_data.append('assigned_staff', this.assigned);
       // form_data.append('service',service_id);
       // form_data.append('customer',this.cus_id)
     }
 
     form_data.append('store',sessionStorage.getItem('store_id'));
     form_data.append('customer',this.customer_id)
-    form_data.append('customer_name', this.bookingForm.controls['customerNameFormControl'].value);
-    form_data.append('phone_number', this.bookingForm.controls['phoneNumberFormControl'].value);
-    form_data.append('service',JSON.stringify(this.selected_product_list));
-    form_data.append('start_time', this.bookingForm.controls['startTimeFormControl'].value);
-    form_data.append('end_time', this.bookingForm.controls['endTimeFormControl'].value);
-    form_data.append('assigned_staff', this.assigned);
+    form_data.append('services',JSON.stringify(this.selected_product_list));
     form_data.append('booking_date', moment(this.bookingForm.controls['bookingDateFormControl'].value).format("YYYY-MM-DD"));
     form_data.append('is_paid',new Boolean(this.passed_flag).toString())
 
     if (this.booking_id) {
+      //update
         this.adminService.updateBooking(form_data).subscribe(
           (data) => {
             console.log(data)
              this.nbtoastService.success("Booking information updated")
             this.routes.navigate(["/ViewBooking"]);
-             
+
              this.booking_id=null;
              this.selected_service = null;
-             
-          },  
+
+          },
           (error) => {
               this.nbtoastService.danger("Failed to update");
           }
         )
     }else {
+      //new insert
       this.adminService.saveBooking(form_data).subscribe(
         (data) => {
           console.log(data)
@@ -359,12 +363,12 @@ export class AppointmentBookComponent implements OnInit {
           }else{
             this.nbtoastService.success("Booking information Saved")
           }
-           
+
            this.routes.navigate(["/ViewBooking"]);
-           
+
            this.booking_id=null;
            this.service = [];
-        },  
+        },
         (error) => {
             this.nbtoastService.danger("Failed to update");
         }
@@ -377,12 +381,12 @@ export class AppointmentBookComponent implements OnInit {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_data })
     .onClose.subscribe(data => {
       this.searchCategory=""
-       this.selected_customer = data     
+       this.selected_customer = data
        this.customer_id  = data.id
        this.bookingForm.controls['customerNameFormControl'].setValue(data.customer_name);
        this.bookingForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
-       
-       
+
+
     }
     );
   }
@@ -391,12 +395,12 @@ export class AppointmentBookComponent implements OnInit {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_data })
     .onClose.subscribe(data => {
       console.log(data)
-       this.selected_customer = data     
+       this.selected_customer = data
        this.customer_id  = data.id
        this.bookingForm.controls['customerNameFormControl'].setValue(data.customer_name);
        this.bookingForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
-       
-       
+
+
     }
     );
   }
@@ -414,8 +418,8 @@ export class AppointmentBookComponent implements OnInit {
           return this.submitted = false;
         }
 
-        
-      
+
+
     }
 
 

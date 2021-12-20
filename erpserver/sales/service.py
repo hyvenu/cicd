@@ -17,7 +17,7 @@ from inventory.models import ProductMaster, ProductPriceMaster, ProductImages, P
 from sales.models import OrderRequest, OrderDetails, OrderEvents, SalesOrderRequest, SalesOrderDetails,SalesRefund, \
     SalesRefundDetails, SalesExchange, SalesExchangeDetails
 from security.models import CustomerAddress
-from store.models import StoreShipLocations, Store
+from store.models import StoreShipLocations, Store, AppointmentSchedule
 import ast
 
 ORDER_STATUS_DICT = {
@@ -55,6 +55,17 @@ DELIVERY_METHOD_DICT = {
 
 
 class OrderService:
+
+    @classmethod
+    def getCurrentDate(cls):
+        now = datetime.datetime.now()
+ 
+        print("now =", now)
+
+        # YY/mm/dd H:M:S 2021-06-25 07:58:56
+        #curretnDate = now.strftime("%Y/%m/%d %H:%M:%S")
+        #print("date and time =", curretnDate)
+        return now
 
     @classmethod
     def generate_invoice_code(cls):
@@ -228,7 +239,7 @@ class OrderService:
     @transaction.atomic
     def process_order(self, order_data, user_id):
         order_request = OrderRequest()
-        order_request.order_raised_date = datetime.datetime.now()
+        order_request.order_raised_date = self.getCurrentDate()
         order_request.shipping_address_id = order_data['shipping_address']
         order_request.billing_address_id = order_data['billing_address']
         order_request.customer_id = user_id
@@ -399,6 +410,9 @@ class OrderService:
     @classmethod
     @transaction.atomic()
     def save_sales_order(cls, sales_data):
+        print("app_id %s"%sales_data['app_id'])
+        appointment = AppointmentSchedule.objects.filter(id=sales_data['app_id']).update(is_paid=True)
+
         if 'id' in sales_data:
             sales_order_req = SalesOrderRequest.objects.get(id=sales_data['id'])
         else:
@@ -410,7 +424,7 @@ class OrderService:
         sales_order_req.po_type = sales_data['po_type']
         sales_order_req.shipping_address = sales_data['shipping_address']
         sales_order_req.transport_type = sales_data['transport_type']
-        sales_order_req.po_date = datetime.datetime.now()  # sales_data['po_date']
+        sales_order_req.po_date = cls.getCurrentDate()  # sales_data['po_date']
         sales_order_req.po_raised_by = sales_data['po_raised_by']
         sales_order_req.pr_number = sales_data['pr_number']
         # sales_order_req.vendor_id = sales_data['vendor_id']
@@ -457,22 +471,25 @@ class OrderService:
 
         sales_invoice_list = ast.literal_eval(sales_data['invoice_items'])
         for item in sales_invoice_list:
-            if 'id' in item and len(item['id']) > 0:
-                sales_order_details = SalesOrderDetails.objects.get(id=item['id'])
-            else:
-                sales_order_details = SalesOrderDetails()
+            print("DISCOUNT %s"%item['discount'])
+            #if 'id' in item and len(item['id']) > 0:
+                #sales_order_details = SalesOrderDetails.objects.get(id=item['id'])
+            #else:
+                #sales_order_details = SalesOrderDetails()
 
+            sales_order_details = SalesOrderDetails()
             sales_order_details.po_order = sales_order_req
             sales_order_details.product_id = item['item_id']
             sales_order_details.service_id = item['service_id']
             sales_order_details.booking_id = item['booking_id']
             # po_product.product_code = item['product_code']
             sales_order_details.product_name = item['item_description']
-            sales_order_details.unit_id = item['unit']
+            #sales_order_details.unit_id = item['unit']
             sales_order_details.unit_text = item['unit']
             sales_order_details.qty = item['quantity']
             # po_product.delivery_date = str(item['delivery_date'])[0:10]
             sales_order_details.unit_price = item['price']
+            sales_order_details.discount_price = item['discount']
             sales_order_details.gst = item['tax']
             # so_invoice.amount = item['amount']
             sales_order_details.subtotal_amount = item['item_total']
@@ -495,7 +512,8 @@ class OrderService:
 
     @classmethod
     @transaction.atomic()
-    def save_sales_refund(cls, sales_data):
+    def save_sales_refund(cls, sales_data):       
+
         if 'id' in sales_data:
             sales_refund_req = SalesRefund.objects.get(id=sales_data['id'])
         else:
@@ -508,7 +526,7 @@ class OrderService:
         sales_refund_req.shipping_address = sales_data['shipping_address']
         sales_refund_req.transport_type = sales_data['transport_type']
         sales_refund_req.invoice_no_id = sales_data['invoice_no']
-        sales_refund_req.refund_date = datetime.datetime.now()  # sales_data['po_date']
+        sales_refund_req.refund_date = cls.getCurrentDate()  # sales_data['po_date']
 
         # sales_refund_req.pr_number = sales_data['pr_number']
         # sales_order_req.vendor_id = sales_data['vendor_id']
@@ -589,7 +607,8 @@ class OrderService:
 
     @classmethod
     @transaction.atomic()
-    def save_sales_exchange(cls, sales_data):
+    def save_sales_exchange(cls, sales_data):        
+
         if 'id' in sales_data:
             sales_exchange_req = SalesExchange.objects.get(id=sales_data['id'])
         else:
@@ -601,7 +620,7 @@ class OrderService:
 
         sales_exchange_req.shipping_address = sales_data['shipping_address']
         sales_exchange_req.transport_type = sales_data['transport_type']
-        sales_exchange_req.exchange_date = datetime.datetime.now()  # sales_data['po_date']
+        sales_exchange_req.exchange_date = cls.getCurrentDate()  # sales_data['po_date']
 
         # sales_refund_req.pr_number = sales_data['pr_number']
         # sales_order_req.vendor_id = sales_data['vendor_id']
@@ -735,6 +754,7 @@ class OrderService:
             "qty",
             # "delivery_date",
             "unit_price",
+            "discount_price",
             "gst",
             "service__service_name",
             "product__product_name",
