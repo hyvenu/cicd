@@ -25,6 +25,7 @@ urlpatterns = (
     path('api/v1/get_product_pack_types', views.get_product_pack_type, name="get_product_pack_types"),
     path('api/v1/get_product_details', views.get_product_details, name="get_product_details"),
     path('api/v1/get_all_product_details', views.get_all_product_list, name="get_all_product_details"),
+    path('api/v1/get_all_units', views.get_all_units, name="get_all_units"),
 
     path("inventory/dashboard",views.inventory_dashboard, name="inventory_dashboard"),
     path("inventory/ProductPriceMaster/", views.ProductPriceMasterListView.as_view(), name="inventory_ProductPriceMaster_list"),

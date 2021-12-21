@@ -3,7 +3,7 @@ from io import BytesIO
 from django.core.files import File
 from django.db import transaction
 
-from inventory.models import ProductMaster, ProductSubCategory, ProductPriceMaster, ProductImages, ProductStock
+from inventory.models import ProductMaster, ProductSubCategory, ProductPriceMaster, ProductImages, ProductStock, UnitMaster
 from sequences import get_next_value
 import ast
 import barcode
@@ -285,3 +285,14 @@ class InventoryService:
     @classmethod
     def save_product_stock(cls, store_id, data):
         pass
+
+    def get_unit_list(self):
+        product_dict = UnitMaster.objects.all().values(
+            'id',
+            'PrimaryUnit',
+            'SecondaryUnit'
+        )
+
+        # for prd in product_dict:
+        #     pass
+        return list(product_dict)

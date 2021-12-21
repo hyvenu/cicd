@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin.service';
-import { NbToastrService } from '@nebular/theme';
+import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-manage-service',
@@ -20,16 +20,20 @@ export class ManageServiceComponent implements OnInit {
 
   Service_id;
 
-  searchService:any; 
+  searchService:any;
 
   store_id: any;
+  searchUnit:any;
+  unitData: any;
+  dailog_ref: any;
+  selected_unit_id: any;
 
   settings = {
     // selectMode: 'multi',
     actions: {
       add: false,
       edit: true,
-      delete: true,      
+      delete: true,
       },
     columns: {
       id: {
@@ -37,7 +41,7 @@ export class ManageServiceComponent implements OnInit {
         hide:true
       },
       service_name: {
-        title: 'Service Name',        
+        title: 'Service Name',
       },
       service_desc: {
         title: 'Service Description',
@@ -53,6 +57,7 @@ export class ManageServiceComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private adminService: AdminService,
               private nbtoastService: NbToastrService,
+              private dialogService: NbDialogService,
               private routes: Router) {
                   this.store_id = sessionStorage.getItem('store_id')
                }
@@ -64,8 +69,20 @@ export class ManageServiceComponent implements OnInit {
       ServicePriceFormControl: ['', [Validators.required,Validators.pattern(this.pattern)]],
       gstFormControl: ['', [Validators.required]],
       serviceHourFormControl:['',[Validators.required]],
+      unitFormControl:['',[Validators.required]]
     });
+
     this.createFlag = true;
+
+    this.get_service_list();
+
+    this.get_unit_list();
+
+
+
+  }
+
+  get_service_list() {
     this.adminService.getServiceList().subscribe(
       (data) => {
           this.services = data;
@@ -74,7 +91,18 @@ export class ManageServiceComponent implements OnInit {
           this.nbtoastService.danger(error,"Error")
       }
     )
-    
+  }
+
+  get_unit_list() {
+    this.adminService.getUnitList().subscribe(
+      (data) => {
+          this.unitData = data;
+          console.log(this.unitData)
+      },
+      (error) => {
+          this.nbtoastService.danger(error,"Error")
+      }
+    )
   }
 
   save_Service(): void{
@@ -86,12 +114,13 @@ export class ManageServiceComponent implements OnInit {
             price: this.ServiceFrom.get(['ServicePriceFormControl']).value,
             service_gst: this.ServiceFrom.get(['gstFormControl']).value,
             service_hour:this.ServiceFrom.get(['serviceHourFormControl']).value,
+            unit: this.selected_unit_id,
             store : this.store_id,
       }
       this.adminService.saveService(data).subscribe(
         (data) => {
           this.nbtoastService.success("Saved Successfully");
-          this.ngOnInit();
+          this.get_service_list();
         },
         (error) =>{
           console.log(error)
@@ -106,27 +135,32 @@ export class ManageServiceComponent implements OnInit {
     }
     };
     update_Service(): void{
-
-      if( this.ServiceFrom.dirty && this.ServiceFrom.valid){
-        let data = {
+try{
+      //if( this.ServiceFrom.dirty && this.ServiceFrom.valid){
+        if(this.ServiceFrom.valid){
+        let pdata = {
+              service_id: this.Service_id,
               service_name: this.ServiceFrom.get(['ServiceNameFormControl']).value,
               service_desc: this.ServiceFrom.get(['ServiceDescFormControl']).value,
               price: this.ServiceFrom.get(['ServicePriceFormControl']).value,
               service_gst: this.ServiceFrom.get(['gstFormControl']).value,
               service_hour:this.ServiceFrom.get(['serviceHourFormControl']).value,
-              store : this.store_id,
+              unit: this.selected_unit_id
         }
-        this.adminService.updateService(this.Service_id, data).subscribe(
+        this.adminService.updateService(pdata).subscribe(
           (data) => {
             this.nbtoastService.success("Service Updated Successfully");
-            this.ngOnInit();
+            this.get_service_list();
           },
           (error) =>{
             this.nbtoastService.danger(error);
           }
         )
       }
-      };
+    }catch(e) {
+      console.log("Catch:"+e)
+    }
+    }
 
     selected_Service(data): any{
         this.ServiceFrom.controls['ServiceNameFormControl'].setValue(data.service_name);
@@ -134,18 +168,30 @@ export class ManageServiceComponent implements OnInit {
         this.ServiceFrom.controls['ServicePriceFormControl'].setValue(data.price);
         this.ServiceFrom.controls['gstFormControl'].setValue(data.service_gst);
         this.ServiceFrom.controls['serviceHourFormControl'].setValue(data.service_hour);
-        this.createFlag = !this.createFlag;
-        this.Service_id = data.id
+        this.ServiceFrom.controls['unitFormControl'].setValue(data.unit__PrimaryUnit +" - "+data.unit__SecondaryUnit);
+        this.createFlag = false;
+        this.Service_id = data.id;
+        this.selected_unit_id = data.unit__id;
     }
 
-    delete_Service(Service){
-      const data = {
-        "id" : Service.Service_id
-      }
-      this.adminService.removeFromService(data).subscribe(()=>{
-        this.refresh();
+    delete_Service(service_id){
+      this.adminService.removeOneService(service_id).subscribe(()=>{
+        this.get_service_list();
+        this.ServiceFrom.reset();
+        this.createFlag = true;
+        //this.refresh();
       })
     }
+
+    delete_all_service(){
+      this.adminService.removeAllService().subscribe(()=>{
+        this.get_service_list();
+        this.ServiceFrom.reset();
+        this.createFlag = true;
+        //this.refresh();
+      })
+    }
+
     refresh(): void {
       window.location.reload();
     }
@@ -162,5 +208,16 @@ export class ManageServiceComponent implements OnInit {
         if (!this.ServiceFrom.invalid){
           return this.submitted = false;
         }
+      }
+
+      open_unit_list(dialog: TemplateRef<any>) {
+        this.dailog_ref= this.dialogService.open(dialog, { context: this.unitData })
+        .onClose.subscribe(data => {
+           this.selected_unit_id = data.id;
+           this.ServiceFrom.controls['unitFormControl'].setValue(data.PrimaryUnit +" - "+data.SecondaryUnit);
+
+
+        }
+        );
       }
 }

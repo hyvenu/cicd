@@ -229,3 +229,10 @@ def get_all_product_list(request):
     inventory_service = InventoryService()
     pr_list = inventory_service.get_all_product_list()
     return JsonResponse(pr_list, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated,])
+def get_all_units(request):
+    inventory_service = InventoryService()
+    unit_list = inventory_service.get_unit_list()
+    return JsonResponse(unit_list, safe=False)

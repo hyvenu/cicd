@@ -55,19 +55,27 @@ export class AdminService {
   }
 
   public getServiceList(){
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_store_service_list`, {})
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/store_services`, {})
   }
 
-  public saveService(data) {
+  /*public saveService(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreService/`, data)
   }
-
-  public removeFromService(data){
-    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreService/`, data)
+  */
+  public saveService(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/store_services`, data)
   }
 
-  public updateService(id,data) {
-    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreService/` + id + '/', data)
+  public removeAllService(){
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/store_services`, {})
+  }
+
+  public removeOneService(id){
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/delete_service/`+id, {})
+  }
+
+  public updateService(data) {
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/store_services`, data)
   }
 
   public saveBooking(data) {
@@ -175,7 +183,7 @@ export class AdminService {
   }
 
   public getBookinHistory(id){
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_booking_history?customer_id=`+ id )
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_details_by_customer/`+ id )
   }
 
   public getAppForBill(id){
@@ -206,6 +214,10 @@ export class AdminService {
 
   public saveInvoice(data){
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/save_po`,data)
+  }
+
+  public getUnitList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_all_units`, {})
   }
 
 }

@@ -411,7 +411,7 @@ class OrderService:
     @transaction.atomic()
     def save_sales_order(cls, sales_data):
         print("app_id %s"%sales_data['app_id'])
-        appointment = AppointmentSchedule.objects.filter(id=sales_data['app_id']).update(is_paid=True)
+        appointment = AppointmentSchedule.objects.filter(customer_id=sales_data['customer']).update(is_paid=True)
 
         if 'id' in sales_data:
             sales_order_req = SalesOrderRequest.objects.get(id=sales_data['id'])

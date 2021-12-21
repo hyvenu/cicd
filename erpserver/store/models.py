@@ -113,7 +113,6 @@ class StoreServices(AuditUuidModelMixin):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     service_gst = models.CharField(max_length=100, default="0", blank=True)
     service_hour = models.CharField(max_length=100, default="") 
-    #unit = models.CharField(max_length=100, default="") 
     unit = models.ForeignKey("inventory.UnitMaster", on_delete=models.CASCADE)
 
     class Meta:

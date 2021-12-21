@@ -132,7 +132,7 @@ export class ViewBookingComponent implements OnInit {
   }
 
   checkOutToBill(item){
-    this.routes.navigateByUrl("/SalesBill?id=" + item)
+    this.routes.navigateByUrl("/SalesBill?cust_id=" + item)
 
   }
 

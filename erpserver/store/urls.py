@@ -36,7 +36,6 @@ urlpatterns = (
     path('api/v1/get_employee_list', views.get_employee_list, name="get_employee_list"),
     path('api/v1/get_enquiry_list', views.get_enquiry_list, name="get_enquiry_list"),
     path('api/v1/get_store_list', views.get_store_list, name="get_store_list"),
-    path('api/v1/get_store_service_list', views.get_store_service_list, name="get_store_service_list"),
     path('api/v1/get_store_details', views.get_store_details, name="get_store_details"),
     path('api/v1/get_appointment_details', views.get_appointment_details, name="get_appointment_details"),
     path('api/v1/get_appointment_details_calendar/<store_id>/<date>/', views.get_appointment_details_calendar, name="get_appointment_details_calendar"),
@@ -44,5 +43,8 @@ urlpatterns = (
     path('api/v1/get_all_viewbooking_details', views.get_all_viewbooking_details, name="get_all_viewbooking_details"),
     path('api/v1/get_dashboard_booking_details', views.get_dashboard_booking_details, name="get_dashboard_booking_details"),
     path('api/v1/get_appointment_details_by_id', views.get_appointment_details_by_id, name="get_appointment_details_by_id"),
+    path('api/v1/get_appointment_details_by_customer/<cust_id>/', views.get_appointment_details_by_customer, name="get_appointment_details_by_customer"),
+    path('api/v1/store_services', views.store_services, name="store_services"),
+    path('api/v1/delete_service/<id>/', views.delete_service, name="delete_service")
 
 )

@@ -20,6 +20,7 @@ export class InvoicePageComponent implements OnInit {
   store_name: any;
   invoice_no: any;
   invoice_date: any;
+  invoice_date_format: any;
   data: any=[];
   discount: any;
   sum: any=0;
@@ -64,7 +65,11 @@ printBtn.onclick = function () {
           this.customer_addr = this.invoice_details.customer__customer_address
           this.store_name = this.invoice_details.store__store_name
           this.invoice_no = this.invoice_details.invoice_no
-          this.invoice_date= this.invoice_details.po_date
+          this.invoice_date = this.invoice_details.po_date
+          //let fDate = new Date(this.invoice_date);
+          //let fDate2 = fDate.getFullYear()+"-"+(fDate.getMonth()+1)+"-"+fDate.getDate()+" "+fDate.getHours()+":"+fDate.getMinutes()+":"+fDate.getSeconds();
+          //this.invoice_date_format = this.formatDate(fDate2);
+          this.invoice_date_format = this.invoice_date;
           this.customer_number = this.invoice_details.customer__phone_number
           this.data = JSON.stringify(data)
           console.log(this.data)
@@ -105,6 +110,19 @@ printBtn.onclick = function () {
 
 
   }
+
+  formatDate(sdate:any) {
+    console.log("DATEEE="+sdate)
+    //Split timestamp into [ Y, M, D, h, m, s ]
+    //var t = "2010-06-09 13:12:01".split(/[- :]/);
+    var t = sdate.split(/[- :]/);
+
+    //Apply each element to the Date function
+    var d = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
+    //d.setHours(hours, minutes, 0, 0);
+    return d;
+  }
+
   add_items():any {
 
     const data = {

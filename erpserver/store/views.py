@@ -16,7 +16,8 @@ from . import models
 from . import forms
 from django.contrib import messages
 
-from .models import StoreUser
+from . import serializers
+from .models import StoreServices, StoreUser
 from .service import StoreService
 
 
@@ -218,6 +219,13 @@ def get_appointment_details_by_id(request):
     app_obj = store_service.get_appointment_details_byid(app_id)
     return JsonResponse(app_obj, safe=False)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_appointment_details_by_customer(request, cust_id):
+    store_service = StoreService()
+    app_obj = store_service.get_appointment_details_bycustomer(cust_id)
+    return JsonResponse(app_obj, safe=False)    
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
@@ -249,3 +257,39 @@ def get_enquiry_list(request):
     store_service = StoreService()
     employee_list = store_service.get_enquiry_list()
     return JsonResponse(employee_list, safe=False)
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated, ])
+def store_services(request):    
+  #param1 = request.GET.get("param1")
+  if request.method == 'GET':
+        print("GET called")
+        store_service = StoreService()
+        service_list = store_service.get_service_list()
+        return JsonResponse(service_list, safe=False)
+ 
+  elif request.method == 'POST':
+        print("POST called")
+        data = request.data
+        store_service = StoreService()
+        ap_res = store_service.save_service(data)
+        return JsonResponse(ap_res, safe=False)
+
+  elif request.method == 'PUT':
+        print("UPDATE CALLED %s"%request.data)
+        data = request.data
+        store_service = StoreService()
+        ap_res = store_service.update_service(data)
+        return JsonResponse(ap_res, safe=False)
+    
+  elif request.method == 'DELETE':
+        count = StoreServices.objects.all().delete()
+        return JsonResponse({'message': '{} services were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)   
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated, ])
+def delete_service(request, id):
+    store_service = StoreService()   
+    print("pdata %s"%id)
+    count = store_service.delete_service(id)
+    return JsonResponse(count, safe=False, status=status.HTTP_200_OK)         

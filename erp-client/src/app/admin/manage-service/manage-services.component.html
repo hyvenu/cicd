@@ -2,7 +2,7 @@
     <div class="form-row">
         <div class="form-group col-md-3">
             <label for="Name"> Service Name <span style="color: red;">*</span></label>
-            <input nbInput formControlName="ServiceNameFormControl" name="Name" placeholder=" Name" 
+            <input nbInput formControlName="ServiceNameFormControl" name="Name" placeholder=" Name"
             [ngClass]="{ 'is-invalid': submitted && f.ServiceNameFormControl.errors }" class="form-control"/>
                     <div *ngIf="submitted && f.ServiceNameFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.ServiceNameFormControl.errors.required">Name is required</div>
@@ -21,7 +21,7 @@
         <div class=" form-group col-md-3">
             <label for="ServicePriceFormControl"> Price <span style="color: red;">*</span></label>
             <input type="number" min="0" nbInput formControlName="ServicePriceFormControl" name="Price" placeholder=" Price"
-            
+
             [ngClass]="{ 'is-invalid': submitted && f.ServicePriceFormControl.errors }" class="form-control"/>
                     <div *ngIf="submitted && f.ServicePriceFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.ServicePriceFormControl.errors.required">Price is required</div>
@@ -49,9 +49,19 @@
                     </div>
 
         </div>
+        <div class="form-group col-md-3">
+          <label for="unitName">Unit Name <span style="color: red;">*</span> </label>
+          <input type="text" nbInput name="unitName" formControlName="unitFormControl" placeholder="Unit"
+          (keypress)="open_unit_list(dialog)" (click)="open_unit_list(dialog)" readonly
+          [ngClass]="{ 'is-invalid': submitted && f.unitFormControl.errors  }" class="form-control" />
+          <div *ngIf="submitted && f.unitFormControl.errors" class="invalid-feedback">
+              <div *ngIf="submitted && f.unitFormControl.errors.required">Unit Name is Required</div>
+
+          </div>
+      </div>
     </div><br>
     <div class=" form-row">
-       
+
     </div><br>
     <div class="form-row">
         <div class="form-group col-md-4">
@@ -67,6 +77,7 @@
         <nb-card-body>
             <nb-list-item *ngFor="let service of services | search_filter:'service_name':searchService">
                 <i class="mr-auto mt-2 mt-lg-0">{{ service.service_name }}-{{service.price}}-{{service.service_gst}}%gst-{{service.service_hour}}</i>
+                <button nbButton size="small" (click)="delete_Service(service.id)" >Delete</button>
                 <button nbButton size="small" (click)="selected_Service(service)" >Select</button>
                 <!-- <button class="remove-from-category" nbButton size="small"  href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="fa fa-trash"></i></button> -->
             </nb-list-item>
@@ -80,5 +91,21 @@
                 </div>
         </nb-card-body>
     </nb-card>  -->
-
+    <ng-template #dialog let-data let-ref="dialogRef">
+      <nb-card size="medium">
+          <nb-card-header>Units <input type="text" nbInput size="small" placeholder="Search .."
+                  [(ngModel)]="searchUnit" /> </nb-card-header>
+          <nb-card-body>
+              <nb-list>
+                  <nb-list-item *ngFor="let item of unitData |search_filter:'unit name':searchUnit ">
+                      <i class="mr-auto mt-2 mt-lg-0"> {{item.PrimaryUnit }}- {{item.SecondaryUnit }}</i>
+                      <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                  </nb-list-item>
+              </nb-list>
+          </nb-card-body>
+          <nb-card-footer>
+              <button nbButton (click)="ref.close()">Close</button>
+          </nb-card-footer>
+      </nb-card>
+  </ng-template>
 </div>

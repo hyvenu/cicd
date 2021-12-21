@@ -23,7 +23,7 @@ export class SalesBillComponent implements OnInit {
   currentlyChecked: CheckBoxType;
   passed_flag:boolean = true;
   customernew_id: any;
-  app_id: any;
+  get_cust_id: any;
   booking_historys: any;
   service_id: any;
   searchProduct
@@ -218,9 +218,9 @@ export class SalesBillComponent implements OnInit {
       }
     )
 
-    this.app_id = this.route.snapshot.queryParams['id']
-    if(this.app_id){
-      this.get_bookingHistory(this.app_id)
+    this.get_cust_id = this.route.snapshot.queryParams['cust_id']
+    if(this.get_cust_id){
+      this.get_bookingHistory(this.get_cust_id)
     }
 
     /*
@@ -304,15 +304,15 @@ export class SalesBillComponent implements OnInit {
       this.searchCus = ""
       this.invoice_items = []
        this.customer_object = data
-       console.log(this.customer_object)
        this.customer_id = data.id;
-       console.log(this.customer_id)
+
        this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
        this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
        this.invoiceForm.controls['advanceAmountFormControl'].setValue(this.customer_object.advance_amount);
-      //this.get_bookingHistory(this.customer_object.id)
+
+       this.get_bookingHistory(this.customer_id)
 
     }
     );
@@ -322,18 +322,50 @@ export class SalesBillComponent implements OnInit {
   }
   get_bookingHistory(id) {
     console.log("Called APP DEts");
-    this.adminService.getAppForBill(id).subscribe(
+    this.adminService.getBookinHistory(id).subscribe(
       (data)=>{
-        this.serviceIds = []
-        this.appointment_obj = data[0]
         console.log("Booking Obj: ")
-        console.log(this.appointment_obj)
+        console.log(data)
+        if(data.length > 0) {
+          this.serviceIds = []
+          this.appointment_obj = data[0]
 
-        this.invoiceForm.controls['customerNameFormControl'].setValue(this.appointment_obj.customer__customer_name);
-        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.appointment_obj.customer__phone_number);
-        this.invoiceForm.controls['customerEmailFormControl'].setValue(this.appointment_obj.customer__customer_email);
-        this.invoiceForm.controls['advanceAmountFormControl'].setValue(this.appointment_obj.customer__advance_amount);
-        this.customer_id = this.appointment_obj.customer__id;
+          this.invoiceForm.controls['customerNameFormControl'].setValue(this.appointment_obj.customer__customer_name);
+          this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.appointment_obj.customer__phone_number);
+          this.invoiceForm.controls['customerEmailFormControl'].setValue(this.appointment_obj.customer__customer_email);
+          this.invoiceForm.controls['advanceAmountFormControl'].setValue(this.appointment_obj.customer__advance_amount);
+          this.customer_id = this.appointment_obj.customer__id;
+
+
+
+          let services = this.appointment_obj.service_list
+            services.forEach(element => {
+            //console.log("Service List: ")
+            //console.log(element)
+
+            this.invoice_items.push(
+              { item_id:"",
+                booking_id: this.appointment_obj.id,
+                service_id: element.service__id,
+                item_description: element.service__service_name,
+                quantity: 1,
+                unit: element.service__unit__PrimaryUnit,
+                price: element.service__price,
+                discount: 0,
+                item_total: 0,
+                tax: element.service__service_gst,
+                gst_value: 0
+              }
+            )
+
+          });
+
+      }
+        /*data.forEach(apps => {
+
+        });
+        */
+
 
         /*
         this.appointment_obj.forEach(element => {
@@ -356,27 +388,7 @@ export class SalesBillComponent implements OnInit {
         //console.log(this.serviceIds)
         //console.log(this.booking_id)
 
-        let services = this.appointment_obj.service_list
-        services.forEach(element => {
-          //console.log("Service List: ")
-          //console.log(element)
 
-          this.invoice_items.push(
-            { item_id:"",
-              booking_id: this.appointment_obj.id,
-              service_id: element.service__id,
-              item_description: element.service__service_name,
-              quantity: 1,
-              unit: element.service__unit__PrimaryUnit,
-              price: element.service__price,
-              discount: 0,
-              item_total: 0,
-              tax: element.service__service_gst,
-              gst_value: 0
-            }
-          )
-
-        });
 
         console.log("invoice items list: ")
         console.log(this.invoice_items)
@@ -410,20 +422,20 @@ export class SalesBillComponent implements OnInit {
 
   calculate_price(): void {
 
+    let total_gross:any =0;
     let total_discount:any =0;
     let total_grand:any =0;
     let total_basic_price:any =0;
     let total_gst_value: any =0;
 
     this.invoice_items.forEach(element => {
-      console.log('pro ele',element)
+
       let net_price:any = (element.price - element.discount)
       let tot_price:any = (net_price * element.quantity )
       let gst_tot:any =((tot_price * element.tax)/100)
       let item_tot:any = tot_price + gst_tot;
 
-      console.log('tot pri',tot_price)
-      console.log('tot gst',gst_tot)
+      total_gross += parseFloat(element.price);
       total_basic_price += tot_price;
       total_gst_value += gst_tot;
 
@@ -469,7 +481,7 @@ export class SalesBillComponent implements OnInit {
       total_gst_value = total_gst_value + val.gst_value;
     }); */
     //this.subtotal = parseFloat(total_item_price).toFixed(2) ;
-    this.subtotal = parseFloat(total_basic_price).toFixed(2) ;
+    this.subtotal = parseFloat(total_gross).toFixed(2) ;
     this.gstValue = parseFloat(total_gst_value).toFixed(2) ;
 
     this.totalDiscount = parseFloat(total_discount).toFixed(2);
@@ -787,8 +799,6 @@ export class SalesBillComponent implements OnInit {
   }
 
 
-
-
   open_phone_list(dialog: TemplateRef<any>) {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
@@ -796,12 +806,14 @@ export class SalesBillComponent implements OnInit {
       this.invoice_items = []
        this.customer_object = data
        this.customer_id = data.id;
+
        this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
        this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
 
-      /*
+       this.get_bookingHistory(this.customer_id)
+       /*
        this.adminService.getBookinHistory(this.customer_object.id).subscribe(
         (data2)=>{
 
@@ -844,14 +856,11 @@ export class SalesBillComponent implements OnInit {
   }
 
 
-
-
-
   saveBill():any {
 
     const formData = new FormData();
     if(this.invoiceForm.controls['customerNameFormControl'].value != "" ){
-    formData.append('app_id',this.app_id)
+    formData.append('app_id',this.get_cust_id)
     formData.append('po_type',this.poType)
     formData.append('pr_number',this.prNumber)
     formData.append('po_raised_by',this.poRaised)

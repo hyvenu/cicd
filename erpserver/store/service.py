@@ -294,8 +294,7 @@ class StoreService:
             'appointment_status',         
             'customer__customer_name',            
             'customer__phone_number',            
-            'customer__id',
-            'customer__customer_name',
+            'customer__id'
 
         )[0]
 
@@ -311,6 +310,50 @@ class StoreService:
                 "end_time",
             ))
         return appointment_data_list
+
+    @classmethod
+    def get_appointment_details_bycustomer(self, cust_id):
+        print("CUST IDDDD %s"%cust_id)
+        final_list = []
+        service_list = []
+        app_data_list = AppointmentSchedule.objects.filter(customer_id=cust_id, is_paid=False).all().values(
+            'id',
+            'is_paid',            
+            'booking_date',
+            'customer__id',
+            'customer__customer_name',
+            'customer__phone_number', 
+            'customer__customer_email',
+            'customer__advance_amount'
+
+        )
+        
+        count = app_data_list.count()  
+
+        if count > 0: 
+
+            for item in list(app_data_list):
+                itemList = list(AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
+                    "id",
+                        "service__id",
+                        "service__service_name",
+                        "service__price",
+                        "service__service_gst",
+                        "assigned_staff__employee_name",
+                        "start_time",
+                        "end_time",
+                        "service__unit__PrimaryUnit"
+                ))
+
+                for obj in itemList:
+                    service_list.append(obj)
+
+            app_data_list[0]['service_list'] = service_list   
+                
+            final_list.append(app_data_list[0])
+
+        
+        return list(final_list)        
 
 
     @classmethod
@@ -413,18 +456,6 @@ class StoreService:
         )
         return list(appointment_list)
 
-    def get_store_service_list(self):
-        store_list = StoreServices.objects.all().values(
-            'id',
-            'store',
-            'service_name',
-            'service_desc',
-            'price',
-            'service_gst',
-            'service_hour',
-        )
-        return list(store_list)
-
     def get_employee_list(self):
         employee_list = Employee.objects.all().values(
             'id',
@@ -474,3 +505,52 @@ class StoreService:
 
         )
         return list(enquiry_list)
+
+    def get_service_list(self):
+        service_list = StoreServices.objects.all().values(
+            'id',
+            'service_name', 
+            'service_desc', 
+            'price', 
+            'service_gst', 
+            'service_hour', 
+            'unit__id',
+            'unit__PrimaryUnit',
+            'unit__SecondaryUnit'
+        )
+        return list(service_list)
+
+    def save_service(self, data):
+        print("Post Data %s"%data['store'])
+        service_obj = StoreServices()
+
+        service_obj.store_id = data['store']
+        service_obj.service_name = data['service_name']
+        service_obj.service_desc = data['service_desc']
+        service_obj.price = data['price']
+        service_obj.service_gst = data['service_gst']
+        service_obj.service_hour = data['service_hour']        
+        service_obj.unit_id = data['unit']
+        service_obj.save()
+
+        return service_obj.id 
+
+    def update_service(self, data):
+        service = StoreServices.objects.get(id=data['service_id'])
+
+        service.service_name = data['service_name']
+        service.service_desc = data['service_desc']
+        service.price = data['price']
+        service.service_gst = data['service_gst']
+        service.service_hour = data['service_hour']
+        service.unit_id = data['unit']
+        service.save()
+
+        return service.id
+
+    def delete_service(self, id):
+        print("Called service delete %s"%id)
+        entry = StoreServices.objects.filter(id=id)
+        count = entry.delete()
+        print("COUNTe %s"%count[0])
+        return count                  
