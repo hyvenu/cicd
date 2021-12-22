@@ -182,11 +182,12 @@ export class AdminService {
     return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Customer/`+ id + '/')
   }
 
+
   public getBookinHistory(id){
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_details_by_customer/`+ id )
   }
 
-  public getAppForBill(id){
+  public getAppBookinHistory(id){
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_app_forbill/`+ id )
   }
 

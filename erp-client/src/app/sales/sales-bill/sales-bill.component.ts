@@ -23,7 +23,7 @@ export class SalesBillComponent implements OnInit {
   currentlyChecked: CheckBoxType;
   passed_flag:boolean = true;
   customernew_id: any;
-  get_cust_id: any;
+  app_id: any = "";
   booking_historys: any;
   service_id: any;
   searchProduct
@@ -218,9 +218,11 @@ export class SalesBillComponent implements OnInit {
       }
     )
 
-    this.get_cust_id = this.route.snapshot.queryParams['cust_id']
-    if(this.get_cust_id){
-      this.get_bookingHistory(this.get_cust_id)
+    this.app_id = this.route.snapshot.queryParams['app_id']
+    if(this.app_id){
+      this.get_app_bookingHistory(this.app_id)
+    }else{
+      this.app_id = "";
     }
 
     /*
@@ -299,6 +301,8 @@ export class SalesBillComponent implements OnInit {
   }
 
   open(dialog: TemplateRef<any>) {
+    //Do not open if app_id is set
+    if(this.app_id){ return; }
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
       this.searchCus = ""
@@ -320,6 +324,58 @@ export class SalesBillComponent implements OnInit {
 
 
   }
+
+  get_app_bookingHistory(app_id) {
+    console.log("Called APP DEts");
+    this.adminService.getAppBookinHistory(app_id).subscribe(
+      (data)=>{
+        console.log("App Booking Obj: ")
+        console.log(data)
+        if(data.length > 0) {
+          this.serviceIds = []
+          this.appointment_obj = data[0]
+
+          this.invoiceForm.controls['customerNameFormControl'].setValue(this.appointment_obj.customer__customer_name);
+          this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.appointment_obj.customer__phone_number);
+          this.invoiceForm.controls['customerEmailFormControl'].setValue(this.appointment_obj.customer__customer_email);
+          this.invoiceForm.controls['advanceAmountFormControl'].setValue(this.appointment_obj.customer__advance_amount);
+          this.customer_id = this.appointment_obj.customer__id;
+
+
+
+          let services = this.appointment_obj.service_list
+            services.forEach(element => {
+            //console.log("Service List: ")
+            //console.log(element)
+
+            this.invoice_items.push(
+              { item_id:"",
+                booking_id: this.appointment_obj.id,
+                service_id: element.service__id,
+                item_description: element.service__service_name,
+                quantity: 1,
+                unit: element.service__unit__PrimaryUnit,
+                price: element.service__price,
+                discount: 0,
+                item_total: 0,
+                tax: element.service__service_gst,
+                gst_value: 0
+              }
+            )
+
+          });
+
+      }
+
+        console.log("invoice items list: ")
+        console.log(this.invoice_items)
+
+        this.calculate_price()
+
+      }
+    )
+  }
+
   get_bookingHistory(id) {
     console.log("Called APP DEts");
     this.adminService.getBookinHistory(id).subscribe(
@@ -398,6 +454,7 @@ export class SalesBillComponent implements OnInit {
       }
     )
   }
+
   onEvnetChange(event) {
     this.event = event.target.value;
     this.calculate_price()
@@ -800,6 +857,8 @@ export class SalesBillComponent implements OnInit {
 
 
   open_phone_list(dialog: TemplateRef<any>) {
+    //Do not open if app_id is set
+    if(this.app_id){ return; }
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
       this.searchPhoneNo = ""
@@ -860,7 +919,7 @@ export class SalesBillComponent implements OnInit {
 
     const formData = new FormData();
     if(this.invoiceForm.controls['customerNameFormControl'].value != "" ){
-    formData.append('app_id',this.get_cust_id)
+    formData.append('app_id',this.app_id)
     formData.append('po_type',this.poType)
     formData.append('pr_number',this.prNumber)
     formData.append('po_raised_by',this.poRaised)

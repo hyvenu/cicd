@@ -197,7 +197,7 @@ class StoreService:
         return list(app_data_list)
 
     """
-    Booking History: Get particular customer booking history
+    Booking History: Get particular customer booking history by appointment id
     """
     def get_app_forbill(self, app_id):
         app_data_list = AppointmentSchedule.objects.filter(id=app_id).all().values(

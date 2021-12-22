@@ -411,7 +411,15 @@ class OrderService:
     @transaction.atomic()
     def save_sales_order(cls, sales_data):
         print("app_id %s"%sales_data['app_id'])
-        appointment = AppointmentSchedule.objects.filter(customer_id=sales_data['customer']).update(is_paid=True)
+        #set is_paid = True only if
+        #1.app_id is set; i.e billing a particular appoint card; hence update that appointment schedule only
+
+        #2.app_id is NOT set; i.e billing all services of a customer from all of their appointments; hence update all their appointment schedules
+
+        if not sales_data['app_id']:
+            appointment = AppointmentSchedule.objects.filter(customer_id=sales_data['customer']).update(is_paid=True)
+        else:
+            appointment = AppointmentSchedule.objects.filter(id=sales_data['app_id']).update(is_paid=True)            
 
         if 'id' in sales_data:
             sales_order_req = SalesOrderRequest.objects.get(id=sales_data['id'])

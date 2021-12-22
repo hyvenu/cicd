@@ -93,15 +93,19 @@
                                 <td><input class="form-control form-control-sm"  style="width: 10em;" [ngModelOptions]="{standalone: true}" placeholder="" readonly [(ngModel)]="item.service_name" value={{item.service_name}}/></td>
                                 <td><input class="form-control form-control-sm"  style="width: 10em;" [ngModelOptions]="{standalone: true}" (click)="stylist_open(stylist_dialog,item)" [(ngModel)]="item.stylist_name"  placeholder="" readonly value={{item.stylist_name}}/></td>
                                 <td><input type="time" nbInput #startTime value={{item.start_time}} (change)="dateCheckStart(startTime.value, item)" />
-                                  <div *ngIf="submitted && f.startTimeFormControl.errors" class="invalid-feedback">
+                                  <!--<div *ngIf="submitted && f.startTimeFormControl.errors" class="invalid-feedback">
                                       <div *ngIf="submitted && f.startTimeFormControl.errors.required"> Start Time is Required</div>
 
-                                  </div></td>
+                                  </div>
+                                -->
+                                </td>
                                 <td><input type="time" nbInput #endTime value={{item.end_time}} (change)="dateCheckEnd(endTime.value, item)" />
-                                  <div *ngIf="submitted && f.endTimeFormControl.errors" class="invalid-feedback">
+                                  <!-- <div *ngIf="submitted && f.endTimeFormControl.errors" class="invalid-feedback">
                                       <div *ngIf="submitted && f.endTimeFormControl.errors.required"> End Time is Required</div>
 
-                                  </div></td>
+                                  </div>
+                                -->
+                                </td>
                             </tr>
 
                         </tbody>
