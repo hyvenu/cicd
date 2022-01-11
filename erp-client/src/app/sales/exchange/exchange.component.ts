@@ -37,8 +37,8 @@ export class ExchangeComponent implements OnInit {
   ]
 
   Events = [
-    { value: 'CARD', name: 'CARD' },
     { value: 'CASH', name: 'CASH' },
+    { value: 'CARD', name: 'CARD' },
     { value: 'UPI', name: 'UPI' },
 
     // {value:'Long Leave', name: 'Long Leave'},
@@ -151,7 +151,7 @@ export class ExchangeComponent implements OnInit {
       // cashFormControl: ['',],
       upiTypeFormControl: ['',],
       cuponFormControl: ['',],
-      paymentFormControl: ['',],
+      paymentFormControl: [this.Events[0].value,Validators.required],
       TransactionIdFormControl: ['',],
       amountFormControl:['',],
       changeFormControl:['',],
@@ -452,6 +452,7 @@ export class ExchangeComponent implements OnInit {
       this.invoice_items.splice(index, 1);
     }
 
+    /*
     this.refund_items.push(item)
     console.log(this.refund_items)
 
@@ -472,6 +473,7 @@ export class ExchangeComponent implements OnInit {
     //this.remaingAmount = Math.round(parseFloat(this.selectedTotalGst)- parseFloat(this.includegstremaing))
     // this.calculate_gst()
     // this.calculate_totalGst()
+    */
   }
 
   onEvnetChange(event) {
@@ -584,9 +586,9 @@ export class ExchangeComponent implements OnInit {
       (data) => {
         // this.billPaid()
         console.log(data)
-        this.nbtoastService.success("Invoice Saved Successfully")
+        //this.nbtoastService.success("Invoice Saved Successfully")
 
-       // this.routes.navigateByUrl("/InvoicePage?eid=" + data)
+        //this.routes.navigateByUrl("/InvoicePage?eid=" + data)
 
 
       },

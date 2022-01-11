@@ -1,4 +1,9 @@
+
 <nb-card>
+  <nb-card-header>
+    <a nbButton  status="success"  size="small" href="ManageCustomer">Create New Customer</a>
+  </nb-card-header>
+  <br>
 <nb-tabset>
     <nb-tab tabTitle="create Customer Details">
         <form id="customerForm" [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="container">

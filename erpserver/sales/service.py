@@ -539,7 +539,7 @@ class OrderService:
 
     @classmethod
     def generate_refund_no(cls, invoice):
-        prefix = 'SAF' + '-' + invoice + '-' + 'REV' + '/20-21-'
+        prefix = 'D5N' + '-' + invoice + '-' + 'REV' + '/20-21-'
         code = get_next_value(prefix, 1)
         code = prefix + str(code).zfill(5)
         return code
@@ -604,38 +604,65 @@ class OrderService:
         sales_refund_req.save()
 
         sales_invoice_list = ast.literal_eval(sales_data['invoice_items'])
+        print("items %s"%sales_invoice_list)
+
         for item in sales_invoice_list:
-            if 'id' in item and item['id'] != "":
-                sales_refund_details = SalesRefundDetails.objects.get(id=item['id'])
+            print("ITEM :::: %s"%item)
+
+            sales_refund_details = SalesRefundDetails()
+            if len(item['item_id']):
+                print("ADDing product")
+                #for product
+
+                sales_refund_details.refund_order_id = sales_refund_req.id
+                sales_refund_details.product_id = item['item_id']
+                # po_product.product_code = item['product_code']
+                # po_product.product_name = item['product_name']
+                sales_refund_details.unit_id = item['unit_id']
+                sales_refund_details.unit_text = item['unit']
+                sales_refund_details.qty = item['quantity']
+                # po_product.delivery_date = str(item['delivery_date'])[0:10]
+                sales_refund_details.unit_price = item['price']
+                sales_refund_details.discount_price = item['discount']
+                sales_refund_details.gst = item['tax']
+                # so_invoice.amount = item['amount']
+                sales_refund_details.subtotal_amount = item['item_total']
+                #sales_exchange_details.barcode = sales_data['barcode']
+                # so_invoice.disc_amount = item['disc_amount']
+                sales_refund_details.gst_amount = item['gst_value']
+                # sales_order_details.unit = item['unit']
+                # so_invoice.total = item['total']
+
+                sales_refund_details.save()
             else:
-                sales_refund_details = SalesRefundDetails()
+                print("ADDing service")
 
-            sales_refund_details.refund_order_id = sales_refund_req.id
-            sales_refund_details.product_id = item['item_id']
-            # po_product.product_code = item['product_code']
-            # po_product.product_name = item['product_name']
-            sales_refund_details.unit_id = item['unit_id']
-            sales_refund_details.unit_text = item['unit']
-            sales_refund_details.qty = item['quantity']
-            # po_product.delivery_date = str(item['delivery_date'])[0:10]
-            sales_refund_details.unit_price = item['price']
-            sales_refund_details.discount_price = item['discount']
-            sales_refund_details.gst = item['tax']
-            # so_invoice.amount = item['amount']
-            sales_refund_details.subtotal_amount = item['item_total']
-            #sales_refund_details.barcode = sales_data['barcode']
-            # so_invoice.disc_amount = item['disc_amount']
-            sales_refund_details.gst_amount = item['gst_value']
-            # sales_order_details.unit = item['unit']
-            # so_invoice.total = item['total']
+                sales_refund_details.refund_order_id = sales_refund_req.id
+                sales_refund_details.service_id = item['service_id']
+                # po_product.product_code = item['product_code']
+                # po_product.product_name = item['product_name']
+                sales_refund_details.unit_id = item['unit_id']
+                sales_refund_details.unit_text = item['unit']
+                sales_refund_details.qty = item['quantity']
+                # po_product.delivery_date = str(item['delivery_date'])[0:10]
+                sales_refund_details.unit_price = item['price']
+                sales_refund_details.discount_price = item['discount']
+                sales_refund_details.gst = item['tax']
+                # so_invoice.amount = item['amount']
+                sales_refund_details.subtotal_amount = item['item_total']
+                #sales_exchange_details.barcode = sales_data['barcode']
+                # so_invoice.disc_amount = item['disc_amount']
+                sales_refund_details.gst_amount = item['gst_value']
+                # sales_order_details.unit = item['unit']
+                # so_invoice.total = item['total']
 
-            sales_refund_details.save()
+                sales_refund_details.save()
 
         return sales_refund_req.refund_number
 
     @classmethod
     def generate_exchange_no(cls, invoice):
-        prefix = 'SAF' + '-' + invoice + '-' + 'REV' + '/20-21-'
+        prefix = 'D5N' + '-' + invoice + '-' + 'REV' + '/20-21-'
         code = get_next_value(prefix, 1)
         code = prefix + str(code).zfill(5)
         return code
@@ -655,6 +682,7 @@ class OrderService:
 
         sales_exchange_req.shipping_address = sales_data['shipping_address']
         sales_exchange_req.transport_type = sales_data['transport_type']
+        sales_exchange_req.invoice_no_id = sales_data['invoice_no']
         sales_exchange_req.exchange_date = cls.getCurrentDate()  # sales_data['po_date']
 
         # sales_refund_req.pr_number = sales_data['pr_number']
@@ -697,11 +725,9 @@ class OrderService:
 
         sales_exchange_req.save()
 
-        print("sitems %s"%sales_data['invoice_items'])
         sales_invoice_list = ast.literal_eval(sales_data['invoice_items'])
         print("items %s"%sales_invoice_list)
 
-        sales_invoice_list = ast.literal_eval(sales_data['invoice_items'])
         for item in sales_invoice_list:
             print("ITEM :::: %s"%item)
             #if 'id' in item and len(item['id']) > 0:
@@ -897,15 +923,12 @@ class OrderService:
         return po_data_list  
 
     @classmethod
-    def get_po_details_refund(cls, po_id):
+    def get_po_details_refund(cls, r_id):
         final_list = []
-        po_data_list = SalesOrderRequest.objects.filter(po_number=po_id).all().values(
+        po_data_list = SalesRefund.objects.filter(refund_number=r_id).all().values(
             'id',
-            'po_type',
-            'po_number',
-            # 'pr_number'
-            'po_raised_by',
-            'po_date',
+            'refund_number',
+            'refund_date',
             'shipping_address',
             'transport_type',
             "invoice_no",
@@ -924,7 +947,6 @@ class OrderService:
             "transaction_id",
             "exchange",
             "cancel_invoice",
-            "refund",
 
             "discount_price",
             "grand_total",
@@ -933,18 +955,16 @@ class OrderService:
             "store__store_name",
             "user_id",
             "supervisor_id",
-            "card_no",
             "customer__customer_name",
             "customer__customer_address",
 
         )[0]
 
-        po_data_list['order_details'] = list(SalesOrderDetails.objects.filter(po_order__po_number=po_id).all().values(
+        po_data_list['order_details'] = list(SalesRefundDetails.objects.filter(refund_order__refund_number=r_id).all().values(
 
             "id",
             # "product__id",
             # # "product_name",
-            "product_name",
             # # "product_code",
             # "unit_id",
             "qty",

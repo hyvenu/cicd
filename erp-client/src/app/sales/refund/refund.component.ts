@@ -25,8 +25,8 @@ export class RefundComponent implements OnInit {
   ]
 
   Events = [
-    { value: 'CARD', name: 'CARD' },
     { value: 'CASH', name: 'CASH' },
+    { value: 'CARD', name: 'CARD' },
     { value: 'UPI', name: 'UPI' },
 
     // {value:'Long Leave', name: 'Long Leave'},
@@ -133,7 +133,7 @@ export class RefundComponent implements OnInit {
       // cashFormControl: ['',],
       upiTypeFormControl: ['',],
       cuponFormControl: ['',],
-      paymentFormControl: ['',],
+      paymentFormControl: [this.Events[0].value,Validators.required],
       TransactionIdFormControl: ['',],
       amountFormControl:['',],
       //changeFormControl:['',],
@@ -215,18 +215,6 @@ export class RefundComponent implements OnInit {
     console.log('inc gst', this.selectedTotalGst)
 
 
-    /*
-    this.selectedDiscount = this.refundForm.get('discountFormControl').value;
-    if (this.selectedDiscount >= 0) {
-
-      //let amount :any = this.selectedTotalGst - this.selectedDiscount;
-
-      this.grandTotal = Math.round(this.selectedTotalGst - this.selectedDiscount);
-    } else if (this.selectedDiscount === NaN) {
-      this.grandTotal = 0;
-    }
-    */
-
     //refund amount
     if(parseFloat(this.grandTotal) >= parseFloat(this.amount)){
       this.selectedRefund = 0;
@@ -276,10 +264,13 @@ export class RefundComponent implements OnInit {
           let gstVal: any = (sellPrice * parseFloat(element.tax)) / 100;
           let total: any = sellPrice + gstVal;
           this.barcode = element.barcode
+          let name = element.product? element.product__product_name: element.service__service_name;
           this.invoice_items.push({
+
             id: "",
-            item_id: element.product,
-            item_description: element.product__product_name,
+            item_id: element.product ? element.product : "",
+            service_id: element.service ? element.service : "",
+            description: name,
             quantity: element.qty ? element.qty : 0.00,
             unit_id: element.unit_id,
             unit: element.unit_text,
@@ -288,7 +279,6 @@ export class RefundComponent implements OnInit {
             item_total: element.subtotal_amount,
             tax: element.gst,
             gst_value: element.gst_amount,
-
 
           })
         })
@@ -387,9 +377,9 @@ export class RefundComponent implements OnInit {
       (data) => {
         // this.billPaid()
         console.log(data)
-        this.nbtoastService.success("Invoice Saved Successfully")
+        //this.nbtoastService.success("Invoice Saved Successfully")
 
-        this.routes.navigateByUrl("/InvoicePage?rid=" + data)
+        //this.routes.navigateByUrl("/InvoicePage?rid=" + data)
 
       },
       (error) => {

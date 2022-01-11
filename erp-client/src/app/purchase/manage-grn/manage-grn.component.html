@@ -22,7 +22,7 @@
                         placeholder="GRN Date" #date1   [ngClass]="{ 'is-invalid': submitted && f.grnDateFormControl.errors }" class=" form-control"/>
                         <div *ngIf="submitted && f.grnDateFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.grnDateFormControl.errors.required">GRN Date is required</div>
-                        </div> 
+                        </div>
                     <nb-datepicker format="yyyy-MM-DD"  #datepicker></nb-datepicker>
                 </div>
                 <div class="form-group col-md-3">
@@ -32,30 +32,30 @@
                         [ngClass]="{ 'is-invalid': submitted && f.invoiceDateFormControl.errors }" class=" form-control"/>
                         <div *ngIf="submitted && f.invoiceDateFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.invoiceDateFormControl.errors.required">Invoice Date is required</div>
-                        </div> 
+                        </div>
                     <nb-datepicker format="yyyy-MM-DD"  #invoicedatepicker></nb-datepicker>
                 </div>
-             
+
             </div><br>
 
             <script>
-                
+
                 var down = document.getElementById('geeks');
            function gfg() {
-               var grndate = 
+               var grndate =
                    document.getElementById('grnDate').value;
-               var indate = 
-                   document.getElementById('invoiceDate').value;  
+               var indate =
+                   document.getElementById('invoiceDate').value;
                var Gdate = new Date(grndate);
                var Idate = new Date(indate);
-                 
-               if(Gdate.setHours(0, 0, 0, 0) <= 
+
+               if(Gdate.setHours(0, 0, 0, 0) <=
                        Idate.setHours(0, 0, 0, 0))
                {
-                   down.innerHTML = 
+                   down.innerHTML =
                        "The input date Cannot be less than GRN Date ";
-               } 
-                    
+               }
+
            }
        </script>
             <div class="form-row">
@@ -65,7 +65,7 @@
                         placeholder="Invoice Number" [ngClass]="{ 'is-invalid': submitted && f.invoiceNumberFormControl.errors }" class=" form-control"/>
                         <div *ngIf="submitted && f.invoiceNumberFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.invoiceNumberFormControl.errors.required">PO Number is required</div>
-                        </div> 
+                        </div>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="poNumber">PO Number<span style="color: red;">*</span></label>
@@ -73,10 +73,10 @@
                         (keypress)="po_open(dialog)"    (click)="po_open(dialog)" readonly [ngClass]="{ 'is-invalid': submitted && f.poNumberFormControl.errors }" class=" form-control"/>
                         <div *ngIf="submitted && f.poNumberFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.poNumberFormControl.errors.required">PO Number is required</div>
-                        </div> 
+                        </div>
                     <!-- <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="pr_number"  /> -->
                 </div>
-           
+
             </div><br>
             <p id = "geeks" ></p>
 
@@ -173,7 +173,7 @@
                                 <td><input nbInput placeholder=""  value={{item.product_code}} readonly /></td>
                                 <td><input nbInput placeholder=""  value={{item.product_name}} readonly /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.hsn_code"  readonly/></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}"  [(ngModel)]="item.received_qty" (change)="calculate(item);"  readonly/></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}"  [(ngModel)]="item.received_qty" (change)="calculate(item);" /></td>
                                 <td><input type="number"  oninput="validity.valid || (value='')" nbInput placeholder="" [ngModelOptions]="{standalone: true}" min="0" [max]="item.received_qty" [(ngModel)]="item.rejected_qty" (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.accepted_qty" (change)="calculate(item);" readonly/></td>
                                 <!-- <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_id" (change)="calculate(item);" /></td> -->
@@ -182,7 +182,7 @@
                                         {{ o.PrimaryUnit }}
                                     </nb-option>
                                 </nb-select></td>
-                                
+
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.po_qty" readonly (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" readonly (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly (change)="calculate(item);" /></td>
@@ -231,7 +231,7 @@
                         </div>
                         <div class=" form-group col-md-4">
                             <img  src="{{imgSrc}}" class="rounded" alt="No Image"  width="80" height="80" *ngIf="imgSrc && !DocFileExist"/>
-                            
+
                             <a href="{{imgSrc}}"  download="GRN-Doc" >
                                 <label *ngIf="DocFileExist">{{FileName1}}</label><br>
                                 <input type="button" value="Download" *ngIf="DocFileExist" >
@@ -239,7 +239,7 @@
                         </div>
                     </div><br>
                     <button nbButton (click)="saveGRN();" status="success" >Save</button>
-                </nb-card-footer>   
+                </nb-card-footer>
             </nb-card>
         </form>
     </nb-tab>

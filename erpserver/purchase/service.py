@@ -15,7 +15,7 @@ class PurchaseService:
 
     @classmethod
     def generate_pr_code(cls):
-        prefix_code = 'SAF' + '/21-22' + '/PR'
+        prefix_code = 'D5N' + '/21-22' + '/PR'
         code = get_next_value(prefix_code)
         code = prefix_code + '-' + str(code)
         return code
@@ -207,14 +207,14 @@ class PurchaseService:
 
     @classmethod
     def generate_po_number(cls):
-        perfix = 'SAF' + '/21-22' + '/PO/'
+        perfix = 'D5N' + '/21-22' + '/PO/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
 
     @classmethod
     def generate_grn_code(cls):
-        perfix = 'SAF' + '/21-22' + '/GRN/'
+        perfix = 'D5N' + '/21-22' + '/GRN/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code

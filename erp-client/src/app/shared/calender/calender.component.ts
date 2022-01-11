@@ -23,6 +23,7 @@ export class CalenderComponent implements OnInit {
   employeeData: any;
   booking_list: any;
   next_previous_date:any=null;
+  selectedDate:any;
 
 
   store_id: string | Blob;
@@ -86,36 +87,40 @@ export class CalenderComponent implements OnInit {
 
   onStartDateChanged = (event) => {
     console.log(event._i);
-    const specific_date = new Date(event)
-    let dateStr = this.getDateOnly(false, specific_date);
-    this.calStart = this.formatDate(dateStr+" 00:00:00", 7, 0);
-    this.calEnd  = this.formatDate(dateStr+" 0:00:00", 23, 0);
+    this.selectedDate = new Date(event)
+    let dateStr = this.getDateOnly(false, this.selectedDate);
+    this.calStart = this.formatDate(dateStr+" 00:00:00", 1, 0);
+    this.calEnd  = this.formatDate(dateStr+" 0:00:00", 24, 0);
     this.get_appointment_details(false, dateStr);
   }
 
   nextDate = () => {
+    this.next_previous_date = this.selectedDate;
     if(!this.next_previous_date){
     this.next_previous_date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
     }else{
       this.next_previous_date = new Date(this.next_previous_date.getTime() + 24 * 60 * 60 * 1000)
-
     }
+    this.selectedDate = this.next_previous_date;
+
     let dateStr = this.getDateOnly(false, this.next_previous_date);
-    this.calStart = this.formatDate(dateStr+" 00:00:00", 7, 0);
-    this.calEnd  = this.formatDate(dateStr+" 0:00:00", 23, 0);
+    this.calStart = this.formatDate(dateStr+" 00:00:00", 1, 0);
+    this.calEnd  = this.formatDate(dateStr+" 0:00:00", 24, 0);
     this.get_appointment_details(false, dateStr);
   }
 
   previousDate = () =>{
+    this.next_previous_date = this.selectedDate;
     if(!this.next_previous_date){
       this.next_previous_date = new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
       }else{
         this.next_previous_date = new Date(this.next_previous_date.getTime() - 24 * 60 * 60 * 1000)
-
       }
+      this.selectedDate = this.next_previous_date;
+
       let dateStr = this.getDateOnly(false, this.next_previous_date);
-      this.calStart = this.formatDate(dateStr+" 00:00:00", 7, 0);
-      this.calEnd  = this.formatDate(dateStr+" 0:00:00", 23, 0);
+      this.calStart = this.formatDate(dateStr+" 00:00:00", 1, 0);
+      this.calEnd  = this.formatDate(dateStr+" 0:00:00", 24, 0);
       this.get_appointment_details(false, dateStr);
   }
 
@@ -266,9 +271,9 @@ export class CalenderComponent implements OnInit {
       }
 
       if(onload) {
-        const start = this.today(7, 0);
+        const start = this.today(1, 0);
 
-        const end = this.today(23, 0);
+        const end = this.today(24, 0);
 
 
         this.calendarFun(start, end);

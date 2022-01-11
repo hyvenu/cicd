@@ -757,7 +757,7 @@ export class SalesBillComponent implements OnInit {
 
   advanceAmountUpdate(){
     let data = {
-      'advance_amount':this.balanceAmount,
+      'advance_amount':this.advanceAmount,
       'id':this.customer_id
     }
     this.adminService.updateAdvanceAmount(data).subscribe(

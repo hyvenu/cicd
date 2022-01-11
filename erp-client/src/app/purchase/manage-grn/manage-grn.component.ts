@@ -194,7 +194,7 @@ export class ManageGrnComponent implements OnInit {
                     console.log('po ele',element)
                 data.product_list.forEach(pro => {
                   console.log(pro);
-                  
+
                   if (pro.product == element.product_id) {
                     console.log('dd', pro)
                     if (pro.accepted_qty != pro.received_qty) {
@@ -253,7 +253,7 @@ export class ManageGrnComponent implements OnInit {
   }
 
   onChange(date) {
-  
+
         console.log(new Date(date))
         this.dateofdata = new Date(date)
         console.log(this.dateofdata)
@@ -263,7 +263,7 @@ export class ManageGrnComponent implements OnInit {
           this.date1.nativeElement.value = "";
         }
 
-     
+
 
   }
 
@@ -368,9 +368,11 @@ export class ManageGrnComponent implements OnInit {
                               hsn_code: product['hsn_code'],
                               amount: element['amount'],
                               po_qty: element['qty'],
-                              received_qty: element['accepted_qty'],
+                              //received_qty: element['accepted_qty'],
+                              received_qty: element['finished_qty'],
                               rejected_qty: 0,
-                              accepted_qty: element['accepted_qty'],
+                              //accepted_qty: element['accepted_qty'],
+                              accepted_qty: element['finished_qty'],
                               unit_id: element['unit_id'],
                               unit_price: element['unit_price'],
                               gst: element['gst'],

@@ -197,6 +197,8 @@ customerForm:FormGroup;
 
     })
 
+    this.customerForm.reset();
+
     let param = this.route.snapshot.queryParams['id'];
 
     if(param){
@@ -330,7 +332,7 @@ customerForm:FormGroup;
     this.adminService.updateCustomer(formdata,this.customer_id).subscribe(
       (data) => {
         this.nbtoastService.success("customer details updated Successfully")
-        this.ngOnInit()
+        //this.ngOnInit()
         this.customerForm.reset();
 
         this.routes.navigate(["/ManageBooking"]);

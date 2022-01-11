@@ -160,21 +160,33 @@ printBtn.onclick = function () {
           this.customer_name = this.invoice_details.customer__customer_name
           this.customer_addr = this.invoice_details.customer__customer_address
           this.store_name = this.invoice_details.store__store_name
-          this.invoice_no = this.invoice_details.invoice_no
-          this.invoice_date = this.invoice_details.po_date
-          //let fDate = new Date(this.invoice_date);
+          this.invoice_no = this.invoice_details.refund_number
+          this.invoice_date = this.invoice_details.refund_date
+          let fDate = new Date(this.invoice_date);
+          console.log('formatted DATE:', fDate)
+          let fDate2 = fDate.getFullYear()+"-"+(fDate.getMonth()+1)+"-"+fDate.getDate();
+          this.invoice_date_format = fDate2;
           //let fDate2 = fDate.getFullYear()+"-"+(fDate.getMonth()+1)+"-"+fDate.getDate()+" "+fDate.getHours()+":"+fDate.getMinutes()+":"+fDate.getSeconds();
           //this.invoice_date_format = this.formatDate(fDate2);
-          this.invoice_date_format = this.invoice_date;
+          //this.invoice_date_format = this.invoice_date;
           this.customer_number = this.invoice_details.customer__phone_number
-          this.data = JSON.stringify(data)
-          console.log(this.data)
-          let da =JSON.parse(this.data)
-          da.forEach(element => {
-            console.log(element)
-            this.sum += element.discount_price;
-          });
-          console.log(this.sum)
+
+          console.log("LiST", data.order_details)
+          data.order_details.forEach(element =>{
+            let name = element.product__product_name? element.product__product_name: element.service__service_name;
+            this.invoice_list.push({
+            id: element.id,
+            qty: element.qty,
+            unit_price: element.unit_price,
+            discount_price: element.discount_price,
+            gst: element.gst,
+            description: name,
+            barcode: element.barcode,
+            gst_amount: element.gst_amount,
+            subtotal_amount: element.subtotal_amount
+          }
+            )
+          })
         }
       )
     }
