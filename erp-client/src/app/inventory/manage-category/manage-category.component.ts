@@ -38,13 +38,14 @@ export class ManageCategoryComponent implements OnInit {
     this.createFlag = true;
     this.inventoryService.getCategoryList().subscribe(
       (data) => {
+        console.log(data)
           this.categories = data;
       },
       (error) => {
           this.nbtoastService.danger(error,"Error")
       }
     )
-    
+
   }
 
   save_category(): void{
@@ -73,7 +74,7 @@ export class ManageCategoryComponent implements OnInit {
     };
     update_category(): void{
 
-      if( this.categoryFrom.dirty && this.categoryFrom.valid){
+      if(this.categoryFrom.valid){
         let data = {
               category_name: this.categoryFrom.get(['categoryNameFormControl']).value,
               description: this.categoryFrom.get(['categoryDescFormControl']).value,
@@ -92,6 +93,7 @@ export class ManageCategoryComponent implements OnInit {
       };
 
     selected_category(data): any{
+      this.searchCategory = "";
         this.categoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
         this.categoryFrom.controls['categoryDescFormControl'].setValue(data.description);
         this.categoryFrom.controls['categoryCodeFormControl'].setValue(data.category_code);
@@ -99,11 +101,16 @@ export class ManageCategoryComponent implements OnInit {
         this.category_id = data.id
     }
 
+    cancel_update(){
+      this.categoryFrom.reset();
+      this.createFlag = true;
+  }
+
     delete_category(category){
-      const data = {
-        "id" : category.category_id
-      }
-      this.inventoryService.removeFromCategory(data).subscribe(()=>{
+      console.log("category id")
+      console.log(category.id)
+      this.searchCategory= "";
+      this.inventoryService.removeFromCategory(category.id).subscribe(()=>{
         this.refresh();
       })
     }
@@ -124,7 +131,7 @@ onSubmit() {
       return this.submitted = false;
     }
 
-    
-  
+
+
 }
 }

@@ -236,3 +236,10 @@ def get_all_units(request):
     inventory_service = InventoryService()
     unit_list = inventory_service.get_unit_list()
     return JsonResponse(unit_list, safe=False)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated,])
+def delete_product_cat(request, id):
+    inventory_service = InventoryService()
+    res = inventory_service.delete_product_cat(id)
+    return JsonResponse(res, safe=False)        

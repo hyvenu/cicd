@@ -83,6 +83,7 @@ export class ManageServiceComponent implements OnInit {
   }
 
   get_service_list() {
+    this.searchService = "";
     this.adminService.getServiceList().subscribe(
       (data) => {
           this.services = data;
@@ -120,16 +121,12 @@ export class ManageServiceComponent implements OnInit {
       this.adminService.saveService(data).subscribe(
         (data) => {
           this.nbtoastService.success("Saved Successfully");
+          this.ServiceFrom.reset();
           this.get_service_list();
         },
         (error) =>{
           console.log(error)
-          if(error === "exist"){
-            this.nbtoastService.danger("Service Name already"+" "+error);
-            }
-            else{
-              this.nbtoastService.danger(error);
-            }
+              this.nbtoastService.danger(error.message);
         }
       )
     }
@@ -150,10 +147,12 @@ try{
         this.adminService.updateService(pdata).subscribe(
           (data) => {
             this.nbtoastService.success("Service Updated Successfully");
+            this.ServiceFrom.reset();
+            this.createFlag = true;
             this.get_service_list();
           },
           (error) =>{
-            this.nbtoastService.danger(error);
+            this.nbtoastService.danger(error.message);
           }
         )
       }
@@ -163,6 +162,7 @@ try{
     }
 
     selected_Service(data): any{
+        this.searchService = "";
         this.ServiceFrom.controls['ServiceNameFormControl'].setValue(data.service_name);
         this.ServiceFrom.controls['ServiceDescFormControl'].setValue(data.service_desc);
         this.ServiceFrom.controls['ServicePriceFormControl'].setValue(data.price);
@@ -174,7 +174,13 @@ try{
         this.selected_unit_id = data.unit__id;
     }
 
+    cancel_update(){
+        this.ServiceFrom.reset();
+        this.createFlag = true;
+    }
+
     delete_Service(service_id){
+      this.searchService = "";
       this.adminService.removeOneService(service_id).subscribe(()=>{
         this.get_service_list();
         this.ServiceFrom.reset();
@@ -184,6 +190,7 @@ try{
     }
 
     delete_all_service(){
+      this.searchService = "";
       this.adminService.removeAllService().subscribe(()=>{
         this.get_service_list();
         this.ServiceFrom.reset();
@@ -213,6 +220,10 @@ try{
       open_unit_list(dialog: TemplateRef<any>) {
         this.dailog_ref= this.dialogService.open(dialog, { context: this.unitData })
         .onClose.subscribe(data => {
+          if(!data) { //if no search typed
+            return
+          }
+          this.searchUnit = "";
            this.selected_unit_id = data.id;
            this.ServiceFrom.controls['unitFormControl'].setValue(data.PrimaryUnit +" - "+data.SecondaryUnit);
 

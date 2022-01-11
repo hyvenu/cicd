@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class InventoryService {
 
   constructor(
-    private router: Router,    
+    private router: Router,
     private http: HttpClient
   ) {
   }
@@ -21,13 +21,13 @@ export class InventoryService {
   public get_product_by_slno(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_product_by_slno`, data)
   }
-  
+
   public saveCategory(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/`, data)
   }
 
-  public removeFromCategory(data){
-    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/`, data)
+  public removeFromCategory(id){
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/delete_product_cat/`+id, {})
   }
 
   public updateCategory(id,data) {
@@ -84,7 +84,7 @@ export class InventoryService {
   public getAllProductsList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_all_product_details`)
   }
-  
+
   public getProduct(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductMaster/` + id + '/')
   }

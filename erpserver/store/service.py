@@ -222,6 +222,7 @@ class StoreService:
                     "assigned_staff__employee_name",
                     "start_time",
                     "end_time",
+                    "service__unit",
                     "service__unit__PrimaryUnit"
                 ))
 
@@ -342,6 +343,7 @@ class StoreService:
                         "assigned_staff__employee_name",
                         "start_time",
                         "end_time",
+                        "service__unit",
                         "service__unit__PrimaryUnit"
                 ))
 

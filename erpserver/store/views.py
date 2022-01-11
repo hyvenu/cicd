@@ -15,6 +15,7 @@ from view_breadcrumbs import ListBreadcrumbMixin
 from . import models
 from . import forms
 from django.contrib import messages
+from django.db import IntegrityError
 
 from . import serializers
 from .models import StoreServices, StoreUser
@@ -270,17 +271,25 @@ def store_services(request):
  
   elif request.method == 'POST':
         print("POST called")
-        data = request.data
-        store_service = StoreService()
-        ap_res = store_service.save_service(data)
-        return JsonResponse(ap_res, safe=False)
+        try:
+            data = request.data
+            store_service = StoreService()
+            ap_res = store_service.save_service(data)
+        except IntegrityError:
+            return JsonResponse({'status':'false','message':'Service Name Already Exists'}, status=status.HTTP_404_NOT_FOUND)  
+            
+        return JsonResponse(ap_res, safe=False, status=status.HTTP_200_OK)    
 
   elif request.method == 'PUT':
         print("UPDATE CALLED %s"%request.data)
-        data = request.data
-        store_service = StoreService()
-        ap_res = store_service.update_service(data)
-        return JsonResponse(ap_res, safe=False)
+        try:
+            data = request.data
+            store_service = StoreService()
+            ap_res = store_service.update_service(data)
+        except IntegrityError:
+            return JsonResponse({'status':'false','message':'Service Name Already Exists'}, status=status.HTTP_404_NOT_FOUND)  
+
+        return JsonResponse(ap_res, safe=False, status=status.HTTP_200_OK)  
     
   elif request.method == 'DELETE':
         count = StoreServices.objects.all().delete()

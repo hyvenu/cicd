@@ -71,6 +71,7 @@ export class ExchangeComponent implements OnInit {
   selectedGstPercentage: any = 0;
   event: any;
   selectedDiscount: any = 0;
+  totalDiscount:any=0;
   grandTotal: any = 0;
   customer_id: any;
   product_id: any;
@@ -158,7 +159,7 @@ export class ExchangeComponent implements OnInit {
 
       exchangeFormControl: ['',],
       cancelInvoiceFormControl: ['',],
-      
+
       nameFormControl: ['',],
       customerMobileNumberFormControl: ['',],
       customerEmailFormControl: ['',],
@@ -183,104 +184,120 @@ export class ExchangeComponent implements OnInit {
       this.onEvnetChange(this.event);
   }
 
+  calculate_price2(): void {
+
+    let total_gross:any =0;
+    let total_discount:any =0;
+    let total_grand:any =0;
+    let total_basic_price:any =0;
+    let total_gst_value: any =0;
+
+    this.invoice_items.forEach(element => {
+
+      let net_price:any = (element.price - element.discount)
+      let tot_price:any = (net_price * element.quantity )
+      let gst_tot:any =((tot_price * element.tax)/100)
+      let item_tot:any = tot_price + gst_tot;
+
+      total_gross += parseFloat(element.price);
+      total_basic_price += tot_price;
+      total_gst_value += gst_tot;
+
+      total_discount += parseFloat(element.discount);
+      total_grand += item_tot;
+
+      element.gst_value = parseFloat(gst_tot).toFixed(2);
+      element.item_total = parseFloat(item_tot).toFixed(2);
+
+    });
+
+    this.subtotal = parseFloat(total_gross).toFixed(2) ;
+    this.gstValue = parseFloat(total_gst_value).toFixed(2) ;
+
+    this.totalDiscount = parseFloat(total_discount).toFixed(2);
+    this.grandTotal = parseFloat(total_grand).toFixed(2);
+
+    console.log('siub tot',this.subtotal + 'gst', this.gstValue)
+    let includeGST:any = (parseFloat(this.subtotal) + parseFloat(this.gstValue));
+    this.selectedTotalGst = parseFloat(includeGST).toFixed(2)
+    console.log('inc gst',this.selectedTotalGst)
+
+  }
+
   calculate_price(): void {
 
-    this.selectedDiscount = 0;
-    let total_item_price: any = 0;
-    let total_basic_price: any = 0;
-    let total_gst_value: any = 0;
+    let total_gross:any =0;
+    let total_discount:any =0;
+    let total_grand:any =0;
+    let total_basic_price:any =0;
+    let total_gst_value: any =0;
 
     this.invoice_items.forEach(element => {
       console.log('pro ele', element)
-      let tot_price: any = (element.price * element.quantity)
-      let gst_tot: any = ((tot_price * element.tax) / 100)
-      let item_tot = tot_price + gst_tot;
 
-      console.log('tot pri', tot_price)
-      console.log('tot gst', gst_tot)
+      let net_price:any = (element.price - element.discount)
+      let tot_price:any = (net_price * element.quantity )
+      let gst_tot:any =((tot_price * element.tax)/100)
+      let item_tot:any = tot_price + gst_tot;
+
+      total_gross += parseFloat(element.price);
       total_basic_price += tot_price;
       total_gst_value += gst_tot;
-      //element.price = parseFloat(tot_price).toFixed(2);
+
+      total_discount += parseFloat(element.discount);
+      total_grand += item_tot;
+
       element.gst_value = parseFloat(gst_tot).toFixed(2);
       element.item_total = parseFloat(item_tot).toFixed(2);
 
 
     });
 
-    /*  for(let i=0;i<this.invoice_items.length;i++)
-     {
-       let price = ((parseFloat(this.invoice_items[i].quantity) * (parseFloat(this.invoice_items[i].sell_price))));
-       if(price !=NaN && this.invoice_items[i].quantity != "")
-       {
-         this.invoice_items[i].price = price;
-       }     
-     } */
-
-    /*  for(let i=0;i<this.invoice_items.length;i++)
-     {
-       let gst_price = (((parseInt(this.invoice_items[i].tax)*(parseInt(this.invoice_items[i].price)/100))));
-       if(gst_price !=NaN && this.invoice_items[i].tax!= "")
-       {
-         this.invoice_items[i].gst_value = gst_price * this.invoice_items[i].quantity;
-       }     
-     } */
-
-    /*   for(var val of this.invoice_items){
-        this.subtotal = 0;
-        this.gstValue = 0;
-        
-        this.subtotal += val.item_total ;
-        this.gstValue += val.gst_value ;
-       // return this.subtotal;
-      } */
-    /*  this.invoice_items.forEach(val => {
-       total_item_price = total_item_price + val.item_total;
-       total_gst_value = total_gst_value + val.gst_value;
-     }); */
-    //this.subtotal = parseFloat(total_item_price).toFixed(2) ;
-    this.subtotal = parseFloat(total_basic_price).toFixed(2);
+    this.subtotal = parseFloat(total_gross).toFixed(2) ;
     this.gstValue = parseFloat(total_gst_value).toFixed(2);
+
+    this.totalDiscount = parseFloat(total_discount).toFixed(2);
+    this.grandTotal = parseFloat(total_grand).toFixed(2);
 
     console.log('siub tot', this.subtotal + 'gst', this.gstValue)
     let includeGST: any = (parseFloat(this.subtotal) + parseFloat(this.gstValue));
     this.selectedTotalGst = parseFloat(includeGST).toFixed(2)
     console.log('inc gst', this.selectedTotalGst)
 
-    this.selectedDiscount = this.exchangeForm.get('discountFormControl').value;
-    if (this.selectedDiscount >= 0) {
+    this.remaingAmount = 0;
+    this.change = 0;
+    //remaining amount
+    if(parseFloat(this.grandTotal) >= parseFloat(this.amount)){
+      this.remaingAmount = 0;
+      this.change = (parseFloat(this.grandTotal)-parseFloat(this.amount));
 
-      //let amount :any = this.selectedTotalGst - this.selectedDiscount;
-
-      this.grandTotal = Math.round(this.selectedTotalGst - this.selectedDiscount);
-    } else if (this.selectedDiscount === NaN) {
-      this.grandTotal = 0;
-    }
-
-    if(this.grandTotal > this.amount){
-      this.change = 0;
     }else{
-      this.change = (parseFloat(this.amount)-parseFloat(this.remaingAmount) )
+      this.remaingAmount = (parseFloat(this.amount)-parseFloat(this.grandTotal));
+      this.change = 0;
     }
+
+    this.remaingAmount = parseFloat(this.remaingAmount).toFixed(2);
+    this.change = parseFloat(this.change).toFixed(2);
+
   }
 
   add_items(): any {
 
     const data = {
-      item_id: '',
-      item_description: '',
-      quantity: '',
-      unit: '',
-      unit_name: '',
-      price: '',
-      item_total: '',
-      gst_value: '',
-      tax: ''
+      id:'',
+      item_id:'',
+      service_id:'',
+      description:'',
+      quantity:'',
+      unit_id:'',
+      unit:'',
+      price:'',
+      item_total:'',
+      gst_value:'',
+      tax:''
     }
     this.invoice_items.push(data)
-    // this.calculate_price()
-    
-    // this.calculate_gst()
-    // this.calculate_totalGst()
+
   }
 
   open_product_name(dialog: TemplateRef<any>, item) {
@@ -301,42 +318,6 @@ export class ExchangeComponent implements OnInit {
             console.log(this.multi_product)
             this.open_single_product(this.dialog_single_product, this.selected_product, item);
             this.search.nativeElement.focus()
-            //  this.inventoryService.getProductDetails(this.pro_id).subscribe(
-            //    (data) =>{
-            //      this.selected_product_data = data
-            //      console.log(this.selected_product_data)
-            //      this.product_id = data.id 
-            //      console.log(this.product_id)
-            //      data.product_price.forEach(element => {
-            //        console.log('ele',element)
-            //        {
-
-            //         let sellPrice:any = parseFloat(element.sell_price) * element.qty ;
-            //         let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
-            //         let total:any = sellPrice + gstVal;
-            //         if(this.invoice_items.some(item => item.item_description == this.selected_product.product_name)){
-            //           this.nbtoastService.danger("product name already exist");
-            //         }else{
-            //           item.item_id=element.product_id,
-            //         item.item_description = this.selected_product.product_name
-
-            //         console.log(item.item_id)
-            //         //item.price= parseFloat(sellPrice).toFixed(2),
-            //         item.price= element.sell_price
-            //         item.quantity= element.qty ? element.qty : 0,
-            //         item.unit=element.unit.PrimaryUnit,
-            //         item.tax=element.tax,
-            //         item.item_total = parseFloat(total).toFixed(2),
-            //         item.gst_value =  parseFloat(gstVal).toFixed(2)
-            //         }
-            //       }
-            //      });
-            //      this.calculate_price()
-
-            //    }
-            //  )
-
-
 
           }
           );
@@ -377,37 +358,24 @@ export class ExchangeComponent implements OnInit {
             if (this.invoice_items.some(item => item.item_description == this.selected_product.product_name)) {
               this.nbtoastService.danger("product name already exist");
             } else {
-              /*  this.invoice_items.push({
-                 item_id:this.selectedPro.product_id,
-                 item_description : this.selected_product.product_name,
-                 
-                 // console.log(item.item_id)
-                 //item.price= parseFloat(sellPrice).toFixed(2),
-                 price: this.selectedPro.sell_price,
-                 quantity:this.selectedPro.qty ? this.selectedPro.qty : 0,
-                 unit:this.selectedPro.unit.PrimaryUnit,
-                 tax:this.selectedPro.tax,
-                 item_total: parseFloat(total).toFixed(2),
-                 gst_value :  parseFloat(gstVal).toFixed(2)
-               }) */
-              dd.item_id = this.selectedPro.product,
-                dd.item_description = this.selected_product.product_name
-
-              console.log(item.item_id)
-              //item.price= parseFloat(sellPrice).toFixed(2),
-              dd.price = this.selectedPro.unit_price
+              dd.id = item.id,
+              dd.item_id = this.selectedPro.product ? this.selectedPro.product : "",
+              dd.service_id = "",
+              dd.description = this.selected_product.product_name
               dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
-                dd.unit = this.selectedPro.unit,
-                dd.unit_name = this.selectedPro.unit__PrimaryUnit,
-                dd.tax = this.selectedPro.tax,
-                dd.item_total = parseFloat(total).toFixed(2),
-                dd.gst_value = parseFloat(gstVal).toFixed(2)
+              dd.unit_id = this.selectedPro.unit,
+              dd.unit = this.selectedPro.unit__PrimaryUnit,
+              dd.price = this.selectedPro.unit_price
+              dd.discount = 0,
+              dd.item_total = parseFloat(total).toFixed(2),
+              dd.tax = this.selectedPro.tax,
+              dd.gst_value = parseFloat(gstVal).toFixed(2)
             }
 
 
-            
+
             this.calculate_price()
-            this.remaingAmount = Math.round(parseFloat(this.selectedTotalGst)- parseFloat(this.includegstremaing)) 
+            //this.remaingAmount = Math.round(parseFloat(this.selectedTotalGst)- parseFloat(this.includegstremaing))
 
 
 
@@ -440,6 +408,7 @@ export class ExchangeComponent implements OnInit {
         this.customer_id = data.customer_id
         console.log(data.gst_amount)
         this.grandTotal = data.grand_total
+        this.amount = data.grand_total
         // this.selectedTotalGst = data.
 
         // this.selectedPayEvents = data.payment_terms
@@ -450,61 +419,24 @@ export class ExchangeComponent implements OnInit {
           let gstVal: any = (sellPrice * parseFloat(element.tax)) / 100;
           let total: any = sellPrice + gstVal;
           this.barcode = element.barcode
+          let name = element.product? element.product__product_name: element.service__service_name;
           this.invoice_items.push({
-            item_id: element.product,
 
-            item_description: element.product__product_name,
-            //item.price= parseFloat(sellPrice).toFixed(2),
-            price: element.unit_price,
+            id: "",
+            item_id: element.product ? element.product : "",
+            service_id: element.service ? element.service : "",
+            description: name,
             quantity: element.qty ? element.qty : 0.00,
-            unit: element.unit_id,
-            unit_name: element.unit__PrimaryUnit,
-            tax: element.gst,
+            unit_id: element.unit_id,
+            unit: element.unit_text,
+            price: element.unit_price,
+            discount: element.discount_price,
             item_total: element.subtotal_amount,
+            tax: element.gst,
             gst_value: element.gst_amount,
 
           })
         })
-        // this.calculate_price()
-        //  this.inventoryService.getProductDetails(this.p_id).subscribe(
-        //    (data) =>{
-        //      this.selected_product_data = data
-        //      console.log(this.selected_product_data)
-        //      this.product_id = data.id 
-        //      console.log(this.product_id)
-        //      data.product_price.forEach(element => {
-        //        console.log('ele',element)
-        //        {
-
-        //         let sellPrice:any = parseFloat(element.sell_price) * element.qty ;
-        //         let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
-        //         let total:any = sellPrice + gstVal;
-        //         if(this.invoice_items.some(item => item.item_description == this.selected_product.product_name)){
-        //           this.nbtoastService.danger("product name already exist");
-        //         }else{
-        //         this.invoice_items.push( {
-        //            item_id:element.product,
-
-        //             item_description :element.product__product_name,
-        //             //item.price= parseFloat(sellPrice).toFixed(2),
-        //             price: element.sell_price,
-        //             quantity: element.qty ? element.qty : 0,
-        //             unit:element.unit,
-        //             unit_name:element.unit__PrimaryUnit,
-        //             tax:element.tax,
-        //             item_total :parseFloat(total).toFixed(2),
-        //             gst_value :parseFloat(gstVal).toFixed(2),
-        //           })
-        //         }
-
-        //       }
-
-        //      });
-        //      console.log(this.invoice_items)
-        //      this.calculate_price()
-
-        //    }
-        //  )      
 
       })
       this.calculate_price()
@@ -512,23 +444,23 @@ export class ExchangeComponent implements OnInit {
 
 
   remove_item(item): void {
-    
+
     const index: number = this.invoice_items.indexOf(item);
     // this.serviceIds.splice(index, 1)
     // console.log(this.serviceIds)
     if (index !== -1) {
       this.invoice_items.splice(index, 1);
     }
-    
+
     this.refund_items.push(item)
     console.log(this.refund_items)
-    
+
    this.refund_items.forEach(element => {
      this.sum = parseFloat(this.sum) + parseFloat(element.item_total)
-     
+
    });
- 
-   
+
+
    console.log(this.sum)
    this.selectedCupon = this.sum
     // this.selectedCupon = ""
@@ -537,7 +469,7 @@ export class ExchangeComponent implements OnInit {
    this.includegst = this.selectedTotalGst
 
     console.log(this.invoice_items)
-    this.remaingAmount = Math.round(parseFloat(this.selectedTotalGst)- parseFloat(this.includegstremaing)) 
+    //this.remaingAmount = Math.round(parseFloat(this.selectedTotalGst)- parseFloat(this.includegstremaing))
     // this.calculate_gst()
     // this.calculate_totalGst()
   }
@@ -545,13 +477,13 @@ export class ExchangeComponent implements OnInit {
   onEvnetChange(event) {
     this.event = event.target.value;
     this.calculate_price()
-    //  
+    //
   }
 
   bar_code(){
     let serial_no = this.exchangeForm.controls['barCodeFormControl'].value
     console.log(serial_no)
-    
+
     let data = { serial_number:serial_no  }
     this.inventoryService.get_product_by_slno(data).subscribe(
       data =>{
@@ -568,22 +500,23 @@ export class ExchangeComponent implements OnInit {
              this.nbtoastService.danger("product name already exist");
            }else{
            this.invoice_items.push( {
-              item_id:element.product,
-              
-               item_description :element.product__product_name,
-               //item.price= parseFloat(sellPrice).toFixed(2),
-               price: element.unit_price,
+               id:"",
+               item_id:element.product,
+               service_id: "",
+               description :element.product__product_name,
                quantity: element.qty ? element.qty : 0.00,
                unit:element.unit,
                unit_name:element.unit__PrimaryUnit,
-               tax:element.tax,
+               price: element.unit_price,
+               discount: element.discount_price,
                item_total :parseFloat(total).toFixed(2),
+               tax:element.tax,
                gst_value :parseFloat(gstVal).toFixed(2),
              })
            }
-           
+
          }
-         
+
         });
         console.log(this.invoice_items)
         this.calculate_price()
@@ -638,7 +571,7 @@ export class ExchangeComponent implements OnInit {
     formData.append('gst_amount', this.exchangeForm.controls['gstFormControl'].value);
     // formData.append('exchange', this.exchangeForm.controls['exchangeFormControl'].value);
     // formData.append('cancel_invoice', this.exchangeForm.controls['cancelinvoiceFormControl'].value);
-    
+
 
     formData.append('user_id', this.user_name);
     formData.append('supervisor_id', this.exchangeForm.controls['supervisorIdFormControl'].value);
@@ -646,15 +579,14 @@ export class ExchangeComponent implements OnInit {
     formData.append('customer_id', this.customer_id)
 
     formData.append('invoice_items', JSON.stringify(this.invoice_items));
+    console.log("items", this.invoice_items)
     this.service.save_sales_exchange(formData).subscribe(
       (data) => {
         // this.billPaid()
         console.log(data)
         this.nbtoastService.success("Invoice Saved Successfully")
 
-
-        
-
+       // this.routes.navigateByUrl("/InvoicePage?eid=" + data)
 
 
       },
@@ -680,8 +612,8 @@ export class ExchangeComponent implements OnInit {
       return this.submitted = false;
     }
 
-    
-  
+
+
 }
 
 

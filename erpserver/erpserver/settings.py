@@ -123,7 +123,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'root',
         'OPTIONS': {
             'autocommit': True,
         },

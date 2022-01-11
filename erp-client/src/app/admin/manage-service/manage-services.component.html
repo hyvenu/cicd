@@ -59,17 +59,19 @@
 
           </div>
       </div>
-    </div><br>
-    <div class=" form-row">
-
-    </div><br>
+    </div>
     <div class="form-row">
         <div class="form-group col-md-4">
             <button nbButton [hidden]="!createFlag" size="small" (click)="save_Service();" status="success" *ngxPermissionsOnly="['store.add_storeservices']">Save</button>
             <button nbButton [hidden]="createFlag" size="small" (click)="update_Service();" status="success" *ngxPermissionsOnly="['store.change_storeservices']" >Update</button>
         </div>
     </div>
-</form><br>
+</form>
+<div class="form-row">
+  <div class="form-group col-md-4">
+      <button nbButton [hidden]="createFlag" size="small" (click)="cancel_update();" status="success" >Cancel</button>
+  </div>
+</div>
 <div>
 
     <nb-card>
@@ -97,7 +99,7 @@
                   [(ngModel)]="searchUnit" /> </nb-card-header>
           <nb-card-body>
               <nb-list>
-                  <nb-list-item *ngFor="let item of unitData |search_filter:'unit name':searchUnit ">
+                  <nb-list-item *ngFor="let item of unitData |search_filter:'PrimaryUnit,SecondaryUnit':searchUnit ">
                       <i class="mr-auto mt-2 mt-lg-0"> {{item.PrimaryUnit }}- {{item.SecondaryUnit }}</i>
                       <button nbButton (click)="ref.close(item)" size="small">Select</button>
                   </nb-list-item>

@@ -22,15 +22,15 @@ export class PurchaseOrderComponent implements OnInit {
   date1: ElementRef;
   purchaseOrderForm: FormGroup;
   po_type_list = [
-    { 'po_type_value': 'PO', 'po_type_name': 'Purchase Order' }
+    { po_type_value: 'PO', po_type_name: 'Purchase Order' }
   ]
   selectedPOType: any;
 
   transport_type_list = [
-    { 'key': 'BY_ROAD', 'value': 'By Road' },
-    { 'key': 'BY_AIR', 'value': 'By Air' },
-    { 'key': 'BY_SEA', 'value': 'By Sea' },
-    { 'key': 'OTHERS', 'value': 'Others' },
+    { key: 'BY_ROAD', value: 'By Road' },
+    { key: 'BY_AIR', value: 'By Air' },
+    { key: 'BY_SEA', value: 'By Sea' },
+    { key: 'OTHERS', value: 'Others' },
   ]
 
   payments_terms_list = [
@@ -38,6 +38,7 @@ export class PurchaseOrderComponent implements OnInit {
     { key: "PAYMENT_TERMS_2", value: '100% against material receipt' },
     { key: "PAYMENT_TERMS_3", value: 'Wholese credit for 30 days of material receiptller' },
   ]
+
 
   selectedTransportType: any;
   vendor_list: any[];
@@ -99,14 +100,14 @@ export class PurchaseOrderComponent implements OnInit {
 
     this.purchaseOrderForm = this.formBuilder.group(
       {
-        poTypeFormControl: ['', [Validators.required]],
+        poTypeFormControl: [this.po_type_list[0].po_type_value, [Validators.required]],
         poDateFormControl: ['', [Validators.required]],
         poNumberFormControl: ['', []],
         userFormControl: ['', [Validators.required]],
-        transportTypeFormControl: ['', [Validators.required]],
+        transportTypeFormControl: [this.transport_type_list[0].key, [Validators.required]],
         vendorCodeFormControl: ['', [Validators.required]],
         vendorNameFormControl: ['', [Validators.required]],
-        paymentTermsFormControl: ['', []],
+        paymentTermsFormControl: [this.payments_terms_list[0].key, []],
         otherRefFormControl: ['', []],
         termsDeliveryFormControl: [''],
         shipAddressFormControl: ['', [Validators.required]],
@@ -176,7 +177,7 @@ export class PurchaseOrderComponent implements OnInit {
         //  this.selected_List = this.pr_list.find(item => item.pr_no == data.pr_number)
         //  this.pr_list = this.pr_list.find(item => item.pr_no == data.pr_number)
           console.log("pr list",this.pr_list);
-          
+
           console.log("not",this.not_approved)
           console.log(this.selected_vendor)
           for (let i = 0; i < data.order_details.length; i++) {
@@ -193,10 +194,10 @@ export class PurchaseOrderComponent implements OnInit {
                 ...element,
                 status: element.status.toString(),
                 unit_name: element.unit__PrimaryUnit,
-  
+
               })
             }
-           
+
           });
           this.selected_pr_data = {
             ...this.not_approved,
@@ -300,7 +301,7 @@ export class PurchaseOrderComponent implements OnInit {
         this.vendor_id = this.selected_vendor.id;
         this.purchaseOrderForm.controls['vendorCodeFormControl'].setValue(data.vendor_code);
         this.purchaseOrderForm.controls['vendorNameFormControl'].setValue(data.vendor_name);
-        this.purchaseOrderForm.controls['paymentTermsFormControl'].setValue(data.payment_terms);
+        this.purchaseOrderForm.controls['paymentTermsFormControl'].setValue(data.payment_terms?data.payment_terms:this.payments_terms_list[0].key);
 
       }
       );
@@ -480,17 +481,17 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   pr_open(dialog: TemplateRef<any>) {
-    
+
     this.pr_products = []
     this.purchaseService.getPRList().subscribe(
       (data) => {
         // if(data.)
         this.pr_list = data;
-        
+
         this.dailog_ref = this.dialogService.open(dialog, { context: this.pr_list })
           .onClose.subscribe(data => {
             //  this.product_list = data
-            
+
             this.selected_product_list = []
             this.searchPR = ""
             this.selected_List = data;
@@ -498,7 +499,7 @@ export class PurchaseOrderComponent implements OnInit {
             console.log("this is pr list", data)
             this.not_approved = data
             console.log("not app",this.not_approved);
-            
+
             this.pr_id = this.selected_List.id
             console.log(this.pr_id)
             this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_no);
@@ -593,7 +594,7 @@ export class PurchaseOrderComponent implements OnInit {
                   // this.pr_product_array.push(pr_products)
                   console.log(this.pr_product_array)
                 });
-               
+
               },
               (error) => {
                 this.nbtoastService.danger("Unable to get PR details")

@@ -136,7 +136,7 @@ export class RefundComponent implements OnInit {
       paymentFormControl: ['',],
       TransactionIdFormControl: ['',],
       amountFormControl:['',],
-      changeFormControl:['',],
+      //changeFormControl:['',],
 
       exchangeFormControl: ['',],
       cancelInvoiceFormControl: ['',],
@@ -168,21 +168,34 @@ export class RefundComponent implements OnInit {
 
   calculate_price(): void {
 
-    this.selectedDiscount = 0;
-    let total_item_price: any = 0;
+    let total_gross:any =0;
+    let total_discount:any = 0;
+    let total_grand:any =0;
     let total_basic_price: any = 0;
     let total_gst_value: any = 0;
 
     this.invoice_items.forEach(element => {
       console.log('pro ele', element)
+      /*
       let tot_price: any = (element.price * element.quantity)
       let gst_tot: any = ((tot_price * element.tax) / 100)
       let item_tot = tot_price + gst_tot;
+      */
+      let net_price:any = (element.price - element.discount)
+      let tot_price:any = (net_price * element.quantity )
+      let gst_tot:any =((tot_price * element.tax)/100)
+      let item_tot:any = tot_price + gst_tot;
 
       console.log('tot pri', tot_price)
       console.log('tot gst', gst_tot)
+
+      total_gross += parseFloat(element.price);
       total_basic_price += tot_price;
       total_gst_value += gst_tot;
+
+      total_discount += parseFloat(element.discount);
+      total_grand += item_tot;
+
       //element.price = parseFloat(tot_price).toFixed(2);
       element.gst_value = parseFloat(gst_tot).toFixed(2);
       element.item_total = parseFloat(item_tot).toFixed(2);
@@ -190,45 +203,19 @@ export class RefundComponent implements OnInit {
 
     });
 
-    /*  for(let i=0;i<this.invoice_items.length;i++)
-     {
-       let price = ((parseFloat(this.invoice_items[i].quantity) * (parseFloat(this.invoice_items[i].sell_price))));
-       if(price !=NaN && this.invoice_items[i].quantity != "")
-       {
-         this.invoice_items[i].price = price;
-       }
-     } */
-
-    /*  for(let i=0;i<this.invoice_items.length;i++)
-     {
-       let gst_price = (((parseInt(this.invoice_items[i].tax)*(parseInt(this.invoice_items[i].price)/100))));
-       if(gst_price !=NaN && this.invoice_items[i].tax!= "")
-       {
-         this.invoice_items[i].gst_value = gst_price * this.invoice_items[i].quantity;
-       }
-     } */
-
-    /*   for(var val of this.invoice_items){
-        this.subtotal = 0;
-        this.gstValue = 0;
-
-        this.subtotal += val.item_total ;
-        this.gstValue += val.gst_value ;
-       // return this.subtotal;
-      } */
-    /*  this.invoice_items.forEach(val => {
-       total_item_price = total_item_price + val.item_total;
-       total_gst_value = total_gst_value + val.gst_value;
-     }); */
-    //this.subtotal = parseFloat(total_item_price).toFixed(2) ;
-    this.subtotal = parseFloat(total_basic_price).toFixed(2);
+    this.subtotal = parseFloat(total_gross).toFixed(2);
     this.gstValue = parseFloat(total_gst_value).toFixed(2);
+
+    this.selectedDiscount = parseFloat(total_discount).toFixed(2);
+    this.grandTotal = parseFloat(total_grand).toFixed(2);
 
     console.log('siub tot', this.subtotal + 'gst', this.gstValue)
     let includeGST: any = (parseFloat(this.subtotal) + parseFloat(this.gstValue));
     this.selectedTotalGst = parseFloat(includeGST).toFixed(2)
     console.log('inc gst', this.selectedTotalGst)
 
+
+    /*
     this.selectedDiscount = this.refundForm.get('discountFormControl').value;
     if (this.selectedDiscount >= 0) {
 
@@ -238,12 +225,20 @@ export class RefundComponent implements OnInit {
     } else if (this.selectedDiscount === NaN) {
       this.grandTotal = 0;
     }
+    */
 
-    if(this.grandTotal > this.amount){
-      this.change = 0;
+    //refund amount
+    if(parseFloat(this.grandTotal) >= parseFloat(this.amount)){
+      this.selectedRefund = 0;
+      this.change = (parseFloat(this.grandTotal)-parseFloat(this.amount));
+
     }else{
-      this.change = (parseFloat(this.amount)-parseFloat(this.grandTotal) )
+      this.change = 0;
+      this.selectedRefund = (parseFloat(this.amount)-parseFloat(this.grandTotal));
     }
+
+    this.selectedRefund = parseFloat(this.selectedRefund).toFixed(2);
+    this.change = parseFloat(this.change).toFixed(2);
 
   }
 
@@ -270,6 +265,7 @@ export class RefundComponent implements OnInit {
         this.selectedTotalGst = data.total_include_gst
         console.log(data.gst_amount)
         this.grandTotal = data.grand_total
+        this.amount = data.grand_total
         // this.selectedTotalGst = data.
 
         // this.selectedPayEvents = data.payment_terms
@@ -281,61 +277,21 @@ export class RefundComponent implements OnInit {
           let total: any = sellPrice + gstVal;
           this.barcode = element.barcode
           this.invoice_items.push({
+            id: "",
             item_id: element.product,
-
             item_description: element.product__product_name,
-            //item.price= parseFloat(sellPrice).toFixed(2),
-            price: element.unit_price,
             quantity: element.qty ? element.qty : 0.00,
-            unit: element.unit_id,
-            unit_name: element.unit__PrimaryUnit,
-            tax: element.gst,
+            unit_id: element.unit_id,
+            unit: element.unit_text,
+            price: element.unit_price,
+            discount: element.discount_price,
             item_total: element.subtotal_amount,
+            tax: element.gst,
             gst_value: element.gst_amount,
 
 
           })
         })
-        // this.calculate_price()
-        //  this.inventoryService.getProductDetails(this.p_id).subscribe(
-        //    (data) =>{
-        //      this.selected_product_data = data
-        //      console.log(this.selected_product_data)
-        //      this.product_id = data.id
-        //      console.log(this.product_id)
-        //      data.product_price.forEach(element => {
-        //        console.log('ele',element)
-        //        {
-
-        //         let sellPrice:any = parseFloat(element.sell_price) * element.qty ;
-        //         let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
-        //         let total:any = sellPrice + gstVal;
-        //         if(this.invoice_items.some(item => item.item_description == this.selected_product.product_name)){
-        //           this.nbtoastService.danger("product name already exist");
-        //         }else{
-        //         this.invoice_items.push( {
-        //            item_id:element.product,
-
-        //             item_description :element.product__product_name,
-        //             //item.price= parseFloat(sellPrice).toFixed(2),
-        //             price: element.sell_price,
-        //             quantity: element.qty ? element.qty : 0,
-        //             unit:element.unit,
-        //             unit_name:element.unit__PrimaryUnit,
-        //             tax:element.tax,
-        //             item_total :parseFloat(total).toFixed(2),
-        //             gst_value :parseFloat(gstVal).toFixed(2),
-        //           })
-        //         }
-
-        //       }
-
-        //      });
-        //      console.log(this.invoice_items)
-        //      this.calculate_price()
-
-        //    }
-        //  )
 
       })
   }
@@ -350,6 +306,7 @@ export class RefundComponent implements OnInit {
       this.invoice_items.splice(index, 1);
     }
 
+    /*
     this.refund_items.push(item)
     console.log(this.refund_items)
 
@@ -360,15 +317,14 @@ export class RefundComponent implements OnInit {
   this.sum = (parseFloat(this.sum) + parseFloat(item.item_total)) - parseFloat(this.selectedDiscount)
 
    console.log(this.sum)
-   this.selectedRefund = (this.sum).toFixed() 
+   this.selectedRefund = (this.sum).toFixed()
     // this.selectedCupon = ""
     // this.refundForm.controls['discountFormControl'].setValue(0)
+    */
+
     this.calculate_price()
 
 
-    console.log(this.invoice_items)
-    // this.calculate_gst()
-    // this.calculate_totalGst()
   }
 
   onEvnetChange(event) {
@@ -433,10 +389,7 @@ export class RefundComponent implements OnInit {
         console.log(data)
         this.nbtoastService.success("Invoice Saved Successfully")
 
-
-
-
-
+        this.routes.navigateByUrl("/InvoicePage?rid=" + data)
 
       },
       (error) => {
@@ -460,8 +413,8 @@ export class RefundComponent implements OnInit {
       return this.submitted = false;
     }
 
-    
-  
+
+
 }
 
 

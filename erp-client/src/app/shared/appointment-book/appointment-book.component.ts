@@ -237,6 +237,14 @@ export class AppointmentBookComponent implements OnInit {
 
         });
 
+        const duplicate:boolean = this.check_duplicate();
+
+        if(duplicate) {
+          this.selected_product_list.pop();
+          this.nbtoastService.danger("Duplicate service");
+          return;
+        }
+
       });
     //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
 
@@ -259,6 +267,21 @@ export class AppointmentBookComponent implements OnInit {
     }
   }
 
+  check_duplicate() {
+    let arr = this.selected_product_list.map(function(item){ return item.service_id });
+    let isDuplicate = arr.some(function(item, idx){
+    return arr.indexOf(item) != idx
+    });
+    return isDuplicate;
+    }
+
+    check_invalid_time() {
+      let arr = this.selected_product_list.map(function(item){ return item.service_id });
+      let isDuplicate = arr.some(function(item, idx){
+      return arr.indexOf(item) != idx
+      });
+      return isDuplicate;
+      }
   // onChange(){
   //   this.bookingForm.controls['bookingDateFormControl'].valueChanges.subscribe(
   //     (data)=> {
@@ -276,29 +299,19 @@ export class AppointmentBookComponent implements OnInit {
 
     dateCheckStart(time, item){
       item.start_time = time
-      // let start_time:any
-      // let end_time:any
-      //  this.bookingForm.controls['startTimeFormControl'].valueChanges.subscribe(
-      //   (data) =>{
-      //     start_time = data
-      //     console.log(start_time)
-
-      //   }
-      // )
-      // this.bookingForm.controls['endTimeFormControl'].valueChanges.subscribe(
-      //   (data) =>{
-      //     end_time = data
-      //     console.log(end_time)
-
-      //   }
-      // )
-      // if (start_time.toString() < end_time.toString()){
-      //   this.nbtoastService.danger("Time you selected is invalid");
-      // }
     }
 
-    dateCheckEnd(time, item){
-      item.end_time = time
+    dateCheckEnd(dialog, time, item){
+      console.log("time:"+time)
+      if(time == "") {return}
+      if(item.start_time > time) {
+        item.end_time = ""
+        dialog.value = "";
+        this.nbtoastService.danger("End time must be greater than start time", "Invalid Time");
+        return;
+      }else{
+        item.end_time = time
+      }
     }
 
     stylist_open(dialog: TemplateRef<any>, item) {
@@ -321,6 +334,10 @@ export class AppointmentBookComponent implements OnInit {
 
 
   saveBooking():void {
+    if(this.selected_product_list.length == 0) {
+      this.nbtoastService.danger("Add service to save this booking");
+      return;
+    }
     if(this.bookingForm.valid){
     let form_data = new FormData();
     if(this.app_id){

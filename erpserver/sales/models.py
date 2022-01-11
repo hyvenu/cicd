@@ -165,7 +165,7 @@ class SalesRefund(AuditUuidModelMixin):
     # invoice_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     terms_conditions = models.CharField(max_length=2000, null=True)
     store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_refund_req")
-    discount_price = models.IntegerField(null=True, default=0)
+    discount_price = models.DecimalField(max_digits=30, decimal_places=1, default=0)
     grand_total = models.DecimalField(max_digits=30, decimal_places=1, default=0)
     # card = models.BooleanField(default=False, null=True)
     # cash = models.BooleanField(default=False, null=True)
@@ -189,6 +189,7 @@ class SalesRefund(AuditUuidModelMixin):
 class SalesRefundDetails(AuditUuidModelMixin):
     refund_order = models.ForeignKey(SalesRefund, on_delete=models.CASCADE, default=None, null=True)
     product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, null=True)
+    service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, default=None, null=True)
     # product_code = models.CharField(max_length=50, null=True, default=None)
     # product_name = models.CharField(max_length=255, null=True, default=None)
@@ -197,6 +198,7 @@ class SalesRefundDetails(AuditUuidModelMixin):
     unit_text = models.CharField(max_length=1000, null=True)
     # delivery_date = models.DateField(null=True)
     unit_price = models.DecimalField(max_digits=10, decimal_places=1, default=0)
+    discount_price = models.DecimalField(max_digits=10, decimal_places=1, default=0)
     gst = models.DecimalField(max_digits=10, decimal_places=1, default=0)
     barcode = models.CharField(max_length=500, null=True)
     subtotal_amount = models.DecimalField(max_digits=10, decimal_places=1, default=0)
@@ -234,8 +236,8 @@ class SalesExchange(AuditUuidModelMixin):
     # invoice_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     terms_conditions = models.CharField(max_length=2000, null=True)
     store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_Exchange_req")
-    discount_price = models.IntegerField(null=True, default=0)
-    grand_total = models.DecimalField(max_digits=30, decimal_places=1, default=0)
+    discount_price = models.DecimalField(max_digits=30, decimal_places=1, default=0)
+    grand_total = models.DecimalField(max_digits=30, decimal_places=2, default=0)
     # card = models.BooleanField(default=False, null=True)
     # cash = models.BooleanField(default=False, null=True)
     # upi = models.BooleanField(default=False, null=True)
@@ -252,12 +254,13 @@ class SalesExchange(AuditUuidModelMixin):
     total_include_gst = models.DecimalField(max_digits=10, decimal_places=1, default=0)
 
     def __str__(self):
-        return self.refund_number
+        return self.exchange_number
 
 
 class SalesExchangeDetails(AuditUuidModelMixin):
     exchange_order = models.ForeignKey(SalesExchange, on_delete=models.CASCADE, default=None, null=True)
     product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, null=True)
+    service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, default=None, null=True)
     # product_code = models.CharField(max_length=50, null=True, default=None)
     # product_name = models.CharField(max_length=255, null=True, default=None)
@@ -266,6 +269,7 @@ class SalesExchangeDetails(AuditUuidModelMixin):
     unit_text = models.CharField(max_length=1000, null=True)
     # delivery_date = models.DateField(null=True)
     unit_price = models.DecimalField(max_digits=10, decimal_places=1, default=0)
+    discount_price = models.DecimalField(max_digits=10, decimal_places=1, default=0)
     gst = models.DecimalField(max_digits=10, decimal_places=1, default=0)
     barcode = models.CharField(max_length=500, null=True)
     subtotal_amount = models.DecimalField(max_digits=10, decimal_places=1, default=0)

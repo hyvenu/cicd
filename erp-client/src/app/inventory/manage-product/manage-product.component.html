@@ -12,7 +12,7 @@
                 <div class="form-group col-md-3">
                     <label for="categoryName">Category Name <span style="color: red;">*</span></label>
                     <input nbInput formControlName="categoryNameFormControl" name="categoryName"
-                        placeholder="Category Name" (keypress)="cat_open(dialog)" (click)="cat_open(dialog)" readonly 
+                        placeholder="Category Name" (keypress)="cat_open(dialog)" (click)="cat_open(dialog)" readonly
                         [ngClass]="{ 'is-invalid': submitted && f.categoryNameFormControl.errors }" class="form-control"/>
                         <div *ngIf="submitted && f.categoryNameFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.categoryNameFormControl.errors.required"> Category Name is required</div>
@@ -22,20 +22,20 @@
                     <label for="subcategoryName">Sub Category <span style="color: red;">*</span></label>
                     <input nbInput formControlName="subcategoryNameFormControl" name="subcategoryName"
                         placeholder="Sub Category Name" (keypress)="sub_open(sub_cat_dialog)"
-                        (click)="sub_open(sub_cat_dialog)" readonly 
+                        (click)="sub_open(sub_cat_dialog)" readonly
                         [ngClass]="{ 'is-invalid': submitted && f.subcategoryNameFormControl.errors }" class="form-control"/>
                         <div *ngIf="submitted && f.subcategoryNameFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.subcategoryNameFormControl.errors.required">Sub Category Name is required</div>
-                        </div> 
+                        </div>
                 </div><br>
                 <div class="form-group col-md-3">
                     <label for="brandName">Brand Name <span style="color: red;">*</span></label>
                     <input nbInput formControlName="brandNameFormControl" name="brandName" placeholder="Brand Name"
-                        (keypress)="brand_open(brand_dialog)" (click)="brand_open(brand_dialog)" readonly 
+                        (keypress)="brand_open(brand_dialog)" (click)="brand_open(brand_dialog)" readonly
                         [ngClass]="{ 'is-invalid': submitted && f.brandNameFormControl.errors }" class="form-control"/>
             <div *ngIf="submitted && f.brandNameFormControl.errors" class="invalid-feedback">
                 <div *ngIf="f.brandNameFormControl.errors.required">BrandName is required</div>
-            </div> 
+            </div>
                 </div><br>
                 <div class=" form-group col-md-3">
                     <label for="active">Active</label>
@@ -47,16 +47,16 @@
                 <div class="form-group col-md-3">
                     <label for="productName">Product Name <span style="color: red;">*</span></label>
                     <input nbInput formControlName="productNameFormControl" name="productName"
-                        placeholder="Product Name" 
+                        placeholder="Product Name"
                         [ngClass]="{ 'is-invalid': submitted && f.productNameFormControl.errors }" class="form-control"/>
                         <div *ngIf="submitted && f.productNameFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.productNameFormControl.errors.required">Product Name is required</div>
-                        </div> 
+                        </div>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="productCode">Product Code <span style="color: red;">*</span></label>
                     <input nbInput formControlName="productCodeFormControl" name="productCode"
-                        placeholder="Product Code" readonly 
+                        placeholder="Product Code" readonly
                         />
                 </div>
             </div>
@@ -67,7 +67,7 @@
                     [ngClass]="{ 'is-invalid': submitted && f.hsncodeFormControl.errors }" class="form-control"/>
                     <div *ngIf="submitted && f.hsncodeFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.hsncodeFormControl.errors.required">HSN Code is required</div>
-                    </div> 
+                    </div>
                 </div>
 
             </div>
@@ -75,7 +75,7 @@
                 <div class="form-group col-md-3">
                     <label for="description">Description <span style="color: red;">*</span></label>
                     <input nbInput formControlName="descFormControl" type="text" name="description"
-                        placeholder="Description" 
+                        placeholder="Description"
                         [ngClass]="{ 'is-invalid': submitted && f.descFormControl.errors }" class="form-control"/>
                         <div *ngIf="submitted && f.descFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.descFormControl.errors.required">Description is required</div>
@@ -165,7 +165,7 @@
                                         </td>
                                         <td>
                                             <input class="form-control form-control-sm" type="text" name="{{type.unit}}" [(ngModel)]="type.unit" placeholder="Unit "  [ngModelOptions]="{standalone: true}"
-                                            value="{{type.unit}}" (keypress)="unit_open(unit_dialog,type)" size="small" style="width: 10em;"/>&nbsp;
+                                            value="{{type.unit}}" (keypress)="unit_open(unit_dialog,type)" (click)="unit_open(unit_dialog,type)" size="small" style="width: 10em;"/>&nbsp;
                                         </td>
                                         <td>
                                             <input class="form-control form-control-sm" type="number" min="0"  name="{{type.unit_price}}" [(ngModel)]="type.unit_price" placeholder="Unit Price"  [ngModelOptions]="{standalone: true}"
@@ -174,17 +174,17 @@
                                         <td>
                                             <input class="form-control form-control-sm" type="number" min="0"  name="{{type.tax}}" [(ngModel)]="type.tax" placeholder="Gst %"  [ngModelOptions]="{standalone: true}"
                                             value="{{type.tax}}" size="small" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"  (change)="calculate_tax(type)" style="width: 6em;"/>&nbsp;
-                                            
+
                                         </td>
                                         <td>
                                             <input class="form-control form-control-sm" type="number" min="0"  name="{{type.sell_price}}" [(ngModel)]="type.sell_price" placeholder="Sell Price"  [ngModelOptions]="{standalone: true}"
                                             value="{{type.sell_price}}" size="small" oninput="validity.valid || (value='')" style="width: 10em;" />&nbsp;
-                             
+
                                         </td>
                                         <td>
                                             <input class="form-control form-control-sm" type="number" min="0"  name="{{type.safety_stock_level}}" [(ngModel)]="type.safety_stock_level" placeholder="Safety Stock"  [ngModelOptions]="{standalone: true}"
                                             value="{{type.safety_stock_level}}" size="small" oninput="validity.valid || (value='')" style="width: 10em;" />&nbsp;
-                                           
+
 
                                         </td>
                                         <td>
@@ -217,7 +217,7 @@
                                     <img src={{img.image}} alt="" height="100" width="100" />
                                     <button nbButton status="danger" size="tiny" (click)="delete_image(img.product_id, img.id);" style="display: inline;">&#215;</button>
                                     </div>
-                                    
+
                                 </nb-list-item>
                             </div>
                         </nb-card-body>
@@ -350,7 +350,7 @@
         <nb-card-header>Unit Master List<input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchUnit" /> </nb-card-header>
         <nb-card-body>
             <nb-list>
-                <nb-list-item *ngFor="let item of data| search_filter:'PrimaryUnit':searchUnit">
+                <nb-list-item *ngFor="let item of data| search_filter:'PrimaryUnit, SecondaryUnit':searchUnit">
                     <i class="mr-auto mt-2 mt-lg-0">{{ item.PrimaryUnit }} - {{ item.SecondaryUnit }}  </i>
                     <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>

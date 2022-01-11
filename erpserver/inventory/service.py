@@ -3,7 +3,7 @@ from io import BytesIO
 from django.core.files import File
 from django.db import transaction
 
-from inventory.models import ProductMaster, ProductSubCategory, ProductPriceMaster, ProductImages, ProductStock, UnitMaster
+from inventory.models import ProductMaster, ProductCategory, ProductSubCategory, ProductPriceMaster, ProductImages, ProductStock, UnitMaster
 from sequences import get_next_value
 import ast
 import barcode
@@ -296,3 +296,9 @@ class InventoryService:
         # for prd in product_dict:
         #     pass
         return list(product_dict)
+
+    @classmethod
+    def delete_product_cat(cls, id):
+        count = ProductCategory.objects.get(id=id).delete()
+
+        return True         

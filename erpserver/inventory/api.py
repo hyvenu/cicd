@@ -1,3 +1,4 @@
+from django.db.utils import IntegrityError
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 
@@ -57,15 +58,18 @@ class ProductMasterViewSet(viewsets.ModelViewSet):
 
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if 'id' in serializer.initial_data:
-            serializer.is_valid(raise_exception=False)
-        else:
-            serializer.is_valid(raise_exception=True)
-        inventoryService = InventoryService()
-        serializer_data = inventoryService.save_product(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        try:
+            serializer = self.get_serializer(data=request.data)
+            if 'id' in serializer.initial_data:
+                serializer.is_valid(raise_exception=False)
+            else:
+                serializer.is_valid(raise_exception=True)
+            inventoryService = InventoryService()
+            serializer_data = inventoryService.save_product(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        except IntegrityError:
+            return Response({'status':'exists','message':'Product name or Serial Number exists'},  status=status.HTTP_404_NOT_FOUND)             
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)

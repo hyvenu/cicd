@@ -18,7 +18,7 @@ export class ProductListComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false,      
+      delete: false,
       },
     columns: {
       id: {
@@ -26,7 +26,7 @@ export class ProductListComponent implements OnInit {
         hide:true
       },
       product_code: {
-        title: 'Product Code',        
+        title: 'Product Code',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="ManageProduct?id=${row.id}">${row.product_code}</a>`;
@@ -37,10 +37,10 @@ export class ProductListComponent implements OnInit {
       },
       description: {
         title: 'Description',
-        type: 'html',
+        /*type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<p class="d-inline-block text-truncate"><small class="text-compress">${row.description}</small></p>`;
-      }
+          return `<div style="word-wrap: break-word;">${row.description}</div>`;
+      }*/
       },
       hsn_code: {
         title: 'Hsn Code',
@@ -51,13 +51,12 @@ export class ProductListComponent implements OnInit {
       sub_category__sub_category_name: {
         title: 'Sub Category',
       },
-       
-      
+
+
     },
   };
 
-  data = [
-  ]
+  data:any = []
 
   constructor(
     private formBuilder: FormBuilder,

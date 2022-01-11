@@ -198,7 +198,7 @@ $box.prop("checked", false);
                 <td colspan="3" style="text-align: center;">
                     <label for="event">Payment Method:<span style="color: red;">*</span></label><br>
                     <nb-select (change)="onEvnetChange($event)" placeholder="Payment Method" name="events"
-                      formControlName="paymentFormControl" [(selected)]="selectedEvents" [(ngModel)]="selectedPayEvents">
+                      formControlName="paymentFormControl" [(selected)]="selectedEvents" >
                       <nb-option *ngFor="let e of Events" value="{{e.value}}">{{e.name}}</nb-option>
                     </nb-select>
                 </td><br>

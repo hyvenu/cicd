@@ -15,12 +15,12 @@ export class ManageProductComponent implements OnInit {
 
   productMasterFrom: FormGroup;
 
-  @ViewChild('attribute') inputName; 
+  @ViewChild('attribute') inputName;
 
   createFlag = true;
 
   categories_list;
-  
+
   sub_categories;
   marked:boolean=true;
   dailog_ref;
@@ -44,8 +44,8 @@ export class ManageProductComponent implements OnInit {
   IsProductImage: boolean;
 
   imageForm: FormGroup = this.formBuilder.group({
-    
-    image: ['', Validators.required], //making the image required here  
+
+    image: ['', Validators.required], //making the image required here
     fileSource: new FormControl('', [Validators.required])
   })
   image_list: any;
@@ -74,7 +74,7 @@ export class ManageProductComponent implements OnInit {
   ngOnInit(): void {
     this.IsProductImage = false;
     this.IsProductInfo = true;
-    this.productMasterFrom  =  this.formBuilder.group({        
+    this.productMasterFrom  =  this.formBuilder.group({
       categoryNameFormControl: ['', [Validators.required]],
       subcategoryNameFormControl: ['', [Validators.required]],
       productNameFormControl: ['', [Validators.required]],
@@ -86,14 +86,14 @@ export class ManageProductComponent implements OnInit {
       packtypeFormControl: [''],
       productsListFormControl: [''],
       productActivateFormControl:[''],
-      image: ['', Validators.required], //making the image required here  
+      image: ['', Validators.required], //making the image required here
       fileSource: new FormControl('', [Validators.required])
     });
 
     this.product_attributes = [];
 
     this.product_packingtypes =[
-    
+
     ]
     let param1 = this.route.snapshot.queryParams["id"];
     if (param1) {
@@ -134,15 +134,15 @@ export class ManageProductComponent implements OnInit {
 
             this.product_attributes = JSON.parse(data.product_attributes);
             // this.product_packingtypes = data.product_price;
-      
-            
+
+
           },
           (error) => {
             this.nbtoastService.danger(error.error.detail);
           }
         )
     }
-    
+
     this.inventoryService.getSubCategoryList().subscribe(
       (data) => {
           this.sub_categories = data;
@@ -173,9 +173,9 @@ export class ManageProductComponent implements OnInit {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.categories_list })
     .onClose.subscribe(data => {
       this.searchCategory=""
-       this.selected_category = data    
-       this.cat_id = this.selected_category.id  
-       console.log(this.cat_id) 
+       this.selected_category = data
+       this.cat_id = this.selected_category.id
+       console.log(this.cat_id)
        this.productMasterFrom.controls['categoryNameFormControl'].setValue(data.category_name);
        this.getProductCode();
     }
@@ -186,7 +186,7 @@ export class ManageProductComponent implements OnInit {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.sub_categories })
     .onClose.subscribe(data => {
       this.searchSubCategory=""
-       this.selected_sub_ategory = data       
+       this.selected_sub_ategory = data
        this.productMasterFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);
        this.getProductCode();
     }
@@ -197,7 +197,7 @@ export class ManageProductComponent implements OnInit {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.brand_list })
     .onClose.subscribe(data => {
       this.searchBrand=""
-       this.selected_brand = data       
+       this.selected_brand = data
        this.productMasterFrom.controls['brandNameFormControl'].setValue(data.brand_name);
        this.getProductCode();
     }
@@ -211,8 +211,8 @@ export class ManageProductComponent implements OnInit {
           this.product_list = data;
           this.dailog_ref= this.dialogService.open(dialog, { context: this.product_list })
           .onClose.subscribe(data => {
-             this.selected_product = data       
-             this.productMasterFrom.controls['productsListFormControl'].setValue(data.product_code);       
+             this.selected_product = data
+             this.productMasterFrom.controls['productsListFormControl'].setValue(data.product_code);
           }
           );
       },
@@ -222,7 +222,7 @@ export class ManageProductComponent implements OnInit {
     )
 
 
-   
+
   }
 
   unit_open(dialog: TemplateRef<any>, type) {
@@ -233,10 +233,10 @@ export class ManageProductComponent implements OnInit {
           .onClose.subscribe(data => {
             this.searchUnit=""
             console.log(data);
-             this.selected_unit = data      
-             type.unit = data.PrimaryUnit 
+             this.selected_unit = data
+             type.unit = data.PrimaryUnit
              type.unit_id = data.id
-             // this.productMasterFrom.controls['productsListFormControl'].setValue(data.product_code);       
+             // this.productMasterFrom.controls['productsListFormControl'].setValue(data.product_code);
           }
           );
       },
@@ -258,11 +258,11 @@ export class ManageProductComponent implements OnInit {
     const index: number = this.product_attributes.indexOf(item);
     if (index !== -1) {
         this.product_attributes.splice(index, 1);
-    } 
+    }
   }
 
   add_types():any {
-    
+
     const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:0,unit_price:'',safety_stock_level:'',serial_number:''}
     this.product_packingtypes.push(data)
   }
@@ -271,9 +271,9 @@ export class ManageProductComponent implements OnInit {
     const index: number = this.product_packingtypes.indexOf(item);
     if (index !== -1) {
         this.product_packingtypes.splice(index, 1);
-    } 
+    }
   }
- 
+
   change_tab(){
     if (this.productMasterFrom.valid) {
         this.IsProductImage = !this.IsProductImage;
@@ -361,7 +361,7 @@ export class ManageProductComponent implements OnInit {
       (data) => {
         if(this.product_id){
           this.nbtoastService.success("Product Updated Successfully")
-          
+
         }
         else{
         this.nbtoastService.success("Product Saved Successfully")
@@ -373,9 +373,9 @@ export class ManageProductComponent implements OnInit {
       },
       (error) =>{
         console.log(error);
-        
-        if(error === "exist"){
-          this.nbtoastService.danger("Product Name Or Serial Number already"+" "+error);
+
+        if(error.status === "exists"){
+          this.nbtoastService.danger("Product Name Or Serial Number already Exists");
           }
           else{
             this.nbtoastService.danger(error);
@@ -398,21 +398,21 @@ export class ManageProductComponent implements OnInit {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
-      // just checking if it is an image, ignore if you want      
-      for(let i=0 ; i < event.target.files.length ;i++){ 
+      // just checking if it is an image, ignore if you want
+      for(let i=0 ; i < event.target.files.length ;i++){
         this.selectedFiles.push(<File>event.target.files[i]);
       }
       reader.readAsDataURL(file);
       reader.onload = () => {
-   
+
         this.imgSrc = reader.result as string;
-     
+
         this.productMasterFrom.patchValue({
           fileSource: reader.result
         });
-   
+
       };
-      
+
     }
   }
 
@@ -439,7 +439,7 @@ export class ManageProductComponent implements OnInit {
   calculate_tax(item): void {
     item.sell_price = (parseFloat(item.unit_price) + ((parseFloat(item.unit_price) * parseFloat(item.tax))/100.00)).toFixed(2)
   }
-  
+
   delete_image(product_id, image_id): void {
     const data = { product_id: product_id, image_id : image_id}
     this.inventoryService.deleteImage(data).subscribe(
@@ -474,8 +474,8 @@ onSubmits() {
       return this.submitted = false;
     }
 
-  
-  
+
+
 }
 
 

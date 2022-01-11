@@ -74,7 +74,7 @@
                 </div>
             </div> <br> -->
             <nb-card accent="info">
-                <nb-card-header>Add Service</nb-card-header>
+                <nb-card-header>Add Service<br><div style="color: red;">NOTE: Set AM / PM first, then set time values</div></nb-card-header>
                 <nb-card-body>
                     <button nbButton (click)="open(dialog_service);" status="success" size="small" >Add </button> <span style="color: red;">*</span>&nbsp;&nbsp;
 
@@ -92,20 +92,8 @@
 
                                 <td><input class="form-control form-control-sm"  style="width: 10em;" [ngModelOptions]="{standalone: true}" placeholder="" readonly [(ngModel)]="item.service_name" value={{item.service_name}}/></td>
                                 <td><input class="form-control form-control-sm"  style="width: 10em;" [ngModelOptions]="{standalone: true}" (click)="stylist_open(stylist_dialog,item)" [(ngModel)]="item.stylist_name"  placeholder="" readonly value={{item.stylist_name}}/></td>
-                                <td><input type="time" nbInput #startTime value={{item.start_time}} (change)="dateCheckStart(startTime.value, item)" />
-                                  <!--<div *ngIf="submitted && f.startTimeFormControl.errors" class="invalid-feedback">
-                                      <div *ngIf="submitted && f.startTimeFormControl.errors.required"> Start Time is Required</div>
-
-                                  </div>
-                                -->
-                                </td>
-                                <td><input type="time" nbInput #endTime value={{item.end_time}} (change)="dateCheckEnd(endTime.value, item)" />
-                                  <!-- <div *ngIf="submitted && f.endTimeFormControl.errors" class="invalid-feedback">
-                                      <div *ngIf="submitted && f.endTimeFormControl.errors.required"> End Time is Required</div>
-
-                                  </div>
-                                -->
-                                </td>
+                                <td><input type="time" nbInput #startTime value={{item.start_time}} (change)="dateCheckStart(startTime.value, item)" /></td>
+                                <td><input type="time" nbInput #endTime value={{item.end_time}} (keyup)="dateCheckEnd(endTime, endTime.value, item)" (change)="dateCheckEnd(endTime, endTime.value, item)" /></td>
                             </tr>
 
                         </tbody>

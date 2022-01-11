@@ -13,6 +13,7 @@ import { AmountToWordPipe } from '../amount-to-word.pipe';
 })
 export class InvoicePageComponent implements OnInit {
   invoice_details: any=[];
+  invoice_list: any=[];
   invoice_data: any;
   grandTotal: any=0.00;
   customer_name: any;
@@ -52,9 +53,104 @@ printBtn.onclick = function () {
 };
 
     let invoice = this.route.snapshot.queryParams['id']
+    let e_invoice = this.route.snapshot.queryParams['eid']
+    let r_invoice = this.route.snapshot.queryParams['rid']
 
     if(invoice){
       this.orderservice.getPODetails(invoice).subscribe(
+        (data)=>{
+
+          console.log("invoice details"+data)
+          this.invoice_details = data
+          console.log("invoice date:"+this.invoice_details.po_date)
+          this.grandTotal = this.invoice_details.grand_total
+          this.customer_name = this.invoice_details.customer__customer_name
+          this.customer_addr = this.invoice_details.customer__customer_address
+          this.store_name = this.invoice_details.store__store_name
+          this.invoice_no = this.invoice_details.invoice_no
+          this.invoice_date = this.invoice_details.po_date
+          let fDate = new Date(this.invoice_date);
+          console.log('formatted DATE:', fDate)
+          //let fDate = new Date(this.invoice_date);
+          //let fDate2 = fDate.getFullYear()+"-"+(fDate.getMonth()+1)+"-"+fDate.getDate()+" "+fDate.getHours()+":"+fDate.getMinutes()+":"+fDate.getSeconds();
+          let fDate2 = fDate.getFullYear()+"-"+(fDate.getMonth()+1)+"-"+fDate.getDate();
+          this.invoice_date_format = fDate2;
+          //this.invoice_date_format = this.invoice_date;
+          this.customer_number = this.invoice_details.customer__phone_number
+
+          data.order_details.forEach(element =>{
+            this.invoice_list.push({
+            id: element.id,
+            qty: element.qty,
+            unit_price: element.unit_price,
+            discount_price: element.discount_price,
+            gst: element.gst,
+            description: element.product_name,
+            barcode: element.barcode,
+            gst_amount: element.gst_amount,
+            subtotal_amount: element.subtotal_amount
+          }
+            )
+          })
+        }
+      )
+    }
+
+    if(e_invoice){
+      this.orderservice.getPODetailsExchange(e_invoice).subscribe(
+        (data)=>{
+
+          console.log("invoice details"+data)
+          this.invoice_details = data
+          console.log("invoice date:"+this.invoice_details.po_date)
+          this.grandTotal = this.invoice_details.grand_total
+          this.customer_name = this.invoice_details.customer__customer_name
+          this.customer_addr = this.invoice_details.customer__customer_address
+          this.store_name = this.invoice_details.store__store_name
+          this.invoice_no = this.invoice_details.exchange_number
+          this.invoice_date = this.invoice_details.exchange_date
+          let fDate = new Date(this.invoice_date);
+          console.log('formatted DATE:', fDate)
+          let fDate2 = fDate.getFullYear()+"-"+(fDate.getMonth()+1)+"-"+fDate.getDate();
+          this.invoice_date_format = fDate2;
+          //let fDate2 = fDate.getFullYear()+"-"+(fDate.getMonth()+1)+"-"+fDate.getDate()+" "+fDate.getHours()+":"+fDate.getMinutes()+":"+fDate.getSeconds();
+          //this.invoice_date_format = this.formatDate(fDate2);
+          //this.invoice_date_format = this.invoice_date;
+          this.customer_number = this.invoice_details.customer__phone_number
+
+          console.log("LiST", data.order_details)
+          data.order_details.forEach(element =>{
+            let name = element.product__product_name? element.product__product_name: element.service__service_name;
+            this.invoice_list.push({
+            id: element.id,
+            qty: element.qty,
+            unit_price: element.unit_price,
+            discount_price: element.discount_price,
+            gst: element.gst,
+            description: name,
+            barcode: element.barcode,
+            gst_amount: element.gst_amount,
+            subtotal_amount: element.subtotal_amount
+          }
+            )
+          })
+          /*this.data = JSON.stringify(data)
+
+          let da =JSON.parse(this.data)
+          console.log("DDATA")
+          console.log(da)
+          da.forEach(element => {
+            console.log(element)
+            this.sum += element.discount_price;
+          });
+          console.log(this.sum)
+          */
+        }
+      )
+    }
+
+    if(r_invoice){
+      this.orderservice.getPODetailsRefund(r_invoice).subscribe(
         (data)=>{
 
           console.log("invoice details"+data)
@@ -76,17 +172,9 @@ printBtn.onclick = function () {
           let da =JSON.parse(this.data)
           da.forEach(element => {
             console.log(element)
-
             this.sum += element.discount_price;
-
-
           });
           console.log(this.sum)
-
-
-
-
-
         }
       )
     }

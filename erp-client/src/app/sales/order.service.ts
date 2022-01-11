@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class OrderService {
 
   constructor(
-    private router: Router,    
+    private router: Router,
     private http: HttpClient
   ) { }
 
@@ -43,6 +43,14 @@ export class OrderService {
 
   public getPODetails(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_po_details?id=${id}`)
+  }
+
+  public getPODetailsExchange(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_po_details_exchange?id=${id}`)
+  }
+
+  public getPODetailsRefund(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_po_details_refund?id=${id}`)
   }
 
   public deleteProductFromPO(data) {

@@ -74,6 +74,22 @@ def get_po_details(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
+def get_po_details_exchange(request):
+    purchase_service = OrderService()
+    po_id = request.query_params['id']
+    pr_obj = purchase_service.get_po_details_exchange(po_id)
+    return JsonResponse(pr_obj, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_po_details_refund(request):
+    purchase_service = OrderService()
+    po_id = request.query_params['id']
+    pr_obj = purchase_service.get_po_details_refund(po_id)
+    return JsonResponse(pr_obj, safe=False)        
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
 def get_pos_list(request):
     purchase_service = OrderService()
     pos = list(purchase_service.get_pos_list())

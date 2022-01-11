@@ -102,6 +102,9 @@
                                 {{ o.value }}
                             </nb-option>
                         </nb-select>
+                        <div *ngIf="submitted && f.transportTypeFormControl.errors" class="invalid-feedback">
+                          <div *ngIf="f.transportTypeFormControl.errors.required">Transport type is required</div>
+                      </div>
                     </div>
                 </div><br>
                 <div class="form-row">
