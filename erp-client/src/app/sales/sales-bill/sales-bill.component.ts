@@ -756,8 +756,16 @@ export class SalesBillComponent implements OnInit {
   }
 
   advanceAmountUpdate(){
+    let remainingAdvanceAmount = 0.0;
+    //if(parseFloat(this.advanceAmount) > 0) {
+
+      if(parseFloat(this.advanceAmount) > (parseFloat(this.grandTotal))) {
+        remainingAdvanceAmount = (parseFloat(this.advanceAmount) - parseFloat(this.grandTotal)) ;
+      }
+   // }
+
     let data = {
-      'advance_amount':this.advanceAmount,
+      'advance_amount': remainingAdvanceAmount,
       'id':this.customer_id
     }
     this.adminService.updateAdvanceAmount(data).subscribe(
