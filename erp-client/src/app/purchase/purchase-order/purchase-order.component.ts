@@ -189,14 +189,14 @@ export class PurchaseOrderComponent implements OnInit {
           console.log(data.order_details)
           data.order_details.forEach(element => {
 
-            if(element.qty != element.order_qty){
+            //if(element.qty != element.order_qty){
               this.selected_product_list.push({
                 ...element,
                 status: element.status.toString(),
                 unit_name: element.unit__PrimaryUnit,
 
               })
-            }
+            //}
 
           });
           this.selected_pr_data = {
@@ -323,8 +323,7 @@ export class PurchaseOrderComponent implements OnInit {
             product_code: data.product_code,
             product_name: data.product_name,
             description: data.product_description,
-            qty: data.product_price__qty,
-            // finished_qty: data.product_price__qty,
+            qty: 0,
             unit_id: data.product_price__unit,
             delivery_date: '',
             unit_price: data.product_price__unit_price,
@@ -339,6 +338,7 @@ export class PurchaseOrderComponent implements OnInit {
             status: "false",
             order_qty:0,
             finished_qty:0,
+            //finished_qty: data.product_price__qty,
 
           }
           this.selected_product_list.push(item);
@@ -431,6 +431,10 @@ export class PurchaseOrderComponent implements OnInit {
 
   }
 
+  validateOrderQty() {
+
+  }
+
   calculate_total(): any {
     this.sub_total = 0;
     console.log(this.selected_product_list);
@@ -519,7 +523,7 @@ export class PurchaseOrderComponent implements OnInit {
                 console.log(pr_data.selected_product_list[0].product__product_price__unit_price)
                 this.store_id = pr_data.store_id;
                 this.pr_products1 = pr_data['selected_product_list']
-                console.log(this.pr_products1)
+                console.log("Slected Prod:",this.pr_products1)
                 this.pr_products1.forEach(element => {
                   console.log(element)
                   console.log(element.finished_qty)
@@ -531,6 +535,7 @@ export class PurchaseOrderComponent implements OnInit {
 
                   }
                 });
+                this.pr_products = this.pr_products1;
                 console.log("filtered list", this.pr_products)
                 if(this.pr_products.length == 0)
                 {
@@ -550,7 +555,7 @@ export class PurchaseOrderComponent implements OnInit {
                     product_name: element.product_name,
                     description: element.product_description,
                     qty: element.required_qty,
-                    order_qty:0,
+                    order_qty: 0,
                     finished_qty:element.finished_qty,
                     unit_id: element.unit,
                     unit_name: element.unit__PrimaryUnit,
@@ -647,6 +652,12 @@ export class PurchaseOrderComponent implements OnInit {
           formdata.append('terms_conditions', this.purchaseOrderForm.controls['termsConditionFormControl'].value);
 
           this.selected_product_list.forEach(element => {
+            // let tres = (parseInt(element.qty) + parseInt(element.finished_qty))
+            // if(parseInt(element.order_qty) > tres){
+            //   this.nbtoastService.danger('order quantity should not be greater than required quantity');
+            //   break if qty is greater
+            //   return;
+            // }
             element = moment(element.delivery_date).format("YYYY-MM-DD")
           });
           formdata.append('po_products', JSON.stringify(this.selected_product_list))

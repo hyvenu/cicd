@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
@@ -37,7 +38,9 @@ export class ManageGrnComponent implements OnInit {
   sgst: any = 0;
   cgst: any = 0;
   igst: any = 0;
+  pack_amount: any = 0;
   sub_total: any = 0;
+  sub_total_pack: any = 0;
   grand_total: number = 0;
   invoiceDoc = [];
   imgSrc: any;
@@ -68,7 +71,10 @@ export class ManageGrnComponent implements OnInit {
   FileName1: any;
   DocFileExist: boolean=false;
 
-
+  totalQuantityReceived: number = 0.0;
+  totalRejectedQuantity: number = 0.0;
+  totalAcceptedQuantity: number = 0.0;
+  totalRejectedAmount: number = 0.0;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -97,6 +103,7 @@ export class ManageGrnComponent implements OnInit {
 
     this.IsGrnInfo = true;
     this.selected_product_list = [];
+    this.pack_amount = 0;
     this.sub_total = 0;
     this.sgst = 0;
     this.cgst = 0;
@@ -104,6 +111,7 @@ export class ManageGrnComponent implements OnInit {
     this.grand_total = 0;
     this.grnMasterForm = this.formBuilder.group({
       grnNumberFormControl: ['', [Validators.required]],
+      grnBatchNumberFormControl: ['', [Validators.required]],
       grnDateFormControl: ['', [Validators.required]],
       invoiceNumberFormControl: ['', [Validators.required]],
       invoiceDateFormControl: ['', [Validators.required]],
@@ -125,10 +133,11 @@ export class ManageGrnComponent implements OnInit {
     if (param) {
       this.purchaseService.getGRNDetails(param).subscribe(
         (data) => {
-          console.log(data)
+          console.log("grn data", data)
           this.grn_id = data.id
           // this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
           this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
+          this.grnMasterForm.controls['grnBatchNumberFormControl'].setValue(data.batch_num);
           this.grnMasterForm.controls['grnNumberFormControl'].setValue(data.grn_code);
           this.grnMasterForm.controls['grnDateFormControl'].setValue(moment(data.grn_date));
           this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
@@ -156,8 +165,9 @@ export class ManageGrnComponent implements OnInit {
 
           console.log(this.SelectedPo)
 
-
+          this.pack_amount = data.packing_amount;
           this.sub_total = data.sub_total;
+          this.sub_total_pack = (Number(data.sub_total) + Number(data.packing_amount));
           this.grand_total = (data.grand_total);
           this.sgst = parseFloat(data.sgst);
           this.cgst = parseFloat(data.cgst);
@@ -186,33 +196,48 @@ export class ManageGrnComponent implements OnInit {
           // });
 
 
+
+          // this.poPro.push({
+          //   ...element,
+          //   status:element.status.toString()
+          // })
+
+
           this.purchaseService.getPODetails(this.SelectedPo.id).subscribe(
             (po) => {
               this.poProduct = po
               console.log('po',po)
-              po.order_details.forEach(element => {
-                    console.log('po ele',element)
+              //po.order_details.forEach(element => {
+                    //console.log('po ele',element)
                 data.product_list.forEach(pro => {
-                  console.log(pro);
+                  console.log("pro", pro);
 
-                  if (pro.product == element.product_id) {
+                  let rej_amt = (Number(pro.rejected_qty) * Number(pro.unit_price));
+
+                  this.totalQuantityReceived += Number(pro.received_qty);
+                  this.totalRejectedQuantity += Number(pro.rejected_qty);
+                  this.totalAcceptedQuantity += Number(pro.accepted_qty);
+                  this.totalRejectedAmount += Number(rej_amt);
+
+                  //if (pro.product == element.product_id) {
                     console.log('dd', pro)
-                    if (pro.accepted_qty != pro.received_qty) {
+                    //if (pro.accepted_qty != pro.received_qty) {
                       this.selected_product_list.push({
                         ...pro,
                         expiry_date:moment(pro.expiry_date),
-                        product_id:pro.product
+                        product_id:pro.product,
+                        rejected_amount: rej_amt,
                       })
-                    }
+                    //}
 
-                   this.poPro.push({
-                     ...element,
-                     status:element.status.toString()
-                   })
+                  //  this.poPro.push({
+                  //    ...element,
+                  //    status:element.status.toString()
+                  //  })
 
-                  }
+                  //}
                 })
-              });
+              //});
             })
             console.log("up product", this.selected_product_list)
           console.log("up", this.poPro)
@@ -254,14 +279,23 @@ export class ManageGrnComponent implements OnInit {
 
   onChange(date) {
 
-        console.log(new Date(date))
-        this.dateofdata = new Date(date)
-        console.log(this.dateofdata)
-        console.log(this.current_date)
-        if (moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD")) {
-          this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date");
-          this.date1.nativeElement.value = "";
-        }
+    let grnDate= new Date(date);
+    //this.grnMasterForm.controls['grnDateFormControl'].setValue(moment(data.grn_date));
+    let inv_date = new Date(this.grnMasterForm.controls['invoiceDateFormControl'].value);
+
+    if (moment(grnDate).format("yyyy-MM-DD") < moment(inv_date).format("yyyy-MM-DD")) {
+      this.nbtoastService.danger("GRN Date should be greater or equal to invoice date");
+      this.date1.nativeElement.value = "";
+    }
+
+        // console.log(new Date(date))
+        // this.dateofdata = new Date(date)
+        // console.log(this.dateofdata)
+        // console.log(this.current_date)
+        // if (moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD")) {
+        //   this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date");
+        //   this.date1.nativeElement.value = "";
+        // }
 
 
 
@@ -313,7 +347,7 @@ export class ManageGrnComponent implements OnInit {
   po_open(dialog: TemplateRef<any>) {
     this.purchaseService.getPOList().subscribe(
       (data) => {
-        this.po_list = data;
+        this.po_list = data
         console.log(this.po_list);
         this.dailog_ref = this.dialogService.open(dialog, { context: this.po_list })
           .onClose.subscribe(data => {
@@ -345,7 +379,6 @@ export class ManageGrnComponent implements OnInit {
                     console.log('po pro', element)
                     let aa = element.accepted_qty + element.rejected_qty;
 
-                    console.log(element)
                     if (element.status == false) {
                       console.log('false')
                       if (element.accepted_qty > 0) {
@@ -367,9 +400,9 @@ export class ManageGrnComponent implements OnInit {
                               description: product['description'],
                               hsn_code: product['hsn_code'],
                               amount: element['amount'],
-                              po_qty: element['qty'],
+                              po_qty: element['order_qty'],
                               //received_qty: element['accepted_qty'],
-                              received_qty: element['finished_qty'],
+                              received_qty: element['order_qty'],
                               rejected_qty: 0,
                               //accepted_qty: element['accepted_qty'],
                               accepted_qty: element['finished_qty'],
@@ -380,6 +413,7 @@ export class ManageGrnComponent implements OnInit {
                               total: (Number(element['amount']) + Number(element['gst_amount'])),
                               batch_code: '',
                               expiry_date: null,
+                              rejected_amount: 0
                             };
                             this.selected_product_list.push(item)
                             this.calculate(item)
@@ -403,10 +437,10 @@ export class ManageGrnComponent implements OnInit {
                               description: product['description'],
                               hsn_code: product['hsn_code'],
                               amount: element['amount'],
-                              po_qty: element['qty'],
-                              received_qty: element['qty'],
+                              po_qty: element['order_qty'],
+                              received_qty: element['order_qty'],
                               rejected_qty: 0,
-                              accepted_qty: element['qty'],
+                              accepted_qty: element['finished_qty'],
                               unit_id: element['unit_id'],
                               unit_price: element['unit_price'],
                               gst: element['gst'],
@@ -414,6 +448,7 @@ export class ManageGrnComponent implements OnInit {
                               total: (Number(element['amount']) + Number(element['gst_amount'])),
                               batch_code: '',
                               expiry_date: null,
+                              rejected_amount: 0
                             };
                             this.selected_product_list.push(item)
                             this.calculate(item)
@@ -464,18 +499,37 @@ export class ManageGrnComponent implements OnInit {
     }
   }
 
+  check_qty_rec(ref, rec_qty, item) {
+
+    if(parseInt(rec_qty) > parseInt(item.po_qty)) {
+      this.nbtoastService.danger("Cannot be greater than Order Quantity", "Check Quantity Received");
+      ref.value = item.po_qty;
+    }
+  }
+
+  calculate_pack_amt(pack_amt) {
+    this.pack_amount = pack_amt;
+    this.sub_total_pack = (parseFloat(this.pack_amount) + parseFloat(this.sub_total));
+    this.grand_total = (parseFloat(this.pack_amount) + parseFloat(this.sub_total) + parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst));
+  }
 
   calculate(item) {
 
 
     item.accepted_qty = item.received_qty - item.rejected_qty;
-    item.amount = item.accepted_qty * item.unit_price;
+    item.amount = item.received_qty * item.unit_price;
     item.gst_amount = item.amount * item.gst / 100;
     item.total = item.amount + item.gst_amount;
+    item.rejected_amount = item.rejected_qty * item.unit_price;
 
     this.sub_total = 0;
     this.total_gst = 0;
-    let st = 0;
+    this.totalQuantityReceived = 0;
+    this.totalRejectedQuantity = 0;
+    this.totalAcceptedQuantity = 0;
+    this.totalRejectedAmount = 0;
+
+    let st: number = 0;
 
     this.selected_product_list.forEach(element => {
       console.log("chnaged event called " + this.sub_total);
@@ -483,6 +537,12 @@ export class ManageGrnComponent implements OnInit {
       st = (st + Number(element.amount));
       console.log("chnaged event called " + this.sub_total);
       this.total_gst = this.total_gst + Number(element.gst_amount);
+
+      this.totalQuantityReceived += Number(element.received_qty);
+      this.totalRejectedQuantity += Number(element.rejected_qty);
+      this.totalAcceptedQuantity += Number(element.accepted_qty);
+      this.totalRejectedAmount += Number(element.rejected_amount);
+
     });
     this.sub_total = st;
     if (this.vendor_state_code == '29') {
@@ -493,7 +553,8 @@ export class ManageGrnComponent implements OnInit {
       this.sgst = 0;
       this.cgst = 0;
     }
-    this.grand_total = (parseFloat(this.sub_total) + parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst))
+    this.sub_total_pack = (parseFloat(this.pack_amount) + parseFloat(this.sub_total));
+    this.grand_total = (parseFloat(this.pack_amount) + parseFloat(this.sub_total) + parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst));
     console.log(this.grand_total)
     this.check_acc_rej(item)
     this.calculatePoProduct();
@@ -644,6 +705,7 @@ export class ManageGrnComponent implements OnInit {
         formData.append('po', this.SelectedPo.id)
         formData.append('grn_date', moment(this.grnMasterForm.controls['grnDateFormControl'].value).format("YYYY-MM-DD"));
         formData.append('po_number', this.grnMasterForm.controls['poNumberFormControl'].value);
+        formData.append('batch_number', this.grnMasterForm.controls['grnBatchNumberFormControl'].value);
         formData.append('invoice_number', this.grnMasterForm.controls['invoiceNumberFormControl'].value);
         formData.append('invoice_date', moment(this.grnMasterForm.controls['invoiceDateFormControl'].value).format("YYYY-MM-DD"));
         formData.append('vendor_code', this.vendor_code);
@@ -679,6 +741,7 @@ export class ManageGrnComponent implements OnInit {
         });
 
         formData.append('product_list', JSON.stringify(this.selected_product_list));
+        formData.append('packing_amount', this.pack_amount.toString());
         formData.append('sub_total', this.sub_total.toString());
         formData.append('grand_total', this.grand_total.toString());
         formData.append('sgst', this.sgst.toString());

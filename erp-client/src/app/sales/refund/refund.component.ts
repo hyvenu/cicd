@@ -377,7 +377,7 @@ export class RefundComponent implements OnInit {
       (data) => {
         // this.billPaid()
         console.log(data)
-        //this.nbtoastService.success("Invoice Saved Successfully")
+        this.nbtoastService.success("Invoice Saved Successfully")
 
         //this.routes.navigateByUrl("/InvoicePage?rid=" + data)
 

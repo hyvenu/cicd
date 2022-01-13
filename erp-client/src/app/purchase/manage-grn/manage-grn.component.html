@@ -17,6 +17,16 @@
                         [readonly]="true" />
                 </div>
                 <div class="form-group col-md-3">
+                  <label for="invoiceDate">Invoice Date<span style="color: red;">*</span></label>
+                  <input nbInput formControlName="invoiceDateFormControl" id="invoiceDate" name="InvoiceDate"
+                      [nbDatepicker]="invoicedatepicker"  placeholder="Invoice Date"
+                      [ngClass]="{ 'is-invalid': submitted && f.invoiceDateFormControl.errors }" class=" form-control"/>
+                      <div *ngIf="submitted && f.invoiceDateFormControl.errors" class="invalid-feedback">
+                          <div *ngIf="f.invoiceDateFormControl.errors.required">Invoice Date is required</div>
+                      </div>
+                  <nb-datepicker format="yyyy-MM-DD"  #invoicedatepicker></nb-datepicker>
+              </div>
+                <div class="form-group col-md-3">
                     <label for="grnDate">GRN Date<span style="color: red;">*</span></label>
                     <input nbInput formControlName="grnDateFormControl" id="grnDate" name="grnDate" [nbDatepicker]="datepicker" (ngModelChange)="onChange(datepicker.value)"
                         placeholder="GRN Date" #date1   [ngClass]="{ 'is-invalid': submitted && f.grnDateFormControl.errors }" class=" form-control"/>
@@ -25,38 +35,29 @@
                         </div>
                     <nb-datepicker format="yyyy-MM-DD"  #datepicker></nb-datepicker>
                 </div>
-                <div class="form-group col-md-3">
-                    <label for="invoiceDate">Invoice Date<span style="color: red;">*</span></label>
-                    <input nbInput formControlName="invoiceDateFormControl" id="invoiceDate" name="InvoiceDate"
-                        [nbDatepicker]="invoicedatepicker"  placeholder="Invoice Date"
-                        [ngClass]="{ 'is-invalid': submitted && f.invoiceDateFormControl.errors }" class=" form-control"/>
-                        <div *ngIf="submitted && f.invoiceDateFormControl.errors" class="invalid-feedback">
-                            <div *ngIf="f.invoiceDateFormControl.errors.required">Invoice Date is required</div>
-                        </div>
-                    <nb-datepicker format="yyyy-MM-DD"  #invoicedatepicker></nb-datepicker>
-                </div>
+
 
             </div><br>
 
             <script>
 
-                var down = document.getElementById('geeks');
-           function gfg() {
-               var grndate =
-                   document.getElementById('grnDate').value;
-               var indate =
-                   document.getElementById('invoiceDate').value;
-               var Gdate = new Date(grndate);
-               var Idate = new Date(indate);
+          //       var down = document.getElementById('geeks');
+          //  function gfg() {
+          //      var grndate =
+          //          document.getElementById('grnDate').value;
+          //      var indate =
+          //          document.getElementById('invoiceDate').value;
+          //      var Gdate = new Date(grndate);
+          //      var Idate = new Date(indate);
 
-               if(Gdate.setHours(0, 0, 0, 0) <=
-                       Idate.setHours(0, 0, 0, 0))
-               {
-                   down.innerHTML =
-                       "The input date Cannot be less than GRN Date ";
-               }
+          //      if(Gdate.setHours(0, 0, 0, 0) <=
+          //              Idate.setHours(0, 0, 0, 0))
+          //      {
+          //          down.innerHTML =
+          //              "The input date Cannot be less than GRN Date ";
+          //      }
 
-           }
+          //  }
        </script>
             <div class="form-row">
                 <div class="form-group col-md-3">
@@ -70,12 +71,20 @@
                 <div class="form-group col-md-3">
                     <label for="poNumber">PO Number<span style="color: red;">*</span></label>
                     <input nbInput formControlName="poNumberFormControl" name="poNumber" placeholder="PO Number"
-                        (keypress)="po_open(dialog)"    (click)="po_open(dialog)" readonly [ngClass]="{ 'is-invalid': submitted && f.poNumberFormControl.errors }" class=" form-control"/>
+                        (keypress)="po_open(dialog)" (click)="po_open(dialog)" readonly [ngClass]="{ 'is-invalid': submitted && f.poNumberFormControl.errors }" class=" form-control"/>
                         <div *ngIf="submitted && f.poNumberFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.poNumberFormControl.errors.required">PO Number is required</div>
                         </div>
                     <!-- <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="pr_number"  /> -->
                 </div>
+                <div class="form-group col-md-3">
+                  <label for="grnDate">Batch Number<span style="color: red;">*</span></label>
+                  <input nbInput formControlName="grnBatchNumberFormControl" id="grnBatch" name="grnBatch"
+                      placeholder="Batch Number" [ngClass]="{ 'is-invalid': submitted && f.grnBatchNumberFormControl.errors }" class=" form-control"/>
+                      <div *ngIf="submitted && f.grnBatchNumberFormControl.errors" class="invalid-feedback">
+                          <div *ngIf="f.grnBatchNumberFormControl.errors.required">Batch number is required</div>
+                      </div>
+              </div>
 
             </div><br>
             <p id = "geeks" ></p>
@@ -155,25 +164,26 @@
                             <th>Rejected Quantity</th>
                             <th>Accepted Quantity</th>
                             <th>Unit</th>
-                            <th>PO Quantity</th>
+                            <th>Order Quantity</th>
                             <th>Unit Price</th>
                             <th>Total Amount</th>
                             <th>Item Description</th>
                             <th>GST %</th>
                             <th>GST Amount</th>
                             <th>Total </th>
-                            <th>Batch</th>
+                            <!--<th>Batch</th>-->
                             <th>Expiry date</th>
+                            <th>Rejected Amount</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of selected_product_list; let i=index" [class.hidden]="!item.active">
+                            <tr *ngFor="let item of selected_product_list; let i=index" >
                                 <!-- <td><button nbButton (click)="delete(item);" status="danger" size="small"
                                         *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td> -->
                                 <td><input nbInput placeholder=""  value={{i+1}} readonly/></td>
                                 <td><input nbInput placeholder=""  value={{item.product_code}} readonly /></td>
                                 <td><input nbInput placeholder=""  value={{item.product_name}} readonly /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.hsn_code"  readonly/></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}"  [(ngModel)]="item.received_qty" (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}"  [(ngModel)]="item.received_qty" (keyup)="check_qty_rec(qty_r, qty_r.value, item)" (change)="calculate(item);" #qty_r /></td>
                                 <td><input type="number"  oninput="validity.valid || (value='')" nbInput placeholder="" [ngModelOptions]="{standalone: true}" min="0" [max]="item.received_qty" [(ngModel)]="item.rejected_qty" (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.accepted_qty" (change)="calculate(item);" readonly/></td>
                                 <!-- <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_id" (change)="calculate(item);" /></td> -->
@@ -183,21 +193,41 @@
                                     </nb-option>
                                 </nb-select></td>
 
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.po_qty" readonly (change)="calculate(item);" /></td>
+                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.po_qty" readonly (change)="calculate(item);"  /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" readonly (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.description" readonly /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" readonly (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly (change)="calculate(item);" /></td>
                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.total" readonly (change)="calculate(item);" /></td>
-                                <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.batch_code" /></td>
-                                <!-- <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" /></td> -->
+                                <!--<td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.batch_code" /></td>
+                                 <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" /></td> -->
                                 <td><input nbInput [ngModelOptions]="{standalone: true}" [(ngModel)]="item.expiry_date" (ngModelChange)="onChanges(datepicker.value,item.expiry_date)" #date [nbDatepicker]="expiry_date_datepicker"
                                     placeholder="Date" />
                                     <!-- <input [nbDatepicker]="datepicker"> -->
                                     <nb-datepicker format="yyyy-MM-DD"  #expiry_date_datepicker></nb-datepicker>
                                     </td>
+                                    <td><input nbInput placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.rejected_amount" readonly /></td>
                             </tr>
+                            <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Total: {{totalQuantityReceived}}</th>
+                            <th>Total: {{totalRejectedQuantity}}</th>
+                            <th>Total: {{totalAcceptedQuantity}}</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Total: {{totalRejectedAmount}}</th>
+                          </tr>
                         </tbody>
                     </table>
                 </nb-card-body>
@@ -205,7 +235,8 @@
                     <table class="table table-hovered">
                         <thead style="font-size: smaller;" >
                             <th>Sub Total Amount</th>
-                            <th></th>
+                            <th>Packing Amount</th>
+                            <th>Total Amount</th>
                             <!-- <th>Total Order Value</th> -->
                             <th>SGST</th>
                             <th>CGST</th>
@@ -214,8 +245,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td> {{ sub_total | currency:'INR' }}</td>
-                                <td></td>
+                              <td> {{ sub_total | currency:'INR' }}</td>
+                              <td><input #pack_amt type="number" min="0" nbInput fieldSize="small" style="width: 8em;" placeholder="Packing amount" [ngModelOptions]="{standalone: true}" [(ngModel)]="pack_amount" (change)="calculate_pack_amt(pack_amt.value);" /></td>
+                                <td> {{ sub_total_pack | currency:'INR' }}</td>
                                 <td> {{ sgst | currency : 'INR' }}  </td>
                                 <td> {{ cgst | currency : 'INR' }} </td>
                                 <td> {{ igst | currency : 'INR' }} </td>
@@ -238,7 +270,7 @@
                             </a>
                         </div>
                     </div><br>
-                    <button nbButton (click)="saveGRN();" status="success" >Save</button>
+                    <button *ngIf="selected_product_list.length > 0" nbButton (click)="saveGRN();" status="success" >Save</button>
                 </nb-card-footer>
             </nb-card>
         </form>

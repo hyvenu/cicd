@@ -444,6 +444,8 @@ class PurchaseService:
         grn_req.po_id = grn_data['po']
         grn_req.grn_date = grn_data['grn_date']
         grn_req.po_number = grn_data['po_number']
+        grn_req.batch_num = grn_data['batch_number']
+        grn_req.packing_amount = grn_data['packing_amount']
         grn_req.invoice_number = grn_data['invoice_number']
         grn_req.invoice_date = grn_data['invoice_date']
         grn_req.grn_status = grn_data['grn_status']
@@ -492,7 +494,7 @@ class PurchaseService:
             grn_product.gst = item['gst']
             grn_product.gst_amount = item['gst_amount']
             grn_product.total = item['total']
-            grn_product.batch_code = item['batch_code']
+            #grn_product.batch_code = item['batch_code']
             grn_product.expiry_date = item['expiry_date']
             grn_product.save()
 
@@ -502,7 +504,8 @@ class PurchaseService:
                 ps.product_id = item['product_id']
                 ps.store_id = grn_data['store_id']
                 ps.unit_id = item['unit_id']
-                ps.batch_number = item['batch_code']
+                #ps.batch_number = item['batch_code']
+                ps.batch_number = grn_req.batch_num
                 ps.batch_expiry = grn_product.expiry_date
                 ps.quantity = item['accepted_qty']
                 ps.save()
@@ -518,6 +521,7 @@ class PurchaseService:
             'grn_date',
             'grn_status',
             'po_number',
+            'batch_num',
             'invoice_number',
             'invoice_date',
             'vendor',
@@ -537,6 +541,7 @@ class PurchaseService:
             'igst',
             'store_id',
             'invoice_doc',
+            'packing_amount'
 
         )[0]
 
@@ -559,7 +564,7 @@ class PurchaseService:
             'amount',
             'gst_amount',
             'total',
-            'batch_code',
+            #'batch_code',
             'expiry_date',
 
         ))
