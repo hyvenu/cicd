@@ -122,6 +122,7 @@ class GRNMaster(AuditUuidModelMixin):
     sgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     cgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     igst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    rejected_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     invoice_doc = models.ImageField(upload_to="static/upload/grn/invoice_do", null=True, blank=True, default=None)
     store =  models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="grn_store")
     batch_num = models.CharField(max_length=30, null=True)

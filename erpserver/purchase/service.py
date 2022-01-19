@@ -420,7 +420,28 @@ class PurchaseService:
             'terms_conditions',
             'store_id',
         )
-        return list(po_data_list)
+        
+        po_list = list(po_data_list)
+        
+        for po_item in po_list:
+            print("po item", po_item['id'])
+            po_items = PoOrderDetails.objects.filter(po_order_id=po_item['id']).all().values(
+                'order_qty',
+                'accepted_qty'
+            )
+
+            print("items list", po_items)
+
+            to_satisfy = False
+            for item in list(po_items):
+                if (item['order_qty'] != item['accepted_qty']):
+                    to_satisfy = False
+                else:
+                    to_satisfy = True
+
+            po_item['items_to_satisfy'] = to_satisfy
+
+        return po_list
 
     @classmethod
     @transaction.atomic
@@ -464,6 +485,7 @@ class PurchaseService:
         grn_req.sgst = grn_data['sgst']
         grn_req.cgst = grn_data['cgst']
         grn_req.igst = grn_data['igst']
+        grn_req.rejected_total = grn_data['rejected_total']
         grn_req.store_id = grn_data['store_id']
 
         if len(file.getlist('invoiceDoc[]')) > 0:

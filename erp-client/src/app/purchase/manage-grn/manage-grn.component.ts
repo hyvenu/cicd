@@ -747,6 +747,7 @@ export class ManageGrnComponent implements OnInit {
         formData.append('sgst', this.sgst.toString());
         formData.append('cgst', this.cgst.toString());
         formData.append('igst', this.igst.toString());
+        formData.append('rejected_total', this.totalRejectedAmount.toString());
 
 
         if (flag) {

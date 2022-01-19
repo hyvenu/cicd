@@ -84,7 +84,7 @@ $box.prop("checked", false);
                 <td rowspan="11  " colspan="4">
                     <table class="table table-responsive text-wrap">
                     <thead>
-                        <th><button type="button" nbButton size="tiny" (click)="add_items()" status="success">Add</button></th>
+                        <th><button type="button" nbButton size="tiny" (click)="add_items(dialog_product)" status="success">Add</button></th>
 
                         <th>Item Description</th>
                         <th>Quantity</th>
@@ -102,7 +102,7 @@ $box.prop("checked", false);
                             <td><button nbButton (click)="remove_item(item);" status="danger" size="small">X</button></td>
 
                             <td>
-                                <input class="form-control form-control-sm" type="text" #desc  name="{{item.item_description}}" [(ngModel)]="item.item_description"   placeholder="Item Description"  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm" type="text" #desc readonly  name="{{item.item_description}}" [(ngModel)]="item.item_description"   placeholder="Item Description"  [ngModelOptions]="{standalone: true}"
                                     style="width: 10em;" (input)="calculate_price()"
                                     (change)="get_value($event,item)"
                                     (click)="open_product_name(dialog_product,item)"

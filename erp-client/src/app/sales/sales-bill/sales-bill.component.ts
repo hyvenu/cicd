@@ -250,7 +250,7 @@ export class SalesBillComponent implements OnInit {
 
 
 
-  add_items():any {
+  add_items(dialog):any {
 
     const data = {
       service_id:'',
@@ -266,6 +266,8 @@ export class SalesBillComponent implements OnInit {
       tax:''
     }
     this.invoice_items.push(data)
+
+    this.open_product_name(dialog, data)
     //this.calculate_price()
     // this.calculate_gst()
     // this.calculate_totalGst()
@@ -508,7 +510,14 @@ export class SalesBillComponent implements OnInit {
         this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
           .onClose.subscribe(data => {
             this.searchPro = ""
-
+            if(!data)
+            {
+              const index: number = this.invoice_items.indexOf(item);
+              if(this.invoice_items[index].item_description == "") {
+                this.remove_item(item);
+              }
+              return
+            }
             this.selected_product = data
             console.log(this.selected_product)
 
@@ -547,6 +556,13 @@ export class SalesBillComponent implements OnInit {
         this.dailog_ref = this.dialogService.open(dialog, { context: this.multi_product_list })
           .onClose.subscribe(data => {
             this.searchProduct = ""
+            if(!data) {
+              const index: number = this.invoice_items.indexOf(dd);
+              if(this.invoice_items[index].item_description == "") {
+                this.remove_item(dd);
+              }
+              return
+            }
             this.selectedPro = data
             console.log(this.selectedPro)
             this.pro_id = data.product
@@ -556,6 +572,10 @@ export class SalesBillComponent implements OnInit {
             let gstVal: any = (sellPrice * parseFloat(this.selectedPro.tax)) / 100;
             let total: any = sellPrice + gstVal;
             if (this.invoice_items.some(item => item.item_description == this.selected_product.product_name)) {
+              const index: number = this.invoice_items.indexOf(dd);
+              if(this.invoice_items[index].item_description == "") {
+                this.remove_item(dd);
+              }
               this.nbtoastService.danger("product name already exist");
             } else {
                let app_id = "";
@@ -604,6 +624,7 @@ export class SalesBillComponent implements OnInit {
            let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
            let total:any = sellPrice + gstVal;
            if(this.invoice_items.some(item => item.item_description == this.selected_product_data[0].product__product_name)){
+
              this.nbtoastService.danger("product name already exist");
            }else{
 
@@ -645,6 +666,7 @@ export class SalesBillComponent implements OnInit {
     this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
     .onClose.subscribe(data => {
       this.searchPhoneNo = ""
+      if(!data) { return }
       this.invoice_items = []
        this.customer_object = data
        this.customer_id = data.id;

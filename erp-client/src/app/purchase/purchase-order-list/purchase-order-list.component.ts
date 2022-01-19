@@ -19,7 +19,7 @@ export class PurchaseOrderListComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false,      
+      delete: false,
       },
     columns: {
       id: {
@@ -27,7 +27,7 @@ export class PurchaseOrderListComponent implements OnInit {
         hide:true
       },
       po_number: {
-        title: 'PO Number',        
+        title: 'PO Number',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="PurchaseOrder?id=${row.id}">${row.po_number}</a>`;
@@ -45,9 +45,12 @@ export class PurchaseOrderListComponent implements OnInit {
       },
       vendor__vendor_name:{
         title: 'Vendor Name'
+      },
+      items_to_satisfy:{
+        title: 'Finished'
       }
-       
-      
+
+
     },
   };
   podate: any;
@@ -65,6 +68,7 @@ export class PurchaseOrderListComponent implements OnInit {
   ngOnInit(): void {
     this.purchaseService.getPOList().subscribe(
       (data) => {
+        console.log("polist", data)
         this.po_list = data;
         this.podate = moment(data.po_date).format("YYYY-MM-DD")
         console.log(this.podate)
