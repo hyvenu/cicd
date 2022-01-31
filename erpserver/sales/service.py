@@ -1083,3 +1083,47 @@ class OrderService:
         po_prd_object = SalesOrderDetails.objects.get(id=po_prd_id)
         po_prd_object.delete()
         return True
+
+
+    @classmethod
+    def get_sales_bill_list(cls):
+        pos_data_list = SalesOrderRequest.objects.all().values(
+            'id',
+            'po_date',
+            'po_number',
+            "grand_total",
+            "invoice_no"
+        )
+
+        for item in list(pos_data_list):
+            e_count = SalesExchange.objects.filter(invoice_no_id=item['id']).count()
+            r_count = SalesRefund.objects.filter(invoice_no_id=item['id']).count()
+            item['exchange_count'] = e_count
+            item['refund_count'] = r_count
+
+
+        return list(pos_data_list)   
+
+    @classmethod
+    def get_sales_bill_exchange_list(cls):
+        pos_data_list = SalesExchange.objects.all().values(
+            'id',
+            'exchange_number',
+            'exchange_date',
+            "grand_total",
+            "invoice_no__invoice_no"
+        )
+
+        return list(pos_data_list)  
+
+    @classmethod
+    def get_sales_bill_refund_list(cls):
+        pos_data_list = SalesRefund.objects.all().values(
+            'id',
+            'refund_number',
+            'refund_date',
+            "grand_total",
+            "invoice_no__invoice_no"
+        )
+
+        return list(pos_data_list)                          

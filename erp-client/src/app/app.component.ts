@@ -188,6 +188,12 @@ export class AppComponent implements OnInit {
             //   hidden: this.check_permission('sales.view_orderrequest')
             // },
             {
+              title: 'SalesBill List',
+              url: 'SalesBillList', // goes into angular `routerLink`
+              hidden: this.check_permission('sales.view_orderrequest'),
+
+            },
+            {
               title: ' Refund',
               link: 'Refund', // goes into angular `routerLink`
               hidden: this.check_permission('sales.view_orderrequest')

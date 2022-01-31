@@ -60,12 +60,12 @@ printBtn.onclick = function () {
       this.orderservice.getPODetails(invoice).subscribe(
         (data)=>{
 
-          console.log("invoice details"+data)
+          console.log("invoice details",data)
           this.invoice_details = data
           console.log("invoice date:"+this.invoice_details.po_date)
           this.grandTotal = this.invoice_details.grand_total
           this.customer_name = this.invoice_details.customer__customer_name
-          this.customer_addr = this.invoice_details.customer__customer_address
+          this.customer_addr = this.invoice_details.customer__customer_address=="null"?'': this.invoice_details.customer__customer_address
           this.store_name = this.invoice_details.store__store_name
           this.invoice_no = this.invoice_details.invoice_no
           this.invoice_date = this.invoice_details.po_date
@@ -100,12 +100,12 @@ printBtn.onclick = function () {
       this.orderservice.getPODetailsExchange(e_invoice).subscribe(
         (data)=>{
 
-          console.log("invoice details"+data)
+          console.log("invoice details",data)
           this.invoice_details = data
           console.log("invoice date:"+this.invoice_details.po_date)
           this.grandTotal = this.invoice_details.grand_total
           this.customer_name = this.invoice_details.customer__customer_name
-          this.customer_addr = this.invoice_details.customer__customer_address
+          this.customer_addr = this.invoice_details.customer__customer_address=="null"?'': this.invoice_details.customer__customer_address
           this.store_name = this.invoice_details.store__store_name
           this.invoice_no = this.invoice_details.exchange_number
           this.invoice_date = this.invoice_details.exchange_date
@@ -153,12 +153,12 @@ printBtn.onclick = function () {
       this.orderservice.getPODetailsRefund(r_invoice).subscribe(
         (data)=>{
 
-          console.log("invoice details"+data)
+          console.log("invoice details",data)
           this.invoice_details = data
           console.log("invoice date:"+this.invoice_details.po_date)
           this.grandTotal = this.invoice_details.grand_total
           this.customer_name = this.invoice_details.customer__customer_name
-          this.customer_addr = this.invoice_details.customer__customer_address
+          this.customer_addr = this.invoice_details.customer__customer_address=="null"?'': this.invoice_details.customer__customer_address
           this.store_name = this.invoice_details.store__store_name
           this.invoice_no = this.invoice_details.refund_number
           this.invoice_date = this.invoice_details.refund_date

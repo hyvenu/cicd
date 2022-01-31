@@ -495,7 +495,8 @@ export class SalesBillComponent implements OnInit {
       this.change = (parseFloat(this.amount)-parseFloat(this.balanceAmount) )
     }
 
-    this.balanceAmount = parseFloat(this.balanceAmount).toFixed(2);
+    this.change = Math.ceil(this.change)
+    this.balanceAmount = Math.ceil(this.balanceAmount);
 
   }
 

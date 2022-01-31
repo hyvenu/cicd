@@ -276,8 +276,8 @@ export class ExchangeComponent implements OnInit {
       this.change = 0;
     }
 
-    this.remaingAmount = parseFloat(this.remaingAmount).toFixed(2);
-    this.change = parseFloat(this.change).toFixed(2);
+    this.remaingAmount = Math.ceil(this.remaingAmount);
+    this.change = Math.ceil(this.change);
 
   }
 
@@ -476,6 +476,7 @@ export class ExchangeComponent implements OnInit {
       this.invoice_items.splice(index, 1);
     }
 
+    this.calculate_price()
     /*
     this.refund_items.push(item)
     console.log(this.refund_items)

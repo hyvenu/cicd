@@ -14,6 +14,10 @@ urlpatterns = [
 
     path('api/v1/get_pos_list', views.get_pos_list, name="get_pos_list"),
 
+    path('api/v1/get_sales_bill_list', views.get_sales_bill_list, name="get_sales_bill_list"),
+    path('api/v1/get_sales_bill_exchange_list', views.get_sales_bill_exchange_list, name="get_sales_bill_exchange_list"),
+    path('api/v1/get_sales_bill_refund_list', views.get_sales_bill_refund_list, name="get_sales_bill_refund_list"),
+
     path('api/v1/save_po', views.save_po, name="save_po_data"),
     path('api/v1/get_po_list', views.get_po_list, name="get_po_list"),
     path('api/v1/get_po_details', views.get_po_details, name="get_po_details"),

@@ -32,6 +32,15 @@ export class OrderService {
   public save_sales_exchange(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/save_sales_exchange`, data)
   }
+  public getBillList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_sales_bill_list`)
+  }
+  public getBillExchangeList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_sales_bill_exchange_list`)
+  }
+  public getBillRefundList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_sales_bill_refund_list`)
+  }
 
   public getPOSList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_sales/api/v1/get_pos_list`)

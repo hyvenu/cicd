@@ -225,8 +225,8 @@ export class RefundComponent implements OnInit {
       this.selectedRefund = (parseFloat(this.amount)-parseFloat(this.grandTotal));
     }
 
-    this.selectedRefund = parseFloat(this.selectedRefund).toFixed(2);
-    this.change = parseFloat(this.change).toFixed(2);
+    this.selectedRefund = Math.ceil(this.selectedRefund);
+    this.change = Math.ceil(this.change);
 
   }
 
