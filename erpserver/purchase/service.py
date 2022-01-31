@@ -249,6 +249,7 @@ class PurchaseService:
         po_order_req.invoice_amount = po_data['invoice_amount']
         po_order_req.terms_conditions = po_data['terms_conditions']
         po_order_req.store_id = po_data['store_id']
+        po_order_req.po_status = "FINISHED"
         po_order_req.save()
 
         product_list = ast.literal_eval(po_data['po_products'])
@@ -294,6 +295,7 @@ class PurchaseService:
             'pr_number',
             'po_raised_by',
             'po_date',
+            'po_status',
             'shipping_address',
             'transport_type',
             'vendor_id',
@@ -423,23 +425,23 @@ class PurchaseService:
         
         po_list = list(po_data_list)
         
-        for po_item in po_list:
-            print("po item", po_item['id'])
-            po_items = PoOrderDetails.objects.filter(po_order_id=po_item['id']).all().values(
-                'order_qty',
-                'accepted_qty'
-            )
+        # for po_item in po_list:
+        #     print("po item", po_item['id'])
+        #     po_items = PoOrderDetails.objects.filter(po_order_id=po_item['id']).all().values(
+        #         'order_qty',
+        #         'accepted_qty'
+        #     )
 
-            print("items list", po_items)
+        #     print("items list", po_items)
 
-            to_satisfy = False
-            for item in list(po_items):
-                if (item['order_qty'] != item['accepted_qty']):
-                    to_satisfy = False
-                else:
-                    to_satisfy = True
+        #     to_satisfy = False
+        #     for item in list(po_items):
+        #         if (item['order_qty'] != item['accepted_qty']):
+        #             to_satisfy = False
+        #         else:
+        #             to_satisfy = True
 
-            po_item['items_to_satisfy'] = to_satisfy
+        #     po_item['items_to_satisfy'] = to_satisfy
 
         return po_list
 

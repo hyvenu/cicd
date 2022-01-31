@@ -46,9 +46,9 @@ export class PurchaseOrderListComponent implements OnInit {
       vendor__vendor_name:{
         title: 'Vendor Name'
       },
-      items_to_satisfy:{
-        title: 'Finished'
-      }
+      // items_to_satisfy:{
+      //   title: 'Finished'
+      // }
 
 
     },

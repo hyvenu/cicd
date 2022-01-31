@@ -84,6 +84,7 @@ export class PurchaseOrderComponent implements OnInit {
   selected_pr_data:any;
   pr_products=[];
   pr_products1=[];
+  po_status:any;
 
 
   constructor(
@@ -153,7 +154,8 @@ export class PurchaseOrderComponent implements OnInit {
       this.purchaseService.getPODetails(this.po_id).subscribe(
         (data) => {
           console.log("edit info",data)
-
+          this.po_status = data.po_status;
+          console.log("STATUS",this.po_status)
           this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
           this.purchaseOrderForm.controls['poDateFormControl'].setValue(moment(data.po_date));
           this.purchaseOrderForm.controls['poNumberFormControl'].setValue(data.po_number);
@@ -338,6 +340,7 @@ export class PurchaseOrderComponent implements OnInit {
             status: "false",
             order_qty:0,
             finished_qty:0,
+            total_amount:0
             //finished_qty: data.product_price__qty,
 
           }
@@ -372,6 +375,10 @@ export class PurchaseOrderComponent implements OnInit {
       console.log(pr)
       if(pr.product == item.product_id)
       {
+        console.log("added prod name",pr.product_name)
+        console.log("req qty",pr.required_qty)
+        console.log("ord qty",pr.order_qty)
+        console.log("fin qty",pr.finished_qty)
         let qt = pr.required_qty - pr.finished_qty
         console.log(qt)
         let addQty = pr.finished_qty + item.order_qty;
@@ -388,22 +395,7 @@ export class PurchaseOrderComponent implements OnInit {
 
     })
 
-    // this.selected_product_list.forEach(element1 => {
-    //   let addQty:any;
-    //   this.pr_products1.forEach(pr=>{
-    //     console.log(pr)
-    //     if(pr.product == element1.product_id){
 
-    //       addQty = pr.finished_qty +item.order_qty;
-    //       console.log("aaa",addQty)
-
-
-    //     }
-    //     item.finished_qty =addQty;
-    //   })
-
-
-    // })
 
     this.pr_product_array = []
     this.selected_product_list.forEach(element1 => {
@@ -746,7 +738,7 @@ export class PurchaseOrderComponent implements OnInit {
               this.purchaseService.savePR(formData).subscribe(
                 (data) => {
                 this.save();
-                this. approvePR();
+                this.approvePR();
                 },
                 (error) => {
                   this.nbtoastService.danger("Failed to Save");
@@ -844,9 +836,15 @@ export class PurchaseOrderComponent implements OnInit {
             item.id != id
           )
 
+          //remove from pr_products1
+          const index2: number = this.pr_products1.indexOf(item);
+          if (index2 !== -1) {
+            this.pr_products1.splice(index2, 1);
+          }
+
           this.selected_product_list.forEach(item =>
             this.calculate_sub_total(item))
-        },
+          },
         (error) => {
           this.nbtoastService.danger("Unable remove product");
         }
@@ -855,6 +853,11 @@ export class PurchaseOrderComponent implements OnInit {
       const index: number = this.selected_product_list.indexOf(item);
       if (index !== -1) {
         this.selected_product_list.splice(index, 1);
+      }
+      //remove from pr_products1
+      const index2: number = this.pr_products1.indexOf(item);
+      if (index2 !== -1) {
+        this.pr_products1.splice(index2, 1);
       }
     }
   }

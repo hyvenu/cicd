@@ -19,7 +19,7 @@ export class GrnListComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false,      
+      delete: false,
       },
     columns: {
       id: {
@@ -27,7 +27,7 @@ export class GrnListComponent implements OnInit {
         hide:true
       },
       grn_code: {
-        title: 'GRN Code',        
+        title: 'GRN Code',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="ManageGrn?id=${row.id}">${row.grn_code}</a>`;
@@ -44,6 +44,9 @@ export class GrnListComponent implements OnInit {
       },
       invoice_date: {
         title: 'invoice Date',
+      },
+      grn_status: {
+        title: 'GRN Status',
       }
     },
   };
@@ -54,7 +57,7 @@ export class GrnListComponent implements OnInit {
     private purchaseService: PurchaseService,
     private nbtoastService: NbToastrService,
     private dialogService: NbDialogService,
-    private routes: Router,) { 
+    private routes: Router,) {
 
   }
 

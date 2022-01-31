@@ -124,12 +124,12 @@
             </nb-card-body>
             </nb-card>
             <nb-card accent="info" >
-                <nb-card-header>Product Details <button type="button" nbButton size="small" status="success"
+                <nb-card-header>Product Details <button *ngIf='po_status !== "FINISHED" ' type="button" nbButton size="small" status="success"
                      (click)="product_open(product_dialog)">  + ADD </button> </nb-card-header>
                 <nb-card-body>
                     <table class="table table-hovered">
                         <thead style="font-size: smaller;" >
-                            <th></th>
+                            <th *ngIf='po_status !== "FINISHED" '></th>
                             <th>Product Code</th>
                             <th>Product Name & Desc</th>
                             <th>Required Qty</th>
@@ -151,7 +151,7 @@
                         </thead>
                         <tbody style="font-size: smaller;" >
                             <tr *ngFor="let item of selected_product_list">
-                                <td><button nbButton (click)="delete_product(item.id,item);" size="small" status="danger">X</button></td>
+                                <td *ngIf='po_status !== "FINISHED" '><button nbButton (click)="delete_product(item.id,item);" size="small" status="danger">X</button></td>
                                 <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
                                 <td><input nbInput  fieldSize="small"placeholder=""  value="{{item.product_name}} - {{item.description}}" readonly/></td>
                                 <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty"  /></td>
@@ -237,7 +237,7 @@
                             </div>
                         </div>
                 </nb-card-body>
-                <nb-card-footer>
+                <nb-card-footer *ngIf='po_status !== "FINISHED" '>
                     <button nbButton type="button" size="small" status="success" (click)="save_po();"  *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
                 </nb-card-footer>
             </nb-card>

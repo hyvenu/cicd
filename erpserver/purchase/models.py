@@ -17,6 +17,7 @@ class POOrderRequest(AuditUuidModelMixin):
     pr_number = models.CharField(max_length=50, null=True, default=None)
     po_raised_by = models.CharField(max_length=500,null=True,blank=None)
     po_date = models.DateTimeField(default=None, null=True)
+    po_status = models.CharField(max_length=50, null=True, default=None)
     shipping_address = models.CharField(max_length=2000, null=True)
     transport_type = models.CharField(max_length=200)
     vendor = models.ForeignKey(VendorMaster,default="", on_delete=models.CASCADE)
@@ -33,7 +34,7 @@ class POOrderRequest(AuditUuidModelMixin):
     igst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     invoice_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     terms_conditions = models.CharField(max_length=2000, null=True)
-    store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_po_req")
+    store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_po_req")    
 
     def __str__(self):
         return self.po_number
