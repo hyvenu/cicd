@@ -1,54 +1,45 @@
-<div class="form-row">
-    <a nbButton [routerLink]="['/DesignationList']" status="success" size="small" >Back to Designation List </a>
+<div class="row">
+  <a nbButton [routerLink]="['/DesignationList']" status="success" size="small" >Back to Designation List </a>
 </div>  <br>
+
 <nb-tabset>
-    <nb-tab tabTitle="Designation Information">
+  <nb-tab tabTitle="Designation Information">
 
-        <form id="designationMasterForm" name="designationMasterForm" [formGroup]="designationMasterForm" (ngSubmit)="onSubmit()">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <label for="designationCode">Designation Code </label>
-                    <input nbInput class="form-control" formControlName="designationCodeFormControl" id="designationCodeFormControl" name="designationCodeFormControl"
-                    [ngClass]="{ 'is-invalid': submitted && f.designationCodeFormControl.errors }"
-                        placeholder="Auto Generated" readonly/>
-                        <div *ngIf="submitted && f.designationCodeFormControl.errors" class="invalid-feedback">
-                            <div *ngIf="submitted && f.designationCodeFormControl.errors"> Designation code  is Required</div>
-                            
-                        </div>
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="DesignationName">Designation Name <span style="color: red;">*</span></label>
-                    <input nbInput class="form-control" formControlName="designationNameFormControl" id="designationNameFormControl" name="designationNameFormControl"
-                    [ngClass]="{ 'is-invalid': submitted && f.designationNameFormControl.errors }" placeholder="Designation Name" required/>
-                        <div  class="invalid-feedback">
-                           
-                            <div *ngIf="submitted && f.designationNameFormControl.errors"> Designation name  is Required</div>
-                            
-                            
-                        </div>
-                </div>
-                
-                <!-- <div class=" form-group col-md-3">
-                    <label for="active">Active</label>
-                    <input type="checkbox" [(ngModel)]="marked" [checked]="true" formControlName="categoryActivateFormControl" id="active" name="active"/>
-                </div> -->
-            </div>
+      <form id="designationMasterForm" name="designationMasterForm" [formGroup]="designationMasterForm" (ngSubmit)="onSubmit()">
+          <div class="form-row">
+              <div class="form-group col-md-3">
+                  <label for="designationCode">Designation Code</label>
+                  <input nbInput class="form-control" formControlName="designationCodeFormControl" id="designationCode" name="designationCode"
+                  [ngClass]="{ 'is-invalid': submitted && f.designationCodeFormControl.errors }"
+                      placeholder="Auto Generated" readonly />
+                      <div *ngIf="submitted && f.designationCodeFormControl.errors" class="invalid-feedback">
+                          <div *ngIf="submitted && f.designationCodeFormControl.errors"> Designation code  is Required</div>
 
-        <button nbButton  (click)="saveDes();" status="success" >Save</button>
-        </form> <br>
-    </nb-tab>
+                      </div>
+              </div>
+              <div class=" form-group col-md-3">
+                  <label for="designationName">Designation Name<span class="text-danger">*</span> </label>
+                  <input nbInput class="form-control" formControlName="designationNameFormControl" id="designationName" name="designationName"
+                  [ngClass]="{ 'is-invalid': submitted && f.designationNameFormControl.errors }"
+                      placeholder="Designation Name" required/>
+                      <div *ngIf="submitted && f.designationNameFormControl.errors" class="invalid-feedback">
+                          <div *ngIf="submitted && f.designationNameFormControl.hasError('designationnameTaken')"> Designation Name  is Taken</div>
+                          <div *ngIf="submitted && f.designationNameFormControl.errors"> Designation Name  is Required</div>
+                          <div *ngIf="submitted && f.designationNameFormControl.hasError('!duplicate')">Right</div>
+                      </div>
+
+              </div>
+              <div class=" form-group col-md-3">
+                  <label for="active">Active</label>
+                  <input type="checkbox" [(ngModel)]="marked" [checked]="true" formControlName="categoryActivateFormControl" id="active" name="active"/>
+              </div>
+          </div>
+
+
+          <button nbButton [hidden]="!createFlag" (click)="saveDesignation();" status="success" >Save</button>
+          <button nbButton status="success" [hidden]="createFlag" (click)="update(); ">Update</button>
+
+      </form> <br>
+
+  </nb-tab>
 </nb-tabset>
-<!-- <div>
-    <nb-card>
-        <nb-card-header>Department List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchDept" /></nb-card-header>
-        <nb-card-body>
-            <nb-list-item *ngFor="let dept of data | search_filter:'department_name':searchDept">
-               <img src="{{brand.brand_image}}" class="rounded" alt="brand" width="40" height="40" /> -->
-
-                <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="mr-auto mt-2 mt-lg-0"> {{dept.department_id}}-{{ dept.department_name }}</i>
-                <button nbButton size="small" (click)="selected_dept(dept)" >Select</button>
-              </nb-list-item>
-        </nb-card-body>
-    </nb-card>
-</div> --> 
-

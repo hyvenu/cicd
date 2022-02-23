@@ -1,6 +1,17 @@
 <div class="row">
-    <a nbButton href="Designation" status="success" size="small"  >Manage Designation </a>
+  <a nbButton href="\Designation" status="success" size="small"  > Manage Designation </a>
 </div><br>
 <div class="row">
-    <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
-</div> 
+<nb-card>
+  <nb-card-header>ACTIVE</nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" [source]="activeList"></ng2-smart-table>
+  </nb-card-body>
+</nb-card>
+<nb-card>
+  <nb-card-header>INACTIVE</nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" [source]="inActiveList"></ng2-smart-table>
+  </nb-card-body>
+</nb-card>
+</div>

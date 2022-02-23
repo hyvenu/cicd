@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NbDialogService, NbToastrService } from '@nebular/theme';
+import { FormBuilder } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { SharedService } from '../shared.service';
+
 
 @Component({
   selector: 'app-designation-list',
@@ -9,12 +11,17 @@ import { SharedService } from '../shared.service';
   styleUrls: ['./designation-list.component.scss']
 })
 export class DesignationListComponent implements OnInit {
+
+  data:any = [];
+  activeList:any = [];
+  inActiveList:any = [];
+
   settings = {
     // selectMode: 'multi',
     actions: {
       add: false,
       edit: false,
-      delete: false,      
+      delete: false,
       },
     columns: {
       id: {
@@ -22,38 +29,40 @@ export class DesignationListComponent implements OnInit {
         hide:true
       },
       designation_id: {
-        title: 'Designation Code',        
+        title: 'Designation Code',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="Designation?id=${row.id}">${row.designation_id}</a>`;
-        }
+      }
       },
       designation_name: {
         title: 'Designation Name',
-      },
-    
+      }
     },
   };
 
-  data = [
-  ]
-
-
-  constructor(  private sharedService: SharedService,
+  constructor(
+    private formBuilder: FormBuilder,
+    private routes: Router,
+    private route: ActivatedRoute,
     private nbtoastService: NbToastrService,
     private dialogService: NbDialogService,
-    private routes: Router,) { }
+    private sharedService: SharedService,
+  ) { }
 
   ngOnInit(): void {
     this.sharedService.getDesignationList().subscribe(
       (data) => {
-        this.data = data;
+        this.data = data;console.log("DATA", data)
+        this.activeList = this.data.filter(item => item.active === true);
+        this.inActiveList = this.data.filter(item => item.active === false);
       },
       (error) => {
-        this.nbtoastService.danger("Unable to get Deparment List")
+        this.nbtoastService.danger("Unable to get designation List")
       }
     )
-
   }
+
+
 
 }
