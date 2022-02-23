@@ -20,25 +20,25 @@ export class ManageEmployeeComponent implements OnInit {
   options = [
     { value: "Male", name: 'Male' },
     { value: "Female", name: 'Female' },
-   
+
   ];
   payout = [
     { value: "Fixed", name: 'Fixed' },
     { value: "Variable", name: 'Variable' },
     { value: "Fixed-Variable", name: 'Fixed-Variable' },
-   
+
   ];
   grade = [
     { value: "A", name: 'A' },
     { value: "B", name: 'B' },
     { value: "C", name: 'C' },
-   
+
   ];
   login = [
     { value: "Yes", name: 'Yes' },
     { value: "No", name: 'No' },
-    
-   
+
+
   ];
   selectedOption;
 
@@ -47,7 +47,7 @@ export class ManageEmployeeComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false,      
+      delete: false,
       },
     columns: {
       id: {
@@ -55,7 +55,7 @@ export class ManageEmployeeComponent implements OnInit {
         hide:true
       },
       // departme_id: {
-      //   title: 'Department Code',        
+      //   title: 'Department Code',
       //   type: 'html',
       //   valuePrepareFunction: (cell, row) => {
       //     return `<a href="Department?id=${row.id}">${row.department_id}</a>`;
@@ -77,9 +77,9 @@ export class ManageEmployeeComponent implements OnInit {
       department__department_name:{
         title: 'Department Name',
       },
-     
-    
- 
+
+
+
     },
   };
   employee_id: any;
@@ -98,7 +98,7 @@ export class ManageEmployeeComponent implements OnInit {
   account:any=0;
   salary:any=0;
   dateValue=""
-  
+
 
 
   constructor(
@@ -161,7 +161,7 @@ export class ManageEmployeeComponent implements OnInit {
           this.employeeForm.controls['phoneNumberFormControl'].setValue(data.phone_number);
           this.employeeForm.controls['departmentFormControl'].setValue(data.department_name);
           this.employeeForm.controls['employeeAddressFormControl'].setValue(data.employee_address);
-         
+
           this.employeeForm.controls['SalaryFormControl'].setValue(data.salary);
           this.employeeForm.controls['jobDesignationFormControl'].setValue(data.designation_name);
           this.employeeForm.controls['adminRightsFormControl'].setValue(data.admin_rights);
@@ -186,19 +186,19 @@ export class ManageEmployeeComponent implements OnInit {
           }else{
             this.employeeForm.controls['DOJFormControl'].setValue(moment(data.doj));
           }
-          
-         
-   
+
+
+
         }
       )
 
-      
+
 
     }
 
     this.sharedService.getDepartmentList().subscribe(
       (data) => {
-        this.department_list = data;
+        this.department_list = data.filter(item => item.active === true);;
         // this.department_list.forEach(element => {
         //   this.dep_id = element.id
         // });
@@ -211,7 +211,7 @@ export class ManageEmployeeComponent implements OnInit {
 
     this.sharedService.getDesignationList().subscribe(
       (data) => {
-        this.designation_list = data;
+        this.designation_list = data.filter(item => item.active === true);;
         // this.department_list.forEach(element => {
         //   this.dep_id = element.id
         // });
@@ -224,7 +224,7 @@ export class ManageEmployeeComponent implements OnInit {
 
     this.get_employee()
 
-    
+
   }
 
   get_employee(){
@@ -242,7 +242,7 @@ export class ManageEmployeeComponent implements OnInit {
         this.selected_dep = data;
         this.dep_id = this.selected_dep.id
         this.employeeForm.controls['departmentFormControl'].setValue(data.department_name);
-        
+
 
       }
       );
@@ -255,20 +255,20 @@ export class ManageEmployeeComponent implements OnInit {
         this.selected_des = data;
         this.des_id = this.selected_des.id
         this.employeeForm.controls['jobDesignationFormControl'].setValue(data.designation_name);
-        
+
 
       }
       );
   }
-    
-  
+
+
 
   saveEmployee(){
     let formdata = new FormData();
 
     if(this.employeeForm.valid){
 
-    
+
     if(this.employee_id){
 
 
@@ -277,7 +277,7 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('phone_number',this.employeeForm.controls['phoneNumberFormControl'].value);
     formdata.append('department',this.dep_id);
     formdata.append('employee_address',this.employeeForm.controls['employeeAddressFormControl'].value);
-   
+
     if(moment(this.employeeForm.controls['DOJFormControl'].value).format("YYYY-MM-DD") == "Invalid date" ){
       formdata.append('doj',this.dateValue);
     }else{
@@ -290,9 +290,9 @@ export class ManageEmployeeComponent implements OnInit {
       formdata.append('dob',moment(this.employeeForm.controls['DOBFormControl'].value).format("YYYY-MM-DD"));
     }
 
-   
-    
-    
+
+
+
     formdata.append('salary',this.employeeForm.controls['SalaryFormControl'].value);
     formdata.append('job_designation',this.des_id);
     formdata.append('admin_rights',this.employeeForm.controls['adminRightsFormControl'].value);
@@ -306,16 +306,16 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('pay_out',this.employeeForm.controls['payOutFormControl'].value);
     formdata.append('grade',this.employeeForm.controls['gradeFormControl'].value);
     formdata.append('login_access',this.employeeForm.controls['loginAccessFormControl'].value);
-    
+
 
     this.adminService.updateEmployee(formdata,this.employee_id).subscribe(
       (data)=>{
         this.nbtoastService.success("Employee Updated Successfully")
-        
+
         this.get_employee()
-       
+
         // this.employeeForm.reset({SalaryFormControl:0,accountNumberFormControl:0});
-        
+
         this.routes.navigate(["/ManageEmployee"])
         .then(()=>{
           window.location.reload();
@@ -323,12 +323,12 @@ export class ManageEmployeeComponent implements OnInit {
         // this.refresh()
         // this.employeeForm.controls['SalaryFormControl'].setValue(0)
         // setTimeout(()=>this.salary=0,800)
-        
 
-        
-        
-        
-          
+
+
+
+
+
       },
       (error) => {
         this.nbtoastService.danger("Failed to update");
@@ -366,21 +366,21 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('pay_out',this.employeeForm.controls['payOutFormControl'].value);
     formdata.append('grade',this.employeeForm.controls['gradeFormControl'].value);
     formdata.append('login_access',this.employeeForm.controls['loginAccessFormControl'].value);
-    
-    
+
+
 
     this.adminService.SaveEmployee(formdata).subscribe(
       (data)=>{
         this.nbtoastService.success("Employee Saved Successfully")
-        
+
         // this.ngOnInit()
-        
+
         this.get_employee()
         this.refresh()
         // this.employeeForm.reset()
-        
-        
-          
+
+
+
       },
       (error) => {
         if(error === "exist"){
@@ -388,12 +388,12 @@ export class ManageEmployeeComponent implements OnInit {
           }
           else{
             this.nbtoastService.danger(error);
-          } 
+          }
     }
     )
-    
+
     }
-  
+
   }
   }
 
@@ -405,21 +405,21 @@ export class ManageEmployeeComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-        
+
         // stop here if form is invalid
         if (this.employeeForm.invalid) {
             return;
         }
         if (!this.employeeForm.invalid){
-        
+
           // this.employeeForm.reset()
-          
+
           return this.submitted = false;
 
         }
-        
 
-      
+
+
     }
 
 
