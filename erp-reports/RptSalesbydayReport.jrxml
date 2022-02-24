@@ -40,23 +40,23 @@
 			<parameterDescription><![CDATA[Enter to date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT DISTINCT appoinment_Schedule.booking_date,
+			<![CDATA[SELECT DISTINCT appoinment_schedule.booking_date,
 count(distinct(service.service_name))as sales_qty,
 sum(distinct(service.price)) as gross_Sales , 
 sum(sales_orders.discount_price)as discount,
 sales_orders.refund,
 (sum(distinct(service.price))-sum(sales_orders.discount_price))as net_sales,
 service.service_gst as  tax, 
-(((sum(distinct(Service.price))-sum(sales_orders.discount_price))*service.service_gst)/100)+
- (sum(distinct(Service.price))-sum(sales_orders.discount_price)) as total_sales
+(((sum(distinct(service.price))-sum(sales_orders.discount_price))*service.service_gst)/100)+
+ (sum(distinct(service.price))-sum(sales_orders.discount_price)) as total_sales
 
 FROM store_appointmentschedule as appoinment_schedule
 inner join store_appointmentformultipleservice as appm on
 appoinment_schedule.id=appm.appointment_id
 inner join store_storeservices as service on service.id=appm.service_id
 inner join sales_salesorderrequest as sales_orders on
-sales_orders.customer_id=appoinment_Schedule.customer_id  
- where appoinment_schedule.booking_date between  $P{from_date}  and   $P{to_date} 
+sales_orders.customer_id=appoinment_schedule.customer_id  
+where appoinment_schedule.booking_date between  $P{from_date}  and   $P{to_date} 
  group by appoinment_schedule.booking_date,sales_orders.refund,service.service_gst
 order by appoinment_schedule.booking_date]]>
 		</queryString>
