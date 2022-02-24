@@ -4,6 +4,7 @@ from django.core.files import File
 from django.db import transaction
 
 from inventory.models import ProductMaster, ProductCategory, ProductSubCategory, ProductPriceMaster, ProductImages, ProductStock, UnitMaster
+from store.models import StoreServices
 from sequences import get_next_value
 import ast
 import barcode
@@ -185,6 +186,7 @@ class InventoryService:
                 "product",
                 "product__product_name",
                 "unit",
+                "unit__PrimaryUnit",
                 "tax",
                 "unit_price",
                 "qty",
@@ -197,6 +199,19 @@ class InventoryService:
         # for prd in product_dict:
         #     pass
         return list(product_dict)
+
+    def get_all_service_list(self):
+        service_dict = StoreServices.objects.all().values(
+                "id",
+                "service_name",
+                "service_desc",
+                "price",
+                "service_gst",
+                "unit",
+                "unit__PrimaryUnit",
+            )
+
+        return list(service_dict)        
 
     def get_product_by_slno(self, sl_no):
         product = list(ProductPriceMaster.objects.filter(serial_number=sl_no).all().values(

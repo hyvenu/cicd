@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<!-- Created with Jaspersoft Studio version 7.8.0.final using JasperReports Library version 6.14.0-2ab0d8625be255bf609c78e1181801213e51db8f  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sales_rpt" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="14006a3d-8557-454a-8245-f6744efad26d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
@@ -80,7 +80,7 @@ group_concat(distinct nullif(Service.service_name,'')), Employee.employee_name ,
  group_concat(distinct nullif(Category.category_name,'')) 
 
 
- FROM d5n.store_appointmentschedule as Appoinment_Schedule
+ FROM store_appointmentschedule as Appoinment_Schedule
  inner join store_appointmentformultipleservice as Appm on Appoinment_Schedule.id=Appm.appointment_id
  inner join store_storeservices as Service on Service.id=Appm.service_id
  inner join store_employee as Employee on Employee.id=Appoinment_Schedule.assigned_staff_id
@@ -295,10 +295,6 @@ group by sales_orders.invoice_no]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="1" y="0" width="99" height="89" uuid="ef72ea56-014e-425b-b14b-e7146b720762"/>
-				<imageExpression><![CDATA["repo:/D5N/Images/LOGO.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="220" y="0" width="374" height="70" uuid="5f10b5ea-bb93-4908-9c8a-8fa12496ce41"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -334,6 +330,10 @@ group by sales_orders.invoice_no]]>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="27" y="0" width="103" height="76" uuid="d00672b5-27e1-4e4c-b359-f9975c798b09"/>
+				<imageExpression><![CDATA["LOGO.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

@@ -175,6 +175,13 @@ def get_all_product_list(request):
     prd_list = inventory_service.get_all_product_list()
     return JsonResponse(prd_list, safe=False)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_all_service_list(request):
+    inventory_service = InventoryService()
+    prd_list = inventory_service.get_all_service_list()
+    return JsonResponse(prd_list, safe=False)    
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated,])
 def get_product_pack_type(request):

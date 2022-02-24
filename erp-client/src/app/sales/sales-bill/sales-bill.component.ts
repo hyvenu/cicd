@@ -15,8 +15,8 @@ enum CheckBoxType { CASH,CARD,UPI, NONE };
   templateUrl: './sales-bill.component.html',
   styleUrls: ['./sales-bill.component.scss']
 })
-export class SalesBillComponent implements OnInit {
 
+export class SalesBillComponent implements OnInit {
 
   check_box_type = CheckBoxType;
 
@@ -26,7 +26,7 @@ export class SalesBillComponent implements OnInit {
   app_id: any = "";
   booking_historys: any;
   service_id: any;
-  searchProduct
+  searchProduct;
   searchPhoneNo: string;
   searchCus: string;
   serviceIds = [];
@@ -34,10 +34,11 @@ export class SalesBillComponent implements OnInit {
   updateAmount: number;
   submitted: boolean=false;
   barcode: any;
-  customerName:any
+  customerName:any;
   searchPro: string;
   multi_product: any[];
   multi_product_list: any[];
+  multi_service_list: any[];
   selectedPro: any;
   pro_id: any;
 
@@ -54,7 +55,6 @@ export class SalesBillComponent implements OnInit {
   gst_list=[
     {name:"InclusiveGst", value:"InclusiveGst"},
     {name:"ExclusiveGst", value:"ExclusiveGst"},
-
   ]
 
   Upi = [
@@ -62,7 +62,6 @@ export class SalesBillComponent implements OnInit {
     {value:'Google Pay', name: 'Google Pay'},
     {value:'Amazon Pay', name: 'Amazon Pay'},
     {value:' Others', name: ' Others'},
-
 
     // {value:'Long Leave', name: 'Long Leave'},
   ]
@@ -74,12 +73,13 @@ export class SalesBillComponent implements OnInit {
 
     // {value:'Long Leave', name: 'Long Leave'},
   ]
+
   @ViewChild('dialog_single_product', { static: true }) dialog_single_product: TemplateRef<any>;
   @ViewChild('focus') search:ElementRef;
   transaction:any=0;
   selectedGST:any;
   selectedGstEvent:any;
-  createFlag = false
+  createFlag = false;
   invoiceForm : FormGroup;
   dailog_ref: any;
   appointment_obj: any;
@@ -122,18 +122,18 @@ export class SalesBillComponent implements OnInit {
   prNumber: string | Blob="";
   poRaised: string | Blob="";
   poDate: string | Blob="";
-  other
+  other;
   cardChecked:any;
   store_name: string;
   user_name: string;
   total_include_tax:any=0;
   balanceAmount:any=0;
   selectedPayEvents:any;
-  selectedEvents:any
+  selectedEvents:any;
   amount:any=0;
   change:any=0;
   extra:any;
- desc:any
+  desc:any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -146,12 +146,9 @@ export class SalesBillComponent implements OnInit {
     private dialogService: NbDialogService,
   ) { }
 
-
-
   ngOnInit(): void {
     this.user_name = sessionStorage.getItem('first_name');
-    console.log(this.user_name)
-
+    console.log(this.user_name);
 
     this.invoiceForm = this.formBuilder.group({
       invoiceCodeFormControl:['',],
@@ -167,7 +164,6 @@ export class SalesBillComponent implements OnInit {
       cashFormControl:['',],
       upiFormControl:['',],
       TransactionIdFormControl:['',Validators.required],
-
 
       exchangeFormControl:['',],
       cancelInvoiceFormControl:['',],
@@ -185,9 +181,6 @@ export class SalesBillComponent implements OnInit {
       changeFormControl:['',],
       paymentFormControl:[this.Events[0].value,Validators.required],
       upiTypeFormControl:['',]
-
-
-
 
     });
     this.invoice_items=[];
@@ -208,10 +201,6 @@ export class SalesBillComponent implements OnInit {
         console.log("customer_list", this.customer_list)
         // this.customernew_id = data.id
         // console.log(this.customernew_id)
-
-
-
-
       },
       (error) => {
         this.nbtoastService.danger("Unable to get customer List")
@@ -219,9 +208,9 @@ export class SalesBillComponent implements OnInit {
     )
 
     this.app_id = this.route.snapshot.queryParams['app_id']
-    if(this.app_id){
+    if(this.app_id) {
       this.get_app_bookingHistory(this.app_id)
-    }else{
+    }else {
       this.app_id = "";
     }
 
@@ -239,7 +228,6 @@ export class SalesBillComponent implements OnInit {
       //  this.appointment_obj = this.appointment_objs.find(item => item.customer == data.id)
        console.log(data.id)
        this.get_bookingHistory(this.customer_id)
-
         }
       )
     }
@@ -248,9 +236,7 @@ export class SalesBillComponent implements OnInit {
     this.onEvnetChange(this.event);
   }
 
-
-
-  add_items(dialog):any {
+  add_items_product(dialog):any {
 
     const data = {
       service_id:'',
@@ -268,6 +254,28 @@ export class SalesBillComponent implements OnInit {
     this.invoice_items.push(data)
 
     this.open_product_name(dialog, data)
+    //this.calculate_price()
+    // this.calculate_gst()
+    // this.calculate_totalGst()
+  }
+
+  add_items_service(dialog):any {
+    const data = {
+      service_id:'',
+      booking_id:'',
+      item_id:'',
+      item_description:'',
+      quantity:'',
+      unit_id:'',
+      unit:'',
+      price:'',
+      item_total:'',
+      gst_value:'',
+      tax:''
+    }
+    this.invoice_items.push(data)
+
+    this.open_service_name(dialog, data)
     //this.calculate_price()
     // this.calculate_gst()
     // this.calculate_totalGst()
@@ -467,7 +475,7 @@ export class SalesBillComponent implements OnInit {
     });
 
     this.subtotal = parseFloat(total_gross).toFixed(2);
-    this.gstValue = parseFloat(total_gst_value).toFixed(2) ;
+    this.gstValue = parseFloat(total_gst_value).toFixed(2);
 
     this.totalDiscount = parseFloat(total_discount).toFixed(2);
     this.grandTotal = parseFloat(total_grand).toFixed(2);
@@ -502,35 +510,158 @@ export class SalesBillComponent implements OnInit {
 
 
 
-  open_product_name(dialog: TemplateRef<any>, item) {
+  open_product_name(dialog: TemplateRef<any>, dd) {
     this.inventoryService.getAllProductsList().subscribe(
       (data) => {
+
         console.log(data)
         this.product_list = data;
 
-        this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
+        this.multi_product_list = []
+        data.forEach(element => {
+          element.product_price.forEach(item => {
+            this.multi_product_list.push({
+              ...item,
+            })
+          });
+        });
+
+        console.log("Multiproduct",  this.multi_product_list)
+
+        this.dailog_ref = this.dialogService.open(dialog, { context: this.multi_product_list })
           .onClose.subscribe(data => {
-            this.searchPro = ""
-            if(!data)
-            {
-              const index: number = this.invoice_items.indexOf(item);
+            this.searchProduct = ""
+            if(!data) {
+              const index: number = this.invoice_items.indexOf(dd);
               if(this.invoice_items[index].item_description == "") {
-                this.remove_item(item);
+                this.remove_item(dd);
               }
-              return
+              return;
             }
-            this.selected_product = data
-            console.log(this.selected_product)
+            this.selectedPro = data
+            console.log("selected product",this.selectedPro)
+            this.pro_id = data.product
+            console.log("selected product unitprice",this.selectedPro.unit_price)
 
-            this.multi_product = []
-            this.multi_product.push(this.selected_product.product_price[0])
-            console.log(this.multi_product)
-            this.open_single_product(this.dialog_single_product, this.selected_product, item);
-            this.search.nativeElement.focus()
+            let sellPrice: any = parseFloat(this.selectedPro.sell_price) * this.selectedPro.qty;
+            let gstVal: any = (this.selectedPro.unit_price * parseFloat(this.selectedPro.tax)) / 100;
+            let total: any = sellPrice;
+            if (this.invoice_items.some(item => item.item_description == this.selectedPro.product__product_name)) {
+              const index: number = this.invoice_items.indexOf(dd);
+              if(this.invoice_items[index].item_description == "") {
+                this.remove_item(dd);
+              }
+              this.nbtoastService.danger("product name already exist");
+            } else {
+              let app_id = "";
+              if(this.appointment_obj) {
+                app_id = this.appointment_obj.id
+              }
+              dd.item_id = this.selectedPro.product,
+              dd.booking_id = app_id,
+              dd.item_description = this.selectedPro.product__product_name
+              dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
+              dd.unit_id = this.selectedPro.unit,
+              dd.unit = this.selectedPro.unit__PrimaryUnit,
+              dd.price = this.selectedPro.unit_price
+              dd.discount = 0,
+              dd.item_total = parseFloat(total).toFixed(2),
+              dd.tax = this.selectedPro.tax,
+              dd.gst_value = parseFloat(gstVal).toFixed(2)
+            }
 
 
-          }
-          );
+
+            this.calculate_price()
+
+
+
+          })
+
+
+
+      },
+      (error) => {
+        this.nbtoastService.danger(error.error.detail);
+      }
+    )
+
+  }
+
+  open_service_name(dialog: TemplateRef<any>, dd) {
+    this.inventoryService.getAllServiceList().subscribe(
+      (data) => {
+
+        console.log("Service LIST",data)
+        this.multi_service_list = []
+        data.forEach(item => {
+            this.multi_service_list.push({
+              ...item,
+              qty: 1
+            })
+        });
+
+        console.log("Multi Service",  this.multi_service_list )
+
+        this.dailog_ref = this.dialogService.open(dialog, { context: this.multi_service_list })
+          .onClose.subscribe(data => {
+            this.searchProduct = ""
+            if(!data) {
+              const index: number = this.invoice_items.indexOf(dd);
+              if(this.invoice_items[index].item_description == "") {
+                this.remove_item(dd);
+              }
+              return;
+            }
+            this.selectedPro = data
+            console.log("selected service",this.selectedPro)
+
+            let sellPrice: any = parseFloat(this.selectedPro.price) * this.selectedPro.qty;
+            let gstVal: any = (this.selectedPro.price * parseFloat(this.selectedPro.service_gst)) / 100;
+            let total: any = sellPrice;
+            if (this.invoice_items.some(item => item.item_description == this.selectedPro.service_name)) {
+              const index: number = this.invoice_items.indexOf(dd);
+              if(this.invoice_items[index].item_description == "") {
+                this.remove_item(dd);
+              }
+              this.nbtoastService.danger("service name already exist");
+            } else {
+              let app_id = "";
+              if(this.appointment_obj) {
+                app_id = this.appointment_obj.id
+              }
+              /*
+                "id",
+                "service_name",
+                "service_desc",
+                "price",
+                "service_gst",
+                "unit",
+                "unit__PrimaryUnit",
+              */
+              dd.service_id = this.selectedPro.id,
+              dd.booking_id = app_id,
+              dd.item_description = this.selectedPro.service_name
+              dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
+              dd.unit_id = this.selectedPro.unit,
+              dd.unit = this.selectedPro.unit__PrimaryUnit,
+              dd.price = this.selectedPro.price
+              dd.discount = 0,
+              dd.item_total = parseFloat(total).toFixed(2),
+              dd.tax = this.selectedPro.service_gst,
+              dd.gst_value = parseFloat(gstVal).toFixed(2)
+            }
+
+
+
+            this.calculate_price()
+
+
+
+          })
+
+
+
       },
       (error) => {
         this.nbtoastService.danger(error.error.detail);
@@ -557,32 +688,35 @@ export class SalesBillComponent implements OnInit {
         this.dailog_ref = this.dialogService.open(dialog, { context: this.multi_product_list })
           .onClose.subscribe(data => {
             this.searchProduct = ""
-            if(!data) {
-              const index: number = this.invoice_items.indexOf(dd);
-              if(this.invoice_items[index].item_description == "") {
-                this.remove_item(dd);
-              }
-              return
-            }
             this.selectedPro = data
             console.log(this.selectedPro)
             this.pro_id = data.product
-            console.log(this.selectedPro.sell_price)
+            console.log(this.selectedPro.unit_price)
 
-            let sellPrice: any = parseFloat(this.selectedPro.unit_price) * this.selectedPro.qty;
-            let gstVal: any = (sellPrice * parseFloat(this.selectedPro.tax)) / 100;
-            let total: any = sellPrice + gstVal;
-            if (this.invoice_items.some(item => item.item_description == this.selected_product.product_name)) {
-              const index: number = this.invoice_items.indexOf(dd);
-              if(this.invoice_items[index].item_description == "") {
-                this.remove_item(dd);
-              }
-              this.nbtoastService.danger("product name already exist");
+            let sellPrice: any = parseFloat(this.selectedPro.sell_price) * this.selectedPro.qty;
+            let gstVal: any = (this.selectedPro.unit_price * parseFloat(this.selectedPro.tax)) / 100;
+            let total: any = sellPrice;
+              if (this.invoice_items.some(item => item.item_description == this.selected_product.product_name)) {
+                const index: number = this.invoice_items.indexOf(dd);
+                if(this.invoice_items[index].item_description == "") {
+                  this.remove_item(dd);
+                }
+                this.nbtoastService.danger("product name already exist");
             } else {
-               let app_id = "";
-               if(this.appointment_obj) {
-                  app_id = this.appointment_obj.id
-               }
+              // dd.item_id = this.selectedPro.product,
+              // dd.item_description = this.selected_product.product_name
+              // dd.price = this.selectedPro.sell_price
+              // dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
+              // dd.unit = this.selectedPro.unit,
+              // dd.unit_name = this.selectedPro.unit__PrimaryUnit,
+              // dd.tax = this.selectedPro.tax,
+              // dd.item_total = parseFloat(total).toFixed(2),
+              // dd.gst_value = parseFloat(gstVal).toFixed(2)
+
+              let app_id = "";
+              if(this.appointment_obj) {
+                app_id = this.appointment_obj.id
+              }
               dd.item_id = this.selectedPro.product,
               dd.booking_id = app_id,
               dd.item_description = this.selected_product.product_name
@@ -594,15 +728,83 @@ export class SalesBillComponent implements OnInit {
               dd.item_total = parseFloat(total).toFixed(2),
               dd.tax = this.selectedPro.tax,
               dd.gst_value = parseFloat(gstVal).toFixed(2)
-
             }
 
+
+
             this.calculate_price()
+
+
 
           })
       }
     )
   }
+
+  // open_single_product(dialog: TemplateRef<any>, item, dd) {
+  //   this.inventoryService.getProductDetails(item.id).subscribe(
+  //     (data) => {
+  //       console.log(data)
+  //       this.selected_product_data = data
+  //       /*  let aa:any =data
+  //        console.log(aa) */
+  //       this.multi_product_list = []
+  //       data.product_price.forEach(element => {
+  //         this.multi_product_list.push({
+  //           ...element,
+  //         })
+  //       });
+  //       console.log(this.multi_product_list)
+
+  //       this.dailog_ref = this.dialogService.open(dialog, { context: this.multi_product_list })
+  //         .onClose.subscribe(data => {
+  //           this.searchProduct = ""
+  //           if(!data) {
+  //             const index: number = this.invoice_items.indexOf(dd);
+  //             if(this.invoice_items[index].item_description == "") {
+  //               this.remove_item(dd);
+  //             }
+  //             return
+  //           }
+  //           this.selectedPro = data
+  //           console.log(this.selectedPro)
+  //           this.pro_id = data.product
+  //           console.log(this.selectedPro.sell_price)
+
+  //           let sellPrice: any = parseFloat(this.selectedPro.unit_price) * this.selectedPro.qty;
+  //           let gstVal: any = (sellPrice * parseFloat(this.selectedPro.tax)) / 100;
+  //           let total: any = sellPrice + gstVal;
+  //           if (this.invoice_items.some(item => item.item_description == this.selected_product.product_name)) {
+  //             const index: number = this.invoice_items.indexOf(dd);
+  //             if(this.invoice_items[index].item_description == "") {
+  //               this.remove_item(dd);
+  //             }
+  //             this.nbtoastService.danger("product name already exist");
+  //           } else {
+  //              let app_id = "";
+  //              if(this.appointment_obj) {
+  //                 app_id = this.appointment_obj.id
+  //              }
+  //             dd.item_id = this.selectedPro.product,
+  //             dd.booking_id = app_id,
+  //             dd.item_description = this.selected_product.product_name
+  //             dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
+  //             dd.unit_id = this.selectedPro.unit,
+  //             dd.unit = this.selectedPro.unit__PrimaryUnit,
+  //             dd.price = this.selectedPro.unit_price
+  //             dd.discount = 0,
+  //             dd.item_total = parseFloat(total).toFixed(2),
+  //             dd.tax = this.selectedPro.tax,
+  //             dd.gst_value = parseFloat(gstVal).toFixed(2)
+
+  //           }
+
+  //           this.calculate_price()
+
+  //         })
+  //     }
+  //   )
+  // }
 
 
   bar_code(){

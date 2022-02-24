@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { AdminService } from 'src/app/admin/admin.service';
 import { OrderService } from '../order.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-sales-bill-list',
@@ -131,7 +132,8 @@ export class SalesBillListComponent implements OnInit {
   ngOnInit(): void {
     this.service.getBillList().subscribe(
       (data) => {
-          this.salesData = data;
+          this.salesData = data.map(item => item.id != ""? {...item, po_date:moment(item.po_date).format("YYYY-MM-DD")}: item.po_date);
+
       },
       (error) => {
           this.nbtoastService.danger(error.error.detail);
@@ -140,7 +142,7 @@ export class SalesBillListComponent implements OnInit {
 
     this.service.getBillExchangeList().subscribe(
       (data) => {
-          this.salesExchangeData = data;
+          this.salesExchangeData = data.map(item => item.id != ""? {...item, exchange_date:moment(item.exchange_date).format("YYYY-MM-DD")}: item.exchange_date);
       },
       (error) => {
           this.nbtoastService.danger(error.error.detail);
@@ -148,7 +150,7 @@ export class SalesBillListComponent implements OnInit {
     )
     this.service.getBillRefundList().subscribe(
       (data) => {
-          this.salesRefundData = data;
+          this.salesRefundData = data.map(item => item.id != ""? {...item, refund_date:moment(item.refund_date).format("YYYY-MM-DD")}: item.refund_date);
       },
       (error) => {
           this.nbtoastService.danger(error.error.detail);

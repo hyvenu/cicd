@@ -8,7 +8,6 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Identifiers } from '@angular/compiler';
 import { SharedService } from 'src/app/shared/shared.service';
 
-
 @Component({
   selector: 'app-department',
   templateUrl: './department.component.html',
@@ -23,9 +22,7 @@ export class DepartmentComponent implements OnInit {
   submitted=false;
   data: any;
   marked = true;
-  createFlag: boolean=false;
-  searchDept;
-  
+  createFlag = true;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -34,7 +31,6 @@ export class DepartmentComponent implements OnInit {
     private nbtoastService: NbToastrService,
     private routes: Router,
     private route: ActivatedRoute,
-   
     private cd: ChangeDetectorRef,
     private dialogService: NbDialogService,) { }
 
@@ -53,11 +49,12 @@ export class DepartmentComponent implements OnInit {
       this.sharedService.getDepartmentDetails(param).subscribe(
         (data) => {
           // this.purchaseOrderForm.controls['poTypeFormControl'].setValue(data.po_type);
+          this.createFlag=!this.createFlag;
           this.dept_id =  data.id;
           console.log("D id" + this.dept_id)
           this.departmentMasterForm.controls['departmentCodeFormControl'].setValue(data.department_id);
           this.departmentMasterForm.controls['departmentNameFormControl'].setValue(data.department_name);
-          // this.departmentMasterForm.controls['categoryActivateFormControl'].setValue(data.active);
+          this.departmentMasterForm.controls['categoryActivateFormControl'].setValue(data.active);
         });
       }
 
@@ -73,14 +70,6 @@ export class DepartmentComponent implements OnInit {
 
   }
 
-  // selected_dept(data): any{
-  //   this.departmentMasterForm.controls['departmentCodeFormControl'].setValue(data.department_id);
-  //   this.departmentMasterForm.controls['departmentNameFormControl'].setValue(data.department_name);
-  //   this.createFlag = false;
-
-  //   this.dept_id = data.id
-  // }
-
 
   saveDept() {
     if(this.departmentMasterForm.valid){
@@ -91,48 +80,79 @@ export class DepartmentComponent implements OnInit {
       // formData.append('department_id', this.departmentMasterForm.controls['departmentCodeFormControl'].value);
       formData.append('department_id', this.departmentMasterForm.controls['departmentCodeFormControl'].value);
     formData.append('department_name', this.departmentMasterForm.controls['departmentNameFormControl'].value);
-    // formData.append('active',this.departmentMasterForm.controls['categoryActivateFormControl'].value);
+    formData.append('active',this.departmentMasterForm.controls['categoryActivateFormControl'].value);
 
     this.sharedService.updateDepartment(formData,this.dept_id).subscribe(
       (data) => {
         this.nbtoastService.success("Department Details updated Successfully")
         this.ngOnInit();
-         this.routes.navigate(["/DepartmentList"]);
-        this.departmentMasterForm.reset()
+        this.routes.navigate(["/DepartmentList"]);
       },
       (error) => {
-        if(error === 400){
-        this.nbtoastService.danger("Department Name" +error);
-        }
-        else{
-          this.nbtoastService.danger(error);
-        }
+          this.nbtoastService.danger("Department name already exist");
       }
     );
     }else{
     formData.append('department_id', this.departmentMasterForm.controls['departmentCodeFormControl'].value);
     formData.append('department_name', this.departmentMasterForm.controls['departmentNameFormControl'].value);
-    // formData.append('active',this.departmentMasterForm.controls['categoryActivateFormControl'].value);  
+    formData.append('active',this.departmentMasterForm.controls['categoryActivateFormControl'].value);
     this.sharedService.saveDepartment(formData).subscribe(
       (data) => {
         this.nbtoastService.success("Department Details Saved Successfully, ")
-        this.departmentMasterForm.reset()
-        this.routes.navigateByUrl("/DepartmentList");
-        
+        this.ngOnInit();
+        this.routes.navigate(["/DepartmentList"]);
       },
       (error) => {
-        console.log(error)
-        if(error === "exist"){
-          this.nbtoastService.danger("Department Name already"+" "+error);
-          }
-          else{
-            this.nbtoastService.danger(error);
-          }
+        console.log(error);
+          this.nbtoastService.danger("Department name already exist");
+
       }
     );
     }
 
   }
+  }
+
+  update(){
+    if(this.departmentMasterForm.valid){
+      console.log("Called save dept");
+      const formData = new FormData();
+      if (this.dept_id) {
+        formData.append('id', this.dept_id);
+        // formData.append('department_id', this.departmentMasterForm.controls['departmentCodeFormControl'].value);
+        formData.append('department_id', this.departmentMasterForm.controls['departmentCodeFormControl'].value);
+      formData.append('department_name', this.departmentMasterForm.controls['departmentNameFormControl'].value);
+      formData.append('active',this.departmentMasterForm.controls['categoryActivateFormControl'].value);
+
+      this.sharedService.updateDepartment(formData,this.dept_id).subscribe(
+        (data) => {
+          this.nbtoastService.success("Department Details updated Successfully")
+          this.ngOnInit();
+          this.routes.navigate(["/DepartmentList"]);
+        },
+        (error) => {
+            this.nbtoastService.danger("Department name already exist");
+        }
+      );
+      }else{
+      formData.append('department_id', this.departmentMasterForm.controls['departmentCodeFormControl'].value);
+      formData.append('department_name', this.departmentMasterForm.controls['departmentNameFormControl'].value);
+      formData.append('active',this.departmentMasterForm.controls['categoryActivateFormControl'].value);
+      this.sharedService.saveDepartment(formData).subscribe(
+        (data) => {
+          this.nbtoastService.success("Department Details Saved Successfully, ")
+          this.ngOnInit();
+          this.routes.navigate(["/DepartmentList"]);
+        },
+        (error) => {
+          console.log(error);
+            this.nbtoastService.danger("Department name already exist");
+
+        }
+      );
+      }
+
+    }
   }
 
   get f() { return this.departmentMasterForm.controls; }
@@ -143,8 +163,6 @@ export class DepartmentComponent implements OnInit {
     // stop here if form is invalid
     if (this.departmentMasterForm.invalid) {
         return;
-    }else if(!this.departmentMasterForm.invalid){
-      this.submitted = false
     }
 
   }
