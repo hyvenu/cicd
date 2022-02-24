@@ -40,18 +40,19 @@
 			<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT Appointment_Schedule.booking_date,
-Grn.invoice_number, Appointment_Schedule.phone_number,
-Product.product_code, Product.product_name,
-Unit.PrimaryUnit, Unit.SecondaryUnit
+			<![CDATA[SELECT appointment_schedule.booking_date,
+grn.invoice_number, customers.phone_number,
+product.product_code, product.product_name,
+unit.primaryUnit, unit.secondaryunit
 
  
-FROM d5n.purchase_grnmaster as Grn
-inner join store_appointmentschedule as Appointment_Schedule on Appointment_Schedule.store_id=Grn.store_id
-inner join inventory_productstock as Stock on Stock.store_id=Grn.store_id
-inner join inventory_productmaster as Product on Product.id=Stock.product_id
-inner join inventory_unitmaster as Unit on Unit.id=Stock.unit_id where
- Appointment_Schedule.booking_date between  $P{From_Date}  and  $P{to date} ]]>
+FROM purchase_grnmaster as grn
+inner join store_appointmentschedule as appointment_schedule on appointment_schedule.store_id=grn.store_id
+inner join inventory_productstock as stock on stock.store_id=grn.store_id
+inner join inventory_productmaster as product on product.id=stock.product_id
+inner join inventory_unitmaster as unit on unit.id=stock.unit_id 
+inner join store_customer as customers on customers.id=appointment_schedule.customer_id
+ where appointment_schedule.booking_date between  $P{From_Date}  and  $P{to date}]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
@@ -195,10 +196,6 @@ inner join inventory_unitmaster as Unit on Unit.id=Stock.unit_id where
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="11" y="0" width="89" height="86" uuid="433f3420-e37b-4dcf-b883-0511f4d8049b"/>
-				<imageExpression><![CDATA["C:/Users/Amith/Pictures/d5n.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="130" y="13" width="490" height="67" uuid="3cdcc69e-00d5-43c5-8ab7-a567d9704f76"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -206,6 +203,10 @@ inner join inventory_unitmaster as Unit on Unit.id=Stock.unit_id where
 				</textElement>
 				<text><![CDATA[material sales report]]></text>
 			</staticText>
+			<image>
+				<reportElement x="10" y="0" width="80" height="80" uuid="3295e3df-f378-4c92-a7d9-bf01377cf498"/>
+				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
