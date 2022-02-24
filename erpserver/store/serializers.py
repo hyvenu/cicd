@@ -91,6 +91,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
             'id',
             'department_id',
             'department_name',
+            'active'
         ]
 
     def create(self, validated_data):
@@ -106,6 +107,7 @@ class DesignationSerializer(serializers.ModelSerializer):
             'id',
             'designation_id',
             'designation_name',
+            'active',
         ]
 
     def create(self, validated_data):

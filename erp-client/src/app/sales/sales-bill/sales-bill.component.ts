@@ -467,7 +467,7 @@ export class SalesBillComponent implements OnInit {
     });
 
     this.subtotal = parseFloat(total_gross).toFixed(2);
-    this.gstValue = parseFloat(total_gst_value).toFixed(2) ;
+    this.gstValue = parseFloat(total_gst_value).toFixed(2);
 
     this.totalDiscount = parseFloat(total_discount).toFixed(2);
     this.grandTotal = parseFloat(total_grand).toFixed(2);

@@ -53,8 +53,9 @@ class AppSettings(AuditUuidModelMixin):
 
 
 class Department(AuditUuidModelMixin):
-    department_id = models.CharField(max_length=230, default="")
-    department_name = models.CharField(max_length=100, default="", unique=True)
+    department_id = models.CharField(max_length=30,null=True,blank=True)
+    department_name = models.CharField(max_length=100, unique=True)
+    active = models.BooleanField(default=True)
 
     class Meta:
         pass
@@ -66,6 +67,7 @@ class Department(AuditUuidModelMixin):
 class Designation(AuditUuidModelMixin):
     designation_id = models.CharField(max_length=230, default="")
     designation_name = models.CharField(max_length=100, default="", unique=True)
+    active = models.BooleanField(default=True)
 
     class Meta:
         pass

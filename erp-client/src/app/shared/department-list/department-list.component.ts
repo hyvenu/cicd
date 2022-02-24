@@ -10,12 +10,15 @@ import { SharedService } from '../shared.service';
 })
 export class DepartmentListComponent implements OnInit {
 
+  activeList:any = [];
+  inActiveList:any = [];
+
   settings = {
     // selectMode: 'multi',
     actions: {
       add: false,
       edit: false,
-      delete: false,      
+      delete: false,
       },
     columns: {
       id: {
@@ -23,7 +26,7 @@ export class DepartmentListComponent implements OnInit {
         hide:true
       },
       department_id: {
-        title: 'Department Code',        
+        title: 'Department Code',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="Department?id=${row.id}">${row.department_id}</a>`;
@@ -32,7 +35,7 @@ export class DepartmentListComponent implements OnInit {
       department_name: {
         title: 'Department Name',
       },
-    
+
     },
   };
 
@@ -50,6 +53,8 @@ export class DepartmentListComponent implements OnInit {
     this.sharedService.getDepartmentList().subscribe(
       (data) => {
         this.data = data;
+        this.activeList = this.data.filter(item => item.active === true);
+        this.inActiveList = this.data.filter(item => item.active === false);
       },
       (error) => {
         this.nbtoastService.danger("Unable to get Deparment List")
