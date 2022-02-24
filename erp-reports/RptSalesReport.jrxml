@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 7.8.0.final using JasperReports Library version 6.14.0-2ab0d8625be255bf609c78e1181801213e51db8f  -->
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sales_rpt" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="14006a3d-8557-454a-8245-f6744efad26d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
@@ -70,27 +70,31 @@
 			<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT  Appoinment_Schedule.booking_date,
-Appoinment_Schedule.customer_name, Appoinment_Schedule.phone_number,
-Appoinment_Schedule.start_time, Appoinment_Schedule.end_time ,
+			<![CDATA[SELECT  appoinment_schedule.booking_date,
+ customers.customer_name,customers.phone_number,
+appm.start_time,appm.end_time,
 sales_orders.grand_total,
 sales_orders.payment_terms,sales_orders.upi_type, sales_orders.transaction_id, 
-group_concat(distinct nullif(Service.service_name,'')), Employee.employee_name ,
- group_concat(distinct nullif(Product.product_name,'')), 
- group_concat(distinct nullif(Category.category_name,'')) 
+group_concat(distinct nullif(service.service_name,'')), employee.employee_name ,
+ group_concat(distinct nullif(product.product_name,'')) , 
+ group_concat(distinct nullif(category.category_name,''))
 
 
- FROM store_appointmentschedule as Appoinment_Schedule
- inner join store_appointmentformultipleservice as Appm on Appoinment_Schedule.id=Appm.appointment_id
- inner join store_storeservices as Service on Service.id=Appm.service_id
- inner join store_employee as Employee on Employee.id=Appoinment_Schedule.assigned_staff_id
- INNER join sales_salesorderrequest as sales_orders on sales_orders.customer_id=Appoinment_Schedule.customer_id
-inner join  sales_salesorderdetails as Order_Details on sales_orders.id=Order_Details.po_order_id
-/* and Order_Details.product_id is not null; */
-left join inventory_productmaster as Product on Product.id=Order_Details.product_id
-left join inventory_productcategory as Category on Product.category_id=Category.id
- where    Appoinment_Schedule.booking_date between  $P{From_Date} and  $P{To Date}
-group by sales_orders.invoice_no]]>
+ FROM store_appointmentschedule as appoinment_schedule
+ inner join store_appointmentformultipleservice as appm on appoinment_schedule.id=appm.appointment_id
+ inner join store_storeservices as service on service.id=appm.service_id
+ inner join store_employee as employee on employee.id=appm.assigned_staff_id
+ INNER join sales_salesorderrequest as sales_orders on sales_orders.customer_id=appoinment_schedule.customer_id
+inner join  sales_salesorderdetails as order_details on sales_orders.id=order_details.po_order_id
+/* and order_details.product_id is not null; */
+ inner join store_customer as customers on customers.id=appoinment_schedule.customer_id
+left join inventory_productmaster as product on product.id=order_details.product_id
+left join inventory_productcategory as category on product.category_id=category.id
+ 
+ where    appoinment_schedule.booking_date between  $P{From_Date} and  $P{To Date}
+group by sales_orders.invoice_no,appoinment_schedule.booking_date,
+customers.customer_name,customers.phone_number,appm.start_time,appm.end_time,
+sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales_orders.transaction_id,employee.employee_name]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
@@ -270,28 +274,28 @@ group by sales_orders.invoice_no]]>
 			<textField>
 				<reportElement x="650" y="15" width="100" height="30" uuid="8248da2c-7efc-41f2-b90c-736cd7629a03"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="650" y="29" width="100" height="30" uuid="c95067a4-f048-4e15-97d3-6d2f800c103a"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="650" y="45" width="100" height="30" uuid="871700db-6bc7-4d28-a298-ceb9cb1b03fa"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="710" y="44" width="100" height="30" uuid="01ab0b79-8db8-40dd-a5f2-817003ac419e"/>
+				<reportElement x="720" y="45" width="100" height="30" uuid="01ab0b79-8db8-40dd-a5f2-817003ac419e"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
@@ -331,8 +335,8 @@ group by sales_orders.invoice_no]]>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="27" y="0" width="103" height="76" uuid="d00672b5-27e1-4e4c-b359-f9975c798b09"/>
-				<imageExpression><![CDATA["LOGO.jpg"]]></imageExpression>
+				<reportElement x="9" y="8" width="71" height="71" uuid="9f99de3f-0fbc-4c48-9403-309e4fc3b038"/>
+				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
