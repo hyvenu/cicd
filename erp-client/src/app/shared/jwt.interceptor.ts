@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
@@ -26,18 +26,25 @@ export class JwtInterceptor implements HttpInterceptor {
         const currentUser = sessionStorage.getItem('user_id');
         const token = sessionStorage.getItem('accessToken');
         console.log("access");
+        if(!sessionStorage.getItem('store_id') && currentUser && token){
+          this.router.navigateByUrl('/StoreSelect');
+        }
         if (currentUser && token) {
             request = request.clone({
                 setHeaders: {
                     Authorization: `Bearer ${token}`
                 }
             });
+            request = request.clone({
+              params: (request.params ? request.params : new HttpParams())
+                         .set('b_id', sessionStorage.getItem('store_id')) /*.... add new params here .....*/
+            });
         }
 
         return next.handle(request).pipe(
             catchError((err: HttpErrorResponse) => {
               if (err.status === 401) {
-                sessionStorage.clear();  
+                sessionStorage.clear();
                 this.router.navigate(['Login'], { queryParams: { returnUrl: this.router.url } });
                 return throwError(err.error.detail);
               } else if (err.status === 0) {
@@ -47,7 +54,7 @@ export class JwtInterceptor implements HttpInterceptor {
               } else {
                 return throwError(err.error);
               }
-              
+
             })
         )
     }
