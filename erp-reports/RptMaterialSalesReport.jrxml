@@ -216,7 +216,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="79" splitType="Stretch">
+		<band height="75" splitType="Stretch">
 			<componentElement>
 				<reportElement x="0" y="5" width="760" height="65" uuid="b17784bd-812e-48b6-b82f-de587a188046">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
@@ -372,7 +372,22 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 		</band>
 	</detail>
 	<columnFooter>
-		<band splitType="Stretch"/>
+		<band height="44" splitType="Stretch">
+			<staticText>
+				<reportElement x="340" y="10" width="51" height="22" uuid="6177e546-d746-4d74-a2bf-7280c98d3ef9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Candara" size="15"/>
+				</textElement>
+				<text><![CDATA[Page :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="380" y="6" width="30" height="30" uuid="81f6ad9d-7478-41bc-ad46-d1f8b4c83290"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Candara" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band splitType="Stretch"/>
