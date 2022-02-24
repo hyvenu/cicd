@@ -105,7 +105,7 @@ def delete_booking(request, app_id):
     store_service = StoreService()    
     #pdata = JSONParser().parse(request)
     #pdata = request.data
-    print("pdata %s"%app_id)
+    # print("pdata %s"%app_id)
     #app_id = request.GET.get('app_id')
     #app_id = pdata['app_id']
     count = store_service.delete_appointment(app_id)
@@ -264,13 +264,13 @@ def get_enquiry_list(request):
 def store_services(request):    
   #param1 = request.GET.get("param1")
   if request.method == 'GET':
-        print("GET called")
+        # print("GET called")
         store_service = StoreService()
         service_list = store_service.get_service_list()
         return JsonResponse(service_list, safe=False)
  
   elif request.method == 'POST':
-        print("POST called")
+        # print("POST called")
         try:
             data = request.data
             store_service = StoreService()
@@ -281,7 +281,7 @@ def store_services(request):
         return JsonResponse(ap_res, safe=False, status=status.HTTP_200_OK)    
 
   elif request.method == 'PUT':
-        print("UPDATE CALLED %s"%request.data)
+        # print("UPDATE CALLED %s"%request.data)
         try:
             data = request.data
             store_service = StoreService()
@@ -299,6 +299,6 @@ def store_services(request):
 @permission_classes([IsAuthenticated, ])
 def delete_service(request, id):
     store_service = StoreService()   
-    print("pdata %s"%id)
+    # print("pdata %s"%id)
     count = store_service.delete_service(id)
     return JsonResponse(count, safe=False, status=status.HTTP_200_OK)         
