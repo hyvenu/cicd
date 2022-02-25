@@ -179,21 +179,21 @@ group by appointment_schedule.booking_date, price.product_id is not null,price.t
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="156" y="52" width="110" height="24" uuid="5f72db97-a89d-4b69-b828-e3caa05e2bff"/>
+				<reportElement x="156" y="52" width="124" height="24" uuid="5f72db97-a89d-4b69-b828-e3caa05e2bff"/>
 				<textElement>
 					<font fontName="Constantia" size="11"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="254" y="54" width="82" height="16" uuid="39c613a3-d0fa-4544-8c59-cf6f1c5ba23e"/>
+				<reportElement x="254" y="54" width="89" height="16" uuid="39c613a3-d0fa-4544-8c59-cf6f1c5ba23e"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="333" y="51" width="63" height="18" uuid="fd969036-9e99-4e83-98d0-600cc4e69f37"/>
+				<reportElement x="333" y="51" width="77" height="18" uuid="fd969036-9e99-4e83-98d0-600cc4e69f37"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>
@@ -239,7 +239,7 @@ group by appointment_schedule.booking_date, price.product_id is not null,price.t
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="25"/>
 				</textElement>
-				<text><![CDATA[Sales by product report]]></text>
+				<text><![CDATA[Sales by Product Report]]></text>
 			</staticText>
 		</band>
 	</title>

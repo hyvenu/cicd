@@ -177,17 +177,17 @@ order_details.gst,
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="27"/>
 				</textElement>
-				<text><![CDATA[Sale by Service report]]></text>
+				<text><![CDATA[Sale by Service Report]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="156" y="52" width="110" height="24" uuid="b8a81d69-ecef-4ec9-8f95-2d0f04275919"/>
+				<reportElement x="156" y="52" width="124" height="24" uuid="b8a81d69-ecef-4ec9-8f95-2d0f04275919"/>
 				<textElement>
 					<font fontName="Constantia" size="11"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="254" y="54" width="82" height="16" uuid="92f651d4-9d7d-4040-934a-68e39328cb42"/>
+				<reportElement x="254" y="54" width="89" height="16" uuid="92f651d4-9d7d-4040-934a-68e39328cb42"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>
@@ -201,7 +201,7 @@ order_details.gst,
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="333" y="51" width="63" height="18" uuid="85634b5e-d4df-404c-9e45-fed7dd54983e"/>
+				<reportElement x="333" y="51" width="77" height="18" uuid="85634b5e-d4df-404c-9e45-fed7dd54983e"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>

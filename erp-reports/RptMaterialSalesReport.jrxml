@@ -3,6 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Material_Sales_rpt" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c32cdb09-340c-4afd-8acf-8ebca7c6f170">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptMaterialSalesReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptMaterialSalesReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -171,28 +175,28 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 			<textField>
 				<reportElement x="640" y="10" width="100" height="30" uuid="220e247e-248e-4dcc-94da-c479f56163d3"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="640" y="30" width="100" height="30" uuid="091511ae-f232-489a-afcd-72a7dfb09ae1"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="638" y="50" width="100" height="30" uuid="ebeb6f31-db7e-465f-a0db-f5a3a70ae4c0"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="704" y="50" width="100" height="30" uuid="47a17bed-0d5c-4332-8bed-e9d4a99ecc70"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
@@ -201,7 +205,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="35"/>
 				</textElement>
-				<text><![CDATA[material sales report]]></text>
+				<text><![CDATA[Material Sales Report]]></text>
 			</staticText>
 			<image>
 				<reportElement x="10" y="0" width="80" height="80" uuid="3295e3df-f378-4c92-a7d9-bf01377cf498"/>

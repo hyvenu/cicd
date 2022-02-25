@@ -235,21 +235,21 @@ Store.address,Store.city,Store.pin_code FROM store_store as Store;]]>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="160" y="53" width="110" height="27" uuid="74a09f14-598a-45c2-9719-51ab27965d9d"/>
+				<reportElement x="160" y="53" width="120" height="23" uuid="74a09f14-598a-45c2-9719-51ab27965d9d"/>
 				<textElement>
 					<font fontName="Constantia" size="11"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="260" y="50" width="60" height="20" uuid="104f0b61-8c26-4c40-ae38-e7b3b44afda4"/>
+				<reportElement x="260" y="50" width="80" height="20" uuid="104f0b61-8c26-4c40-ae38-e7b3b44afda4"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="340" y="51" width="63" height="18" uuid="a806adc2-64ff-4dd1-81b7-7ddb98439226"/>
+				<reportElement x="340" y="51" width="80" height="18" uuid="a806adc2-64ff-4dd1-81b7-7ddb98439226"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>

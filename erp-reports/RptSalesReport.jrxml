@@ -304,17 +304,17 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="45"/>
 				</textElement>
-				<text><![CDATA[sales report]]></text>
+				<text><![CDATA[Sales Report]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="280" y="60" width="110" height="19" uuid="f350e7b2-e02a-44de-a96a-0d77c722abe2"/>
+				<reportElement x="280" y="60" width="130" height="19" uuid="f350e7b2-e02a-44de-a96a-0d77c722abe2"/>
 				<textElement>
 					<font fontName="Constantia"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="371" y="60" width="60" height="16" uuid="7b0dd0ff-a9e0-40fb-9c6a-b810caab24ce"/>
+				<reportElement x="371" y="60" width="79" height="16" uuid="7b0dd0ff-a9e0-40fb-9c6a-b810caab24ce"/>
 				<textElement>
 					<font fontName="Constantia" isBold="true"/>
 				</textElement>
@@ -328,7 +328,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="450" y="60" width="70" height="16" uuid="3e638287-a5aa-452f-b3ba-ea018a8e8b30"/>
+				<reportElement x="450" y="60" width="94" height="16" uuid="3e638287-a5aa-452f-b3ba-ea018a8e8b30"/>
 				<textElement>
 					<font fontName="Constantia" isBold="true"/>
 				</textElement>
