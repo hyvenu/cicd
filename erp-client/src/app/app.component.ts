@@ -225,8 +225,7 @@ export class AppComponent implements OnInit {
         },
         {
           title: 'Reports',
-          url:'http://103.146.177.164:8083/jasperserver/login.html',
-          target: '_blank',
+          link: 'ReportsList',
         }
 
       ]

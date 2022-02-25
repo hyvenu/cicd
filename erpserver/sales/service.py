@@ -1,6 +1,6 @@
-import datetime
+from datetime import datetime
 from io import BytesIO
-
+# import datetime
 from django.db import transaction
 from django.db.models import Sum, Q
 from django.utils import timezone
@@ -58,7 +58,7 @@ class OrderService:
 
     @classmethod
     def getCurrentDate(cls):
-        now = datetime.datetime.now()
+        now = datetime.now()
  
         print("now =", now)
 
@@ -69,9 +69,9 @@ class OrderService:
 
     @classmethod
     def generate_invoice_code(cls):
-        prefix_code = 'D5N-CU'
+        prefix_code = 'GRN/' + str(datetime.today().year) + '/'
         code = get_next_value(prefix_code)
-        code = prefix_code + '-' + str(code)
+        code = prefix_code + str(code)
         return code
 
     def check_stock(self, product, pack_type, qty):
@@ -328,14 +328,14 @@ class OrderService:
 
     @classmethod
     def generate_po_number(cls):
-        perfix = 'D5N' + '/20-21' + '/SL/'
+        perfix = 'PO/' + str(datetime.today().year) + '/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
 
     @classmethod
     def generate_so_number(cls):
-        perfix = 'D5N' + '/20-21' + '/SL/'
+        perfix = 'SL/' + str(datetime.today().year) + '/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
@@ -349,7 +349,7 @@ class OrderService:
 
     @classmethod
     def generate_invoice_no(cls):
-        prefix = 'INV' + '/20-21'
+        prefix = 'INV/' + str(datetime.today().year) + '/'
         code = get_next_value(prefix, 1)
         code = prefix + str(code).zfill(5)
         return code

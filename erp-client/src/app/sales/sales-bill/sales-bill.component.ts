@@ -644,7 +644,8 @@ export class SalesBillComponent implements OnInit {
               dd.item_description = this.selectedPro.service_name
               dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
               dd.unit_id = this.selectedPro.unit,
-              dd.unit = this.selectedPro.unit__PrimaryUnit,
+              dd.unit = this.selectedPro.unit,
+              dd.unit_name = this.selectedPro.unit__PrimaryUnit,
               dd.price = this.selectedPro.price
               dd.discount = 0,
               dd.item_total = parseFloat(total).toFixed(2),
