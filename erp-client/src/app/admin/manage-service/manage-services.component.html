@@ -77,8 +77,8 @@
     <nb-card>
         <nb-card-header>Service List &nbsp;&nbsp; <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)] = "searchService" /></nb-card-header>
         <nb-card-body>
-            <nb-list-item *ngFor="let service of services | search_filter:'service_name':searchService">
-                <i class="mr-auto mt-2 mt-lg-0">{{ service.service_name }}-{{service.price}}-{{service.service_gst}}%gst-{{service.service_hour}}</i>
+            <nb-list-item *ngFor="let service of services | search_filter:'service_name,service_desc':searchService">
+                <i class="mr-auto mt-2 mt-lg-0">{{ service.service_name }}<br>{{ service.service_desc }}<br>{{service.price}} - {{service.service_gst}}% gst - {{service.service_hour}}</i>
                 <button nbButton size="small" (click)="delete_Service(service.id)" >Delete</button>
                 <button nbButton size="small" (click)="selected_Service(service)" >Select</button>
                 <!-- <button class="remove-from-category" nbButton size="small"  href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="fa fa-trash"></i></button> -->

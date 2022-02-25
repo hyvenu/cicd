@@ -279,3 +279,13 @@ class AppointmentScheduleSerializer(serializers.ModelSerializer):
         return response
 
 
+class ReportModuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ReportModule
+        fields = [
+            'id',
+            'report_name',
+            'report_file_name',
+            'params',
+            'is_active',
+        ]

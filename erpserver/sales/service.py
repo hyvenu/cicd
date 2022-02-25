@@ -1,6 +1,6 @@
-import datetime
+from datetime import datetime
 from io import BytesIO
-
+# import datetime
 from django.db import transaction
 from django.db.models import Sum, Q
 from django.utils import timezone
@@ -58,7 +58,7 @@ class OrderService:
 
     @classmethod
     def getCurrentDate(cls):
-        now = datetime.datetime.now()
+        now = datetime.now()
  
         print("now =", now)
 
@@ -69,9 +69,9 @@ class OrderService:
 
     @classmethod
     def generate_invoice_code(cls):
-        prefix_code = 'D5N-CU'
+        prefix_code = 'GRN/' + str(datetime.today().year) + '/'
         code = get_next_value(prefix_code)
-        code = prefix_code + '-' + str(code)
+        code = prefix_code + str(code)
         return code
 
     def check_stock(self, product, pack_type, qty):
@@ -328,14 +328,14 @@ class OrderService:
 
     @classmethod
     def generate_po_number(cls):
-        perfix = 'D5N' + '/20-21' + '/SL/'
+        perfix = 'PO/' + str(datetime.today().year) + '/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
 
     @classmethod
     def generate_so_number(cls):
-        perfix = 'D5N' + '/20-21' + '/SL/'
+        perfix = 'SL/' + str(datetime.today().year) + '/'
         code = get_next_value(perfix, 1)
         code = perfix + str(code).zfill(5)
         return code
@@ -349,7 +349,7 @@ class OrderService:
 
     @classmethod
     def generate_invoice_no(cls):
-        prefix = 'INV' + '/20-21'
+        prefix = 'INV/' + str(datetime.today().year) + '/'
         code = get_next_value(prefix, 1)
         code = prefix + str(code).zfill(5)
         return code
@@ -487,13 +487,13 @@ class OrderService:
 
             sales_order_details = SalesOrderDetails()
             if len(item['item_id']):
-                print("ADDing product")
+                #print("ADDing product")
                 #for product
                 sales_order_details.po_order = sales_order_req           
                 sales_order_details.booking_id = item['booking_id']
                 sales_order_details.product_id = item['item_id']
                 # po_product.product_code = item['product_code']
-                sales_order_details.product_name = item['item_description']
+                sales_order_details.product_name = item['item_name']
                 sales_order_details.unit_id = item['unit_id']
                 sales_order_details.unit_text = item['unit']
                 sales_order_details.qty = item['quantity']
@@ -511,12 +511,12 @@ class OrderService:
 
                 sales_order_details.save()
             else:
-                print("ADDing service")
+                #print("ADDing service")
                 sales_order_details.po_order = sales_order_req           
                 sales_order_details.booking_id = item['booking_id']
                 sales_order_details.service_id = item['service_id']
                 # po_product.product_code = item['product_code']
-                sales_order_details.product_name = item['item_description']
+                sales_order_details.product_name = item['item_name']
                 sales_order_details.unit_id = item['unit_id']
                 sales_order_details.unit_text = item['unit']
                 sales_order_details.qty = item['quantity']
@@ -611,7 +611,7 @@ class OrderService:
 
             sales_refund_details = SalesRefundDetails()
             if len(item['item_id']):
-                print("ADDing product")
+                #print("ADDing product")
                 #for product
 
                 sales_refund_details.refund_order_id = sales_refund_req.id
@@ -635,7 +635,7 @@ class OrderService:
 
                 sales_refund_details.save()
             else:
-                print("ADDing service")
+                #print("ADDing service")
 
                 sales_refund_details.refund_order_id = sales_refund_req.id
                 sales_refund_details.service_id = item['service_id']
@@ -726,10 +726,10 @@ class OrderService:
         sales_exchange_req.save()
 
         sales_invoice_list = ast.literal_eval(sales_data['invoice_items'])
-        print("items %s"%sales_invoice_list)
+        #print("items %s"%sales_invoice_list)
 
         for item in sales_invoice_list:
-            print("ITEM :::: %s"%item)
+            #print("ITEM :::: %s"%item)
             #if 'id' in item and len(item['id']) > 0:
                 #sales_order_details = SalesOrderDetails.objects.get(id=item['id'])
             #else:
@@ -737,7 +737,7 @@ class OrderService:
 
             sales_exchange_details = SalesExchangeDetails()
             if len(item['item_id']):
-                print("ADDing product")
+                #print("ADDing product")
                 #for product
 
                 sales_exchange_details.exchange_order_id = sales_exchange_req.id
@@ -761,7 +761,7 @@ class OrderService:
 
                 sales_exchange_details.save()
             else:
-                print("ADDing service")
+                #print("ADDing service")
 
                 sales_exchange_details.exchange_order_id = sales_exchange_req.id
                 sales_exchange_details.service_id = item['service_id']
@@ -864,7 +864,7 @@ class OrderService:
 
     @classmethod
     def get_po_details_exchange(cls, e_id):
-        print("EID:", e_id)
+        #print("EID:", e_id)
         final_list = []
         po_data_list = SalesExchange.objects.filter(exchange_number=e_id).all().values(
             'id',

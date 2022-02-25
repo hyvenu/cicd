@@ -17,6 +17,9 @@ router.register("MembersDetails", api.MembersDetailsViewSet)
 router.register("Customer", api.CustomerViewSet)
 router.register("Appointment", api.AppointmentScheduleViewSet)
 router.register("Employee", api.EmpolyeeViewSet)
+router.register("AppSettings", api.AppSettingViewSet)
+router.register("ReportModule", api.ReportModuleViewSet)
+
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),
