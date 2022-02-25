@@ -171,7 +171,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="86" splitType="Stretch">
+		<band height="109" splitType="Stretch">
 			<textField>
 				<reportElement x="640" y="10" width="100" height="30" uuid="220e247e-248e-4dcc-94da-c479f56163d3"/>
 				<textElement verticalAlignment="Middle">
@@ -211,6 +211,34 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 				<reportElement x="10" y="0" width="80" height="80" uuid="3295e3df-f378-4c92-a7d9-bf01377cf498"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="440" y="68" width="100" height="18" uuid="99123b29-1c82-4af7-9d40-8018a49c43cc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Candara" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="67" width="80" height="20" uuid="f6cde276-01bf-4a31-b8d6-67954fdc6134"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Candara" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="420" y="70" width="28" height="15" uuid="98038031-c446-40f9-ae74-bfee2d6aeaef"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Constantia" size="11"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="70" width="120" height="23" uuid="15370007-8b71-4e81-86fc-f269c5cf1d0c"/>
+				<textElement>
+					<font fontName="Constantia" size="11"/>
+				</textElement>
+				<text><![CDATA[report generated on ]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

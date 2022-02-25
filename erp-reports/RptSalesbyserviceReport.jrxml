@@ -3,6 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RptSalesbyserviceReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dd57a68e-a5e6-4d7d-b278-f9f7ddb5d120">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptSalesbyserviceReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptSalesbyserviceReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -180,7 +184,7 @@ order_details.gst,
 				<text><![CDATA[Sale by Service Report]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="156" y="52" width="124" height="24" uuid="b8a81d69-ecef-4ec9-8f95-2d0f04275919"/>
+				<reportElement x="156" y="54" width="124" height="22" uuid="b8a81d69-ecef-4ec9-8f95-2d0f04275919"/>
 				<textElement>
 					<font fontName="Constantia" size="11"/>
 				</textElement>
@@ -194,14 +198,14 @@ order_details.gst,
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="315" y="52" width="28" height="16" uuid="8494d3f2-9d6d-4fb5-9050-b7b2348cee9c"/>
+				<reportElement x="315" y="54" width="28" height="14" uuid="8494d3f2-9d6d-4fb5-9050-b7b2348cee9c"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="Constantia" size="11"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="333" y="51" width="77" height="18" uuid="85634b5e-d4df-404c-9e45-fed7dd54983e"/>
+				<reportElement x="333" y="54" width="87" height="15" uuid="85634b5e-d4df-404c-9e45-fed7dd54983e"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>

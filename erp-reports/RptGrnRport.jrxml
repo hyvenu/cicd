@@ -295,7 +295,7 @@ inner join store_store as store on store.id=stock.store_id
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="83" splitType="Stretch">
+		<band height="102" splitType="Stretch">
 			<textField>
 				<reportElement x="581" y="12" width="100" height="30" uuid="8a4395e1-8658-45d4-829f-87000edf59dc"/>
 				<textElement verticalAlignment="Middle">
@@ -335,6 +335,34 @@ inner join store_store as store on store.id=stock.store_id
 				<reportElement x="21" y="7" width="69" height="63" uuid="176bc600-ed34-4b3c-930f-21a72e579373"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="430" y="68" width="100" height="18" uuid="d00e9ad4-3f9d-4cd2-90ab-31dd426dabfc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Candara" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="67" width="80" height="20" uuid="76a7e8c8-5dad-44fd-8c46-6fdf591a6cb4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Candara" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="410" y="70" width="28" height="15" uuid="9fc7671e-92fc-4f90-97b9-6b5aa4a7b281"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Constantia" size="11"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="70" width="120" height="23" uuid="2205f7be-cb38-48f8-815c-cac478a639fc"/>
+				<textElement>
+					<font fontName="Constantia" size="11"/>
+				</textElement>
+				<text><![CDATA[report generated on ]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

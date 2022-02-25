@@ -3,6 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sales_By_Saff_rpt" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0c21506f-4b41-42d0-ac01-c75403d07f17">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptSalesbystaffReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptSalesbystaffReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -144,8 +148,8 @@ sales_orders.customer_id=appoinment_schedule.customer_id
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT Store.store_name,
-Store.address,Store.city,Store.pin_code FROM store_store as Store;]]>
+		<![CDATA[SELECT store.store_name,
+store.address,store.city,store.pin_code FROM store_store as store;]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
@@ -193,7 +197,7 @@ Store.address,Store.city,Store.pin_code FROM store_store as Store;]]>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="100" y="10" width="340" height="50" uuid="c03c4d35-643f-41cf-9e6d-32595400625d"/>
+				<reportElement x="100" y="10" width="340" height="40" uuid="c03c4d35-643f-41cf-9e6d-32595400625d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="25"/>
 				</textElement>
@@ -228,7 +232,7 @@ Store.address,Store.city,Store.pin_code FROM store_store as Store;]]>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="320" y="52" width="28" height="16" uuid="7f69b259-4adf-4d9b-b49c-c778db0177b0"/>
+				<reportElement x="320" y="53" width="28" height="15" uuid="7f69b259-4adf-4d9b-b49c-c778db0177b0"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="Constantia" size="11"/>
 				</textElement>
@@ -249,7 +253,7 @@ Store.address,Store.city,Store.pin_code FROM store_store as Store;]]>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="340" y="51" width="80" height="18" uuid="a806adc2-64ff-4dd1-81b7-7ddb98439226"/>
+				<reportElement x="340" y="51" width="100" height="18" uuid="a806adc2-64ff-4dd1-81b7-7ddb98439226"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>

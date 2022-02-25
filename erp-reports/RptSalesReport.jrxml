@@ -3,9 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sales_rpt" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="14006a3d-8557-454a-8245-f6744efad26d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
-	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/"/>
+	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.reportUnit" value="/D5N/Reports/Sales_rpt"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptSalesReport"/>
+	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptSalesReport_files/main_jrxml"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -227,8 +228,8 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT Store.store_name,Store.address
-,Store.city,Store.pin_code FROM store_store as Store;]]>
+		<![CDATA[SELECT store.store_name,store.address
+,store.city,store.pin_code FROM store_store as store;]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
@@ -328,7 +329,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="450" y="60" width="94" height="16" uuid="3e638287-a5aa-452f-b3ba-ea018a8e8b30"/>
+				<reportElement x="450" y="62" width="94" height="14" uuid="3e638287-a5aa-452f-b3ba-ea018a8e8b30"/>
 				<textElement>
 					<font fontName="Constantia" isBold="true"/>
 				</textElement>

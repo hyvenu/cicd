@@ -204,7 +204,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="87" splitType="Stretch">
+		<band height="109" splitType="Stretch">
 			<textField>
 				<reportElement x="617" y="10" width="100" height="30" uuid="02eb78f5-88d2-4f5e-9d63-c1e56cc88617"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -244,6 +244,34 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 				<reportElement x="17" y="7" width="73" height="73" uuid="9ac2df8b-1bb4-4ffa-b23c-ba2c458d1e27"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="440" y="68" width="100" height="18" uuid="1b9655d6-2fc8-41e5-acb2-d32eb2cead97"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Candara" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="67" width="80" height="20" uuid="833976a3-8109-4295-9cd5-04e0c6d262c8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Candara" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="420" y="70" width="28" height="15" uuid="585f25f6-e25c-4b78-9382-3b1e86d8b3d3"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Constantia" size="11"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="70" width="120" height="23" uuid="5dae9071-47d8-49cb-a59c-d60878f8f89d"/>
+				<textElement>
+					<font fontName="Constantia" size="11"/>
+				</textElement>
+				<text><![CDATA[report generated on ]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
