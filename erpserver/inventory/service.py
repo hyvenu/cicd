@@ -153,7 +153,6 @@ class InventoryService:
 
 
     def get_all_product_list(self):
-        product_list = []
         product_dict = ProductMaster.objects.all().values(
             'id',
             'product_code',
@@ -185,6 +184,7 @@ class InventoryService:
                 "sell_price",
                 "product",
                 "product__product_name",
+                "product__description",
                 "unit",
                 "unit__PrimaryUnit",
                 "tax",
