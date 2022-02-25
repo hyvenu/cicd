@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework import viewsets, permissions
 
 from . import serializers
@@ -78,3 +79,34 @@ class EmpolyeeViewSet(viewsets.ModelViewSet):
 class MembersDetailsViewSet(viewsets.ModelViewSet):
     queryset = models.MembersDetails.objects.all()
     serializer_class = serializers.MembersDetailsSerializer
+
+class AppSettingViewSet(viewsets.ModelViewSet):
+    queryset = models.AppSettings.objects.all()
+    serializer_class = serializers.AppSettingsSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        settings_dict = {}
+        for item in serializer.data:
+            settings_dict[item['app_key']] = item['app_value']
+        return JsonResponse(settings_dict,safe=False)
+
+
+class ReportModuleViewSet(viewsets.ModelViewSet):
+    queryset = models.ReportModule.objects.filter(is_active=True).all()
+    serializer_class = serializers.ReportModuleSerializer
+
+    def get_queryset(self):
+        perm = self.request.user.get_all_permissions()
+        perm = [ str(i.split(".")[1]).replace("can_view_","") for i in list(perm)]
+        if 'is_active' in self.request.query_params:
+            return models.ReportModule.objects.filter(report_name__in=perm,is_active=int(self.request.query_params['is_active'])).all()
+        else:
+            return models.ReportModule.objects.filter(report_name__in=perm).all()

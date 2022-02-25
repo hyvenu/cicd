@@ -6,6 +6,8 @@ from django.urls import reverse
 
 from audit_fields.models import AuditUuidModelMixin
 #from inventory import models as imd
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 
 User = get_user_model()
 
@@ -115,7 +117,7 @@ class StoreServices(AuditUuidModelMixin):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     service_gst = models.CharField(max_length=100, default="0", blank=True)
     service_hour = models.CharField(max_length=100, default="") 
-    unit = models.ForeignKey("inventory.UnitMaster", on_delete=models.CASCADE)
+    unit = models.ForeignKey("inventory.UnitMaster", on_delete=models.CASCADE,default=None,null=True)
 
     class Meta:
         verbose_name_plural = "Services"
@@ -261,5 +263,31 @@ class MembersDetails(AuditUuidModelMixin):
         return str(self.pk)
 
 
+
+class ReportModule(AuditUuidModelMixin):
+    report_name = models.CharField(null=False, max_length=100,unique=True)
+    report_file_name = models.CharField(null=False, max_length=100)
+    params = models.CharField(max_length=1000, null=True, blank=True)
+    is_active = models.BooleanField(default=False)
+
+    class Meta:
+        permissions = (
+            ("can_view_reports", "Can View Reports"),
+            # ("can_view_pos_sales_reports", "Can View POS Sales Reports"),
+            # ("can_view_online_sales_reports", "Can View Online Sales Reports"),
+            # ("can_view_product_list_reports", "Can View Product List Reports"),
+            # ("can_view_product_stock_reports", "Can View Product Stock Reports"),
+            # ("can_view_overall_sales_reports", "Can View Over All Sales Reports"),
+            # ("can_view_barcode_40l_reports", "Can View Barcode 40L Reports"),
+        )
+
+    def save(self, *args, **kwargs):
+        super(ReportModule, self).save(*args, **kwargs)
+        code_name = "can_view_" + str(self.report_name).lower()
+        name = "Can View " + str(self.report_name).capitalize()
+        ct = ContentType.objects.get_for_model(ReportModule)
+        Permission.objects.get_or_create(codename=code_name,
+                                  name=name,
+                                  content_type=ct)
 
 

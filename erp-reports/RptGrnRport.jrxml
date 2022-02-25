@@ -3,6 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Grn_rpt" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0eb81c10-8730-42b9-a2f3-5118440a1380">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptGrnRport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptGrnRport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -40,26 +44,26 @@
 			<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT Grn.grn_date, Grn.grn_code, Grn.po_number, Grn.vendor_name,
-Grn.invoice_number,Category.category_name, Sub_Category.sub_category_name,
-Product.product_code, Product.product_name,
-Unit.PrimaryUnit, Unit.SecondaryUnit,
-Order_Details.qty, Grn_Product.received_qty, Grn_Product.rejected_qty,
-Grn_Product.accepted_qty,Stock.batch_number,
- Grn_Product.unit_price, Grn_Product.total,
-Grn_Product.gst_amount, Grn_Product.amount
+			<![CDATA[SELECT grn.grn_date, grn.grn_code, grn.po_number, grn.vendor_name,
+grn.invoice_number,category.category_name, sub_category.sub_category_name,
+product.product_code, product.product_name,
+unit.primaryUnit, unit.secondaryUnit,
+order_details.qty, grn_product.received_qty, grn_product.rejected_qty,
+grn_product.accepted_qty,stock.batch_number,
+ grn_product.unit_price, grn_product.total,
+grn_product.gst_amount, grn_product.amount
 
 
-FROM d5n.purchase_grnmaster as Grn
-inner join inventory_productstock as Stock on Stock.store_id=Grn.store_id
-inner join inventory_productmaster as Product on Product.id=Stock.product_id
-inner join inventory_productcategory as Category on Category.id=Product.category_id
-inner join inventory_productsubcategory as Sub_Category on Sub_Category.category_id=Category.id
-inner join inventory_unitmaster as Unit on Unit.id=Stock.unit_id
-inner join purchase_poorderdetails as Order_Details on Order_Details.unit_id=Unit.id
-inner join purchase_grnproductlist as Grn_Product on Grn_Product.unit_id_id=Order_Details.unit_id
-inner join store_store as Store on Store.id=Stock.store_id 
-where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
+FROM purchase_grnmaster as grn
+inner join inventory_productstock as stock on stock.store_id=grn.store_id
+inner join inventory_productmaster as product on product.id=stock.product_id
+inner join inventory_productcategory as category on category.id=product.category_id
+inner join inventory_productsubcategory as sub_category on sub_category.category_id=category.id
+inner join inventory_unitmaster as unit on unit.id=stock.unit_id
+inner join purchase_poorderdetails as order_details on order_details.unit_id=unit.id
+inner join purchase_grnproductlist as grn_product on grn_product.unit_id_id=order_details.unit_id
+inner join store_store as store on store.id=stock.store_id 
+ where grn.grn_date between  $P{From_Date} and  $P{To_Date}]]>
 		</queryString>
 		<field name="grn_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="grn_date"/>
@@ -249,7 +253,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM d5n.store_store;]]>
+		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store;]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
@@ -295,42 +299,42 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 			<textField>
 				<reportElement x="581" y="12" width="100" height="30" uuid="8a4395e1-8658-45d4-829f-87000edf59dc"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="582" y="30" width="100" height="30" uuid="237d50a5-435e-461c-8bff-8f6dcc9db13d"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="580" y="50" width="100" height="30" uuid="ca879106-b191-4ff1-8b22-37d495ef5fb4"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="640" y="50" width="100" height="30" uuid="9bbfb9dd-6073-460c-9c95-2fa70db50f9f"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="4" y="2" width="86" height="78" uuid="d973ed96-b378-4059-a74c-d1f50eaabf88"/>
-				<imageExpression><![CDATA["C:/Users/Amith/Pictures/d5n.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="210" y="9" width="310" height="71" uuid="6760b672-684b-4aeb-9137-3b42ad8c0198"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="40"/>
 				</textElement>
-				<text><![CDATA[grn report]]></text>
+				<text><![CDATA[Grn Report]]></text>
 			</staticText>
+			<image>
+				<reportElement x="21" y="7" width="69" height="63" uuid="176bc600-ed34-4b3c-930f-21a72e579373"/>
+				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -340,9 +344,9 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="96" splitType="Stretch">
+		<band height="81" splitType="Stretch">
 			<componentElement>
-				<reportElement x="3" y="7" width="747" height="89" uuid="856a68c4-ba59-4df0-9d7e-63d03003ee37">
+				<reportElement x="3" y="7" width="747" height="63" uuid="856a68c4-ba59-4df0-9d7e-63d03003ee37">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -359,7 +363,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="40" uuid="3b8586f0-535c-4584-be44-d661f504af29">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="db50dc78-503f-4d50-943b-b61bf8a8c18e"/>
@@ -376,7 +380,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="51365b60-0d59-4629-a6ad-3365a7958700">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="72837cc2-80f4-4d44-965f-7067e3ac68f3"/>
@@ -393,7 +397,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="5ee2ee7c-fdb1-4bce-95ea-38adf7f240a4">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="7b361134-d723-4187-8953-c5e800fe1f86"/>
@@ -410,7 +414,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="d9617ca0-b520-4cee-a8f2-797a9fe006d8">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="0e965991-4c41-41d0-9ddc-eefab80e2812"/>
@@ -427,7 +431,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="0311e189-7ad9-4e2c-ab93-c39f39452113">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="bf5b0cdd-4646-4209-9537-ea30b1e3a574"/>
@@ -444,7 +448,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="765eadda-6ae7-43bb-99ba-53896b1ae533">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="245f3e92-6564-4def-871e-354560244172"/>
@@ -461,7 +465,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="478f89c1-c802-4db3-8384-e263d18228f4">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="e315365e-a7df-412f-b5ab-ffa393b08679"/>
@@ -478,7 +482,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="ef8bd5ed-e78e-4754-a408-a67b8897b593">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="66a3417b-0e4e-4a4a-8283-1c5a8c8c655d"/>
@@ -495,7 +499,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="aa6aac37-7a00-43b6-a321-b119fa9a7e23">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="90fcc108-ec0e-4504-85cb-738b2d0291c4"/>
@@ -512,7 +516,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="47084cbd-dd57-4a39-a721-05f47dbe2d0e">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="8a57dae7-af9a-4557-8f11-15426537fc84"/>
@@ -529,7 +533,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="0b0c3e13-1b47-441e-b6ef-130202e6e3f6">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="05809338-c42c-4dcb-8551-626048184368"/>
@@ -546,7 +550,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="120c69dc-8393-42f3-ac0d-79fb9d1b3d7b">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="c86e2b27-f664-4909-b4dd-d69480cc6dd2"/>
@@ -563,7 +567,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="bba31f55-046a-418e-93c1-bf4bfb884029">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="3d0d5e57-d070-4b46-aebd-256bc8b7a225"/>
@@ -580,7 +584,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="8067c065-fcb9-483b-89a0-f5979ffbdf39">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column14"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="c7fc197d-1745-40d0-8fa1-a6cf8c6fcd62"/>
@@ -597,7 +601,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="13b8385f-7c6f-4993-9b2d-91dcfa98cbe2">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column15"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="0b6dfbe5-99a4-4219-9695-5180c2619a8c"/>
@@ -614,7 +618,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="0e824727-3d0b-48b1-8e38-757999f459fc">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column16"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="5c3b2943-35d1-4284-9da4-8f160cfcdee0"/>
@@ -631,7 +635,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="73d22e51-c08c-41e0-a439-067fa40f1454">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column17"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="4b8fc92a-1bef-4802-ab9c-abb9e0f41772"/>
@@ -648,7 +652,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="19af9f7b-6487-48d3-88c5-709664c999cf">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column18"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="145d5e6b-280b-4be6-b94c-2d5d6a9483c9"/>
@@ -665,7 +669,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="05f4b986-6e62-4a5d-8f01-93e820aeac14">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column19"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="8397ae80-1e9b-4971-8575-925bd5a81b44"/>
@@ -682,7 +686,7 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="19487be2-9326-46aa-922c-61aaa6edbe95">
-						<jr:tableHeader style="Table_TH" height="30"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column20"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="259e96b3-167c-43e0-9e3a-ca702be5e2d3"/>
@@ -703,7 +707,22 @@ where Grn.grn_date between  $P{From_Date} and  $P{To_Date} ]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band splitType="Stretch"/>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement x="340" y="10" width="51" height="22" uuid="6c984eab-2c03-4d6e-8566-ec98b42530c6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Candara" size="15"/>
+				</textElement>
+				<text><![CDATA[Page :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="380" y="6" width="30" height="30" uuid="7935cf32-cd13-4dc2-bd02-de0f84b4abc8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Candara" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band splitType="Stretch"/>

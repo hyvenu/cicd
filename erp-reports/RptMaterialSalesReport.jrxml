@@ -3,6 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Material_Sales_rpt" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c32cdb09-340c-4afd-8acf-8ebca7c6f170">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptMaterialSalesReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptMaterialSalesReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -40,18 +44,19 @@
 			<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT Appointment_Schedule.booking_date,
-Grn.invoice_number, Appointment_Schedule.phone_number,
-Product.product_code, Product.product_name,
-Unit.PrimaryUnit, Unit.SecondaryUnit
+			<![CDATA[SELECT appointment_schedule.booking_date,
+grn.invoice_number, customers.phone_number,
+product.product_code, product.product_name,
+unit.primaryUnit, unit.secondaryunit
 
  
-FROM d5n.purchase_grnmaster as Grn
-inner join store_appointmentschedule as Appointment_Schedule on Appointment_Schedule.store_id=Grn.store_id
-inner join inventory_productstock as Stock on Stock.store_id=Grn.store_id
-inner join inventory_productmaster as Product on Product.id=Stock.product_id
-inner join inventory_unitmaster as Unit on Unit.id=Stock.unit_id where
- Appointment_Schedule.booking_date between  $P{From_Date}  and  $P{to date} ]]>
+FROM purchase_grnmaster as grn
+inner join store_appointmentschedule as appointment_schedule on appointment_schedule.store_id=grn.store_id
+inner join inventory_productstock as stock on stock.store_id=grn.store_id
+inner join inventory_productmaster as product on product.id=stock.product_id
+inner join inventory_unitmaster as unit on unit.id=stock.unit_id 
+inner join store_customer as customers on customers.id=appointment_schedule.customer_id
+ where appointment_schedule.booking_date between  $P{From_Date}  and  $P{to date}]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
@@ -124,7 +129,7 @@ inner join inventory_unitmaster as Unit on Unit.id=Stock.unit_id where
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM d5n.store_store;]]>
+		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store;]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
@@ -170,42 +175,42 @@ inner join inventory_unitmaster as Unit on Unit.id=Stock.unit_id where
 			<textField>
 				<reportElement x="640" y="10" width="100" height="30" uuid="220e247e-248e-4dcc-94da-c479f56163d3"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="640" y="30" width="100" height="30" uuid="091511ae-f232-489a-afcd-72a7dfb09ae1"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="638" y="50" width="100" height="30" uuid="ebeb6f31-db7e-465f-a0db-f5a3a70ae4c0"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="704" y="50" width="100" height="30" uuid="47a17bed-0d5c-4332-8bed-e9d4a99ecc70"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="11" y="0" width="89" height="86" uuid="433f3420-e37b-4dcf-b883-0511f4d8049b"/>
-				<imageExpression><![CDATA["C:/Users/Amith/Pictures/d5n.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="130" y="13" width="490" height="67" uuid="3cdcc69e-00d5-43c5-8ab7-a567d9704f76"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="35"/>
 				</textElement>
-				<text><![CDATA[material sales report]]></text>
+				<text><![CDATA[Material Sales Report]]></text>
 			</staticText>
+			<image>
+				<reportElement x="10" y="0" width="80" height="80" uuid="3295e3df-f378-4c92-a7d9-bf01377cf498"/>
+				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -215,7 +220,7 @@ inner join inventory_unitmaster as Unit on Unit.id=Stock.unit_id where
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="79" splitType="Stretch">
+		<band height="75" splitType="Stretch">
 			<componentElement>
 				<reportElement x="0" y="5" width="760" height="65" uuid="b17784bd-812e-48b6-b82f-de587a188046">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
@@ -371,7 +376,22 @@ inner join inventory_unitmaster as Unit on Unit.id=Stock.unit_id where
 		</band>
 	</detail>
 	<columnFooter>
-		<band splitType="Stretch"/>
+		<band height="44" splitType="Stretch">
+			<staticText>
+				<reportElement x="340" y="10" width="51" height="22" uuid="6177e546-d746-4d74-a2bf-7280c98d3ef9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Candara" size="15"/>
+				</textElement>
+				<text><![CDATA[Page :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="380" y="6" width="30" height="30" uuid="81f6ad9d-7478-41bc-ad46-d1f8b4c83290"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Candara" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band splitType="Stretch"/>

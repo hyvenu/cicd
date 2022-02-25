@@ -125,6 +125,11 @@ export class SharedService {
     return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Designation/`+ id + '/', data)
   }
 
-
+  public getAppSettings() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/AppSettings/`)    
+  }
+  public getReports() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/ReportModule/`)    
+  }
 
 }

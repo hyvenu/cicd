@@ -20,6 +20,7 @@ import { MainPipe } from './pipe.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxEditorModule } from 'ngx-editor';
 import { ChartsModule } from 'ng2-charts';
+import { ReportsModule } from './reports/reports.module'
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ChartsModule } from 'ng2-charts';
     NgxEditorModule,
     NbSpinnerModule,
     ChartsModule,
+    ReportsModule,
   ],
   providers: [
     {

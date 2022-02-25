@@ -3,6 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Safety_Stock_rpt" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e483f99e-d7c9-49b3-9337-0b687d274204">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptSafetystockReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptSafetystockReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -33,36 +37,20 @@
 	<subDataset name="Safety_Stock" uuid="004e64a9-e3b8-4af6-b5e0-1f0059913d3e">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
-		<parameter name="Product_Code" class="java.lang.String">
-			<parameterDescription><![CDATA[Enter Product Code]]></parameterDescription>
-		</parameter>
-		<parameter name="Product_name" class="java.lang.String">
-			<parameterDescription><![CDATA[Enter Product Name]]></parameterDescription>
-		</parameter>
-		<parameter name="Category_Name" class="java.lang.String">
-			<parameterDescription><![CDATA[Enter Category Name]]></parameterDescription>
-		</parameter>
-		<parameter name="Sub-Category_Name" class="java.lang.String">
-			<parameterDescription><![CDATA[Enter Sub-Category Name]]></parameterDescription>
-		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT Category.category_name, Sub_Category.sub_category_name,
-Product.product_code, Product.product_name,
-Unit.PrimaryUnit, Unit.SecondaryUnit, Stock.batch_number,
-Price.safety_stock_level, Price.qty
+			<![CDATA[SELECT category.category_name, sub_category.sub_category_name,
+product.product_code, product.product_name,
+unit.primaryUnit, unit.secondaryUnit, stock.batch_number,
+price.safety_stock_level, price.qty
 
 
-FROM d5n.inventory_productcategory as Category
-inner join inventory_productsubcategory as Sub_Category on Category.id=Sub_Category.category_id
-inner join inventory_productmaster as Product on Product.category_id=Category.id
-left join inventory_productstock as Stock on Stock.product_id=Product.id
-left join inventory_unitmaster as Unit on Stock.unit_id=Unit.id
-left join inventory_productpricemaster as Price on Price.unit_id=Unit.id
-left join store_store as Store on Stock.store_id=Store.id where
-Product.product_code= $P{Product_Code} and
-   Product.product_name= $P{Product_name}  and 
-   Category.category_name= $P{Category_Name} and
-    Sub_Category.sub_category_name= $P{Sub-Category_Name}]]>
+FROM inventory_productcategory as category
+inner join inventory_productsubcategory as sub_category on category.id=sub_category.category_id
+inner join inventory_productmaster as product on product.category_id=category.id
+left join inventory_productstock as stock on stock.product_id=product.id
+left join inventory_unitmaster as unit on stock.unit_id=unit.id
+left join inventory_productpricemaster as price on price.unit_id=unit.id
+left join store_store as store on stock.store_id=store.id]]>
 		</queryString>
 		<field name="category_name" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="category_name"/>
@@ -146,20 +134,8 @@ Product.product_code= $P{Product_Code} and
 			<groupExpression><![CDATA[$F{qty}]]></groupExpression>
 		</group>
 	</subDataset>
-	<parameter name="Product_Code" class="java.lang.String">
-		<parameterDescription><![CDATA[Enter Product Code]]></parameterDescription>
-	</parameter>
-	<parameter name="Product_name" class="java.lang.String">
-		<parameterDescription><![CDATA[Enter Product Name]]></parameterDescription>
-	</parameter>
-	<parameter name="Category_Name" class="java.lang.String">
-		<parameterDescription><![CDATA[Enter Category Name]]></parameterDescription>
-	</parameter>
-	<parameter name="Sub-Category_Name" class="java.lang.String">
-		<parameterDescription><![CDATA[Enter Sub-Category Name]]></parameterDescription>
-	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM d5n.store_store;]]>
+		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store;]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
@@ -203,44 +179,44 @@ Product.product_code= $P{Product_Code} and
 	<title>
 		<band height="88" splitType="Stretch">
 			<textField>
-				<reportElement x="590" y="13" width="100" height="30" uuid="43edf605-5b5f-43eb-94d3-dba2be85c7d2"/>
+				<reportElement x="590" y="13" width="130" height="30" uuid="43edf605-5b5f-43eb-94d3-dba2be85c7d2"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="590" y="30" width="100" height="30" uuid="3b16078d-dded-4f6c-b332-1bdf76ce2af5"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="590" y="50" width="100" height="30" uuid="bac32186-e095-46b0-9bc2-5cb67935e87d"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="665" y="50" width="100" height="30" uuid="6170d30d-18d5-495b-9eb2-f88a5b4b052c"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="30" y="3" width="83" height="77" uuid="363aae94-71aa-4bd3-99f0-16abdb792f7a"/>
-				<imageExpression><![CDATA["C:/Users/Amith/Pictures/d5n.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="180" y="5" width="390" height="75" uuid="8c7b2812-b5ef-4c1a-ac4b-38c2da7632c2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="30"/>
 				</textElement>
-				<text><![CDATA[safety stock report]]></text>
+				<text><![CDATA[Safety Stock Report]]></text>
 			</staticText>
+			<image>
+				<reportElement x="30" y="5" width="70" height="75" uuid="88dd34b3-cb82-44c7-9d26-f1d83155d61b"/>
+				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -259,19 +235,7 @@ Product.product_code= $P{Product_Code} and
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Safety_Stock" uuid="2dc775ea-83c4-4a1d-aeaf-b6e258edb493">
-						<datasetParameter name="Product_Code">
-							<datasetParameterExpression><![CDATA[$P{Product_Code}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="Product_name">
-							<datasetParameterExpression><![CDATA[$P{Product_name}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="Category_Name">
-							<datasetParameterExpression><![CDATA[$P{Category_Name}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="Sub-Category_Name">
-							<datasetParameterExpression><![CDATA[$P{Sub-Category_Name}]]></datasetParameterExpression>
-						</datasetParameter>
+					<datasetRun subDataset="Safety_Stock" uuid="f4fc5e14-69a3-4339-a13d-7505676755d1">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="72" uuid="e303b8ad-fbe8-49e8-849f-9064f03907cd">

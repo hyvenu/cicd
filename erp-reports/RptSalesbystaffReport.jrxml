@@ -40,33 +40,31 @@
 			<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT DISTINCT Appoinment_Schedule.booking_date,
-Employee.employee_name,count(distinct(Service.service_name))as Item_Sold,
-sum(distinct Service.price) as Gross_Sales , 
-(sum(sales_orders.discount_price)/count(distinct(Service.service_name))) as Discount,
+			<![CDATA[SELECT DISTINCT appoinment_schedule.booking_date,
+employee.employee_name,count(distinct(service.service_name))as item_sold,
+sum(distinct service.price) as gross_sales , 
+(sum(sales_orders.discount_price)/count(distinct(service.service_name))) as discount,
 sales_orders.refund,
-(sum(distinct(Service.price))-(sum(sales_orders.discount_price)/count(distinct(Service.service_name))))as Net_Sales,
-Service.service_gst as Tax,
+(sum(distinct(service.price))-(sum(sales_orders.discount_price)/count(distinct(service.service_name))))as net_sales,
+service.service_gst as tax,
 
-(((sum(distinct(Service.price))-(sum(sales_orders.discount_price)/
-count(distinct(Service.service_name))))*Service.service_gst)/100)+
- (sum(distinct(Service.price))-(sum(sales_orders.discount_price)/
-count(distinct(Service.service_name)))) as Total_Sales
--- ((sum(Service.price)-sum(sales_orders.discount_price))*(sales_orders.sgst+sales_orders.cgst)/100)+
--- (sum(Service.price)-sum(sales_orders.discount_price)) as Total_Sales
+(((sum(distinct(service.price))-(sum(sales_orders.discount_price)/
+count(distinct(service.service_name))))*service.service_gst)/100)+
+ (sum(distinct(service.price))-(sum(sales_orders.discount_price)/
+count(distinct(service.service_name)))) as total_sales
+-- ((sum(service.price)-sum(sales_orders.discount_price))*(sales_orders.sgst+sales_orders.cgst)/100)+
+-- (sum(service.price)-sum(sales_orders.discount_price)) as total_sales
 
-FROM store_appointmentschedule as Appoinment_Schedule
-inner join store_appointmentformultipleservice as Appm on
-Appoinment_Schedule.id=Appm.appointment_id
-inner join store_storeservices as Service on Service.id=Appm.service_id
-inner join store_employee as Employee on Employee.id=Appoinment_Schedule.assigned_staff_id
+FROM store_appointmentschedule as appoinment_schedule
+inner join store_appointmentformultipleservice as appm on
+appoinment_schedule.id=appm.appointment_id
+inner join store_storeservices as service on service.id=appm.service_id
+inner join store_employee as employee on employee.id=appm.assigned_staff_id
 inner join sales_salesorderrequest as sales_orders on
-sales_orders.customer_id=Appoinment_Schedule.customer_id
+sales_orders.customer_id=appoinment_schedule.customer_id
 
- where  Appoinment_Schedule.booking_date between  $P{From_Date} and  $P{To Date} 
-group by Appoinment_Schedule.booking_date, Employee.employee_name 
-
-]]>
+  where  appoinment_schedule.booking_date between  $P{From_Date} and  $P{To Date} 
+ group by appoinment_schedule.booking_date,employee.employee_name,sales_orders.refund,service.service_gst]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
@@ -204,28 +202,28 @@ Store.address,Store.city,Store.pin_code FROM store_store as Store;]]>
 			<textField>
 				<reportElement x="471" y="14" width="80" height="30" uuid="513dc825-f777-4ea2-8a0b-d44835f2abb6"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian"/>
+					<font fontName="DejaVu Serif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="470" y="30" width="100" height="30" uuid="8d442a6d-b836-44eb-9de6-528ff8afc9a7"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian"/>
+					<font fontName="DejaVu Serif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="470" y="46" width="100" height="30" uuid="2028be08-ab8e-46d7-b8d1-46a79f1c0afb"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian"/>
+					<font fontName="DejaVu Serif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="527" y="46" width="48" height="30" uuid="99b46fbd-26ad-4393-8a64-3897026566ec"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Algerian"/>
+					<font fontName="DejaVu Serif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
@@ -237,21 +235,21 @@ Store.address,Store.city,Store.pin_code FROM store_store as Store;]]>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="160" y="53" width="110" height="27" uuid="74a09f14-598a-45c2-9719-51ab27965d9d"/>
+				<reportElement x="160" y="53" width="120" height="23" uuid="74a09f14-598a-45c2-9719-51ab27965d9d"/>
 				<textElement>
 					<font fontName="Constantia" size="11"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="260" y="50" width="60" height="20" uuid="104f0b61-8c26-4c40-ae38-e7b3b44afda4"/>
+				<reportElement x="260" y="50" width="80" height="20" uuid="104f0b61-8c26-4c40-ae38-e7b3b44afda4"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="340" y="51" width="63" height="18" uuid="a806adc2-64ff-4dd1-81b7-7ddb98439226"/>
+				<reportElement x="340" y="51" width="80" height="18" uuid="a806adc2-64ff-4dd1-81b7-7ddb98439226"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>
