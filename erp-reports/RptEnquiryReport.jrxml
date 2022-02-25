@@ -3,6 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Enquiry_rpt" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7417a408-44bf-4781-be58-3d7526b40388">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptEnquiryReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptEnquiryReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -232,9 +236,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 			<staticText>
 				<reportElement x="200" y="10" width="340" height="69" uuid="bd8f02c8-c405-4c0f-b3d6-cfc62c3d6279"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Copperplate Gothic Bold" size="40"/>
+					<font fontName="DejaVu Serif" size="40"/>
 				</textElement>
-				<text><![CDATA[sales report]]></text>
+				<text><![CDATA[Sales Report]]></text>
 			</staticText>
 			<image>
 				<reportElement x="17" y="7" width="73" height="73" uuid="9ac2df8b-1bb4-4ffa-b23c-ba2c458d1e27"/>
