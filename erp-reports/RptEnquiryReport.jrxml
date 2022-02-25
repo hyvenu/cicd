@@ -41,23 +41,24 @@
 		</parameter>
 		<queryString language="SQL">
 			<![CDATA[SELECT appointment_schedule.booking_date,customer.customer_name, customer.phone_number,
-appointment_schedule.start_time, appointment_schedule.end_time,sales_orders.grand_total,
+appm.start_time, appm.end_time,sales_orders.grand_total,
 enquiry.enquiry_type ,employee.employee_name, category.category_name, sub_category.sub_category_name
-FROM d5n.store_customer AS customer
-inner join store_appointmentschedule as appointment_schedule on appointment_schedule.customer_id=customer.id
+ FROM store_appointmentschedule as appointment_schedule
+inner join store_appointmentformultipleservice as appm on appm.appointment_id=appointment_schedule.id
 inner join store_storeservices as service on appointment_schedule.store_id=service.store_id
 inner join store_enquiry as enquiry on enquiry.service_id=service.id
 inner join store_employee as employee on employee.id=enquiry.staff_name_id
 inner join store_department as department on department.id=employee.department_id
 inner join store_store as store on store.id=service.store_id
 inner join inventory_productstock as stock on stock.store_id=store.id
-INNER join sales_salesorderrequest as sales_orders on sales_orders.store_id=store.id 
+inner join store_customer aS customer on appointment_schedule.customer_id=customer.id
+inner join sales_salesorderrequest as sales_orders on sales_orders.customer_id=appointment_schedule.customer_id
 inner join purchase_grnmaster as grn on grn.store_id=store.id
 inner join purchase_grnproductlist as grn_product on grn_product.grn_id=grn.id
 inner join inventory_productmaster as product on product.id=grn_product.product_id
 inner join inventory_productcategory as category on category.id=product.category_id
 inner join inventory_productsubcategory as sub_category on sub_category.category_id=category.id 
-where appointment_schedule.booking_date between  $P{From_Date} and  $P{To_Date} ]]>
+ where appointment_schedule.booking_date between  $P{From_Date} and  $P{To_Date}]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
@@ -157,7 +158,7 @@ where appointment_schedule.booking_date between  $P{From_Date} and  $P{To_Date} 
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM d5n.store_store;]]>
+		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store;]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
@@ -203,35 +204,31 @@ where appointment_schedule.booking_date between  $P{From_Date} and  $P{To_Date} 
 			<textField>
 				<reportElement x="617" y="10" width="100" height="30" uuid="02eb78f5-88d2-4f5e-9d63-c1e56cc88617"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="617" y="30" width="100" height="30" uuid="96fc147b-fa3a-4d1f-b521-84bce5f2172e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="617" y="50" width="100" height="30" uuid="10cd8462-5a81-40cf-a673-5e0388935591"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="680" y="50" width="100" height="30" uuid="32a6347e-c28e-4341-aa21-adc61a301ff2"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Algerian" size="12"/>
+					<font fontName="DejaVu Serif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="40" y="0" width="90" height="79" uuid="709e6912-c0f8-4644-b88b-0bd05af19a94"/>
-				<imageExpression><![CDATA["C:/Users/Amith/Pictures/d5n.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="200" y="10" width="340" height="69" uuid="bd8f02c8-c405-4c0f-b3d6-cfc62c3d6279"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -239,6 +236,10 @@ where appointment_schedule.booking_date between  $P{From_Date} and  $P{To_Date} 
 				</textElement>
 				<text><![CDATA[sales report]]></text>
 			</staticText>
+			<image>
+				<reportElement x="17" y="7" width="73" height="73" uuid="9ac2df8b-1bb4-4ffa-b23c-ba2c458d1e27"/>
+				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -461,7 +462,22 @@ where appointment_schedule.booking_date between  $P{From_Date} and  $P{To_Date} 
 		</band>
 	</detail>
 	<columnFooter>
-		<band splitType="Stretch"/>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="340" y="10" width="51" height="22" uuid="04cb423d-5939-4b5b-afdb-066e2b9a4f2f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Candara" size="15"/>
+				</textElement>
+				<text><![CDATA[Page :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="380" y="6" width="30" height="30" uuid="93c9e620-4f32-4da2-917f-c06c22f700a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Candara" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band splitType="Stretch"/>
