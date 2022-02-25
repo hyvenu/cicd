@@ -3,6 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RptSalesbyproductReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="84f71ad9-ac58-471e-acb0-6c361dc8bd07">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptSalesbyproductReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptSalesbyproductReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -56,7 +60,7 @@ inner join sales_salesorderdetails as sales_order on sales_order.po_order_id=ord
  left join inventory_productpricemaster as price on price.product_id=sales_order.product_id
  left join inventory_productmaster as product on product.id=price.product_id
  where 
-  Sales_Order.product_id is not null and 
+  sales_order.product_id is not null and 
   appointment_schedule.booking_date between  $P{From_Date}  and   $P{To Date} 
 group by appointment_schedule.booking_date, price.product_id is not null,price.tax]]>
 		</queryString>
@@ -179,7 +183,7 @@ group by appointment_schedule.booking_date, price.product_id is not null,price.t
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="156" y="52" width="124" height="24" uuid="5f72db97-a89d-4b69-b828-e3caa05e2bff"/>
+				<reportElement x="156" y="54" width="124" height="22" uuid="5f72db97-a89d-4b69-b828-e3caa05e2bff"/>
 				<textElement>
 					<font fontName="Constantia" size="11"/>
 				</textElement>
@@ -193,7 +197,7 @@ group by appointment_schedule.booking_date, price.product_id is not null,price.t
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="333" y="51" width="77" height="18" uuid="fd969036-9e99-4e83-98d0-600cc4e69f37"/>
+				<reportElement x="333" y="51" width="87" height="18" uuid="fd969036-9e99-4e83-98d0-600cc4e69f37"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Candara" size="11" isBold="true"/>
 				</textElement>
