@@ -5,8 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptSalesReport"/>
-	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptSalesReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptSalesReport"/>
+	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptSalesReport_files/main_jrxml"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -272,36 +272,8 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 	</background>
 	<title>
 		<band height="89" splitType="Stretch">
-			<textField>
-				<reportElement x="650" y="15" width="100" height="30" uuid="8248da2c-7efc-41f2-b90c-736cd7629a03"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="650" y="29" width="100" height="30" uuid="c95067a4-f048-4e15-97d3-6d2f800c103a"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="650" y="45" width="100" height="30" uuid="871700db-6bc7-4d28-a298-ceb9cb1b03fa"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="720" y="45" width="100" height="30" uuid="01ab0b79-8db8-40dd-a5f2-817003ac419e"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="220" y="0" width="374" height="70" uuid="5f10b5ea-bb93-4908-9c8a-8fa12496ce41"/>
+				<reportElement x="210" y="0" width="384" height="60" uuid="5f10b5ea-bb93-4908-9c8a-8fa12496ce41"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="45"/>
 				</textElement>
@@ -315,23 +287,23 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="371" y="60" width="79" height="16" uuid="7b0dd0ff-a9e0-40fb-9c6a-b810caab24ce"/>
+				<reportElement x="371" y="62" width="79" height="14" uuid="7b0dd0ff-a9e0-40fb-9c6a-b810caab24ce"/>
 				<textElement>
-					<font fontName="Constantia" isBold="true"/>
+					<font fontName="DejaVu Serif" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="430" y="62" width="28" height="16" uuid="1e909c99-83fe-4fe7-8a73-52df3f6160d4"/>
-				<textElement verticalAlignment="Top">
+				<reportElement x="430" y="62" width="20" height="16" uuid="1e909c99-83fe-4fe7-8a73-52df3f6160d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Constantia"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="450" y="62" width="94" height="14" uuid="3e638287-a5aa-452f-b3ba-ea018a8e8b30"/>
+				<reportElement x="451" y="62" width="94" height="13" uuid="3e638287-a5aa-452f-b3ba-ea018a8e8b30"/>
 				<textElement>
-					<font fontName="Constantia" isBold="true"/>
+					<font fontName="DejaVu Serif" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
@@ -339,6 +311,34 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 				<reportElement x="9" y="8" width="71" height="71" uuid="9f99de3f-0fbc-4c48-9403-309e4fc3b038"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="650" y="0" width="130" height="30" uuid="bf055592-0d62-4b66-8574-28b5d7313979"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="26" width="119" height="30" uuid="472b7be5-f575-46ce-bbc6-3d0fb9c5b6f7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="49" width="119" height="30" uuid="a3768aea-5cb3-433a-9eb4-8f7dd1990f38"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="726" y="49" width="74" height="30" uuid="e77bc556-7764-4140-9f51-b08fb2453e44"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -575,7 +575,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table 1_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="60" height="30" uuid="1d2e284a-a31a-493e-8530-5782cd6c86db"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{group_concat(distinct nullif(Product.product_name,''))}]]></textFieldExpression>
@@ -593,7 +593,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table 1_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="60" height="30" uuid="9a19d55e-0c6a-4be6-8c75-0ff750c96ac2"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{group_concat(distinct nullif(Category.category_name,''))}]]></textFieldExpression>
