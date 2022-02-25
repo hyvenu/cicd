@@ -46,7 +46,7 @@ inner join inventory_productmaster as product on product.category_id=category.id
 left join inventory_productstock as stock on stock.product_id=product.id
 left join inventory_unitmaster as unit on stock.unit_id=unit.id
 left join inventory_productpricemaster as price on price.unit_id=unit.id
-left join store_store as store on stock.store_id=store.id ]]>
+left join store_store as store on stock.store_id=store.id]]>
 		</queryString>
 		<field name="category_name" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="category_name"/>
@@ -131,7 +131,7 @@ left join store_store as store on stock.store_id=store.id ]]>
 		</group>
 	</subDataset>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM d5n.store_store;]]>
+		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store;]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>

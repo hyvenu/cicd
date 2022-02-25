@@ -125,7 +125,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM d5n.store_store;]]>
+		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store;]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
