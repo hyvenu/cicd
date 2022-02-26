@@ -186,7 +186,7 @@ order_details.gst_amount,
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="90" y="2" width="330" height="48" uuid="c0612675-de1f-4090-97bb-6b8bbfae72aa"/>
+				<reportElement x="90" y="2" width="320" height="48" uuid="c0612675-de1f-4090-97bb-6b8bbfae72aa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="22"/>
 				</textElement>
