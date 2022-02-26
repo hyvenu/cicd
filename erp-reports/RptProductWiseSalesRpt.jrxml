@@ -177,7 +177,7 @@ inner join inventory_productpricemaster as price on price.product_id=product.id
 
 where  date(sales_request.po_date) between  $P{from_date}    and  $P{to_date} 
 GROUP BY product.product_code,product.product_name,category.category_name,
-sub_category.sub_category_name 
+sub_category.sub_category_name ,sales_details.qty
 ORDER BY sales_details.qty desc]]>
 		</queryString>
 		<field name="category_name" class="java.lang.String">
