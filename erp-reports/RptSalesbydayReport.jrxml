@@ -5,8 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptSalesbydayReport_files/main_jrxml"/>
-	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptSalesbydayReport"/>
+	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptSalesbydayReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptSalesbydayReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#CADBEB">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -176,71 +176,71 @@ store.address,store.city,store.pin_code FROM store_store as store;]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="84" splitType="Stretch">
+		<band height="93" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="2" width="80" height="77" uuid="cc40caad-ed15-4c9e-a740-f6f5fbb6bfad"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="100" y="10" width="340" height="50" uuid="9acad3e8-3981-4007-a704-258fff47779c"/>
+				<reportElement x="95" y="0" width="310" height="40" uuid="9acad3e8-3981-4007-a704-258fff47779c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Copperplate Gothic Bold" size="27"/>
+					<font fontName="Copperplate Gothic Bold" size="23"/>
 				</textElement>
 				<text><![CDATA[Sale by Day Report]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="470" y="46" width="100" height="30" uuid="7dcd5ff5-d3fb-4431-ac04-791e61b93aef"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="471" y="14" width="80" height="30" uuid="5c523f81-9a53-46ce-8661-212a643be70b"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="470" y="30" width="100" height="30" uuid="223397d9-305a-4e96-b66e-45ffa109a279"/>
+				<reportElement x="410" y="31" width="119" height="30" uuid="cc610fd2-1666-4cde-8f99-8021ca23ebe1"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Serif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="527" y="46" width="48" height="30" uuid="71ec010d-0a1c-4a60-a241-7aaaea39c9c8"/>
+				<reportElement x="410" y="54" width="119" height="30" uuid="9d3334b8-e808-4850-9537-a2fb47b1d298"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="486" y="54" width="74" height="30" uuid="2d36e40e-ed89-4f8c-afa1-09838c56a255"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Serif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="156" y="54" width="124" height="22" uuid="bb496414-681b-424c-8bb8-88855655dd15"/>
+			<textField>
+				<reportElement x="410" y="5" width="130" height="30" uuid="29a398fc-8bbf-4fe6-b428-08361748614d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="42" width="79" height="14" uuid="f7985204-4af1-4626-91c5-f993d3049731"/>
 				<textElement>
-					<font fontName="Constantia" size="11"/>
+					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="140" y="40" width="130" height="19" uuid="5238fe47-738d-4908-a413-69c956890ef5"/>
+				<textElement>
+					<font fontName="Constantia"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="254" y="54" width="96" height="16" uuid="35bf4f51-6223-4a85-84b9-7ea8cfaba6ce"/>
-				<textElement verticalAlignment="Top">
-					<font fontName="Candara" size="11" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="315" y="54" width="28" height="14" uuid="db3c6435-47f6-4415-9ed0-00659b9f7d5f"/>
-				<textElement verticalAlignment="Top">
-					<font fontName="Constantia" size="11"/>
+				<reportElement x="290" y="42" width="20" height="16" uuid="6fe9aa72-1975-4145-b235-cba65dac2e4e"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Constantia"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="333" y="51" width="87" height="18" uuid="ddb641b9-bebe-4bed-97c2-36f8af55dcff"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Candara" size="11" isBold="true"/>
+				<reportElement x="311" y="42" width="94" height="13" uuid="4dae9ee3-e28a-407f-b4f4-96cb3438a673"/>
+				<textElement>
+					<font fontName="DejaVu Serif" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>

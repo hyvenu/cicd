@@ -5,8 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptSafetystockReport_files/main_jrxml"/>
-	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptSafetystockReport"/>
+	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptSafetystockReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptSafetystockReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -177,37 +177,9 @@ left join store_store as store on stock.store_id=store.id]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="88" splitType="Stretch">
-			<textField>
-				<reportElement x="590" y="13" width="130" height="30" uuid="43edf605-5b5f-43eb-94d3-dba2be85c7d2"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="590" y="30" width="100" height="30" uuid="3b16078d-dded-4f6c-b332-1bdf76ce2af5"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="590" y="50" width="100" height="30" uuid="bac32186-e095-46b0-9bc2-5cb67935e87d"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="665" y="50" width="100" height="30" uuid="6170d30d-18d5-495b-9eb2-f88a5b4b052c"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
-			</textField>
+		<band height="97" splitType="Stretch">
 			<staticText>
-				<reportElement x="180" y="5" width="390" height="75" uuid="8c7b2812-b5ef-4c1a-ac4b-38c2da7632c2"/>
+				<reportElement x="180" y="5" width="390" height="65" uuid="8c7b2812-b5ef-4c1a-ac4b-38c2da7632c2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Copperplate Gothic Bold" size="30"/>
 				</textElement>
@@ -217,6 +189,34 @@ left join store_store as store on stock.store_id=store.id]]>
 				<reportElement x="30" y="5" width="70" height="75" uuid="88dd34b3-cb82-44c7-9d26-f1d83155d61b"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="630" y="54" width="119" height="30" uuid="729512b4-dda9-4e33-8ba4-8ab69cde175f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="630" y="31" width="119" height="30" uuid="817315d5-c0ae-4b54-9693-524d6789eda1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="706" y="54" width="74" height="30" uuid="643c94f0-2335-45fa-b853-40e9d66499d3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="630" y="5" width="130" height="30" uuid="418674c3-df8c-4cb2-86f2-850da4bca06b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -326,7 +326,7 @@ left join store_store as store on stock.store_id=store.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="78" height="30" uuid="aa03a402-79e6-4c5a-ba94-17e2189d985f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{PrimaryUnit}]]></textFieldExpression>
@@ -345,7 +345,7 @@ left join store_store as store on stock.store_id=store.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="80" height="30" uuid="28ccf168-bd15-4ab8-b878-b59c9fe86296"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{SecondaryUnit}]]></textFieldExpression>
@@ -364,7 +364,7 @@ left join store_store as store on stock.store_id=store.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="72" height="30" uuid="aeac828b-6b12-4c53-ba4b-44e618fb3198"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{batch_number}]]></textFieldExpression>
@@ -383,7 +383,7 @@ left join store_store as store on stock.store_id=store.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="72" height="30" uuid="e18b07c1-5d81-4a81-b80b-40d42c3f2649"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{safety_stock_level}]]></textFieldExpression>
@@ -402,7 +402,7 @@ left join store_store as store on stock.store_id=store.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="72" height="30" uuid="39fbc1fd-0f35-47b4-9c76-188a15e1a62f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>

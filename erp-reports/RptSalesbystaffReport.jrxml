@@ -5,8 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptSalesbystaffReport_files/main_jrxml"/>
-	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptSalesbystaffReport"/>
+	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptSalesbystaffReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptSalesbystaffReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -191,73 +191,73 @@ store.address,store.city,store.pin_code FROM store_store as store;]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="86" splitType="Stretch">
+		<band height="94" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="80" height="79" uuid="60a5c5d1-289e-4feb-9f02-7d6b2fd22223"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="100" y="10" width="340" height="40" uuid="c03c4d35-643f-41cf-9e6d-32595400625d"/>
+				<reportElement x="90" y="0" width="330" height="40" uuid="c03c4d35-643f-41cf-9e6d-32595400625d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Copperplate Gothic Bold" size="25"/>
+					<font fontName="Copperplate Gothic Bold" size="22"/>
 				</textElement>
 				<text><![CDATA[Sale by Saff Report]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="471" y="14" width="80" height="30" uuid="513dc825-f777-4ea2-8a0b-d44835f2abb6"/>
+				<reportElement x="231" y="42" width="79" height="14" uuid="f24d2337-2e3b-4164-903d-dad97645cfe2"/>
+				<textElement>
+					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="140" y="40" width="130" height="19" uuid="c062c189-b7b2-4525-ba05-f7e18c2937da"/>
+				<textElement>
+					<font fontName="Constantia"/>
+				</textElement>
+				<text><![CDATA[report generated on ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="42" width="20" height="16" uuid="e9507518-652f-485c-ab68-965f6410d8f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Constantia"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="311" y="42" width="94" height="13" uuid="8a8426a6-ba71-44aa-abd8-37c897e1fb29"/>
+				<textElement>
+					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="486" y="54" width="74" height="30" uuid="636ae533-a8d5-46c6-962a-e97bcc31c704"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="5" width="130" height="30" uuid="1c4b7bbd-273f-41ba-83e9-89ff594262d7"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Serif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="470" y="30" width="100" height="30" uuid="8d442a6d-b836-44eb-9de6-528ff8afc9a7"/>
+				<reportElement x="410" y="31" width="119" height="30" uuid="215ed36a-8c4e-49d1-8891-8522ce340e9c"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Serif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="470" y="46" width="100" height="30" uuid="2028be08-ab8e-46d7-b8d1-46a79f1c0afb"/>
+				<reportElement x="410" y="54" width="119" height="30" uuid="27486d33-3138-4a38-a8cf-b76cf63625af"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Serif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="527" y="46" width="48" height="30" uuid="99b46fbd-26ad-4393-8a64-3897026566ec"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="320" y="53" width="28" height="15" uuid="7f69b259-4adf-4d9b-b49c-c778db0177b0"/>
-				<textElement verticalAlignment="Top">
-					<font fontName="Constantia" size="11"/>
-				</textElement>
-				<text><![CDATA[to]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="53" width="120" height="23" uuid="74a09f14-598a-45c2-9719-51ab27965d9d"/>
-				<textElement>
-					<font fontName="Constantia" size="11"/>
-				</textElement>
-				<text><![CDATA[report generated on ]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="260" y="50" width="80" height="20" uuid="104f0b61-8c26-4c40-ae38-e7b3b44afda4"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Candara" size="11" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYY")]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="340" y="51" width="100" height="18" uuid="a806adc2-64ff-4dd1-81b7-7ddb98439226"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Candara" size="11" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
