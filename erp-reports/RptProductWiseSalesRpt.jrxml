@@ -178,7 +178,7 @@ inner join inventory_productpricemaster as price on price.product_id=product.id
 where  date(sales_request.po_date) between  $P{from_date}    and  $P{to_date} 
 GROUP BY product.product_code,product.product_name,category.category_name,
 sub_category.sub_category_name ,sales_details.qty
-ORDER BY sales_details.qty desc]]>
+ORDER BY sales_details.qty desc limit 10]]>
 		</queryString>
 		<field name="category_name" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="category_name"/>
@@ -633,8 +633,10 @@ address,city,pin_code
 					</categorySeries>
 				</categoryDataset>
 				<bar3DPlot>
-					<plot labelRotation="39.0"/>
-					<itemLabel/>
+					<plot labelRotation="39.0">
+						<seriesColor seriesOrder="0" color="#A8C0E6"/>
+					</plot>
+					<itemLabel color="#CBB3E6" backgroundColor="#EBCACA"/>
 					<categoryAxisFormat labelRotation="39.0">
 						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
 					</categoryAxisFormat>
