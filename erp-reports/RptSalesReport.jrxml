@@ -181,6 +181,9 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 				<![CDATA[group_concat(distinct nullif(Category.category_name,''))]]>
 			</property>
 		</field>
+		<variable name="amount" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{grand_total}]]></variableExpression>
+		</variable>
 		<group name="booking_date">
 			<groupExpression><![CDATA[$F{booking_date}]]></groupExpression>
 		</group>
@@ -348,9 +351,9 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="78" splitType="Stretch">
+		<band height="104" splitType="Stretch">
 			<componentElement>
-				<reportElement x="2" y="5" width="778" height="65" uuid="03a39f2e-fe93-4e56-8316-4db4a4325c76">
+				<reportElement x="2" y="5" width="778" height="99" uuid="03a39f2e-fe93-4e56-8316-4db4a4325c76">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
@@ -367,6 +370,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="60" uuid="879ede6d-10b0-4cd4-9017-030c7aae86eb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="24662ec7-6132-4159-9502-daed7bfcceb9"/>
@@ -385,6 +389,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="bfd9946a-c10d-4d91-a61c-f774bee44d24">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="257447b4-81a9-4e17-a589-df2c81be6992"/>
@@ -403,6 +408,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="64e0990f-d6cb-43f3-ada6-43668d056edd">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="0c8358df-b6c7-48be-843b-8d0c0147a3f9"/>
@@ -421,6 +427,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="00e6c209-5c93-4239-9af2-708a93e6da93">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="e45d2620-5797-4be8-b1e8-1576656c835d"/>
@@ -439,6 +446,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="2b52f2a6-ad1f-4fb7-adda-22f6510e3923">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="6036569a-0ce2-4a78-9261-601965371db7"/>
@@ -448,6 +456,15 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 								<text><![CDATA[End Time]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="30" uuid="24076cfc-ac5d-4c1c-8f38-5a77c28d09c1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Serif" size="15"/>
+								</textElement>
+								<text><![CDATA[Total :]]></text>
+							</staticText>
+						</jr:columnFooter>
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="6f3d57bc-b371-4419-9123-4fd98f5119cd"/>
@@ -457,6 +474,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="6f39e02c-dc84-4ebf-bafb-3b4e1a877b84">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="faf429ac-7117-4078-a0c9-305f6accf3e7"/>
@@ -466,6 +484,15 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 								<text><![CDATA[Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table 1_CH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="30" uuid="9aaf1288-b8b0-4fa0-b2de-a469d1428aa3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Serif" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{amount}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="689eddcc-5d82-4063-8a8a-d645101faaeb"/>
@@ -475,6 +502,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="adee62b5-b90e-48df-b54b-5109d6092260">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="60422c9d-6711-4f12-b54b-a5d728762111"/>
@@ -493,6 +521,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="c422d018-cd9e-41a1-a297-902b298a8e25">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="e44d03a9-a561-4f3a-b86f-9ddec90ec2b4"/>
@@ -511,6 +540,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="24c8408f-6073-408c-8047-32c9b1575891">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="5c25ca02-7232-4de4-8486-ad2f06c35953"/>
@@ -529,6 +559,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="7c0a7c28-e346-4aec-801e-ad807500a24b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="99100e03-ff04-48bd-a6f9-f885db808613"/>
@@ -547,6 +578,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="f79d2f59-4a26-4834-b9f2-c1a3e2f5c36a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="e873264e-4f5e-4a4a-a2a5-f80e7ac61f13"/>
@@ -565,6 +597,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="dfbae659-db8e-4cad-a37c-4e95ed3d3cc9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="d6620864-0fe2-44a4-92ac-8712d229937f"/>
@@ -583,6 +616,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="7b8395e5-21e8-4fad-ba78-a91395b32687">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="86e84d4c-8ec6-45a0-99b8-3575ef19908a"/>
