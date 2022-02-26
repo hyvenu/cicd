@@ -3,6 +3,7 @@ encoding/RptEmployeeReport.jrxml=UTF-8
 encoding/RptEnquiryReport.jrxml=UTF-8
 encoding/RptGrnRport.jrxml=UTF-8
 encoding/RptMaterialSalesReport.jrxml=UTF-8
+encoding/RptProductWiseSalesRpt.jrxml=UTF-8
 encoding/RptSafetystockReport.jrxml=UTF-8
 encoding/RptSalesReport.jrxml=UTF-8
 encoding/RptSalesbydayReport.jrxml=UTF-8
