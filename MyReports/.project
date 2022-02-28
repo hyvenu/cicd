@@ -20,4 +20,11 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>net.sf.jasperreports.nature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>RptProductwiseSalesReport.jrxml</name>
+			<type>1</type>
+			<location>E:/Projects/ST000001_SAFFRAN_MAIN/erp-reports/ST000001_SAFFRAN/RptProductwiseSalesReport.jrxml</location>
+		</link>
+	</linkedResources>
 </projectDescription>

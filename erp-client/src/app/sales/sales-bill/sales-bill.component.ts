@@ -242,6 +242,7 @@ export class SalesBillComponent implements OnInit {
       service_id:'',
       booking_id:'',
       item_id:'',
+      item_name:'',
       item_description:'',
       quantity:'',
       unit_id:'',
@@ -264,6 +265,7 @@ export class SalesBillComponent implements OnInit {
       service_id:'',
       booking_id:'',
       item_id:'',
+      item_name:'',
       item_description:'',
       quantity:'',
       unit_id:'',
@@ -363,7 +365,8 @@ export class SalesBillComponent implements OnInit {
               { item_id:"",
                 booking_id: this.appointment_obj.id,
                 service_id: element.service__id,
-                item_description: element.service__service_name,
+                item_name: element.service__service_name,
+                item_description: element.service__service_desc,
                 quantity: 1,
                 unit_id: element.service__unit,
                 unit: element.service__unit__PrimaryUnit,
@@ -415,7 +418,8 @@ export class SalesBillComponent implements OnInit {
               { item_id:"",
                 booking_id: this.appointment_obj.id,
                 service_id: element.service__id,
-                item_description: element.service__service_name,
+                item_name: element.service__service_name,
+                item_description: element.service__service_desc,
                 quantity: 1,
                 unit_id: element.service__unit,
                 unit: element.service__unit__PrimaryUnit,
@@ -533,7 +537,7 @@ export class SalesBillComponent implements OnInit {
             this.searchProduct = ""
             if(!data) {
               const index: number = this.invoice_items.indexOf(dd);
-              if(this.invoice_items[index].item_description == "") {
+              if(this.invoice_items[index].item_name == "") {
                 this.remove_item(dd);
               }
               return;
@@ -546,9 +550,9 @@ export class SalesBillComponent implements OnInit {
             let sellPrice: any = parseFloat(this.selectedPro.sell_price) * this.selectedPro.qty;
             let gstVal: any = (this.selectedPro.unit_price * parseFloat(this.selectedPro.tax)) / 100;
             let total: any = sellPrice;
-            if (this.invoice_items.some(item => item.item_description == this.selectedPro.product__product_name)) {
+            if (this.invoice_items.some(item => item.item_name == this.selectedPro.product__product_name)) {
               const index: number = this.invoice_items.indexOf(dd);
-              if(this.invoice_items[index].item_description == "") {
+              if(this.invoice_items[index].item_name == "") {
                 this.remove_item(dd);
               }
               this.nbtoastService.danger("product name already exist");
@@ -559,7 +563,8 @@ export class SalesBillComponent implements OnInit {
               }
               dd.item_id = this.selectedPro.product,
               dd.booking_id = app_id,
-              dd.item_description = this.selectedPro.product__product_name
+              dd.item_name = this.selectedPro.product__product_name
+              dd.item_description = this.selectedPro.product__description
               dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
               dd.unit_id = this.selectedPro.unit,
               dd.unit = this.selectedPro.unit__PrimaryUnit,
@@ -608,7 +613,7 @@ export class SalesBillComponent implements OnInit {
             this.searchProduct = ""
             if(!data) {
               const index: number = this.invoice_items.indexOf(dd);
-              if(this.invoice_items[index].item_description == "") {
+              if(this.invoice_items[index].item_name == "") {
                 this.remove_item(dd);
               }
               return;
@@ -619,9 +624,9 @@ export class SalesBillComponent implements OnInit {
             let sellPrice: any = parseFloat(this.selectedPro.price) * this.selectedPro.qty;
             let gstVal: any = (this.selectedPro.price * parseFloat(this.selectedPro.service_gst)) / 100;
             let total: any = sellPrice;
-            if (this.invoice_items.some(item => item.item_description == this.selectedPro.service_name)) {
+            if (this.invoice_items.some(item => item.item_name == this.selectedPro.service_name)) {
               const index: number = this.invoice_items.indexOf(dd);
-              if(this.invoice_items[index].item_description == "") {
+              if(this.invoice_items[index].item_name == "") {
                 this.remove_item(dd);
               }
               this.nbtoastService.danger("service name already exist");
@@ -630,18 +635,10 @@ export class SalesBillComponent implements OnInit {
               if(this.appointment_obj) {
                 app_id = this.appointment_obj.id
               }
-              /*
-                "id",
-                "service_name",
-                "service_desc",
-                "price",
-                "service_gst",
-                "unit",
-                "unit__PrimaryUnit",
-              */
               dd.service_id = this.selectedPro.id,
               dd.booking_id = app_id,
-              dd.item_description = this.selectedPro.service_name
+              dd.item_name = this.selectedPro.service_name
+              dd.item_description = this.selectedPro.service_desc
               dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
               dd.unit_id = this.selectedPro.unit,
               dd.unit = this.selectedPro.unit,
@@ -704,15 +701,6 @@ export class SalesBillComponent implements OnInit {
                 }
                 this.nbtoastService.danger("product name already exist");
             } else {
-              // dd.item_id = this.selectedPro.product,
-              // dd.item_description = this.selected_product.product_name
-              // dd.price = this.selectedPro.sell_price
-              // dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
-              // dd.unit = this.selectedPro.unit,
-              // dd.unit_name = this.selectedPro.unit__PrimaryUnit,
-              // dd.tax = this.selectedPro.tax,
-              // dd.item_total = parseFloat(total).toFixed(2),
-              // dd.gst_value = parseFloat(gstVal).toFixed(2)
 
               let app_id = "";
               if(this.appointment_obj) {
@@ -827,7 +815,7 @@ export class SalesBillComponent implements OnInit {
            let sellPrice:any = parseFloat(element.unit_price) * element.qty ;
            let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
            let total:any = sellPrice + gstVal;
-           if(this.invoice_items.some(item => item.item_description == this.selected_product_data[0].product__product_name)){
+           if(this.invoice_items.some(item => item.item_name == this.selected_product_data[0].product__product_name)){
 
              this.nbtoastService.danger("product name already exist");
            }else{
@@ -836,7 +824,8 @@ export class SalesBillComponent implements OnInit {
                item_id:element.product,
                booking_id:app_id,
                service_id:"",
-               item_description :element.product__product_name,
+               item_name :element.product__product_name,
+               item_description :element.product__description,
                quantity: element.qty ? element.qty : 0.00,
                unit_id: element.unit,
                unit:element.unit__PrimaryUnit,

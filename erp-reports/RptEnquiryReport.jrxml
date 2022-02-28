@@ -5,8 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptEnquiryReport_files/main_jrxml"/>
-	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptEnquiryReport"/>
+	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptEnquiryReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptEnquiryReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -204,37 +204,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="87" splitType="Stretch">
-			<textField>
-				<reportElement x="617" y="10" width="100" height="30" uuid="02eb78f5-88d2-4f5e-9d63-c1e56cc88617"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="617" y="30" width="100" height="30" uuid="96fc147b-fa3a-4d1f-b521-84bce5f2172e"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="617" y="50" width="100" height="30" uuid="10cd8462-5a81-40cf-a673-5e0388935591"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="680" y="50" width="100" height="30" uuid="32a6347e-c28e-4341-aa21-adc61a301ff2"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
-			</textField>
+		<band height="109" splitType="Stretch">
 			<staticText>
-				<reportElement x="200" y="10" width="340" height="69" uuid="bd8f02c8-c405-4c0f-b3d6-cfc62c3d6279"/>
+				<reportElement x="200" y="10" width="320" height="69" uuid="bd8f02c8-c405-4c0f-b3d6-cfc62c3d6279"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Serif" size="40"/>
 				</textElement>
@@ -244,6 +216,62 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 				<reportElement x="17" y="7" width="73" height="73" uuid="9ac2df8b-1bb4-4ffa-b23c-ba2c458d1e27"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="331" y="72" width="79" height="14" uuid="2ba6b612-f871-4bac-87e3-ebe0ac94a2f3"/>
+				<textElement>
+					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="240" y="70" width="130" height="19" uuid="e39601b0-7173-4f07-8137-c2bc0524cc50"/>
+				<textElement>
+					<font fontName="Constantia"/>
+				</textElement>
+				<text><![CDATA[report generated on ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="72" width="20" height="16" uuid="384c867b-e353-4c33-9600-2bbab00f5441"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Constantia"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="411" y="72" width="94" height="13" uuid="e7c97f2a-3930-4f7f-856d-fbe586fb3693"/>
+				<textElement>
+					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="630" y="59" width="119" height="30" uuid="6cb76a77-4339-43d6-8cd1-58337e702871"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="630" y="36" width="119" height="30" uuid="24a41e04-a4db-4a3d-bfd8-9ffa904275e3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="706" y="59" width="74" height="30" uuid="10bf6dd3-79e4-4204-b3a4-df6d58aa3f2d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="630" y="10" width="130" height="30" uuid="7ff7e825-b9cd-42d7-94cc-e6e7cf2360ca"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

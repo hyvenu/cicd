@@ -104,7 +104,7 @@ $box.prop("checked", false);
                             <td><button nbButton (click)="remove_item(item);" status="danger" size="small">X</button></td>
 
                             <td>
-                                <input class="form-control form-control-sm" type="text" #desc readonly  name="{{item.item_description}}" [(ngModel)]="item.item_description"   placeholder="Item Description"  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm" type="text" #desc readonly  name="{{item.item_name}}" [(ngModel)]="item.item_name"   placeholder="Item Name"  [ngModelOptions]="{standalone: true}"
                                     style="width: 10em;" (input)="calculate_price()"
                                     (change)="get_value($event,item)"
                                     (click)="open_product_name(dialog_single_product,item)"
@@ -268,7 +268,7 @@ $box.prop("checked", false);
 
 <ng-template #dialog_single_product let-data let-ref="dialogRef">
   <nb-card size="large" style="width: 600px;">
-      <nb-card-header>Product Price List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
+      <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
       <nb-card-body>
                   <table class="table">
                       <tr>
@@ -278,8 +278,8 @@ $box.prop("checked", false);
                           <th>Sell Price</th>
                           <th></th>
                         </tr>
-                        <tr *ngFor="let item of multi_product_list |  search_filter:'product__product_name,qty,serial_number,sell_price':searchProduct">
-                          <td>{{item.product__product_name}}</td>
+                        <tr *ngFor="let item of multi_product_list |  search_filter:'product__product_name,product__description,qty,serial_number,sell_price':searchProduct">
+                          <td>{{item.product__product_name}}<br>{{item.product__description}}</td>
                           <td>{{item.qty}}</td>
                           <td>{{item.serial_number}}</td>
                           <td>{{item.sell_price}}</td>
@@ -304,8 +304,8 @@ $box.prop("checked", false);
                           <th>Sell Price</th>
                           <th></th>
                         </tr>
-                        <tr *ngFor="let item of multi_service_list |  search_filter:'service_name':searchProduct">
-                          <td>{{item.service_name}}</td>
+                        <tr *ngFor="let item of multi_service_list |  search_filter:'service_name,service_desc':searchProduct">
+                          <td>{{item.service_name}}<br>{{item.service_descn}}</td>
                           <td>{{item.qty}}</td>
                           <td>{{item.price}}</td>
                           <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
