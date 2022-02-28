@@ -206,11 +206,11 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 	<title>
 		<band height="109" splitType="Stretch">
 			<staticText>
-				<reportElement x="200" y="10" width="320" height="69" uuid="bd8f02c8-c405-4c0f-b3d6-cfc62c3d6279"/>
+				<reportElement x="200" y="0" width="320" height="60" uuid="bd8f02c8-c405-4c0f-b3d6-cfc62c3d6279"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Serif" size="40"/>
 				</textElement>
-				<text><![CDATA[Sales Report]]></text>
+				<text><![CDATA[Enquiry Report]]></text>
 			</staticText>
 			<image>
 				<reportElement x="17" y="7" width="73" height="73" uuid="9ac2df8b-1bb4-4ffa-b23c-ba2c458d1e27"/>
