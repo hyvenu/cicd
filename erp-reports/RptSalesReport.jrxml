@@ -290,21 +290,21 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="371" y="62" width="79" height="14" uuid="7b0dd0ff-a9e0-40fb-9c6a-b810caab24ce"/>
+				<reportElement x="391" y="62" width="79" height="14" uuid="7b0dd0ff-a9e0-40fb-9c6a-b810caab24ce"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="430" y="62" width="20" height="16" uuid="1e909c99-83fe-4fe7-8a73-52df3f6160d4"/>
+				<reportElement x="450" y="62" width="20" height="16" uuid="1e909c99-83fe-4fe7-8a73-52df3f6160d4"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="451" y="62" width="94" height="13" uuid="3e638287-a5aa-452f-b3ba-ea018a8e8b30"/>
+				<reportElement x="471" y="62" width="94" height="13" uuid="3e638287-a5aa-452f-b3ba-ea018a8e8b30"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>

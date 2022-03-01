@@ -217,7 +217,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="331" y="72" width="79" height="14" uuid="2ba6b612-f871-4bac-87e3-ebe0ac94a2f3"/>
+				<reportElement x="347" y="72" width="79" height="14" uuid="2ba6b612-f871-4bac-87e3-ebe0ac94a2f3"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
@@ -231,14 +231,14 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="390" y="72" width="20" height="16" uuid="384c867b-e353-4c33-9600-2bbab00f5441"/>
+				<reportElement x="406" y="72" width="20" height="16" uuid="384c867b-e353-4c33-9600-2bbab00f5441"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="411" y="72" width="94" height="13" uuid="e7c97f2a-3930-4f7f-856d-fbe586fb3693"/>
+				<reportElement x="427" y="72" width="94" height="13" uuid="e7c97f2a-3930-4f7f-856d-fbe586fb3693"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>

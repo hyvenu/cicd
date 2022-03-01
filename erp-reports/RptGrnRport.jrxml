@@ -336,7 +336,7 @@ inner join store_store as store on store.id=stock.store_id
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="341" y="72" width="79" height="14" uuid="c043ede6-b72f-4166-b810-7338eb13a56f"/>
+				<reportElement x="351" y="72" width="79" height="14" uuid="c043ede6-b72f-4166-b810-7338eb13a56f"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
@@ -350,14 +350,14 @@ inner join store_store as store on store.id=stock.store_id
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="72" width="20" height="16" uuid="6e52b26e-94aa-4762-9b37-d6c1e3e4f549"/>
+				<reportElement x="410" y="72" width="20" height="16" uuid="6e52b26e-94aa-4762-9b37-d6c1e3e4f549"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="421" y="72" width="94" height="13" uuid="9c8151e6-3db5-4653-9070-91ab7f62a0b9"/>
+				<reportElement x="431" y="72" width="94" height="13" uuid="9c8151e6-3db5-4653-9070-91ab7f62a0b9"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>

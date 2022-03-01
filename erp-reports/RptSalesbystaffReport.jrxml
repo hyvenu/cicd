@@ -188,7 +188,7 @@ store.address,store.city,store.pin_code FROM store_store as store;]]>
 				<text><![CDATA[Sale by Saff Report]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="231" y="42" width="79" height="14" uuid="f24d2337-2e3b-4164-903d-dad97645cfe2"/>
+				<reportElement x="248" y="42" width="79" height="14" uuid="f24d2337-2e3b-4164-903d-dad97645cfe2"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
@@ -202,14 +202,14 @@ store.address,store.city,store.pin_code FROM store_store as store;]]>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="290" y="42" width="20" height="16" uuid="e9507518-652f-485c-ab68-965f6410d8f2"/>
+				<reportElement x="310" y="42" width="20" height="16" uuid="e9507518-652f-485c-ab68-965f6410d8f2"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="311" y="42" width="94" height="13" uuid="8a8426a6-ba71-44aa-abd8-37c897e1fb29"/>
+				<reportElement x="328" y="42" width="94" height="13" uuid="8a8426a6-ba71-44aa-abd8-37c897e1fb29"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>

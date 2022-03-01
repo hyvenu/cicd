@@ -228,21 +228,21 @@ order_details.gst_amount,
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="231" y="52" width="79" height="14" uuid="40eaeef4-24f3-4410-a789-4b940d2606ee"/>
+				<reportElement x="247" y="52" width="79" height="14" uuid="40eaeef4-24f3-4410-a789-4b940d2606ee"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="290" y="52" width="20" height="13" uuid="aaa264fc-1317-4445-9774-bf456d0346dc"/>
+				<reportElement x="306" y="52" width="20" height="13" uuid="aaa264fc-1317-4445-9774-bf456d0346dc"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="311" y="52" width="94" height="13" uuid="6a7f5779-5bcb-4109-bc59-aa5c3dcfaaa5"/>
+				<reportElement x="327" y="52" width="94" height="13" uuid="6a7f5779-5bcb-4109-bc59-aa5c3dcfaaa5"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>

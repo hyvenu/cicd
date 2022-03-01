@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RptCustomerWiseSalesReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d112e9d5-caec-4be1-91fa-5fe2ef7a3be5">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RptCustomerWiseServiceReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d2085580-613a-4b71-a4e8-1066b3e1f44d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptCustomerWiseSalesReport_files/main_jrxml"/>
-	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptCustomerWiseSalesReport"/>
-	<style name="Table_TH" mode="Opaque" backcolor="#CADCED">
+	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptCustomerWiseServiceReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptCustomerWiseServiceReport"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#C8D8E8">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -16,7 +16,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Table_CH" mode="Opaque" backcolor="#C5DAED">
+	<style name="Table_CH" mode="Opaque" backcolor="#C2D9ED">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -34,7 +34,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<subDataset name="Customer" uuid="f1ea2295-9fab-4f64-a2cd-e5812c17e3c6">
+	<subDataset name="Customer" uuid="7675b8bc-7045-4153-b686-81b5e2e3f885">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 		<parameter name="from_date" class="java.sql.Date">
@@ -44,28 +44,27 @@
 			<parameterDescription><![CDATA[Enter to Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT distinct date(sales_order_req.po_date) as date,
-sales_order_req.invoice_no,
+			<![CDATA[SELECT app.booking_date,sales_order_req.invoice_no ,
 customer.customer_name,
 customer.phone_number,
-sales_details.qty,
+service.service_name,
 sales_details.unit_price,
-(sales_details.subtotal_amount-sales_details.gst_amount) as sub_total,
-sales_details.gst_amount as total_gst_amount ,
-sales_details.subtotal_amount,
-product.product_name
-
-
-FROM sales_salesorderrequest as sales_order_req
-inner join store_customer as customer on sales_order_req.customer_id=customer.id 
- inner join sales_salesorderdetails as sales_details on sales_details.po_order_id=sales_order_req.id
- inner join inventory_productmaster as product on product.id=sales_details.product_id
-where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) and  date(sales_order_req.po_date) <=  coalesce( $P{to_date} ,current_date())
- order by sales_order_req.invoice_no ,product.product_name]]>
+sales_details.gst_amount,
+sales_details.subtotal_amount as grand_total
+FROM store_appointmentschedule as app
+inner join sales_salesorderdetails as sales_details on sales_details.booking_id=app.id
+inner join store_customer as customer on customer.id=app.customer_id
+inner join store_storeservices as service on service.id=sales_details.service_id
+inner join sales_salesorderrequest as sales_order_req on sales_order_req.id=sales_details.po_order_id
+where date(sales_order_req.po_date) >= coalesce( $P{from_date}   ,current_date()) and  date(sales_order_req.po_date) <=  coalesce(  $P{to_date}  ,current_date())
+order by app.booking_date,customer.customer_name
+]]>
 		</queryString>
-		<field name="date" class="java.sql.Date">
-			<property name="com.jaspersoft.studio.field.name" value="date"/>
-			<property name="com.jaspersoft.studio.field.label" value="date"/>
+		<field name="booking_date" class="java.sql.Date">
+			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
+			<property name="com.jaspersoft.studio.field.label" value="booking_date"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="store_appointmentschedule"/>
+			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="invoice_no" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="invoice_no"/>
@@ -85,10 +84,10 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 			<property name="com.jaspersoft.studio.field.tree.path" value="store_customer"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="qty" class="java.lang.Integer">
-			<property name="com.jaspersoft.studio.field.name" value="qty"/>
-			<property name="com.jaspersoft.studio.field.label" value="qty"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="sales_salesorderdetails"/>
+		<field name="service_name" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="service_name"/>
+			<property name="com.jaspersoft.studio.field.label" value="service_name"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="store_storeservices"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="unit_price" class="java.math.BigDecimal">
@@ -97,44 +96,28 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 			<property name="com.jaspersoft.studio.field.tree.path" value="sales_salesorderdetails"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="sub_total" class="java.math.BigDecimal">
-			<property name="com.jaspersoft.studio.field.name" value="sub_total"/>
-			<property name="com.jaspersoft.studio.field.label" value="sub_total"/>
-		</field>
-		<field name="total_gst_amount" class="java.math.BigDecimal">
-			<property name="com.jaspersoft.studio.field.name" value="total_gst_amount"/>
-			<property name="com.jaspersoft.studio.field.label" value="total_gst_amount"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="sales_salesorderdetails"/>
-		</field>
-		<field name="subtotal_amount" class="java.math.BigDecimal">
-			<property name="com.jaspersoft.studio.field.name" value="subtotal_amount"/>
-			<property name="com.jaspersoft.studio.field.label" value="subtotal_amount"/>
+		<field name="gst_amount" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="gst_amount"/>
+			<property name="com.jaspersoft.studio.field.label" value="gst_amount"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="sales_salesorderdetails"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="product_name" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.name" value="product_name"/>
-			<property name="com.jaspersoft.studio.field.label" value="product_name"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="inventory_productmaster"/>
-			<fieldDescription><![CDATA[]]></fieldDescription>
+		<field name="grand_total" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="grand_total"/>
+			<property name="com.jaspersoft.studio.field.label" value="grand_total"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="sales_salesorderdetails"/>
 		</field>
-		<variable name="qty" class="java.lang.Integer" calculation="Sum">
-			<variableExpression><![CDATA[$F{qty}]]></variableExpression>
-		</variable>
 		<variable name="unit_price" class="java.math.BigDecimal" calculation="Sum">
 			<variableExpression><![CDATA[$F{unit_price}]]></variableExpression>
 		</variable>
-		<variable name="sub_total" class="java.math.BigDecimal" calculation="Sum">
-			<variableExpression><![CDATA[$F{sub_total}]]></variableExpression>
-		</variable>
 		<variable name="gst" class="java.math.BigDecimal" calculation="Sum">
-			<variableExpression><![CDATA[$F{total_gst_amount}]]></variableExpression>
+			<variableExpression><![CDATA[$F{gst_amount}]]></variableExpression>
 		</variable>
 		<variable name="grand_total" class="java.math.BigDecimal" calculation="Sum">
-			<variableExpression><![CDATA[$F{subtotal_amount}]]></variableExpression>
+			<variableExpression><![CDATA[$F{grand_total}]]></variableExpression>
 		</variable>
-		<group name="date">
-			<groupExpression><![CDATA[$F{date}]]></groupExpression>
+		<group name="booking_date">
+			<groupExpression><![CDATA[$F{booking_date}]]></groupExpression>
 		</group>
 		<group name="invoice_no">
 			<groupExpression><![CDATA[$F{invoice_no}]]></groupExpression>
@@ -145,23 +128,17 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 		<group name="phone_number">
 			<groupExpression><![CDATA[$F{phone_number}]]></groupExpression>
 		</group>
-		<group name="qty">
-			<groupExpression><![CDATA[$F{qty}]]></groupExpression>
+		<group name="service_name">
+			<groupExpression><![CDATA[$F{service_name}]]></groupExpression>
 		</group>
 		<group name="unit_price">
 			<groupExpression><![CDATA[$F{unit_price}]]></groupExpression>
 		</group>
-		<group name="sub_total">
-			<groupExpression><![CDATA[$F{sub_total}]]></groupExpression>
+		<group name="gst_amount">
+			<groupExpression><![CDATA[$F{gst_amount}]]></groupExpression>
 		</group>
-		<group name="total_gst_amount">
-			<groupExpression><![CDATA[$F{total_gst_amount}]]></groupExpression>
-		</group>
-		<group name="subtotal_amount">
-			<groupExpression><![CDATA[$F{subtotal_amount}]]></groupExpression>
-		</group>
-		<group name="product_name">
-			<groupExpression><![CDATA[$F{product_name}]]></groupExpression>
+		<group name="grand_total">
+			<groupExpression><![CDATA[$F{grand_total}]]></groupExpression>
 		</group>
 	</subDataset>
 	<parameter name="From_Date" class="java.sql.Date">
@@ -213,74 +190,74 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="97" splitType="Stretch">
-			<staticText>
-				<reportElement x="210" y="0" width="384" height="60" uuid="0cc47ad0-4174-4e59-ba13-48d543079ea3"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Verdana" size="23"/>
-				</textElement>
-				<text><![CDATA[Customer Wise Sales Report]]></text>
-			</staticText>
+		<band height="94" splitType="Stretch">
 			<textField>
-				<reportElement x="650" y="26" width="119" height="30" uuid="249f846c-deff-4434-91ee-7028c49db009"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Verdana"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="650" y="49" width="119" height="30" uuid="40c6f4f9-9b6d-4cf8-92b1-ce43f07c295e"/>
+				<reportElement x="650" y="49" width="119" height="30" uuid="99110c6c-4f91-4255-a3c4-15baf178aad4"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="726" y="49" width="74" height="30" uuid="0a34aa16-8fd5-4370-af6c-c56f6ad1584c"/>
+				<reportElement x="726" y="49" width="74" height="30" uuid="c33b69f7-c0ff-4849-95b7-b3fb1d2e44da"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="650" y="0" width="130" height="30" uuid="c7d6fd57-703b-4b22-ac08-33760519daab"/>
+				<reportElement x="650" y="0" width="130" height="30" uuid="1abd2461-bdeb-40b0-89be-ecb4da272298"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="650" y="26" width="119" height="30" uuid="3f7fce0c-696e-4ae1-a76e-eb5c5a02bbbc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="210" y="0" width="384" height="60" uuid="1c6c9fd6-947f-49bc-a0ac-bfb7ab36933b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="23"/>
+				</textElement>
+				<text><![CDATA[Customer Wise Service Report]]></text>
+			</staticText>
 			<image>
-				<reportElement x="9" y="8" width="71" height="71" uuid="61c8262b-81d2-4f59-b6d4-61f9824a1bba"/>
+				<reportElement x="9" y="8" width="71" height="71" uuid="902bfee8-c5ee-4d86-a28f-111b2131d821"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="280" y="60" width="130" height="19" uuid="061630b2-ae65-4ad7-bf7e-4099d2f64de8"/>
+				<reportElement x="280" y="60" width="130" height="19" uuid="39de388b-791d-45d0-a243-0f1504c20a51"/>
 				<textElement>
 					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="444" y="62" width="20" height="16" uuid="a2caacb1-89d6-4fb8-bc48-093e50f4aaf1"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
 			<textField>
-				<reportElement x="386" y="62" width="79" height="14" uuid="72416fd8-f70a-4490-b727-292759dab4fe"/>
+				<reportElement x="385" y="62" width="79" height="14" uuid="d96c2ddc-22ad-4e8b-a926-9a265864814f"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="466" y="62" width="94" height="13" uuid="fe4e0c90-37ba-4eda-b7a8-c6239571fdc9"/>
+				<reportElement x="465" y="62" width="94" height="13" uuid="0bc01afd-6851-4caf-8e87-12b00cf6e155"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="445" y="62" width="20" height="16" uuid="d20faabc-1b66-4e7c-8e69-dd5d21298df9"/>
-				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Verdana"/>
-				</textElement>
-				<text><![CDATA[to]]></text>
-			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -290,16 +267,16 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="112" splitType="Stretch">
+		<band height="108" splitType="Stretch">
 			<componentElement>
-				<reportElement x="2" y="3" width="798" height="97" uuid="ecd186e4-f0e3-4426-a251-e4dfe14ad1b4">
+				<reportElement x="1" y="3" width="800" height="97" uuid="177e0286-8b36-4b2c-8864-e32639c225a4">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Customer" uuid="c9b442c7-7ea6-4005-8bdf-3a715380bdd9">
+					<datasetRun subDataset="Customer" uuid="a711183b-a14f-4021-94fe-a9c0fd5567fe">
 						<datasetParameter name="from_date">
 							<datasetParameterExpression><![CDATA[$P{From_Date}]]></datasetParameterExpression>
 						</datasetParameter>
@@ -308,41 +285,41 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="80" uuid="5c61502f-7534-44d8-bb1d-a92c062ba6c6">
+					<jr:column width="94" uuid="103dcbf6-c77c-471f-aa43-ce5597a77e09">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="80" height="30" uuid="52636979-7125-44d5-a4da-c3578c38c644"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="c44a42db-bf12-4fff-8e20-4aac92a7d603"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" size="11"/>
+									<font fontName="Verdana" size="12"/>
 								</textElement>
 								<text><![CDATA[Date]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="80" height="30" uuid="20889fb1-dff3-44a5-9f04-eb87d1a3e850"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="3bc190bc-1c66-4466-b28a-a11315e1ada1"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
-								<textFieldExpression><![CDATA[DATEFORMAT($F{date},"dd-MM-YYY")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[DATEFORMAT($F{booking_date},"dd-MM-YYY")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="80" uuid="f1ee7f60-7288-4008-b3c8-88d11b23638b">
+					<jr:column width="94" uuid="0f0dbb09-5497-4fa0-a913-31ea06d1c6ff">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="80" height="30" uuid="55bc110e-3b5c-4c97-9e8b-ff575a343cc9"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="112d3ad1-f68a-4e40-a7aa-42a76cd9b02d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" size="11"/>
+									<font fontName="Verdana" size="12"/>
 								</textElement>
 								<text><![CDATA[Invoice No]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="80" height="30" uuid="df1e3a57-6b14-4326-a0d1-9fa4d6c934ee"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="8b50816f-2c6d-4bdf-9705-9c2353f9a242"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -350,20 +327,20 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="395b3634-9487-4ac8-ae5d-c4303250a26d">
+					<jr:column width="112" uuid="53d403dd-add0-44e1-b3fa-3b99a4a2d96f">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="5d1db636-caa0-4523-83a2-b6adbeaaa2cb"/>
+								<reportElement x="0" y="0" width="112" height="30" uuid="700d5082-3f58-4a39-8873-64cd4acdc351"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" size="11"/>
+									<font fontName="Verdana" size="12"/>
 								</textElement>
 								<text><![CDATA[Customer Name]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="30" uuid="659b2022-125e-43a3-9c99-0512436e88da"/>
+								<reportElement x="0" y="0" width="112" height="30" uuid="59147921-1ec3-46d7-8639-008c7132872b"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -371,20 +348,20 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="b0d92944-d7c2-4c7d-ab32-7cb269421674">
+					<jr:column width="94" uuid="dbc4e374-b88a-453d-979c-c80eb16e18f1">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="cd9f0b71-2f63-4d09-b7a8-c1ec37289e03"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="3c3e703f-9476-4f3b-ae8c-28b6fd378c6c"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" size="11"/>
+									<font fontName="Verdana" size="12"/>
 								</textElement>
 								<text><![CDATA[Phone Number]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="30" uuid="2bc7cb06-676b-4fb2-ae74-6d274494819f"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="f07b69c4-e579-4de0-982d-fe8022115c42"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -392,11 +369,11 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="100" uuid="5a8271b6-50f6-4c67-af01-abae5b7ee031">
+					<jr:column width="106" uuid="fcb64e87-28c9-4a5c-bf95-571d0eb96cad">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
-						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
+						<jr:tableFooter style="Table_TH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="100" height="30" uuid="806fb928-2072-419e-a17c-de7ee37ba992"/>
+								<reportElement x="0" y="0" width="106" height="30" uuid="49b140f1-f794-4263-87bf-68b2adcc2398"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="18"/>
 								</textElement>
@@ -405,76 +382,46 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="100" height="30" uuid="96be2118-62b1-4477-8d11-12dc7b32069a"/>
+								<reportElement x="0" y="0" width="106" height="30" uuid="75190236-75c9-40dd-bc76-2934e3e6f791"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" size="11"/>
+									<font fontName="Verdana" size="12"/>
 								</textElement>
-								<text><![CDATA[Product Name]]></text>
+								<text><![CDATA[Service Name]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="100" height="30" uuid="d67d66a2-1b89-4f51-ac70-ff787d2a556e"/>
+								<reportElement x="0" y="0" width="106" height="30" uuid="3bae120f-ae39-4aeb-8f3f-e7f4a0d6b15d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{service_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="003b1766-e225-4669-9a8b-d4a49aab2d28">
+					<jr:column width="94" uuid="f2481ad4-0679-42d5-91fd-738b653b49fe">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
-						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
+						<jr:tableFooter style="Table_TH" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="7d675b1b-7c64-4663-9e73-63244196f35e"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="de81967b-d45d-4d9f-847e-939aa4642e2f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" isBold="true"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{qty}]]></textFieldExpression>
-							</textField>
-						</jr:tableFooter>
-						<jr:columnHeader style="Table_CH" height="30">
-							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="ff0c8465-e3b9-45e7-aba9-7bdab5d03e08"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" size="11"/>
-								</textElement>
-								<text><![CDATA[Qty]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="b932a219-37b8-4644-89b2-1edfb19021b5"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="70" uuid="cb78d9e4-d4fd-4265-8129-30275f5d337f">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
-						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="34588c5e-81d4-4f96-ac54-fe4f0506b88c"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" isBold="true"/>
+									<font fontName="Verdana" size="11" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{unit_price}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="906b432e-0ab6-45f9-81c4-99c18c414cad"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="97ed1094-7ddf-4f39-af99-cab19546906e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" size="11"/>
+									<font fontName="Verdana" size="12"/>
 								</textElement>
 								<text><![CDATA[Unit Price]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="137126ac-2b80-402c-a5b0-a5070697acc4"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="e8b0aea7-31a7-4ecd-9399-be9c10d38de4"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -482,93 +429,63 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="11324e7a-7cf0-424b-8d8e-eabb4ff27a60">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
-						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
+					<jr:column width="94" uuid="a6ee1956-0a05-4a1b-af5a-ad6315f1de8d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:tableFooter style="Table_TH" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="82583e14-61a3-4301-9e1e-64e7c3fb189b"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="6008a752-833c-4918-a846-2895c202c011"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" isBold="true"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{sub_total}]]></textFieldExpression>
-							</textField>
-						</jr:tableFooter>
-						<jr:columnHeader style="Table_CH" height="30">
-							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="21d1e38f-e131-4bd7-b24c-ba71723cbd53"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" size="11"/>
-								</textElement>
-								<text><![CDATA[Sub Total]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="65111236-55b6-48be-8026-2ca8991c4cd8"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{sub_total}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="70" uuid="10cc757f-e396-41c2-bafe-cf1a71642188">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
-						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="bc21e766-ab0e-490e-a8fb-bdbf84f90e96"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" isBold="true"/>
+									<font fontName="Verdana" size="11" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{gst}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="14d984c5-1201-44e8-afe0-eaad8d52da9b"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="7e06602d-490b-4332-966a-85faf0a77db7"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" size="11"/>
+									<font fontName="Verdana" size="12"/>
 								</textElement>
 								<text><![CDATA[Gst Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="e816f17c-3c0f-452a-bf53-01e12eb37d94"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="aa180989-6ad6-4d3d-937a-1b79e9b4547d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{total_gst_amount}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{gst_amount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="a6f3eb64-5512-4bda-b186-bfaa6a74ee1f">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
-						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
+					<jr:column width="94" uuid="84d21fa8-8237-4d3a-8378-a9b8bd3089f3">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:tableFooter style="Table_TH" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="bcbcb7e8-7dac-4e4c-9226-efd0d09af1fd"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="3116e53e-9c53-47db-9a05-430b223bde1c"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" isBold="true"/>
+									<font fontName="Verdana" size="11" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{grand_total}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="02f08596-cf26-4a6a-8f7d-bb21dfed7c00"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="171d3159-448a-4f41-a027-d9927321faa9"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Verdana" size="11"/>
+									<font fontName="Verdana" size="12"/>
 								</textElement>
 								<text><![CDATA[Grand Total]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="d41b07f0-922d-4b64-b4b7-9b2988283239"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="fa5deb4a-8f84-458c-bcdf-2e4129a2e24d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{subtotal_amount}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{grand_total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -578,20 +495,20 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 	</detail>
 	<columnFooter>
 		<band height="45" splitType="Stretch">
-			<staticText>
-				<reportElement x="340" y="10" width="50" height="20" uuid="cf9b9fe8-0494-44aa-8ba9-25cbed1659ac"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Verdana" size="14"/>
-				</textElement>
-				<text><![CDATA[Page :]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="395" y="10" width="26" height="20" uuid="b6eb0c58-26ff-4343-9da1-a3c021eccc4b"/>
+				<reportElement x="395" y="10" width="26" height="20" uuid="2cdf7e05-5197-4824-b633-65b383dd9325"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Verdana" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="340" y="10" width="50" height="20" uuid="ec0cb9e3-d794-4f15-9ce9-f73a5bac1ee7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="14"/>
+				</textElement>
+				<text><![CDATA[Page :]]></text>
+			</staticText>
 		</band>
 	</columnFooter>
 	<pageFooter>

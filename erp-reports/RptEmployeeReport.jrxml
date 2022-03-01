@@ -200,7 +200,7 @@ Store.address,Store.city,Store.pin_code FROM store_store as Store]]>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="231" y="46" width="79" height="14" uuid="0d2ddfc0-5cde-4da2-a11c-ba950ec07537"/>
+				<reportElement x="246" y="46" width="79" height="14" uuid="0d2ddfc0-5cde-4da2-a11c-ba950ec07537"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
@@ -214,14 +214,14 @@ Store.address,Store.city,Store.pin_code FROM store_store as Store]]>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="290" y="46" width="20" height="13" uuid="3e1f7dc6-ed9a-4e9e-a68c-b054df5a36bc"/>
+				<reportElement x="305" y="46" width="20" height="13" uuid="3e1f7dc6-ed9a-4e9e-a68c-b054df5a36bc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="311" y="46" width="94" height="13" uuid="40e12a2a-e6d1-4448-9634-6a076ebb18bd"/>
+				<reportElement x="326" y="46" width="94" height="13" uuid="40e12a2a-e6d1-4448-9634-6a076ebb18bd"/>
 				<textElement>
 					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
