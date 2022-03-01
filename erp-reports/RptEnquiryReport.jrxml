@@ -208,7 +208,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 			<staticText>
 				<reportElement x="200" y="0" width="320" height="60" uuid="bd8f02c8-c405-4c0f-b3d6-cfc62c3d6279"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="40"/>
+					<font fontName="Verdana" size="40"/>
 				</textElement>
 				<text><![CDATA[Enquiry Report]]></text>
 			</staticText>
@@ -219,56 +219,56 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 			<textField>
 				<reportElement x="331" y="72" width="79" height="14" uuid="2ba6b612-f871-4bac-87e3-ebe0ac94a2f3"/>
 				<textElement>
-					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="240" y="70" width="130" height="19" uuid="e39601b0-7173-4f07-8137-c2bc0524cc50"/>
 				<textElement>
-					<font fontName="Constantia"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="390" y="72" width="20" height="16" uuid="384c867b-e353-4c33-9600-2bbab00f5441"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Constantia"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="411" y="72" width="94" height="13" uuid="e7c97f2a-3930-4f7f-856d-fbe586fb3693"/>
 				<textElement>
-					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="630" y="59" width="119" height="30" uuid="6cb76a77-4339-43d6-8cd1-58337e702871"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="630" y="36" width="119" height="30" uuid="24a41e04-a4db-4a3d-bfd8-9ffa904275e3"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="706" y="59" width="74" height="30" uuid="10bf6dd3-79e4-4204-b3a4-df6d58aa3f2d"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="630" y="10" width="130" height="30" uuid="7ff7e825-b9cd-42d7-94cc-e6e7cf2360ca"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
@@ -305,7 +305,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="65481e21-e7c7-48d7-a297-c5dc13c9dc5d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bookman Old Style" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Booking Date]]></text>
 							</staticText>
@@ -313,7 +313,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="a67406b8-ea0b-4350-bcab-3506c4083b50"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{booking_date}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -324,7 +326,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="6d75d14d-19cd-4ffb-9e45-b2f5fb602f48"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bookman Old Style" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Customer Name]]></text>
 							</staticText>
@@ -332,7 +334,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="d4161d8b-1275-4763-8034-ad820edddcbd"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -343,7 +347,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="d6c8fa36-af29-42ae-949e-4c90e0a6fc51"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bookman Old Style" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Phone Number]]></text>
 							</staticText>
@@ -351,7 +355,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="80807f22-c976-4260-a70b-ffe0a9341b2f"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{phone_number}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -362,7 +368,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="e5358890-014b-4a61-b131-c5991c6d808f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bookman Old Style" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Start Time]]></text>
 							</staticText>
@@ -370,7 +376,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="4dafd828-231c-4dbf-b286-d932618d1169"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{start_time}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -381,7 +389,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="734cebe3-fbe5-4242-a8e2-86e6726412e2"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bookman Old Style" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[End Time]]></text>
 							</staticText>
@@ -389,7 +397,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="1629958d-3123-4b8e-9478-dc5b67c242ae"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{end_time}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -400,7 +410,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="a05cc1f3-a06b-4aa8-a612-02db5cff1276"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bookman Old Style" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Grand Total]]></text>
 							</staticText>
@@ -408,7 +418,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="67bdca2d-98b2-4474-8de6-450e89d53f51"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{grand_total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -419,7 +431,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="c0ddee4d-f3a5-42ea-98f4-ce60b6952bfb"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bookman Old Style" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Enquiry Type]]></text>
 							</staticText>
@@ -427,7 +439,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="65203984-840e-4252-89cc-fde0d32d5007"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{enquiry_type}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -438,7 +452,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="4c73ffe3-3b74-4c39-a3a0-f47815529f5b"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bookman Old Style" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Employee Name]]></text>
 							</staticText>
@@ -446,7 +460,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="8f8887b8-91f3-4c11-8877-7009a9ff0610"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{employee_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -457,7 +473,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="9ba6c331-09b4-45d5-ac97-73bd8ddfc5bc"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bookman Old Style" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Category Name]]></text>
 							</staticText>
@@ -465,7 +481,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="fd7babc0-acfc-4402-acee-aee1f32c8447"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -476,7 +494,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="9e83d0b4-4896-46e2-bf11-1309ba483694"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bookman Old Style" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Sub Category Name]]></text>
 							</staticText>
@@ -484,7 +502,9 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="80" height="30" uuid="fa786342-2914-4100-afe3-a3fa2bc75208"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{sub_category_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -498,14 +518,14 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 			<staticText>
 				<reportElement x="340" y="10" width="51" height="22" uuid="04cb423d-5939-4b5b-afdb-066e2b9a4f2f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Candara" size="15"/>
+					<font fontName="Verdana" size="15"/>
 				</textElement>
 				<text><![CDATA[Page :]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="380" y="6" width="30" height="30" uuid="93c9e620-4f32-4da2-917f-c06c22f700a1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Candara" size="16" isBold="true"/>
+					<font fontName="Verdana" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>

@@ -217,35 +217,35 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 			<staticText>
 				<reportElement x="210" y="0" width="384" height="60" uuid="0cc47ad0-4174-4e59-ba13-48d543079ea3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Copperplate Gothic Bold" size="23"/>
+					<font fontName="Verdana" size="23"/>
 				</textElement>
 				<text><![CDATA[Customer Wise Sales Report]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="650" y="26" width="119" height="30" uuid="249f846c-deff-4434-91ee-7028c49db009"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="650" y="49" width="119" height="30" uuid="40c6f4f9-9b6d-4cf8-92b1-ce43f07c295e"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="726" y="49" width="74" height="30" uuid="0a34aa16-8fd5-4370-af6c-c56f6ad1584c"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="650" y="0" width="130" height="30" uuid="c7d6fd57-703b-4b22-ac08-33760519daab"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
@@ -256,28 +256,28 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 			<staticText>
 				<reportElement x="280" y="60" width="130" height="19" uuid="061630b2-ae65-4ad7-bf7e-4099d2f64de8"/>
 				<textElement>
-					<font fontName="Constantia"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="371" y="62" width="79" height="14" uuid="72416fd8-f70a-4490-b727-292759dab4fe"/>
 				<textElement>
-					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="451" y="62" width="94" height="13" uuid="fe4e0c90-37ba-4eda-b7a8-c6239571fdc9"/>
 				<textElement>
-					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="430" y="62" width="20" height="16" uuid="d20faabc-1b66-4e7c-8e69-dd5d21298df9"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Constantia"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
@@ -314,7 +314,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="52636979-7125-44d5-a4da-c3578c38c644"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Date]]></text>
 							</staticText>
@@ -322,7 +322,9 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="80" height="30" uuid="20889fb1-dff3-44a5-9f04-eb87d1a3e850"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[DATEFORMAT($F{date},"dd-MM-YYY")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -333,7 +335,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="55bc110e-3b5c-4c97-9e8b-ff575a343cc9"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Invoice No]]></text>
 							</staticText>
@@ -341,7 +343,9 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="80" height="30" uuid="df1e3a57-6b14-4326-a0d1-9fa4d6c934ee"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{invoice_no}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -352,7 +356,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="5d1db636-caa0-4523-83a2-b6adbeaaa2cb"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Customer Name]]></text>
 							</staticText>
@@ -360,7 +364,9 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="659b2022-125e-43a3-9c99-0512436e88da"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -371,7 +377,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="cd9f0b71-2f63-4d09-b7a8-c1ec37289e03"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Phone Number]]></text>
 							</staticText>
@@ -379,7 +385,9 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="2bc7cb06-676b-4fb2-ae74-6d274494819f"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{phone_number}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -390,7 +398,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="100" height="30" uuid="806fb928-2072-419e-a17c-de7ee37ba992"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="18"/>
+									<font fontName="Verdana" size="18"/>
 								</textElement>
 								<text><![CDATA[Total :]]></text>
 							</staticText>
@@ -399,7 +407,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="100" height="30" uuid="96be2118-62b1-4477-8d11-12dc7b32069a"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Product Name]]></text>
 							</staticText>
@@ -407,7 +415,9 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="100" height="30" uuid="d67d66a2-1b89-4f51-ac70-ff787d2a556e"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -418,7 +428,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="7d675b1b-7c64-4663-9e73-63244196f35e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" isBold="true"/>
+									<font fontName="Verdana" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{qty}]]></textFieldExpression>
 							</textField>
@@ -427,7 +437,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="ff0c8465-e3b9-45e7-aba9-7bdab5d03e08"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Qty]]></text>
 							</staticText>
@@ -435,7 +445,9 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="b932a219-37b8-4644-89b2-1edfb19021b5"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -446,7 +458,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="34588c5e-81d4-4f96-ac54-fe4f0506b88c"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" isBold="true"/>
+									<font fontName="Verdana" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{unit_price}]]></textFieldExpression>
 							</textField>
@@ -455,7 +467,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="906b432e-0ab6-45f9-81c4-99c18c414cad"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Unit Price]]></text>
 							</staticText>
@@ -463,7 +475,9 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="137126ac-2b80-402c-a5b0-a5070697acc4"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -474,7 +488,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="82583e14-61a3-4301-9e1e-64e7c3fb189b"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" isBold="true"/>
+									<font fontName="Verdana" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{sub_total}]]></textFieldExpression>
 							</textField>
@@ -483,7 +497,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="21d1e38f-e131-4bd7-b24c-ba71723cbd53"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Sub Total]]></text>
 							</staticText>
@@ -491,7 +505,9 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="65111236-55b6-48be-8026-2ca8991c4cd8"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{sub_total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -502,7 +518,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="bc21e766-ab0e-490e-a8fb-bdbf84f90e96"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" isBold="true"/>
+									<font fontName="Verdana" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{gst}]]></textFieldExpression>
 							</textField>
@@ -511,7 +527,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="14d984c5-1201-44e8-afe0-eaad8d52da9b"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Gst Amount]]></text>
 							</staticText>
@@ -519,7 +535,9 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="e816f17c-3c0f-452a-bf53-01e12eb37d94"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{total_gst_amount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -530,7 +548,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="bcbcb7e8-7dac-4e4c-9226-efd0d09af1fd"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" isBold="true"/>
+									<font fontName="Verdana" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{grand_total}]]></textFieldExpression>
 							</textField>
@@ -539,7 +557,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="02f08596-cf26-4a6a-8f7d-bb21dfed7c00"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Grand Total]]></text>
 							</staticText>
@@ -547,7 +565,9 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="d41b07f0-922d-4b64-b4b7-9b2988283239"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{subtotal_amount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -561,14 +581,14 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 			<staticText>
 				<reportElement x="340" y="10" width="50" height="20" uuid="cf9b9fe8-0494-44aa-8ba9-25cbed1659ac"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial Black" size="14"/>
+					<font fontName="Verdana" size="14"/>
 				</textElement>
 				<text><![CDATA[Page :]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="395" y="10" width="26" height="20" uuid="b6eb0c58-26ff-4343-9da1-a3c021eccc4b"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial Black" size="14"/>
+					<font fontName="Verdana" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
