@@ -175,35 +175,35 @@ FROM sales_salesorderdetails as order_details
 			<staticText>
 				<reportElement x="90" y="0" width="320" height="40" uuid="764c30e8-981d-44cb-bb2d-4575ffdc1dc2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Copperplate Gothic Bold" size="20"/>
+					<font fontName="Verdana" size="20"/>
 				</textElement>
 				<text><![CDATA[Sales by Product Report]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="420" y="51" width="119" height="30" uuid="ff2612c7-0994-4107-b3be-c8a54355ba4f"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="420" y="28" width="119" height="30" uuid="5a39235f-3493-4cc6-bd03-b648b5469fb0"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="496" y="51" width="74" height="30" uuid="4744e55b-8a44-47dd-ab84-0627155dd8a2"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="420" y="2" width="130" height="30" uuid="f43ad95e-60bc-41d4-974a-13a7ecb931cc"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
@@ -233,7 +233,7 @@ FROM sales_salesorderdetails as order_details
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="aa2b9e47-ff7f-4a22-aa48-a4ba9320e4a5"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Product Name]]></text>
 							</staticText>
@@ -241,7 +241,9 @@ FROM sales_salesorderdetails as order_details
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="80" height="30" uuid="8a24548b-5d3c-4fb7-a431-083322c7f1a0"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -251,7 +253,7 @@ FROM sales_salesorderdetails as order_details
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="ffd45bf9-a931-4dd1-b691-e08b5f968487"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Product Code]]></text>
 							</staticText>
@@ -259,7 +261,9 @@ FROM sales_salesorderdetails as order_details
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="80" height="30" uuid="5891212b-1e75-43be-b05e-365b120b0c3b"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{product_code}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -269,7 +273,7 @@ FROM sales_salesorderdetails as order_details
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="1f909250-661a-49be-a09f-5d84257010a0"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Item Sold]]></text>
 							</staticText>
@@ -277,7 +281,9 @@ FROM sales_salesorderdetails as order_details
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="65" height="30" uuid="eff48e59-d793-49ec-a618-7dcc14937337"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{item_sold}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -287,7 +293,7 @@ FROM sales_salesorderdetails as order_details
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="45013e44-067b-4a9d-a25f-2a66865e5178"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Unit Price]]></text>
 							</staticText>
@@ -295,7 +301,9 @@ FROM sales_salesorderdetails as order_details
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="65" height="30" uuid="af216224-3bc7-4677-95e2-3054549aeb01"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -305,7 +313,7 @@ FROM sales_salesorderdetails as order_details
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="7703dac6-0658-4b38-a9a0-d6c9eba4a54e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Discount Price]]></text>
 							</staticText>
@@ -313,7 +321,9 @@ FROM sales_salesorderdetails as order_details
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="65" height="30" uuid="baeefaa2-1ccd-4bbd-b190-8f9e99754e04"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{discount_price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -323,7 +333,7 @@ FROM sales_salesorderdetails as order_details
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="a3b369bc-0731-4422-b1f2-60b7d37e6320"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Sub Total]]></text>
 							</staticText>
@@ -331,7 +341,9 @@ FROM sales_salesorderdetails as order_details
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="65" height="30" uuid="261fa4ed-26df-42a8-b47d-21fb041be3ef"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{sell_price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -341,7 +353,7 @@ FROM sales_salesorderdetails as order_details
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="c18f02e0-1c44-4b52-b503-3629a6f171dd"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Gst Amount]]></text>
 							</staticText>
@@ -349,7 +361,9 @@ FROM sales_salesorderdetails as order_details
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="65" height="30" uuid="2df58bec-d038-47d3-bacd-6be676da61e0"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{gst_amount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -359,7 +373,7 @@ FROM sales_salesorderdetails as order_details
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="bb6feaa9-5a65-44a0-8581-0658c83dffad"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Serif" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Graand Total]]></text>
 							</staticText>
@@ -367,7 +381,9 @@ FROM sales_salesorderdetails as order_details
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="65" height="30" uuid="05cf49fe-4edd-465e-a953-a2da5980f0ee"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{graand_total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -381,14 +397,14 @@ FROM sales_salesorderdetails as order_details
 			<staticText>
 				<reportElement x="240" y="11" width="51" height="22" uuid="2a58c23c-2ef0-4e2b-a4e1-b2c60624dc1a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Candara" size="15"/>
+					<font fontName="Verdana" size="15"/>
 				</textElement>
 				<text><![CDATA[Page :]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="280" y="7" width="30" height="30" uuid="e6b6ded6-7a70-4cb4-9ca9-e4107d596e5c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Candara" size="16" isBold="true"/>
+					<font fontName="Verdana" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
