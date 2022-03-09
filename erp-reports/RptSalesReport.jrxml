@@ -3,9 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sales_rpt" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="14006a3d-8557-454a-8245-f6744efad26d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
-	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/"/>
+	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.reportUnit" value="/D5N/Reports/Sales_rpt"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptSalesReport"/>
+	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptSalesReport_files/main_jrxml"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -180,6 +181,9 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 				<![CDATA[group_concat(distinct nullif(Category.category_name,''))]]>
 			</property>
 		</field>
+		<variable name="amount" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{grand_total}]]></variableExpression>
+		</variable>
 		<group name="booking_date">
 			<groupExpression><![CDATA[$F{booking_date}]]></groupExpression>
 		</group>
@@ -227,8 +231,8 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT Store.store_name,Store.address
-,Store.city,Store.pin_code FROM store_store as Store;]]>
+		<![CDATA[SELECT store.store_name,store.address
+,store.city,store.pin_code FROM store_store as store;]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
@@ -271,66 +275,38 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 	</background>
 	<title>
 		<band height="89" splitType="Stretch">
-			<textField>
-				<reportElement x="650" y="15" width="100" height="30" uuid="8248da2c-7efc-41f2-b90c-736cd7629a03"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="650" y="29" width="100" height="30" uuid="c95067a4-f048-4e15-97d3-6d2f800c103a"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="650" y="45" width="100" height="30" uuid="871700db-6bc7-4d28-a298-ceb9cb1b03fa"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="720" y="45" width="100" height="30" uuid="01ab0b79-8db8-40dd-a5f2-817003ac419e"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="220" y="0" width="374" height="70" uuid="5f10b5ea-bb93-4908-9c8a-8fa12496ce41"/>
+				<reportElement x="210" y="0" width="384" height="60" uuid="5f10b5ea-bb93-4908-9c8a-8fa12496ce41"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Copperplate Gothic Bold" size="45"/>
+					<font fontName="Verdana" size="45"/>
 				</textElement>
 				<text><![CDATA[Sales Report]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="280" y="60" width="130" height="19" uuid="f350e7b2-e02a-44de-a96a-0d77c722abe2"/>
 				<textElement>
-					<font fontName="Constantia"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="371" y="60" width="79" height="16" uuid="7b0dd0ff-a9e0-40fb-9c6a-b810caab24ce"/>
+				<reportElement x="391" y="62" width="79" height="14" uuid="7b0dd0ff-a9e0-40fb-9c6a-b810caab24ce"/>
 				<textElement>
-					<font fontName="Constantia" isBold="true"/>
+					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="430" y="62" width="28" height="16" uuid="1e909c99-83fe-4fe7-8a73-52df3f6160d4"/>
-				<textElement verticalAlignment="Top">
-					<font fontName="Constantia"/>
+				<reportElement x="450" y="62" width="20" height="16" uuid="1e909c99-83fe-4fe7-8a73-52df3f6160d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="450" y="60" width="94" height="16" uuid="3e638287-a5aa-452f-b3ba-ea018a8e8b30"/>
+				<reportElement x="471" y="62" width="94" height="13" uuid="3e638287-a5aa-452f-b3ba-ea018a8e8b30"/>
 				<textElement>
-					<font fontName="Constantia" isBold="true"/>
+					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
@@ -338,6 +314,34 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 				<reportElement x="9" y="8" width="71" height="71" uuid="9f99de3f-0fbc-4c48-9403-309e4fc3b038"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="650" y="0" width="130" height="30" uuid="bf055592-0d62-4b66-8574-28b5d7313979"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="26" width="119" height="30" uuid="472b7be5-f575-46ce-bbc6-3d0fb9c5b6f7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="49" width="119" height="30" uuid="a3768aea-5cb3-433a-9eb4-8f7dd1990f38"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="726" y="49" width="74" height="30" uuid="e77bc556-7764-4140-9f51-b08fb2453e44"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -347,9 +351,9 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="78" splitType="Stretch">
+		<band height="104" splitType="Stretch">
 			<componentElement>
-				<reportElement x="2" y="5" width="778" height="65" uuid="03a39f2e-fe93-4e56-8316-4db4a4325c76">
+				<reportElement x="2" y="5" width="778" height="99" uuid="03a39f2e-fe93-4e56-8316-4db4a4325c76">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
@@ -366,11 +370,12 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="60" uuid="879ede6d-10b0-4cd4-9017-030c7aae86eb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="24662ec7-6132-4159-9502-daed7bfcceb9"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Date]]></text>
 							</staticText>
@@ -378,17 +383,20 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="6c2dbfc0-5a03-49ea-8511-3555c7b45cf7"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[DATEFORMAT( $F{booking_date},"dd-MMM-YYY")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="bfd9946a-c10d-4d91-a61c-f774bee44d24">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="257447b4-81a9-4e17-a589-df2c81be6992"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Customer]]></text>
 							</staticText>
@@ -396,17 +404,20 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="9819439a-dbcf-4ee8-9402-40a8ff092764"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="64e0990f-d6cb-43f3-ada6-43668d056edd">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="0c8358df-b6c7-48be-843b-8d0c0147a3f9"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Phone Number]]></text>
 							</staticText>
@@ -414,17 +425,20 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="e4c973db-fad8-42b9-a1c3-da1b47a2c2fd"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{phone_number}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="00e6c209-5c93-4239-9af2-708a93e6da93">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="e45d2620-5797-4be8-b1e8-1576656c835d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Start Time]]></text>
 							</staticText>
@@ -432,53 +446,80 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="99fd0b3c-0df0-44b1-bed5-3e75b5aa549a"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{start_time}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="2b52f2a6-ad1f-4fb7-adda-22f6510e3923">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="6036569a-0ce2-4a78-9261-601965371db7"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[End Time]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="30" uuid="24076cfc-ac5d-4c1c-8f38-5a77c28d09c1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="15"/>
+								</textElement>
+								<text><![CDATA[Total :]]></text>
+							</staticText>
+						</jr:columnFooter>
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="6f3d57bc-b371-4419-9123-4fd98f5119cd"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{end_time}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="6f39e02c-dc84-4ebf-bafb-3b4e1a877b84">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="faf429ac-7117-4078-a0c9-305f6accf3e7"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table 1_CH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="30" uuid="9aaf1288-b8b0-4fa0-b2de-a469d1428aa3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{amount}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="689eddcc-5d82-4063-8a8a-d645101faaeb"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{grand_total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="adee62b5-b90e-48df-b54b-5109d6092260">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="60422c9d-6711-4f12-b54b-a5d728762111"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Payment Terms]]></text>
 							</staticText>
@@ -486,17 +527,20 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="2161bcb7-da11-4cea-9cb1-09d7e18e7205"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{payment_terms}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="c422d018-cd9e-41a1-a297-902b298a8e25">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="e44d03a9-a561-4f3a-b86f-9ddec90ec2b4"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Upi Type]]></text>
 							</staticText>
@@ -504,17 +548,20 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="a9cdc111-c490-4afd-951c-b5f24b59a695"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{upi_type}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="24c8408f-6073-408c-8047-32c9b1575891">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="5c25ca02-7232-4de4-8486-ad2f06c35953"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Transaction ID]]></text>
 							</staticText>
@@ -522,17 +569,20 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="ac3ee7b5-2ded-4040-b7db-7f4293aba21a"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{transaction_id}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="7c0a7c28-e346-4aec-801e-ad807500a24b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="99100e03-ff04-48bd-a6f9-f885db808613"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Service]]></text>
 							</staticText>
@@ -540,17 +590,20 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="88d6410d-f3c7-4bc5-9c05-115ad30fe4f0"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{group_concat(distinct nullif(Service.service_name,''))}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="f79d2f59-4a26-4834-b9f2-c1a3e2f5c36a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="e873264e-4f5e-4a4a-a2a5-f80e7ac61f13"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Therapist]]></text>
 							</staticText>
@@ -558,43 +611,51 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 						<jr:detailCell style="Table 1_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="30" uuid="832963c8-6f07-4fb8-b6cc-4d9fc5a800af"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{employee_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="dfbae659-db8e-4cad-a37c-4e95ed3d3cc9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="d6620864-0fe2-44a4-92ac-8712d229937f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Product]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table 1_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="60" height="30" uuid="1d2e284a-a31a-493e-8530-5782cd6c86db"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{group_concat(distinct nullif(Product.product_name,''))}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="7b8395e5-21e8-4fad-ba78-a91395b32687">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="86e84d4c-8ec6-45a0-99b8-3575ef19908a"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Candara" size="12" isBold="true"/>
+									<font fontName="Verdana" size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Product Category]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table 1_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="60" height="30" uuid="9a19d55e-0c6a-4be6-8c75-0ff750c96ac2"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{group_concat(distinct nullif(Category.category_name,''))}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -608,14 +669,14 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 			<staticText>
 				<reportElement x="340" y="10" width="50" height="20" uuid="5843eba8-5883-471e-b442-594efc8d7b3f"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial Black" size="14"/>
+					<font fontName="Verdana" size="14"/>
 				</textElement>
 				<text><![CDATA[Page :]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="395" y="10" width="26" height="20" uuid="1e06491f-c5ef-48be-8d3b-9223233a45a2"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial Black" size="14"/>
+					<font fontName="Verdana" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>

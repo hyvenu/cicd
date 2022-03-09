@@ -5,8 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptMaterialSalesReport_files/main_jrxml"/>
-	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptMaterialSalesReport"/>
+	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptMaterialSalesReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptMaterialSalesReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -171,39 +171,11 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="86" splitType="Stretch">
-			<textField>
-				<reportElement x="640" y="10" width="100" height="30" uuid="220e247e-248e-4dcc-94da-c479f56163d3"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="640" y="30" width="100" height="30" uuid="091511ae-f232-489a-afcd-72a7dfb09ae1"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="638" y="50" width="100" height="30" uuid="ebeb6f31-db7e-465f-a0db-f5a3a70ae4c0"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="704" y="50" width="100" height="30" uuid="47a17bed-0d5c-4332-8bed-e9d4a99ecc70"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
-			</textField>
+		<band height="109" splitType="Stretch">
 			<staticText>
-				<reportElement x="130" y="13" width="490" height="67" uuid="3cdcc69e-00d5-43c5-8ab7-a567d9704f76"/>
+				<reportElement x="130" y="3" width="490" height="67" uuid="3cdcc69e-00d5-43c5-8ab7-a567d9704f76"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Copperplate Gothic Bold" size="35"/>
+					<font fontName="Verdana" size="35"/>
 				</textElement>
 				<text><![CDATA[Material Sales Report]]></text>
 			</staticText>
@@ -211,6 +183,62 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 				<reportElement x="10" y="0" width="80" height="80" uuid="3295e3df-f378-4c92-a7d9-bf01377cf498"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="339" y="72" width="79" height="14" uuid="69101314-2eea-40b0-9236-388f49c5fc4d"/>
+				<textElement>
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="230" y="70" width="130" height="19" uuid="758bdb19-7bb2-4932-ad43-f9818ec647e6"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[report generated on ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="398" y="72" width="20" height="16" uuid="56a1ed9d-a9d1-4364-8273-4776d802af27"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="419" y="72" width="94" height="13" uuid="cc352c3f-a307-4e82-a8bf-cd888f57f278"/>
+				<textElement>
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="59" width="119" height="30" uuid="67e9d340-9831-4647-bfa5-967a5ddbd38e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="36" width="119" height="30" uuid="279dad21-679c-4013-a3bf-d756fbf2f93e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="726" y="59" width="74" height="30" uuid="8c8f5de4-adff-407f-bf3f-5778478232da"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="10" width="130" height="30" uuid="9a160e0f-c2db-4052-97aa-5b6463f61bd0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -244,7 +272,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 							<staticText>
 								<reportElement x="0" y="0" width="108" height="30" uuid="998cc5f8-7c05-4786-857b-0218a2712a80"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Berlin Sans FB" size="15"/>
+									<font fontName="Verdana" size="15"/>
 								</textElement>
 								<text><![CDATA[Date]]></text>
 							</staticText>
@@ -252,7 +280,9 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="108" height="30" uuid="6cb02043-c2d8-4f77-998a-fc5e41f65a52"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{booking_date}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -263,7 +293,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 							<staticText>
 								<reportElement x="0" y="0" width="108" height="30" uuid="79a3a6be-e71b-40c1-9230-a342759c9273"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Berlin Sans FB" size="15"/>
+									<font fontName="Verdana" size="15"/>
 								</textElement>
 								<text><![CDATA[Invoice Number]]></text>
 							</staticText>
@@ -271,7 +301,9 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="108" height="30" uuid="f0dfb382-c95e-4bf8-978b-beeda8a69603"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{invoice_number}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -282,7 +314,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 							<staticText>
 								<reportElement x="0" y="0" width="108" height="30" uuid="d1f69f61-bd06-46a8-9c40-9b6a6a774204"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Berlin Sans FB" size="15"/>
+									<font fontName="Verdana" size="15"/>
 								</textElement>
 								<text><![CDATA[Phone Number]]></text>
 							</staticText>
@@ -290,7 +322,9 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="108" height="30" uuid="abe918ec-bfd2-42ad-b23c-28af8b7c72e6"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{phone_number}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -301,7 +335,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 							<staticText>
 								<reportElement x="0" y="0" width="108" height="30" uuid="f86fe60a-c139-48b1-a444-4ad97a835eba"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Berlin Sans FB" size="15"/>
+									<font fontName="Verdana" size="15"/>
 								</textElement>
 								<text><![CDATA[Product Code]]></text>
 							</staticText>
@@ -309,7 +343,9 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="108" height="30" uuid="a9e9ecd8-7240-4b8b-a017-63bfc5f65c61"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{product_code}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -320,7 +356,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 							<staticText>
 								<reportElement x="0" y="0" width="108" height="30" uuid="0547ff1e-a005-495a-8967-b5508b260397"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Berlin Sans FB" size="15"/>
+									<font fontName="Verdana" size="15"/>
 								</textElement>
 								<text><![CDATA[Product Name]]></text>
 							</staticText>
@@ -328,7 +364,9 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="108" height="30" uuid="da27c823-e899-459f-af13-05822f715861"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -339,7 +377,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 							<staticText>
 								<reportElement x="0" y="0" width="108" height="30" uuid="977a102b-ded4-4e4e-ad42-38d726682c33"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Berlin Sans FB" size="15"/>
+									<font fontName="Verdana" size="15"/>
 								</textElement>
 								<text><![CDATA[Primary Unit]]></text>
 							</staticText>
@@ -347,7 +385,9 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="108" height="30" uuid="ca846797-fe5c-4270-98d9-a1756eddafad"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{PrimaryUnit}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -358,7 +398,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 							<staticText>
 								<reportElement x="0" y="0" width="108" height="30" uuid="1865b256-9cbc-4216-ac32-39057d7f61d3"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Berlin Sans FB" size="15"/>
+									<font fontName="Verdana" size="15"/>
 								</textElement>
 								<text><![CDATA[Secondary Unit]]></text>
 							</staticText>
@@ -366,7 +406,9 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="108" height="30" uuid="fdbb02d9-86e8-4f23-951d-eb4c809619ad"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{SecondaryUnit}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -380,14 +422,14 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 			<staticText>
 				<reportElement x="340" y="10" width="51" height="22" uuid="6177e546-d746-4d74-a2bf-7280c98d3ef9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Candara" size="15"/>
+					<font fontName="Verdana" size="15"/>
 				</textElement>
 				<text><![CDATA[Page :]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="380" y="6" width="30" height="30" uuid="81f6ad9d-7478-41bc-ad46-d1f8b4c83290"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Candara" size="16" isBold="true"/>
+					<font fontName="Verdana" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
