@@ -137,6 +137,7 @@ class Customer(AuditUuidModelMixin):
     advance_amount = models.DecimalField(max_digits=10, decimal_places=1, default=0)
     gst = models.CharField(max_length=255, default="", null=True,blank=True)
     active = models.BooleanField(null=True,default=True)
+    customer_source = models.CharField(max_length=255, default=None)
 
     class Meta:
         pass
@@ -176,11 +177,11 @@ class Employee(AuditUuidModelMixin):
 
 class AppointmentSchedule(AuditUuidModelMixin):
     # Relationships
-    is_paid = models.BooleanField(default="", null=True)    
+    is_paid = models.BooleanField(default="", null=True)
     # service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
     # Fields
-    booking_date = models.DateField(null=True, blank=True)      
+    booking_date = models.DateField(null=True, blank=True)
     appointment_status = models.CharField(max_length=30, null=True, default='NOT_ASSIGNED')
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -194,6 +195,10 @@ class AppointmentSchedule(AuditUuidModelMixin):
 class AppointmentForMultipleService(AuditUuidModelMixin):
     appointment = models.ForeignKey(AppointmentSchedule, on_delete=models.CASCADE, null=True, blank=True)
     assigned_staff = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    # assigned_staff1 = models.CharField(max_length=255,  null=True, blank=True)
+    # assigned_staff2 = models.CharField(max_length=255,  null=True, blank=True)
+    # assigned_staff3 = models.CharField(max_length=255,  null=True, blank=True)
+    # assigned_staff4 = models.CharField(max_length=255,  null=True, blank=True)
     service = models.ForeignKey(StoreServices, on_delete=models.CASCADE, null=True, blank=True)
     start_time = models.CharField(max_length=30, null=True, blank=True)
     end_time = models.CharField(max_length=30, null=True, blank=True)

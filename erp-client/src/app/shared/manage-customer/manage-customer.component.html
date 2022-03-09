@@ -83,7 +83,16 @@
                         <!-- <div *ngIf="f.advanceAmountFormControl.errors.email">Email must be a valid email address</div> -->
                     </div>
                 </div>
-            </div> <br>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                  <label for="customerAddress">Source</label><br>
+                  <textarea nbInput  name="customerSource" class="form-control" placeholder="Referal Source" formControlName="customerSourceFormControl" [ngClass]="{ 'is-invalid': submitted && f.customerSourceFormControl.errors }" ></textarea>
+                  <!-- <div *ngIf="submitted && f.customerAddressFormControl.errors" class="invalid-feedback">
+                      <div *ngIf="f.customerAddressFormControl.errors.required">Address is required</div>
+                  </div> -->
+              </div>
+            </div><br>
 
 
             <div class="row">
@@ -99,38 +108,17 @@
       </nb-card>
   <ng-template #tab1>
     <div style="font-weight:bold; font-size: 16px; color: blue; padding:10px">Booking History</div>
-      <div *ngIf = "data.length > 0; else noData">
-        <table class="table table-responsive" width="100%" style="display:block;margin:auto">
-          <th>Booking Date</th><th>Services Booked</th>
-          <tr *ngFor="let item of data">
-            <td><a href="ManageBooking?id={{item.id}}">{{item.booking_date}}</a></td>
-            <td>
-              <div *ngFor="let serv of item.service_list" style="font-size: 12px;color:darkgoldenrod;border-bottom:1px #ccc solid; padding: 10px;">
-                <span style="color: darkolivegreen; font-weight: bold;">{{serv.service__service_name}}</span> - <span>Stylist: {{serv.assigned_staff__employee_name}}</span> - <span>Time: {{serv.start_time}} To {{serv.end_time}}</span>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
+
+          <ng2-smart-table [settings]="custBookingSettings" [source]="custBookingData"></ng2-smart-table>
+
+
 </ng-template>
 <ng-template #tab2>
   <div style="font-weight:bold; font-size: 16px; color: blue; padding:10px">All Booking History</div>
-    <div *ngIf = "data.length > 0; else noData">
-        <table class="table table-responsive" width="100%" style="display:block;margin:auto">
-          <th>Customer Name</th><th>Phone Number</th><th>Booking Date</th><th>Services Booked</th>
-          <tr *ngFor="let item of data">
-            <td><a href="ManageBooking?id={{item.id}}">{{item.customer__customer_name}}</a></td>
-            <td>{{item.customer__phone_number}}</td>
-            <td>{{item.booking_date}}</td>
-            <td>{{item.service_count}}</td>
-          </tr>
-        </table>
-      </div>
-</ng-template>
-<ng-template #noData>
-  <span style="padding: 10px;">No booking history</span>
-</ng-template>
 
+          <ng2-smart-table [settings]="allBookingSettings" [source]="allBookingData"></ng2-smart-table>
+
+</ng-template>
 
 
 
@@ -138,62 +126,15 @@
     <nb-tab tabTitle="Customer List" (click)="get_customer_list()">
 
       <div style="font-weight:bold; font-size: 16px; color: blue; padding:10px">ACTIVE CUSTOMERS</div>
-      <div *ngIf = "activeCust.length > 0; else noActive">
-        <table class="table table-responsive" width="100%" style="display:block;margin:auto">
-          <th>Action</th><th>Customer Code</th><th>Customer Name</th><th>Phone Number</th><th>Email</th>
-          <tr *ngFor="let item of activeCust">
-            <td><i style="color:red;cursor: pointer;" class="fa fa-trash" (click)="delete_customer(item.id)"></i></td>
-            <td><a href="ManageCustomer?id={{item.id}}">{{item.customer_code}}</a></td>
-            <td>{{item.customer_name}}</td>
-            <td>{{item.phone_number}}</td>
-            <td>{{item.customer_email}}</td>
-          </tr>
-        </table>
+      <div class="row" >
+        <ng2-smart-table [settings]="custSettings" [source]="activeCust" (deleteConfirm)="onDeleteCustomer($event)"></ng2-smart-table>
       </div>
-      <ng-template #noActive>
-        <span style="padding: 10px;">No active customers</span>
-      </ng-template>
 
       <div style="font-weight:bold; font-size: 16px; color: blue; padding:10px; margin-top:20px">INACTIVE CUSTOMERS</div>
-      <div *ngIf = "inactiveCust.length > 0; else noInActive">
-        <table class="table table-responsive" width="100%" style="display:block;margin:auto">
-          <th>Action</th><th>Customer Code</th><th>Customer Name</th><th>Phone Number</th><th>Email</th>
-          <tr *ngFor="let item of inactiveCust">
-            <td><i style="color:red;cursor: pointer;" class="fa fa-trash" (click)="delete_customer(item.id)"></i></td>
-            <td><a href="ManageCustomer?id={{item.id}}">{{item.customer_code}}</a></td>
-            <td>{{item.customer_name}}</td>
-            <td>{{item.phone_number}}</td>
-            <td>{{item.customer_email}}</td>
-          </tr>
-        </table>
+      <div class="row" >
+        <ng2-smart-table [settings]="custSettings" [source]="inactiveCust" (deleteConfirm)="onDeleteCustomer($event)"></ng2-smart-table>
       </div>
-      <ng-template #noInActive>
-        <span style="padding: 10px;">No inactive customers</span>
-      </ng-template>
 
-<!--
-            <nb-card>
-                <nb-tabset>
-                    <nb-tab tabTitle="Active Customer List">
-                        <div class="row">
-                            <ng2-smart-table [settings]="setting" [source]="source" (custom)="onCustom($event)"></ng2-smart-table>
-                            </div>
-                    </nb-tab>
-
-                </nb-tabset>
-            </nb-card>
-
-            <nb-card>
-                <nb-tabset>
-                    <nb-tab tabTitle="Inactive Customer List">
-                        <div class="row">
-                            <ng2-smart-table [settings]="inSetting" [source]="inactive" (custom)="onCustom($event)"></ng2-smart-table>
-                            </div>
-                    </nb-tab>
-
-                </nb-tabset>
-            </nb-card>
--->
     </nb-tab>
 
 </nb-tabset>

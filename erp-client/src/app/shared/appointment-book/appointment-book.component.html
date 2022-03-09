@@ -39,42 +39,8 @@
                     <nb-datepicker #booking_date format="yyyy-MM-DD" ></nb-datepicker>
                 </div>
             </div>
-            <!--
-              <div class="form-row">
-                <div class="form-group col-md-2">
-                    <label for="startTime">Start Time <span style="color: red;">*</span></label>
-                    <input type="time" nbInput name="startTime" formControlName="startTimeFormControl"
-                    [ngClass]="{ 'is-invalid': submitted && f.startTimeFormControl.errors  }" class="form-control"/>
-                    <div *ngIf="submitted && f.startTimeFormControl.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.startTimeFormControl.errors.required"> Start Time is Required</div>
-
-                    </div>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="endTime">End Time <span style="color: red;">*</span></label>
-                    <input type="time" nbInput name="endTime" formControlName="endTimeFormControl"
-                    [ngClass]="{ 'is-invalid': submitted && f.endTimeFormControl.errors  }" class="form-control"/>
-                    <div *ngIf="submitted && f.endTimeFormControl.errors" class="invalid-feedback" (change)="dateCheck()">
-                        <div *ngIf="submitted && f.endTimeFormControl.errors.required"> End Time is Required</div>
-
-                    </div>
-                </div>
-            </div>
-
-
-
-              <div class="form-row">
-                <div class="form-group col-md-2">
-                    <label >Service <span style="color: red;">*</span></label>
-                    <nb-select style="width: 20em;" name="services" [(ngModel)]="service" formControlName="serviceFormControl" [(selected)]="selected_service" multiple >
-                        <nb-option *ngFor="let o of service_list" value="{{o.id}}" >
-                            {{ o.service_name }}-{{o.price}}-{{o.service_gst}}%Gst-{{o.service_hour}}HourService
-                        </nb-option>
-                    </nb-select>
-                </div>
-            </div> <br> -->
             <nb-card accent="info">
-                <nb-card-header>Add Service<br><div style="color: red;">NOTE: Set AM / PM first, then set time values</div></nb-card-header>
+                <nb-card-header>ADD SERVICE<br><div style="color: red;">NOTE: Set AM / PM first, then set time values</div></nb-card-header>
                 <nb-card-body>
                     <button nbButton (click)="open(dialog_service);" status="success" size="small" >Add </button> <span style="color: red;">*</span>&nbsp;&nbsp;
 

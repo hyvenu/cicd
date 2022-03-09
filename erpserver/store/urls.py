@@ -48,6 +48,8 @@ urlpatterns = (
     path('api/v1/get_appointment_details_by_id', views.get_appointment_details_by_id, name="get_appointment_details_by_id"),
     path('api/v1/get_appointment_details_by_customer/<cust_id>/', views.get_appointment_details_by_customer, name="get_appointment_details_by_customer"),
     path('api/v1/store_services', views.store_services, name="store_services"),
-    path('api/v1/delete_service/<id>/', views.delete_service, name="delete_service")
+    path('api/v1/delete_service/<id>/', views.delete_service, name="delete_service"),
+    path('api/v1/get_dashboard_sales_details', views.get_dashboard_sales_details, name="get_dashboard_sales_details"),
+    
 
 )

@@ -301,4 +301,11 @@ def delete_service(request, id):
     store_service = StoreService()   
     # print("pdata %s"%id)
     count = store_service.delete_service(id)
-    return JsonResponse(count, safe=False, status=status.HTTP_200_OK)         
+    return JsonResponse(count, safe=False, status=status.HTTP_200_OK)   
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_dashboard_sales_details(request):
+    store_service = StoreService()
+    app_res = store_service.get_dashboard_sales_details()
+    return JsonResponse(app_res, safe=False)          
