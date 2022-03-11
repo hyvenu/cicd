@@ -60,7 +60,7 @@ class OrderService:
     def getCurrentDate(cls):
         now = datetime.now()
  
-        print("now =", now)
+        #print("now =", now)
 
         # YY/mm/dd H:M:S 2021-06-25 07:58:56
         #curretnDate = now.strftime("%Y/%m/%d %H:%M:%S")
@@ -410,7 +410,7 @@ class OrderService:
     @classmethod
     @transaction.atomic()
     def save_sales_order(cls, sales_data):
-        print("app_id %s"%sales_data['app_id'])
+        #print("app_id %s"%sales_data['app_id'])
         #set is_paid = True only if
         #1.app_id is set; i.e billing a particular appoint card; hence update that appointment schedule only
 
@@ -479,7 +479,7 @@ class OrderService:
 
         sales_invoice_list = ast.literal_eval(sales_data['invoice_items'])
         for item in sales_invoice_list:
-            print("ITEM :::: %s"%item)
+            #print("ITEM :::: %s"%item)
             #if 'id' in item and len(item['id']) > 0:
                 #sales_order_details = SalesOrderDetails.objects.get(id=item['id'])
             #else:
@@ -604,10 +604,10 @@ class OrderService:
         sales_refund_req.save()
 
         sales_invoice_list = ast.literal_eval(sales_data['invoice_items'])
-        print("items %s"%sales_invoice_list)
+        #print("items %s"%sales_invoice_list)
 
         for item in sales_invoice_list:
-            print("ITEM :::: %s"%item)
+            #print("ITEM :::: %s"%item)
 
             sales_refund_details = SalesRefundDetails()
             if len(item['item_id']):
