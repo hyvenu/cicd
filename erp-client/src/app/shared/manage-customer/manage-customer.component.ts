@@ -12,76 +12,84 @@ import { filter } from 'rxjs/operators';
 })
 export class ManageCustomerComponent implements OnInit {
 
-  data: [];
+  allBookingData = [];
+  custBookingData = [];
 
-  settings = {
+  allBookingSettings = {
     // selectMode: 'multi',
     actions: {
       add: false,
       edit: false,
       delete: false,
-      },
+    },
     columns: {
       id: {
         title: 'id',
         hide:true
       },
-      // departme_id: {
-      //   title: 'Department Code',
-      //   type: 'html',
-      //   valuePrepareFunction: (cell, row) => {
-      //     return `<a href="Department?id=${row.id}">${row.department_id}</a>`;
-      // }
-      // },
-      customer_name: {
+      customer__customer_name: {
         title: 'Customer Name',
-        type:'html',
+        type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageBooking?id=${row.id}">${row.customer_name}</a>`;
+          return `<a href="ManageCustomer?id=${row.id}">${row.customer__customer_name}</a>`;
         }
       },
-      phone_number:{
+      customer__phone_number:{
         title: 'Phone Number',
       },
       booking_date:{
         title: 'Booking Date',
       },
-      service_list:{
-        title: 'Service Name',
-        type:'string',
-        //valuePrepareFunction:(service_list) =>{
-          //return service_list[0].service__service_name;
-        //},
+      service_count: {
+        title: 'Service Count',
       },
-      //assigned_staff__employee_name:{
-        //title: 'Assigned Staff',
-        // type:'string',
-        // // valuePrepareFunction: (cell, row)=> {
-        // //   return row.assigned_staff_det.employee_name;
-        // // }
-      //}
 
     },
   };
 
-  source:[];
+  custBookingSettings = {
+    // selectMode: 'multi',
+    actions: {
+      add: false,
+      edit: false,
+      delete: false,
+    },
+    columns: {
+      id: {
+        title: 'id',
+        hide:true
+      },
+      appointment__booking_date:{
+        title: 'Booking Date',
+      },
+      service__service_name: {
+        title: 'Service Name',
+      },
+      start_time: {
+        title: 'Start Time',
+      },
+      end_time: {
+        title: 'End Time',
+      },
+
+    },
+  };
+
   activeCust:[];
   inactiveCust:[];
 
 
-  setting = {
+  custSettings = {
     // selectMode: 'multi',
+    delete: {
+      deleteButtonContent: '<span class="nb-trash">x</span>',
+      confirmDelete: true,
+    },
     actions: {
       add: false,
       edit: false,
-      delete: false,
-      custom: [
-        {
-          name: 'delete',
-          title: '<i style="color:red" class="fa fa-trash"></i>',
-        },
-      ],
-      },
+      delete: true,
+    },
 
     columns: {
       id: {
@@ -101,51 +109,14 @@ export class ManageCustomerComponent implements OnInit {
       phone_number:{
         title: 'Phone Number',
       },
-
-
-    },
-  };
-
-
-
-  inactive:[];
-
-
-  inSetting = {
-    // selectMode: 'multi',
-    actions: {
-      add: false,
-      edit: false,
-      delete: false,
-      custom: [
-        {
-          name: 'delete',
-          title: '<i style="color:red" class="fa fa-trash"></i>',
-        },
-      ],
-      },
-    columns: {
-      id: {
-        title: 'id',
-        hide:true
-      },
-      customer_code: {
-        title: 'Customer Code',
-        type: 'html',
-        valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageCustomer?id=${row.id}">${row.customer_code}</a>`;
-        }
-      },
-      customer_name: {
-        title: 'Customer Name',
-      },
-      phone_number:{
-        title: 'Phone Number',
+      customer_email: {
+        title: 'Customer Email',
       },
 
 
     },
   };
+
 
   createdFlag=false;
   advance:any=0;
@@ -184,6 +155,8 @@ customerForm:FormGroup;
 
   ngOnInit(): void {
 
+    this.custBookingData = []
+
     this.customerForm = this.formBuilder.group({
       customerCodeFormControl:['',[]],
       customerNameFormControl:['',[Validators.required]],
@@ -194,6 +167,7 @@ customerForm:FormGroup;
       advanceAmountFormControl:['',[]],
       gstFormControl: ['',[Validators.minLength(15),Validators.maxLength(15)]],
       customerActiveFormControl:['',],
+      customerSourceFormControl:['',],
 
     })
 
@@ -201,10 +175,10 @@ customerForm:FormGroup;
 
     let param = this.route.snapshot.queryParams['id'];
 
-    if(param){
+    if(param) {
       this.isCustomer_id = true;
       this.adminService.getCustomerDetails(param).subscribe(
-        (data) =>{
+        (data) => {
 
           this.customer_id=data.id
            console.log(this.customer_id)
@@ -217,29 +191,41 @@ customerForm:FormGroup;
           this.customerForm.controls['advanceAmountFormControl'].setValue(data.advance_amount);
           this.customerForm.controls['gstFormControl'].setValue(data.gst);
           this.customerForm.controls['customerActiveFormControl'].setValue(data.active);
+          this.customerForm.controls['customerSourceFormControl'].setValue(data.customer_source);
           this.adminService.getBookinHistory(param).subscribe(
             (data) => {
-              this.data = data;
-              console.log(this.data)
+              let service_items = []
+              data.forEach(element => {
+                element.service_list.forEach(item => {
+                  //this.custBookingData.push(item);
+                  service_items.push(item)
+                });
+              });
+
+              this.custBookingData = service_items
+
+
+              console.log("Customer Booking Data",this.custBookingData)
             },
             (error) => {
-              this.nbtoastService.danger("Unable to get customer List")
+              this.nbtoastService.danger("Unable to get customer booking history")
             }
           )
 
 
-
-
     });
+
+
+
     }
 
     this.adminService.getAllViewbookingList().subscribe(
       (data) => {
-        this.data = data;
-        console.log(data)
+        this.allBookingData = data;
+        console.log("All Booking Data",this.allBookingData)
       },
       (error) => {
-        this.nbtoastService.danger("Unable to get customer List")
+        this.nbtoastService.danger("Unable to get all booking history")
       }
     )
 
@@ -251,8 +237,7 @@ customerForm:FormGroup;
       this.adminService.getCustomerList().subscribe(
         (data)=>{
           this.customerList = data;
-          console.log("Cust List");
-          console.log(this.customerList);
+          console.log("Cust List",this.customerList);
           this.active();
           this.inActive();
           //this.source = this.customerList.filter(item => item.active === true);
@@ -271,30 +256,6 @@ customerForm:FormGroup;
   inActive() {
     this.inactiveCust = this.customerList.filter(item => item.active === false);
   }
-  /*
-  active_customer(){
-    this.source = this.customerList.filter(item => item.active === true);
-
-
-  }
-
-  inactive_customer(){
-
-    this.adminService.getCustomerList().subscribe(
-      (data)=>{
-        this.inactive = data.filter(item => item.active === false);
-      },
-      (error) => {
-        this.nbtoastService.danger("Unable to get customer List")
-      }
-
-    )
-
-
-
-  }
-
-*/
 
   delete_customer(id){
     this.adminService.deleteCustomer(id).subscribe((data) =>
@@ -302,12 +263,12 @@ customerForm:FormGroup;
         //this.active_customer()
         //this.inactive_customer()
         this.get_customer_list();
-        this.nbtoastService.success("customer Deleted Successfully")
+        this.nbtoastService.success("Customer Deleted Successfully")
         //this.ngOnInit()
       })
   }
 
-  onCustom(event) {
+  onDeleteCustomer(event) {
     this.delete_customer(event.data.id);
   }
 
@@ -327,6 +288,7 @@ customerForm:FormGroup;
     formdata.append('advance_amount',this.customerForm.controls['advanceAmountFormControl'].value)
     formdata.append('gst',this.customerForm.controls['gstFormControl'].value)
     formdata.append('active',this.customerForm.controls['customerActiveFormControl'].value)
+    formdata.append('customer_source',this.customerForm.controls['customerSourceFormControl'].value)
 
 
     this.adminService.updateCustomer(formdata,this.customer_id).subscribe(
@@ -355,6 +317,7 @@ customerForm:FormGroup;
     formdata.append('advance_amount',this.customerForm.controls['advanceAmountFormControl'].value)
     formdata.append('gst',this.customerForm.controls['gstFormControl'].value)
     formdata.append('active',this.customerForm.controls['customerActiveFormControl'].value)
+    formdata.append('customer_source',this.customerForm.controls['customerSourceFormControl'].value)
 
     this.adminService.SaveCustomer(formdata).subscribe(
       (data)=>{

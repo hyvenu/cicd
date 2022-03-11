@@ -299,7 +299,7 @@ inner join store_store as store on store.id=stock.store_id
 			<staticText>
 				<reportElement x="210" y="9" width="305" height="61" uuid="6760b672-684b-4aeb-9137-3b42ad8c0198"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Copperplate Gothic Bold" size="40"/>
+					<font fontName="Verdana" size="40"/>
 				</textElement>
 				<text><![CDATA[Grn Report]]></text>
 			</staticText>
@@ -310,56 +310,56 @@ inner join store_store as store on store.id=stock.store_id
 			<textField>
 				<reportElement x="600" y="59" width="119" height="30" uuid="aa1aff59-8d5a-49b2-a7c2-61116e69b801"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="600" y="36" width="119" height="30" uuid="fc6e73d3-52c0-44e5-accd-58650e7b79e4"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="676" y="59" width="74" height="30" uuid="85d0d1e7-6a7d-4b84-8a98-4a8d590d99c6"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="600" y="10" width="130" height="30" uuid="3838393c-6eed-4997-91b6-aaafca34b955"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Serif"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="341" y="72" width="79" height="14" uuid="c043ede6-b72f-4166-b810-7338eb13a56f"/>
+				<reportElement x="351" y="72" width="79" height="14" uuid="c043ede6-b72f-4166-b810-7338eb13a56f"/>
 				<textElement>
-					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{From_Date},"dd-MMM-YYYY")]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="240" y="69" width="130" height="19" uuid="5d23ddbe-d7fb-4e06-9234-bd024b518632"/>
 				<textElement>
-					<font fontName="Constantia"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[report generated on ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="72" width="20" height="16" uuid="6e52b26e-94aa-4762-9b37-d6c1e3e4f549"/>
+				<reportElement x="410" y="72" width="20" height="16" uuid="6e52b26e-94aa-4762-9b37-d6c1e3e4f549"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Constantia"/>
+					<font fontName="Verdana"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="421" y="72" width="94" height="13" uuid="9c8151e6-3db5-4653-9070-91ab7f62a0b9"/>
+				<reportElement x="431" y="72" width="94" height="13" uuid="9c8151e6-3db5-4653-9070-91ab7f62a0b9"/>
 				<textElement>
-					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+					<font fontName="Verdana" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[DATEFORMAT($P{To_Date},"dd-MMM-YYY")]]></textFieldExpression>
 			</textField>
@@ -395,14 +395,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="db50dc78-503f-4d50-943b-b61bf8a8c18e"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Date]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="885117e3-04ab-4aa6-8a49-40897659c1ce"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{grn_date}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -412,14 +416,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="72837cc2-80f4-4d44-965f-7067e3ac68f3"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[grn Code]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="a17cff11-e01a-49b8-a751-9d8786c48ee8"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{grn_code}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -429,14 +437,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="7b361134-d723-4187-8953-c5e800fe1f86"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[PO Number]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="861a0b0b-4a9b-47a2-8365-d210bd92fd31"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{po_number}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -446,14 +458,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="0e965991-4c41-41d0-9ddc-eefab80e2812"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Vendor Name]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="30" uuid="08d85da5-f4ab-4cbe-b1aa-fb8d1c656ac4"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{vendor_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -463,14 +479,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="bf5b0cdd-4646-4209-9537-ea30b1e3a574"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Invoice Number]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="99798c70-6156-4350-8f53-8021fa20bbc0"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{invoice_number}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -480,14 +500,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="245f3e92-6564-4def-871e-354560244172"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Category Name]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="b153a360-06a6-4fcc-a9b9-19dadc72cfbf"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -497,14 +521,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="e315365e-a7df-412f-b5ab-ffa393b08679"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Sub Category Name]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="28c2eaf0-f557-429a-b331-fc80182e7522"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{sub_category_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -514,14 +542,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="66a3417b-0e4e-4a4a-8283-1c5a8c8c655d"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[product Code]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="9c72a4b3-ae3d-4b8e-8914-993555486ee1"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{product_code}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -531,14 +563,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="90fcc108-ec0e-4504-85cb-738b2d0291c4"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Product Name]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="9230c6f4-a7c1-43eb-8046-4533f2bc9546"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -548,14 +584,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="8a57dae7-af9a-4557-8f11-15426537fc84"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[PrimaryUnit]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="1fbf19bf-d8b4-49f9-9f29-88252e7a7ae7"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{PrimaryUnit}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -565,14 +605,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="05809338-c42c-4dcb-8551-626048184368"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Secondary Unit]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="b8025905-f59a-44a9-92ca-f9aace28f41a"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{SecondaryUnit}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -582,14 +626,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="c86e2b27-f664-4909-b4dd-d69480cc6dd2"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Quantity]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="30" uuid="d982bb7c-2350-4447-af0e-b23c7688c4e5"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -599,14 +647,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="3d0d5e57-d070-4b46-aebd-256bc8b7a225"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Received Qty]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="d1f106e5-5226-4106-a8ca-48af8a4c8ab6"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{received_qty}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -616,14 +668,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="40" height="30" uuid="c7fc197d-1745-40d0-8fa1-a6cf8c6fcd62"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Rejected Qty]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="1fcd7f00-9c23-4df2-8378-59d0657a3488"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{rejected_qty}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -633,14 +689,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="0b6dfbe5-99a4-4219-9695-5180c2619a8c"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Accepted Qty]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="30" uuid="a6e8c7ee-3ef5-4a6b-ba5d-48850b002852"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{accepted_qty}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -650,14 +710,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="5c3b2943-35d1-4284-9da4-8f160cfcdee0"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Batch Number]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="30" uuid="69a464f4-4dae-40a4-af8a-62192c89bfad"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{batch_number}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -667,14 +731,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="4b8fc92a-1bef-4802-ab9c-abb9e0f41772"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Unit Price]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="30" uuid="e4e9ea53-87a2-4a91-87ec-4da5b5eaa5e0"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -684,14 +752,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="145d5e6b-280b-4be6-b94c-2d5d6a9483c9"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Total]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="30" uuid="946b579c-4c0d-413a-84b8-d481d45ddb04"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -701,14 +773,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="8397ae80-1e9b-4971-8575-925bd5a81b44"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Gst Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="30" uuid="d2ebcea1-66b5-4303-906c-b09872528107"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{gst_amount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -718,14 +794,18 @@ inner join store_store as store on store.id=stock.store_id
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="30" uuid="259e96b3-167c-43e0-9e3a-ca702be5e2d3"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<text><![CDATA[Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="30" uuid="c7957a4f-5af3-4025-852b-0051ba5718cf"/>
-								<textElement textAlignment="Center"/>
+								<textElement textAlignment="Center">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -739,14 +819,14 @@ inner join store_store as store on store.id=stock.store_id
 			<staticText>
 				<reportElement x="340" y="10" width="51" height="22" uuid="6c984eab-2c03-4d6e-8566-ec98b42530c6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Candara" size="15"/>
+					<font fontName="Verdana" size="15"/>
 				</textElement>
 				<text><![CDATA[Page :]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="380" y="6" width="30" height="30" uuid="7935cf32-cd13-4dc2-bd02-de0f84b4abc8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Candara" size="16" isBold="true"/>
+					<font fontName="Verdana" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>

@@ -5,8 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/ST000003_D5N/reports/RptStockReport_files/main_jrxml"/>
-	<property name="ireport.jasperserver.reportUnit" value="/ST000003_D5N/reports/RptStockReport"/>
+	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptStockReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptStockReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -199,38 +199,10 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 	</background>
 	<title>
 		<band height="96" splitType="Stretch">
-			<textField>
-				<reportElement x="600" y="23" width="100" height="30" uuid="929a5b78-46e8-4251-800a-02edfe40ca10"/>
-				<textElement>
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="600" y="40" width="100" height="30" uuid="4d08ec32-5533-4234-aa5c-db2e0f9a0abc"/>
-				<textElement>
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="599" y="56" width="100" height="30" uuid="9d178fbf-1763-4d5e-acf5-bea300d25eb5"/>
-				<textElement>
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="669" y="56" width="100" height="30" uuid="5b81840e-aad7-43cd-ba73-98641bb4f5b6"/>
-				<textElement>
-					<font fontName="DejaVu Serif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="160" y="4" width="400" height="70" uuid="555de865-e85a-47ed-932d-b1dadeabcf57"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Copperplate Gothic Bold" size="45"/>
+					<font fontName="Verdana" size="45"/>
 				</textElement>
 				<text><![CDATA[Stock report]]></text>
 			</staticText>
@@ -238,6 +210,34 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 				<reportElement x="11" y="3" width="79" height="71" uuid="811fd00e-48d0-410e-9083-d1967789d0a0"/>
 				<imageExpression><![CDATA["d5n.jpg"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="650" y="10" width="130" height="30" uuid="fca1a962-dda8-4977-9b1a-266157b1483c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="726" y="59" width="74" height="30" uuid="f60f2768-bfde-4af0-865c-6ffb6122f94f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pin_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="36" width="119" height="30" uuid="351885e0-b579-489b-a933-75265ba34879"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="59" width="119" height="30" uuid="915de5a9-2d9e-4f35-b887-eea8baec43a7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -265,7 +265,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="0d44a675-dcec-4861-ade6-a6adbb8d4328"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Category ]]></text>
 							</staticText>
@@ -273,7 +273,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="e2375d2e-4f13-4504-a3bc-4eca2ee8ad42"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -284,7 +286,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="155d56ab-7f4f-46e9-9bc2-1f532bf615d2"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Sub Category Name]]></text>
 							</staticText>
@@ -292,7 +294,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="f10d96d5-4fad-46c0-8f6a-fb26f1e4c025"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{sub_category_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -303,7 +307,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="e408dd15-99b5-40fa-b18f-92612b969e16"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Product Code]]></text>
 							</staticText>
@@ -311,7 +315,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="1572b54d-9943-4168-b134-08fc332e7bda"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{product_code}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -322,7 +328,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="7c81043e-bbe3-4836-be3d-df60777e878e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Product Name]]></text>
 							</staticText>
@@ -330,7 +336,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="985ae7c6-d134-4dcc-8f97-529f0bac173d"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -341,7 +349,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="693ce07a-f714-4ae8-a57d-ea0255747dbd"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Primary Unit]]></text>
 							</staticText>
@@ -349,7 +357,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="6a71c9db-bd26-4ac8-9d37-07b24bf025de"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{PrimaryUnit}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -360,7 +370,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="7cd61b53-3060-4248-8748-4c33f1019728"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Secondary Unit]]></text>
 							</staticText>
@@ -368,7 +378,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="374bf4dc-d306-4f55-b024-9d4c20c86c87"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{SecondaryUnit}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -379,7 +391,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="28e7e0a9-c9b3-4d2f-970d-29b06b3e2909"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Safety Stock Level]]></text>
 							</staticText>
@@ -387,7 +399,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="7e29f371-2136-49a2-8114-ef510430e3bf"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{safety_stock_level}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -398,7 +412,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="de2209e0-12df-4635-9860-5b2433d04e04"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Batch Number]]></text>
 							</staticText>
@@ -406,7 +420,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="1fb7a122-c640-4bbb-80eb-28e84152850c"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{batch_number}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -417,7 +433,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="6c16cdb3-cea2-4b76-9978-fd3b75de1b7e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Stock Quantity]]></text>
 							</staticText>
@@ -425,7 +441,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="72595a4c-20db-43c2-803a-0f4279b79587"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -436,7 +454,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="536c748e-e7b6-4a20-b875-145c342ab561"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Rejected Qty]]></text>
 							</staticText>
@@ -444,7 +462,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="4420338c-34ab-47f4-ba33-a34329d0bc52"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{rejected_qty}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -455,7 +475,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="3dbd2768-4552-46d7-b093-d88017e733fa"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Bodoni MT" size="11"/>
+									<font fontName="Verdana" size="11"/>
 								</textElement>
 								<text><![CDATA[Brand Name]]></text>
 							</staticText>
@@ -463,7 +483,9 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="7d07e43c-6aa1-4188-b2d2-8b6db2b32612"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{brand_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -477,14 +499,14 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 			<staticText>
 				<reportElement x="340" y="10" width="51" height="22" uuid="db962f38-e2e1-4bdc-b53e-d30dcb64631f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Candara" size="15"/>
+					<font fontName="Verdana" size="15"/>
 				</textElement>
 				<text><![CDATA[Page :]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="380" y="6" width="30" height="30" uuid="083a5476-e338-4bb9-abe7-809449ae27a3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Candara" size="16" isBold="true"/>
+					<font fontName="Verdana" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
