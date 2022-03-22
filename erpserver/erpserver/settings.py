@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import datetime
 import os
-
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,11 +27,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '=%qlv4!yh4w002n-s1a!i!t58kqq=u_e8f51&anu0#+lx5(&2t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(env("DEBUG"))
 
-ALLOWED_HOSTS = ['103.145.51.11','127.0.0.1','103.146.177.164','192.168.43.65','192.168.0.102','192.168.0.111']
-
-
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",")
 
 # Application definition
 
@@ -86,11 +87,11 @@ AUTO_LOGOUT_DELAY = 5 #equivalent to 5 minutes
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
-LOGIN_REDIRECT_URL = '/'
-
-LOGIN_URL = '/security/accounts/login'
-
-LOGOUT_URL = '/logout'
+# LOGIN_REDIRECT_URL = '/'
+#
+# LOGIN_URL = '/security/accounts/login'
+#
+# LOGOUT_URL = '/logout'
 
 USE_DJANGO_JQUERY = True
 
@@ -120,14 +121,16 @@ WSGI_APPLICATION = 'erpserver.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'd5n',
-        'HOST': '127.0.0.1',
+        'NAME': env("DB_NAME"),
+        'HOST': env("DB_SERVER"),
         'ENGINE': 'django.db.backends.mysql',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'USER': env("DB_USERNAME"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'PORT': env("DB_PORT"),
         'OPTIONS': {
             'autocommit': True,
         },
+
     }
 }
 
@@ -205,7 +208,7 @@ SIMPLE_JWT = {
     'JTI_CLAIM': 'jti',
 
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': datetime.timedelta(minutes=5),
+    'SLIDING_TOKEN_LIFETIME': datetime.timedelta(minutes=180),
     'SLIDING_TOKEN_REFRESH_LIFETIME': datetime.timedelta(days=1),
 }
 
@@ -216,7 +219,7 @@ APPEND_SLASH = True
 STATIC_URL = '/static/'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/') ,)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/') ,os.path.join(BASE_DIR, 'templates/'))
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
