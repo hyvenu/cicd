@@ -853,28 +853,28 @@ export class SalesBillComponent implements OnInit {
   }
 
 
-  open_phone_list(dialog: TemplateRef<any>) {
-    //Do not open if app_id is set
-    if(this.app_id){ return; }
-    this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
-    .onClose.subscribe(data => {
-      this.searchPhoneNo = ""
-      if(!data) { return }
-      this.invoice_items = []
-       this.customer_object = data
-       this.customer_id = data.id;
+  // open_phone_list(dialog: TemplateRef<any>) {
+  //   //Do not open if app_id is set
+  //   if(this.app_id){ return; }
+  //   this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
+  //   .onClose.subscribe(data => {
+  //     this.searchPhoneNo = ""
+  //     if(!data) { return }
+  //     this.invoice_items = []
+  //      this.customer_object = data
+  //      this.customer_id = data.id;
 
-       this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
-       this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
-       this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
-       this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
+  //      this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
+  //      this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
+  //      this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
+  //      this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
 
-       this.get_bookingHistory(this.customer_id)
+  //      this.get_bookingHistory(this.customer_id)
 
-        }
-        );
+  //       }
+  //       );
 
-  }
+  // }
 
 
   saveBill():any {

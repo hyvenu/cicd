@@ -297,9 +297,11 @@ class StoreService:
             'store_id',
             'booking_date',   
             'appointment_status',         
-            'customer__customer_name',            
-            'customer__phone_number',            
-            'customer__id'
+            'customer__id',
+            'customer__customer_name',
+            'customer__phone_number', 
+            'customer__customer_email',
+            'customer__advance_amount'
 
         )[0]
 
@@ -318,16 +320,18 @@ class StoreService:
 
     @classmethod
     def get_appointment_details_bycustomer(self, cust_id):
-        # print("CUST IDDDD %s"%cust_id)
-        final_list = []
-        service_list = []
         
-        app_data_list = AppointmentSchedule.objects.filter(customer_id=cust_id, is_paid=False).all().values(
+        app_data_list = AppointmentSchedule.objects.filter(customer_id=cust_id).all().values(
             'id',
             'is_paid',            
             'booking_date',
+            'appointment_status',         
             'customer__id',
             'customer__customer_name',
+            'customer__phone_number', 
+            'customer__customer_email',
+            'customer__advance_amount'
+
 
         )
 
