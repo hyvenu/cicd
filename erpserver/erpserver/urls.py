@@ -24,7 +24,7 @@ admin.AdminSite.site_title = "ERP-Admin"
 admin.AdminSite.site_header = "ERP-Admin"
 
 urlpatterns = [
-    # url(r'^$', views.index, name='index'),
+    url(r'^$', views.index, name='index'),
     url('accounts/', include('django.contrib.auth.urls')),
     # url('logout/', views.user_logout, name='user_logout'),
     path('admin/', admin.site.urls),

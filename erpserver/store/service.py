@@ -382,10 +382,15 @@ class StoreService:
 
 
     @classmethod
-    def get_viewbooking_details(cls):
+    def get_viewbooking_details(cls,branch_id):
         # print("GET BOOKINGS")
         final_list = []
-        app_data_list = AppointmentSchedule.objects.filter(is_paid=False).values(
+        if branch_id:
+            app_list_object = AppointmentSchedule.objects.filter(is_paid=False,store_id=branch_id)
+        else:
+            app_list_object = AppointmentSchedule.objects.filter(is_paid=False)
+
+        app_data_list = app_list_object.values(
             'id',
             'is_paid',  
             'booking_date',          

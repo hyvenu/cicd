@@ -190,7 +190,12 @@ def get_store_list(request):
 @permission_classes([IsAuthenticated, ])
 def get_viewbooking_details(request):
     store_service = StoreService()
-    app_res = store_service.get_viewbooking_details()
+    if "b_id" in request.query_params:
+        branch_id = request.query_params["b_id"]
+    else:
+        branch_id = None
+    app_res = store_service.get_viewbooking_details(branch_id)
+
     return JsonResponse(app_res, safe=False)
 
 
