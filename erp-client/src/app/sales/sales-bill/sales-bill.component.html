@@ -24,7 +24,7 @@ $box.prop("checked", false);
 
 <nb-card>
     <nb-card-body>
-   <form style="float: left;" [formGroup]="invoiceForm" (ngSubmit)="onSubmit()" >
+   <form style="float: left;" [formGroup]="invoiceForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()" >
         <table class="table table-striped" style="width:100%;border-collapse: collapse;">
             <tr>
               <td>
@@ -52,7 +52,7 @@ $box.prop("checked", false);
                   </td>
                   <td>
                     <label for="">Phone Number<span style="color: red;">*</span></label> <br><input nbInput size="small" style="width: 10em;" formControlName="customerMobileNumberFormControl"   name="salesNewFormControl" placeholder="Phone Number" (keypress)="open(phone_dialog)"
-                    (click)="open_phone_list(phone_dialog)" >
+                    (click)="open(phone_dialog)" >
                   </td>
                   <td><label for="">Email</label><br>
                      <input nbInput size="small" style="width: 10em;" formControlName="customerEmailFormControl"  name="salesNewFormControl" placeholder="Email" readonly >
@@ -65,7 +65,7 @@ $box.prop("checked", false);
                 <tr>
                   <td colspan="3">
                       <label for="">BarCode</label> <br>
-                      <input nbInput size="small" style="width: 10em;" (keydown.enter)="bar_code()"  #focus [(ngModel)]="barcode" formControlName="barCodeFormControl" id="barcode" name="barCodeFormControl" placeholder="Bar Code" >
+                      <input nbInput size="small" style="width: 10em;" (keydown.enter)="bar_code()" #focus [(ngModel)]="barcode" formControlName="barCodeFormControl" id="barcode" name="barCodeFormControl" placeholder="Bar Code" >
                   </td>
               </tr>
               </table>

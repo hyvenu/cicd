@@ -168,7 +168,8 @@ class CustomerSerializer(serializers.ModelSerializer):
                   'customer_address',
                   'gst',
                   'active',
-                  'advance_amount']
+                  'advance_amount',
+                  'customer_source']
 
     def create(self, validated_data):
         validated_data['customer_code'] = generate_customer_code()

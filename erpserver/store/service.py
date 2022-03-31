@@ -1,9 +1,13 @@
 import ast
+import datetime
+import calendar
 
 from django.db import transaction
+from django.db.models import Sum
 
 from store.models import StoreUser, Store, SiteSettings, AppointmentSchedule, AppointmentForMultipleService, Department, \
     Employee, StoreServices, Enquiry, Customer
+from sales.models import SalesOrderRequest    
 
 
 class StoreService:
@@ -293,9 +297,11 @@ class StoreService:
             'store_id',
             'booking_date',   
             'appointment_status',         
-            'customer__customer_name',            
-            'customer__phone_number',            
-            'customer__id'
+            'customer__id',
+            'customer__customer_name',
+            'customer__phone_number', 
+            'customer__customer_email',
+            'customer__advance_amount'
 
         )[0]
 
@@ -314,56 +320,77 @@ class StoreService:
 
     @classmethod
     def get_appointment_details_bycustomer(self, cust_id):
-        # print("CUST IDDDD %s"%cust_id)
-        final_list = []
-        service_list = []
-        app_data_list = AppointmentSchedule.objects.filter(customer_id=cust_id, is_paid=False).all().values(
+        
+        app_data_list = AppointmentSchedule.objects.filter(customer_id=cust_id).all().values(
             'id',
             'is_paid',            
             'booking_date',
+            'appointment_status',         
             'customer__id',
             'customer__customer_name',
             'customer__phone_number', 
             'customer__customer_email',
             'customer__advance_amount'
 
+
         )
-        
-        count = app_data_list.count()  
 
-        if count > 0: 
-
-            for item in list(app_data_list):
-                itemList = list(AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
+        for item in app_data_list:
+            item['service_list'] = list(AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
                     "id",
-                        "service__id",
-                        "service__service_name",
-                        "service__price",
-                        "service__service_gst",
-                        "assigned_staff__employee_name",
-                        "start_time",
-                        "end_time",
-                        "service__unit",
-                        "service__unit__PrimaryUnit"
+                    "appointment__booking_date",
+                    "service__id",
+                    "service__service_name",
+                    "service__price",
+                    "service__service_gst",
+                    "assigned_staff__employee_name",
+                    "start_time",
+                    "end_time",
+                    "service__unit",
+                    "service__unit__PrimaryUnit"
                 ))
 
-                for obj in itemList:
-                    service_list.append(obj)
+        return list(app_data_list)
+        
+        # count = app_data_list.count()  
 
-            app_data_list[0]['service_list'] = service_list   
+        # if count > 0: 
+
+        #     for item in list(app_data_list):
+        #         itemList = list(AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
+        #                 "id",
+        #                 "service__id",
+        #                 "service__service_name",
+        #                 "service__price",
+        #                 "service__service_gst",
+        #                 "assigned_staff__employee_name",
+        #                 "start_time",
+        #                 "end_time",
+        #                 "service__unit",
+        #                 "service__unit__PrimaryUnit"
+        #         ))
+
+        #         for obj in itemList:
+        #             service_list.append(obj)
+
+        #     app_data_list[0]['service_list'] = service_list   
                 
-            final_list.append(app_data_list[0])
+        #     final_list.append(app_data_list[0])
 
         
-        return list(final_list)        
+        # return list(final_list)        
 
 
     @classmethod
-    def get_viewbooking_details(cls):
+    def get_viewbooking_details(cls,branch_id):
         # print("GET BOOKINGS")
         final_list = []
-        #app_data_list = AppointmentSchedule.objects.filter(is_paid=False).values(
-        app_data_list = AppointmentSchedule.objects.filter(is_paid=False).values(
+        if branch_id:
+            app_list_object = AppointmentSchedule.objects.filter(is_paid=False,store_id=branch_id)
+        else:
+            app_list_object = AppointmentSchedule.objects.filter(is_paid=False)
+
+        app_data_list = app_list_object.values(
             'id',
             'is_paid',  
             'booking_date',          
@@ -555,4 +582,43 @@ class StoreService:
         entry = StoreServices.objects.filter(id=id)
         count = entry.delete()
         # print("COUNTe %s"%count[0])
-        return count                  
+        return count 
+
+    @classmethod
+    def get_dashboard_sales_details(cls):
+
+        today = datetime.date.today()
+
+        currentMonth = (today.month - 1)
+        currentYear = today.year
+
+        last_day = calendar.monthrange(currentYear, currentMonth)
+        # print("Last day of month===",last_day)
+
+        f_date = str(currentYear) + '-' + str(currentMonth) + '-01'
+        t_date = str(currentYear) + '-' + str(currentMonth) + '-' + str(last_day[1])
+
+        # print("f_date===",f_date)
+        # print("t_date===",t_date)
+
+        sales_list = SalesOrderRequest.objects.raw('select id, sum(grand_total) as grand_total,'
+                                                'date(po_date) as pdate '
+                                                'from sales_salesorderrequest '
+                                                'where po_date >= "' + f_date + '" and po_date <= "' + t_date + '" '
+                                                'group by pdate')
+
+        # for item in sales_list:
+        #     print("data===",item.grand_total,item.pdate)
+
+        final_list = []
+        for item in sales_list:
+            dict_obj = dict(
+                id = item.id,
+                grand_total = item.grand_total,
+                date = item.pdate
+            )
+            final_list.append(dict_obj)
+
+        return final_list      
+
+

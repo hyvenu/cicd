@@ -190,7 +190,12 @@ def get_store_list(request):
 @permission_classes([IsAuthenticated, ])
 def get_viewbooking_details(request):
     store_service = StoreService()
-    app_res = store_service.get_viewbooking_details()
+    if "b_id" in request.query_params:
+        branch_id = request.query_params["b_id"]
+    else:
+        branch_id = None
+    app_res = store_service.get_viewbooking_details(branch_id)
+
     return JsonResponse(app_res, safe=False)
 
 
@@ -301,4 +306,11 @@ def delete_service(request, id):
     store_service = StoreService()   
     # print("pdata %s"%id)
     count = store_service.delete_service(id)
-    return JsonResponse(count, safe=False, status=status.HTTP_200_OK)         
+    return JsonResponse(count, safe=False, status=status.HTTP_200_OK)   
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_dashboard_sales_details(request):
+    store_service = StoreService()
+    app_res = store_service.get_dashboard_sales_details()
+    return JsonResponse(app_res, safe=False)          
