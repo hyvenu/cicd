@@ -44,7 +44,7 @@
 			<parameterDescription><![CDATA[Enter to Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[select app.booking_date,
+			<![CDATA[select distinct app.booking_date,
 emp.employee_name,
 service.service_name,
 sales.unit_price,

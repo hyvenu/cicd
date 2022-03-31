@@ -419,7 +419,6 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date}   ,current_date()
 					</jr:column>
 					<jr:column width="70" uuid="8f77aacb-7e49-406c-8ea2-47f1a5540201">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
-						<jr:tableFooter style="Table_TH" height="30" rowSpan="1"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="4ae33965-5860-437c-a5e7-24ae7f1852d6"/>
