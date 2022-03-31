@@ -138,7 +138,7 @@ order_details.gst_amount,
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store;]]>
+		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store limit 1]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>

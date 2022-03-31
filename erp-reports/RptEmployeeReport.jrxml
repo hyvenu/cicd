@@ -120,7 +120,7 @@ order by customers.customer_name,appoinment_schedule.booking_date]]>
 	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT Store.store_name,
-Store.address,Store.city,Store.pin_code FROM store_store as Store]]>
+Store.address,Store.city,Store.pin_code FROM store_store as Store limit 1]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>

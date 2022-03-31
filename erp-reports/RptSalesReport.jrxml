@@ -232,7 +232,7 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT store.store_name,store.address
-,store.city,store.pin_code FROM store_store as store;]]>
+,store.city,store.pin_code FROM store_store as store limit 1]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>

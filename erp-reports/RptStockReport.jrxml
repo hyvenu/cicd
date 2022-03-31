@@ -156,7 +156,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 		</group>
 	</subDataset>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store]]>
+		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store limit 1]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
