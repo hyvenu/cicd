@@ -57,8 +57,7 @@ inner join store_customer as customer on customer.id=app.customer_id
 inner join store_storeservices as service on service.id=sales_details.service_id
 inner join sales_salesorderrequest as sales_order_req on sales_order_req.id=sales_details.po_order_id
 where date(sales_order_req.po_date) >= coalesce( $P{from_date}   ,current_date()) and  date(sales_order_req.po_date) <=  coalesce(  $P{to_date}  ,current_date())
-order by app.booking_date,customer.customer_name
-]]>
+order by app.booking_date,customer.customer_name]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
@@ -148,7 +147,7 @@ order by app.booking_date,customer.customer_name
 		<parameterDescription><![CDATA[Enter to Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store;]]>
+		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store limit 1]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
