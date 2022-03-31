@@ -103,6 +103,18 @@ order by app.booking_date, service.service_name, emp.employee_name asc]]>
 			<property name="com.jaspersoft.studio.field.label" value="grand_total"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="sales_salesorderdetails"/>
 		</field>
+		<variable name="unit" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{unit_price}]]></variableExpression>
+		</variable>
+		<variable name="discount" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{discount_price}]]></variableExpression>
+		</variable>
+		<variable name="gst" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{gst_amount}]]></variableExpression>
+		</variable>
+		<variable name="total" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{grand_total}]]></variableExpression>
+		</variable>
 		<group name="booking_date">
 			<groupExpression><![CDATA[$F{booking_date}]]></groupExpression>
 		</group>
@@ -252,9 +264,9 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="80" splitType="Stretch">
+		<band height="116" splitType="Stretch">
 			<componentElement>
-				<reportElement x="1" y="6" width="549" height="64" uuid="7bc3ad83-a91f-48ea-b173-522eab39f02e">
+				<reportElement x="1" y="6" width="549" height="104" uuid="7bc3ad83-a91f-48ea-b173-522eab39f02e">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -271,6 +283,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="72" uuid="188d42e8-768a-45f6-b650-1ec92c4d4419">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="c05398d0-c773-4bf4-ad64-5ee3d3d397a3"/>
@@ -291,6 +304,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="88" uuid="a5bed7f5-a27d-4559-a172-1317dce27a0f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="88" height="30" uuid="ed858cea-cdbb-4a31-8d56-ed22f220fba5"/>
@@ -311,6 +325,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="96" uuid="06bd6441-2279-4938-b408-469c9996d650">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="96" height="30" uuid="60161246-c577-4392-a088-6db7ab4c54da"/>
@@ -320,6 +335,15 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 								<text><![CDATA[Service Name]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="96" height="30" uuid="120bc284-f949-45ba-981a-2ff3a2767591"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="18"/>
+								</textElement>
+								<text><![CDATA[Total :]]></text>
+							</staticText>
+						</jr:columnFooter>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="96" height="30" uuid="4bb09eb9-ab61-4c42-8bab-726c99e66c6c"/>
@@ -331,6 +355,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="72" uuid="4d494ea8-8815-426e-bcb2-ed19559f4dd5">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="3e8c4098-5859-4a08-8cdd-b044bfc5f00c"/>
@@ -340,6 +365,15 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 								<text><![CDATA[Unit Price]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="72" height="30" uuid="a0b74fd2-9fbf-4d80-8e3e-fa9b3692fbdd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{unit}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="72" height="30" uuid="7fe77adc-99b0-4e9c-a826-4d00f12f9744"/>
@@ -351,6 +385,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="72" uuid="8a1f9daf-fd29-4588-a672-41df28c2fe8e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="f9d6158d-1b58-45bb-9af8-ce5f89720657"/>
@@ -360,6 +395,15 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 								<text><![CDATA[Discount Price]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="72" height="30" uuid="676198de-c8e1-460f-a56e-f384522bfa5a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{discount}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="72" height="30" uuid="160ab212-fcda-4093-8446-538cce213209"/>
@@ -371,6 +415,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="72" uuid="3250f409-1b1e-47ce-9818-35c310fdb3e0">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="0dba6560-7374-4432-b05e-0d15036929b7"/>
@@ -380,6 +425,15 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 								<text><![CDATA[Gst Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="72" height="30" uuid="76cb13aa-fd3a-421a-9481-01933e44d47b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{gst}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="72" height="30" uuid="05809c8c-9710-4b63-be5d-7d6bed3a4496"/>
@@ -391,6 +445,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="72" uuid="664fd3d7-a25e-431a-8395-fe87baa46292">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="72" height="30" uuid="cf939cf9-e46b-471f-8d54-3e61c21b35e5"/>
@@ -400,6 +455,15 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 								<text><![CDATA[Grand Total]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="72" height="30" uuid="f1e65dfd-417f-4b29-bd4d-0ee1bd5bbf1c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="72" height="30" uuid="9b20a440-8350-4c80-b518-7e4ce4f9c284"/>

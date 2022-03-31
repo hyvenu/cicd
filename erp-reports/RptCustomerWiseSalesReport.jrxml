@@ -53,7 +53,8 @@ sales_details.unit_price,
 (sales_details.subtotal_amount-sales_details.gst_amount) as sub_total,
 sales_details.gst_amount as total_gst_amount ,
 sales_details.subtotal_amount,
-product.product_name
+product.product_name,
+'product' as SalesType
 
 
 FROM sales_salesorderrequest as sales_order_req
@@ -61,7 +62,27 @@ inner join store_customer as customer on sales_order_req.customer_id=customer.id
  inner join sales_salesorderdetails as sales_details on sales_details.po_order_id=sales_order_req.id
  inner join inventory_productmaster as product on product.id=sales_details.product_id
 where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) and  date(sales_order_req.po_date) <=  coalesce( $P{to_date} ,current_date())
- order by sales_order_req.invoice_no ,product.product_name]]>
+UNION ALL
+SELECT app.booking_date as Date,sales_order_req.invoice_no ,
+customer.customer_name,
+customer.phone_number,
+1 as qty,
+sales_details.unit_price, 
+
+(sales_details.subtotal_amount-sales_details.gst_amount) as sub_total,
+sales_details.gst_amount as total_gst_amount ,
+sales_details.subtotal_amount ,
+service.service_name as product_name,
+'Service' as SalesType
+
+FROM store_appointmentschedule as app
+inner join sales_salesorderdetails as sales_details on sales_details.booking_id=app.id
+inner join store_customer as customer on customer.id=app.customer_id
+inner join store_storeservices as service on service.id=sales_details.service_id
+inner join sales_salesorderrequest as sales_order_req on sales_order_req.id=sales_details.po_order_id
+where date(sales_order_req.po_date) >= coalesce( $P{from_date}   ,current_date()) and  date(sales_order_req.po_date) <=  coalesce(  $P{to_date}  ,current_date())
+ order by invoice_no,date asc
+ ]]>
 		</queryString>
 		<field name="date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="date"/>
@@ -117,6 +138,10 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 			<property name="com.jaspersoft.studio.field.label" value="product_name"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="inventory_productmaster"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="SalesType" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="SalesType"/>
+			<property name="com.jaspersoft.studio.field.label" value="SalesType"/>
 		</field>
 		<variable name="qty" class="java.lang.Integer" calculation="Sum">
 			<variableExpression><![CDATA[$F{qty}]]></variableExpression>
@@ -310,7 +335,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 					</datasetRun>
 					<jr:column width="80" uuid="5c61502f-7534-44d8-bb1d-a92c062ba6c6">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
-						<jr:columnHeader style="Table_CH" height="30">
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="52636979-7125-44d5-a4da-c3578c38c644"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -331,7 +356,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 					</jr:column>
 					<jr:column width="80" uuid="f1ee7f60-7288-4008-b3c8-88d11b23638b">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
-						<jr:columnHeader style="Table_CH" height="30">
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="55bc110e-3b5c-4c97-9e8b-ff575a343cc9"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -352,7 +377,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 					</jr:column>
 					<jr:column width="90" uuid="395b3634-9487-4ac8-ae5d-c4303250a26d">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
-						<jr:columnHeader style="Table_CH" height="30">
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="5d1db636-caa0-4523-83a2-b6adbeaaa2cb"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -373,7 +398,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 					</jr:column>
 					<jr:column width="90" uuid="b0d92944-d7c2-4c7d-ab32-7cb269421674">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
-						<jr:columnHeader style="Table_CH" height="30">
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="cd9f0b71-2f63-4d09-b7a8-c1ec37289e03"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -392,8 +417,28 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="100" uuid="5a8271b6-50f6-4c67-af01-abae5b7ee031">
+					<jr:column width="70" uuid="8f77aacb-7e49-406c-8ea2-47f1a5540201">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableFooter style="Table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="30" uuid="4ae33965-5860-437c-a5e7-24ae7f1852d6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="11"/>
+								</textElement>
+								<text><![CDATA[Sales Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="30" uuid="5fe67348-8923-4c82-957c-630c91db6cbe"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{SalesType}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="5a8271b6-50f6-4c67-af01-abae5b7ee031">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="100" height="30" uuid="806fb928-2072-419e-a17c-de7ee37ba992"/>
@@ -403,13 +448,13 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 								<text><![CDATA[Total :]]></text>
 							</staticText>
 						</jr:tableFooter>
-						<jr:columnHeader style="Table_CH" height="30">
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="100" height="30" uuid="96be2118-62b1-4477-8d11-12dc7b32069a"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
-								<text><![CDATA[Product Name]]></text>
+								<text><![CDATA[Product Name/Service Name]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
@@ -423,7 +468,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="70" uuid="003b1766-e225-4669-9a8b-d4a49aab2d28">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="7d675b1b-7c64-4663-9e73-63244196f35e"/>
@@ -433,7 +478,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 								<textFieldExpression><![CDATA[$V{qty}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
-						<jr:columnHeader style="Table_CH" height="30">
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="ff0c8465-e3b9-45e7-aba9-7bdab5d03e08"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -453,7 +498,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="70" uuid="cb78d9e4-d4fd-4265-8129-30275f5d337f">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="34588c5e-81d4-4f96-ac54-fe4f0506b88c"/>
@@ -463,7 +508,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 								<textFieldExpression><![CDATA[$V{unit_price}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
-						<jr:columnHeader style="Table_CH" height="30">
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="906b432e-0ab6-45f9-81c4-99c18c414cad"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -483,7 +528,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="70" uuid="11324e7a-7cf0-424b-8d8e-eabb4ff27a60">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="82583e14-61a3-4301-9e1e-64e7c3fb189b"/>
@@ -493,7 +538,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 								<textFieldExpression><![CDATA[$V{sub_total}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
-						<jr:columnHeader style="Table_CH" height="30">
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="21d1e38f-e131-4bd7-b24c-ba71723cbd53"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -513,7 +558,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="70" uuid="10cc757f-e396-41c2-bafe-cf1a71642188">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="bc21e766-ab0e-490e-a8fb-bdbf84f90e96"/>
@@ -523,7 +568,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 								<textFieldExpression><![CDATA[$V{gst}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
-						<jr:columnHeader style="Table_CH" height="30">
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="14d984c5-1201-44e8-afe0-eaad8d52da9b"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -543,7 +588,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="70" uuid="a6f3eb64-5512-4bda-b186-bfaa6a74ee1f">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="30" uuid="bcbcb7e8-7dac-4e4c-9226-efd0d09af1fd"/>
@@ -553,7 +598,7 @@ where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) 
 								<textFieldExpression><![CDATA[$V{grand_total}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
-						<jr:columnHeader style="Table_CH" height="30">
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="02f08596-cf26-4a6a-8f7d-bb21dfed7c00"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
