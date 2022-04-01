@@ -261,7 +261,7 @@ ORDER BY sales_details.qty desc limit 10]]>
 	<queryString language="SQL">
 		<![CDATA[SELECT store_name,store_number,
 address,city,pin_code
- FROM store_store;]]>
+ FROM store_store limit 1]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
