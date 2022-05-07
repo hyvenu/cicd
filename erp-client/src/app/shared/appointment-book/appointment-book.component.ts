@@ -237,13 +237,13 @@ export class AppointmentBookComponent implements OnInit {
 
         });
 
-        const duplicate:boolean = this.check_duplicate();
+        // const duplicate:boolean = this.check_duplicate();
 
-        if(duplicate) {
-          this.selected_product_list.pop();
-          this.nbtoastService.danger("Duplicate service");
-          return;
-        }
+        // if(duplicate) {
+        //   this.selected_product_list.pop();
+        //   this.nbtoastService.danger("Duplicate service");
+        //   return;
+        // }
 
       });
     //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
@@ -273,7 +273,21 @@ export class AppointmentBookComponent implements OnInit {
     return arr.indexOf(item) != idx
     });
     return isDuplicate;
+
     }
+
+    check_duplicate_stylist(service_name, stylist_name) {
+
+      const isFound = this.selected_product_list.some(element => {
+        if (element.service_name === service_name && element.stylist_name === stylist_name) {
+          return true;
+        }
+
+        return false;
+      });
+
+      return isFound
+      }
 
     check_invalid_time() {
       let arr = this.selected_product_list.map(function(item){ return item.service_id });
@@ -320,9 +334,18 @@ export class AppointmentBookComponent implements OnInit {
         console.log(data)
         this.searchStylist = ""
         //  this.product_list = data
-        item.stylist_name=data.employee_name
-        item.stylist_id=data.id
+
         console.log(this.stylist_id);
+        const duplicate:boolean  = this.check_duplicate_stylist(item.service_name, data.employee_name)
+
+        if(duplicate) {
+          //this.selected_product_list.pop();
+          this.nbtoastService.danger("Service for this therapist exists");
+          return;
+        }else{
+          item.stylist_name=data.employee_name
+        item.stylist_id=data.id
+        }
 
       })
     }
