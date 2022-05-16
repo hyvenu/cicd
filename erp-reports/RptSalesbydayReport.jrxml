@@ -97,6 +97,12 @@ where appointment_schesule.booking_date between  $P{from_date}  and  $P{to_date}
 			<property name="com.jaspersoft.studio.field.name" value="total_sales"/>
 			<property name="com.jaspersoft.studio.field.label" value="total_sales"/>
 		</field>
+		<variable name="gst_amount" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{gst_amount}]]></variableExpression>
+		</variable>
+		<variable name="total_sales" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{total_sales}]]></variableExpression>
+		</variable>
 		<group name="booking_date">
 			<groupExpression><![CDATA[$F{booking_date}]]></groupExpression>
 		</group>
@@ -249,9 +255,9 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="82" splitType="Stretch">
+		<band height="90" splitType="Stretch">
 			<componentElement>
-				<reportElement x="2" y="3" width="558" height="67" uuid="681adfb0-5994-4954-a839-362ae4ada317">
+				<reportElement x="0" y="0" width="555" height="90" uuid="681adfb0-5994-4954-a839-362ae4ada317">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -268,6 +274,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="80" uuid="02f9da9e-0cee-4801-a8a9-00ca245b7ed3">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="d08e81ff-6466-4360-aa9e-5c0a66d00331"/>
@@ -283,11 +290,12 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{booking_date}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[DATEFORMAT($F{booking_date},"dd-MM-YYY")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="80" uuid="5d807f61-71c5-461b-ab20-1e4b7368b50d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="7f270718-3e56-4e35-b9aa-1cc822699ef5"/>
@@ -308,6 +316,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="65" uuid="0d632f30-60d4-4e57-9231-2272899e862a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="bd968339-339a-4b66-a646-c0454271100e"/>
@@ -328,6 +337,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="65" uuid="b7c5b0fc-a751-4cc2-bb26-437df9be0bae">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="c6713b03-a098-4b77-8d15-c07fd493e840"/>
@@ -348,6 +358,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="65" uuid="8ae8b3ba-61dc-4c0d-965b-f9a1dba50ce2">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="578c2452-92b2-4dcb-b7a7-59154096f858"/>
@@ -368,6 +379,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="65" uuid="cec967c6-a8fe-43fa-beb6-b0e021b1ed43">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="69bf3efd-40f4-4cbf-99f9-dd1884478558"/>
@@ -377,6 +389,15 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 								<text><![CDATA[Gst %]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="65" height="30" uuid="7a2006ec-109b-4535-80b3-4356c94a7f25"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="16"/>
+								</textElement>
+								<text><![CDATA[Total :]]></text>
+							</staticText>
+						</jr:columnFooter>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="65" height="30" uuid="41d6993b-fbdf-47fd-be7f-b33f47d7a382"/>
@@ -388,6 +409,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="65" uuid="5cb33812-e6e7-4b7d-bf54-b6ba4338ae65">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="f47543b9-5198-43e0-adf5-2b439be7aca0"/>
@@ -397,6 +419,15 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 								<text><![CDATA[Gst Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="65" height="30" uuid="1fe3d680-c6d1-494f-af7f-14e046627b1f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{gst_amount}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="65" height="30" uuid="2e5a7d58-c895-4f04-8dd1-be6dc74851aa"/>
@@ -408,6 +439,7 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="65" uuid="3f48aaed-fb6f-4fa6-b6f6-2f5806c0027e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="65" height="30" uuid="f9491005-59d4-49d9-9add-1f10fd6169b9"/>
@@ -417,6 +449,15 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 								<text><![CDATA[Total Sales]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="65" height="30" uuid="2468c3ae-38ca-41b4-9cf1-f96578c84bad"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{total_sales}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="65" height="30" uuid="ec5be483-d509-4a38-9624-47eb99442fbf"/>
