@@ -37,6 +37,7 @@
 	<subDataset name="Enquiry" uuid="23dcd4b6-60c5-49ae-a012-e4fe9569d470">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+		<parameter name="branch_name" class="java.util.ArrayList"/>
 		<parameter name="From_Date" class="java.sql.Date">
 			<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 		</parameter>
@@ -55,14 +56,15 @@ inner join store_employee as employee on employee.id=enquiry.staff_name_id
 inner join store_department as department on department.id=employee.department_id
 inner join store_store as store on store.id=service.store_id
 inner join inventory_productstock as stock on stock.store_id=store.id
-inner join store_customer aS customer on appointment_schedule.customer_id=customer.id
+inner join store_customer as customer on appointment_schedule.customer_id=customer.id
 inner join sales_salesorderrequest as sales_orders on sales_orders.customer_id=appointment_schedule.customer_id
 inner join purchase_grnmaster as grn on grn.store_id=store.id
 inner join purchase_grnproductlist as grn_product on grn_product.grn_id=grn.id
 inner join inventory_productmaster as product on product.id=grn_product.product_id
 inner join inventory_productcategory as category on category.id=product.category_id
 inner join inventory_productsubcategory as sub_category on sub_category.category_id=category.id 
- where appointment_schedule.booking_date between  $P{From_Date} and  $P{To_Date}]]>
+ where appointment_schedule.booking_date between  $P{From_Date} and  $P{To_Date} and 
+ $X{IN,store.store_name,branch_name}]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
@@ -155,6 +157,7 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 			<groupExpression><![CDATA[$F{sub_category_name}]]></groupExpression>
 		</group>
 	</subDataset>
+	<parameter name="Branch_Name" class="java.util.ArrayList"/>
 	<parameter name="From_Date" class="java.sql.Date">
 		<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 	</parameter>
@@ -281,21 +284,24 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="76" splitType="Stretch">
+		<band height="64" splitType="Stretch">
 			<componentElement>
-				<reportElement x="0" y="4" width="760" height="66" uuid="13077c59-48f5-41be-88c9-6a55e7597464">
+				<reportElement x="0" y="4" width="760" height="60" uuid="13077c59-48f5-41be-88c9-6a55e7597464">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Enquiry" uuid="283a4904-f39a-44ef-b767-90a1bcb47dba">
+					<datasetRun subDataset="Enquiry" uuid="58a04586-d9cb-411e-86b8-94c400c2b804">
 						<datasetParameter name="From_Date">
 							<datasetParameterExpression><![CDATA[$P{From_Date}]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="To_Date">
 							<datasetParameterExpression><![CDATA[$P{To_Date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="branch_name">
+							<datasetParameterExpression><![CDATA[$P{Branch_Name}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>

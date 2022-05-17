@@ -37,6 +37,7 @@
 	<subDataset name="Employee" uuid="0a0c8d97-f9cd-439b-99b1-d78a5b025112">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+		<parameter name="branch_name" class="java.util.ArrayList"/>
 		<parameter name="from_date" class="java.sql.Date">
 			<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 		</parameter>
@@ -58,8 +59,9 @@ inner join store_storeservices as service on service.id = sales.service_id
 inner join store_appointmentschedule as app on app.id = sales.booking_id
 inner join store_appointmentformultipleservice as appm on appm.appointment_id=sales.booking_id
 inner join store_employee as emp on emp.id= appm.assigned_staff_id
+inner join store_store as store on store.id=app.store_id
 where app.is_paid = 1 and app.booking_date between  $P{from_date} and  $P{to_date} 
-and sales.service_id is not null
+and sales.service_id is not null and $X{IN,store.store_name,branch_name}
 order by app.booking_date, service.service_name, emp.employee_name asc]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
@@ -137,6 +139,7 @@ order by app.booking_date, service.service_name, emp.employee_name asc]]>
 			<groupExpression><![CDATA[$F{grand_total}]]></groupExpression>
 		</group>
 	</subDataset>
+	<parameter name="Branch_Name" class="java.util.ArrayList"/>
 	<parameter name="From_Date" class="java.sql.Date">
 		<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 	</parameter>
@@ -266,19 +269,22 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 	<detail>
 		<band height="116" splitType="Stretch">
 			<componentElement>
-				<reportElement x="1" y="6" width="549" height="104" uuid="7bc3ad83-a91f-48ea-b173-522eab39f02e">
+				<reportElement x="1" y="6" width="549" height="94" uuid="7bc3ad83-a91f-48ea-b173-522eab39f02e">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Employee" uuid="baebf7a2-9d3f-4130-bf94-5ed432bdba96">
+					<datasetRun subDataset="Employee" uuid="233271cf-e1aa-4330-8702-bcbdf2030f48">
 						<datasetParameter name="from_date">
 							<datasetParameterExpression><![CDATA[$P{From_Date}]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="to_date">
 							<datasetParameterExpression><![CDATA[$P{To_Date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="branch_name">
+							<datasetParameterExpression><![CDATA[$P{Branch_Name}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>

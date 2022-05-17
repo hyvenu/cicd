@@ -37,6 +37,7 @@
 	<subDataset name="Product Wise" uuid="7fe87f06-7922-4633-a75f-d74ae19deabb">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+		<parameter name="branch_name" class="java.util.ArrayList"/>
 		<parameter name="from_date" class="java.sql.Date">
 			<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 		</parameter>
@@ -62,8 +63,9 @@ inner join inventory_productmaster as product on product.id=sales_details.produc
 inner join inventory_productcategory as category on category.id=product.category_id
 inner join inventory_productsubcategory as sub_category on sub_category.id=product.sub_category_id
 inner join inventory_productpricemaster as price on price.product_id=product.id
-
-where  date(sales_request.po_date) between $P{from_date}   and  $P{to_date} 
+inner join store_store as store on store.id=sales_request.store_id
+where  date(sales_request.po_date) between $P{from_date}   and  $P{to_date}
+and $X{IN,store.store_name,branch_name} 
 GROUP BY product.product_code,product.product_name,category.category_name,
 sub_category.sub_category_name 
 ORDER BY category_name,product_name]]>
@@ -149,6 +151,7 @@ ORDER BY category_name,product_name]]>
 	<subDataset name="Dataset1" uuid="69ec7a69-1e4b-416d-b0c4-26a84690b80c">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+		<parameter name="branch_name" class="java.util.ArrayList"/>
 		<parameter name="from_date" class="java.sql.Date">
 			<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 		</parameter>
@@ -174,8 +177,9 @@ inner join inventory_productmaster as product on product.id=sales_details.produc
 inner join inventory_productcategory as category on category.id=product.category_id
 inner join inventory_productsubcategory as sub_category on sub_category.id=product.sub_category_id
 inner join inventory_productpricemaster as price on price.product_id=product.id
-
+inner join store_store as store on store.id=sales_request.store_id
 where  date(sales_request.po_date) between  $P{from_date}    and  $P{to_date} 
+and $X{IN,store.store_name,branch_name}
 GROUP BY product.product_code,product.product_name,category.category_name,
 sub_category.sub_category_name ,sales_details.qty
 ORDER BY sales_details.qty desc limit 10]]>
@@ -252,6 +256,7 @@ ORDER BY sales_details.qty desc limit 10]]>
 			<groupExpression><![CDATA[$F{subTotal}]]></groupExpression>
 		</group>
 	</subDataset>
+	<parameter name="Branch_Name" class="java.util.ArrayList"/>
 	<parameter name="From_Date" class="java.sql.Date">
 		<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 	</parameter>
@@ -398,12 +403,15 @@ address,city,pin_code
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Product Wise" uuid="6dda4b4c-3ab7-4cc6-9490-61c9d7e69f8f">
+					<datasetRun subDataset="Product Wise" uuid="f366e79d-e327-4076-a905-188845f76332">
 						<datasetParameter name="from_date">
 							<datasetParameterExpression><![CDATA[$P{From_Date}]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="to_date">
 							<datasetParameterExpression><![CDATA[$P{To_Date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="branch_name">
+							<datasetParameterExpression><![CDATA[$P{Branch_Name}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
@@ -623,19 +631,22 @@ address,city,pin_code
 			</componentElement>
 			<bar3DChart>
 				<chart evaluationTime="Report">
-					<reportElement x="60" y="10" width="730" height="230" uuid="395c424c-76ab-463a-8ba8-6d35e1efa1fd"/>
+					<reportElement x="60" y="10" width="730" height="230" uuid="6cc0468c-057e-4b5b-83e5-837bcb772f24"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
 					<dataset resetType="Report">
-						<datasetRun subDataset="Dataset1" uuid="407cf708-4137-407b-ade7-025d89204080">
+						<datasetRun subDataset="Dataset1" uuid="37746346-62cf-4568-be02-8afc7db3a1f9">
 							<datasetParameter name="from_date">
 								<datasetParameterExpression><![CDATA[$P{From_Date}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="to_date">
 								<datasetParameterExpression><![CDATA[$P{To_Date}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="branch_name">
+								<datasetParameterExpression><![CDATA[$P{Branch_Name}]]></datasetParameterExpression>
 							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>

@@ -37,6 +37,7 @@
 	<subDataset name="Sales_by_day" uuid="c02fea1f-a1af-4458-b214-b739c68d0112">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+		<parameter name="store_name" class="java.util.ArrayList"/>
 		<parameter name="from_date" class="java.sql.Date">
 			<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 		</parameter>
@@ -60,7 +61,9 @@ order_details.subtotal_amount as total_sales
  inner join sales_salesorderrequest as sales_order on sales_order.customer_id=appointment_schesule.customer_id
  inner join sales_salesorderdetails as order_details on order_details.po_order_id=sales_order.id
  inner join store_storeservices as service on service.id=order_details.service_id
+ inner join store_store as store on store.id=service.store_id
 where appointment_schesule.booking_date between  $P{from_date}  and  $P{to_date} 
+and $X{IN,store.store_name,store_name}
  group by appointment_schesule.booking_date,order_details.gst,service.service_name,
  order_details.unit_price,order_details.gst_amount,order_details.subtotal_amount
  order by appointment_schesule.booking_date]]>
@@ -128,6 +131,7 @@ where appointment_schesule.booking_date between  $P{from_date}  and  $P{to_date}
 			<groupExpression><![CDATA[$F{total_sales}]]></groupExpression>
 		</group>
 	</subDataset>
+	<parameter name="Branch_Name" class="java.util.ArrayList"/>
 	<parameter name="From_Date" class="java.sql.Date">
 		<parameterDescription><![CDATA[Enter From Day]]></parameterDescription>
 	</parameter>
@@ -264,12 +268,15 @@ store.address,store.city,store.pin_code FROM store_store as store limit 1]]>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Sales_by_day" uuid="97f5d4a0-711f-4d1a-abd1-ee89bb8e696b">
+					<datasetRun subDataset="Sales_by_day" uuid="9a8b1d39-74b5-4117-bbca-1feee17fe4ab">
 						<datasetParameter name="from_date">
 							<datasetParameterExpression><![CDATA[$P{From_Date}]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="to_date">
 							<datasetParameterExpression><![CDATA[$P{To_Date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="store_name">
+							<datasetParameterExpression><![CDATA[$P{Branch_Name}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>

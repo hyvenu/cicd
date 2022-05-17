@@ -37,6 +37,7 @@
 	<subDataset name="Material_Sales" uuid="ac8a1b38-b010-40ca-a968-5fe7188d9739">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+		<parameter name="branch_name" class="java.util.ArrayList"/>
 		<parameter name="From_Date" class="java.sql.Date">
 			<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 		</parameter>
@@ -56,7 +57,10 @@ inner join inventory_productstock as stock on stock.store_id=grn.store_id
 inner join inventory_productmaster as product on product.id=stock.product_id
 inner join inventory_unitmaster as unit on unit.id=stock.unit_id 
 inner join store_customer as customers on customers.id=appointment_schedule.customer_id
- where appointment_schedule.booking_date between  $P{From_Date}  and  $P{to date}]]>
+inner join store_store as store on store.id=appointment_schedule.store_id
+ where appointment_schedule.booking_date between  $P{From_Date}  and  $P{to date} and 
+ $X{IN,store.store_name,branch_name}
+ order by appointment_schedule.booking_date]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
@@ -122,6 +126,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 			<groupExpression><![CDATA[$F{SecondaryUnit}]]></groupExpression>
 		</group>
 	</subDataset>
+	<parameter name="Branch_Name" class="java.util.ArrayList"/>
 	<parameter name="From_Date" class="java.sql.Date">
 		<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 	</parameter>
@@ -257,12 +262,15 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Material_Sales" uuid="f6832187-2333-417e-b54f-25c7d84dd40f">
+					<datasetRun subDataset="Material_Sales" uuid="216f0edf-78a7-4d91-af46-91189767035a">
 						<datasetParameter name="From_Date">
 							<datasetParameterExpression><![CDATA[$P{From_Date}]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="to date">
 							<datasetParameterExpression><![CDATA[$P{To_Date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="branch_name">
+							<datasetParameterExpression><![CDATA[$P{Branch_Name}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
@@ -283,7 +291,7 @@ inner join store_customer as customers on customers.id=appointment_schedule.cust
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{booking_date}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[DATEFORMAT($F{booking_date},"dd-MM-YYY")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

@@ -37,6 +37,7 @@
 	<subDataset name="Service" uuid="c57bb842-0ea2-4730-8b18-8c074f463daa">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+		<parameter name="branch_name" class="java.util.ArrayList"/>
 		<parameter name="from_date" class="java.sql.Date">
 			<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 		</parameter>
@@ -55,7 +56,9 @@ order_details.gst_amount,
  FROM store_appointmentschedule as appointment_schesule
   inner join sales_salesorderdetails as order_details on order_details.booking_id=appointment_schesule.id
   inner join store_storeservices as service on service.id=order_details.service_id
+  inner join store_store as store on store.id=appointment_schesule.store_id
  where appointment_schesule.booking_date between  $P{from_date} and  $P{to_date} 
+ and $X{IN,store.store_name,branch_name}
   group by appointment_schesule.booking_date,service.service_name,order_details.gst,order_details.unit_price,
  order_details.gst_amount,order_details.subtotal_amount
  order by appointment_schesule.booking_date]]>
@@ -131,6 +134,7 @@ order_details.gst_amount,
 			<groupExpression><![CDATA[$F{total_sales}]]></groupExpression>
 		</group>
 	</subDataset>
+	<parameter name="Branch_Name" class="java.util.ArrayList"/>
 	<parameter name="From_Date" class="java.sql.Date">
 		<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
 	</parameter>
@@ -266,12 +270,15 @@ order_details.gst_amount,
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Service" uuid="d69c5eb6-9ad2-480d-9518-11eb8fc104ce">
+					<datasetRun subDataset="Service" uuid="1a16cfaa-d6ee-40e7-a423-438e10e81ce4">
 						<datasetParameter name="from_date">
 							<datasetParameterExpression><![CDATA[$P{From_Date}]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="to_date">
 							<datasetParameterExpression><![CDATA[$P{To_Date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="branch_name">
+							<datasetParameterExpression><![CDATA[$P{Branch_Name}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>

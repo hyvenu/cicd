@@ -38,22 +38,22 @@
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
 		<queryString language="SQL">
-			<![CDATA[SELECT category.category_name, sub_category.sub_category_name,
-product.product_code, product.product_name, unit.primaryunit, unit.secondaryunit,
-price.safety_stock_level, stock.batch_number, stock.quantity,
-grnproduct.rejected_qty, brand.brand_name
+			<![CDATA[SELECT distinct category.category_name,sub_category.sub_category_name,
+product.product_code,product.product_name , unit.primaryunit, unit.secondaryunit,
+price.safety_stock_level, 
+stock.batch_number, stock.quantity,grnproduct.rejected_qty,
+brand.brand_name
 
-
-FROM inventory_productcategory as category
-inner join inventory_productsubcategory as sub_category on sub_category.category_id=category.id
-inner join inventory_productmaster as product on product.category_id=category.id
-left join inventory_productstock as stock on stock.product_id=product.id
-left join inventory_unitmaster as unit on unit.id=stock.unit_id
-left join inventory_productpricemaster as price on price.unit_id=unit.id
-left join purchase_grnproductlist as grnproduct on grnproduct.unit_id_id=unit.id
-left join purchase_grnmaster as grn on grn.id=grnproduct.grn_id
-left join store_store as store on store.id=grn.store_id
-left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
+FROM inventory_productmaster as product
+left join inventory_productstock as stock  on product.id=stock.product_id
+inner join inventory_productcategory as category on category.id=product.category_id
+inner join inventory_productsubcategory as sub_category on sub_category.id=product.sub_category_id
+left join inventory_productpricemaster as price on price.product_id=product.id
+inner join inventory_unitmaster as unit on unit.id=price.unit_id
+left join purchase_grnproductlist as grnproduct on grnproduct.product_id=product.id
+inner join inventory_productbrandmaster as brand on product.brand_id=brand.id
+left join store_store as store on store.id=stock.store_id
+]]>
 		</queryString>
 		<field name="category_name" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="category_name"/>
@@ -200,7 +200,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 	<title>
 		<band height="96" splitType="Stretch">
 			<staticText>
-				<reportElement x="160" y="4" width="400" height="70" uuid="555de865-e85a-47ed-932d-b1dadeabcf57"/>
+				<reportElement x="211" y="4" width="400" height="70" uuid="555de865-e85a-47ed-932d-b1dadeabcf57"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="45"/>
 				</textElement>
@@ -243,27 +243,24 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 	<pageHeader>
 		<band splitType="Stretch"/>
 	</pageHeader>
-	<columnHeader>
-		<band height="11" splitType="Stretch"/>
-	</columnHeader>
 	<detail>
-		<band height="83" splitType="Stretch">
+		<band height="60" splitType="Stretch">
 			<componentElement>
-				<reportElement x="1" y="12" width="779" height="68" uuid="cd047a92-547d-4758-913f-96afef0eb425">
+				<reportElement x="0" y="0" width="802" height="60" uuid="cd047a92-547d-4758-913f-96afef0eb425">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Stock" uuid="048864ef-027d-4ccf-b26f-52f3ed12c444">
+					<datasetRun subDataset="Stock" uuid="408d4096-8766-4102-9c42-d1a8ab49328b">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="70" uuid="cff001cd-a5fc-430c-ad1b-7b695adcdbd6">
+					<jr:column width="73" uuid="cff001cd-a5fc-430c-ad1b-7b695adcdbd6">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="0d44a675-dcec-4861-ade6-a6adbb8d4328"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="0d44a675-dcec-4861-ade6-a6adbb8d4328"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -272,7 +269,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="e2375d2e-4f13-4504-a3bc-4eca2ee8ad42"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="e2375d2e-4f13-4504-a3bc-4eca2ee8ad42"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -280,11 +277,11 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="97d696e6-9f2d-4557-ae61-91eea4901056">
+					<jr:column width="73" uuid="97d696e6-9f2d-4557-ae61-91eea4901056">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="155d56ab-7f4f-46e9-9bc2-1f532bf615d2"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="155d56ab-7f4f-46e9-9bc2-1f532bf615d2"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -293,7 +290,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="f10d96d5-4fad-46c0-8f6a-fb26f1e4c025"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="f10d96d5-4fad-46c0-8f6a-fb26f1e4c025"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -301,11 +298,11 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="7a0dd12c-e04c-4971-a56e-809c45d8175b">
+					<jr:column width="73" uuid="7a0dd12c-e04c-4971-a56e-809c45d8175b">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="e408dd15-99b5-40fa-b18f-92612b969e16"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="e408dd15-99b5-40fa-b18f-92612b969e16"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -314,7 +311,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="1572b54d-9943-4168-b134-08fc332e7bda"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="1572b54d-9943-4168-b134-08fc332e7bda"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -322,11 +319,11 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="e2adf1b2-a82a-4765-ad3b-d97702f82721">
+					<jr:column width="73" uuid="e2adf1b2-a82a-4765-ad3b-d97702f82721">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="7c81043e-bbe3-4836-be3d-df60777e878e"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="7c81043e-bbe3-4836-be3d-df60777e878e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -335,7 +332,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="985ae7c6-d134-4dcc-8f97-529f0bac173d"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="985ae7c6-d134-4dcc-8f97-529f0bac173d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -343,11 +340,11 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="e7fb18d1-b023-4304-8571-bb3851c779b7">
+					<jr:column width="73" uuid="e7fb18d1-b023-4304-8571-bb3851c779b7">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="693ce07a-f714-4ae8-a57d-ea0255747dbd"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="693ce07a-f714-4ae8-a57d-ea0255747dbd"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -355,8 +352,8 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="6a71c9db-bd26-4ac8-9d37-07b24bf025de"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="73" height="30" uuid="6a71c9db-bd26-4ac8-9d37-07b24bf025de"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -364,11 +361,11 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="3319cce2-5a61-485b-9393-1dc2e280a50b">
+					<jr:column width="73" uuid="3319cce2-5a61-485b-9393-1dc2e280a50b">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="7cd61b53-3060-4248-8748-4c33f1019728"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="7cd61b53-3060-4248-8748-4c33f1019728"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -376,8 +373,8 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="374bf4dc-d306-4f55-b024-9d4c20c86c87"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="73" height="30" uuid="374bf4dc-d306-4f55-b024-9d4c20c86c87"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -385,11 +382,11 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="e9909f17-3475-42e2-ab07-68fe6e376fa6">
+					<jr:column width="73" uuid="e9909f17-3475-42e2-ab07-68fe6e376fa6">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="28e7e0a9-c9b3-4d2f-970d-29b06b3e2909"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="28e7e0a9-c9b3-4d2f-970d-29b06b3e2909"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -397,8 +394,8 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="7e29f371-2136-49a2-8114-ef510430e3bf"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="73" height="30" uuid="7e29f371-2136-49a2-8114-ef510430e3bf"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -406,11 +403,11 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="d3227e71-ef0d-4f57-a8e5-c395cd0fb64f">
+					<jr:column width="73" uuid="d3227e71-ef0d-4f57-a8e5-c395cd0fb64f">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="de2209e0-12df-4635-9860-5b2433d04e04"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="de2209e0-12df-4635-9860-5b2433d04e04"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -418,8 +415,8 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="1fb7a122-c640-4bbb-80eb-28e84152850c"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="73" height="30" uuid="1fb7a122-c640-4bbb-80eb-28e84152850c"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -427,11 +424,11 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="e5155f33-25f5-4d47-807c-97eaeea4c49c">
+					<jr:column width="73" uuid="e5155f33-25f5-4d47-807c-97eaeea4c49c">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="6c16cdb3-cea2-4b76-9978-fd3b75de1b7e"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="6c16cdb3-cea2-4b76-9978-fd3b75de1b7e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -439,8 +436,8 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="72595a4c-20db-43c2-803a-0f4279b79587"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="73" height="30" uuid="72595a4c-20db-43c2-803a-0f4279b79587"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -448,11 +445,11 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="9ea5a675-ec46-49be-8a0a-10619761ab16">
+					<jr:column width="72" uuid="9ea5a675-ec46-49be-8a0a-10619761ab16">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="536c748e-e7b6-4a20-b875-145c342ab561"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="536c748e-e7b6-4a20-b875-145c342ab561"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -460,8 +457,8 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="4420338c-34ab-47f4-ba33-a34329d0bc52"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="72" height="30" uuid="4420338c-34ab-47f4-ba33-a34329d0bc52"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -469,11 +466,11 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="8e2aca60-5787-49f4-b02f-79246f6552c8">
+					<jr:column width="73" uuid="8e2aca60-5787-49f4-b02f-79246f6552c8">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="3dbd2768-4552-46d7-b093-d88017e733fa"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="3dbd2768-4552-46d7-b093-d88017e733fa"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -482,7 +479,7 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="7d07e43c-6aa1-4188-b2d2-8b6db2b32612"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="7d07e43c-6aa1-4188-b2d2-8b6db2b32612"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -497,14 +494,14 @@ left join inventory_productbrandmaster as brand on product.brand_id=brand.id]]>
 	<columnFooter>
 		<band height="40" splitType="Stretch">
 			<staticText>
-				<reportElement x="340" y="10" width="51" height="22" uuid="db962f38-e2e1-4bdc-b53e-d30dcb64631f"/>
+				<reportElement x="375" y="10" width="51" height="22" uuid="db962f38-e2e1-4bdc-b53e-d30dcb64631f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="15"/>
 				</textElement>
 				<text><![CDATA[Page :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="380" y="6" width="30" height="30" uuid="083a5476-e338-4bb9-abe7-809449ae27a3"/>
+				<reportElement x="415" y="6" width="30" height="30" uuid="083a5476-e338-4bb9-abe7-809449ae27a3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="16" isBold="true"/>
 				</textElement>
