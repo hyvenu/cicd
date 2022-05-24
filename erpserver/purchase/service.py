@@ -2,13 +2,18 @@ from django.db import transaction
 
 import ast
 
-from inventory.models import ProductStock, Store
+from django.db.models.functions import Cast
+
+from engine.app_setting_service import AppSettingService
+from inventory.models import ProductStock, Store, ProductPriceMaster
 from purchase.models import PurchaseRequisition, PurchaseRequisitionProductList, POOrderRequest, PoOrderDetails, \
-    GRNMaster, GRNProductList
+    GRNMaster, GRNProductList, VendorPaymentMaster, VendorPaymentList
 from sequences import get_next_value
-from django.db.models import Q
+from django.db.models import Q, Sum, F, DecimalField
 
 from datetime import datetime
+
+from sales.models import SalesOrderDetails
 
 
 class PurchaseService:
@@ -17,7 +22,7 @@ class PurchaseService:
     def generate_pr_code(cls):
         prefix_code = 'PR/' + str(datetime.today().year) + '/'
         code = get_next_value(prefix_code)
-        code = prefix_code + '-' + str(code)
+        code = prefix_code + str(code).zfill(5)
         return code
 
     @classmethod
@@ -76,15 +81,18 @@ class PurchaseService:
             'pr_no_rf',
             'product',
             'product__product_price__unit_price',
+            'product__product_price__purchase_price',
             'product_code',
             'product_name',
             'description',
             'store',
+            'box_qty',
             'required_qty',
             'finished_qty',
             'unit',
             'unit__PrimaryUnit',
             'product__product_price__tax',
+            'product__product_price__cess_percent',
             'expected_date',
             'active',
         )
@@ -136,6 +144,7 @@ class PurchaseService:
                 'id'
             )[0]
             pr_list.store_obj_id = store['id']
+            pr_list.box_qty = int(product['box_qty'])
             pr_list.required_qty = int(product['required_qty'])
             pr_list.finished_qty = int(product['finished_qty'])
             pr_list.unit_id = product['unit']
@@ -267,7 +276,8 @@ class PurchaseService:
             po_product.qty = item['qty']
             po_product.order_qty = item['order_qty']
             po_product.finished_qty = item['finished_qty']
-            po_product.delivery_date = str(item['delivery_date'])[0:10]
+            if item['delivery_date'] is not None and item['delivery_date'] != "":
+                po_product.delivery_date = str(item['delivery_date'])[0:10]
             po_product.unit_price = item['unit_price']
             po_product.gst = item['gst']
             po_product.amount = item['amount']
@@ -323,6 +333,8 @@ class PurchaseService:
             "product_id",
             "product_name",
             "product_code",
+            "product__hsn_code",
+            "product__description",
             "unit_id",
             "unit__PrimaryUnit",
             "qty",
@@ -380,11 +392,11 @@ class PurchaseService:
             "unit_id",
             "unit__PrimaryUnit",
             "qty",
+            "order_qty",
             "finished_qty",
             "delivery_date",
             "unit_price",
             "gst",
-            "order_qty",
             "amount",
             "disc_percent",
             "disc_amount",
@@ -406,6 +418,8 @@ class PurchaseService:
             'vendor_id',
             'vendor__vendor_code',
             'vendor__vendor_name',
+            'vendor__branch_ofc_addr',
+            'vendor__state_code',
             'vendor__mobile_no',
             'payment_terms',
             'other_reference',
@@ -422,28 +436,7 @@ class PurchaseService:
             'terms_conditions',
             'store_id',
         )
-        
-        po_list = list(po_data_list)
-        
-        # for po_item in po_list:
-        #     print("po item", po_item['id'])
-        #     po_items = PoOrderDetails.objects.filter(po_order_id=po_item['id']).all().values(
-        #         'order_qty',
-        #         'accepted_qty'
-        #     )
-
-        #     print("items list", po_items)
-
-        #     to_satisfy = False
-        #     for item in list(po_items):
-        #         if (item['order_qty'] != item['accepted_qty']):
-        #             to_satisfy = False
-        #         else:
-        #             to_satisfy = True
-
-        #     po_item['items_to_satisfy'] = to_satisfy
-
-        return po_list
+        return list(po_data_list)
 
     @classmethod
     @transaction.atomic
@@ -487,7 +480,6 @@ class PurchaseService:
         grn_req.sgst = grn_data['sgst']
         grn_req.cgst = grn_data['cgst']
         grn_req.igst = grn_data['igst']
-        grn_req.rejected_total = grn_data['rejected_total']
         grn_req.store_id = grn_data['store_id']
 
         if len(file.getlist('invoiceDoc[]')) > 0:
@@ -502,6 +494,12 @@ class PurchaseService:
                 grn_product = GRNProductList.objects.get(id=item['id'])
             else:
                 grn_product = GRNProductList()
+
+            #     if item['expiry_date'] == '':
+            #         exp_date = None
+            #     else:
+            # exp_date = item['expiry_date']
+
             grn_product.grn = grn_req
             grn_product.product_id = item['product_id']
             grn_product.product_code = item['product_code']
@@ -518,22 +516,76 @@ class PurchaseService:
             grn_product.gst = item['gst']
             grn_product.gst_amount = item['gst_amount']
             grn_product.total = item['total']
-            #grn_product.batch_code = item['batch_code']
-            grn_product.expiry_date = item['expiry_date']
+            grn_product.batch_code = grn_data['batch_number']
+            grn_product.sl_no = item['sl_no']
+
+            if item['expiry_date'] != "":
+                grn_product.expiry_date = item['expiry_date']
+
             grn_product.save()
 
             if grn_product.accepted_qty > 0:
-                ps = ProductStock()
+                ps = ProductStock.objects.filter(grn_number=grn_req.grn_code, product_id=item['product_id']).all()
+                if not ps.exists():
+                    ps = ProductStock()
+                else:
+                    ps = ProductStock.objects.get(grn_number=grn_req.grn_code, product_id=item['product_id'])
                 ps.grn_number = grn_req.grn_code
                 ps.product_id = item['product_id']
                 ps.store_id = grn_data['store_id']
                 ps.unit_id = item['unit_id']
-                #ps.batch_number = item['batch_code']
+                # ps.batch_number = item['batch_code']
                 ps.batch_number = grn_req.batch_num
                 ps.batch_expiry = grn_product.expiry_date
                 ps.quantity = item['accepted_qty']
                 ps.save()
+
+                app_setting = AppSettingService().get_app_setting_value('UPDATE_PURCHASE_PRICE')
+                if app_setting is not None and app_setting == "1":
+                    """
+                    OB QTY UPDATE 
+                    """
+                    # price_obj = ProductPriceMaster.objects.get(product_id=item['product_id'])
+                    # price_obj.ob_qty = float(price_obj.ob_qty) + float(item['accepted_qty'])
+                    # price_obj.save()
+                    """
+                    WEIGHTED AVERAGE and OB QTY Update
+                    weighted_avg = available_stock_value+new_grn_value/avilable_qty + grn_qty
+                    """
+                    purchase_stock = GRNProductList.objects.filter(product_id=item['product_id']).aggregate(
+                        purchase_qty=Sum('accepted_qty'))
+                    sold_stock = SalesOrderDetails.objects.filter(product_id=item['product_id']).aggregate(
+                        sold_qty=Sum('qty'))
+                    purchase_stock_value = GRNProductList.objects.filter(product_id=item['product_id']) \
+                        .annotate(accepted_qty_decimal=Cast('accepted_qty', DecimalField(max_digits=10, decimal_places=2))) \
+                        .aggregate(
+                        purchase_price=Sum(F('unit_price') * F('accepted_qty_decimal')) / Sum(F('accepted_qty_decimal')))
+
+                    product_price = ProductPriceMaster.objects.get(product_id=item['product_id'])
+                    product_price.purchase_price = float(purchase_stock_value['purchase_price'])
+                    if purchase_stock['purchase_qty'] is None:
+                        purchase_stock['purchase_qty'] =0
+                    if sold_stock['sold_qty'] is None:
+                        sold_stock['sold_qty'] = 0
+                    product_price.ob_qty = int(purchase_stock['purchase_qty']) - int(sold_stock['sold_qty'])  ## int(product_price.ob_qty) + int(item['accepted_qty'])
+                    product_price.save()
+                if app_setting is not None and app_setting == "2":
+                    product_price = ProductPriceMaster.objects.get(product_id=item['product_id'])
+                    product_price.purchase_price = float(item['unit_price'])
+                    product_price.save()
+
         return grn_req.grn_code
+
+    @classmethod
+    @transaction.atomic
+    def delete_grn_product(cls, prd_id):
+        try:
+            grn_prd_object = GRNProductList.objects.get(id=prd_id)
+            grn_prd_object.delete()
+            return "DELETED"
+        except:
+            print("An exception occurred")
+            return "NOT DELETED"
 
     @classmethod
     def get_grn_details(cls, grn_id):
@@ -572,7 +624,7 @@ class PurchaseService:
         grn_data_list['product_list'] = list(GRNProductList.objects.filter(grn=grn_id).all().values(
             'id',
             'grn',
-            'product',
+            'product_id',
             'product_code',
             'product_name',
             'description',
@@ -588,8 +640,9 @@ class PurchaseService:
             'amount',
             'gst_amount',
             'total',
-            #'batch_code',
+            'batch_code',
             'expiry_date',
+            'sl_no',
 
         ))
         return grn_data_list
@@ -617,5 +670,179 @@ class PurchaseService:
             'sub_total',
             'grand_total',
             'invoice_doc',
+        )
+        return list(grn_list)
+
+    @classmethod
+    def generate_vendor_payment_code(cls):
+        perfix = 'VENP/' + str(datetime.today().year) + '/'
+        code = get_next_value(perfix, 1)
+        code = perfix + str(code).zfill(5)
+        return code
+
+    def save_vendor_payment(cls, v_data):
+        
+        v_list = ast.literal_eval(v_data['v_list'])
+
+        #v_code = cls.generate_vendor_payment_code()
+
+        if 'v_id' in v_data:
+            vendor_payment = VendorPaymentMaster.objects.get(vendor_payment_code=v_data['v_id'])
+            v_code = v_data['v_id']
+
+            #delete childs first
+            vendor_payment_list = VendorPaymentList.objects.filter(vendor_payment_code=v_data['v_id']).delete()
+
+            for item in v_list:  
+                vendor_payment_list = VendorPaymentList()  
+                vendor_payment_list.vendor_payment = vendor_payment  
+                vendor_payment_list.vendor_payment_code = v_code        
+                vendor_payment_list.po_number = item['po_number']
+                vendor_payment_list.po_date = item['po_date']
+                vendor_payment_list.grn_code = item['grn_code']
+                vendor_payment_list.grn_date = item['grn_date']
+                vendor_payment_list.invoice_number = item['invoice_number']
+                vendor_payment_list.invoice_date = item['invoice_date']
+                vendor_payment_list.invoice_amount = item['invoice_amount']
+                vendor_payment_list.payment_amount = item['payment_amount']
+                vendor_payment_list.remaining_amount = item['remaining_amount']
+                vendor_payment_list.payment_method = item['payment_method']
+                vendor_payment_list.payment_details = item['payment_details']
+                vendor_payment_list.save()
+            
+        else:
+            vendor_payment = VendorPaymentMaster()
+            v_code = cls.generate_vendor_payment_code()
+        
+            vendor_payment.vendor_payment_code = v_code
+            vendor_payment.vendor_code = v_data['vendor_code']
+            vendor_payment.vendor_name = v_data['vendor_name']
+            vendor_payment.save()
+
+            for item in v_list:  
+                vendor_payment_list = VendorPaymentList()  
+                vendor_payment_list.vendor_payment = vendor_payment
+                vendor_payment_list.vendor_payment_code = v_code        
+                vendor_payment_list.po_number = item['po_number']
+                vendor_payment_list.po_date = item['po_date']
+                vendor_payment_list.grn_code = item['grn_code']
+                vendor_payment_list.grn_date = item['grn_date']
+                vendor_payment_list.invoice_number = item['invoice_number']
+                vendor_payment_list.invoice_date = item['invoice_date']
+                vendor_payment_list.invoice_amount = item['invoice_amount']
+                vendor_payment_list.payment_amount = item['payment_amount']
+                vendor_payment_list.remaining_amount = item['remaining_amount']
+                vendor_payment_list.payment_method = item['payment_method']
+                vendor_payment_list.payment_details = item['payment_details']
+                vendor_payment_list.save()
+
+        return v_code
+
+    @classmethod
+    def get_vendor_payment_list(cls):
+        v_list = VendorPaymentMaster.objects.all().values(
+            'id',
+            'vendor_payment_code',
+            'vendor_code',
+            'vendor_name'
+        )
+        return list(v_list)
+
+    @classmethod
+    def get_vendor_payment_list_by_id(cls, v_p_code):
+        vendor_payment_data = VendorPaymentMaster.objects.filter(vendor_payment_code = v_p_code).all().values(
+            'id',
+            'vendor_payment_code',
+            'vendor_code',
+            'vendor_name'
+        )[0]
+
+        vendor_payment_data['v_list'] = list(VendorPaymentList.objects.filter(vendor_payment_code = v_p_code).all().values(
+            'id',
+            'vendor_payment_code',
+            'po_number',
+            'po_date',
+            'grn_code',
+            'grn_date',
+            'invoice_number',
+            'invoice_date',
+            'invoice_amount',
+            'payment_amount',
+            'remaining_amount',
+            'payment_method',
+            'payment_details'
+
+        ))
+
+        return vendor_payment_data  
+
+    @classmethod
+    def get_vendor_po_list(cls, vendor_id):
+        po_data_list = POOrderRequest.objects.filter(vendor_id=vendor_id).all().values(
+            'id',
+            'po_type',
+            'po_number',
+            'pr_number',
+            'po_raised_by',
+            'po_date',
+            'po_status',
+            'shipping_address',
+            'transport_type',
+            'vendor_id',
+            'vendor__vendor_name',
+            'vendor__vendor_code',
+            'payment_terms',
+            'other_reference',
+            'terms_of_delivery',
+            'note',
+            'sub_total',
+            'packing_perct',
+            'packing_amount',
+            'sgst',
+            'cgst',
+            'igst',
+            'invoice_amount',
+            'terms_conditions',
+            'store_id',
+
+        )
+
+        return list(po_data_list)
+
+    @classmethod
+    def get_vendor_grn_list(cls, po_id):
+        grn_list = GRNMaster.objects.filter(po_id=po_id).all().values(
+            'id',
+            'grn_code',
+            'grn_date',
+            'grn_status',
+            'po_number',
+            'invoice_number',
+            'invoice_date',
+            'vendor',
+            'vendor_code',
+            'vendor_name',
+            'vendor_address',
+            'vehicle_number',
+            'time_in',
+            'time_out',
+            'transporter_name',
+            'statutory_details',
+            'note',
+            'sub_total',
+            'grand_total',
+            'invoice_doc',
+        )
+        return list(grn_list)
+
+    @classmethod
+    def get_vendor_grn_amount(cls, v_id):
+        grn_list = VendorPaymentList.objects.filter(vendor_payment__vendor_code = v_id).all().values(
+            'id',
+            'grn_code',
+            'invoice_amount',
+            'payment_amount',
+            'remaining_amount',
+
         )
         return list(grn_list)

@@ -229,7 +229,7 @@ def get_appointment_details_by_id(request):
 @permission_classes([IsAuthenticated, ])
 def get_appointment_details_by_customer(request, cust_id):
     store_service = StoreService()
-    app_obj = store_service.get_appointment_details_bycustomer(cust_id)
+    app_obj = store_service.get_appointment_details_by_customer(cust_id)
     return JsonResponse(app_obj, safe=False)    
 
 
@@ -313,4 +313,5 @@ def delete_service(request, id):
 def get_dashboard_sales_details(request):
     store_service = StoreService()
     app_res = store_service.get_dashboard_sales_details()
-    return JsonResponse(app_res, safe=False)          
+    return JsonResponse(app_res, safe=False)     
+

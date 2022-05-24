@@ -84,9 +84,6 @@ export class InventoryService {
   public getAllProductsList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_all_product_list`)
   }
-  public getAllServiceList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_all_service_list`)
-  }
 
   public getProduct(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductMaster/` + id + '/')

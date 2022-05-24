@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin.service';
+import { InventoryService } from 'src/app/inventory/inventory.service';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { Observable } from 'rxjs';
 @Component({
@@ -55,6 +56,7 @@ export class ManageServiceComponent implements OnInit {
   pattern = '[0.0-9.0]*'
 
   constructor(private formBuilder: FormBuilder,
+              private inventoryService: InventoryService,
               private adminService: AdminService,
               private nbtoastService: NbToastrService,
               private dialogService: NbDialogService,
@@ -95,7 +97,8 @@ export class ManageServiceComponent implements OnInit {
   }
 
   get_unit_list() {
-    this.adminService.getUnitList().subscribe(
+
+    this.inventoryService.getUnitMasterList().subscribe(
       (data) => {
           this.unitData = data;
           console.log(this.unitData)

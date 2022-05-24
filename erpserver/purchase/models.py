@@ -20,21 +20,21 @@ class POOrderRequest(AuditUuidModelMixin):
     po_status = models.CharField(max_length=50, null=True, default=None)
     shipping_address = models.CharField(max_length=2000, null=True)
     transport_type = models.CharField(max_length=200)
-    vendor = models.ForeignKey(VendorMaster,default="", on_delete=models.CASCADE)
+    vendor = models.ForeignKey(VendorMaster, on_delete=models.CASCADE)
     payment_terms = models.CharField(max_length=200, null=True)
     other_reference = models.CharField(max_length=2000, null=True)
     terms_of_delivery = models.CharField(max_length=2000, null=True)
     note = models.CharField(max_length=2000, null=True)
-    sub_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    packing_perct = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    packing_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    sgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    cgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    igst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    invoice_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    sub_total = models.DecimalField(max_digits=15, decimal_places=4, default=0)
+    packing_perct = models.DecimalField(max_digits=15, decimal_places=4, default=0)
+    packing_amount = models.DecimalField(max_digits=15, decimal_places=4, default=0)
+    # total_amount = models.DecimalField(max_digits=15, decimal_places=4, default=0)
+    sgst = models.DecimalField(max_digits=15, decimal_places=4, default=0)
+    cgst = models.DecimalField(max_digits=15, decimal_places=4, default=0)
+    igst = models.DecimalField(max_digits=15, decimal_places=4, default=0)
+    invoice_amount = models.DecimalField(max_digits=15, decimal_places=4, default=0)
     terms_conditions = models.CharField(max_length=2000, null=True)
-    store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_po_req")    
+    store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_po_req")
 
     def __str__(self):
         return self.po_number
@@ -42,14 +42,14 @@ class POOrderRequest(AuditUuidModelMixin):
 
 class PoOrderDetails(AuditUuidModelMixin):
     po_order = models.ForeignKey(POOrderRequest, on_delete=models.CASCADE, default=None)
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE,default="")
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE)
     product_code = models.CharField(max_length=50, null=True, default=None)
     product_name = models.CharField(max_length=255, null=True, default=None)
-    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE,default="")
-    qty = models.IntegerField()
+    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE)
+    qty = models.IntegerField(default=0)
     order_qty = models.IntegerField(default=0)
     finished_qty = models.IntegerField(default=0)
-    delivery_date = models.DateField(null=True)
+    delivery_date = models.DateField(null=True,default=None)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -57,9 +57,9 @@ class PoOrderDetails(AuditUuidModelMixin):
     disc_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    status = models.BooleanField(default=False, null=True)
-    rejected_qty = models.IntegerField(null=True, default=0)
-    accepted_qty = models.IntegerField(null=True, default=0)
+    status = models.BooleanField(default=False,null=True)
+    rejected_qty = models.IntegerField(null=True,default=0)
+    accepted_qty = models.IntegerField(null=True,default=0)
 
     class Meta:
         pass
@@ -69,11 +69,11 @@ class PurchaseRequisition(AuditUuidModelMixin):
     pr_no = models.CharField(max_length=50)
     pr_date = models.DateField()
     created_user = models.CharField(max_length=100)
-    dept = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="department",default="")
+    dept = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="department")
     status = models.CharField(max_length=50, null=True)
     approved_by = models.CharField(max_length=50, null=True)
-    approved_date = models.DateField(null=True)
-    store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE,default="", related_name="store_pur_req")
+    approved_date = models.DateField(null=True,default=None)
+    store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name="store_pur_req")
 
     class Meta:
         pass
@@ -83,17 +83,18 @@ class PurchaseRequisition(AuditUuidModelMixin):
 
 
 class PurchaseRequisitionProductList(AuditUuidModelMixin):
-    pr_no_rf = models.ForeignKey(PurchaseRequisition,default="", on_delete=models.CASCADE, related_name="purchase_requisition")
-    product = models.ForeignKey(ProductMaster,default="", on_delete=models.CASCADE, null=True, related_name="pr_product")
+    pr_no_rf = models.ForeignKey(PurchaseRequisition, on_delete=models.CASCADE, related_name="purchase_requisition")
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, null=True, related_name="pr_product")
     product_code = models.CharField(max_length=30, null=True)
     product_name = models.CharField(max_length=30, null=True)
     description = models.CharField(max_length=100, default='')
     store = models.CharField(max_length=50, null=True)
     store_obj = models.ForeignKey(Store, on_delete=models.CASCADE, null=True, related_name="store_pr")
+    box_qty = models.IntegerField(null=True, default=0)
     required_qty = models.IntegerField(null=True, default=0)
     finished_qty = models.IntegerField(null=True, default=0)
-    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, default="",related_name="purchase_requisition_unit")
-    expected_date = models.DateField(null=True)
+    unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="purchase_requisition_unit")
+    expected_date = models.DateField(null=True,default=None)
     active = models.BooleanField(default=True)
 
     class Meta:
@@ -101,11 +102,12 @@ class PurchaseRequisitionProductList(AuditUuidModelMixin):
 
 
 class GRNMaster(AuditUuidModelMixin):
-    po = models.ForeignKey(POOrderRequest, null=True, blank=True, on_delete=models.CASCADE, related_name="po")
+    po = models.ForeignKey(POOrderRequest,null=True, blank=True, on_delete=models.CASCADE, related_name="po")
+    #po_id = models.CharField(max_length=50, null=True, default='')
     grn_code = models.CharField(max_length=50)
     grn_date = models.DateField(null=True)
     grn_status = models.CharField(max_length=50, null=True, default=None)
-    po_number = models.CharField(max_length=50, null=True, default=None)
+    po_number = models.CharField(max_length=50, null=True, default='')
     invoice_number = models.CharField(max_length=50, null=True, default=None)
     invoice_date = models.DateField(null=True)
     vendor = models.CharField(max_length=100, null=True, default=None)
@@ -131,23 +133,45 @@ class GRNMaster(AuditUuidModelMixin):
 
 
 class GRNProductList(AuditUuidModelMixin):
-    grn = models.ForeignKey(GRNMaster, on_delete=models.CASCADE, related_name="grn_product_list",default="")
-    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="grn_product",default="")
+    grn = models.ForeignKey(GRNMaster, on_delete=models.CASCADE, related_name="grn_product_list")
+    product = models.ForeignKey(ProductMaster, on_delete=models.CASCADE, related_name="grn_product")
     product_code = models.CharField(max_length=30, null=True)
     product_name = models.CharField(max_length=30, null=True)
-    description = models.CharField(max_length=4000, null=True)
+    description = models.CharField(max_length=100, null=True)
     hsn_code = models.CharField(max_length=30, null=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     po_qty = models.IntegerField()
     received_qty = models.IntegerField()
     rejected_qty = models.IntegerField()
     accepted_qty = models.IntegerField()
-    unit_id = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="grn_unit",default="")
+    unit_id = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="grn_unit")
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    #batch_code = models.CharField(max_length=30, null=True)
-    expiry_date = models.DateField(null=True)
+    batch_code = models.CharField(max_length=30, null=True)
+    expiry_date = models.DateField(null=True, blank=True, default=None)
+    sl_no = models.IntegerField(default=0)
+    # status = models.BooleanField(default=False,null=True)
+
+class VendorPaymentMaster(AuditUuidModelMixin):
+    vendor_payment_code = models.CharField(max_length=50, null=True, default=None)
+    vendor_code = models.CharField(max_length=50, null=True, default=None)
+    vendor_name = models.CharField(max_length=100, null=True, default=None)    
+
+class VendorPaymentList(AuditUuidModelMixin):
+    vendor_payment = models.ForeignKey(VendorPaymentMaster, on_delete=models.CASCADE, related_name="vendor_payment_list")
+    vendor_payment_code = models.CharField(max_length=50, null=True, default=None)
+    po_number = models.CharField(max_length=50, null=True, default=None)
+    po_date = models.DateField(null=True)
+    grn_code = models.CharField(max_length=50)
+    grn_date = models.DateField(null=True)
+    invoice_number = models.CharField(max_length=50, null=True, default=None)
+    invoice_date = models.DateField(null=True)
+    invoice_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    payment_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    remaining_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    payment_method = models.CharField(max_length=50,null=True, default=None) 
+    payment_details = models.CharField(max_length=50,null=True, default=None) 
 

@@ -594,7 +594,7 @@ export class SalesBillComponent implements OnInit {
   }
 
   open_service_name(dialog: TemplateRef<any>, dd) {
-    this.inventoryService.getAllServiceList().subscribe(
+    this.adminService.getServiceList().subscribe(
       (data) => {
 
         console.log("Service LIST",data)
@@ -640,9 +640,8 @@ export class SalesBillComponent implements OnInit {
               dd.item_name = this.selectedPro.service_name
               dd.item_description = this.selectedPro.service_desc
               dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
-              dd.unit_id = this.selectedPro.unit,
-              dd.unit = this.selectedPro.unit,
-              dd.unit_name = this.selectedPro.unit__PrimaryUnit,
+              dd.unit_id = this.selectedPro.unit__id,
+              dd.unit = this.selectedPro.unit__PrimaryUnit,
               dd.price = this.selectedPro.price
               dd.discount = 0,
               dd.item_total = parseFloat(total).toFixed(2),

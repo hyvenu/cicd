@@ -39,7 +39,9 @@ export class VendorListComponent implements OnInit {
       vendor_type: {
         title: 'Vendor Type',
       },
-  
+      poc_name: {
+        title: 'POC name',
+      }
     },
   };
 

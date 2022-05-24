@@ -52,6 +52,7 @@ export class PurchaseInvoicePageComponent implements OnInit {
   store_address: any;
   store_pincode: any;
   payment: any;
+  terms_conditions:any
 
   transport_type_list = [
     { key: 'BY_ROAD', value: 'By Road' },
@@ -77,7 +78,7 @@ export class PurchaseInvoicePageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.store_id = sessionStorage.getItem('store_id');
+    this.store_id = localStorage.getItem('store_id');
     console.log(this.store_id)
 
     const printBtn: HTMLElement = document.getElementById('print');
@@ -90,8 +91,6 @@ export class PurchaseInvoicePageComponent implements OnInit {
     if(invoice){
       this.purchaseService.getPODetailsInvoice(invoice).subscribe(
         (data)=>{
-
-         // let ptIndex = this.payments_terms_list.indexOf(ptObj);
           console.log('data',data)
           this.invoice_details = data
           console.log(this.invoice_details)
@@ -121,7 +120,7 @@ export class PurchaseInvoicePageComponent implements OnInit {
           this.shipping_method = this.transport_type_list.find(o => o.key === this.invoice_details.transport_type).value
           // this.sub_total = this.invoice_details.sub_total
           // this.taxable_price = this.invoice_details.taxable_price
-          // this.terms_conditions = this.invoice_details.terms_conditions
+          this.terms_conditions = this.invoice_details.terms_conditions
           this.total_price = this.invoice_details.total_amoun
           this.vendor_contact_name = this.invoice_details.vendor__vendor_name
           // this.refNo = this.invoice_details.ref_no

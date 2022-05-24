@@ -204,7 +204,7 @@ class StoreService:
     Booking History: Get particular customer booking history by appointment id
     """
     def get_app_forbill(self, app_id):
-        app_data_list = AppointmentSchedule.objects.filter(id=app_id).all().values(
+        app_data_list = AppointmentSchedule.objects.filter(id=app_id, is_paid=False).all().values(
             'id',
             'is_paid',            
             'booking_date',
@@ -232,6 +232,8 @@ class StoreService:
 
         return list(app_data_list)    
 
+    
+        
     @classmethod
     def get_appointment_details(cls):
         final_list = []
@@ -319,9 +321,9 @@ class StoreService:
         return appointment_data_list
 
     @classmethod
-    def get_appointment_details_bycustomer(self, cust_id):
+    def get_appointment_details_by_customer(self, cust_id):
         
-        app_data_list = AppointmentSchedule.objects.filter(customer_id=cust_id).all().values(
+        app_data_list = AppointmentSchedule.objects.filter(customer_id=cust_id, is_paid=False).all().values(
             'id',
             'is_paid',            
             'booking_date',
@@ -548,6 +550,19 @@ class StoreService:
             'unit__SecondaryUnit'
         )
         return list(service_list)
+
+    # def get_all_service_list(self):
+    #     service_dict = StoreServices.objects.all().values(
+    #             "id",
+    #             "service_name",
+    #             "service_desc",
+    #             "price",
+    #             "service_gst",
+    #             "unit",
+    #             "unit__PrimaryUnit",
+    #         )
+
+    #     return list(service_dict)                
 
     def save_service(self, data):
         # print("Post Data %s"%data['store'])

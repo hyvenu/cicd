@@ -17,17 +17,17 @@ router.register("ProductStock", api.ProductStockViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),
-    path('api/v1/delete_product_cat/<id>/', views.delete_product_cat, name="delete_product_cat"),
     path('api/v1/get_product_code', views.get_product_code, name="get_product_code"),
     path('api/v1/get_product_list', views.get_product_list, name="get_product_list"),
-    path('api/v1/get_all_product_list', views.get_all_product_list, name="get_all_product_list"),    
     path('api/v1/get_product_by_slno', views.get_product_by_slno, name="get_product_by_slno"),
-    path('api/v1/get_all_service_list', views.get_all_service_list, name="get_all_service_list"),
+    # path('api/v1/save_product', views.save_product, name="save_product"),
+    path('api/v1/get_all_product_list', views.get_all_product_list, name="get_all_product_list"),
     path('api/v1/delete_image', views.delete_product_image, name="delete_product"),
     path('api/v1/get_product_pack_types', views.get_product_pack_type, name="get_product_pack_types"),
     path('api/v1/get_product_details', views.get_product_details, name="get_product_details"),
     path('api/v1/get_all_product_details', views.get_all_product_list, name="get_all_product_details"),
-    path('api/v1/get_all_units', views.get_all_units, name="get_all_units"),
+    path('api/v1/save_stock_adjustment/', views.save_stock_adjustment, name="save_stock_adjustment"),
+    path('api/v1/get_product_wise_ob_qty/', views.get_product_wise_ob_qty, name="get_product_wise_ob_qty"),
 
     path("inventory/dashboard",views.inventory_dashboard, name="inventory_dashboard"),
     path("inventory/ProductPriceMaster/", views.ProductPriceMasterListView.as_view(), name="inventory_ProductPriceMaster_list"),

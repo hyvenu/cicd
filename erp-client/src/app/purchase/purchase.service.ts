@@ -47,13 +47,13 @@ export class PurchaseService {
     new State('Uttar Pradesh',9),
     new State('Uttarakhand',5),
     new State('West Bengal',19),
-    
-  
+
+
   ]
 
 
   constructor(
-    private router: Router,    
+    private router: Router,
     private http: HttpClient
   ) {
   }
@@ -65,11 +65,15 @@ export class PurchaseService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_vendor/api/v1/VendorMaster/`, data)
   }
   public getVendorList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_vendor/api/v1/VendorMaster/`)
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_vendor/api/v1/VendorMaster/`);
   }
 
   public getVendor(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_vendor/api/v1/VendorMaster/` + id + '/')
+  }
+
+  public getVendorByCode(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_vendor/api/v1/get_vendor_by_code?id=${id}`)
   }
 
   public getVendorCode(data) {
@@ -90,7 +94,7 @@ export class PurchaseService {
   public deleteProductFromPR(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/delete_prpl`, data)
   }
-  
+
   public getPRList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_pr_list`)
   }
@@ -120,11 +124,33 @@ export class PurchaseService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/save_grn`, data)
   }
 
+  public deleteProductFromGrn(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/delete_grn_product`, data)
+  }
   public getGRNDetails(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_grn_details?id=${id}`)
   }
 
   public getGRNList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_grn_list`)
+  }
+
+  public saveVendorPayment(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/save_vendor_payment`, data)
+  }
+  public getVendorPaymentList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_vendor_payment_list`)
+  }
+  public getVendorPaymentListById(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_vendor_payment_list_by_id?id=${id}`)
+  }
+  public getVendorPoList(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_vendor_po_list?id=${id}`)
+  }
+  public getVendorGrnList(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_vendor_grn_list?id=${id}`)
+}
+  public getVendorGrnAmount(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_purchase/api/v1/get_vendor_grn_amount?id=${id}`)
   }
 }

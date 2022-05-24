@@ -14,7 +14,7 @@ import { parse } from 'date-fns';
 import { environment } from 'src/environments/environment';
 // import { Product } from '../../../../../erp-store/src/app/models/product';
 import { element } from 'protractor';
-
+import { DatepickerComponent } from '../datepicker/datepicker.component';
 @Component({
   selector: 'app-manage-grn',
   templateUrl: './manage-grn.component.html',
@@ -30,10 +30,40 @@ export class ManageGrnComponent implements OnInit {
   grnMasterForm: FormGroup;
   po_list = [];
   dailog_ref: any;
+  searchProduct:any;
+  searchVn:any;
   vendor_details: [];
+  product_list_all: [];
   selected_product_list = [
 
   ];
+  columnDefs = [
+    {field: 'sl_no', headerName : 'SL NO.', sortable: true, filter: true,pinned: 'left', checkboxSelection: true},
+    {field: 'product_name', headerName : 'Product Name', sortable: true, filter: true,pinned: 'left' },
+    {field: 'received_qty', headerName : 'Recevied Qty', sortable: true, filter: true,editable: true},
+    {field: 'accepted_qty', headerName : 'Accepted Qty', sortable: true, filter: true},
+    {field: 'unit_price', headerName : 'Unit Price', sortable: true, filter: true,editable: true},
+    {field: 'expiry_date', headerName : 'Expiry Date', sortable: true, filter: true,editable: true, cellEditor: DatepickerComponent, cellEditorPopup: true},
+    {field: 'amount', headerName : 'Amount', sortable: true, filter: true},
+    {field: 'gst', headerName : 'GST', sortable: true, filter: true},
+    {field: 'gst_amount', headerName : 'GST Amount', sortable: true, filter: true},
+    {field: 'total', headerName : 'Total', sortable: true, filter: true},
+    {field: 'hsn_code', headerName : 'HSN', sortable: true, filter: true},
+    {field: 'product_code', headerName : 'Product Code', sortable: true, filter: true},
+    {field: 'po_qty', headerName : 'PO Qty', sortable: true, filter: true},
+
+    {field: 'rejected_qty', headerName : 'Rejected Qty', sortable: true, filter: true,editable: true},
+
+    {field: 'PrimaryUnit', headerName : 'Primary Unit', sortable: true, filter: true},
+
+    {field: 'rejected_amount', headerName : 'Rejected Amount', sortable: true, filter: true},
+
+];
+  defaultColDef: { flex: number; sortable: boolean; resizable: boolean; filter: boolean; };
+  rowSelection: string;
+  private gridApi;
+  private gridColumnApi;
+
 
   sgst: any = 0;
   cgst: any = 0;
@@ -55,7 +85,7 @@ export class ManageGrnComponent implements OnInit {
   invoicedate: any;
   submitted: boolean = false;
   total_gst: number;
-  vendor_list: any;
+  vendor_list= [];
   select_code: any;
   url = `${environment.BASE_SERVICE_URL}/`;
   dateofdata: any = [];
@@ -83,9 +113,22 @@ export class ManageGrnComponent implements OnInit {
     private routes: Router,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private dialogService: NbDialogService,) { }
+    private dialogService: NbDialogService,) {
+
+      this.defaultColDef = {
+        flex: 1,
+        sortable: true,
+        resizable: true,
+        filter: true,
+
+      };
+      this.rowSelection = 'single';
+
+     }
 
   ngOnInit(): void {
+
+
 
     this.purchaseService.getVendorList().subscribe(
       (data) => {
@@ -115,7 +158,7 @@ export class ManageGrnComponent implements OnInit {
       grnDateFormControl: ['', [Validators.required]],
       invoiceNumberFormControl: ['', [Validators.required]],
       invoiceDateFormControl: ['', [Validators.required]],
-      poNumberFormControl: ['', [Validators.required]],
+      poNumberFormControl: ['', []],
       vendorNameFormControl: ['', [Validators.required]],
       vendorAddressFormControl: ['', [Validators.required]],
       vehicleNumberFormControl: ['', [Validators.required]],
@@ -129,7 +172,7 @@ export class ManageGrnComponent implements OnInit {
 
     let param = this.route.snapshot.queryParams['id'];
 
-    this.store_id = sessionStorage.getItem('store_id');
+    this.store_id = localStorage.getItem('store_id');
     if (param) {
       this.purchaseService.getGRNDetails(param).subscribe(
         (data) => {
@@ -157,14 +200,10 @@ export class ManageGrnComponent implements OnInit {
           this.vendor_id = data.vendor
           this.store_id = data.store_id;
           this.select_code = this.vendor_list.find(item => item.id == this.vendor_id)
-          this.vendor_state_code = this.select_code.state_code
-          console.log(this.vendor_state_code)
-          console.log(this.store_id)
-          console.log(this.po_list)
+          this.vendor_state_code = this.select_code?.state_code
           this.SelectedPo = this.po_list.find(item => item.id == data.po)
-
-          console.log(this.SelectedPo)
-
+           //initial PO id value, if no PO exists
+          this.SelectedPo = this.searchPO ? this.SelectedPo: {id: ''}
           this.pack_amount = data.packing_amount;
           this.sub_total = data.sub_total;
           this.sub_total_pack = (Number(data.sub_total) + Number(data.packing_amount));
@@ -181,84 +220,11 @@ export class ManageGrnComponent implements OnInit {
             let namePath = data.invoice_doc
             console.log(namePath)
             this.FileName1 = namePath.slice(29, namePath.length);
-            // console.log("this is die maker file path", namePath)
-            console.log("this is name of file", this.FileName1)
             this.imgSrc = this.url +  data.invoice_doc
-            console.log("loaded file",this.imgSrc)
             this.DocFileExist=true;
           }
 
-          // this.selected_product_list = data.product_list;
-
-          // this.selected_product_list.forEach((element) => {
-          //   element.expiry_date = moment(element.expiry_date);
-          //   // console.log("expiry " + element.expiry_date);
-          // });
-
-
-
-          // this.poPro.push({
-          //   ...element,
-          //   status:element.status.toString()
-          // })
-
-
-          this.purchaseService.getPODetails(this.SelectedPo.id).subscribe(
-            (po) => {
-              this.poProduct = po
-              console.log('po',po)
-              //po.order_details.forEach(element => {
-                    //console.log('po ele',element)
-                data.product_list.forEach(pro => {
-                  console.log("pro", pro);
-
-                  let rej_amt = (Number(pro.rejected_qty) * Number(pro.unit_price));
-
-                  this.totalQuantityReceived += Number(pro.received_qty);
-                  this.totalRejectedQuantity += Number(pro.rejected_qty);
-                  this.totalAcceptedQuantity += Number(pro.accepted_qty);
-                  this.totalRejectedAmount += Number(rej_amt);
-
-                  //if (pro.product == element.product_id) {
-                    console.log('dd', pro)
-                    //if (pro.accepted_qty != pro.received_qty) {
-                      this.selected_product_list.push({
-                        ...pro,
-                        expiry_date:moment(pro.expiry_date),
-                        product_id:pro.product,
-                        rejected_amount: rej_amt,
-                      })
-                    //}
-
-                  //  this.poPro.push({
-                  //    ...element,
-                  //    status:element.status.toString()
-                  //  })
-
-                  //}
-                })
-              //});
-            })
-            console.log("up product", this.selected_product_list)
-          console.log("up", this.poPro)
-          /*  data.product_list.forEach(element => {
-             this.purchaseService.getPODetails(this.SelectedPo.id).subscribe(
-             (data) =>{
-                   if(data.status == false){
-                        this.selected_product_list.push({
-                 ...element,
-                 expiry_date: moment(element.expiry_date),
-                 product_id: element.product,
-                 active: '',
-
-               });
-                   }
-             })
-
-
-
-
-           }) */
+           this.selected_product_list = data.product_list;
 
         });
     }
@@ -273,9 +239,83 @@ export class ManageGrnComponent implements OnInit {
         this.nbtoastService.danger(error, "Error")
       }
     );
-    // this.onChange()
 
+    this.inventoryService.getProductList().subscribe(
+      (data) => {
+        this.product_list_all = data;
+        console.log("Product List",data)
+      },
+      (error) => {
+        this.nbtoastService.danger(error, "Error")
+      }
+    );
+    this.updateGrid()
   }
+
+  onRowClick(event: any): void {
+    console.log("ROWWWW",event.rowIndex);
+  }
+
+  onCellClick(event: any): void {
+    console.log("CELLL",event.column.getId());
+  }
+
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    var allColumnIds = [];
+    this.gridColumnApi.getAllColumns().forEach(function (column) {
+      allColumnIds.push(column.colId);
+    });
+    this.gridColumnApi.autoSizeColumns(allColumnIds, false);
+    //this.gridApi.sizeColumnsToFit();
+  }
+
+  updateGrid() {
+    //this.rdata = this.selected_product_list
+    if(this.gridApi)
+    this.gridApi.refreshCells({force : true});
+  }
+
+  deleteSelection() {
+    const selectedRows = this.gridApi.getSelectedRows();
+    console.info("SELECTED ROWS",selectedRows);
+    selectedRows.forEach(element => {
+      const index: number = this.selected_product_list.indexOf(element);
+      if (index !== -1) {
+        //this.selected_product_list.splice(index, 1);
+        if(selectedRows[0].id){
+          const data = { 'id' : selectedRows[0].id}
+          this.purchaseService.deleteProductFromGrn(data).subscribe(
+            (data) => {
+
+              this.nbtoastService.success("Item Removed from grn");
+              this.selected_product_list.splice(index, 1);
+              this.calculate(selectedRows);
+              this.gridApi.applyTransaction({ remove: selectedRows });
+              this.updateGrid()
+
+            },
+            (error) =>{
+              this.nbtoastService.danger(error.detail);
+            }
+          );
+        }else{
+          this.selected_product_list.splice(index, 1);
+          this.calculate(selectedRows);
+          this.gridApi.applyTransaction({ remove: selectedRows });
+          this.updateGrid()
+          this.nbtoastService.success("Item Removed from grn");
+        }
+
+      }
+    });
+
+
+    //console.info("SELECTED ROWS AFTER REMOVE",this.rdata);
+    //return true;
+  }
+
 
   onChange(date) {
 
@@ -285,8 +325,8 @@ export class ManageGrnComponent implements OnInit {
 
     if (moment(grnDate).format("yyyy-MM-DD") < moment(inv_date).format("yyyy-MM-DD")) {
       this.nbtoastService.danger("GRN Date should be greater or equal to invoice date");
-      this.date1.nativeElement.value = "";
-    }
+          this.date1.nativeElement.value = "";
+        }
 
         // console.log(new Date(date))
         // this.dateofdata = new Date(date)
@@ -301,36 +341,103 @@ export class ManageGrnComponent implements OnInit {
 
   }
 
-  onChanges(date, item) {
-    let dd: any = new Date(date)
+  check_expiry_date(date) {
     this.expiry_date = new Date(date.expiry_date)
-    console.log(new Date(date))
-    console.log(item)
-    console.log((this.expiry_date))
-    console.log(this.current_date)
-    if (moment(dd).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD")) {
+    if (moment(this.expiry_date).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD")) {
       this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date");
       this.myInputVariable.nativeElement.value = "";
+      return;
 
     }
   }
 
+  open_vendor(dialog: TemplateRef<any>) {
+    this.dailog_ref = this.dialogService.open(dialog, { context: this.vendor_list })
+      .onClose.subscribe(data => {
+        this.searchVn = ""
+        if(!data) {
+          return;
+        }
 
+        console.log("Vendor Dialog Data",data)
 
+        this.vendor_code = data.vendor_code;
+        this.vendor_id = data.id;
+        this.vendor_state_code = data.state_code;
+        this.grnMasterForm.controls['vendorNameFormControl'].setValue(data.vendor_name);
+        this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data.branch_ofc_addr);
 
+        //if selecting vendor; make PO number null
+        this.SelectedPo = {id: ''};
+        this.grnMasterForm.controls['poNumberFormControl'].setValue("");
 
-  // this.purchaseOrderForm.controls['poDateFormControl'].valueChanges.subscribe(
-  //   (data)=> {
-  //     console.log(new Date(data))
-  //     this.dateofdata = new Date(data)
-  //     console.log(this.dateofdata)
-  //     console.log(this.current_date)
-  //     if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
-  //       this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date");
-  //     }
+      });
+
+  }
+
+  open_product(dialog: TemplateRef<any>) {
+    this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list_all })
+      .onClose.subscribe(data => {
+        this.searchProduct = ""
+        if(!data) {
+          return
+        }
+        console.log("Selected Product",data)
+
+        if(this.selected_product_list.some(element => element.product_name == data.product_name)){
+          this.nbtoastService.danger("product name already exist");
+        }else{
+          //let gst_amount:number = (Number(data.product_price__sell_price) - Number(data.product_price__unit_price));
+          //let total =
+          const item = {
+            sl_no: (this.selected_product_list.length + 1),
+            product_id: data.id,
+            product_code: data.product_code,
+            product_name: data.product_name,
+            description: data.description,
+            hsn_code: data.hsn_code,
+            amount: 0,
+            po_qty: 0,
+            received_qty: 0,
+            rejected_qty: 0,
+            accepted_qty: 0,
+            unit_id: data.product_price__unit,
+            PrimaryUnit: data.product_price__unit__PrimaryUnit,
+            unit_price: data.product_price__purchase_price,
+            gst: data.product_price__tax,
+            gst_amount: 0,
+            total: 0,
+            batch_code: '',
+            expiry_date: null,
+            rejected_amount: 0
+          };
 
   //   })
+        this.selected_product_list.push(item);
+        this.updateGrid()
+        this.gridApi.updateRowData({add:[item], addIndex:0});
+      }
+      });
+    //  this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
 
+  }
+/*
+    {field: 'product_name', headerName : 'Product Name', sortable: true, filter: true, checkboxSelection: true,pinned: 'left' },
+    {field: 'hsn_code', headerName : 'HSN', sortable: true, filter: true},
+    {field: 'product_code', headerName : 'Product Code', sortable: true, filter: true},
+    {field: 'po_qty', headerName : 'PO Qty', sortable: true, filter: true},
+    {field: 'received_qty', headerName : 'Recevied Qty', sortable: true, filter: true,editable: true},
+    {field: 'rejected_qty', headerName : 'Rejected Qty', sortable: true, filter: true,editable: true},
+    {field: 'accepted_qty', headerName : 'Accepted Qty', sortable: true, filter: true},
+    {field: 'expiry_date', headerName : 'Expiry Date', sortable: true, filter: true,editable: true, cellEditor: DatepickerComponent, cellEditorPopup: true},
+    {field: 'PrimaryUnit', headerName : 'Primary Unit', sortable: true, filter: true},
+    {field: 'unit_price', headerName : 'Unit Price', sortable: true, filter: true},
+    {field: 'amount', headerName : 'Amount', sortable: true, filter: true},
+    {field: 'gst', headerName : 'GST', sortable: true, filter: true},
+    {field: 'gst_amount', headerName : 'GST Amount', sortable: true, filter: true},
+    {field: 'total', headerName : 'Total', sortable: true, filter: true},
+    {field: 'rejected_amount', headerName : 'Rejected Amount', sortable: true, filter: true},
+*/
 
 
   check_acc_rej(item) {
@@ -338,7 +445,7 @@ export class ManageGrnComponent implements OnInit {
     this.qty_recived = item.received_qty
     this.qty_rejected = item.rejected_qty
     if (this.qty_rejected > this.qty_recived) {
-      this.nbtoastService.danger('Out of Limit')
+      this.nbtoastService.danger('Quantity Rejected Cannot be greater than Recived');
     }
 
   }
@@ -354,18 +461,18 @@ export class ManageGrnComponent implements OnInit {
             this.searchPO = ""
 
             this.SelectedPo = data
-            console.log(this.SelectedPo)
+            console.log("PO Data",this.SelectedPo)
 
             this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
-            this.purchaseService.getVendor(data.vendor_id).subscribe((data2) => {
-              console.log(data2)
-              this.vendor_code = data2.vendor_code;
-              this.vendor_id = data2.id;
-              this.vendor_state_code = data2.state_code;
+            this.pack_amount = data.packing_amount;
+
+              this.vendor_code = data.vendor__vendor_code;
+              this.vendor_id = data.vendor_id;
+              this.vendor_state_code = data.vendor__state_code;
 
               this.store_id = data.store_id;
-              this.grnMasterForm.controls['vendorNameFormControl'].setValue(data2.vendor_name);
-              this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data2.branch_ofc_addr);
+              this.grnMasterForm.controls['vendorNameFormControl'].setValue(data.vendor__vendor_name);
+              this.grnMasterForm.controls['vendorAddressFormControl'].setValue(data.vendor__branch_ofc_addr);
 
               this.purchaseService.getPODetails(data.id).subscribe(
                 (po_details) => {
@@ -373,32 +480,26 @@ export class ManageGrnComponent implements OnInit {
                   this.poProduct = po_details
                   console.log("po",po_details)
                   this.selected_product_list = [];
-                  this.poPro = []
+
                   let i = 1;
                   po_details.order_details.forEach(element => {
                     console.log('po pro', element)
-                    let aa = element.accepted_qty + element.rejected_qty;
 
                     if (element.status == false) {
                       console.log('false')
                       if (element.accepted_qty > 0) {
                         console.log('hh')
-                        this.poPro.push({
-                          ...element,
-                          accepted_qty: element.qty,
-                          rejected_qty: element.rejected_qty,
-                          status: element.status.toString(),
-                        })
-                        this.inventoryService.getProduct(element['product_id']).subscribe(
-                          (product) => {
+
+                        // this.inventoryService.getProduct(element['product_id']).subscribe(
+                        //   (product) => {
 
                             const item = {
-                              slno: i++,
-                              product_id: product['id'],
-                              product_code: product['product_code'],
-                              product_name: product['product_name'],
-                              description: product['description'],
-                              hsn_code: product['hsn_code'],
+                              sl_no: i++,
+                              product_id: element['product_id'],
+                              product_code: element['product_code'],
+                              product_name: element['product_name'],
+                              description: element['product__description'],
+                              hsn_code: element['product__hsn_code'],
                               amount: element['amount'],
                               po_qty: element['order_qty'],
                               //received_qty: element['accepted_qty'],
@@ -417,25 +518,19 @@ export class ManageGrnComponent implements OnInit {
                             };
                             this.selected_product_list.push(item)
                             this.calculate(item)
-                          });
+                          // });
                       } else {
 
-                        this.poPro.push({
-                          ...element,
-                          accepted_qty: element.qty,
-                          rejected_qty: element.rejected_qty,
-                          status: element.status.toString(),
-                        })
-                        this.inventoryService.getProduct(element['product_id']).subscribe(
-                          (product) => {
+
+
 
                             const item = {
-                              slno: i++,
-                              product_id: product['id'],
-                              product_code: product['product_code'],
-                              product_name: product['product_name'],
-                              description: product['description'],
-                              hsn_code: product['hsn_code'],
+                              sl_no: i++,
+                              product_id: element['product_id'],
+                              product_code: element['product_code'],
+                              product_name: element['product_name'],
+                              description: element['product__description'],
+                              hsn_code: element['product__hsn_code'],
                               amount: element['amount'],
                               po_qty: element['order_qty'],
                               received_qty: element['order_qty'],
@@ -452,7 +547,7 @@ export class ManageGrnComponent implements OnInit {
                             };
                             this.selected_product_list.push(item)
                             this.calculate(item)
-                          });
+                          // });
                       }
 
                     }
@@ -464,7 +559,7 @@ export class ManageGrnComponent implements OnInit {
                   });
                 }
               );
-            });
+
 
             // this.sub_total = parseFloat(data.sub_total)
             // this.sgst = data.sgst
@@ -476,8 +571,11 @@ export class ManageGrnComponent implements OnInit {
             if (this.vendor_state_code == '29') {
               this.sgst = data.sgst
               this.cgst = data.cgst
+              this.igst = 0
             } else {
               this.igst = data.igst
+              this.cgst = 0
+              this.sgst = 0
 
             }
           });
@@ -513,14 +611,9 @@ export class ManageGrnComponent implements OnInit {
     this.grand_total = (parseFloat(this.pack_amount) + parseFloat(this.sub_total) + parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst));
   }
 
-  calculate(item) {
+  calculate($event) {
 
 
-    item.accepted_qty = item.received_qty - item.rejected_qty;
-    item.amount = item.received_qty * item.unit_price;
-    item.gst_amount = item.amount * item.gst / 100;
-    item.total = item.amount + item.gst_amount;
-    item.rejected_amount = item.rejected_qty * item.unit_price;
 
     this.sub_total = 0;
     this.total_gst = 0;
@@ -532,6 +625,13 @@ export class ManageGrnComponent implements OnInit {
     let st: number = 0;
 
     this.selected_product_list.forEach(element => {
+
+        element.accepted_qty = element.received_qty - element.rejected_qty;
+        element.amount = element.received_qty * element.unit_price;
+        element.gst_amount = element.amount * element.gst / 100;
+        element.total = element.amount + element.gst_amount;
+        element.rejected_amount = element.rejected_qty * element.unit_price;
+
       console.log("chnaged event called " + this.sub_total);
 
       st = (st + Number(element.amount));
@@ -542,12 +642,16 @@ export class ManageGrnComponent implements OnInit {
       this.totalRejectedQuantity += Number(element.rejected_qty);
       this.totalAcceptedQuantity += Number(element.accepted_qty);
       this.totalRejectedAmount += Number(element.rejected_amount);
+        this.check_acc_rej(element);
+        // this.check_expiry_date(element);
 
     });
+      console.log(this.selected_product_list);
     this.sub_total = st;
     if (this.vendor_state_code == '29') {
       this.sgst = this.total_gst / 2;
       this.cgst = this.total_gst / 2;
+      this.igst = 0;
     } else {
       this.igst = this.total_gst;
       this.sgst = 0;
@@ -556,45 +660,9 @@ export class ManageGrnComponent implements OnInit {
     this.sub_total_pack = (parseFloat(this.pack_amount) + parseFloat(this.sub_total));
     this.grand_total = (parseFloat(this.pack_amount) + parseFloat(this.sub_total) + parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst));
     console.log(this.grand_total)
-    this.check_acc_rej(item)
-    this.calculatePoProduct();
-  }
+    this.gridApi.refreshCells({force : true});
 
-  calculatePoProduct() {
-    this.poPro = [];
-    this.selected_product_list.forEach(aa => {
-
-      this.poProduct.order_details.forEach(element => {
-        if (aa.accepted_qty == aa.received_qty) {
-          if (element.product_id == aa.product_id) {
-
-            this.poPro.push({
-              ...element,
-              accepted_qty: aa.accepted_qty,
-              rejected_qty: aa.rejected_qty,
-              status: 'true',
-            })
           }
-        } else {
-          if (element.product_id == aa.product_id) {
-
-            this.poPro.push({
-              ...element,
-              accepted_qty: aa.accepted_qty,
-              rejected_qty: aa.rejected_qty,
-              status: element.status.toString(),
-            })
-          }
-        }
-
-
-
-      });
-    })
-    console.log('update po pro', this.poPro)
-    console.log('grn pro', this.selected_product_list)
-
-  }
 
 
 
@@ -622,82 +690,84 @@ export class ManageGrnComponent implements OnInit {
 
 
 
-  saveGRN(): any {
-    const poData = new FormData();
-    if(this.SelectedPo == undefined){
-      this.nbtoastService.danger("Please select Po Number");
-    }
-    console.log('sele po', this.SelectedPo)
-    if (this.SelectedPo) {
-      poData.append('id', this.SelectedPo.id);
-    }
-    poData.append('po_type', this.SelectedPo.po_type);
-    poData.append('pr_number', this.SelectedPo.pr_number);
-    // poData.log(this.purchaseOrderForm.controls['poDateFormControl'].value);
-    // poData.log(moment());
-    poData.append('po_date', moment(this.SelectedPo.po_date).format("YYYY-MM-DD"));
-    poData.append('po_raised_by', this.SelectedPo.po_raised_by);
-    poData.append('shipping_address', this.SelectedPo.shipping_address);
-    poData.append('transport_type', this.SelectedPo.transport_type);
-    poData.append('vendor_id', this.SelectedPo.vendor_id);
-    poData.append('payment_terms', this.SelectedPo.payment_terms);
-    poData.append('other_reference', this.SelectedPo.other_reference);
-    poData.append('terms_of_delivery', this.SelectedPo.terms_of_delivery);
-    poData.append('note', this.SelectedPo.note);
-    poData.append('sub_total', this.SelectedPo.sub_total);
-    poData.append('packing_perct', this.SelectedPo.packing_perct);
-    poData.append('packing_amount', this.SelectedPo.packing_amount);
-    // formdata.append('total_amount', this.total_amount.toString());
-    poData.append('sgst', this.SelectedPo.sgst);
-    poData.append('cgst', this.SelectedPo.cgst);
-    poData.append('igst', this.SelectedPo.igst);
-    poData.append('invoice_amount', this.SelectedPo.invoice_amount);
-    poData.append('store_id', this.SelectedPo.store_id);
-    poData.append('terms_conditions', this.SelectedPo.terms_conditions);
+  // saveGRN(): any {
+  //   const poData = new FormData();
+  //   if(this.SelectedPo == undefined){
+  //     this.nbtoastService.danger("Please select Po Number");
+  //   }
+  //   console.log('sele po', this.SelectedPo)
+  //   if (this.SelectedPo) {
+  //     poData.append('id', this.SelectedPo.id);
+  //   }
+  //   poData.append('po_type', this.SelectedPo.po_type);
+  //   poData.append('pr_number', this.SelectedPo.pr_number);
+  //   // poData.log(this.purchaseOrderForm.controls['poDateFormControl'].value);
+  //   // poData.log(moment());
+  //   poData.append('po_date', moment(this.SelectedPo.po_date).format("YYYY-MM-DD"));
+  //   poData.append('po_raised_by', this.SelectedPo.po_raised_by);
+  //   poData.append('shipping_address', this.SelectedPo.shipping_address);
+  //   poData.append('transport_type', this.SelectedPo.transport_type);
+  //   poData.append('vendor_id', this.SelectedPo.vendor_id);
+  //   poData.append('payment_terms', this.SelectedPo.payment_terms);
+  //   poData.append('other_reference', this.SelectedPo.other_reference);
+  //   poData.append('terms_of_delivery', this.SelectedPo.terms_of_delivery);
+  //   poData.append('note', this.SelectedPo.note);
+  //   poData.append('sub_total', this.SelectedPo.sub_total);
+  //   poData.append('packing_perct', this.SelectedPo.packing_perct);
+  //   poData.append('packing_amount', this.SelectedPo.packing_amount);
+  //   // formdata.append('total_amount', this.total_amount.toString());
+  //   poData.append('sgst', this.SelectedPo.sgst);
+  //   poData.append('cgst', this.SelectedPo.cgst);
+  //   poData.append('igst', this.SelectedPo.igst);
+  //   poData.append('invoice_amount', this.SelectedPo.invoice_amount);
+  //   poData.append('store_id', this.SelectedPo.store_id);
+  //   poData.append('terms_conditions', this.SelectedPo.terms_conditions);
 
-    this.selected_product_list.forEach(element => {
-      element = moment(element.delivery_date).format("YYYY-MM-DD")
-    });
-    poData.append('po_products', JSON.stringify(this.poPro))
-    poData.forEach(el => {
-      console.log("save po", el)
-    })
+  //   this.selected_product_list.forEach(element => {
+  //     element = moment(element.delivery_date).format("YYYY-MM-DD")
+  //   });
+  //   poData.append('po_products', JSON.stringify(this.poPro))
+  //   poData.forEach(el => {
+  //     console.log("save po", el)
+  //   })
 
-    this.purchaseService.savePO(poData).subscribe(
-      (data) => {
-        console.log(data)
-        this.save()
-      },
-      (error) => {
-        this.nbtoastService.danger(error);
-      }
-    )
-
-
+  //   this.purchaseService.savePO(poData).subscribe(
+  //     (data) => {
+  //       console.log(data)
+  //       this.save()
+  //     },
+  //     (error) => {
+  //       this.nbtoastService.danger(error);
+  //     }
+  //   )
 
 
-  }
 
-  save() {
+
+  // }
+
+  saveGRN() {
     const formData = new FormData();
     if(this.grnMasterForm.controls['grnDateFormControl'].value != "" && this.grnMasterForm.controls['invoiceNumberFormControl'].value != "" && this.grnMasterForm.controls['invoiceDateFormControl'].value != ""  ){
     if (!this.selected_product_list.length) {
       this.nbtoastService.danger('Please Enter At Least ONE Product in Details Section')
     } else {
-      let dd: boolean;
-      this.selected_product_list.forEach(
-        a => {
-          if (!a.expiry_date) {
-            dd = false
-            this.nbtoastService.danger('Please Provide Product Expiry Date Details Section');
-          }
-          else {
-            dd = true
-          }
-        }
-      )
+     let dd= this.selected_product_list
+      // // let dd: boolean;
+      // this.selected_product_list.forEach(
+      //   a => {
+      //      if (!a.expiry_date) {
+      //       dd = false
+      //       this.nbtoastService.danger('Please Provide Product Expiry Date Details Section');
+      //     }
+      //      else {
+      //       dd = true
+      //       this.nbtoastService.danger('Please Provide Product Expiry Date Details Section');
+      //     }
+      //   }
+      // )
       console.log(dd)
-      if (dd) {
+      // if (dd) {
         if (this.grn_id) {
           formData.append('id', this.grn_id);
           formData.append('grn_code', this.grnMasterForm.controls['grnNumberFormControl'].value);
@@ -728,16 +798,21 @@ export class ManageGrnComponent implements OnInit {
         let flag = false;
         this.selected_product_list.forEach((element) => {
 
-          element.expiry_date = moment(element.expiry_date).format("YYYY-MM-DD");
-
+          console.log("exp d",element.expiry_date)
+          if(element.expiry_date) {
+            element.expiry_date = moment(element.expiry_date).format("YYYY-MM-DD");
+          }else{
+            element.expiry_date = ""
+          }
+          console.log("exp dafter",element.expiry_date)
           if (element.accepted_qty == element.po_qty) {
             formData.append('grn_status', 'COMPLETED');
           } else {
             formData.append('grn_status', 'PARTIALLY_COMPLETED');
           }
-          if (element.po_qty < element.received_qty) {
-            flag = true;
-          }
+          // if (element.po_qty < element.received_qty) {
+          //   flag = true;
+          // }
         });
 
         formData.append('product_list', JSON.stringify(this.selected_product_list));
@@ -764,7 +839,7 @@ export class ManageGrnComponent implements OnInit {
             }
           );
         }
-      }
+      // }
     }
   }
   }
@@ -799,4 +874,6 @@ export class ManageGrnComponent implements OnInit {
 
 
   }
+
 }
+

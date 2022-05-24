@@ -19,7 +19,7 @@ export class PurchaseOrderListComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false,
+      delete: false,      
       },
     columns: {
       id: {
@@ -27,7 +27,7 @@ export class PurchaseOrderListComponent implements OnInit {
         hide:true
       },
       po_number: {
-        title: 'PO Number',
+        title: 'PO Number',        
         type: 'html',
         valuePrepareFunction: (cell, row) => {
           return `<a href="PurchaseOrder?id=${row.id}">${row.po_number}</a>`;
@@ -49,8 +49,8 @@ export class PurchaseOrderListComponent implements OnInit {
       // items_to_satisfy:{
       //   title: 'Finished'
       // }
-
-
+       
+      
     },
   };
   podate: any;

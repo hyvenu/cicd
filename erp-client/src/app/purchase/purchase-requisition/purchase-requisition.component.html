@@ -13,17 +13,17 @@
                     <label for="prNo">PR Number </label>
                     <input nbInput formControlName="prNoFormControl" name="prNo" placeholder="System Generated"
                         [readonly]="true" />
-                    
+
                 </div>
                 <div class="form-group col-md-3">
                     <label for="prDate">Date <span style="color: red;">*</span></label>
                     <input nbInput formControlName="prDateFormControl" (ngModelChange)="onChange(datepicker.value)" #date name="prDate" [nbDatepicker]="datepicker"
-                        placeholder="PR Date" 
+                        placeholder="PR Date"
                         [ngClass]="{ 'is-invalid': submitted && f.prDateFormControl.errors }" class="form-control"/>
                         <div *ngIf="submitted && f.prDateFormControl.errors" class="invalid-feedback">
                                 <div *ngIf="f.prDateFormControl.errors.required">Date is required</div>
                             </div>
-                       
+
                                         <!-- <input [nbDatepicker]="datepicker"> -->
                         <nb-datepicker #datepicker></nb-datepicker>
                 </div>
@@ -46,78 +46,54 @@
                 </div>
                 <div class="col-md-4">
                     <label for="status">PR Status </label><br>
-                    <input nbInput formControlName="statusFormControl" name="user" 
+                    <input nbInput formControlName="statusFormControl" name="user"
                         placeholder="PR Status" [readonly]=true/>
                 </div>
             </div>
         </form> <br>
-       
+
 
         <div class="form-row">
             <div class=" form-group col-md-12">
             <nb-card accent="info">
-                <nb-card-header>Product Details</nb-card-header>
+              <nb-card-header>Product Details<br>
+                <button nbButton (click)="open(dialog);" status="success" size="small" >Add </button> <span style="color: red;">*</span>&nbsp;&nbsp;<br><br>
+                <button nbButton (click)="deleteSelection();" status="danger" size="small" >DELETE SELECTION</button></nb-card-header>
+
                 <nb-card-body>
-                    <button nbButton (click)="open(dialog);" status="success" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">Add </button> <span style="color: red;">*</span>&nbsp;&nbsp;
-                    
-                    <table class="table table-responsive">
-                        <thead>
-                            <th></th>
-                            <th>Product Code</th>
-                            <th>Product Name</th>
-                            <!-- <th>Description</th> -->
-                            <th>Store</th>
-                            <th>Required Qty</th>
-                            <th>Finished Qty</th>
-                            <th>Unit</th>
-                            
-                            <th>Required Date</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of selected_product_list" [class.hidden]="!item.active">
-                                
-                                <td *ngIf="delete" ><button nbButton (click)="delete(item.id,item);" status="danger" size="small" *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'">X</button><br></td>
-                                <td><input class="form-control form-control-sm"  style="width: 10em;"  placeholder="" readonly value={{item.product_code}}/></td>
-                                <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="" readonly value={{item.product_name}}/></td>
-                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="description" [(ngModel)]="item.description"/></td> -->
-                                <td><input class="form-control form-control-sm" style="width: 10em;" placeholder="store name" readonly [(ngModel)]="item.store"/></td>
-                                <td><input class="form-control form-control-sm" style="width: 10em;" type="number" min="0"  placeholder="Quantity" [(ngModel)]="item.required_qty" oninput="validity.valid || (value='')" /></td>
-                                <td><input class="form-control form-control-sm" style="width: 10em;"   placeholder="" [(ngModel)]="item.finished_qty" readonly /></td>
-                             <td><input class="form-control form-control-sm" style="width: 10em;" name="item.unit_name"   placeholder="Unit " [(ngModel)]="item.unit_name"  readonly/>  </td>
-                                <!-- <td><input class="form-control form-control-sm" style="width: 10em;" name="item.unit_price"   placeholder="Unit Price " [(ngModel)]="item.unit_price"  /> -->
-                                  <!-- <td>  <nb-select size="small" name="item.unit" [(selected)]="item.unit"> 
-                                    <nb-option  *ngFor="let o of unit_list" value="{{o.id}}">
-                                        {{ o.PrimaryUnit }}
-                                    </nb-option>
-                                </nb-select> -->
-                            <!-- </td> -->
-                                <td><input type="da" class="form-control form-control-sm" style="width: 10em;" (ngModelChange)="onChanges(datepicker.value,item.expected_date)" #requiredDate [(ngModel)]="item.expected_date" [nbDatepicker]="datepicker"
-                                    placeholder="Date" />
-                                    <!-- <input [nbDatepicker]="datepicker"> -->
-                                    <nb-datepicker format="yyyy-MM-DD"  #datepicker></nb-datepicker>
-                                    <!-- <input nbInput  value={{item.expected_date}} /></td> -->
-                               
-                            </tr>
-                        </tbody>
-                    </table>
+                <ag-grid-angular
+                    style="width: 100%; height: 500px;"
+                    class="ag-theme-alpine"
+                    [rowData]="rdata"
+                    [columnDefs]="columnDefs"
+
+                    [defaultColDef]="defaultColDef"
+                    [rowSelection]="rowSelection"
+                    (gridReady)="onGridReady($event)"
+                    (rowClicked)="onRowClick($event)"
+                    (cellClicked)="onCellClick($event)"
+                    (cellValueChanged)="calculate($event)"
+                >
+                </ag-grid-angular>
+
                 </nb-card-body>
-                
+
             </nb-card>
         </div>
         </div>
-        <div class="form-row"> 
+        <div class="form-row">
 
                 <div class="form-group col-md-6">
-                    <button nbButton *ngIf="pr_status!='APPROVED' && pr_status!='REJECTED'" status="success" (click)="savePR();"  >Save</button>&nbsp;&nbsp;
+                    <button nbButton status="success" (click)="savePR();"  >Save</button>&nbsp;&nbsp;
                     <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL' && selected_product_list.length > 0" status="success" (click)="approvePR();" >Approve</button>&nbsp;&nbsp;
                     <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL' && selected_product_list.length > 0" status="danger" (click)="rejectPR();" >Reject</button>&nbsp;&nbsp;
                     <button nbButton [hidden]="flag" status="info" (click)="print();" >Print</button>&nbsp;&nbsp;
 
                 </div>
-                
+
 
         </div>
-    
+
     </nb-tab>
 </nb-tabset>
 
