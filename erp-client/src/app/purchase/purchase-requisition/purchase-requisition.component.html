@@ -1,0 +1,122 @@
+
+<div class="form-row">
+    <a nbButton [routerLink]="['/PurchaseRequisitionList']" status="success" size="small" >Back to Purchase Requisition List  </a>
+</div>  <br>
+
+
+<nb-tabset>
+    <nb-tab tabTitle="Purchase Requisition Information" [active]="IsPRInfo">
+
+        <form id="" [formGroup]="prForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="prNo">PR Number </label>
+                    <input nbInput formControlName="prNoFormControl" name="prNo" placeholder="System Generated"
+                        [readonly]="true" />
+
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="prDate">Date <span style="color: red;">*</span></label>
+                    <input nbInput formControlName="prDateFormControl" (ngModelChange)="onChange(datepicker.value)" #date name="prDate" [nbDatepicker]="datepicker"
+                        placeholder="PR Date"
+                        [ngClass]="{ 'is-invalid': submitted && f.prDateFormControl.errors }" class="form-control"/>
+                        <div *ngIf="submitted && f.prDateFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.prDateFormControl.errors.required">Date is required</div>
+                            </div>
+
+                                        <!-- <input [nbDatepicker]="datepicker"> -->
+                        <nb-datepicker #datepicker></nb-datepicker>
+                </div>
+            </div><br>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="user">User <span style="color: red;">*</span></label>
+                    <input nbInput *ngIf="!pr_id" formControlName="userFormControl" name="user" value="{{login_user}}"
+                        placeholder="user" />
+                    <input nbInput *ngIf="pr_id" formControlName="userFormControl" name="user" value=""
+                        placeholder="user" [readonly]="true"  />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="department">Department <span style="color: red;">*</span></label>
+                    <nb-select name="department" formControlName="departFormControl" [(selected)]="selectedOption">
+                        <nb-option *ngFor="let o of department_list" value="{{o.id}}">
+                            {{ o.department_name }}
+                        </nb-option>
+                    </nb-select>
+                </div>
+                <div class="col-md-4">
+                    <label for="status">PR Status </label><br>
+                    <input nbInput formControlName="statusFormControl" name="user"
+                        placeholder="PR Status" [readonly]=true/>
+                </div>
+            </div>
+        </form> <br>
+
+
+        <div class="form-row">
+            <div class=" form-group col-md-12">
+            <nb-card accent="info">
+              <nb-card-header>Product Details<br>
+                <button nbButton (click)="open(dialog);" status="success" size="small" >Add </button> <span style="color: red;">*</span>&nbsp;&nbsp;<br><br>
+                <button nbButton (click)="deleteSelection();" status="danger" size="small" >DELETE SELECTION</button></nb-card-header>
+
+                <nb-card-body>
+                <ag-grid-angular
+                    style="width: 100%; height: 500px;"
+                    class="ag-theme-alpine"
+                    [rowData]="rdata"
+                    [columnDefs]="columnDefs"
+
+                    [defaultColDef]="defaultColDef"
+                    [rowSelection]="rowSelection"
+                    (gridReady)="onGridReady($event)"
+                    (cellKeyDown)="onkey($event)"
+                    (cellValueChanged)="calculate($event)"
+                >
+                </ag-grid-angular>
+
+                </nb-card-body>
+
+            </nb-card>
+        </div>
+        </div>
+        <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <button nbButton status="success" (click)="savePR();" *ngxPermissionsOnly="['purchase.add_purchaserequisition']" >Save</button>&nbsp;&nbsp;
+                    <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL' && selected_product_list.length > 0" status="success" (click)="approvePR();" >Approve</button >&nbsp;&nbsp;
+                    <button nbButton *ngIf="pr_status=='WAITING_FOR_APPROVAL' && selected_product_list.length > 0" status="danger" (click)="rejectPR();" >Reject</button>&nbsp;&nbsp;
+                    <button nbButton [hidden]="flag" status="info" (click)="print();" >Print</button>&nbsp;&nbsp;
+
+                </div>
+
+
+        </div>
+
+    </nb-tab>
+</nb-tabset>
+
+<ng-template #dialog let-data let-ref="dialogRef" >
+    <nb-card size="large" >
+      <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
+      <nb-card-body>
+        <!-- <nb-list>
+            <nb-list-item *ngFor="let item of data| search_filter:'product_name,product_code':searchProduct">
+              <i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i>
+              <button nbButton (click)="ref.close(item)" size="small">Select</button>
+            </nb-list-item>
+          </nb-list> -->
+          <table class="table table-hover">
+            <tbody>
+                <tr *ngFor="let item of data| search_filter:'product_name,product_code':searchProduct" (click)="ref.close(item)">
+                    <td><i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i></td>              
+                    <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                </tr>
+            </tbody>
+        </table>
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>

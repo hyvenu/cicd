@@ -1,0 +1,306 @@
+
+
+
+
+<div class="form-row">
+    <a nbButton [routerLink]="['/GrnList']" status="success" size="small">Back to GRN List</a>
+</div>
+
+<nb-tabset>
+    <nb-tab tabTitle="GRN Information" [active]="IsGrnInfo">
+
+        <form id="" [formGroup]="grnMasterForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)=onSubmit()>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="grnNumber">GRN Number </label>
+                    <input nbInput formControlName="grnNumberFormControl" name="grnNumber" placeholder="Auto Generated"
+                        [readonly]="true" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="invoiceDate">Invoice Date<span style="color: red;">*</span></label>
+                    <input nbInput formControlName="invoiceDateFormControl" id="invoiceDate" name="InvoiceDate"
+                        [nbDatepicker]="invoicedatepicker"  placeholder="Invoice Date"
+                        [ngClass]="{ 'is-invalid': submitted && f.invoiceDateFormControl.errors }" class=" form-control"/>
+                        <div *ngIf="submitted && f.invoiceDateFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.invoiceDateFormControl.errors.required">Invoice Date is required</div>
+                        </div>
+                    <nb-datepicker format="yyyy-MM-DD"  #invoicedatepicker></nb-datepicker>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="grnDate">GRN Date<span style="color: red;">*</span></label>
+                  <input nbInput formControlName="grnDateFormControl" id="grnDate" name="grnDate" [nbDatepicker]="datepicker" (ngModelChange)="onChange(datepicker.value)"
+                      placeholder="GRN Date" #date1   [ngClass]="{ 'is-invalid': submitted && f.grnDateFormControl.errors }" class=" form-control"/>
+                      <div *ngIf="submitted && f.grnDateFormControl.errors" class="invalid-feedback">
+                          <div *ngIf="f.grnDateFormControl.errors.required">GRN Date is required</div>
+                      </div>
+                  <nb-datepicker format="yyyy-MM-DD"  #datepicker></nb-datepicker>
+              </div>
+            </div><br>
+
+            <script>
+
+        //         var down = document.getElementById('geeks');
+        //    function gfg() {
+        //        var grndate =
+        //            document.getElementById('grnDate').value;
+        //        var indate =
+        //            document.getElementById('invoiceDate').value;
+        //        var Gdate = new Date(grndate);
+        //        var Idate = new Date(indate);
+
+        //        if(Gdate.setHours(0, 0, 0, 0) <=
+        //                Idate.setHours(0, 0, 0, 0))
+        //        {
+        //            down.innerHTML =
+        //                "The input date Cannot be less than GRN Date ";
+        //        }
+
+        //    }
+       </script>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="invoiceNumber">Invoice Number<span style="color: red;">*</span> </label>
+                    <input nbInput  (keypress)="date_check()" formControlName="invoiceNumberFormControl" name="invoiceNumber"
+                        placeholder="Invoice Number" [ngClass]="{ 'is-invalid': submitted && f.invoiceNumberFormControl.errors }" class=" form-control"/>
+                        <div *ngIf="submitted && f.invoiceNumberFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.invoiceNumberFormControl.errors.required">PO Number is required</div>
+                        </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="poNumber">PO Number</label>
+                    <input nbInput formControlName="poNumberFormControl" name="poNumber" placeholder="PO Number"
+                        (keypress)="po_open(dialog)"    (click)="po_open(dialog)" readonly [ngClass]="{ 'is-invalid': submitted && f.poNumberFormControl.errors }" class=" form-control"/>
+                        <div *ngIf="submitted && f.poNumberFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.poNumberFormControl.errors.required">PO Number is required</div>
+                        </div>
+                    <!-- <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="pr_number"  /> -->
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="grnDate">Batch Number<span style="color: red;">*</span></label>
+                    <input nbInput formControlName="grnBatchNumberFormControl" id="grnBatch" name="grnBatch"
+                        placeholder="Batch Number" [ngClass]="{ 'is-invalid': submitted && f.grnBatchNumberFormControl.errors }" class=" form-control"/>
+                        <div *ngIf="submitted && f.grnBatchNumberFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.grnBatchNumberFormControl.errors.required">Batch number is required</div>
+                        </div>
+                </div>
+            </div><br>
+            <p id = "geeks" ></p>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="vendorName">Vendor Name <span style="color: red;">*</span></label>
+                    <input nbInput formControlName="vendorNameFormControl" name="vendorName"
+                        placeholder="Vendor Name" readonly
+                        (click)="open_vendor(dialog_vendor)" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="vendorAddress">Vendor Address <span style="color: red;">*</span></label>
+                    <textarea nbInput formControlName="vendorAddressFormControl" name="corporateOffice"
+                        placeholder="Vendor Address" readonly></textarea>
+                </div>
+            </div><br>
+
+            <nb-card accent="info">
+                <nb-card-header>
+                    <b data-toggle="collapse" href="#collapseExample"><u>Transportation Details</u>&nbsp; </b>
+                </nb-card-header>
+                <nb-card-body class="collapse" id="collapseExample">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="vehicleNumber">Vehicle Number</label>
+                            <input nbInput formControlName="vehicleNumberFormControl" name="vehicleNumber"
+                                placeholder="Vehicle Number" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="timeIn">Time In </label> <br>
+                            <input type="time" nbInput formControlName="timeInFormControl" name="timeIn" value=""
+                                placeholder="Time In" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="timeOut">Time Out </label> <br>
+
+                            <input type="time" nbInput formControlName="timeOutFormControl" name="timeOut" value=""
+                                placeholder="Time Out" />
+                        </div>
+                    </div><br>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="transporterName"> Transporter Name</label>
+                            <input nbInput formControlName="transporterNameFormControl" name="Transporter Name"
+                                placeholder="Transporter Name" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="statutoryDetails">Statutory Details </label>
+                            <input nbInput formControlName="statutoryDetailsFormControl" name="statutoryDetails"
+                                placeholder="Statutory Details" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="note">Note </label><br>
+                            <textarea nbInput formControlName="noteFormControl" name="note" value=""
+                                placeholder="Note"></textarea>
+                        </div>
+                    </div><br>
+
+                </nb-card-body>
+            </nb-card>
+            <nb-card accent="info">
+                <nb-card-header>
+                    <b><u>Products</u>&nbsp; </b>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <button nbButton (click)="open_product(dialog_product);" status="success" size="small">Add </button> <span style="color: red;">*</span>&nbsp;&nbsp;<br><br>
+
+                        </div>
+                        <div class="col-md-2">
+                            <button nbButton (click)="deleteSelection();" status="danger" size="small">Delete Product</button>
+
+                        </div>
+                        <div class="col-md-2">
+                            <span >Total No. Of Items {{selected_product_list.length}}</span>
+
+                        </div>
+                    </div>
+
+                </nb-card-header>
+                <nb-card-body>
+                    <ag-grid-angular
+                        style="width: 100%; height: 500px;"
+                        class="ag-theme-alpine"
+                        [rowData]="selected_product_list"
+                        [columnDefs]="columnDefs"
+
+                        [defaultColDef]="defaultColDef"
+                        [rowSelection]="rowSelection"
+                        (gridReady)="onGridReady($event)"
+                        (cellValueChanged)="calculate($event)"
+                        
+                    >
+                    </ag-grid-angular>
+
+                </nb-card-body>
+                <nb-card-footer>
+                    <table class="table table-hovered">
+                        <thead style="font-size: smaller;" >
+                            <th>Sub Total Amount</th>
+                            <th>Packing Amount</th>
+                            <th>Total Amount</th>
+                            <th></th>
+                            <!-- <th>Total Order Value</th> -->
+                            <th>SGST</th>
+                            <th>CGST</th>
+                            <th>IGST</th>
+                            <th>Grand Total</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> {{ sub_total | currency:'INR' }}</td>
+                                <td><input #pack_amt type="number" min="0" nbInput fieldSize="small" style="width: 8em;" placeholder="Packing amount" [ngModelOptions]="{standalone: true}" [(ngModel)]="pack_amount" (change)="calculate_pack_amt(pack_amt.value);" /></td>
+                                <td> {{ sub_total_pack | currency:'INR' }}</td>
+                                <td></td>
+                                <td> {{ sgst | currency : 'INR' }}  </td>
+                                <td> {{ cgst | currency : 'INR' }} </td>
+                                <td> {{ igst | currency : 'INR' }} </td>
+                                <td> {{ grand_total  | currency : 'INR'}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="invoiceDocument">Upload Invoice</label>
+                            <input type="file" formControlName="invoiceDocumentFormControl" multiple
+                                (change)="onFileChange($event, 'image');" />
+                        </div>
+                        <div class=" form-group col-md-4">
+                            <img  src="{{imgSrc}}" class="rounded" alt="No Image"  width="80" height="80" *ngIf="imgSrc && !DocFileExist"/>
+
+                            <a href="{{imgSrc}}"  download="GRN-Doc" >
+                                <label *ngIf="DocFileExist">{{FileName1}}</label><br>
+                                <input type="button" value="Download" *ngIf="DocFileExist" >
+                            </a>
+                        </div>
+                    </div><br>
+                    <button nbButton  (click)="saveGRN();" status="success" *ngxPermissionsOnly="['purchase.add_grnmaster']">Save</button>
+                </nb-card-footer>
+            </nb-card>
+        </form>
+    </nb-tab>
+</nb-tabset>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <nb-card size="large">
+        <nb-card-header>PO List <input type="text" nbInput size="small" placeholder="Search .."
+                [(ngModel)]="searchPO" /> </nb-card-header>
+        <nb-card-body>
+            <nb-list>
+                <!-- <nb-list-item *ngFor="let item of data| search_filter:'po_number':searchPO">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.po_number }} </i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item> -->
+            </nb-list>
+            <table class="table table-hover">
+                <tbody>
+                    <tr *ngFor="let item of data| search_filter:'po_number':searchPO" (click)="ref.close(item)">
+                        <td><i class="mr-auto mt-2 mt-lg-0">{{ item.po_number }} </i></td>
+                           <td> <button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+<ng-template #dialog_vendor let-data let-ref="dialogRef" >
+  <nb-card size="large" >
+    <nb-card-header>Vendor List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchVn" /> </nb-card-header>
+    <nb-card-body>
+      <!-- <nb-list>
+          <nb-list-item *ngFor="let item of vendor_list| search_filter:'vendor_name,vendor_code':searchVn">
+            <i class="mr-auto mt-2 mt-lg-0">{{ item.vendor_name }} - {{item.vendor_code }}</i>
+            <button nbButton (click)="ref.close(item)" size="small">Select</button>
+          </nb-list-item>
+        </nb-list> -->
+        <table class="table table-hover">
+            <tbody>
+                <tr *ngFor="let item of vendor_list| search_filter:'vendor_name,vendor_code':searchVn" (click)="ref.close(item)">
+                    <td> <i class="mr-auto mt-2 mt-lg-0">{{ item.vendor_name }} - {{item.vendor_code }}</i></td>
+                       <td> <button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton (click)="ref.close()">Close</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+<ng-template #dialog_product let-data let-ref="dialogRef" >
+  <nb-card size="large" >
+    <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
+    <nb-card-body>
+          <!-- <nb-list>
+          <nb-list-item *ngFor="let item of product_list_all | search_filter:'product_name,product_code':searchProduct">
+            <i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list> -->
+            <table class="table table-hover">
+                
+                <tbody>
+                    <tr *ngFor="let item of product_list_all | search_filter:'product_name,product_code':searchProduct" (click)="ref.close(item)">
+                        <td><i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i></td>
+                        <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>

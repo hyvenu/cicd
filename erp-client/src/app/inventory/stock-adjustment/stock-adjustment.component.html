@@ -1,0 +1,33 @@
+ <nb-tabset>
+    <nb-tab tabTitle="Stock Adjustment">
+
+        <form id="" [formGroup]="stockadjustmentForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-3"> Date:<input nbInput formControlName="DateFormControl" name="date" placeholder="Date" type="date"></div>
+            <div class="col-md-3"> Search :<input nbInput formControlName="searchFormControl" name="searchProduct" [(ngModel)]="searchProduct" placeholder="Search Product .." type="text"></div>
+            <div class="col-md-2"><button type="button" class="btn btn-primary" (click)="load_products();">Load Products</button></div>       
+            <div class="col-md-2"><input class="btn btn-small btn-primary"(click)="save_Stock()" status="primary" type="button" value="save"/></div>
+          </div>        
+          <div class="form-row">
+                      <table class="table table-bordered table-responsive">
+                       <thead>
+                        <th>Sl.No</th>
+                        <th>PRODUCT NAME</th>
+                        <th>AVAILABLE OB qty</th>
+                        <th>Sales Adjust QTY</th>
+                        <th>ADJUSTED OB Qty </th>
+                       </thead>
+                       <tbody>
+                         <tr *ngFor = "let item of product_list | search_filter:'product_name':searchProduct; let sn = index">
+                          <td>{{sn+1}}</td>
+                           <td>{{item.product_name}}</td>
+                           <td>{{item.available_qty | number : '1.0-0'}}</td>
+                           <td><input type="number" value="{{item.ob_qty}}" class="form-control" size="small" placeholder="ENTER OB QTY" name="{{item.ob_qty}}" [(ngModel)]="item.ob_qty" [ngModelOptions]="{standalone: true}" (change)="calculate_adjusted_qty(item);" /></td>
+                           <td><input type="number" value="{{item.adjusted_qty}}" class="form-control" size="small" placeholder="Adjusted Qty" name="{{item.adjusted_qty}}" [(ngModel)]="item.adjusted_qty" [ngModelOptions]="{standalone: true}" readonly/>{{item.adjusted_qty >0 ? 'Sales':'Excess Stock'}}</td>
+                         </tr>
+                       </tbody>
+                     </table>
+                       <input nbButton class="btn btn-small btn-primary"(click)="save_Stock()" status="primary" type="button" value="save"/>
+                    </div>
+        </form>
+

@@ -1,3 +1,4 @@
+from unicodedata import decimal
 from django.db import transaction
 
 import ast
@@ -89,6 +90,7 @@ class PurchaseService:
             'box_qty',
             'required_qty',
             'finished_qty',
+            'purchase_price',
             'unit',
             'unit__PrimaryUnit',
             'product__product_price__tax',
@@ -147,6 +149,7 @@ class PurchaseService:
             pr_list.box_qty = int(product['box_qty'])
             pr_list.required_qty = int(product['required_qty'])
             pr_list.finished_qty = int(product['finished_qty'])
+            pr_list.purchase_price = product['purchase_price']
             pr_list.unit_id = product['unit']
             pr_list.expected_date = product['expected_date']
             pr_list.save()
@@ -274,6 +277,7 @@ class PurchaseService:
             po_product.product_name = item['product_name']
             po_product.unit_id = item['unit_id']
             po_product.qty = item['qty']
+            po_product.box_qty = item['box_qty']
             po_product.order_qty = item['order_qty']
             po_product.finished_qty = item['finished_qty']
             if item['delivery_date'] is not None and item['delivery_date'] != "":
@@ -338,6 +342,7 @@ class PurchaseService:
             "unit_id",
             "unit__PrimaryUnit",
             "qty",
+            "box_qty",
             "finished_qty",
             "delivery_date",
             "unit_price",
@@ -392,6 +397,7 @@ class PurchaseService:
             "unit_id",
             "unit__PrimaryUnit",
             "qty",
+            "box_qty",
             "order_qty",
             "finished_qty",
             "delivery_date",
@@ -508,6 +514,7 @@ class PurchaseService:
             grn_product.hsn_code = item['hsn_code']
             grn_product.amount = item['amount']
             grn_product.po_qty = item['po_qty']
+            grn_product.box_qty = item['box_qty']
             grn_product.received_qty = item['received_qty']
             grn_product.rejected_qty = item['rejected_qty']
             grn_product.accepted_qty = item['accepted_qty']
@@ -631,6 +638,7 @@ class PurchaseService:
             'hsn_code',
             'amount',
             'po_qty',
+            'box_qty',
             'received_qty',
             'rejected_qty',
             'accepted_qty',

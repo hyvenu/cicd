@@ -1,0 +1,411 @@
+
+<div class="form-row">
+    <a nbButton [routerLink]="['/ManageVendortMaster']" status="success" size="small" >Back to Vendor List </a>
+</div>  <br>
+<nb-tabset>
+    <nb-tab tabTitle="Vendor Information" [active]="IsVendorInfo">
+
+        <form id="" [formGroup]="vendorMasterForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="vendorCode">Vendor Code</label>
+                    <input nbInput formControlName="vendorCodeFormControl" name="vendorCode"
+                        placeholder="System Generated " [readonly]="true"                        />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="vendorName">Vendor Name <span style="color: red;">*</span> </label>
+                    <input nbInput class="form-control" formControlName="vendorNameFormControl" name="vendorName"
+                        placeholder="Vendor Name" [ngClass]="{ 'is-invalid': submitted && f.vendorNameFormControl.errors }" />
+                        <div *ngIf="submitted && f.vendorNameFormControl.errors" class="invalid-feedback">
+                            <div *ngIf="f.vendorNameFormControl.errors.required">Vendor Name is required</div>
+                        </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="vendorType">Vendor Type<span style="color: red;">*</span></label>
+                    <nb-select name="vendorType"  formControlName="vendorTypeFormControl" [(selected)]="selectedOption" (ngModelChange)="onVendorTypeChange($event)">
+                        <nb-option *ngFor="let o of options" value="{{o.value}}">
+                            {{ o.name }}
+                        </nb-option>
+                    </nb-select>
+                </div>
+            </div><br>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="vendorMobileNo">Phone Number<span style="color: red;">*</span> </label>
+                    <input nbInput type="number" class="form-control" minlength="10" maxlength="10" min="0" formControlName="vendorMobileNo" name="vendorMobileNo"
+                        placeholder="Phone Number." oninput="validity.valid || (value='')"
+                        [ngClass]="{ 'is-invalid': submitted && f.vendorMobileNo.errors }"
+                        />
+                        <div *ngIf="submitted && f.vendorMobileNo.errors" class="invalid-feedback">
+                            <div *ngIf=" submitted && f.vendorMobileNo.errors.required"> Phone Number is Required</div> 
+                             <div *ngIf=" submitted && f.vendorMobileNo.errors?.pattern"> Phone Number Must Be at least 10 digit </div> 
+                        </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="emailId">Email Address</label>
+                    <input nbInput formControlName="emailId" class="form-control" name="vendoremailId" placeholder="Email Address"
+                    [ngClass]="{ 'is-invalid': submitted && f.emailId.errors }"
+                     />
+                    <div *ngIf="submitted && f.emailId.errors" class="invalid-feedback">
+                        <div *ngIf=" submitted && f.emailId.errors.required"> Email is Required </div>
+                        <div *ngIf=" submitted && f.emailId.errors.email"> Email must be valid formate </div>
+                    </div>
+                </div>
+                <!-- <div class="form-group col-md-3">
+                    <label for="stateName">State<span style="color: red;">*</span></label>
+                    <select style="width: 14em;height:2.5em" class="form-control" [(ngModel)]="selectionModel" nbInput
+                    name="stateName" formControlName="vendorStateCodeFormControl"
+                     (change)="onChange()" >
+                 <option value="" disabled selected>Please select</option> -->
+                        <!-- <option *ngFor="let item of state" value="item.value" >
+                                 {{ item.name}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && f.vendorStateCodeFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.vendorStateCodeFormControl.errors.required">State Name is required</div>
+                    </div>
+                </div> --> 
+              <div class="form-group col-md-3">
+                    <label for="vendorStateCode">State Code<span style="color: red;">*</span> </label>
+                    <input nbInput formControlName="vendorStateCodeFormControl" (keypress)="state_open(state_dialog)" (click)="state_open(state_dialog)" name="vendorStateCode"
+                        placeholder="State Code " class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.vendorStateCodeFormControl.errors }"
+                        />
+                       <div *ngIf="submitted && f.vendorStateCodeFormControl.errors" class="invalid-feedback">
+                            <div *ngIf=" submitted && f.vendorStateCodeFormControl.errors.required"> State Code is Required</div> 
+                           
+                       </div> 
+                </div> 
+                <div class="col-md-2">
+                    <label for="vendorStateName">State </label>
+                    <input nbInput formControlName="vendorStateNameFormControl" name="vendorStateName"
+                        placeholder="State" />
+                </div>
+                <!-- <div class="col-md-2">
+
+                </div> -->
+                <div class="form-group col-md-3">
+                    <label for="vendorRegion">Region<span style="color: red;">*</span></label>
+                    <input nbInput formControlName="vendorRegionFormControl" class="form-control" name="vendorRegion" placeholder="Region" 
+                    [ngClass]="{ 'is-invalid': submitted && f.vendorRegionFormControl.errors }"/>
+                    <div *ngIf="submitted && f.vendorRegionFormControl.errors" class="invalid-feedback">
+                        <div *ngIf=" submitted && f.vendorRegionFormControl.errors.required"> Region is Required</div> 
+                   </div>
+                </div>
+            </div><br>
+
+            <div class="form-row">
+            <div class="col-md-12">
+                   <label><u>Address</u></label><br>
+                   
+            </div>
+
+            </div>
+            <div class="form-row">
+                <div class="col-md-5">
+                    <label for="corporateOffice">Corporate Office</label><br>
+                    <textarea nbInput formControlName="corporateOfficeFormControl" name="corporateOffice"
+                        placeholder="Corporate Office"></textarea>
+                </div>
+                <div class="col-md-5">
+                    <label for="branchOffice">Branch Office </label><br>
+                    <textarea nbInput class="form-control" formControlName="branchOfficeFormControl" name="branchOffice"
+                        placeholder="Branch Office"  [ngClass]="{ 'is-invalid': submitted && f.branchOfficeFormControl.errors }"> </textarea>
+                         <div *ngIf="submitted && f.branchOfficeFormControl.errors" class="invalid-feedback">
+                            <div *ngIf=" submitted && f.branchOfficeFormControl.errors.required"> 
+                            Address is Required</div> 
+                           
+                       </div> 
+                </div>
+
+            </div><br>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="postalCode">Postal Code<span style="color: red;">*</span></label>
+                    <input nbInput type="number" formControlName="postalCode" minlength="6" maxlength="06" class="form-control" name="postalCode" placeholder="Postal Code"
+                    [ngClass]="{ 'is-invalid': submitted && f.postalCode.errors }" />
+                    <div *ngIf="submitted && f.postalCode.errors" class="invalid-feedback">
+                        <div *ngIf=" submitted && f.postalCode.errors?.required">Postal Code is Required</div> 
+                         <div *ngIf=" submitted && f.postalCode.errors?.pattern"> Postal Must Be at least 6 digit </div> 
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="vendorPanNo">Company Pan/ Indiviudual Pan</label>
+                    <input nbInput formControlName="vendorPanNo" maxlength="10" minlength="10"  class="form-control" name="vendorPanNo" placeholder="Pan Number" 
+                    [ngClass]="{ 'is-invalid': submitted && f.vendorPanNo.errors }" />
+                    <div *ngIf="submitted && f.vendorPanNo.errors" class="invalid-feedback">
+                         <div *ngIf="f.vendorPanNo.errors.minlength"> PAN number must Be at least 10 digit </div> 
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="file" formControlName="imageVendorPanNo" multiple
+                        (change)="onFileChangePan($event, 'image');" />
+                </div>
+                <div class=" form-group col-md-3">
+                    <img src="{{imgSrcPan}}" class="rounded"  width="80" height="80" *ngIf="imgSrcPan"/>
+                    <a href="{{imgSrcPan}}"  download="vendor-Doc" *ngIf="imgSrcPan">
+                        <label *ngIf="PanFileExist">{{FileName3}}</label><br>
+                        <input type="button" value="Download" *ngIf="PanFileExist" >
+                    </a>
+                </div>
+            </div><br>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="vendorAadharNo">Aadhar Number</label>
+                    <input nbInput type="number" formControlName="vendorAadharNo" class="form-control" name="vendorAadharNo"  minlength="12" maxlength="12" min="0" placeholder="Aadhar Number" 
+                    oninput="validity.valid || (value='')" [ngClass]="{ 'is-invalid': submitted && f.vendorAadharNo.errors }"/>
+                    <!-- <div *ngIf="submitted && f.vendorAadharNo.errors" class="invalid-feedback">
+                        <div *ngIf=" submitted && f.vendorAadharNo.errors.required"> Aadhar Number is Required</div> 
+                         <div *ngIf=" submitted && f.vendorAadharNo.errors?.pattern">Aadhar Number Must Be at least 12 digit </div> 
+                    </div> -->
+                </div>
+
+                <div class="form-group col-md-3">
+                    <input type="file" formControlName="imageVendoradharNo" multiple
+                        (change)="onFileChangeadhar($event, 'image');" />
+                </div>
+                <div class=" form-group col-md-3">
+                    <img src="{{imgSrcadhar}}" class="rounded"  width="80" height="80" *ngIf="imgSrcadhar"/>
+                    <a href="{{imgSrcadhar}}"  download="vendor-Doc" *ngIf="imgSrcadhar">
+                        <label *ngIf="AdharFileExist">{{FileName2}}</label><br>
+                        <input type="button" value="Download" *ngIf="AdharFileExist" >
+                    </a>
+                </div>
+               
+
+            </div><br>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="vendorGSTNo">GST Number</label>
+                    <input nbInput class="form-control" maxlength="15" minlength="15"  formControlName="vendorGSTNo" name="vendorGSTNo" placeholder="GST Number" 
+                     [ngClass]="{ 'is-invalid': submitted && f.vendorGSTNo.errors }"/>
+                    <div *ngIf="submitted && f.vendorGSTNo.errors" class="invalid-feedback">
+                        <!-- <div *ngIf="f.vendorGSTNo.errors.required">GST Number is required</div> -->
+                        <div *ngIf="f.vendorGSTNo.errors.minlength"> Gst Number Must Be at least 15 digit</div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="file" formControlName="imageVendorGSTNo" multiple
+                        (change)="onFileChangeGst($event, 'image');" />
+                </div>
+                <div class=" form-group col-md-3">
+                    <img src="{{imgSrcGst}}" class="rounded"  width="80" height="80" *ngIf="imgSrcGst"/>
+                    <a href="{{imgSrcGst}}"  download="vendor-Doc" *ngIf="imgSrcGst">
+                        <label *ngIf="GstDocFileExist">{{FileName1}}</label><br>
+                        <input type="button" value="Download" *ngIf="GstDocFileExist" >
+                    </a>
+                </div>
+
+            </div><br>
+
+            <nb-card accent="info">
+                <nb-card-header>
+                    <b><u>Point of Contact</u>&nbsp; </b> 
+                    <div class="form-row">
+        <div class="form-group col-md-3">
+            
+        </div>
+    </div><br>
+                </nb-card-header>
+                <nb-card-body>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="vendorPOCName">Name</label>
+                            <input nbInput formControlName="vendorPOCName" name="" placeholder="Name" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="vendorDesignation">Designation</label>
+                            <input nbInput formControlName="vendorDesignation" name="vendorDesignation"
+                                placeholder="Designation" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="MobileNo">Mobile No.</label>
+                            <input nbInput type="number" formControlName="MobileNo" type="number" min="0" maxlength="10" minlength="10" name="MobileNo"
+                                placeholder="Mobile No." oninput="validity.valid || (value='')" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.MobileNo.errors }" />
+                                <div *ngIf="submitted && f.MobileNo.errors" class="invalid-feedback">
+                                     <div *ngIf=" submitted && f.MobileNo.errors?.pattern">Mobile Number Must Be at least 10 digit </div> 
+                                </div>
+                        </div>
+                    </div><br>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="vendorLandLine">Land line No.</label>
+                            <input type="number" nbInput formControlName="vendorLandLine" type="number" maxlength="6" minlength="6" min="0" name="vendorLandLine"
+                                placeholder="Land line" oninput="validity.valid || (value='')" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.vendorLandLine.errors }" />
+                                <div *ngIf="submitted && f.vendorLandLine.errors" class="invalid-feedback">
+                                    <div *ngIf=" submitted && f.vendorLandLine.errors?.pattern">Land line Must Be at least 6 digit </div> 
+                               </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="emailId">Email Address</label>
+                            <input nbInput formControlName="pcEmailId" name="emailId" placeholder="Email Address" class="form-control"   [ngClass]="{ 'is-invalid': submitted && f.pcEmailId.errors }"
+                            />
+                           <div *ngIf="submitted && f.pcEmailId.errors" class="invalid-feedback">
+                               <div *ngIf=" submitted && f.pcEmailId.errors.required"> Email is Required </div>
+                               <div *ngIf=" submitted && f.pcEmailId.errors.email"> Email must be valid formate </div>
+                           </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="alternative">Alternative Mobile No</label>
+                            <input nbInput formControlName="alternative" name="alternative" placeholder="Alternative Mobile No" />
+                        </div>
+                    </div><br>
+                </nb-card-body>
+            </nb-card>
+
+            <nb-card accent="info">
+                <nb-card-header>
+                    <b><u>Referal</u>&nbsp; </b>
+
+                </nb-card-header>
+                <nb-card-body>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="paymentTerms">Payment Terms</label>
+                            <nb-select name="paymentTerms" formControlName="paymentTermsFormControl"
+                                [(selected)]="paymentTermsSelected">
+                                <nb-option *ngFor="let o of paymentTermsOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="creditDays">Credit Days</label>
+                            <nb-select name="creditDays" formControlName="creditDaysFormControl"
+                                [(selected)]="creditDaysSelected">
+                                <nb-option *ngFor="let o of creditDaysOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="approvedTransporter">Approved Transporter</label>
+                            <nb-select name="approvedTransporter" formControlName="approvedTransporterFormControl"
+                                [(selected)]="approvedTransporterSelected">
+                                <nb-option *ngFor="let o of approvedTransporterOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+
+                    </div><br>
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="tdsApplicable">TDS Applicable</label>
+                            <nb-select name="tdsApplicable" formControlName="tdsApplicableFormControl"
+                                [(selected)]="tdsApplicableSelected">
+                                <nb-option *ngFor="let o of tdsApplicableOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="accountType">Account Type</label>
+                            <nb-select  name="accountType" formControlName="accountTypeFormControl"
+                                [(selected)]="accountTypeSelected">
+                                <nb-option *ngFor="let o of accountTypeOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="dedcuteeType">Dedcutee Type</label>
+                            <nb-select name="dedcuteeType" formControlName="dedcuteeTypeFormControl"
+                                [(selected)]="dedcuteeTypeSelected">
+                                <nb-option *ngFor="let o of dedcuteeTypeOption" value="{{o.value}}">
+                                    {{ o.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+                    </div><br>
+                </nb-card-body>
+            </nb-card>
+
+            <nb-card accent="info">
+                <nb-card-header>
+                    <b><u>Bank Details</u>&nbsp; </b>
+
+                </nb-card-header>
+                <nb-card-body>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="bankName">Bank Name</label>
+                            <input nbInput formControlName="bankNameFormControl" name="bankName"
+                                placeholder="Bank Name" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="ifscCode">IFSC Code</label>
+                            <input nbInput formControlName="ifscCodeFormControl" name="ifscCode"
+                                placeholder="IFSC Code" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="micrCode">MICR Code</label>
+                            <input nbInput formControlName="micrCodeFormControl" name="micrCode"
+                                placeholder="MICR Code" />
+                        </div>
+                    </div><br>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="accountNumber">Account Number</label>
+                            <input type="number" nbInput formControlName="accountNumberFormControl" type="number" min="0" name="accountNumber"
+                                placeholder="Account Number" oninput="validity.valid || (value='')" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="beneficiaryName">Beneficiary Name</label>
+                            <input nbInput formControlName="beneficiaryNameFormControl" name="beneficiaryName"
+                                placeholder="Beneficary Name" />
+                        </div>
+                    </div><br>
+                </nb-card-body>
+            </nb-card>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <button nbButton status="success" (click)="saveProduct();" *ngxPermissionsOnly="['vendor.add_vendormaster']" >Save</button>&nbsp;&nbsp;
+
+                </div>
+            </div>
+        </form>
+    </nb-tab>
+</nb-tabset>
+
+<ng-template #state_dialog let-data let-ref="dialogRef">
+    <nb-card size="medium">
+        <nb-card-header>State List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchState" /></nb-card-header>
+        <nb-card-body>
+            <!-- <nb-list>
+                <nb-list-item *ngFor="let item of state | search_filter:'name,value':searchState ">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.name }}-{{item.value}}</i>
+                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
+                </nb-list-item>
+            </nb-list> -->
+            <table class="table table-hover">
+                <tbody>
+                    <tr *ngFor="let item of state | search_filter:'name,value':searchState " (click)="ref.close(item)">
+                        <td><i class="mr-auto mt-2 mt-lg-0" (click)="ref.close(item)">{{ item.name }}-{{item.value}}</i></td>              
+                        <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
