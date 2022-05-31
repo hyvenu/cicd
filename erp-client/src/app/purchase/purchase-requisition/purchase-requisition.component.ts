@@ -63,14 +63,15 @@ export class PurchaseRequisitionComponent implements OnInit {
           active: ''
   */
   columnDefs: ColDef[] = [
-    {field: 'product_code', headerName : 'Product Code', sortable: true, filter: true},
+    {field: 'product_code', headerName : 'Product Code', sortable: true, filter: true,hide:true},
     {field: 'product_name', headerName : 'Product Name', sortable: true, filter: true, checkboxSelection: true,pinned: 'left' },
-    {field: 'store', headerName : 'Store', sortable: true, filter: true},
+    {field: 'store', headerName : 'Store', sortable: true, filter: true, hide: true},
     {field: 'items_per_box', headerName : 'Box Items', sortable: true, filter: true, editable: false, hide: true},
-    {field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true, editable: true},
+    //{field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true, editable: true},
     {field: 'required_qty', headerName : 'Required Qty', sortable: true, filter: true, editable: true},
-    {field: 'finished_qty', headerName : 'Finished Qty', sortable: true, filter: true},
+    {field: 'finished_qty', headerName : 'Finished Qty', sortable: true, filter: true, hide: true},
     {field: 'purchase_price', headerName : 'Purchase Price', sortable: true, filter: true, editable: true},
+    {field: 'total_price', headerName : 'Total Price', sortable: true, filter: true, editable: true},
     {field: 'unit_name', headerName : 'Unit', sortable: true, filter: true},
     {field: 'expected_date', headerName : 'Required Date', sortable: true, filter: true, editable: true, cellEditor: DatepickerComponent, cellEditorPopup: true}
   ];
@@ -124,12 +125,12 @@ export class PurchaseRequisitionComponent implements OnInit {
     this.IsPRInfo = true;
     this.selected_product_list = [];
     console.log(sessionStorage.getItem("first_name"));
-    //this.login_user = sessionStorage.getItem("first_name");
-    //this.store_name = sessionStorage.getItem("store_name");
-    //this.store_id = sessionStorage.getItem("store_id");
-    this.login_user = localStorage.getItem("first_name");
-    this.store_name = localStorage.getItem("store_name");
-    this.store_id = localStorage.getItem("store_id");
+    this.login_user = sessionStorage.getItem("first_name");
+    this.store_name = sessionStorage.getItem("store_name");
+    this.store_id = sessionStorage.getItem("store_id");
+    // this.login_user = localStorage.getItem("first_name");
+    // this.store_name = localStorage.getItem("store_name");
+    // this.store_id = localStorage.getItem("store_id");
     this.prForm = this.formBuilder.group({
       prNoFormControl: ['', [Validators.required]],
       prDateFormControl: ['', [Validators.required]],
@@ -170,11 +171,15 @@ export class PurchaseRequisitionComponent implements OnInit {
              if(obj.product_price__box_qty) { //if product item exits
                 items_per_box = obj.product_price__box_qty;
              }
+             let ex_date = ""
+             if(element.expected_date) {
+               ex_date = element.expected_date;
+             }
              this.selected_product_list.push({
                ...element,
                items_per_box:items_per_box,
                unit_name:element.unit__PrimaryUnit,
-               expected_date:element.expected_date,
+               expected_date: ex_date,
                active:'',
 
             });
@@ -254,12 +259,14 @@ export class PurchaseRequisitionComponent implements OnInit {
 
      if(event.colDef.field == "box_qty") {
       event.data.required_qty = parseInt(changedData) * (parseInt(event.data.items_per_box));
+      this.calculate_total();
       }
       // else if(event.key === 'Tab'){
 
       //   event.data.required_qty = parseInt(changedData) * (parseInt(event.data.items_per_box));
 
       // }
+      this.calculate_total();
       this.gridApi.refreshCells({force : true});
       //this.updateGrid();
     // event.data.required_qty = 0;
@@ -273,6 +280,14 @@ export class PurchaseRequisitionComponent implements OnInit {
     //   this.updateGrid();
     // }
 
+  }
+
+  calculate_total(){
+    this.selected_product_list.forEach(a => {
+      let amt = parseFloat(a.required_qty) * parseFloat(a.purchase_price);
+      a.total_price = amt.toFixed(2);
+      console.log("check amount",amt)
+    })
   }
   onkey(event){
     console.log("check dat",event)
@@ -375,7 +390,8 @@ export class PurchaseRequisitionComponent implements OnInit {
           active:''
         }
         this.selected_product_list.push(item);
-        this.updateGrid()
+        this.updateGrid();
+        this.calculate_total();
         //this.gridApi.updateRowData({add:[item], addIndex:0}); //will be depricated in future
         this.gridApi.applyTransaction({add:[item], addIndex:0});
       }
@@ -487,10 +503,11 @@ export class PurchaseRequisitionComponent implements OnInit {
           if(!a.expected_date && !a.product_code && !a.product_name && !a.required_quantity){
             dd=false
             this.nbtoastService.danger('Please Provide Product  Details Section');
-          }else if(a.expected_date == "NaN-NaN-NaN"){
-            dd=false
-            this.nbtoastService.danger('Please Provide Required Date in Details Section');
           }
+          // else if(a.expected_date == "NaN-NaN-NaN"){
+          //   dd=false
+          //   this.nbtoastService.danger('Please Provide Required Date in Details Section');
+          // }
           else{
             dd=true
           }
@@ -541,8 +558,13 @@ export class PurchaseRequisitionComponent implements OnInit {
     formData.append('store_id', this.store_id);
 
     this.rdata.forEach((element) => {
+      console.log("rdata date",element.expected_date)
+      let ex_date = ""
+      if(element.expected_date != "" ){
+          ex_date = this.formatDate(element.expected_date);
+      }
       console.log(element.expected_date);
-      element.expected_date = this.formatDate(element.expected_date);
+      element.expected_date = ex_date;
       element.active = element.active.toString();
       console.log(element.expected_date);
     });

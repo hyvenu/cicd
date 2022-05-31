@@ -548,7 +548,7 @@ export class SalesBillComponent implements OnInit {
             console.log("selected product unitprice",this.selectedPro.unit_price)
 
             let sellPrice: any = parseFloat(this.selectedPro.sell_price) * this.selectedPro.qty;
-            let gstVal: any = (this.selectedPro.unit_price * parseFloat(this.selectedPro.tax)) / 100;
+            let gstVal: any = (this.selectedPro.sell_price * parseFloat(this.selectedPro.tax)) / 100;
             let total: any = sellPrice;
             if (this.invoice_items.some(item => item.item_name == this.selectedPro.product__product_name)) {
               const index: number = this.invoice_items.indexOf(dd);
@@ -568,7 +568,7 @@ export class SalesBillComponent implements OnInit {
               dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
               dd.unit_id = this.selectedPro.unit,
               dd.unit = this.selectedPro.unit__PrimaryUnit,
-              dd.price = this.selectedPro.unit_price
+              dd.price = this.selectedPro.sell_price
               dd.discount = 0,
               dd.item_total = parseFloat(total).toFixed(2),
               dd.tax = this.selectedPro.tax,
@@ -691,7 +691,7 @@ export class SalesBillComponent implements OnInit {
             console.log(this.selectedPro.unit_price)
 
             let sellPrice: any = parseFloat(this.selectedPro.sell_price) * this.selectedPro.qty;
-            let gstVal: any = (this.selectedPro.unit_price * parseFloat(this.selectedPro.tax)) / 100;
+            let gstVal: any = (this.selectedPro.sell_price * parseFloat(this.selectedPro.tax)) / 100;
             let total: any = sellPrice;
               if (this.invoice_items.some(item => item.item_description == this.selected_product.product_name)) {
                 const index: number = this.invoice_items.indexOf(dd);
@@ -711,7 +711,7 @@ export class SalesBillComponent implements OnInit {
               dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
               dd.unit_id = this.selectedPro.unit,
               dd.unit = this.selectedPro.unit__PrimaryUnit,
-              dd.price = this.selectedPro.unit_price
+              dd.price = this.selectedPro.sell_price
               dd.discount = 0,
               dd.item_total = parseFloat(total).toFixed(2),
               dd.tax = this.selectedPro.tax,
@@ -811,7 +811,7 @@ export class SalesBillComponent implements OnInit {
           console.log('ele', element)
           {
 
-           let sellPrice:any = parseFloat(element.unit_price) * element.qty ;
+           let sellPrice:any = parseFloat(element.sell_price) * element.qty ;
            let gstVal:any = (sellPrice * parseFloat(element.tax) )/100;
            let total:any = sellPrice + gstVal;
            if(this.invoice_items.some(item => item.item_name == this.selected_product_data[0].product__product_name)){
@@ -828,7 +828,7 @@ export class SalesBillComponent implements OnInit {
                quantity: element.qty ? element.qty : 0.00,
                unit_id: element.unit,
                unit:element.unit__PrimaryUnit,
-               price: element.unit_price,
+               price: element.sell_price,
                discount: 0,
                item_total :parseFloat(total).toFixed(2),
                tax:element.tax,

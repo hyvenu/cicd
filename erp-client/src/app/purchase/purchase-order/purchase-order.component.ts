@@ -88,7 +88,7 @@ export class PurchaseOrderComponent implements OnInit {
   pr_products=[];
   pr_products1=[];
   po_status:any;
-  
+
 
   /*
             product_id: data.id,
@@ -116,7 +116,7 @@ export class PurchaseOrderComponent implements OnInit {
     {field: 'product_code', headerName : 'Product Code', sortable: true, filter: true},
     {field: 'product_name', headerName : 'Product Name', sortable: true, filter: true, checkboxSelection: true,pinned: 'left' },
     {field: 'items_per_box', headerName : 'Box Items', sortable: true, filter: true, editable: false,hide:true},
-    {field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true,editable: true},
+    //{field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true,editable: true},
     {field: 'qty', headerName : 'Required Qty', sortable: true, filter: true},
     {field: 'order_qty', headerName : 'Order Qty', sortable: true, filter: true,editable: true},
     {field: 'finished_qty', headerName : 'Finished Qty', sortable: true, filter: true},
@@ -252,8 +252,8 @@ export class PurchaseOrderComponent implements OnInit {
           this.purchaseOrderForm.controls['shipAddressFormControl'].setValue(data.shipping_address);
           this.purchaseOrderForm.controls['noteFormControl'].setValue(data.note);
           this.purchaseOrderForm.controls['prNumberFormControl'].setValue(data.pr_number);
-          
-         
+
+
           this.purchaseOrderForm.controls['packPrecntFormControl'].setValue(data.packing_perct);
           this.purchaseOrderForm.controls['termsConditionFormControl'].setValue(data.terms_conditions);
           this.store_id = data.store_id;
@@ -286,13 +286,13 @@ export class PurchaseOrderComponent implements OnInit {
             //if(element.qty != element.order_qty){
             this.selected_product_list.push({
               ...element,
-              
+
               status: element.status.toString(),
               unit_name: element.unit__PrimaryUnit,
               items_per_box :obj.product_price__box_qty,
-                
+
             })
-            
+
             //}
 
           });
@@ -329,12 +329,12 @@ export class PurchaseOrderComponent implements OnInit {
       )
     } else {
       //this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
-      this.purchaseOrderForm.controls['userFormControl'].setValue(localStorage.getItem('first_name'));
+      this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
       console.log(this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name')))
     }
 
       //this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
-    this.purchaseOrderForm.controls['userFormControl'].setValue(localStorage.getItem('first_name'));
+    this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
     console.log(this.purchaseOrderForm.controls['userFormControl'].value)
 
     this.calculate_total();
@@ -604,11 +604,11 @@ calculate(event) {
   console.info("COLNAME",event.colDef.field);
   console.info("items box",event.data.items_per_box);
 
-   if(event.colDef.field == "box_qty") { 
+   if(event.colDef.field == "box_qty") {
     event.data.qty = parseInt(changedData) * (parseInt(event.data.items_per_box));
     event.data.order_qty = event.data.qty;
     }
-    
+
     if(event.data.order_qty > 0){
       // item.finished_qty = item.order_qty;
     if (event.data.unit_price > 0 && event.data.order_qty > 0)
@@ -622,9 +622,9 @@ calculate(event) {
       event.data.total_amount = (parseFloat(event.data.amount) +parseFloat(event.data.gst_amount))
       event.data.finished_qty =addQty;
       this.calculate_total();
-      
+
     }
-  
+
 
 
   this.pr_product_array = []
@@ -645,13 +645,13 @@ calculate(event) {
     });
   });
   console.log("hhhh",this.pr_product_array)
-  
+
 }
 
     this.gridApi.refreshCells({force : true});
     //this.updateGrid();
   // event.data.required_qty = 0;
-  
+
   //console.info("COLNAME",event.colDef.field);
   // if(event.colDef.field == "box_qty") { //calculate only if box_qty value is changed
   //   this.selected_product_list.forEach(element => {
@@ -685,7 +685,7 @@ calculate(event) {
 //     // console.info("COLNAME",event.colDef.field);
 //     console.info("items box",item.items_per_box);
 
-//      if(event.colDef.field == "box_qty") { 
+//      if(event.colDef.field == "box_qty") {
 //       item.required_qty = parseInt(changedData) * (parseInt(item.items_per_box));
 //       }
 
@@ -827,7 +827,7 @@ calculate(event) {
                   return;
                 }
                 this.selected_pr_data = pr_data;
-                
+
 
                 console.log("selected pr data",this.selected_pr_data)
                 console.log(this.pr_products1)
@@ -836,7 +836,7 @@ calculate(event) {
                   let items_per_box = 1;
                   let obj = this.product_list.find(o => o.product_name === element.product_name);
                   console.log("prod obj",obj )
-                  
+
                   if(obj.product_price__box_qty) { //if product item exits
                       items_per_box = obj.product_price__box_qty;
                   }
@@ -948,9 +948,9 @@ calculate(event) {
           if(this.purchaseOrderForm.controls['poNumberFormControl'].value){
             formdata.append('store_id', this.store_id);
           }else{
-            formdata.append('store_id', localStorage.getItem("store_id"));
+            formdata.append('store_id', sessionStorage.getItem("store_id"));
           }
-          
+
           formdata.append('terms_conditions', this.purchaseOrderForm.controls['termsConditionFormControl'].value);
 
           this.selected_product_list.forEach(element => {

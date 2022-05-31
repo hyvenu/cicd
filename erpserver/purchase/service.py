@@ -91,6 +91,7 @@ class PurchaseService:
             'required_qty',
             'finished_qty',
             'purchase_price',
+            'total_price',
             'unit',
             'unit__PrimaryUnit',
             'product__product_price__tax',
@@ -150,8 +151,12 @@ class PurchaseService:
             pr_list.required_qty = int(product['required_qty'])
             pr_list.finished_qty = int(product['finished_qty'])
             pr_list.purchase_price = product['purchase_price']
+            pr_list.total_price = product['total_price']
             pr_list.unit_id = product['unit']
-            pr_list.expected_date = product['expected_date']
+
+            if product['expected_date'] != "":
+                pr_list.expected_date = product['expected_date']
+
             pr_list.save()
 
     @classmethod

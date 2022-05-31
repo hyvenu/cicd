@@ -30,6 +30,8 @@ class PurchaseRequisitionProductListSerializer(serializers.ModelSerializer):
             'store',
             'required_qty',
             'finished_qty',
+            'purchase_price',
+            'total_price',
             'unit',
             'expected_date',
             'active'

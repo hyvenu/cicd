@@ -40,15 +40,15 @@ export class ManageGrnComponent implements OnInit {
   columnDefs = [
     {field: 'sl_no', headerName : 'SL NO.', sortable: true, filter: true,pinned: 'left', checkboxSelection: true},
     {field: 'product_name', headerName : 'Product Name', sortable: true, filter: true,pinned: 'left' },
-    
-    {field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true,editable: true},
+
+    //{field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true,editable: true},
     {field: 'items_per_box', headerName : 'No Of Qty', sortable: true, filter: true,hide:true},
-    {field: 'received_qty', headerName : 'Bottle Qty(Recevied Qty)', sortable: true, filter: true,editable: true},
+    {field: 'received_qty', headerName : 'Recevied Qty', sortable: true, filter: true,editable: true},
     {field: 'amount', headerName : 'Amount', sortable: true, filter: true,editable: true},
     {field: 'accepted_qty', headerName : 'Accepted Qty', sortable: true, filter: true},
     {field: 'unit_price', headerName : 'Unit Price', sortable: true, filter: true,editable: true},
     {field: 'expiry_date', headerName : 'Expiry Date', sortable: true, filter: true,editable: true, cellEditor: DatepickerComponent, cellEditorPopup: true},
-    
+
     {field: 'gst', headerName : 'GST', sortable: true, filter: true},
     {field: 'gst_amount', headerName : 'GST Amount', sortable: true, filter: true},
     {field: 'total', headerName : 'Total', sortable: true, filter: true},
@@ -130,10 +130,10 @@ export class ManageGrnComponent implements OnInit {
       this.rowSelection = 'single';
 
      }
-    
+
 
   ngOnInit(): void {
-   
+
 
     this.purchaseService.getVendorList().subscribe(
       (data) => {
@@ -156,7 +156,7 @@ export class ManageGrnComponent implements OnInit {
           this.nbtoastService.danger(error, "Error")
         }
       );
-  
+
       this.inventoryService.getProductList().subscribe(
         (data) => {
           this.product_list_all = data;
@@ -192,10 +192,10 @@ export class ManageGrnComponent implements OnInit {
       noteFormControl: ['', []],
       invoiceDocumentFormControl: ['', [Validators.required]],
     });
-    
+
     let param = this.route.snapshot.queryParams['id'];
 
-    this.store_id = localStorage.getItem('store_id');
+    this.store_id = sessionStorage.getItem('store_id');
     if (param) {
       this.purchaseService.getGRNDetails(param).subscribe(
         (data) => {
@@ -228,10 +228,10 @@ export class ManageGrnComponent implements OnInit {
            //initial PO id value, if no PO exists
           this.SelectedPo = this.searchPO ? this.SelectedPo: {id: ''}
           this.pack_amount = data.packing_amount;
-          
-          
+
+
           this.sub_total = data.sub_total;
-          this.sub_total_pack = (Number(data.sub_total) + Number(data.packing_amount));
+          this.sub_total_pack = (parseFloat(data.sub_total) + parseFloat(data.packing_amount)).toFixed(2);
           this.grand_total = (data.grand_total);
           this.sgst = parseFloat(data.sgst);
           this.cgst = parseFloat(data.cgst);
@@ -259,18 +259,18 @@ export class ManageGrnComponent implements OnInit {
              if(obj.product_price__box_qty) { //if product item exits
                 items_per_box = obj.product_price__box_qty;
              }
-            
+
                   this.selected_product_list.push({
               ...element,
               box_qty:element.box_qty,
-              
+
               // status: element.status.toString(),
-              
+
               items_per_box :items_per_box,
-                
+
             })
-            
-            
+
+
 
           });
 
@@ -279,7 +279,7 @@ export class ManageGrnComponent implements OnInit {
 
 
 
-    
+
     this.updateGrid()
   }
   load_product(){
@@ -293,7 +293,7 @@ export class ManageGrnComponent implements OnInit {
       }
     );
   }
-  
+
 
   onRowClick(event: any): void {
     console.log("ROWWWW",event.rowIndex);
@@ -558,7 +558,7 @@ export class ManageGrnComponent implements OnInit {
                               unit_price: element['unit_price'],
                               gst: element['gst'],
                               gst_amount: element['gst_amount'],
-                              total: (Number(element['amount']) + Number(element['gst_amount'])),
+                              total: (parseFloat(element['amount']) + parseFloat(element['gst_amount'])).toFixed(2),
                               batch_code: '',
                               expiry_date: null,
                               rejected_amount: 0
@@ -588,7 +588,7 @@ export class ManageGrnComponent implements OnInit {
                               unit_price: element['unit_price'],
                               gst: element['gst'],
                               gst_amount: element['gst_amount'],
-                              total: (Number(element['amount']) + Number(element['gst_amount'])),
+                              total: (parseFloat(element['amount']) + parseFloat(element['gst_amount'])).toFixed(2),
                               batch_code: '',
                               expiry_date: null,
                               rejected_amount: 0
@@ -655,7 +655,7 @@ export class ManageGrnComponent implements OnInit {
 
   calculate_pack_amt(pack_amt) {
     this.pack_amount = pack_amt;
-    this.sub_total_pack = (parseFloat(this.pack_amount) + parseFloat(this.sub_total));
+    this.sub_total_pack = (parseFloat(this.pack_amount) + parseFloat(this.sub_total)).toFixed(2);
     this.grand_total = (parseFloat(this.pack_amount) + parseFloat(this.sub_total) + parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst));
   }
   // calculate(event) {
@@ -727,12 +727,12 @@ export class ManageGrnComponent implements OnInit {
     const colId = event.column.getId();
     let st: number = 0;
     let changedData = event.data.box_qty;
-    if(colId == "box_qty") { 
+    if(colId == "box_qty") {
     event.data.received_qty = parseInt(changedData) * (parseInt(event.data.items_per_box));
     event.data.accepted_qty = event.data.received_qty;
- 
+
     }
-    if(colId == "amount") { 
+    if(colId == "amount") {
       let amt;
       let unit;
       let box;
@@ -742,7 +742,7 @@ export class ManageGrnComponent implements OnInit {
       // unit = (parseInt(event.data.amount)) / (parseInt(event.data.received_qty));
       // event.data.unit_price = unit.toFixed(2);
       box = event.data.received_qty / (parseInt(event.data.items_per_box));
-      event.data.box_qty = Math.round(box); 
+      event.data.box_qty = Math.round(box);
       }
     // this.selected_product_list.forEach(element => {
       // element.received_qty = element.box_qty * element.items_per_box;
@@ -751,7 +751,7 @@ export class ManageGrnComponent implements OnInit {
       let amt= event.data.received_qty * event.data.unit_price;
       event.data.amount = amt.toFixed(2);
       event.data.gst_amount = event.data.amount * event.data .gst / 100;
-      event.data.total = event.data.amount + event.data.gst_amount;
+      event.data.total = (parseFloat(event.data.amount) + parseFloat(event.data.gst_amount)).toFixed(2);
       event.data.rejected_amount = event.data.rejected_qty * event.data.unit_price;
 
       console.log("chnaged event called " + this.sub_total);
@@ -811,7 +811,7 @@ export class ManageGrnComponent implements OnInit {
     console.log(this.grand_total)
     // this.gridApi.refreshCells({force : true});
             // this.calculate_packing();
-        
+
           };
 
 

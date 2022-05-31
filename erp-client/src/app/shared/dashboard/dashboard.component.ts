@@ -212,7 +212,7 @@ export class DashboardComponent implements OnInit {
   get_bookingservice(){
     this.adminService.getDashboardbookingDetails().subscribe(
       data => {
-        console.log(data)
+        console.log("topservices",data)
         const appointment_details = data.reduce((acc,v) =>{
           const label = v.service_list[0].service__service_name
           acc[label] = (acc[label] || 0) + 1

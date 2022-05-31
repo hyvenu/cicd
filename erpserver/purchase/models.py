@@ -95,8 +95,9 @@ class PurchaseRequisitionProductList(AuditUuidModelMixin):
     required_qty = models.IntegerField(null=True, default=0)
     finished_qty = models.IntegerField(null=True, default=0)
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     unit = models.ForeignKey(UnitMaster, on_delete=models.CASCADE, related_name="purchase_requisition_unit")
-    expected_date = models.DateField(null=True,default=None)
+    expected_date = models.CharField(max_length=30, null=True, blank=True, default=None)
     active = models.BooleanField(default=True)
 
     class Meta:

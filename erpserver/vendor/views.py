@@ -19,6 +19,13 @@ def get_product_code(request):
     code = inventory_service.generate_vendor_code(vendor_type)
     return JsonResponse(code, safe=False)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_vendor_by_code(request):
+    v_service = VendorService()
+    v_c = request.query_params['id']
+    vdata = v_service.get_vendor_by_code(v_c)
+    return JsonResponse(vdata, safe=False)        
 
 class VendorMasterCreateView(generic.CreateView):
     model = models.VendorMaster
