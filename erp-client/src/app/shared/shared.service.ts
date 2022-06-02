@@ -76,7 +76,7 @@ export class SharedService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/StoreUser/?query=`, {})
   }
 
- 
+
   public getUserPermissionList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/authentication/api/get_permissions`)
   }
@@ -93,11 +93,11 @@ export class SharedService {
 
   }
   public getDepartmentList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`)    
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Department/`)
   }
 
   public getDesignationList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Designation/`)    
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/Designation/`)
   }
 
 
@@ -126,10 +126,20 @@ export class SharedService {
   }
 
   public getAppSettings() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/AppSettings/`)    
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/AppSettings/`)
   }
   public getReports() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/ReportModule/`)    
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/ReportModule/`)
+  }
+
+  public getDashboardSalesList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_monthly_sales_list`)
+  }
+  public getDashboardPurchaseList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_monthly_purchase_list`)
+  }
+  public getDashboardDailyStatusList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_daily_status`)
   }
 
 }

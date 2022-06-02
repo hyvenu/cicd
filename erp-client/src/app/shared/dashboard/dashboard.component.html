@@ -1,3 +1,150 @@
+
+<div class="row">
+        <a nbButton [routerLink]="['/ManageGrn']" status="info" size="medium" >BOOK NOW !</a>&nbsp;&nbsp;&nbsp;
+        <a nbButton [routerLink]="['/SalesBill']" status="info" size="medium" >SALES BILL</a>&nbsp;&nbsp;&nbsp;
+        <a nbButton [routerLink]="['/ManageBooking']" status="info" size="medium" >PURCHASE ENTRY</a>
+</div><br><br>
+<div class="row">
+  <nb-card style="width: 30em;">
+      <nb-card-header>
+          Customers
+      </nb-card-header>
+      <div>
+        <ng2-smart-table [settings]="custSettings" [source]="customerList"></ng2-smart-table>
+      </div>
+  </nb-card>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+       <nb-card  style="background-color: #32d9e8;">
+           <nb-card-body style="align-items: center;text-align: center;">
+               <nb-icon icon="people"></nb-icon><span><b>{{dailyStatus.no_of_customers}}</b></span>
+               <p >No. of Customer </p>
+           </nb-card-body>
+       </nb-card>
+   </div>
+   <div class="col-md-3">
+       <nb-card  style="background-color: #97f2fe;">
+           <nb-card-body style="align-items: center;text-align: center;">
+               <nb-icon icon="pricetags"></nb-icon><span style="font-size: medium;">{{dailyStatus.no_of_orders}}</span>
+               <p >Total Bookings </p>
+           </nb-card-body>
+       </nb-card>
+   </div>
+   <div class="col-md-3">
+       <nb-card  style="background-color: #97f2fe;">
+           <nb-card-body style="align-items: center;text-align: center;">
+               <nb-icon icon="trending-up"></nb-icon><span style="font-size: medium;">{{dailyStatus.no_of_orders_today}}</span>
+               <p >No. of Bookings Today </p>
+           </nb-card-body>
+       </nb-card>
+   </div>
+   <div class="col-md-3">
+       <nb-card  style="background-color: #2be328;">
+           <nb-card-body style="align-items: center;text-align: center;">
+               <nb-icon icon="trending-up"></nb-icon><span style="font-size: medium;">{{dailyStatus.totals_sales_today | currency}}</span>
+               <p >Total Sales Today </p>
+           </nb-card-body>
+       </nb-card>
+   </div>
+</div>
+<nb-tabset>
+    <nb-tab tabTitle="Sales Dashboard">
+
+            <nb-card accent="info">
+                <nb-card-header>
+                    Sales vs Purchase
+                </nb-card-header>
+                <div class="p-3">
+                  <canvas baseChart
+                      [datasets]="barChartData2"
+                      [labels]="barChartLabels2"
+                      [options]="barChartOptions2"
+                      [legend]="barChartLegend2"
+                      [chartType]="barChartType2"  width="50" height="15">
+                  </canvas>
+                </div>
+            </nb-card>
+<!-- <div class="row mt-2">
+            <div class="col-md-6">
+                <nb-card>
+                    <nb-card-header>
+                        Last Purchase Order Created
+                    </nb-card-header>
+                    <div class="p-3">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">PO No</th>
+                                    <th scope="col">Vendor</th>
+                                    <th scope="col">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let po of poList; let i = index">
+                                    <th scope="row">{{ i+1 }}</th>
+                                    <td>{{po.po_number}}</td>
+                                    <td>{{po.vendor__vendor_name}}</td>
+                                    <td>{{po.invoice_amount}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </nb-card>
+            </div>
+            <div class="col-md-6">
+                <nb-card>
+                    <nb-card-header>
+                        Latest GRN
+                    </nb-card-header>
+                    <div class="p-3">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">GRN</th>
+                                <th scope="col">Vendor</th>
+                                <th scope="col">Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let grn of grnList; let i = index">
+                                    <th scope="row">{{grn.grn_code}}</th>
+                                    <td>{{grn.vendor_name}}</td>
+                                    <td>{{grn.grand_total}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </nb-card>
+            </div>
+        </div> -->
+    </nb-tab>
+    <nb-tab tabTitle="Services Dashboard">
+      <nb-card accent="info">
+        <nb-card-header>
+            Top Services
+        </nb-card-header>
+        <div class="p-3">
+          <canvas baseChart
+            [data]="pieChartData"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [legend]="pieChartLegend">
+          </canvas>
+        </div>
+    </nb-card>
+    </nb-tab>
+
+</nb-tabset>
+
+
+
+
+
+<!--
   <div>
   <div class="row">
     <button nbButton status="info" [routerLink]="['/ManageBooking']">Book Now !</button>
@@ -68,4 +215,4 @@
       </nb-card>
   </div>
 </div>
-</div>
+</div> -->

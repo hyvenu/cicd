@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import {  ChartDataSets, ChartOptions, ChartType } from 'chart.js';
@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import {sortBy} from 'lodash';
 
 
-import { Color, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
+import { Color, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet, BaseChartDirective } from 'ng2-charts';
 import { AdminService } from 'src/app/admin/admin.service';
 import { OrderService } from 'src/app/sales/order.service';
 import { SharedService } from '../shared.service';
@@ -20,7 +20,11 @@ export class DashboardComponent implements OnInit {
   orders_data: [];
   options: any;
   headspacount: any;
+  monthlySalesList: any;
+  monthlyPurchaseList: any;
+  dailyStatus: any;
 
+  @ViewChild(BaseChartDirective) baseChart: BaseChartDirective;
 
   barChartOptions: ChartOptions = {
     responsive: true,
@@ -37,10 +41,29 @@ export class DashboardComponent implements OnInit {
   barChartType: ChartType = 'bar';
   barChartLegend = true;
 
-
   barChartData: any =[
     { data: [], label: 'Bookings' },
-  ];;
+  ];
+
+  barChartOptions2: ChartOptions = {
+    responsive: true,
+    // We use these empty structures as placeholders for dynamic theming.
+    // scales: { xAxes: [{}], yAxes: [{}] },
+    // plugins: {
+    //   datalabels: {
+    //     anchor: 'end',
+    //     align: 'end',
+    //   }
+    // }
+  };
+  barChartLabels2: Label[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sept','Oct','Nov','Dec'];
+  barChartType2: ChartType = 'bar';
+  barChartLegend2 = true;
+
+  barChartData2: ChartDataSets[] = [
+    { data: [0,0,0,0,0,0,0,0,0,0,0,0], label: 'Sales' },
+    { data: [0,0,0,0,0,0,0,0,0,0,0,0], label: 'Purchase' }
+  ];
 
    // Pie
   pieChartOptions: ChartOptions = {
@@ -137,6 +160,8 @@ export class DashboardComponent implements OnInit {
   };
 
 
+
+
   constructor(
     private orderService: OrderService,
     private sharedService: SharedService,
@@ -155,6 +180,25 @@ export class DashboardComponent implements OnInit {
     this.get_bookingservice();
     this.get_sales_details()
     this.get_customer_list();
+
+    this.sharedService.getDashboardSalesList().subscribe((data) => {
+      this.monthlySalesList = data;
+      this.monthlySalesList.forEach(element => {
+        this.barChartData[0]["data"][element.month-1]=element.total_sales;
+      });
+      this.baseChart.ngOnChanges({});
+    })
+    this.sharedService.getDashboardPurchaseList().subscribe((data) => {
+      this.monthlyPurchaseList = data;
+      this.monthlyPurchaseList.forEach(element => {
+        this.barChartData[1]["data"][element.month-1]=element.total_purchase;
+      });
+      this.baseChart.ngOnChanges({});
+    })
+    this.sharedService.getDashboardDailyStatusList().subscribe((data) => {
+      this.dailyStatus = data;
+      console.log("daily stats",data)
+    })
 
 
 

@@ -215,7 +215,7 @@ def get_dashboard_booking_details(request):
         branch_id = request.query_params["b_id"]
     else:
         branch_id = None
-    app_res = store_service.get_viewbooking_details(branch_id)
+    app_res = store_service.get_dashboard_viewbooking_details(branch_id)
     return JsonResponse(app_res, safe=False)
 
 
@@ -317,5 +317,26 @@ def delete_service(request, id):
 def get_dashboard_sales_details(request):
     store_service = StoreService()
     app_res = store_service.get_dashboard_sales_details()
-    return JsonResponse(app_res, safe=False)     
+    return JsonResponse(app_res, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_monthly_sales_list(request):
+    dashboard_service = StoreService()
+    sales=dashboard_service.get_monthly_sales()
+    return JsonResponse(sales, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_monthly_purchase_list(request):
+    dashboard_service = StoreService()
+    sales=dashboard_service.get_monthly_purchase()
+    return JsonResponse(sales, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_daily_status(request):
+    dashboard_service = StoreService()
+    status=dashboard_service.get_daily_status()
+    return JsonResponse(status, safe=False)         
 

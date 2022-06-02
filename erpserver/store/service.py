@@ -3,11 +3,13 @@ import datetime
 import calendar
 
 from django.db import transaction
-from django.db.models import Sum
+from django.db.models import Sum, DateField
+from django.db.models.functions import ExtractMonth, Cast
 
 from store.models import StoreUser, Store, SiteSettings, AppointmentSchedule, AppointmentForMultipleService, Department, \
     Employee, StoreServices, Enquiry, Customer
 from sales.models import SalesOrderRequest    
+from purchase.models import GRNMaster  
 
 
 class StoreService:
@@ -419,6 +421,41 @@ class StoreService:
         return list(app_data_list)
 
     @classmethod
+    def get_dashboard_viewbooking_details(cls,branch_id):
+        # print("GET BOOKINGS")
+        final_list = []
+        if branch_id:
+            app_list_object = AppointmentSchedule.objects.filter(is_paid=True,store_id=branch_id)
+        else:
+            app_list_object = AppointmentSchedule.objects.filter(is_paid=True)
+
+        app_data_list = app_list_object.values(
+            'id',
+            'is_paid',  
+            'booking_date',          
+            'store_id',  
+            'appointment_status',
+            'customer__id',
+            'customer__customer_name',
+            'customer__phone_number'
+        )
+
+        for item in app_data_list:
+            item['service_list'] = list(
+                AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
+                    "id",                    
+                    "appointment__id",                   
+                    "assigned_staff__id",
+                    "assigned_staff__employee_name",
+                    "service__id",
+                    "service__service_name",
+                    "start_time",
+                    "end_time"
+                ))
+
+        return list(app_data_list)        
+
+    @classmethod
     def get_all_viewbooking_details(cls):
         final_list = []
         app_data_list = AppointmentSchedule.objects.all().values(
@@ -634,6 +671,46 @@ class StoreService:
             )
             final_list.append(dict_obj)
 
-        return final_list      
+        return final_list
+
+    @classmethod
+    def get_monthly_sales(cls):
+        monthly_list = SalesOrderRequest.objects.values("po_date").\
+            annotate(month=ExtractMonth(Cast("po_date",DateField()))).\
+            values('month').order_by('month').\
+            annotate(total_sales=Sum("grand_total"))
+        return list(monthly_list)
+
+
+    @classmethod
+    def get_monthly_purchase(cls):
+        monthly_list = GRNMaster.objects.values("invoice_date").\
+            annotate(month=ExtractMonth(Cast("invoice_date",DateField()))).\
+            values('month').order_by('month').\
+            annotate(total_purchase=Sum("grand_total"))
+        return list(monthly_list)
+
+    @classmethod
+    def get_daily_status(cls):
+        current_date = datetime.datetime.today()
+        daily_status ={}
+        no_of_customers = Customer.objects.all().count()
+        no_of_orders = AppointmentSchedule.objects.all().count()
+        no_of_orders_today = AppointmentSchedule.objects.filter(booking_date=current_date).count()
+        totals_sales_today = SalesOrderRequest.objects.filter(po_date__date=current_date).all().\
+            aggregate(total_sales=Sum("grand_total"))
+        print("SALES",totals_sales_today)
+        if totals_sales_today['total_sales'] is not None:
+            totals_sales_today = str(totals_sales_today['total_sales'])
+        else:
+            totals_sales_today = 0
+        print("SALES",totals_sales_today)
+        daily_status= dict(
+            no_of_customers=no_of_customers,
+            no_of_orders=no_of_orders,
+            no_of_orders_today=no_of_orders_today,
+            totals_sales_today=totals_sales_today
+        )
+        return daily_status      
 
 
