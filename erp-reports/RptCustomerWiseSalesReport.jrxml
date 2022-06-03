@@ -321,7 +321,7 @@ and $X{IN,store.store_name,branch_name}
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="100" splitType="Stretch">
+		<band height="93" splitType="Stretch">
 			<componentElement>
 				<reportElement x="2" y="3" width="798" height="90" uuid="ecd186e4-f0e3-4426-a251-e4dfe14ad1b4">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
@@ -342,11 +342,11 @@ and $X{IN,store.store_name,branch_name}
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="75" uuid="5c61502f-7534-44d8-bb1d-a92c062ba6c6">
+					<jr:column width="73" uuid="5c61502f-7534-44d8-bb1d-a92c062ba6c6">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="75" height="30" uuid="52636979-7125-44d5-a4da-c3578c38c644"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="52636979-7125-44d5-a4da-c3578c38c644"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -355,7 +355,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="75" height="30" uuid="20889fb1-dff3-44a5-9f04-eb87d1a3e850"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="20889fb1-dff3-44a5-9f04-eb87d1a3e850"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -363,11 +363,11 @@ and $X{IN,store.store_name,branch_name}
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="75" uuid="f1ee7f60-7288-4008-b3c8-88d11b23638b">
+					<jr:column width="72" uuid="f1ee7f60-7288-4008-b3c8-88d11b23638b">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="75" height="30" uuid="55bc110e-3b5c-4c97-9e8b-ff575a343cc9"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="55bc110e-3b5c-4c97-9e8b-ff575a343cc9"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -376,7 +376,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="75" height="30" uuid="df1e3a57-6b14-4326-a0d1-9fa4d6c934ee"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="df1e3a57-6b14-4326-a0d1-9fa4d6c934ee"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -384,11 +384,11 @@ and $X{IN,store.store_name,branch_name}
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="83" uuid="395b3634-9487-4ac8-ae5d-c4303250a26d">
+					<jr:column width="73" uuid="395b3634-9487-4ac8-ae5d-c4303250a26d">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="83" height="30" uuid="5d1db636-caa0-4523-83a2-b6adbeaaa2cb"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="5d1db636-caa0-4523-83a2-b6adbeaaa2cb"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -397,7 +397,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="83" height="30" uuid="659b2022-125e-43a3-9c99-0512436e88da"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="659b2022-125e-43a3-9c99-0512436e88da"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -405,11 +405,11 @@ and $X{IN,store.store_name,branch_name}
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="84" uuid="b0d92944-d7c2-4c7d-ab32-7cb269421674">
+					<jr:column width="73" uuid="b0d92944-d7c2-4c7d-ab32-7cb269421674">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="84" height="30" uuid="cd9f0b71-2f63-4d09-b7a8-c1ec37289e03"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="cd9f0b71-2f63-4d09-b7a8-c1ec37289e03"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -418,7 +418,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="84" height="30" uuid="2bc7cb06-676b-4fb2-ae74-6d274494819f"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="2bc7cb06-676b-4fb2-ae74-6d274494819f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -426,11 +426,11 @@ and $X{IN,store.store_name,branch_name}
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="65" uuid="8f77aacb-7e49-406c-8ea2-47f1a5540201">
+					<jr:column width="73" uuid="8f77aacb-7e49-406c-8ea2-47f1a5540201">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="65" height="30" uuid="4ae33965-5860-437c-a5e7-24ae7f1852d6"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="4ae33965-5860-437c-a5e7-24ae7f1852d6"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -439,17 +439,17 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="65" height="30" uuid="5fe67348-8923-4c82-957c-630c91db6cbe"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="5fe67348-8923-4c82-957c-630c91db6cbe"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{SalesType}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="93" uuid="5a8271b6-50f6-4c67-af01-abae5b7ee031">
+					<jr:column width="73" uuid="5a8271b6-50f6-4c67-af01-abae5b7ee031">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="93" height="30" uuid="806fb928-2072-419e-a17c-de7ee37ba992"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="806fb928-2072-419e-a17c-de7ee37ba992"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="18"/>
 								</textElement>
@@ -458,7 +458,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="93" height="30" uuid="96be2118-62b1-4477-8d11-12dc7b32069a"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="96be2118-62b1-4477-8d11-12dc7b32069a"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -467,7 +467,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="93" height="30" uuid="d67d66a2-1b89-4f51-ac70-ff787d2a556e"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="d67d66a2-1b89-4f51-ac70-ff787d2a556e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -475,11 +475,11 @@ and $X{IN,store.store_name,branch_name}
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="65" uuid="003b1766-e225-4669-9a8b-d4a49aab2d28">
+					<jr:column width="72" uuid="003b1766-e225-4669-9a8b-d4a49aab2d28">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="65" height="30" uuid="7d675b1b-7c64-4663-9e73-63244196f35e"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="7d675b1b-7c64-4663-9e73-63244196f35e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" isBold="true"/>
 								</textElement>
@@ -488,7 +488,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="65" height="30" uuid="ff0c8465-e3b9-45e7-aba9-7bdab5d03e08"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="ff0c8465-e3b9-45e7-aba9-7bdab5d03e08"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -497,7 +497,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="65" height="30" uuid="b932a219-37b8-4644-89b2-1edfb19021b5"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="b932a219-37b8-4644-89b2-1edfb19021b5"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -505,11 +505,11 @@ and $X{IN,store.store_name,branch_name}
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="65" uuid="cb78d9e4-d4fd-4265-8129-30275f5d337f">
+					<jr:column width="72" uuid="cb78d9e4-d4fd-4265-8129-30275f5d337f">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="65" height="30" uuid="34588c5e-81d4-4f96-ac54-fe4f0506b88c"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="34588c5e-81d4-4f96-ac54-fe4f0506b88c"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" isBold="true"/>
 								</textElement>
@@ -518,7 +518,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="65" height="30" uuid="906b432e-0ab6-45f9-81c4-99c18c414cad"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="906b432e-0ab6-45f9-81c4-99c18c414cad"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -527,7 +527,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="65" height="30" uuid="137126ac-2b80-402c-a5b0-a5070697acc4"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="137126ac-2b80-402c-a5b0-a5070697acc4"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -535,11 +535,11 @@ and $X{IN,store.store_name,branch_name}
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="65" uuid="11324e7a-7cf0-424b-8d8e-eabb4ff27a60">
+					<jr:column width="73" uuid="11324e7a-7cf0-424b-8d8e-eabb4ff27a60">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="65" height="30" uuid="82583e14-61a3-4301-9e1e-64e7c3fb189b"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="82583e14-61a3-4301-9e1e-64e7c3fb189b"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" isBold="true"/>
 								</textElement>
@@ -548,7 +548,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="65" height="30" uuid="21d1e38f-e131-4bd7-b24c-ba71723cbd53"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="21d1e38f-e131-4bd7-b24c-ba71723cbd53"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -557,7 +557,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="65" height="30" uuid="65111236-55b6-48be-8026-2ca8991c4cd8"/>
+								<reportElement x="0" y="0" width="73" height="30" uuid="65111236-55b6-48be-8026-2ca8991c4cd8"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -565,11 +565,11 @@ and $X{IN,store.store_name,branch_name}
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="64" uuid="10cc757f-e396-41c2-bafe-cf1a71642188">
+					<jr:column width="72" uuid="10cc757f-e396-41c2-bafe-cf1a71642188">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="64" height="30" uuid="bc21e766-ab0e-490e-a8fb-bdbf84f90e96"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="bc21e766-ab0e-490e-a8fb-bdbf84f90e96"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" isBold="true"/>
 								</textElement>
@@ -578,7 +578,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="64" height="30" uuid="14d984c5-1201-44e8-afe0-eaad8d52da9b"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="14d984c5-1201-44e8-afe0-eaad8d52da9b"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -587,7 +587,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="64" height="30" uuid="e816f17c-3c0f-452a-bf53-01e12eb37d94"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="e816f17c-3c0f-452a-bf53-01e12eb37d94"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
@@ -595,11 +595,11 @@ and $X{IN,store.store_name,branch_name}
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="64" uuid="a6f3eb64-5512-4bda-b186-bfaa6a74ee1f">
+					<jr:column width="72" uuid="a6f3eb64-5512-4bda-b186-bfaa6a74ee1f">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
 						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="64" height="30" uuid="bcbcb7e8-7dac-4e4c-9226-efd0d09af1fd"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="bcbcb7e8-7dac-4e4c-9226-efd0d09af1fd"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" isBold="true"/>
 								</textElement>
@@ -608,7 +608,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:tableFooter>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="64" height="30" uuid="02f08596-cf26-4a6a-8f7d-bb21dfed7c00"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="02f08596-cf26-4a6a-8f7d-bb21dfed7c00"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana" size="11"/>
 								</textElement>
@@ -617,7 +617,7 @@ and $X{IN,store.store_name,branch_name}
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="64" height="30" uuid="d41b07f0-922d-4b64-b4b7-9b2988283239"/>
+								<reportElement x="0" y="0" width="72" height="30" uuid="d41b07f0-922d-4b64-b4b7-9b2988283239"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
