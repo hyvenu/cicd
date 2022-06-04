@@ -68,7 +68,7 @@
                 <td rowspan="11 " colspan="4">
                     <table class="table table-responsive text-wrap">
                     <thead>
-                        <th><button nbButton size="tiny" (click)="add_items(dialog_product)" status="success">Add</button></th>
+                        <th><button nbButton size="tiny" (click)="add_items(dialog_single_product)" status="success">Add</button></th>
 
                         <th>Item Description</th>
                         <th>Quantity</th>
@@ -312,37 +312,32 @@
 </ng-template>
 
 <ng-template #dialog_single_product let-data let-ref="dialogRef">
-    <nb-card size="large" style="width: 600px;">
-        <nb-card-header>Product Price List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
-        <nb-card-body>
-            <nb-list>
-                <nb-list-item *ngFor="let item of multi_product_list |  search_filter:'product__product_name,qty,serial_number,sell_price':searchProduct">
-                    <i class="mr-auto mt-2 mr-2 mt-lg-0">
-                    <table class="table">
-                        <tr>
-
-                            <th>Product Name</th>
-                            <th>Product Quantity</th>
-                            <th>Serial Number</th>
-                            <th>Sell Price</th>
-                          </tr>
-                          <tr>
-                            <td>{{item.product__product_name}}</td>
-                            <td>{{item.qty}}</td>
-                            <td>{{item.serial_number}}</td>
-                            <td>{{item.sell_price}}</td>
-                          </tr>
-                    </table>
-                    </i>&nbsp;&nbsp;
-                    <button nbButton (click)="ref.close(item)" size="small">Select</button>
-                </nb-list-item>
-            </nb-list>
-        </nb-card-body>
-        <nb-card-footer>
-            <button nbButton (click)="ref.close()">Close</button>
-        </nb-card-footer>
-    </nb-card>
+  <nb-card size="large" style="width: 600px;">
+      <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
+      <nb-card-body>
+                  <table class="table">
+                      <tr>
+                          <th>Product Name</th>
+                          <th>Product Quantity</th>
+                          <th>Serial Number</th>
+                          <th>Sell Price</th>
+                          <th></th>
+                        </tr>
+                        <tr *ngFor="let item of multi_product_list |  search_filter:'product__product_name,product__description,qty,serial_number,sell_price':searchProduct">
+                          <td>{{item.product__product_name}}</td>
+                          <td>{{item.qty}}</td>
+                          <td>{{item.serial_number}}</td>
+                          <td>{{item.sell_price}}</td>
+                          <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                        </tr>
+                  </table>
+      </nb-card-body>
+      <nb-card-footer>
+          <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+  </nb-card>
 </ng-template>
+
 <!--
 
 <ng-template #phone_dialog let-data let-ref="dialogRef">

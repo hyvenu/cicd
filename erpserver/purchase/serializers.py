@@ -29,6 +29,9 @@ class PurchaseRequisitionProductListSerializer(serializers.ModelSerializer):
             'description',
             'store',
             'required_qty',
+            'finished_qty',
+            'purchase_price',
+            'total_price',
             'unit',
             'expected_date',
             'active'
@@ -116,6 +119,6 @@ class GRNProductListSerializer(serializers.ModelSerializer):
             'amount',
             'gst_amount',
             'total',
-            'batch_code'
-            'expiry_date'
+            'batch_code',
+            'expiry_date',
         ]

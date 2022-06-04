@@ -50,6 +50,10 @@ urlpatterns = (
     path('api/v1/store_services', views.store_services, name="store_services"),
     path('api/v1/delete_service/<id>/', views.delete_service, name="delete_service"),
     path('api/v1/get_dashboard_sales_details', views.get_dashboard_sales_details, name="get_dashboard_sales_details"),
+
+    path('api/v1/get_monthly_sales_list', views.get_monthly_sales_list, name="get_monthly_sales_list"),
+    path('api/v1/get_monthly_purchase_list', views.get_monthly_purchase_list, name="get_monthly_purchase_list"),    
+    path('api/v1/get_daily_status', views.get_daily_status, name="get_daily_status"),
     
 
 )

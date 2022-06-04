@@ -836,6 +836,7 @@ class OrderService:
             "card_no",
             "customer__customer_name",
             "customer__customer_address",
+            "customer__phone_number",
 
         )[0]
 

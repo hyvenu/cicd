@@ -50,52 +50,47 @@ export class AppComponent implements OnInit {
     this.items = [
       {
        title: 'Dashboard',
-       link: '/'
+       link: '/',
+       icon:'grid',
       },
+      // {
+      //   title: 'Enquiry',
+      //   link: 'EnquiryList',
+      // },
+      // {
+      //   title: 'Members ',
+      //   link: 'Members',
+      // },
       {
-        title: 'Department',
-        link: 'DepartmentList',
-      },
-      {
-        title: 'Designation',
-        link: 'DesignationList',
-      },
-      {
-        title: 'Enquiry',
-        link: 'EnquiryList',
-      },
-      {
-        title: 'Members ',
-        link: 'Members',
-      },
-      {
-        title: 'Manage Employee',
-        link: 'ManageEmployee',
-      },
-      {
-        title: 'Manage Customer',
-        link: 'ManageCustomer'
+        title: 'Customers',
+        link: 'ManageCustomer',
+        icon:'award'
       },
       {
         title: 'View Booking',
-        link: 'ViewBooking'
+        link: 'ViewBooking',
+        icon:'list'
        },
        {
         title: 'Calender',
-        link: 'Calendar'
+        link: 'Calendar',
+        icon:'calendar'
        },
       {
       title: 'Admin',
       expanded: false,
+      icon:'person',
       children: [
         {
           title: 'Branch',
           link: 'ManageStoreList', // goes into angular `routerLink`,
+          icon:'home',
           hidden: this.check_permission('store.view_storeuser')
         },
         {
           title: 'Services',
           link: 'Services', // goes into angular `routerLink`,
+          icon:'layers'
           // hidden: this.check_permission('store.view_storeuser')
         },
         // {
@@ -104,8 +99,24 @@ export class AppComponent implements OnInit {
         //   hidden: this.check_permission('store.view_productcampaigns')
         // },
         {
+          title: 'Department',
+          link: 'DepartmentList',
+          icon:'arrowhead-right',
+        },
+        {
+          title: 'Designation',
+          link: 'DesignationList',
+          icon:'arrowhead-right',
+        },
+        {
+          title: 'Manage Employee',
+          link: 'ManageEmployee',
+          icon:'arrowhead-right',
+        },
+        {
           title: 'Admin',
           link: 'AdminSite',
+          icon:'person',
           hidden: this.check_permission('admin.view_logentry')
         },
         // {
@@ -119,30 +130,36 @@ export class AppComponent implements OnInit {
       {
         title: 'Inventory',
         expanded: false,
+        icon: 'book',
         children: [
           {
             title: 'Category',
             link: 'ManageCategory', // goes into angular `routerLink`
+            icon:'arrowhead-right',
             hidden: this.check_permission('inventory.view_productcategory')
           },
           {
             title: 'Sub Category',
             link: 'ManageSubCategory', // goes into angular `routerLink`
+            icon:'arrowhead-right',
             hidden: this.check_permission('inventory.view_productsubcategory')
           },
           {
             title: 'Brand',
             link: 'ManageBrandMaster', // goes into angular `routerLink`
+            icon:'arrowhead-right',
             hidden: this.check_permission('inventory.view_productbrandmaster')
           },
           {
             title: 'Unit',
             link: 'ManageUnitMaster', // goes into angular `routerLink`
+            icon:'arrowhead-right',
             hidden: this.check_permission('inventory.view_unitmaster')
           },
           {
             title: 'Product Master',
             link: 'ManageProductMaster', // goes into angular `routerLink`
+            icon:'arrowhead-right',
             hidden: this.check_permission('inventory.view_productmaster')
           },
 
@@ -150,21 +167,25 @@ export class AppComponent implements OnInit {
 
         },
          {
-           title: 'Manage Purchase',
+           title: 'Purchase',
            expanded: false,
+           icon:'pricetags',
            children: [
              {
                title: 'Vendor Master',
                link: 'ManageVendortMaster', // goes into angular `routerLink`
+               icon:'arrowhead-right',
                hidden: this.check_permission('vendor.view_vendormaster')
              },
              {
                title: 'Purchase Requisition',
                link: 'PurchaseRequisitionList', // goes into angular `routerLink`
+               icon:'arrowhead-right',
                hidden: this.check_permission('purchase.view_purchaserequisition')
              },
              {
                title: 'Purchase Order',
+               icon:'arrowhead-right',
                link: 'PurchaseOrderList', // goes into angular `routerLink`
             },
 //             {
@@ -173,14 +194,16 @@ export class AppComponent implements OnInit {
 //            },
            {
                title: 'Manage GRN',
-               link: 'GrnList'
+               link: 'GrnList',
+               icon:'arrowhead-right',
              },
            ]
 
         },
         {
-          title: 'Manage Sales',
+          title: 'Sales',
           expanded: false,
+          icon :'shopping-cart',
           children: [
             // {
             //   title: 'Orders',
@@ -190,17 +213,20 @@ export class AppComponent implements OnInit {
             {
               title: 'SalesBill List',
               url: 'SalesBillList', // goes into angular `routerLink`
+              icon:'arrowhead-right',
               hidden: this.check_permission('sales.view_orderrequest'),
 
             },
             {
               title: ' Refund',
               link: 'Refund', // goes into angular `routerLink`
+              icon :'flip-2',
               hidden: this.check_permission('sales.view_orderrequest')
             },
             {
               title: ' Exchange/Return',
               link: 'Exchange', // goes into angular `routerLink`
+              icon :'flip-2',
               hidden: this.check_permission('sales.view_orderrequest')
             },
 //             {
@@ -216,6 +242,7 @@ export class AppComponent implements OnInit {
             {
               title: 'Sales Bill',
               link: 'SalesBill',
+              icon :'shopping-cart',
             },
             // {
             //   title: 'Invoice',
@@ -226,6 +253,7 @@ export class AppComponent implements OnInit {
         {
           title: 'Reports',
           link: 'ReportsList',
+          icon:'pie-chart'
         }
 
       ]

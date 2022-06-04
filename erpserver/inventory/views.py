@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from . import models
 from . import forms
 from .service import InventoryService
+from .stock_service import StockService
 from .tables import ProductTable
 
 
@@ -22,7 +23,7 @@ def inventory_dashboard(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated,])
+@permission_classes([IsAuthenticated, ])
 def get_product_code(request):
     category = request.data['category_code']
     sub_category = request.data['sub_category_code']
@@ -162,11 +163,21 @@ class ProductCategoryUpdateView(generic.UpdateView):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated,])
+@permission_classes([IsAuthenticated, ])
 def get_product_list(request):
     inventory_service = InventoryService()
     prd_list = inventory_service.get_product_list()
     return JsonResponse(prd_list, safe=False)
+
+
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated, ])
+# def save_product(request):
+#     data = request.data
+#     inventory_service = InventoryService()
+#     pr_res = inventory_service.save_product(data)
+#     return JsonResponse(pr_res, safe=False)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
@@ -174,31 +185,6 @@ def get_all_product_list(request):
     inventory_service = InventoryService()
     prd_list = inventory_service.get_all_product_list()
     return JsonResponse(prd_list, safe=False)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated, ])
-def get_all_service_list(request):
-    inventory_service = InventoryService()
-    prd_list = inventory_service.get_all_service_list()
-    return JsonResponse(prd_list, safe=False)    
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated,])
-def get_product_pack_type(request):
-    inventory_service = InventoryService()
-    data = request.data
-    prd_list = inventory_service.get_product_pack_types(data)
-    return JsonResponse(prd_list, safe=False)
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated,])
-def delete_product_image(request):
-    inventory_service = InventoryService()
-    data = request.data
-    if inventory_service.delete_images(data['product_id'], data['image_id']):
-        return JsonResponse("Removed", safe=False, status=status.HTTP_200_OK)
-    else:
-        return JsonResponse("Failed to remove", safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['POST'])
@@ -213,6 +199,26 @@ def get_product_by_slno(request):
         return JsonResponse("Invalid Serial Number", safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def get_product_pack_type(request):
+    inventory_service = InventoryService()
+    data = request.data
+    prd_list = inventory_service.get_product_pack_types(data)
+    return JsonResponse(prd_list, safe=False)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def delete_product_image(request):
+    inventory_service = InventoryService()
+    data = request.data
+    if inventory_service.delete_images(data['product_id'], data['image_id']):
+        return JsonResponse("Removed", safe=False, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse("Failed to remove", safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_product_stock(request):
@@ -220,6 +226,7 @@ def get_product_stock(request):
     data = request.query_params['store_id']
 
     stock = inventory_service.get_product_stock
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
@@ -237,16 +244,24 @@ def get_all_product_list(request):
     pr_list = inventory_service.get_all_product_list()
     return JsonResponse(pr_list, safe=False)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated,])
-def get_all_units(request):
-    inventory_service = InventoryService()
-    unit_list = inventory_service.get_unit_list()
-    return JsonResponse(unit_list, safe=False)
 
-@api_view(['DELETE'])
-@permission_classes([IsAuthenticated,])
-def delete_product_cat(request, id):
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def save_stock_adjustment(request):
     inventory_service = InventoryService()
-    res = inventory_service.delete_product_cat(id)
-    return JsonResponse(res, safe=False)        
+    data = request.data
+    prd_list = inventory_service.save_stock_adjustment(data)
+    return JsonResponse(prd_list, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_product_wise_ob_qty(request):
+    """
+    method return the product list with ob qty based on the date
+    Method Type : GET
+    """
+    stock_service = StockService()
+    date = request.query_params['date']
+    prd_list = stock_service.get_product_wise_ob_qty(date)
+    return JsonResponse(prd_list, safe=False)

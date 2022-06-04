@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class InventoryService {
 
   constructor(
-    private router: Router,
+    private router: Router,    
     private http: HttpClient
   ) {
   }
@@ -18,16 +18,15 @@ export class InventoryService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/`, {})
   }
 
-  public get_product_by_slno(data) {
-    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_product_by_slno`, data)
-  }
-
   public saveCategory(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/`, data)
   }
+  public saveStock(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}manage_inventory/api/v1/StockAdjustment/`, data)
+  }
 
-  public removeFromCategory(id){
-    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/delete_product_cat/`+id, {})
+  public removeFromCategory(data){
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductCategory/`, data)
   }
 
   public updateCategory(id,data) {
@@ -74,20 +73,22 @@ export class InventoryService {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductMaster/`, data)
   }
 
+  public get_product_by_slno(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_product_by_slno`, data)
+  }
+
   public getProductList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_product_list`)
   }
-
-  public getProductDetails(id) {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_product_details?id=${id}`)
+  public getProductWiseObQty(date) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_product_wise_ob_qty?date=${date}`);
   }
-  public getAllProductsList() {
+  public saveStock1(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/save_stock_adjustment/`,data)
+  }
+  public getAllProductList() {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_all_product_list`)
   }
-  public getAllServiceList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_all_service_list`)
-  }
-
   public getProduct(id) {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductMaster/` + id + '/')
   }
@@ -100,5 +101,16 @@ export class InventoryService {
   public deleteImage(data) {
     return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/delete_image`, data)
   }
-
+  public deleteProductPackType(id) {
+    return this.http.delete<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/ProductPriceMaster/` + id + '/')
+  }
+  public getProductDetails(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_product_details?id=${id}`)
+  }
+  public getAllProductsList() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_all_product_details`)
+  }
+  // public getSingleProductsList(id) {
+  //   return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_inventory/api/v1/get_product_pack_types`,id)
+  // }
 }

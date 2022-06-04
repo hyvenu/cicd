@@ -13,7 +13,6 @@ class ProductCategorySerializer(serializers.ModelSerializer):
             "description",
             "id",
         ]
-
 class UnitMasterSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -21,6 +20,8 @@ class UnitMasterSerializer(serializers.ModelSerializer):
         fields = [
             "PrimaryUnit",
             "SecondaryUnit",
+            "PrimaryUnitMeasurement",
+            "SecondaryUnitMeasurement",
             "id",
         ]
 
@@ -33,6 +34,7 @@ class ProductPriceMasterSerializer(serializers.ModelSerializer):
         fields = [
             "buy_price",
             "sell_price",
+            "mrp",
             "product",
             "unit",
             "tax",
@@ -42,7 +44,12 @@ class ProductPriceMasterSerializer(serializers.ModelSerializer):
             "bar_code",
             "safety_stock_level",
             "serial_number",
-            "product_id"
+            'purchase_price',
+            'cess_percent',
+            'cess_amount',
+            'box_qty',
+            'ob_qty',
+            'ob_value',
         ]
 
 class ProductBrandMasterSerializer(serializers.ModelSerializer):
@@ -94,15 +101,27 @@ class ProductMasterSerializer(serializers.ModelSerializer):
             "category",
 
             "sub_category",
-
+            "active",
             "brand",
             "id",
             'product_attributes',
-
             "product_price",
             "product_images",
 
         ]
+
+class StockAdjustmentSerializer(serializers.ModelSerializer):
+    # product_name = StockAdjustmentSerializer(many=False,read_only=True)
+    class Meta:
+
+        model = models.StockAdjustment
+        fields = [
+                    "id",
+                    "product_name",
+                    "product",
+                    "date",
+                    "ob_qty",
+                 ]
 
 class ProductStockSerializer(serializers.ModelSerializer):
     unit = UnitMasterSerializer(many=False,read_only=True)
@@ -114,7 +133,6 @@ class ProductStockSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "product",
-        
             "grn_number",
             "store",
             "pack",

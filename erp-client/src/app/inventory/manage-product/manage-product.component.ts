@@ -22,7 +22,7 @@ export class ManageProductComponent implements OnInit {
   categories_list;
 
   sub_categories;
-  marked:boolean=true;
+
   dailog_ref;
   selected_category: any="";
   selected_sub_ategory: any="";
@@ -30,7 +30,8 @@ export class ManageProductComponent implements OnInit {
   product_id:any;
   searchCategory:any;
   searchSubCategory:any;
-  searchProduct:any
+  marked:boolean=true;
+
 
   product_attributes = []
   product_packingtypes = []
@@ -60,6 +61,7 @@ export class ManageProductComponent implements OnInit {
   attr: string;
   Attribute: string;
   searchUnit: string;
+  attribute;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -107,6 +109,7 @@ export class ManageProductComponent implements OnInit {
             this.productMasterFrom.controls['productCodeFormControl'].setValue(data.product_code);
             this.productMasterFrom.controls['hsncodeFormControl'].setValue(data.hsn_code);
             this.productMasterFrom.controls['descFormControl'].setValue(data.description);
+            this.productMasterFrom.controls['productActivateFormControl'].setValue(data.active);
             this.selected_category = data.category;
             this.cat_id = data.category.id
             console.log(this.cat_id)
@@ -116,18 +119,28 @@ export class ManageProductComponent implements OnInit {
             this.image_list = data.product_images
 
             data.product_price.forEach(element => {
+              console.log("ELEMENT",element)
               this.product_packingtypes.push(
                 {
                   id: element.id,
                   unit_id:element.unit.id,
                   qty: element.qty,
                   unit:element.unit.PrimaryUnit,
+                  unit_primary_measurment:element.unit.PrimaryUnitMeasurement,
+                  unit_secondary_measurment:element.unit.SecondaryUnitMeasurement,
                   sell_price:element.sell_price,
+                  mrp:element.mrp,
+                  cess_percent:element.cess_percent,
+                  cess_amount:element.cess_amount,
                   bar_code: element.bar_code,
                   tax: element.tax,
                   unit_price: element.unit_price,
                   safety_stock_level: element.safety_stock_level,
                   serial_number:element.serial_number,
+                  purchase_price: element.purchase_price,
+                  box_qty: element.box_qty,
+                  ob_value: element.ob_value,
+                  ob_qty: element.ob_qty,
                 }
               )
             });
@@ -187,6 +200,7 @@ export class ManageProductComponent implements OnInit {
     .onClose.subscribe(data => {
       this.searchSubCategory=""
        this.selected_sub_ategory = data
+       console.log(this.selected_sub_ategory.id)
        this.productMasterFrom.controls['subcategoryNameFormControl'].setValue(data.sub_category_name);
        this.getProductCode();
     }
@@ -235,6 +249,8 @@ export class ManageProductComponent implements OnInit {
             console.log(data);
              this.selected_unit = data
              type.unit = data.PrimaryUnit
+             type.unit_primary_measurment = data.PrimaryUnitMeasurement
+             type.unit_secondary_measurment = data.SecondaryUnitMeasurement
              type.unit_id = data.id
              // this.productMasterFrom.controls['productsListFormControl'].setValue(data.product_code);
           }
@@ -248,10 +264,12 @@ export class ManageProductComponent implements OnInit {
   }
 
   add_attribute():any {
-    this.inputName.nativeElement.value = ' ';
+
     const name = this.productMasterFrom.controls['atrributeNameFormControl'].value;
     const data = {name: name,value:''}
     this.product_attributes.push(data)
+    this.productMasterFrom.controls['atrributeNameFormControl'].setValue("");
+
   }
 
   remove_attribute(item): void{
@@ -263,14 +281,27 @@ export class ManageProductComponent implements OnInit {
 
   add_types():any {
 
-    const data = {unit:'',qty:'',sell_price:'',unit_id:'',tax:0,unit_price:'',safety_stock_level:'',serial_number:''}
+    const data = {unit:'',qty:'1',mrp:'0',cess_percent:'0',cess_amount:'0',unit_id:'',tax:'0',purchase_price:'0',unit_price:'0',sell_price:'0',safety_stock_level:'',serial_number:'',box_qty:'1',ob_qty:'0',ob_value:'0'};
     this.product_packingtypes.push(data)
   }
 
   remove_types(item): void{
     const index: number = this.product_packingtypes.indexOf(item);
-    if (index !== -1) {
+    if(item.qty=='') {
+      if (index !== -1) {
         this.product_packingtypes.splice(index, 1);
+      }
+    } else {
+    this.inventoryService.deleteProductPackType(item.id).subscribe(
+      (data)=>{
+        if (index !== -1) {
+          this.product_packingtypes.splice(index, 1);
+        }
+      },
+      (error) => {
+        this.nbtoastService.danger("Unable to remove the Pack Types");
+      }
+    )
     }
   }
 
@@ -322,11 +353,8 @@ export class ManageProductComponent implements OnInit {
           }else if(!a.safety_stock_level){
             dd=false
             this.nbtoastService.danger('Please Provide Saftey Stock in Product Packing Types');
-          }else if(!a.serial_number){
-            dd=false
-            this.nbtoastService.danger('Please Provide Serial Number in Product Packing Types');
           }
-          // }else if(!a.tax){
+          // else if(!a.tax){
           //   dd=false
           //   this.nbtoastService.danger('Please Provide Gst% in Product Packing Types');
           // }
@@ -346,12 +374,15 @@ export class ManageProductComponent implements OnInit {
     formData.append('brand', this.selected_brand.id);
     formData.append('product_code', this.productMasterFrom.controls['productCodeFormControl'].value);
     formData.append('product_name', this.productMasterFrom.controls['productNameFormControl'].value);
+    formData.append('product_activate', this.productMasterFrom.controls['productActivateFormControl'].value);
     formData.append('hsn_code', this.productMasterFrom.controls['hsncodeFormControl'].value);
     formData.append('description', this.productMasterFrom.controls['descFormControl'].value);
-    formData.append('product_activate', this.productMasterFrom.controls['productActivateFormControl'].value);
     formData.append('product_attributes', JSON.stringify(this.product_attributes));
     formData.append('product_pack_types', JSON.stringify(this.product_packingtypes));
     // formData.append('product_images', this.productMasterFrom.controls['fileSource'].value);
+
+    console.log("PACK TYPE",this.product_packingtypes)
+
     if(this.selectedFiles.length){
       for(let i=0 ; i < this.selectedFiles.length ; i++)
         formData.append('files[]', this.selectedFiles[i],this.selectedFiles[i].name);
@@ -369,16 +400,16 @@ export class ManageProductComponent implements OnInit {
         this.product_attributes=[]
         this.imgSrc=null;
         this.reset();
+
         this.routes.navigate(["/ManageProductMaster"]);
       },
       (error) =>{
-        console.log(error);
-
-        if(error.status === "exists"){
-          this.nbtoastService.danger("Product Name Or Serial Number already Exists");
+        if(error === "exist"){
+          this.nbtoastService.danger("Product Name Or Serial Number already"+" "+error);
           }
           else{
-            this.nbtoastService.danger(error);
+            this.nbtoastService.danger("Product Name Or Serial Number already exists");
+            //this.nbtoastService.danger(error);
           }
       }
     )
@@ -436,8 +467,18 @@ export class ManageProductComponent implements OnInit {
     )
   }
 
+  calculate_cess(item): void {
+    item.cess_amount = ((parseFloat(item.purchase_price) * parseFloat(item.cess_percent))/100.00).toFixed(2)
+  }
+
   calculate_tax(item): void {
     item.sell_price = (parseFloat(item.unit_price) + ((parseFloat(item.unit_price) * parseFloat(item.tax))/100.00)).toFixed(2)
+  }
+
+   calculate_unit(item): void {
+
+    let tax = (parseFloat(item.tax) * (parseFloat(item.sell_price) / (100 + parseFloat(item.tax))))
+    item.unit_price = (parseFloat(item.sell_price) - tax).toFixed(2)
   }
 
   delete_image(product_id, image_id): void {

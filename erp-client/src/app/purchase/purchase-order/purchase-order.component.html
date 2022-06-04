@@ -77,10 +77,10 @@
                     <div class="form-group col-md-4">
                         <label for="pr_number">Select PR Number <span style="color: red;">*</span></label>
                         <input nbInput formControlName="prNumberFormControl"  name="pr_number" placeholder="PR Number" (keypress)="pr_open(pr_dialog)" (click)="pr_open(pr_dialog)"
-                        [ngClass]="{ 'is-invalid': submitted && f.prNumberFormControl.errors }" class="form-control" />
-                            <div *ngIf="submitted && f.prNumberFormControl.errors" class="invalid-feedback">
+                         class="form-control" />
+                            <!-- <div *ngIf="submitted && f.prNumberFormControl.errors" class="invalid-feedback">
                                 <div *ngIf="f.prNumberFormControl.errors.required">PR Number is required</div>
-                            </div>
+                            </div> -->
                     </div>
                 </div><br>
 
@@ -102,9 +102,6 @@
                                 {{ o.value }}
                             </nb-option>
                         </nb-select>
-                        <div *ngIf="submitted && f.transportTypeFormControl.errors" class="invalid-feedback">
-                          <div *ngIf="f.transportTypeFormControl.errors.required">Transport type is required</div>
-                      </div>
                     </div>
                 </div><br>
                 <div class="form-row">
@@ -124,76 +121,26 @@
             </nb-card-body>
             </nb-card>
             <nb-card accent="info" >
-                <nb-card-header>Product Details <button *ngIf='po_status !== "FINISHED" ' type="button" nbButton size="small" status="success"
-                     (click)="product_open(product_dialog)">  + ADD </button> </nb-card-header>
+              <nb-card-header>Product Details <button  type="button" nbButton size="small" status="success"
+                   (click)="product_open(product_dialog)">  + ADD </button><br><br>
+                   <button type="button" nbButton size="small" status="danger"
+                   (click)="deleteSelection()">  DELETE SELECTION </button> Total Items : {{rdata.length}} </nb-card-header>
                 <nb-card-body>
-                    <table class="table table-hovered">
-                        <thead style="font-size: smaller;" >
-                            <th *ngIf='po_status !== "FINISHED" '></th>
-                            <th>Product Code</th>
-                            <th>Product Name & Desc</th>
-                            <th>Required Qty</th>
-                            <th>Order Qty</th>
-                            <th>Finished Qty</th>
-                            <th *ngIf="flag">Rejected Qty</th>
-                            <th *ngIf="flag">accepted Qty</th>
-                            <th>Unit</th>
-                            <th>Delivery Date</th>
-                            <th>Unit Price</th>
+                    <ag-grid-angular
+                        style="width: 100%; height: 500px;"
+                        class="ag-theme-alpine"
+                        [rowData]="rdata"
+                        [columnDefs]="columnDefs"
 
-                            <th>Amount</th>
-                            <th>Disc %</th>
-                            <th>Disc Amt</th>
-                            <th>GST %</th>
-                            <th>GST Amt</th>
-                            <th>Total Amount</th>
+                        [defaultColDef]="defaultColDef"
+                        [rowSelection]="rowSelection"
+                        (gridReady)="onGridReady($event)"
+                        (cellValueChanged)="calculate($event)"
+                        (rowClicked)="onRowClick($event)"
+                        (cellClicked)="onCellClick($event)"
+                    >
+                    </ag-grid-angular>
 
-                        </thead>
-                        <tbody style="font-size: smaller;" >
-                            <tr *ngFor="let item of selected_product_list">
-                                <td *ngIf='po_status !== "FINISHED" '><button nbButton (click)="delete_product(item.id,item);" size="small" status="danger">X</button></td>
-                                <td ><input nbInput  fieldSize="small" placeholder="" value={{item.product_code}} readonly/></td>
-                                <td><input nbInput  fieldSize="small"placeholder=""  value="{{item.product_name}} - {{item.description}}" readonly/></td>
-                                <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.qty"  /></td>
-                                <td><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.order_qty" (change)="calculate_sub_total(item);"/></td>
-                                <td><input nbInput  fieldSize="small" type="number" min="0"  style="width: 8em;" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.finished_qty" readonly/></td>
-                                <td *ngIf="flag"><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.rejected_qty" (change)="calculate_sub_total(item);" readonly/></td>
-                                <td *ngIf="flag"><input nbInput type="number" min="0" oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.accepted_qty" (change)="calculate_sub_total(item);" readonly/></td>
-                                <!-- <td ><nb-select size="small" class="from-control btn-sm" name="item.unit"  [(selected)]="item.unit_id">
-                                    <nb-option *ngFor="let o of unit_list" value="{{o.id}}">
-                                        {{ o.PrimaryUnit }}
-                                    </nb-option>
-                                </nb-select></td> -->
-                                <td><input nbInput  oninput="validity.valid || (value='')" fieldSize="small" style="width: 8em;" placeholder="Unit" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_name" (change)="calculate_sub_total(item);"/></td>
-                                <!-- <td ><input nbInput fieldSize="small"  [(ngModel)]="item.delivery_date" #date1 (ngModelChange)="onChanges(datepicker.value,item.delivery_date)" [nbDatepicker]="del_datepicker" [ngModelOptions]="{standalone: true}"
-                                    placeholder="Date" />
-                                    <nb-datepicker #del_datepicker format="yyyy-MM-DD" ></nb-datepicker></td> -->
-                                 <td><input nbInput [ngModelOptions]="{standalone: true}" [(ngModel)]="item.delivery_date" (ngModelChange)="onChanges(datepicker.value,item.delivery_date)" #date1 [nbDatepicker]="expiry_date_datepicker"
-                                        placeholder="Date" />
-                                        <!-- <input [nbDatepicker]="datepicker"> -->
-                                        <nb-datepicker format="yyyy-MM-DD"  #expiry_date_datepicker></nb-datepicker>
-                                        </td>
-                                <td><input nbInput  fieldSize="small" style="width: 8em;" min="0" placeholder="Unit Price" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.unit_price" (change)="calculate_sub_total(item);"  /></td>
-                                <td><input nbInput  fieldSize="small"   placeholder="Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.amount" readonly /></td>
-
-
-                                <td><input nbInput  fieldSize="small" style="width: 5em;" placeholder="Disc %" min="0" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_percent" (change)="calculate_sub_total(item);"/></td>
-                                <td><input nbInput  fieldSize="small"   placeholder="Disc Amt." type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.disc_amount" readonly/></td>
-                                <td><input nbInput  fieldSize="small" style="width: 5em;" min="0" placeholder="GST %" type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst" value="gst" (input)="calculate_sub_total(item);"/></td>
-                                <td><input nbInput  fieldSize="small"  placeholder= "GST Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.gst_amount" readonly/></td>
-                                <td><input nbInput  fieldSize="small"   placeholder="Total Amount" type="number" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.total_amount" readonly /></td>
-
-
-                                    <!-- <input [nbDatepicker]="datepicker"> -->
-
-
-                                    <!-- <input nbInput  value={{item.expected_date}} /></td> -->
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
                 </nb-card-body>
                 <nb-card-footer>
                     <table class="table table-hovered">
@@ -237,8 +184,8 @@
                             </div>
                         </div>
                 </nb-card-body>
-                <nb-card-footer *ngIf='po_status !== "FINISHED" '>
-                    <button nbButton type="button" size="small" status="success" (click)="save_po();"  *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
+                <nb-card-footer >
+                    <button nbButton type="button" size="small" status="success" (click)="save();"  *ngxPermissionsOnly="['purchase.add_poorderdetails']" >Save</button>
                 </nb-card-footer>
             </nb-card>
             </form>
@@ -249,12 +196,20 @@
         <nb-card size="medium">
             <nb-card-header>Vendor List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchVendor" /></nb-card-header>
             <nb-card-body>
-                <nb-list>
+                <!-- <nb-list>
                     <nb-list-item *ngFor="let item of vendor_list | search_filter:'vendor_name,vendor_code':searchVendor ">
                         <i class="mr-auto mt-2 mt-lg-0">{{ item.vendor_name }} - {{item.vendor_code }}</i>
                         <button nbButton (click)="ref.close(item)" size="small">Select</button>
                     </nb-list-item>
-                </nb-list>
+                </nb-list> -->
+                <table class="table table-hover">
+                    <tbody>
+                        <tr *ngFor="let item of vendor_list | search_filter:'vendor_name,vendor_code':searchVendor " (click)="ref.close(item)">
+                            <td><i class="mr-auto mt-2 mt-lg-0">{{ item.vendor_name }} - {{item.vendor_code }}</i></td>              
+                            <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </nb-card-body>
             <nb-card-footer>
                 <button nbButton (click)="ref.close()">Close</button>
@@ -265,12 +220,20 @@
         <nb-card size="large" >
           <nb-card-header>Product List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchProduct" /> </nb-card-header>
           <nb-card-body>
-            <nb-list>
+            <!-- <nb-list>
                 <nb-list-item *ngFor="let item of data | search_filter:'product_name,product_code':searchProduct">
                   <i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i>
                   <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
-              </nb-list>
+              </nb-list> -->
+              <table class="table table-hover">
+                <tbody>
+                    <tr *ngFor="let item of data | search_filter:'product_name,product_code':searchProduct" (click)="ref.close(item)">
+                        <td><i class="mr-auto mt-2 mt-lg-0">{{ item.product_name }} - {{item.product_code }}</i></td>              
+                        <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                    </tr>
+                </tbody>
+            </table>
           </nb-card-body>
           <nb-card-footer>
             <button nbButton (click)="ref.close()">Close</button>
@@ -281,12 +244,20 @@
         <nb-card size="large" >
           <nb-card-header>PR List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchPR" /> </nb-card-header>
           <nb-card-body>
-            <nb-list>
+            <!-- <nb-list>
                 <nb-list-item *ngFor="let item of data | search_filter:'pr_no':searchPR">
                   <i class="mr-auto mt-2 mt-lg-0">{{ item.pr_no }} </i>
                   <button nbButton (click)="ref.close(item)" size="small">Select</button>
                 </nb-list-item>
-              </nb-list>
+              </nb-list> -->
+              <table class="table table-hover">
+                <tbody>
+                    <tr *ngFor="let item of data | search_filter:'pr_no':searchPR" (click)="ref.close(item)">
+                        <td><i class="mr-auto mt-2 mt-lg-0">{{ item.pr_no }} </i></td>              
+                        <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                    </tr>
+                </tbody>
+            </table>
           </nb-card-body>
           <nb-card-footer>
             <button nbButton (click)="ref.close()">Close</button>

@@ -71,6 +71,7 @@ export class ManageSubcategoryComponent implements OnInit {
     this.inventoryService.getSubCategoryList().subscribe(
       (data) => {
           this.sub_categories = data;
+          console.log(this.sub_categories)
       },
       (error) => {
           this.nbtoastService.danger(error,"Error")
@@ -145,7 +146,7 @@ export class ManageSubcategoryComponent implements OnInit {
         },
         (error) =>{
           if(error === "exist"){
-            this.nbtoastService.danger("Sub Category Code or Subcategory Nmae already"+" "+error);
+            this.nbtoastService.danger("Sub Category Code or Subcategory Name already"+" "+error);
             }
             else{
               this.nbtoastService.danger(error);

@@ -25,22 +25,27 @@ export class ProductListComponent implements OnInit {
         title: 'id',
         hide:true
       },
-      product_code: {
-        title: 'Product Code',
-        type: 'html',
-        valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageProduct?id=${row.id}">${row.product_code}</a>`;
-}
-      },
+      // product_code: {
+      //   title: 'Product Code',
+      //   type: 'html',
+      //   valuePrepareFunction: (cell, row) => {
+      //     return `<a href="ManageProduct?id=${row.id}">${row.product_code}</a>`;
+      // }
+      // },
       product_name: {
         title: 'Product Name',
+        type: 'html',
+        valuePrepareFunction: (cell, row) => {
+          return `<a href="ManageProduct?id=${row.id}">${row.product_name}</a>`;
+      }
+
       },
       description: {
         title: 'Description',
-        /*type: 'html',
+        type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<div style="word-wrap: break-word;">${row.description}</div>`;
-      }*/
+          return `<p class="d-inline-block text-truncate"><small class="text-compress">${row.description}</small></p>`;
+      }
       },
       hsn_code: {
         title: 'Hsn Code',
@@ -51,12 +56,19 @@ export class ProductListComponent implements OnInit {
       sub_category__sub_category_name: {
         title: 'Sub Category',
       },
+      product_price__sell_price:{
+        title: 'Sell price',
 
+      },
+      product_price__serial_number: {
+        title: 'Serial Number',
+      },
 
     },
   };
 
-  data:any = []
+  data = [
+  ]
 
   constructor(
     private formBuilder: FormBuilder,
@@ -68,7 +80,7 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.inventoryService.getProductList().subscribe(
+    this.inventoryService.getAllProductList().subscribe(
       (data) => {
           this.data = data;
       },

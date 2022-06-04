@@ -35,3 +35,14 @@
     top: -10px;
   right: -11px;
   }
+
+  .text-compress {
+    display: block;
+    white-space: nowrap;
+    width: 15em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.table-hover tbody tr:hover td {
+  background: #c2c2c2;
+}

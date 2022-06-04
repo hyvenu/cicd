@@ -34,18 +34,18 @@ export class ManageCategoryComponent implements OnInit {
       categoryNameFormControl: ['', [Validators.required]],
       categoryDescFormControl: ['', [Validators.required]],
       categoryCodeFormControl: ['', [Validators.required]],
+      salesmarginFormControl:['',[Validators.required]],
     });
     this.createFlag = true;
     this.inventoryService.getCategoryList().subscribe(
       (data) => {
-        console.log(data)
           this.categories = data;
       },
       (error) => {
           this.nbtoastService.danger(error,"Error")
       }
     )
-
+    
   }
 
   save_category(): void{
@@ -55,6 +55,7 @@ export class ManageCategoryComponent implements OnInit {
             category_name: this.categoryFrom.get(['categoryNameFormControl']).value,
             description: this.categoryFrom.get(['categoryDescFormControl']).value,
             category_code: this.categoryFrom.get(['categoryCodeFormControl']).value,
+            sales_margin: this.categoryFrom.get(['salesmarginFormControl']).value,
       }
       this.inventoryService.saveCategory(data).subscribe(
         (data) => {
@@ -74,11 +75,12 @@ export class ManageCategoryComponent implements OnInit {
     };
     update_category(): void{
 
-      if(this.categoryFrom.valid){
+      if( this.categoryFrom.dirty && this.categoryFrom.valid){
         let data = {
               category_name: this.categoryFrom.get(['categoryNameFormControl']).value,
               description: this.categoryFrom.get(['categoryDescFormControl']).value,
               category_code: this.categoryFrom.get(['categoryCodeFormControl']).value,
+              sales_margin: this.categoryFrom.get(['salesmarginFormControl']).value,
         }
         this.inventoryService.updateCategory(this.category_id, data).subscribe(
           (data) => {
@@ -93,24 +95,19 @@ export class ManageCategoryComponent implements OnInit {
       };
 
     selected_category(data): any{
-      this.searchCategory = "";
         this.categoryFrom.controls['categoryNameFormControl'].setValue(data.category_name);
         this.categoryFrom.controls['categoryDescFormControl'].setValue(data.description);
         this.categoryFrom.controls['categoryCodeFormControl'].setValue(data.category_code);
+        this.categoryFrom.controls['salesmarginFormControl'].setValue(data.sales_margin);
         this.createFlag = !this.createFlag;
         this.category_id = data.id
     }
 
-    cancel_update(){
-      this.categoryFrom.reset();
-      this.createFlag = true;
-  }
-
     delete_category(category){
-      console.log("category id")
-      console.log(category.id)
-      this.searchCategory= "";
-      this.inventoryService.removeFromCategory(category.id).subscribe(()=>{
+      const data = {
+        "id" : category.category_id
+      }
+      this.inventoryService.removeFromCategory(data).subscribe(()=>{
         this.refresh();
       })
     }
@@ -131,7 +128,7 @@ onSubmit() {
       return this.submitted = false;
     }
 
-
-
+    
+  
 }
 }

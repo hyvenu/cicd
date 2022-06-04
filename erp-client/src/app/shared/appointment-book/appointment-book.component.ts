@@ -360,7 +360,31 @@ export class AppointmentBookComponent implements OnInit {
     if(this.selected_product_list.length == 0) {
       this.nbtoastService.danger("Add service to save this booking");
       return;
+    }else{
+      let valid = true;
+      this.selected_product_list.forEach(element => {
+          if(element.stylist_id == "") {
+            this.nbtoastService.danger("Stylist not selected for one or more services");
+            valid = false;
+            return;
+          }
+          if(element.start_time == "") {
+            this.nbtoastService.danger("Start Time not selected for one or more services");
+            valid = false;
+            return;
+          }
+          if(element.end_time == "") {
+            this.nbtoastService.danger("End Time not selected for one or more services");
+            valid = false;
+            return;
+          }
+      });
+
+      if(!valid) {
+        return
+      }
     }
+
     if(this.bookingForm.valid){
     let form_data = new FormData();
     if(this.app_id){

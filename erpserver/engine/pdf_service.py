@@ -9,7 +9,7 @@ from requests.auth import HTTPBasicAuth
 
 def get_pdf(report_name, file_name, parameters):
     # input_file = os.path.dirname(os.path.abspath(__file__)) + '/reports/rpt_files/'+file_name
-    output = os.path.dirname(os.path.abspath(__file__)) + '/reports/output_files/' + file_name
+    output = settings.BASE_DIR + str("/static/") + str('/reports/output_files/')+file_name #os.path.dirname(os.path.abspath(__file__)) + '/reports/output_files/' + file_name
     # con = {
     #     'driver': 'mysql',
     #     'username': 'root',

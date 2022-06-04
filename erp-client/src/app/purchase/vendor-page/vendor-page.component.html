@@ -1,0 +1,205 @@
+
+
+<div class="d-flex justify-content-center">Vendor Payment</div>
+
+<div id="bill">
+   <div class="container-fluid">
+      <div class="card border border-dark">
+         <div class="card-header border-bottom ">
+
+            <div class="d-flex justify-content-between">
+               <div class="d-flex-1">
+                  &nbsp; <img src = "/assets/images/LOGO.png" style = "height:56px">
+               </div>
+               <div class="d-flex-1 text-center" >
+                  <h2 class="text-uppercase"><i>{{store_name}}</i></h2>
+                  <p class="text-uppercase"><b>{{store_address}} - {{store_pincode}}</b></p>
+
+               </div>
+               <div class="d-flex-1 " ></div>
+            </div>
+
+
+            <div class="row">
+               <div class="col-sm-1">
+
+               </div>
+               <div class="col-sm-4">
+                  <div class="row">
+                     <div class="col-sm-4 text-uppercase"><b>gstin</b></div>
+                     <div class="col-sm-8 text-uppercase "><b>:</b> {{store_gst}}</div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>State</b></div>
+                     <div class="col-sm-8 text-capitalize "><b>:</b> {{state}} [{{state_code}}]</div>
+                  </div>
+
+               </div>
+               <div class="col-sm-1">
+
+               </div>
+               <div class="col-sm-6">
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>email id</b></div>
+                     <div class="col-sm-8  "><b>: </b>{{store_email}}</div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>TEL</b></div>
+                     <div class="col-sm-8 text-capitalize "><b>: </b>{{store_no}}</div>
+                  </div>
+
+               </div>
+
+            </div>
+
+         </div>
+
+         <div class="card-body border-top ">
+            <div class="row border-bottom ">
+                <div class="col-sm-6 border-right  ">
+                  <h6 class="text-center"><b>Vendor details</b> </h6>
+                  <div class="row mt-2">
+                     <div class="col-sm-4 text-capitalize"><b>Name</b></div>
+                     <div class="col-sm-8 text-uppercase"><b>: {{vendor_payment_detail.vendor_name}}</b></div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>Address</b></div>
+                     <div class="col-sm-8 text-capitalize ">
+                         <div class="d-flex flex-nowrap">
+                            <b>:  {{vendor_address}}</b>
+                         </div>
+                      </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                     <div class="col-sm-4 text-capitalize"><b>State</b></div>
+                     <div class="col-sm-4 text-capitalize"><b>:</b> {{state}} </div>
+                     <div class="col-sm-2 text-capitalize"><b>code</b></div>
+                     <div class="col-sm-2 text-capitalize"><b>:</b> {{state_code}} </div>
+                 </div>
+                 <div class="row ">
+                     <div class="col-sm-4 text-capitalize"><b>phone no</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:</b> {{vendor_number}} </div>
+                  </div>
+                  <div class="row mt-2">
+                     <div class="col-sm-4 text-uppercase"><b>gstin</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:</b> {{store_gst}} </div>
+                  </div>
+               </div>
+
+               <div class="col-sm-6 ">
+                  <div class="row mt-2">
+                     <div class="col-sm-4  text-capitalize"><b>PO no</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:</b> {{vendor_payment_detail.v_list[0].po_number}} </div>
+                  </div>
+                  <div class="row mt-2">
+                     <div class="col-sm-4 text-capitalize"><b>PO date</b></div>
+                     <div class="col-sm-8 text-capitalize"><b>:</b> {{vendor_payment_detail.v_list[0].po_date}}</div>
+                  </div>
+
+               </div>
+            </div>
+
+            <div class="">
+               <table class="table table-sm table-bordered border-primary text-nowrap">
+                     <thead>
+                        <tr>
+                           <th>Grn Number</th>
+                           <th>Grn Date</th>
+                           <th>Inv Number</th>
+                           <th>Inv Date</th>
+                           <th>Inv Amount</th>
+                           <th>Pay Amount</th>
+                           <th>Remaining Amount</th>
+                           <th>Pay Method</th>
+                           <th>Pay Details</th>
+
+                        </tr>
+                     </thead>
+                     <tbody style="height: 200px;">
+                        <tr *ngFor="let item of vendor_payment_detail.v_list">
+                           <td class="text-capitalize">{{item.grn_code}}</td>
+                           <td>{{item.grn_date}}</td>
+                           <td>{{item.invoice_number}}</td>
+                           <td>{{item.invoice_date}}</td>
+                           <td>{{item.invoice_amount}}</td>
+                           <td>{{item.payment_amount}}</td>
+                           <td>{{item.remaining_amount}}</td>
+                           <td>{{item.payment_method}}</td>
+                           <td>{{item.payment_details}}</td>
+                       </tr>
+                     </tbody>
+               </table>
+            </div>
+
+            <div class="row">
+
+               <div class="col-lg-4 col-sm-5">
+
+               </div>
+               <div class="col-lg-4 col-sm-5 ml-auto">
+                  <table class="table ">
+                     <tbody>
+                        <tr>
+                           <td class="left">
+                              <strong class="text-dark text-capitalize ">Total Payment Amount</strong>
+                           </td>
+                           <td class="right">
+                              <strong class="text-dark">{{grandTotal}} </strong>
+                           </td>
+                        </tr>
+
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+
+            <div class="row border-top  ">
+               <div class="col-md-12" >
+                  <div class="row">
+                     <div class="col-md-6 text-capitalize">
+                        <b>Amount in words</b>
+                     </div>
+                     <div class="col-md-6 text-capitalize">
+                        {{grandTotal | amountToWord}}
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="row border-top  ">
+               <div class="col-md-6" style="text-align: left;">
+
+               </div>
+
+            </div>
+         </div>
+         <div class="card-footer bg-white mb-5">
+            <div class="row ">
+               <div class="col-6 border-right  ">
+                  <div class="d-flex-1 text-left p-0">
+                     <p > <b> Prepared By </b> <b class="text-capitalize"></b> </p>
+                     <p class="mt-5">Authorised Signatory</p>
+                  </div>
+               </div>
+               <div class="col-6">
+                  <div class="d-flex-1 text-center p-0">
+                     <p >For <b class="text-uppercase">{{store_name}}</b> </p>
+                     <p class="mt-5">Authorised Signatory</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      </div>
+      <div class="d-flex justify-content-start">
+         <p>Powered by Sanadi Technologies-ERP</p>
+      </div>
+   </div>
+</div>
+<div class="container">
+    <button class="btn btn-secondary justify-content-center" type="button" id="print">
+        Print
+    </button>
+</div>
+

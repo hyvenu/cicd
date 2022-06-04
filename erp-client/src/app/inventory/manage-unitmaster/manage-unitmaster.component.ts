@@ -16,7 +16,7 @@ export class ManageUnitmasterComponent implements OnInit {
   unitMasterList;
   unit_id;
   submitted: boolean;
-  searchUnit:any
+  searchUnit;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,10 +28,12 @@ export class ManageUnitmasterComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitMasterFrom  =  this.formBuilder.group({
-      primaryUnitFormControl: ['', [Validators.required]],      
-      secondaryUnitFormControl: ['', [Validators.required]],         
+      primaryUnitFormControl: ['', [Validators.required]],
+      secondaryUnitFormControl: ['', [Validators.required]],
+      primaryUnitMeasurementFormControl:['',[Validators.required]] ,
+      secondaryUnitMeasurementFormControl:['',[Validators.required]],
     });
-    
+
     this.createFlag = true;
 
     this.inventoryService.getUnitMasterList().subscribe(
@@ -45,11 +47,13 @@ export class ManageUnitmasterComponent implements OnInit {
 
   }
   save_unit(): void{
-    
+
     if( this.unitMasterFrom.dirty && this.unitMasterFrom.valid){
       let data = {
-            PrimaryUnit: this.unitMasterFrom.get(['primaryUnitFormControl']).value,            
-            SecondaryUnit: this.unitMasterFrom.get(['secondaryUnitFormControl']).value,            
+            PrimaryUnit: this.unitMasterFrom.get(['primaryUnitFormControl']).value,
+            SecondaryUnit: this.unitMasterFrom.get(['secondaryUnitFormControl']).value,
+            PrimaryUnitMeasurement: this.unitMasterFrom.get(['primaryUnitMeasurementFormControl']).value,
+            SecondaryUnitMeasurement: this.unitMasterFrom.get(['secondaryUnitMeasurementFormControl']).value,
       }
       this.inventoryService.saveUnit(data).subscribe(
         (data) => {
@@ -64,15 +68,17 @@ export class ManageUnitmasterComponent implements OnInit {
               this.nbtoastService.danger(error);
             }
         }
-      )    
+      )
     }
     };
     update_unit(): void{
-    
+
       if( this.unitMasterFrom.dirty && this.unitMasterFrom.valid){
         let data = {
-              PrimaryUnit: this.unitMasterFrom.get(['primaryUnitFormControl']).value,              
+              PrimaryUnit: this.unitMasterFrom.get(['primaryUnitFormControl']).value,
               SecondaryUnit: this.unitMasterFrom.get(['secondaryUnitFormControl']).value,
+              PrimaryUnitMeasurement: this.unitMasterFrom.get(['primaryUnitMeasurementFormControl']).value,
+              SecondaryUnitMeasurement: this.unitMasterFrom.get(['secondaryUnitMeasurementFormControl']).value,
               id: this.unit_id,
         }
         this.inventoryService.updateUnit(this.unit_id, data).subscribe(
@@ -83,16 +89,17 @@ export class ManageUnitmasterComponent implements OnInit {
           (error) =>{
             this.nbtoastService.danger(error);
           }
-        )    
+        )
       }
       };
 
       selected_unit(data): any{
-        this.unitMasterFrom.controls['primaryUnitFormControl'].setValue(data.PrimaryUnit);        
+        this.unitMasterFrom.controls['primaryUnitFormControl'].setValue(data.PrimaryUnit);
         this.unitMasterFrom.controls['secondaryUnitFormControl'].setValue(data.SecondaryUnit);
-        
+        this.unitMasterFrom.controls['primaryUnitMeasurementFormControl'].setValue(data.PrimaryUnitMeasurement);
+        this.unitMasterFrom.controls['secondaryUnitMeasurementFormControl'].setValue(data.SecondaryUnitMeasurement);
         this.createFlag = !this.createFlag;
-        this.unit_id = data.id        
+        this.unit_id = data.id
     }
 
     get f() { return this.unitMasterFrom.controls; }
@@ -108,8 +115,8 @@ onSubmit() {
       return this.submitted = false;
     }
 
-    
-  
+
+
 }
 
 }

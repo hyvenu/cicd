@@ -56,7 +56,7 @@ export class PrInvoiceComponent implements OnInit {
     console.log(invoice)
 
     if (invoice) {
-      
+
       this.purchaseService.getPRDetails(invoice).subscribe((data) => {
         console.log(data)
         this.pr_status = data.status
@@ -66,7 +66,7 @@ export class PrInvoiceComponent implements OnInit {
         this.dep_name = data.dept__department_name
         this.pr_details = data.selected_product_list
         console.log(data.selected_product_list)
-        
+
 
       });
     }
@@ -100,7 +100,7 @@ export class PrInvoiceComponent implements OnInit {
         popupWindow.document.write(pageContent);
         popupWindow.document.close();
       }
-      
+
     }
 
     this.adminService.getStoreDetails(this.store_id).subscribe(
@@ -113,7 +113,7 @@ export class PrInvoiceComponent implements OnInit {
         this.store_pincode = this.store_list[0].pin_code
         this.store_no = this.store_list[0].store_number
         console.log(this.store_name)
-       
+
         this.store_email = this.store_list[0].email
         this.store_gst =  this.store_list[0].gst_no
       }

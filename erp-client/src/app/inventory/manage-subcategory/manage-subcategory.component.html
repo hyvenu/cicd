@@ -1,67 +1,79 @@
-<form id="" [formGroup]="subcategoryFrom" (ngSubmit)="onSubmit()" >
+<nb-card accent="info">
+    <nb-card-header>
+        Product Sub Category
+    </nb-card-header>
+    <nb-card-body>
+        <form id="" [formGroup]="subcategoryFrom" (ngSubmit)="onSubmit()" >
     
-    <div class="form-row">
-        <div class="form-group col-md-3"> 
-            <label for="categoryName">Category Name <span style="color: red;">*</span></label>
-            <input nbInput formControlName="categoryNameFormControl" (keypress)="open(dialog)" (click)="open(dialog)" name="categoryName" placeholder="Category Name" (keypress)="open(dialog)" readonly 
-            [ngClass]="{ 'is-invalid': submitted && f.categoryNameFormControl.errors }" class="form-control"/>
-            <div *ngIf="submitted && f.categoryNameFormControl.errors" class="invalid-feedback">
-                <div *ngIf="f.categoryNameFormControl.errors.required">Category Name is required</div>
+            <div class="form-row">
+                <div class="form-group col-md-3"> 
+                    <label for="categoryName">Category Name <span style="color: red;">*</span></label>
+                    <input nbInput formControlName="categoryNameFormControl" (keypress)="open(dialog)" (click)="open(dialog)" name="categoryName" placeholder="Category Name" (keypress)="open(dialog)" readonly 
+                    [ngClass]="{ 'is-invalid': submitted && f.categoryNameFormControl.errors }" class="form-control"/>
+                    <div *ngIf="submitted && f.categoryNameFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.categoryNameFormControl.errors.required">Category Name is required</div>
+                    </div>
+                </div><br>
+                <div class="form-group col-md-3"> 
+                    <label for="subcategoryName">Sub Category Name <span style="color: red;">*</span></label>
+                    <input nbInput formControlName="subcategoryNameFormControl" name="subcategoryName" placeholder="Sub Category Name"
+                    [ngClass]="{ 'is-invalid': submitted && f.subcategoryNameFormControl.errors }" class="form-control"/>
+                    <div *ngIf="submitted && f.subcategoryNameFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.subcategoryNameFormControl.errors.required">Sub Category Name is required</div>
+                    </div> 
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="subcategoryCode">Sub Category Code <span style="color: red;">*</span></label>
+                    <input nbInput formControlName="subCategoryCodeFormControl" name="subcategoryCode" placeholder="Sub Category Code"
+                    [ngClass]="{ 'is-invalid': submitted && f.subCategoryCodeFormControl.errors }" class="form-control"/>
+                    <div *ngIf="submitted && f.subCategoryCodeFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.subCategoryCodeFormControl.errors.required">Sub Category Code is required</div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="subDescription">Description <span style="color: red;">*</span></label>
+                    <input nbInput formControlName="subDescription" name="subDescription" placeholder="Sub Category Description"
+                    [ngClass]="{ 'is-invalid': submitted && f.subDescription.errors }" class="form-control"/>
+                    <div *ngIf="submitted && f.subDescription.errors" class="invalid-feedback">
+                        <div *ngIf="f.subDescription.errors.required">Description is required</div>
+                    </div>
+                </div>
+            </div><br>
+            <div class="form-row">
+            <div class="form-group col-md-4" >
+                <label for="subCatImage" >Image</label>
+                <input #myInput nbInput type="file"  alt="No Image" formControlName="subCatImageFormControl" (change)="onFileChange($event)"  name="subCatImage" />
+                
+                
             </div>
-        </div><br>
-        <div class="form-group col-md-3"> 
-            <label for="subcategoryName">Sub Category Name <span style="color: red;">*</span></label>
-            <input nbInput formControlName="subcategoryNameFormControl" name="subcategoryName" placeholder="Sub Category Name"
-            [ngClass]="{ 'is-invalid': submitted && f.subcategoryNameFormControl.errors }" class="form-control"/>
-            <div *ngIf="submitted && f.subcategoryNameFormControl.errors" class="invalid-feedback">
-                <div *ngIf="f.subcategoryNameFormControl.errors.required">Sub Category Name is required</div>
-            </div> 
-        </div>
-        <div class="form-group col-md-3">
-            <label for="subcategoryCode">Sub Category Code <span style="color: red;">*</span></label>
-            <input nbInput formControlName="subCategoryCodeFormControl" name="subcategoryCode" placeholder="Sub Category Code"
-            [ngClass]="{ 'is-invalid': submitted && f.subCategoryCodeFormControl.errors }" class="form-control"/>
-            <div *ngIf="submitted && f.subCategoryCodeFormControl.errors" class="invalid-feedback">
-                <div *ngIf="f.subCategoryCodeFormControl.errors.required">Sub Category Code is required</div>
+            <div class="form-group col-md-4" *ngIf="subcat_image">            
+                <img src="{{subcat_image}}" class="rounded" #fileUploader  width="80" height="80"  />
+               
+            </div>
+            </div><br>
+           
+        </form>
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="form-row">
+            <div class="form-group col-md-4"> 
+                <button nbButton [hidden]="!createFlag" (click)="save_sub_category(); " status="success" *ngxPermissionsOnly="['inventory.add_productsubcategory']">Save</button>
+                <button nbButton [hidden]="createFlag" (click)="update_sub_category();"  status="success" *ngxPermissionsOnly="['inventory.change_productsubcategory']" >Update</button>
             </div>
         </div>
-        <div class="form-group col-md-3">
-            <label for="subDescription">Description <span style="color: red;">*</span></label>
-            <input nbInput formControlName="subDescription" name="subDescription" placeholder="Sub Category Description"
-            [ngClass]="{ 'is-invalid': submitted && f.subDescription.errors }" class="form-control"/>
-            <div *ngIf="submitted && f.subDescription.errors" class="invalid-feedback">
-                <div *ngIf="f.subDescription.errors.required">Description is required</div>
-            </div>
-        </div>
-    </div><br>
-    <div class="form-row">
-    <div class="form-group col-md-4" >
-        <label for="subCatImage" >Image</label>
-        <input #myInput nbInput type="file"  alt="No Image" formControlName="subCatImageFormControl" (change)="onFileChange($event)"  name="subCatImage" />
-        
-        
-    </div>
-    <div class="form-group col-md-4" *ngIf="subcat_image">            
-        <img src="{{subcat_image}}" class="rounded" #fileUploader  width="80" height="80"  />
-       
-    </div>
-    </div><br>
-    <div class="form-row">
-        <div class="form-group col-md-4"> 
-            <button nbButton [hidden]="!createFlag" (click)="save_sub_category(); " status="success" *ngxPermissionsOnly="['inventory.add_productsubcategory']">Save</button>
-            <button nbButton [hidden]="createFlag" (click)="update_sub_category();"  status="success" *ngxPermissionsOnly="['inventory.change_productsubcategory']" >Update</button>
-        </div>
-    </div>
-</form><br>
+    </nb-card-footer>
+</nb-card>
+
 <div>
     <nb-card size="large">
         <nb-card-header>Sub Category List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchSubCategory" /></nb-card-header>
         <nb-card-body>
             <nb-list-item *ngFor="let subcategory of sub_categories | search_filter:'sub_category_name,sub_category_code':searchSubCategory ">
-                <i class="mr-auto mt-2 mt-lg-0">{{ subcategory.category.category_name  }} -{{ subcategory.sub_category_code }} - {{ subcategory.sub_category_name }}</i>
+                <i class="mr-auto mt-2 mt-lg-0">{{ subcategory.sub_category_name }}-{{ subcategory.category.category_name  }} -{{ subcategory.sub_category_code }}  <small class="text-compress">{{ subcategory.description }}</small></i>
                 <img src="{{subcategory.sub_category_image}}" alt="Subc" width="40" height="40"/>
                 <button nbButton size="small" (click)="selected_sub_category(subcategory)" >Select</button>
               </nb-list-item>
+              
         </nb-card-body>
     </nb-card>
 </div>
@@ -70,11 +82,20 @@
       <nb-card-header>Category List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchCatgory" /> </nb-card-header>
       <nb-card-body>
         <nb-list>
-            <nb-list-item *ngFor="let item of data | search_filter:'category_name,category_code':searchCatgory ">
+            <!-- <nb-list-item *ngFor="let item of data | search_filter:'category_name,category_code':searchCatgory " (click)="ref.close(item)">
               <i class="mr-auto mt-2 mt-lg-0">{{ item.category_name }} - {{item.category_code }}</i>              
-              <button nbButton (click)="ref.close(item)" size="small">Select</button>
-            </nb-list-item>
+              <button nbButton  size="small">Select</button>
+            </nb-list-item> -->
+            
           </nb-list>
+          <table class="table table-hover">
+            <tbody>
+                <tr *ngFor="let item of data | search_filter:'category_name,category_code':searchCatgory " (click)="ref.close(item)">
+                    <td><i class="mr-auto mt-2 mt-lg-0">{{ item.category_name }} - {{item.category_code }}</i></td>              
+                    <td><button nbButton  size="small">Select</button></td>
+                </tr>
+            </tbody>
+        </table>
       </nb-card-body>
       <nb-card-footer>
         <button nbButton (click)="ref.close()">Close</button>

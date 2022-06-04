@@ -122,6 +122,13 @@ def save_grn(request):
     pr_res = purchase_service.save_grn(data, file)
     return JsonResponse(pr_res, safe=False)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def delete_grn_product(request):
+    service = PurchaseService()
+    prd_id = request.data['id']
+    res = service.delete_grn_product(prd_id)
+    return JsonResponse(res, safe=False)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
@@ -136,4 +143,51 @@ def get_grn_details(request):
 def get_grn_list(request):
     purchase_service = PurchaseService()
     grn_list = purchase_service.get_grn_list()
+    return JsonResponse(grn_list, safe=False)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def save_vendor_payment(request):
+    data = request.data
+    purchase_service = PurchaseService()
+    pr_res = purchase_service.save_vendor_payment(data)
+    return JsonResponse(pr_res, safe=False)   
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_vendor_payment_list(request):
+    purchase_service = PurchaseService()
+    grn_list = purchase_service.get_vendor_payment_list()
+    return JsonResponse(grn_list, safe=False)  
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_vendor_payment_list_by_id(request):
+    purchase_service = PurchaseService()
+    vendor_payment_code = request.query_params['id']
+    grn_list = purchase_service.get_vendor_payment_list_by_id(vendor_payment_code)
+    return JsonResponse(grn_list, safe=False)   
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_vendor_po_list(request):
+    purchase_service = PurchaseService()
+    vendor_id = request.query_params['id']
+    grn_list = purchase_service.get_vendor_po_list(vendor_id)
+    return JsonResponse(grn_list, safe=False)   
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_vendor_grn_list(request):
+    purchase_service = PurchaseService()
+    po_id = request.query_params['id']
+    grn_list = purchase_service.get_vendor_grn_list(po_id)
+    return JsonResponse(grn_list, safe=False) 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_vendor_grn_amount(request):
+    purchase_service = PurchaseService()
+    v_id = request.query_params['id']
+    grn_list = purchase_service.get_vendor_grn_amount(v_id)
     return JsonResponse(grn_list, safe=False)

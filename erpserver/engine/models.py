@@ -4,6 +4,7 @@ from django.db import models
 # Create your models here.
 from audit_fields.models import AuditUuidModelMixin
 from sales.models import OrderRequest
+
 User = get_user_model()
 
 
@@ -25,6 +26,13 @@ class Transaction(AuditUuidModelMixin):
     transaction_date = models.DateTimeField()
     receipt_id = models.CharField(max_length=50)
     customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    payment = models.ForeignKey(Payments, on_delete=models.CASCADE,default="")
-    amount = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    payment = models.ForeignKey(Payments, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+
+class Translation(AuditUuidModelMixin):
+    language_code = models.CharField(max_length=10, default="",choices=[('KA','Kannada')])
+    attribute_name = models.CharField(max_length=100, default="",choices=[('PRODUCT','PRODUCT'),('CATEGORY','CATEGORY'),('SUB_CATEGORY','SUB_CATEGORY'),('BRAND','BRAND')])
+    primary_text = models.TextField(default="")
+    translated_text = models.TextField(null=True, default=None)
 

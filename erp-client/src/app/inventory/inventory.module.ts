@@ -19,6 +19,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MainPipe } from '../pipe.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { ProductStockComponent } from './product-stock/product-stock.component';
+import { StockAdjustmentComponent } from './stock-adjustment/stock-adjustment.component';
 
 
 
@@ -29,11 +30,12 @@ const routes: Routes = [
   { path: 'ManageBrandMaster' , component: ManageBrandComponent,canActivate:[AuthGuard]},
   { path: 'ManageProductMaster' , component: ProductListComponent,canActivate:[AuthGuard]},
   { path: 'ManageProduct' , component: ManageProductComponent,canActivate:[AuthGuard]},
+  { path: 'StockAdjustment' , component: StockAdjustmentComponent,canActivate:[AuthGuard]},
 
 ];
 @NgModule({
-  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, ProductStockComponent],
-  
+  declarations: [ManageProductComponent, ManageCategoryComponent, ManageSubcategoryComponent, ManageUnitmasterComponent, ManageStockComponent, ManageBrandComponent, ProductListComponent, ProductStockComponent, StockAdjustmentComponent],
+
   imports: [
     CommonModule,
     ReactiveFormsModule,
