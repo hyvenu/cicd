@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./report-home.component.scss']
 })
 export class ReportHomeComponent implements OnInit {
-
+  searchReport = ""
   REPORT_LIST = [
     // { report_name:'Monthly Salary Paid Report',report_file_name:'RptMonthlySalaryPaid',params:[{key:'',value:'',type:''}]},
     // { report_name:'Monthly LIC Paid Report',report_file_name:'RptMonthlyLICReport',params:[{key:'',value:'',type:''}]},
@@ -27,8 +27,9 @@ export class ReportHomeComponent implements OnInit {
     J_USER_NAME:'',
     J_PASSWORD:'',
     J_SERVER_URL:'',
+    J_REPORT_PATH:'',
   }
- 
+
 
   constructor(
     private shareService:SharedService,
@@ -45,6 +46,7 @@ export class ReportHomeComponent implements OnInit {
           this.REPORT_CREDENTIAL.J_SERVER_URL = data?.JASPER_SERVER_URL;
           this.REPORT_CREDENTIAL.J_USER_NAME = data?.JASPER_USERNAME;
           this.REPORT_CREDENTIAL.J_PASSWORD = data?.JASPER_PASSWORD;
+          this.REPORT_CREDENTIAL.J_REPORT_PATH = data?.J_REPORT_PATH;
       },
       (error) => {
           this.nbToasterService.danger("Unable to load report permissions");
@@ -67,7 +69,7 @@ export class ReportHomeComponent implements OnInit {
       // var url = '?resource_name=' + report.report_file_name + '.pdf' + '&params='+ report.params;
       // this.router.navigateByUrl('ReportView'+url);
       // alert(report.report_file_name);
-      var data =this.REPORT_CREDENTIAL.J_SERVER_URL + "flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=/ERP/Reports&reportUnit=/ERP/Reports/"+report.report_file_name+"&standAlone=true&decorate=no"
+      var data =this.REPORT_CREDENTIAL.J_SERVER_URL + "flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri="+this.REPORT_CREDENTIAL.J_REPORT_PATH+"&reportUnit="+this.REPORT_CREDENTIAL.J_REPORT_PATH+"/"+report.report_file_name+"&standAlone=true&decorate=no"
       data = data + "&j_username="+ this.REPORT_CREDENTIAL.J_USER_NAME +'&j_password=' + this.REPORT_CREDENTIAL.J_PASSWORD;
       // console.log(data);
       window.open(data);
