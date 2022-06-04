@@ -165,7 +165,10 @@ inner join inventory_productsubcategory as sub_category on sub_category.category
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store limit 1]]>
+		<![CDATA[SELECT store_name,address,city,pin_code 
+FROM store_store
+where $X{IN,store_name,Branch_Name}
+ limit 1]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>

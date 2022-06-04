@@ -264,9 +264,10 @@ ORDER BY sales_details.qty desc limit 10]]>
 		<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,store_number,
-address,city,pin_code
- FROM store_store limit 1]]>
+		<![CDATA[SELECT store_name,address,city,pin_code ,store_number
+FROM store_store
+where $X{IN,store_name,Branch_Name}
+ limit 1]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>

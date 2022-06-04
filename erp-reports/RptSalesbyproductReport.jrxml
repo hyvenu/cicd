@@ -62,8 +62,7 @@ FROM sales_salesorderdetails as order_details
  product.product_code,order_details.qty,order_details.unit_price,
 order_details.discount_price,order_details.gst_amount,
 order_details.subtotal_amount
- order by date
- ]]>
+ order by date]]>
 		</queryString>
 		<field name="product_name" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="product_name"/>
@@ -158,7 +157,10 @@ order_details.subtotal_amount
 	<parameter name="From_Date" class="java.sql.Date"/>
 	<parameter name="To_Date" class="java.sql.Date"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT store_name,address,city,pin_code FROM store_store limit 1]]>
+		<![CDATA[SELECT store_name,address,city,pin_code 
+FROM store_store
+where $X{IN,store_name,Branch_Name}
+ limit 1]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="store_name"/>
