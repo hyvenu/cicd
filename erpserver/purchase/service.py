@@ -181,7 +181,7 @@ class PurchaseService:
             prpl_object.save()
             return prpl_object.product_code
         except:
-            print("An exception occurred")
+            # print("An exception occurred")
             return True;
 
         # print( prpl_object)
@@ -457,7 +457,7 @@ class PurchaseService:
             po_prd_object.delete()
             return True
         except:
-            print("An exception occurred")
+            # print("An exception occurred")
             return True
 
     @transaction.atomic()
@@ -596,7 +596,7 @@ class PurchaseService:
             grn_prd_object.delete()
             return "DELETED"
         except:
-            print("An exception occurred")
+            # print("An exception occurred")
             return "NOT DELETED"
 
     @classmethod
