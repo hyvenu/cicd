@@ -181,27 +181,42 @@ $box.prop("checked", false);
                           <nb-option *ngFor="let e of Events" value="{{e.value}}">{{e.name}}</nb-option>
                         </nb-select>
                   </td>
-                  <td style="text-align: center;">
-                      <div *ngIf="selectedEvents === 'UPI'">
-                        <label for="event">UPI Type<span style="color: red;">*</span></label><br>
-                        <nb-select (change)="onEvnetChange($event)" placeholder="UPI Type" name="upitype"
-                          formControlName="upiTypeFormControl"  [(ngModel)]="selectedUpiEvents">
-                          <nb-option *ngFor="let e of Upi" value="{{e.value}}">{{e.name}}</nb-option>
-                        </nb-select>
-                      </div>
-                  </td>
-                  <td (change)="onEvnetChange($event)" colspan="3"style="text-align: center;">
-                      <div style="text-align: center;" *ngIf="selectedEvents === 'UPI' || selectedEvents === 'CARD' ">
-                      Transaction Id:<span style="color: red;">*</span><br>
-                      <input size="small"  style="width: 14em;" value="{{transaction}}"  step="0.1" nbInput formControlName="TransactionIdFormControl"  [ngClass]="{ 'is-invalid': submitted && f.customerNameFormControl.errors }" class="form-control" [(ngModel)]="transaction" name="TransactionIdFormControl" placeholder="Transaction  Id" >
-                      <div *ngIf="submitted && f.TransactionIdFormControl.errors" class="invalid-feedback">
-                            <div *ngIf="f.TransactionIdFormControl.errors.required">Transaction Id is required</div>
-                        </div>
-                      </div>
-                  </td>
-                </tr>
-
+                                 </tr>
+                                 <tr>
+                                  <td (change)="onEvnetChange($event)" style="text-align: center;">
+                                    <div style="text-align:left;" *ngIf="selectedEvents === 'CREDIT' ||selectedEvents === 'SPLIT'">
+                                     Enter text:<br>
+                                    <input size="small"  style="width: 14em;" value="{{credit}}"  step="0.1" nbInput formControlName="CreditFormControl" class="form-control" [(ngModel)]="credit" name="CreditFormControl" placeholder="Enter Text" >
+                                    </div>
+                                </td>
+                                  <td (change)="onEvnetChange($event)"style="text-align: center;">
+                                    <div style="text-align: center;" *ngIf="selectedEvents === 'SPLIT'">
+                                    Enter text:<br>
+                                    <input size="small"  style="width: 14em;" value="{{split}}"  step="0.1" nbInput formControlName="SplitFormControl" class="form-control" [(ngModel)]="split" name="SplitFormControl" placeholder="Enter Text" >
+                                    </div>
+                                </td>
+                                  <td style="text-align: center;">
+                                      <div *ngIf="selectedEvents === 'UPI'">
+                                        <label for="event">UPI Type<span style="color: red;">*</span></label><br>
+                                        <nb-select (change)="onEvnetChange($event)" placeholder="UPI Type" name="upitype"
+                                          formControlName="upiTypeFormControl"  [(ngModel)]="selectedUpiEvents">
+                                          <nb-option *ngFor="let e of Upi" value="{{e.value}}">{{e.name}}</nb-option>
+                                        </nb-select>
+                                      </div>
+                                  </td>
+                                  <td (change)="onEvnetChange($event)" style="text-align: center;">
+                                      <div style="text-align: center;" *ngIf="selectedEvents === 'UPI' || selectedEvents === 'CARD' || selectedEvents === 'CREDIT' ||selectedEvents === 'SPLIT'">
+                                      Transaction Id:<span style="color: red;">*</span><br>
+                                      <input size="small"  style="width: 14em;" value="{{transaction}}"  step="0.1" nbInput formControlName="TransactionIdFormControl"  [ngClass]="{ 'is-invalid': submitted && f.customerNameFormControl.errors }" class="form-control" [(ngModel)]="transaction" name="TransactionIdFormControl" placeholder="Transaction  Id" >
+                                      <div *ngIf="submitted && f.TransactionIdFormControl.errors" class="invalid-feedback">
+                                            <div *ngIf="f.TransactionIdFormControl.errors.required">Transaction Id is required</div>
+                                        </div>
+                                      </div>
+                                  </td>
+                
+                                 </tr>
                 <tr>
+
                     <td colspan="4" style="text-align:center;">
                         <button nbButton status="success" (click)="saveBill()"  size="small" >Save</button>
                     </td>
