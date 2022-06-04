@@ -3,10 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RptCustomerWiseSalesReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d112e9d5-caec-4be1-91fa-5fe2ef7a3be5">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
-	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptCustomerWiseSalesReport_files/main_jrxml"/>
-	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptCustomerWiseSalesReport"/>
+	<property name="ireport.jasperserver.report.resource" value="/d5n/RptCustomerWiseSalesReport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/d5n/RptCustomerWiseSalesReport"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#CADCED">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
