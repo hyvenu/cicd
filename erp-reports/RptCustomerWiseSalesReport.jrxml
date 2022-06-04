@@ -83,7 +83,7 @@ inner join sales_salesorderdetails as sales_details on sales_details.booking_id=
 inner join store_customer as customer on customer.id=app.customer_id
 inner join store_storeservices as service on service.id=sales_details.service_id
 inner join sales_salesorderrequest as sales_order_req on sales_order_req.id=sales_details.po_order_id
-inner join store_store as store on store.id=app.store_id
+inner join store_store as store on store.id=sales_order_req.store_id
 
 where date(sales_order_req.po_date) >= coalesce( $P{from_date}   ,current_date()) and  date(sales_order_req.po_date) <=  coalesce(  $P{to_date}  ,current_date())
 and $X{IN,store.store_name,branch_name}
