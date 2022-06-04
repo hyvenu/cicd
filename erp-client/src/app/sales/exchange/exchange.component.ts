@@ -170,10 +170,7 @@ export class ExchangeComponent implements OnInit {
       remaingAmountFormControl:['',],
 
 
-
-
     });
-
 
     this.service.getPOSList().subscribe(
       (data) => {
@@ -301,35 +298,73 @@ export class ExchangeComponent implements OnInit {
 
   }
 
-  open_product_name(dialog: TemplateRef<any>, item) {
+  open_product_name(dialog: TemplateRef<any>, dd) {
     this.inventoryService.getAllProductsList().subscribe(
       (data) => {
+
         console.log(data)
         this.product_list = data;
 
-        this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
+        this.multi_product_list = []
+        data.forEach(element => {
+          element.product_price.forEach(item => {
+            this.multi_product_list.push({
+              ...item,
+            })
+          });
+        });
+
+        console.log("Multiproduct",  this.multi_product_list)
+
+        this.dailog_ref = this.dialogService.open(dialog, { context: this.multi_product_list })
           .onClose.subscribe(data => {
-            this.searchPro = ""
-            if(!data)
-            {
-              const index: number = this.invoice_items.indexOf(item);
+            this.searchProduct = ""
+            if(!data) {
+              const index: number = this.invoice_items.indexOf(dd);
               if(this.invoice_items[index].description == "") {
-                this.remove_item(item);
+                this.remove_item(dd);
               }
-              return
+              return;
+            }
+            this.selectedPro = data
+            console.log("selected product",this.selectedPro)
+            this.pro_id = data.product
+            console.log("selected product unitprice",this.selectedPro.unit_price)
+
+            let sellPrice: any = parseFloat(this.selectedPro.sell_price) * this.selectedPro.qty;
+            let gstVal: any = (this.selectedPro.sell_price * parseFloat(this.selectedPro.tax)) / 100;
+            let total: any = sellPrice;
+            if (this.invoice_items.some(item => item.description== this.selectedPro.product__product_name)) {
+              const index: number = this.invoice_items.indexOf(dd);
+              if(this.invoice_items[index].description == "") {
+                this.remove_item(dd);
+              }
+              this.nbtoastService.danger("product name already exist");
+            } else {
+
+              dd.id = this.selectedPro.id,
+              dd.item_id = this.selectedPro.product ? this.selectedPro.product : "",
+              dd.description = this.selectedPro.product__product_name,
+              dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
+              dd.unit_id = this.selectedPro.unit,
+              dd.unit = this.selectedPro.unit__PrimaryUnit,
+              dd.price = this.selectedPro.sell_price
+              dd.discount = 0,
+              dd.item_total = parseFloat(total).toFixed(2),
+              dd.tax = this.selectedPro.tax,
+              dd.gst_value = parseFloat(gstVal).toFixed(2)
             }
 
-            this.selected_product = data
-            console.log(this.selected_product)
 
-            this.multi_product = []
-            this.multi_product.push(this.selected_product.product_price[0])
-            console.log(this.multi_product)
-            this.open_single_product(this.dialog_single_product, this.selected_product, item);
-            this.search.nativeElement.focus()
 
-          }
-          );
+            this.calculate_price()
+
+
+
+          })
+
+
+
       },
       (error) => {
         this.nbtoastService.danger(error.error.detail);
@@ -338,29 +373,57 @@ export class ExchangeComponent implements OnInit {
 
   }
 
-  open_single_product(dialog: TemplateRef<any>, item, dd) {
-    this.inventoryService.getProductDetails(item.id).subscribe(
-      (data) => {
-        console.log(data)
-        this.selected_product_data = data
+  // open_product_name(dialog: TemplateRef<any>, item) {
+  //   this.inventoryService.getAllProductsList().subscribe(
+  //     (data) => {
+  //       console.log(data)
+  //       this.product_list = data;
+
+  //       this.dailog_ref = this.dialogService.open(dialog, { context: this.product_list })
+  //         .onClose.subscribe(data => {
+  //           this.searchPro = ""
+  //           if(!data)
+  //           {
+  //             const index: number = this.invoice_items.indexOf(item);
+  //             if(this.invoice_items[index].description == "") {
+  //               this.remove_item(item);
+  //             }
+  //             return
+  //           }
+
+  //           this.selected_product = data
+  //           console.log(this.selected_product)
+
+  //           this.multi_product = []
+  //           this.multi_product.push(this.selected_product.product_price[0])
+  //           console.log(this.multi_product)
+  //           //this.open_single_product(this.dialog_single_product, this.selected_product, item);
+  //           this.search.nativeElement.focus()
+
+  //         }
+  //         );
+  //     },
+  //     (error) => {
+  //       this.nbtoastService.danger(error.error.detail);
+  //     }
+  //   )
+
+  // }
+
+  open_single_product(dialog: TemplateRef<any>, dd) {
+        //console.log(data)
+        //this.selected_product_data = data
         /*  let aa:any =data
          console.log(aa) */
-        this.multi_product_list = []
-        data.product_price.forEach(element => {
-          this.multi_product_list.push({
-            ...element,
-          })
-        });;
-        console.log(this.multi_product_list)
 
         this.dailog_ref = this.dialogService.open(dialog, { context: this.multi_product_list })
           .onClose.subscribe(data => {
             this.searchProduct = ""
             if(!data)
             {
-              const index: number = this.invoice_items.indexOf(item);
+              const index: number = this.invoice_items.indexOf(dd);
               if(this.invoice_items[index].item_description == "") {
-                this.remove_item(item);
+                this.remove_item(dd);
               }
               return
             }
@@ -380,7 +443,7 @@ export class ExchangeComponent implements OnInit {
                 }
               this.nbtoastService.danger("product name already exist");
             } else {
-              dd.id = item.id,
+              dd.id = this.selectedPro.id,
               dd.item_id = this.selectedPro.product ? this.selectedPro.product : "",
               dd.service_id = "",
               dd.description = this.selected_product.product_name
@@ -402,8 +465,6 @@ export class ExchangeComponent implements OnInit {
 
 
           })
-      }
-    )
   }
 
 
