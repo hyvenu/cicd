@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { sub } from 'date-fns';
 import { getWeekYearWithOptions } from 'date-fns/fp';
+import * as moment from 'moment';
 import { AdminService } from 'src/app/admin/admin.service';
 import { InventoryService } from 'src/app/inventory/inventory.service';
 import { OrderService } from '../order.service';
@@ -183,6 +184,7 @@ export class SalesBillComponent implements OnInit {
       paymentFormControl:[this.Events[0].value,Validators.required],
       SplitFormControl:['',],
       CreditFormControl:['',],
+      billDateFormControl:['',[]],
       upiTypeFormControl:['',]
 
     });
@@ -192,6 +194,7 @@ export class SalesBillComponent implements OnInit {
     this.grandTotal=0;
     this.totalGst=0;
     this.gstTotal=0;
+    this.invoiceForm.controls['billDateFormControl'].setValue(moment(new Date()).format("YYYY-MM-DD"));
 
     // this.calculate_total();
     //this.calculate_price();
@@ -887,7 +890,8 @@ export class SalesBillComponent implements OnInit {
     formData.append('po_type',this.poType)
     formData.append('pr_number',this.prNumber)
     formData.append('po_raised_by',this.poRaised)
-    formData.append('po_date',this.poDate)
+    formData.append('po_date', moment(this.invoiceForm.controls['billDateFormControl'].value).format("YYYY-MM-DD"))
+    // formData.append('po_date',this.poDate)
     formData.append('shipping_address',this.shippingAddress)
     formData.append('transport_type',this.transportType)
     formData.append('payment_terms',this.paymentTerms)
