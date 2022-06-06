@@ -441,6 +441,8 @@ class OrderService:
         sales_order_req.terms_of_delivery = sales_data['terms_of_delivery']
         sales_order_req.note = sales_data['note']
         sales_order_req.sub_total = sales_data['sub_total']
+        sales_order_req.credit_type = sales_data['credit_type']
+        sales_order_req.split_type = sales_data['split_type']
         sales_order_req.upi_type = sales_data['upi_type']
         sales_order_req.discount_price = sales_data['discount_price']
         sales_order_req.grand_total = sales_data['grand_total']

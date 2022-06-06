@@ -72,6 +72,8 @@ class SalesOrderRequest(AuditUuidModelMixin):
     shipping_address = models.CharField(max_length=2000, null=True)
     payment_terms = models.CharField(max_length=200, null=True)
     upi_type = models.CharField(max_length=200, null=True)
+    credit_type = models.CharField(max_length=200,null=True, default=None)
+    split_type = models.CharField(max_length=200,null=True, default=None)
     transport_type = models.CharField(max_length=200, null=True)
     payment_terms = models.CharField(max_length=200, null=True)
     other_reference = models.CharField(max_length=2000, null=True)
@@ -98,6 +100,7 @@ class SalesOrderRequest(AuditUuidModelMixin):
     # cash = models.BooleanField(default=False, null=True)
     # upi = models.BooleanField(default=False, null=True)
     transaction_id = models.CharField(max_length=255, null=True, default=None)
+
     # subtotal_product_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     exchange = models.BooleanField(default=True, null=True)
     cancel_invoice = models.BooleanField(default=True, null=True)

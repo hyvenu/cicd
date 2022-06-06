@@ -8,7 +8,7 @@ import { getWeekYearWithOptions } from 'date-fns/fp';
 import { AdminService } from 'src/app/admin/admin.service';
 import { InventoryService } from 'src/app/inventory/inventory.service';
 import { OrderService } from '../order.service';
-enum CheckBoxType { CASH,CARD,UPI, NONE };
+enum CheckBoxType { CASH,CARD,UPI,CREDIT,SPLIT, NONE };
 
 @Component({
   selector: 'app-sales-bill',
@@ -70,7 +70,8 @@ export class SalesBillComponent implements OnInit {
     {value:'CASH', name: 'CASH'},
     {value:'CARD', name: 'CARD'},
     {value:'UPI', name: 'UPI'},
-
+    {value:'CREDIT', name: 'CREDIT'},
+    {value:'SPLIT', name: 'SPLIT'},
     // {value:'Long Leave', name: 'Long Leave'},
   ]
 
@@ -180,6 +181,8 @@ export class SalesBillComponent implements OnInit {
       amountFormControl:['',],
       changeFormControl:['',],
       paymentFormControl:[this.Events[0].value,Validators.required],
+      SplitFormControl:['',],
+      CreditFormControl:['',],
       upiTypeFormControl:['',]
 
     });
@@ -926,7 +929,8 @@ export class SalesBillComponent implements OnInit {
     formData.append('user_id',this.user_name);
     formData.append('supervisor_id',this.invoiceForm.controls['supervisorIdFormControl'].value);
     formData.append('card_no',this.invoiceForm.controls['cardNoFormControl'].value);
-
+    formData.append('credit_type',this.invoiceForm.controls['CreditFormControl'].value);
+    formData.append('split_type',this.invoiceForm.controls['SplitFormControl'].value);
     formData.append('advance_amount',this.invoiceForm.controls['advanceAmountFormControl'].value);
     formData.append('balance_amount',this.invoiceForm.controls['balanceAmountFormControl'].value);
     formData.append('amount',this.invoiceForm.controls['amountFormControl'].value);
