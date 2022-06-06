@@ -98,7 +98,7 @@ export class ManageEmployeeComponent implements OnInit {
   account:any=0;
   salary:any=0;
   dateValue=""
-
+  store_id: any;
 
 
   constructor(
@@ -120,6 +120,7 @@ export class ManageEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store_id = sessionStorage.getItem('store_id')
 
     this.employeeForm = this.formBuilder.group({
       employeeCodeFormControl:['',[]],
@@ -306,6 +307,7 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('pay_out',this.employeeForm.controls['payOutFormControl'].value);
     formdata.append('grade',this.employeeForm.controls['gradeFormControl'].value);
     formdata.append('login_access',this.employeeForm.controls['loginAccessFormControl'].value);
+    formdata.append('store',this.store_id);
 
 
     this.adminService.updateEmployee(formdata,this.employee_id).subscribe(
@@ -366,6 +368,7 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('pay_out',this.employeeForm.controls['payOutFormControl'].value);
     formdata.append('grade',this.employeeForm.controls['gradeFormControl'].value);
     formdata.append('login_access',this.employeeForm.controls['loginAccessFormControl'].value);
+    formdata.append('store',this.store_id);
 
 
 
