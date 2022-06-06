@@ -132,14 +132,21 @@ export class SharedService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/ReportModule/`)
   }
 
+  public getDashboardbookingDetails(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_dashboard/api/v1/get_dashboard_booking_details`, {})
+  }
+  public getDashboardSalesDetails(){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_dashboard/api/v1/get_dashboard_sales_details`, {})
+  }
+
   public getDashboardSalesList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_monthly_sales_list`)
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_dashboard/api/v1/get_monthly_sales_list`)
   }
   public getDashboardPurchaseList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_monthly_purchase_list`)
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_dashboard/api/v1/get_monthly_purchase_list`)
   }
   public getDashboardDailyStatusList() {
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_daily_status`)
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_dashboard/api/v1/get_daily_status`)
   }
 
 }

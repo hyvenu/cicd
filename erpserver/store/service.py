@@ -418,41 +418,6 @@ class StoreService:
                     "end_time"
                 ))
 
-        return list(app_data_list)
-
-    @classmethod
-    def get_dashboard_viewbooking_details(cls,branch_id):
-        # print("GET BOOKINGS")
-        final_list = []
-        if branch_id:
-            app_list_object = AppointmentSchedule.objects.filter(is_paid=True,store_id=branch_id)
-        else:
-            app_list_object = AppointmentSchedule.objects.filter(is_paid=True)
-
-        app_data_list = app_list_object.values(
-            'id',
-            'is_paid',  
-            'booking_date',          
-            'store_id',  
-            'appointment_status',
-            'customer__id',
-            'customer__customer_name',
-            'customer__phone_number'
-        )
-
-        for item in app_data_list:
-            item['service_list'] = list(
-                AppointmentForMultipleService.objects.filter(appointment_id=item['id']).all().values(
-                    "id",                    
-                    "appointment__id",                   
-                    "assigned_staff__id",
-                    "assigned_staff__employee_name",
-                    "service__id",
-                    "service__service_name",
-                    "start_time",
-                    "end_time"
-                ))
-
         return list(app_data_list)        
 
     @classmethod
@@ -524,8 +489,8 @@ class StoreService:
         )
         return list(appointment_list)
 
-    def get_employee_list(self):
-        employee_list = Employee.objects.all().values(
+    def get_employee_list(self, bid):
+        employee_list = Employee.objects.filter(store_id=bid).all().values(
             'id',
             'employee_code',
             'employee_name',
@@ -634,83 +599,6 @@ class StoreService:
         entry = StoreServices.objects.filter(id=id)
         count = entry.delete()
         # print("COUNTe %s"%count[0])
-        return count 
-
-    @classmethod
-    def get_dashboard_sales_details(cls):
-
-        today = datetime.date.today()
-
-        currentMonth = (today.month - 1)
-        currentYear = today.year
-
-        last_day = calendar.monthrange(currentYear, currentMonth)
-        # print("Last day of month===",last_day)
-
-        f_date = str(currentYear) + '-' + str(currentMonth) + '-01'
-        t_date = str(currentYear) + '-' + str(currentMonth) + '-' + str(last_day[1])
-
-        # print("f_date===",f_date)
-        # print("t_date===",t_date)
-
-        sales_list = SalesOrderRequest.objects.raw('select id, sum(grand_total) as grand_total,'
-                                                'date(po_date) as pdate '
-                                                'from sales_salesorderrequest '
-                                                'where po_date >= "' + f_date + '" and po_date <= "' + t_date + '" '
-                                                'group by pdate')
-
-        # for item in sales_list:
-        #     print("data===",item.grand_total,item.pdate)
-
-        final_list = []
-        for item in sales_list:
-            dict_obj = dict(
-                id = item.id,
-                grand_total = item.grand_total,
-                date = item.pdate
-            )
-            final_list.append(dict_obj)
-
-        return final_list
-
-    @classmethod
-    def get_monthly_sales(cls):
-        monthly_list = SalesOrderRequest.objects.values("po_date").\
-            annotate(month=ExtractMonth(Cast("po_date",DateField()))).\
-            values('month').order_by('month').\
-            annotate(total_sales=Sum("grand_total"))
-        return list(monthly_list)
-
-
-    @classmethod
-    def get_monthly_purchase(cls):
-        monthly_list = GRNMaster.objects.values("invoice_date").\
-            annotate(month=ExtractMonth(Cast("invoice_date",DateField()))).\
-            values('month').order_by('month').\
-            annotate(total_purchase=Sum("grand_total"))
-        return list(monthly_list)
-
-    @classmethod
-    def get_daily_status(cls):
-        current_date = datetime.datetime.today()
-        daily_status ={}
-        no_of_customers = Customer.objects.all().count()
-        no_of_orders = AppointmentSchedule.objects.all().count()
-        no_of_orders_today = AppointmentSchedule.objects.filter(booking_date=current_date).count()
-        totals_sales_today = SalesOrderRequest.objects.filter(po_date__date=current_date).all().\
-            aggregate(total_sales=Sum("grand_total"))
-        print("SALES",totals_sales_today)
-        if totals_sales_today['total_sales'] is not None:
-            totals_sales_today = str(totals_sales_today['total_sales'])
-        else:
-            totals_sales_today = 0
-        print("SALES",totals_sales_today)
-        daily_status= dict(
-            no_of_customers=no_of_customers,
-            no_of_orders=no_of_orders,
-            no_of_orders_today=no_of_orders_today,
-            totals_sales_today=totals_sales_today
-        )
-        return daily_status      
+        return count        
 
 

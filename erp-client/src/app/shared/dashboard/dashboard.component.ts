@@ -40,7 +40,6 @@ export class DashboardComponent implements OnInit {
   barChartLabels: Label[] = [];
   barChartType: ChartType = 'bar';
   barChartLegend = true;
-
   barChartData: any =[
     { data: [], label: 'Bookings' },
   ];
@@ -59,10 +58,27 @@ export class DashboardComponent implements OnInit {
   barChartLabels2: Label[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sept','Oct','Nov','Dec'];
   barChartType2: ChartType = 'bar';
   barChartLegend2 = true;
-
   barChartData2: ChartDataSets[] = [
     { data: [0,0,0,0,0,0,0,0,0,0,0,0], label: 'Sales' },
     { data: [0,0,0,0,0,0,0,0,0,0,0,0], label: 'Purchase' }
+  ];
+
+  barChartOptions3: ChartOptions = {
+    responsive: true,
+    // We use these empty structures as placeholders for dynamic theming.
+    // scales: { xAxes: [{}], yAxes: [{}] },
+    // plugins: {
+    //   datalabels: {
+    //     anchor: 'end',
+    //     align: 'end',
+    //   }
+    // }
+  };
+  barChartLabels3: Label[] = [];
+  barChartType3: ChartType = 'bar';
+  barChartLegend3 = true;
+  barChartData3: ChartDataSets[] = [
+    { data: [], label: 'Top Services' }
   ];
 
    // Pie
@@ -176,25 +192,24 @@ export class DashboardComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.get_orders_data();
     this.get_bookingservice();
-    this.get_sales_details()
     this.get_customer_list();
 
     this.sharedService.getDashboardSalesList().subscribe((data) => {
       this.monthlySalesList = data;
       this.monthlySalesList.forEach(element => {
-        this.barChartData[0]["data"][element.month-1]=element.total_sales;
+        this.barChartData2[0]["data"][element.month-1]=element.total_sales;
       });
-      this.baseChart.ngOnChanges({});
+      //this.baseChart.ngOnChanges({});
     })
     this.sharedService.getDashboardPurchaseList().subscribe((data) => {
       this.monthlyPurchaseList = data;
       this.monthlyPurchaseList.forEach(element => {
-        this.barChartData[1]["data"][element.month-1]=element.total_purchase;
+        this.barChartData2[1]["data"][element.month-1]=element.total_purchase;
       });
-      this.baseChart.ngOnChanges({});
+      //this.baseChart.ngOnChanges({});
     })
+    console.log("bar chart data",this.barChartData)
     this.sharedService.getDashboardDailyStatusList().subscribe((data) => {
       this.dailyStatus = data;
       console.log("daily stats",data)
@@ -227,23 +242,6 @@ export class DashboardComponent implements OnInit {
     )
 }
 
-  get_orders_data(){
-    const order_data  = { 'store_id': sessionStorage.getItem('store_id')}
-    this.orderService.getOrderList(order_data).subscribe(
-      (data) => {
-        console.log(data)
-          if(data.length > 0){
-          this.orders_data = data;
-          }else{
-            this.orders_data = []
-          }
-      },
-      (error) => {
-          this.nbtoastService.danger(error.error.detail);
-      }
-    )
-  }
-
   get_department(){
     this.sharedService.getDepartmentList().subscribe(
       data =>{
@@ -254,66 +252,83 @@ export class DashboardComponent implements OnInit {
   }
 
   get_bookingservice(){
-    this.adminService.getDashboardbookingDetails().subscribe(
+    this.sharedService.getDashboardbookingDetails().subscribe(
       data => {
         console.log("topservices",data)
-        const appointment_details = data.reduce((acc,v) =>{
-          const label = v.service_list[0].service__service_name
-          acc[label] = (acc[label] || 0) + 1
-          return acc
-        },{})
-        this.pieChartLabels = Object.keys(appointment_details)
-        this.pieChartData = Object.values(appointment_details)
-
-        const appointment_booking_details = data.reduce((acc,v) =>{
-          let d = moment(v.booking_date);
-          const bookdate = d.format('MMM YYYY')
-          acc[bookdate] = (acc[bookdate] || 0) + 1
-          return acc
-        },{})
-        this.barChartLabels = Object.keys(appointment_booking_details)
-        this.barChartData.forEach(b_data => {
-          b_data.data = Object.values(appointment_booking_details)
-        })
-       // this.barChartData[0].data =
-        let sortedData = sortBy(data, 'booking_date');
-        console.log(sortedData)
-       const daily_booking_details = sortedData.reduce((acc,v) =>{
-
-        let d = moment(v.booking_date);
-
-        const bookdate = d.format('MMM DD')
-        acc[bookdate] = (acc[bookdate] || 0) + 1
-        return acc
-      },{})
-      this.lineChartLabels = Object.keys(daily_booking_details)
-      this.lineChartData.forEach(l_data => {
-        l_data.data = Object.values(daily_booking_details)
-      })
-      }
-    )
-  }
-
-  get_sales_details() {
-    this.adminService.getDashboardSalesDetails().subscribe(
-      data => {
-        let total = [];
-        let dates = [];
+        let label_data = []
+        let price_data = []
         data.forEach(element => {
-          console.log("Sales Date",element.date)
-          //this.s_lineChartData[0].data.push({ data:[element.grand_total], label: element.date})
-         total.push(element.grand_total)
-         dates.push(element.date)
+          label_data.push(element.service_name)
+          price_data.push(element.price_value)
 
         });
-
-        this.s_lineChartData[0].data = total;
-        this.s_lineChartLabels= dates;
-
-        console.log("Sales Dash Details",data)
+        this.barChartLabels3 = label_data
+        this.barChartData3[0].data = price_data
       }
     )
   }
+
+  // get_bookingservice(){
+  //   this.sharedService.getDashboardbookingDetails().subscribe(
+  //     data => {
+  //       console.log("topservices",data)
+  //       const appointment_details = data.reduce((acc,v) =>{
+  //         const label = v.service_list[0].service__service_name
+  //         acc[label] = (acc[label] || 0) + 1
+  //         return acc
+  //       },{})
+  //       this.pieChartLabels = Object.keys(appointment_details)
+  //       this.pieChartData = Object.values(appointment_details)
+
+  //       const appointment_booking_details = data.reduce((acc,v) =>{
+  //         let d = moment(v.booking_date);
+  //         const bookdate = d.format('MMM YYYY')
+  //         acc[bookdate] = (acc[bookdate] || 0) + 1
+  //         return acc
+  //       },{})
+  //       this.barChartLabels = Object.keys(appointment_booking_details)
+  //       this.barChartData.forEach(b_data => {
+  //         b_data.data = Object.values(appointment_booking_details)
+  //       })
+  //      // this.barChartData[0].data =
+  //       let sortedData = sortBy(data, 'booking_date');
+  //       console.log(sortedData)
+  //      const daily_booking_details = sortedData.reduce((acc,v) =>{
+
+  //       let d = moment(v.booking_date);
+
+  //       const bookdate = d.format('MMM DD')
+  //       acc[bookdate] = (acc[bookdate] || 0) + 1
+  //       return acc
+  //     },{})
+  //     this.lineChartLabels = Object.keys(daily_booking_details)
+  //     this.lineChartData.forEach(l_data => {
+  //       l_data.data = Object.values(daily_booking_details)
+  //     })
+  //     }
+  //   )
+  // }
+
+  // get_sales_details() {
+  //   this.sharedService.getDashboardSalesDetails().subscribe(
+  //     data => {
+  //       let total = [];
+  //       let dates = [];
+  //       data.forEach(element => {
+  //         console.log("Sales Date",element.date)
+  //         //this.s_lineChartData[0].data.push({ data:[element.grand_total], label: element.date})
+  //        total.push(element.grand_total)
+  //        dates.push(element.date)
+
+  //       });
+
+  //       this.s_lineChartData[0].data = total;
+  //       this.s_lineChartLabels= dates;
+
+  //       console.log("Sales Dash Details",data)
+  //     }
+  //   )
+  // }
 }
 
 

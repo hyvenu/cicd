@@ -206,19 +206,6 @@ def get_all_viewbooking_details(request):
     app_res = store_service.get_all_viewbooking_details()
     return JsonResponse(app_res, safe=False)
 
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated, ])
-def get_dashboard_booking_details(request):
-    store_service = StoreService()
-    if "b_id" in request.query_params:
-        branch_id = request.query_params["b_id"]
-    else:
-        branch_id = None
-    app_res = store_service.get_dashboard_viewbooking_details(branch_id)
-    return JsonResponse(app_res, safe=False)
-
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
 def get_appointment_details_by_id(request):
@@ -257,7 +244,11 @@ def get_store_service_list(request):
 @permission_classes([IsAuthenticated, ])
 def get_employee_list(request):
     store_service = StoreService()
-    employee_list = store_service.get_employee_list()
+    if "b_id" in request.query_params:
+        branch_id = request.query_params["b_id"]
+    else:
+        branch_id = None
+    employee_list = store_service.get_employee_list(branch_id)
     return JsonResponse(employee_list, safe=False)
 
 
@@ -312,31 +303,5 @@ def delete_service(request, id):
     count = store_service.delete_service(id)
     return JsonResponse(count, safe=False, status=status.HTTP_200_OK)   
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated, ])
-def get_dashboard_sales_details(request):
-    store_service = StoreService()
-    app_res = store_service.get_dashboard_sales_details()
-    return JsonResponse(app_res, safe=False)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated, ])
-def get_monthly_sales_list(request):
-    dashboard_service = StoreService()
-    sales=dashboard_service.get_monthly_sales()
-    return JsonResponse(sales, safe=False)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated, ])
-def get_monthly_purchase_list(request):
-    dashboard_service = StoreService()
-    sales=dashboard_service.get_monthly_purchase()
-    return JsonResponse(sales, safe=False)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated, ])
-def get_daily_status(request):
-    dashboard_service = StoreService()
-    status=dashboard_service.get_daily_status()
-    return JsonResponse(status, safe=False)         
+     
 

@@ -123,12 +123,7 @@ export class AdminService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_all_viewbooking_details`, {})
   }
 
-  public getDashboardbookingDetails(){
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_dashboard_booking_details`, {})
-  }
-  public getDashboardSalesDetails(){
-    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_dashboard_sales_details`, {})
-  }
+
   // public getAppointmentLists(id){
   //   return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_list/` + id + '/')
   // }

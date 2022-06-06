@@ -147,6 +147,7 @@ class Customer(AuditUuidModelMixin):
 
 
 class Employee(AuditUuidModelMixin):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, default=None, null=True, related_name="employee_store")
     employee_code = models.CharField(max_length=255, default=None)
     employee_name = models.CharField(max_length=255, default=None)
     phone_number = models.CharField(max_length=10, default=None, null=True, unique=True)

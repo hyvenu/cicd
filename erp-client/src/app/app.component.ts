@@ -3,6 +3,8 @@ import { NbMenuItem } from '@nebular/theme';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { SharedService } from './shared/shared.service';
 import { environment } from '../environments/environment';
+import { LoadingService } from './loading.service';
+import { delay } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,7 +14,11 @@ export class AppComponent implements OnInit {
 
   store_name;
   has_permission = false;
-  constructor(private permissionsService: NgxPermissionsService,private roleService:NgxRolesService, private sharedService: SharedService){
+  loading = true;
+  constructor(private permissionsService: NgxPermissionsService,
+    private roleService:NgxRolesService,
+    private sharedService: SharedService,
+    private _loading: LoadingService){
 
   }
   items: NbMenuItem[];
@@ -25,7 +31,7 @@ export class AppComponent implements OnInit {
            console.log(this.permissionsService.getPermissions());
            console.log(this.permissionsService.hasPermission("store.view_store"));
            this.roleService.addRoles(data);
-           this.create_menu();
+           setTimeout(()=> this.create_menu(),100);
 
         },
         (error) =>{
@@ -33,6 +39,19 @@ export class AppComponent implements OnInit {
         }
         )
 
+        this.listenToLoading();
+  }
+
+  /**
+   * Listen to the loadingSub property in the LoadingService class. This drives the
+   * display of the loading spinner.
+   */
+   listenToLoading(): void {
+    this._loading.loadingSub
+      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+      .subscribe((loading) => {
+        this.loading = loading;
+      });
   }
 
   checkLogin():any {
