@@ -14,6 +14,7 @@ class ProductCategory(AuditUuidModelMixin):
     category_code = models.CharField(max_length=30, unique=True)
     category_name = models.CharField(max_length=300, unique=True)
     description = models.CharField(max_length=2000, null=True, blank=True)
+    sales_margin = models.IntegerField(default=0, null=True, blank=True)
 
     class Meta:
         pass
