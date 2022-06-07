@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse, HttpParams,HttpResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { LoadingService} from './../loading.service'
+
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-    constructor(private cookieService: CookieService,private router: Router){}
+    constructor(private cookieService: CookieService,private router: Router,private _loading: LoadingService){}
 
     private handleError(err: HttpErrorResponse): Observable<any> {
         //handle your auth error or rethrow
@@ -43,6 +45,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
         return next.handle(request).pipe(
             catchError((err: HttpErrorResponse) => {
+            this._loading.setLoading(false, request.url);
               if (err.status === 401) {
                 sessionStorage.clear();
                 this.router.navigate(['Login'], { queryParams: { returnUrl: this.router.url } });
@@ -57,5 +60,11 @@ export class JwtInterceptor implements HttpInterceptor {
 
             })
         )
+         .pipe(map<HttpEvent<any>, any>((evt: HttpEvent<any>) => {
+          if (evt instanceof HttpResponse) {
+            this._loading.setLoading(false, request.url);
+          }
+          return evt;
+        }));
     }
 }

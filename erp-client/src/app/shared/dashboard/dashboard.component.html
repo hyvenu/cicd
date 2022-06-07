@@ -18,7 +18,7 @@
     <div class="col-md-3">
        <nb-card  style="background-color: #32d9e8;">
            <nb-card-body style="align-items: center;text-align: center;">
-               <nb-icon icon="people"></nb-icon><span><b>{{dailyStatus.no_of_customers}}</b></span>
+               <nb-icon icon="people"></nb-icon><span><b>{{dailyStatus?.no_of_customers}}</b></span>
                <p >No. of Customer </p>
            </nb-card-body>
        </nb-card>
@@ -26,7 +26,7 @@
    <div class="col-md-3">
        <nb-card  style="background-color: #97f2fe;">
            <nb-card-body style="align-items: center;text-align: center;">
-               <nb-icon icon="pricetags"></nb-icon><span style="font-size: medium;">{{dailyStatus.no_of_orders}}</span>
+               <nb-icon icon="pricetags"></nb-icon><span style="font-size: medium;">{{dailyStatus?.no_of_orders}}</span>
                <p >Total Bookings </p>
            </nb-card-body>
        </nb-card>
@@ -34,7 +34,7 @@
    <div class="col-md-3">
        <nb-card  style="background-color: #97f2fe;">
            <nb-card-body style="align-items: center;text-align: center;">
-               <nb-icon icon="trending-up"></nb-icon><span style="font-size: medium;">{{dailyStatus.no_of_orders_today}}</span>
+               <nb-icon icon="trending-up"></nb-icon><span style="font-size: medium;">{{dailyStatus?.no_of_orders_today}}</span>
                <p >No. of Bookings Today </p>
            </nb-card-body>
        </nb-card>
@@ -42,7 +42,7 @@
    <div class="col-md-3">
        <nb-card  style="background-color: #2be328;">
            <nb-card-body style="align-items: center;text-align: center;">
-               <nb-icon icon="trending-up"></nb-icon><span style="font-size: medium;">{{dailyStatus.totals_sales_today | currency}}</span>
+               <nb-icon icon="trending-up"></nb-icon><span style="font-size: medium;">{{dailyStatus?.totals_sales_today | currency}}</span>
                <p >Total Sales Today </p>
            </nb-card-body>
        </nb-card>
