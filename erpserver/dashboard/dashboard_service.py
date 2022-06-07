@@ -3,6 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from django.db.models import Sum, DateField
 from django.db.models.functions import ExtractMonth, Cast
+
+from engine.db_service import custom_sql
 from purchase.models import POOrderRequest,GRNMaster
 from sales.models import SalesOrderRequest, SalesOrderDetails
 from store.models import Customer, AppointmentSchedule, AppointmentForMultipleService
@@ -119,23 +121,23 @@ class DashboardService:
         else:
             app_list_object = AppointmentSchedule.objects.filter(is_paid=True)
 
-        app_data_list = AppointmentForMultipleService.objects.raw('SELECT a.id,a.service_id,'
+        app_data_list = custom_sql('SELECT a.service_id,'
             'COUNT(a.id) FROM store_appointmentformultipleservice as a, store_appointmentschedule as b'
             ' where b.store_id="'+UUID(branch_id).hex+'" AND a.appointment_id = b.id'
             ' GROUP BY a.service_id ORDER BY COUNT(a.id) DESC LIMIT 10')
 
         for item in app_data_list:
-            service_obj = SalesOrderDetails.objects.filter(service_id=item.service_id).all().values('product_name')[0]
-            prc_value = SalesOrderDetails.objects.filter(service_id=item.service_id).aggregate(
+            service_obj = SalesOrderDetails.objects.filter(service_id=item['service_id']).all().values('product_name')[0]
+            prc_value = SalesOrderDetails.objects.filter(service_id=item['service_id']).aggregate(
                 amount=Sum('subtotal_amount'))
             if prc_value['amount'] is None:
-                prc_value['amount'] = 0                        
+                prc_value['amount'] = 0
             dict_obj = dict(
-                id = item.id,
-                service_id = item.service_id,
+                id = "",
+                service_id = item['service_id'],
                 service_name = service_obj['product_name'],
                 price_value = prc_value['amount']
-                    
+
             )
             final_list.append(dict_obj)
 
