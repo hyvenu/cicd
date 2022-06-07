@@ -116,7 +116,7 @@ export class PurchaseOrderComponent implements OnInit {
     {field: 'product_code', headerName : 'Product Code', sortable: true, filter: true},
     {field: 'product_name', headerName : 'Product Name', sortable: true, filter: true, checkboxSelection: true,pinned: 'left' },
     {field: 'items_per_box', headerName : 'Box Items', sortable: true, filter: true, editable: false,hide:true},
-    //{field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true,editable: true},
+    {field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true,editable: true, hide:true},
     {field: 'qty', headerName : 'Required Qty', sortable: true, filter: true},
     {field: 'order_qty', headerName : 'Order Qty', sortable: true, filter: true,editable: true},
     {field: 'finished_qty', headerName : 'Finished Qty', sortable: true, filter: true},
@@ -369,20 +369,60 @@ export class PurchaseOrderComponent implements OnInit {
     this.gridApi.refreshCells({force : true});
   }
 
+  // deleteSelection() {
+  //     const selectedRows = this.gridApi.getSelectedRows();
+  //     console.info("SELECTED ROWS",selectedRows);
+  //     selectedRows.forEach(element => {
+  //       const index: number = this.selected_product_list.indexOf(element);
+  //       if (index !== -1) {
+  //         this.selected_product_list.splice(index, 1);
+  //       }
+  //     });
+  //     this.gridApi.applyTransaction({ remove: selectedRows });
+  //     this.calculate(event)
+  //     this.updateGrid()
+  //     console.info("SELECTED ROWS AFTER REMOVE",this.rdata);
+  //     //return true;
+  // }
+
   deleteSelection() {
-      const selectedRows = this.gridApi.getSelectedRows();
-      console.info("SELECTED ROWS",selectedRows);
-      selectedRows.forEach(element => {
-        const index: number = this.selected_product_list.indexOf(element);
-        if (index !== -1) {
+    const selectedRows = this.gridApi.getSelectedRows();
+    console.info("SELECTED ROWS",selectedRows);
+    selectedRows.forEach(element => {
+      const index: number = this.selected_product_list.indexOf(element);
+      if (index !== -1) {
+        //this.selected_product_list.splice(index, 1);
+        if(selectedRows[0].id){
+          const data = { 'id' : selectedRows[0].id}
+          this.purchaseService.deleteProductFromPO(data).subscribe(
+            (data) => {
+
+              this.nbtoastService.success("Item Removed from PO");
+              this.selected_product_list.splice(index, 1);
+              // this.calculate(selectedRows);
+              this.gridApi.applyTransaction({ remove: selectedRows });
+              this.updateGrid();
+              this.calculate_total();
+
+            },
+            (error) =>{
+              this.nbtoastService.danger(error.detail);
+            }
+          );
+        }else{
           this.selected_product_list.splice(index, 1);
+          this.calculate_total();
+          this.gridApi.applyTransaction({ remove: selectedRows });
+          this.updateGrid()
+          this.nbtoastService.success("Item Removed from PO");
         }
-      });
-      this.gridApi.applyTransaction({ remove: selectedRows });
-      this.calculate(event)
-      this.updateGrid()
-      console.info("SELECTED ROWS AFTER REMOVE",this.rdata);
-      //return true;
+
+      }
+    });
+
+
+    //console.info("SELECTED ROWS AFTER REMOVE",this.rdata);
+    //return true;
   }
 
   onChange() {
@@ -438,37 +478,65 @@ export class PurchaseOrderComponent implements OnInit {
         if (this.selected_product_list.some(element => element.product_name == data.product_name)) {
           this.nbtoastService.danger("product name already exist");
         } else {
-          console.log(data)
+          console.log("selected prod",data)
+
           const item = {
+            // id: '',
+            // product_id: data.id,
+            // product_code: data.product_code,
+            // product_name: data.product_name,
+            // description: data.product_description,
+            // qty: 0,
+            // unit_id: data.product_price__unit,
+            // delivery_date: '',
+            // unit_price: data.product_price__purchase_price,
+            // unit_name: data.product_price__unit__PrimaryUnit,
+            // gst: data.product_price__tax,
+            // amount: 0.0,
+            // disc_percent: 0.0,
+            // disc_amount: 0.0,
+            // gst_amount: 0.0,
+            // rejected_qty: 0,
+            // accepted_qty: 0,
+            // status: "false",
+            // order_qty:0,
+            // finished_qty:0,
+            // total_amount:0
+            // //finished_qty: data.product_price__qty,
+
             id: '',
             product_id: data.id,
             product_code: data.product_code,
             product_name: data.product_name,
-            description: data.product_description,
+            description: data.description,
             qty: 0,
+            items_per_box: data.product_price__box_qty,
+            box_qty: 1,
+            order_qty:0,
+            finished_qty:0,
             unit_id: data.product_price__unit,
+            unit_name: data.product_price__unit__PrimaryUnit,
+            //delivery_date: moment(element.expected_date),
             delivery_date: '',
             unit_price: data.product_price__purchase_price,
-            unit_name: data.product_price__unit__PrimaryUnit,
             gst: data.product_price__tax,
-            amount: 0.0,
+            amount : 0,
             disc_percent: 0.0,
             disc_amount: 0.0,
             gst_amount: 0.0,
+            total_amount: 0.0,
             rejected_qty: 0,
             accepted_qty: 0,
-            status: "false",
-            order_qty:0,
-            finished_qty:0,
-            total_amount:0
-            //finished_qty: data.product_price__qty,
+            status: "false"
 
           }
           this.selected_product_list.push(item);
-          this.updateGrid()
+          //this.gridApi.updateRowData({add:[item], addIndex:0});
+          this.gridApi.applyTransaction({add:[item], addIndex:0});
+          //this.updateGrid()
           //this.calculate_sub_total(item)
-          this.calculate(event)
-          this.gridApi.updateRowData({add:[item], addIndex:0});
+          //this.calculate(event)
+
           // this.gridApi.rowData.push(item)
           // this.gridApi.setRowData(this.gridApi.rowData)
         }
@@ -613,7 +681,7 @@ calculate(event) {
       // item.finished_qty = item.order_qty;
     if (event.data.unit_price > 0 && event.data.order_qty > 0)
     {
-      let addQty:any = event.data.finished_qty +event.data.order_qty;
+      let addQty:any = parseInt(event.data.finished_qty) + parseInt(event.data.order_qty);
       event.data.amount = (event.data.unit_price * event.data.order_qty) * 1.00
       event.data.disc_amount = ((event.data.amount * event.data.disc_percent) / 100.00).toFixed(2)
       event.data.amount = event.data.amount - event.data.disc_amount

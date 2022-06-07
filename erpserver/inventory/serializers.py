@@ -11,6 +11,7 @@ class ProductCategorySerializer(serializers.ModelSerializer):
             "category_code",
             "category_name",
             "description",
+            "sales_margin",
             "id",
         ]
 class UnitMasterSerializer(serializers.ModelSerializer):

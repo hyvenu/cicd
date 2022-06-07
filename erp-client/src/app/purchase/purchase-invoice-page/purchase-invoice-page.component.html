@@ -1,13 +1,13 @@
 
 
 <div class="d-flex justify-content-center">Purchase order</div>
- 
+
 <div id="bill">
    <div class="container-fluid">
       <div class="card border border-dark">
          <div class="card-header border-bottom ">
 
- 
+
             <div class="d-flex justify-content-between">
                <div class="d-flex-1">
                   &nbsp; <img src = "/assets/images/LOGO.png" style = "height:56px">
@@ -34,7 +34,7 @@
                      <div class="col-sm-4 text-capitalize"><b>State</b></div>
                      <div class="col-sm-8 text-capitalize "><b>:</b> {{state}} [{{state_code}}]</div>
                   </div>
-                   
+
                </div>
                <div class="col-sm-1">
 
@@ -49,7 +49,7 @@
                      <div class="col-sm-8 text-capitalize "><b>: </b>{{store_no}}</div>
                   </div>
 
-                
+
                </div>
 
             </div>
@@ -103,7 +103,7 @@
                      <div class="col-sm-8 text-capitalize"><b>:</b> {{po_date}}</div>
                   </div>
 
-                  
+
 
                </div>
             </div>
@@ -175,7 +175,7 @@
                         <tr *ngFor="let item of order_details">
                            <td class="text-capitalize">{{item.product__product_name}}</td>
                            <!-- <td class="text-capitalize">{{item.description}}</td> -->
-                           <td>{{item.qty}}</td>
+                           <td>{{item.order_qty}}</td>
                            <td>{{item.unit__PrimaryUnit}}</td>
                            <td>{{item.unit_price}}</td>
                            <td>{{item.amount}}</td>
@@ -235,7 +235,7 @@
                <div class="col-lg-4 col-sm-5 ml-auto">
                   <table class="table ">
                      <tbody>
-                      
+
                         <tr>
                            <td class="left">
                               <strong class="text-dark text-capitalize ">grand total</strong>
@@ -269,7 +269,7 @@
                   <div class="col-md-6 text-capitalize">
                      {{terms_conditions}}
                   </div>
-               
+
                </div>
 
             </div>
