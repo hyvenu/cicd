@@ -45,28 +45,27 @@
 			<parameterDescription><![CDATA[Enter to Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT distinct appointment_schesule.booking_date,
--- group_concat(distinct service.service_name)as service_Name,
+			<![CDATA[SELECT date(sales_order_req.po_date) as booking_date,
 service.service_name,
-count(service.service_name)as item_sold,
-sum(distinct order_details.unit_price) as gross_sales,
-sum(distinct sales_order.discount_price) as discount,
+(select count(sales_details.service_id) from 
+sales_salesorderdetails as sales_details where sales_details.po_order_id=sales_order_req.id) as item_sold,
+(select sum(sales_details.unit_price) from 
+sales_salesorderdetails as sales_details where sales_details.po_order_id=sales_order_req.id) as gross_sales,
+(select sum(sales_details.discount_price) from
+sales_salesorderdetails as sales_details where sales_details.po_order_id=sales_order_req.id) as discount,
+sales_details.gst,
+(select sum(sales_details.gst_amount) from 
+sales_salesorderdetails as sales_details where sales_details.po_order_id=sales_order_req.id) as gst_amount,
+(select sum(sales_details.subtotal_amount) from 
+sales_salesorderdetails as sales_details where sales_details.po_order_id=sales_order_req.id) as total_sales
+FROM sales_salesorderrequest as sales_order_req
+inner join sales_salesorderdetails as sales_details on sales_details.po_order_id=sales_order_req.id
+inner join store_store as store on store.id=sales_order_req.store_id
+inner join store_storeservices as service on service.id=sales_details.service_id
 
--- (sum(distinct order_details.unit_price)-sum(distinct sales_order.discount_price)) as net_sales,
-order_details.gst,
-order_details.gst_amount,
-order_details.subtotal_amount as total_sales
-
- FROM store_appointmentschedule as appointment_schesule 
- inner join sales_salesorderrequest as sales_order on sales_order.customer_id=appointment_schesule.customer_id
- inner join sales_salesorderdetails as order_details on order_details.po_order_id=sales_order.id
- inner join store_storeservices as service on service.id=order_details.service_id
- inner join store_store as store on store.id=service.store_id
-where appointment_schesule.booking_date between  $P{from_date}  and  $P{to_date} 
+where date(sales_order_req.po_date) between  $P{from_date}  and  $P{to_date} 
 and $X{IN,store.store_name,store_name}
- group by appointment_schesule.booking_date,order_details.gst,service.service_name,
- order_details.unit_price,order_details.gst_amount,order_details.subtotal_amount
- order by appointment_schesule.booking_date]]>
+ order by booking_date]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
