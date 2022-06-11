@@ -45,19 +45,21 @@
 			<parameterDescription><![CDATA[Enter to Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT app.booking_date,sales_order_req.invoice_no ,
+			<![CDATA[SELECT date(sales_order_req.po_date) as booking_date,sales_order_req.invoice_no ,
 customer.customer_name,
 customer.phone_number,
 service.service_name,
 sales_details.unit_price,
 sales_details.gst_amount,
 sales_details.subtotal_amount as grand_total
-FROM store_appointmentschedule as app
-inner join sales_salesorderdetails as sales_details on sales_details.booking_id=app.id
-inner join store_customer as customer on customer.id=app.customer_id
-inner join store_storeservices as service on service.id=sales_details.service_id
+
+FROM sales_salesorderdetails as sales_details 
+left join store_appointmentschedule as app on sales_details.booking_id=app.id
 inner join sales_salesorderrequest as sales_order_req on sales_order_req.id=sales_details.po_order_id
-inner join store_store as store on store.id=app.store_id
+inner join store_customer as customer on customer.id=sales_order_req.customer_id
+inner join store_storeservices as service on service.id=sales_details.service_id
+
+inner join store_store as store on store.id=sales_order_req.store_id
 where date(sales_order_req.po_date) >= coalesce( $P{from_date}   ,current_date()) and  date(sales_order_req.po_date) <=  coalesce(  $P{to_date}  ,current_date())
 and $X{IN,store.store_name,branch_name}
 order by app.booking_date,customer.customer_name]]>
@@ -306,7 +308,7 @@ where $X{IN,store_name,Branch_Name}
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="94" height="30" uuid="3bc190bc-1c66-4466-b28a-a11315e1ada1"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>

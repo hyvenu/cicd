@@ -45,7 +45,7 @@
 			<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[select  appointment_schesule.booking_date,
+			<![CDATA[select  date(sales_order_req.po_date) as booking_date,
 service.service_name,
 count(service.service_name)as item_sold,
 order_details.unit_price,
@@ -53,14 +53,15 @@ sum(order_details.discount_price) as discount,
 order_details.gst_amount,
  order_details.subtotal_amount as total_sales
 
- FROM store_appointmentschedule as appointment_schesule
-  inner join sales_salesorderdetails as order_details on order_details.booking_id=appointment_schesule.id
+FROM sales_salesorderrequest as sales_order_req
+inner join sales_salesorderdetails as order_details on order_details.po_order_id=sales_order_req.id
+left join store_appointmentschedule as appointment_schesule on order_details.booking_id=appointment_schesule.id
   inner join store_storeservices as service on service.id=order_details.service_id
   inner join store_store as store on store.id=appointment_schesule.store_id
  where appointment_schesule.booking_date between  $P{from_date} and  $P{to_date} 
  and $X{IN,store.store_name,branch_name}
   group by appointment_schesule.booking_date,service.service_name,order_details.gst,order_details.unit_price,
- order_details.gst_amount,order_details.subtotal_amount
+ order_details.gst_amount,order_details.subtotal_amount,date(sales_order_req.po_date)
  order by appointment_schesule.booking_date]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">

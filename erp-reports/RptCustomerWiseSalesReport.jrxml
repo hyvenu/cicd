@@ -66,7 +66,7 @@ inner join store_customer as customer on sales_order_req.customer_id=customer.id
 where date(sales_order_req.po_date) >= coalesce( $P{from_date} ,current_date()) and  date(sales_order_req.po_date) <=  coalesce( $P{to_date} ,current_date())
 and $X{IN,store.store_name,branch_name}
 UNION ALL
-SELECT app.booking_date as Date,sales_order_req.invoice_no ,
+SELECT date(sales_order_req.po_date)  as Date,sales_order_req.invoice_no ,
 customer.customer_name,
 customer.phone_number,
 1 as qty,
@@ -78,11 +78,11 @@ sales_details.subtotal_amount ,
 service.service_name as product_name,
 'Service' as SalesType
 
-FROM store_appointmentschedule as app
-inner join sales_salesorderdetails as sales_details on sales_details.booking_id=app.id
-inner join store_customer as customer on customer.id=app.customer_id
-inner join store_storeservices as service on service.id=sales_details.service_id
+FROM sales_salesorderdetails as sales_details 
+left join store_appointmentschedule as app on sales_details.booking_id=app.id
 inner join sales_salesorderrequest as sales_order_req on sales_order_req.id=sales_details.po_order_id
+inner join store_customer as customer on customer.id=sales_order_req.customer_id
+inner join store_storeservices as service on service.id=sales_details.service_id
 inner join store_store as store on store.id=sales_order_req.store_id
 
 where date(sales_order_req.po_date) >= coalesce( $P{from_date}   ,current_date()) and  date(sales_order_req.po_date) <=  coalesce(  $P{to_date}  ,current_date())
@@ -357,7 +357,7 @@ where $X{IN,store_name,Branch_Name}
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="73" height="30" uuid="20889fb1-dff3-44a5-9f04-eb87d1a3e850"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
