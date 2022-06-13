@@ -47,18 +47,11 @@
 		<queryString language="SQL">
 			<![CDATA[SELECT date(sales_order_req.po_date) as booking_date,
 service.service_name,
-(select count(sales_details.service_id) from 
-sales_salesorderdetails as sales_details where sales_details.po_order_id=sales_order_req.id) as item_sold,
-(select sum(sales_details.unit_price) from 
-sales_salesorderdetails as sales_details where sales_details.po_order_id=sales_order_req.id) as unit_price,
-(select sum(sales_details.discount_price) from
-sales_salesorderdetails as sales_details where sales_details.po_order_id=sales_order_req.id) as discount,
-
-(select sum(sales_details.gst_amount) from 
-sales_salesorderdetails as sales_details where sales_details.po_order_id=sales_order_req.id) as gst_amount,
-(select sum(sales_details.subtotal_amount) from 
-sales_salesorderdetails as sales_details where sales_details.po_order_id=sales_order_req.id) as total_sales
-
+sales_details.qty as item_sold,
+sales_details.unit_price,
+sales_details.discount_price as discount,
+sales_details.gst_amount,
+sales_details.subtotal_amount as total_sales
 
 FROM sales_salesorderrequest as sales_order_req
 inner join sales_salesorderdetails as sales_details on sales_details.po_order_id=sales_order_req.id
