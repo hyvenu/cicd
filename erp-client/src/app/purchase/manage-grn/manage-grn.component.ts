@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 // import { Product } from '../../../../../erp-store/src/app/models/product';
 import { element } from 'protractor';
 import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { ThemeService } from 'ng2-charts';
 @Component({
   selector: 'app-manage-grn',
   templateUrl: './manage-grn.component.html',
@@ -93,7 +94,7 @@ export class ManageGrnComponent implements OnInit {
   select_code: any;
   url = `${environment.BASE_SERVICE_URL}/`;
   dateofdata: any = [];
-  current_date: any = new Date();
+  current_date= new Date();
   searchPO: string;
   qty_recived: any;
   qty_rejected: any;
@@ -110,6 +111,7 @@ export class ManageGrnComponent implements OnInit {
   totalRejectedQuantity: number = 0.0;
   totalAcceptedQuantity: number = 0.0;
   totalRejectedAmount: number = 0.0;
+  vendor_object: any;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -176,11 +178,11 @@ export class ManageGrnComponent implements OnInit {
     this.igst = 0;
     this.grand_total = 0;
     this.grnMasterForm = this.formBuilder.group({
-      grnNumberFormControl: ['', [Validators.required]],
-      grnBatchNumberFormControl: ['', [Validators.required]],
-      grnDateFormControl: ['', [Validators.required]],
-      invoiceNumberFormControl: ['', [Validators.required]],
-      invoiceDateFormControl: ['', [Validators.required]],
+      grnNumberFormControl: ['', []],
+      grnBatchNumberFormControl: ['', []],
+      grnDateFormControl: [[moment(new Date(this.current_date)).format("yyyy-MM-DD")], []],
+      invoiceNumberFormControl: ['', []],
+      invoiceDateFormControl: ['', []],
       poNumberFormControl: ['', []],
       vendorNameFormControl: ['', [Validators.required]],
       vendorAddressFormControl: ['', []],
@@ -192,9 +194,26 @@ export class ManageGrnComponent implements OnInit {
       noteFormControl: ['', []],
       invoiceDocumentFormControl: ['', [Validators.required]],
     });
+    this.purchaseService.getVendorList().subscribe(
+      (data)=>{
+        this.vendor_list = data;
+        console.log(this.vendor_list)
+        if(data.length){
+        this.vendor_object = data[0];
+        console.log(this.vendor_object);
+        this.vendor_id = this.vendor_object.id;
+        console.log(this.vendor_id)
+        this.grnMasterForm.controls['vendorNameFormControl'].setValue(this.vendor_object.vendor_name);
+        this.grnMasterForm.controls['vendorAddressFormControl'].setValue(this.vendor_object.branch_ofc_addr);
+      }
+      },
+      (error) => {
+        this.nbtoastService.danger("Unable to get customer List")
+      }
 
+    )
     let param = this.route.snapshot.queryParams['id'];
-
+    console.log("current_date",this.current_date)
     this.store_id = sessionStorage.getItem('store_id');
     if (param) {
       this.purchaseService.getGRNDetails(param).subscribe(
@@ -205,7 +224,7 @@ export class ManageGrnComponent implements OnInit {
           this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
           this.grnMasterForm.controls['grnBatchNumberFormControl'].setValue(data.batch_num);
           this.grnMasterForm.controls['grnNumberFormControl'].setValue(data.grn_code);
-          this.grnMasterForm.controls['grnDateFormControl'].setValue(moment(data.grn_date));
+          this.grnMasterForm.controls['grnDateFormControl'].setValue(moment(data.grn_date).format("yyyy-MM-DD"));
           this.grnMasterForm.controls['poNumberFormControl'].setValue(data.po_number);
           this.grnMasterForm.controls['invoiceNumberFormControl'].setValue(data.invoice_number);
           this.grnMasterForm.controls['invoiceDateFormControl'].setValue(moment(data.invoice_date));
@@ -898,7 +917,7 @@ export class ManageGrnComponent implements OnInit {
 
   saveGRN() {
     const formData = new FormData();
-    if(this.grnMasterForm.controls['grnDateFormControl'].value != "" && this.grnMasterForm.controls['invoiceNumberFormControl'].value != "" && this.grnMasterForm.controls['invoiceDateFormControl'].value != ""  ){
+    // if(this.grnMasterForm.controls['grnDateFormControl'].value != "" && this.grnMasterForm.controls['invoiceNumberFormControl'].value != "" && this.grnMasterForm.controls['invoiceDateFormControl'].value != ""  ){
     if (!this.selected_product_list.length) {
       this.nbtoastService.danger('Please Enter At Least ONE Product in Details Section')
     } else {
@@ -922,8 +941,12 @@ export class ManageGrnComponent implements OnInit {
           formData.append('id', this.grn_id);
           formData.append('grn_code', this.grnMasterForm.controls['grnNumberFormControl'].value);
         }
-        formData.append('po', this.SelectedPo.id)
-        formData.append('grn_date', moment(this.grnMasterForm.controls['grnDateFormControl'].value).format("YYYY-MM-DD"));
+        if(this.grnMasterForm.controls['poNumberFormControl'].value !='')
+        {
+          formData.append('po', this.SelectedPo.id)
+        }
+        formData.append('po', '')
+        formData.append('grn_date', moment(this.grnMasterForm.controls['grnDateFormControl'].value.toString()).format("YYYY-MM-DD"));
         formData.append('po_number', this.grnMasterForm.controls['poNumberFormControl'].value);
         formData.append('batch_number', this.grnMasterForm.controls['grnBatchNumberFormControl'].value);
         formData.append('invoice_number', this.grnMasterForm.controls['invoiceNumberFormControl'].value);
@@ -991,7 +1014,7 @@ export class ManageGrnComponent implements OnInit {
         }
       // }
     }
-  }
+  // }
   }
 
   formatDate(date) {

@@ -18,22 +18,22 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="invoiceDate">Invoice Date<span style="color: red;">*</span></label>
-                    <input nbInput formControlName="invoiceDateFormControl" id="invoiceDate" name="InvoiceDate"
+                    <input nbInput formControlName="invoiceDateFormControl" name="InvoiceDate"
                         [nbDatepicker]="invoicedatepicker"  placeholder="Invoice Date"
                         [ngClass]="{ 'is-invalid': submitted && f.invoiceDateFormControl.errors }" class=" form-control"/>
                         <div *ngIf="submitted && f.invoiceDateFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.invoiceDateFormControl.errors.required">Invoice Date is required</div>
-                        </div>
+                        </div> 
                     <nb-datepicker format="yyyy-MM-DD"  #invoicedatepicker></nb-datepicker>
                 </div>
                 <div class="form-group col-md-3">
                   <label for="grnDate">GRN Date<span style="color: red;">*</span></label>
-                  <input nbInput formControlName="grnDateFormControl" id="grnDate" name="grnDate" [nbDatepicker]="datepicker" (ngModelChange)="onChange(datepicker.value)"
-                      placeholder="GRN Date" #date1   [ngClass]="{ 'is-invalid': submitted && f.grnDateFormControl.errors }" class=" form-control"/>
+                  <input nbInput formControlName="grnDateFormControl" id="grnDate" name="grnDate"  (ngModelChange)="onChange(datepicker.value)"
+                      placeholder="GRN Date" [ngClass]="{ 'is-invalid': submitted && f.grnDateFormControl.errors }" class=" form-control"/>
                       <div *ngIf="submitted && f.grnDateFormControl.errors" class="invalid-feedback">
                           <div *ngIf="f.grnDateFormControl.errors.required">GRN Date is required</div>
                       </div>
-                  <nb-datepicker format="yyyy-MM-DD"  #datepicker></nb-datepicker>
+                  <nb-datepicker format="yyyy-MM-DD" (ngModel)="current_date"  #datepicker></nb-datepicker>
               </div>
             </div><br>
 
@@ -69,19 +69,21 @@
                 <div class="form-group col-md-3">
                     <label for="poNumber">PO Number</label>
                     <input nbInput formControlName="poNumberFormControl" name="poNumber" placeholder="PO Number"
-                        (keypress)="po_open(dialog)"    (click)="po_open(dialog)" readonly [ngClass]="{ 'is-invalid': submitted && f.poNumberFormControl.errors }" class=" form-control"/>
+                        (keypress)="po_open(dialog)"    (click)="po_open(dialog)" readonly  class=" form-control"/>
+                        <!-- [ngClass]="{ 'is-invalid': submitted && f.poNumberFormControl.errors }"
                         <div *ngIf="submitted && f.poNumberFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.poNumberFormControl.errors.required">PO Number is required</div>
-                        </div>
+                        </div> -->
                     <!-- <input nbInput formControlName="prNumberFormControl" name="pr_number" placeholder="pr_number"  /> -->
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="grnDate">Batch Number<span style="color: red;">*</span></label>
+                    <label for="grnDate">Batch Number</label>
                     <input nbInput formControlName="grnBatchNumberFormControl" id="grnBatch" name="grnBatch"
-                        placeholder="Batch Number" [ngClass]="{ 'is-invalid': submitted && f.grnBatchNumberFormControl.errors }" class=" form-control"/>
+                        placeholder="Batch Number"  class=" form-control"/>
+                        <!-- [ngClass]="{ 'is-invalid': submitted && f.grnBatchNumberFormControl.errors }"
                         <div *ngIf="submitted && f.grnBatchNumberFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.grnBatchNumberFormControl.errors.required">Batch number is required</div>
-                        </div>
+                        </div> -->
                 </div>
             </div><br>
             <p id = "geeks" ></p>
