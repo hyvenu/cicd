@@ -99,7 +99,7 @@ export class ManageCategoryComponent implements OnInit {
         this.categoryFrom.controls['categoryDescFormControl'].setValue(data.description);
         this.categoryFrom.controls['categoryCodeFormControl'].setValue(data.category_code);
         this.categoryFrom.controls['salesmarginFormControl'].setValue(data.sales_margin);
-        this.createFlag = !this.createFlag;
+        this.createFlag = false;
         this.category_id = data.id
     }
 

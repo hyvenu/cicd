@@ -98,7 +98,7 @@ export class ManageUnitmasterComponent implements OnInit {
         this.unitMasterFrom.controls['secondaryUnitFormControl'].setValue(data.SecondaryUnit);
         this.unitMasterFrom.controls['primaryUnitMeasurementFormControl'].setValue(data.PrimaryUnitMeasurement);
         this.unitMasterFrom.controls['secondaryUnitMeasurementFormControl'].setValue(data.SecondaryUnitMeasurement);
-        this.createFlag = !this.createFlag;
+        this.createFlag =false;
         this.unit_id = data.id
     }
 

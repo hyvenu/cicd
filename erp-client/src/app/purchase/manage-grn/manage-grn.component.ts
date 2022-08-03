@@ -180,9 +180,9 @@ export class ManageGrnComponent implements OnInit {
     this.grnMasterForm = this.formBuilder.group({
       grnNumberFormControl: ['', []],
       grnBatchNumberFormControl: ['', []],
-      grnDateFormControl: [[moment(new Date(this.current_date)).format("yyyy-MM-DD")], []],
-      invoiceNumberFormControl: ['', []],
-      invoiceDateFormControl: ['', []],
+      grnDateFormControl: [[moment(new Date(this.current_date)).format("yyyy-MM-DD")], [Validators.required]],
+      invoiceNumberFormControl: ['', [Validators.required]],
+      invoiceDateFormControl: ['', [Validators.required]],
       poNumberFormControl: ['', []],
       vendorNameFormControl: ['', [Validators.required]],
       vendorAddressFormControl: ['', []],
@@ -194,24 +194,6 @@ export class ManageGrnComponent implements OnInit {
       noteFormControl: ['', []],
       invoiceDocumentFormControl: ['', [Validators.required]],
     });
-    this.purchaseService.getVendorList().subscribe(
-      (data)=>{
-        this.vendor_list = data;
-        console.log(this.vendor_list)
-        if(data.length){
-        this.vendor_object = data[0];
-        console.log(this.vendor_object);
-        this.vendor_id = this.vendor_object.id;
-        console.log(this.vendor_id)
-        this.grnMasterForm.controls['vendorNameFormControl'].setValue(this.vendor_object.vendor_name);
-        this.grnMasterForm.controls['vendorAddressFormControl'].setValue(this.vendor_object.branch_ofc_addr);
-      }
-      },
-      (error) => {
-        this.nbtoastService.danger("Unable to get customer List")
-      }
-
-    )
     let param = this.route.snapshot.queryParams['id'];
     console.log("current_date",this.current_date)
     this.store_id = sessionStorage.getItem('store_id');
@@ -917,6 +899,7 @@ export class ManageGrnComponent implements OnInit {
 
   saveGRN() {
     const formData = new FormData();
+    if (this.grnMasterForm.controls['invoiceNumberFormControl'].value != "" ) {
     // if(this.grnMasterForm.controls['grnDateFormControl'].value != "" && this.grnMasterForm.controls['invoiceNumberFormControl'].value != "" && this.grnMasterForm.controls['invoiceDateFormControl'].value != ""  ){
     if (!this.selected_product_list.length) {
       this.nbtoastService.danger('Please Enter At Least ONE Product in Details Section')
@@ -1012,6 +995,7 @@ export class ManageGrnComponent implements OnInit {
             }
           );
         }
+      }
       // }
     }
   // }

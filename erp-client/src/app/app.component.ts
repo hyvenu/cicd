@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
         )
 
         this.listenToLoading();
+        this. create_menu ();
   }
 
   /**

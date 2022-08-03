@@ -382,7 +382,7 @@ export class PurchaseRequisitionComponent implements OnInit {
           required_qty: new_required_qty,
           //required_qty: data.product_price__qty,
           finished_qty:0,
-          purchase_price: data.product_price__sell_price,
+          purchase_price: data.product_price__purchase_price,
           unit: data.product_price__unit,
           unit_name:this.unit_name,
           // unit_price:data.product_price__unit_price,

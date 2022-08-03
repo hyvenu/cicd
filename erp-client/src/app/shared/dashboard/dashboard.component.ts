@@ -17,6 +17,49 @@ import { SharedService } from '../shared.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  custSettings = {
+    pager: {
+      display: true,
+      perPage: 3
+    },
+    actions: {
+      add: false,
+      edit: false,
+      delete: false,
+    },
+
+    columns: {
+      id: {
+        title: 'id',
+        hide: true
+      },
+      customer_code: {
+        title: 'Customer Code',
+        hide: true
+      },
+      customer_name: {
+        title: 'Customer Name',
+        type: 'html',
+        id:'name',
+        onclick: "name()",
+        valuePrepareFunction: (cell, row) => {
+          return `<a href="ManageBooking?id=${row.customer_id}">${row.customer_name}</a>`;
+        }
+      },
+      phone_number:{
+        title: 'Phone Number',
+        type: 'html',
+        valuePrepareFunction: (cell, row) => {
+          return `<a href="ManageCustomer?id=${row.id}">${row.phone_number}</a>`;
+        }
+      },
+      // customer_email: {
+      //   title: 'Customer Email',
+      // },
+
+
+    },
+  };
   orders_data: [];
   options: any;
   headspacount: any;
@@ -133,47 +176,7 @@ export class DashboardComponent implements OnInit {
    appointmentlist: any;
    department_list: any;
    customerList: any = [];
-   custSettings = {
-    pager: {
-      display: true,
-      perPage: 3
-    },
-    actions: {
-      add: false,
-      edit: false,
-      delete: false,
-    },
 
-    columns: {
-      id: {
-        title: 'id',
-        hide: true
-      },
-      customer_code: {
-        title: 'Customer Code',
-        hide: true
-      },
-      customer_name: {
-        title: 'Customer Name',
-        type: 'html',
-        valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageCustomer?id=${row.id}">${row.customer_name}</a>`;
-        }
-      },
-      phone_number:{
-        title: 'Phone Number',
-        type: 'html',
-        valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageCustomer?id=${row.id}">${row.phone_number}</a>`;
-        }
-      },
-      // customer_email: {
-      //   title: 'Customer Email',
-      // },
-
-
-    },
-  };
 
 
 
