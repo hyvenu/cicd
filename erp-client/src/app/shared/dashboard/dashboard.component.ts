@@ -17,6 +17,7 @@ import { SharedService } from '../shared.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  searchCategory:any="";
   custSettings = {
     pager: {
       display: true,
@@ -40,10 +41,8 @@ export class DashboardComponent implements OnInit {
       customer_name: {
         title: 'Customer Name',
         type: 'html',
-        id:'name',
-        onclick: "name()",
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageBooking?id=${row.customer_id}">${row.customer_name}</a>`;
+          return `<a href="ManageBooking?id=${row.id}">${row.customer_name}</a>`;
         }
       },
       phone_number:{
@@ -60,6 +59,13 @@ export class DashboardComponent implements OnInit {
 
     },
   };
+  // MyData: string = "MyProject";
+  // parent_data: string = "";
+  
+  // sendData(){
+    
+  //   this.parent_data = this.MyData;
+  // }
   orders_data: [];
   options: any;
   headspacount: any;
@@ -231,6 +237,7 @@ export class DashboardComponent implements OnInit {
   get_customer_list() {
     this.adminService.getCustomerList().subscribe(
       (data) => {
+
         this.customerList.push(
           ...data
         )

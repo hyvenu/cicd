@@ -39,7 +39,7 @@ export class PurchaseOrderComponent implements OnInit {
   payments_terms_list = [
     { key: "PAYMENT_TERMS_1", value: '10% advance & 90% after Receipt of materials' },
     { key: "PAYMENT_TERMS_2", value: '100% against material receipt' },
-    { key: "PAYMENT_TERMS_3", value: 'Wholese credit for 30 days of material receiptller' },
+    { key: "PAYMENT_TERMS_3", value: 'Wholesale credit for 30 days of material receiptller' },
   ]
 
 
