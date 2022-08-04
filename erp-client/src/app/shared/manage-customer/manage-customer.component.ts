@@ -171,7 +171,7 @@ customerForm:FormGroup;
 
     })
 
-    this.customerForm.reset();
+    // this.customerForm.reset();
 
     let param = this.route.snapshot.queryParams['id'];
 

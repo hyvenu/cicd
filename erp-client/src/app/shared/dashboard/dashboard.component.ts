@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
         title: 'Phone Number',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageCustomer?id=${row.id}">${row.phone_number}</a>`;
+          return `<a href="ManageBooking?id=${row.id}">${row.phone_number}</a>`;
         }
       },
       // customer_email: {
