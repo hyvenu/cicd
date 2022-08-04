@@ -31,7 +31,7 @@ export class ManageCustomerComponent implements OnInit {
         title: 'Customer Name',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageCustomer?id=${row.id}">${row.customer__customer_name}</a>`;
+          return `<a href="ManageCustomer?id=${row.customer__id}">${row.customer__customer_name}</a>`;
         }
       },
       customer__phone_number:{
@@ -171,7 +171,7 @@ customerForm:FormGroup;
 
     })
 
-    this.customerForm.reset();
+    // this.customerForm.reset();
 
     let param = this.route.snapshot.queryParams['id'];
 

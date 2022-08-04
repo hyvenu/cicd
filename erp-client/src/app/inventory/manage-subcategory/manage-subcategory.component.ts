@@ -195,7 +195,7 @@ export class ManageSubcategoryComponent implements OnInit {
         this.subcategoryFrom.controls['categoryNameFormControl'].setValue(data.category.category_name);
         this.subcategoryFrom.controls['subDescription'].setValue(data.description);
         this.subcat_image = data.sub_category_image;
-        this.createFlag = !this.createFlag;
+        this.createFlag = false;
         this.subcategory_id = data.id
         this.selected_category = data.category
     }
