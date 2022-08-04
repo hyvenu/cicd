@@ -63,7 +63,7 @@
                     <input nbInput  (keypress)="date_check()" formControlName="invoiceNumberFormControl" name="invoiceNumber"
                         placeholder="Invoice Number" [ngClass]="{ 'is-invalid': submitted && f.invoiceNumberFormControl.errors }" class=" form-control"/>
                         <div *ngIf="submitted && f.invoiceNumberFormControl.errors" class="invalid-feedback">
-                            <div *ngIf="f.invoiceNumberFormControl.errors.required">PO Number is required</div>
+                            <div *ngIf="f.invoiceNumberFormControl.errors.required">Invoice Number is required</div>
                         </div>
                 </div>
                 <div class="form-group col-md-3">

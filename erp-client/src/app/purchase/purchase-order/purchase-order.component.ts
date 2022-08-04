@@ -985,9 +985,11 @@ calculate(event) {
   save() {
     this.onSubmit()
 
-
       const formdata = new FormData()
-
+      if (this.purchaseOrderForm.controls['poDateFormControl'].value == "" && this.purchaseOrderForm.controls['poDateFormControl'].value=="" && this.purchaseOrderForm.controls['vendorCodeFormControl'].value =="") {
+        this.nbtoastService.danger('Please Enter Mondatory Fields')
+      }
+      else{
           if (this.po_id)
           {
             formdata.append('id', this.po_id);
@@ -1031,7 +1033,6 @@ calculate(event) {
             element = moment(element.delivery_date).format("YYYY-MM-DD")
           });
           formdata.append('po_products', JSON.stringify(this.selected_product_list))
-
           this.purchaseService.savePO(formdata).subscribe(
             (data) =>
             {
@@ -1051,6 +1052,7 @@ calculate(event) {
               this.nbtoastService.danger(error);
             })
 
+          }
   }
 
 
