@@ -13,6 +13,7 @@ import { SharedService } from '../shared.service';
 })
 export class ManageEmployeeComponent implements OnInit {
   employeeForm:FormGroup
+  active =true;
   submitted=false;
   employeeData = [];
   selectedDepartment;
@@ -143,6 +144,7 @@ export class ManageEmployeeComponent implements OnInit {
       payOutFormControl:['',[]],
       gradeFormControl:['',[]],
       loginAccessFormControl:['',[]],
+      ActiveFormControl:['',[]],
 
     })
     let param = this.route.snapshot.queryParams['id'];
@@ -176,6 +178,7 @@ export class ManageEmployeeComponent implements OnInit {
           this.employeeForm.controls['payOutFormControl'].setValue(data.pay_out);
           this.employeeForm.controls['gradeFormControl'].setValue(data.grade);
           this.employeeForm.controls['loginAccessFormControl'].setValue(data.login_access);
+          this.employeeForm.controls['ActiveFormControl'].setValue(data.active);
 
           if(data.dob == null){
             this.employeeForm.controls['DOBFormControl'].setValue("");
@@ -307,6 +310,7 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('pay_out',this.employeeForm.controls['payOutFormControl'].value);
     formdata.append('grade',this.employeeForm.controls['gradeFormControl'].value);
     formdata.append('login_access',this.employeeForm.controls['loginAccessFormControl'].value);
+    formdata.append('active',this.employeeForm.controls['ActiveFormControl'].value);
     formdata.append('store',this.store_id);
 
 
@@ -368,6 +372,7 @@ export class ManageEmployeeComponent implements OnInit {
     formdata.append('pay_out',this.employeeForm.controls['payOutFormControl'].value);
     formdata.append('grade',this.employeeForm.controls['gradeFormControl'].value);
     formdata.append('login_access',this.employeeForm.controls['loginAccessFormControl'].value);
+    formdata.append('active',this.employeeForm.controls['ActiveFormControl'].value);
     formdata.append('store',this.store_id);
 
 

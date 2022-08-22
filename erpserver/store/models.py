@@ -168,6 +168,7 @@ class Employee(AuditUuidModelMixin):
     pay_out = models.CharField(max_length=255, default="",null=True,blank=True)
     grade = models.CharField(max_length=255, default="",null=True,blank=True)
     login_access = models.CharField(max_length=255, default="",null=True,blank=True)
+    active = models.BooleanField(default=False)
 
     class Meta:
         pass

@@ -88,8 +88,8 @@
                             <td>
                                 <input class="form-control form-control-sm" type="text"  name="{{item.description}}" [(ngModel)]="item.description" placeholder="Item Description"  [ngModelOptions]="{standalone: true}"
                                     style="width: 10em;" (input)="calculate_price()"
-                                    (keypress)="open_product_name(dialog_product,item)"
-                                    (click)="open_product_name(dialog_product,item)"
+                                    (keypress)="open_product_name(dialog_single_product,item)"
+                                    (click)="open_product_name(dialog_single_product,item)"
                                      readonly
                                 />&nbsp;
                             </td>
