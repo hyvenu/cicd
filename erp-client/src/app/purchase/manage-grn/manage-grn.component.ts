@@ -45,9 +45,9 @@ export class ManageGrnComponent implements OnInit {
     //{field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true,editable: true},
     {field: 'items_per_box', headerName : 'No Of Qty', sortable: true, filter: true,hide:true},
     {field: 'received_qty', headerName : 'Recevied Qty', sortable: true, filter: true,editable: true},
-    {field: 'amount', headerName : 'Amount', sortable: true, filter: true,editable: true},
-    {field: 'accepted_qty', headerName : 'Accepted Qty', sortable: true, filter: true},
     {field: 'unit_price', headerName : 'Unit Price', sortable: true, filter: true,editable: true},
+    {field: 'accepted_qty', headerName : 'Accepted Qty', sortable: true, filter: true},
+    {field: 'amount', headerName : 'Amount', sortable: true, filter: true},
     {field: 'expiry_date', headerName : 'Expiry Date', sortable: true, filter: true,editable: true, cellEditor: DatepickerComponent, cellEditorPopup: true},
 
     {field: 'gst', headerName : 'GST', sortable: true, filter: true},
@@ -112,6 +112,10 @@ export class ManageGrnComponent implements OnInit {
   totalAcceptedQuantity: number = 0.0;
   totalRejectedAmount: number = 0.0;
   vendor_object: any;
+  received_qty:any;
+  accepted_qty: any;
+  amount: any;
+  unit_price: any;
 
   constructor(private formBuilder: FormBuilder,
     private purchaseService: PurchaseService,
@@ -294,7 +298,6 @@ export class ManageGrnComponent implements OnInit {
       }
     );
   }
-
 
   onRowClick(event: any): void {
     console.log("ROWWWW",event.rowIndex);
@@ -659,66 +662,7 @@ export class ManageGrnComponent implements OnInit {
     this.sub_total_pack = (parseFloat(this.pack_amount) + parseFloat(this.sub_total)).toFixed(2);
     this.grand_total = (parseFloat(this.pack_amount) + parseFloat(this.sub_total) + parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst));
   }
-  // calculate(event) {
-
-
-
-  //   this.sub_total = 0;
-  //   this.total_gst = 0;
-  //   this.totalQuantityReceived = 0;
-  //   this.totalRejectedQuantity = 0;
-  //   this.totalAcceptedQuantity = 0;
-  //   this.totalRejectedAmount = 0;
-
-  //   let st: number = 0;
-  //   let changedData = event.data.box_qty;
-  //   event.data.received_qty = parseInt(changedData) * (parseInt(event.data.items_per_box));
-  //   event.data.accepted_qty = event.data.received_qty;
-  //   this.selected_product_list.forEach(element => {
-  //     // element.received_qty = element.box_qty * element.items_per_box;
-
-  //       element.accepted_qty = element.received_qty - element.rejected_qty;
-  //       element.amount = element.received_qty * element.unit_price;
-  //       element.gst_amount = element.amount * element.gst / 100;
-  //       element.total = element.amount + element.gst_amount;
-  //       element.rejected_amount = element.rejected_qty * element.unit_price;
-
-  //     console.log("chnaged event called " + this.sub_total);
-
-  //     st = (st + Number(element.amount));
-  //     console.log("chnaged event called " + this.sub_total);
-  //     this.total_gst = this.total_gst + Number(element.gst_amount);
-
-  //     this.totalQuantityReceived += Number(element.received_qty);
-  //     this.totalRejectedQuantity += Number(element.rejected_qty);
-  //     this.totalAcceptedQuantity += Number(element.accepted_qty);
-  //     this.totalRejectedAmount += Number(element.rejected_amount);
-  //       this.check_acc_rej(element);
-  //       // this.check_expiry_date(element);
-
-  //   });
-  //     console.log(this.selected_product_list);
-  //   this.sub_total = st;
-  //   if (this.vendor_state_code == '29') {
-  //     this.sgst = this.total_gst / 2;
-  //     this.cgst = this.total_gst / 2;
-  //     this.igst = 0;
-  //   } else {
-  //     this.igst = this.total_gst;
-  //     this.sgst = 0;
-  //     this.cgst = 0;
-  //   }
-  //   this.sub_total_pack = (parseFloat(this.pack_amount) + parseFloat(this.sub_total));
-  //   this.grand_total = (parseFloat(this.pack_amount) + parseFloat(this.sub_total) + parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst));
-  //   console.log(this.grand_total)
-  //   this.gridApi.refreshCells({force : true});
-
-  //         }
-
   calculate(event) {
-
-
-
     this.sub_total = 0;
     this.total_gst = 0;
     this.totalQuantityReceived = 0;
@@ -729,28 +673,34 @@ export class ManageGrnComponent implements OnInit {
     let st: number = 0;
     let changedData = event.data.box_qty;
     if(colId == "box_qty") {
-    event.data.received_qty = parseInt(changedData) * (parseInt(event.data.items_per_box));
+    this.received_qty = parseInt(changedData) * (parseInt(event.data.items_per_box));
     event.data.accepted_qty = event.data.received_qty;
 
+    }
+    if(event.data.amount == ''){
+      let amt= event.data.received_qty * event.data.unit_price;
+      event.data.amount = amt.toFixed(2);
     }
     if(colId == "amount") {
       let amt;
       let unit;
       let box;
-      amt =(parseFloat(event.data.amount)) / (parseFloat(event.data.unit_price));
-      event.data.received_qty = Math.round(amt);
-      event.data.accepted_qty = event.data.received_qty;
-      // unit = (parseInt(event.data.amount)) / (parseInt(event.data.received_qty));
-      // event.data.unit_price = unit.toFixed(2);
+    
+      amt =(parseFloat(this.amount)) / (parseFloat(this.unit_price));
+      this.received_qty = Math.round(amt);
       box = event.data.received_qty / (parseInt(event.data.items_per_box));
       event.data.box_qty = Math.round(box);
+       amt=this.received_qty * this.unit_price;
+      this.amount = amt.toFixed(2);
+      this.amount = event.data.unit_price* event.data.received_qty
       }
-    // this.selected_product_list.forEach(element => {
-      // element.received_qty = element.box_qty * element.items_per_box;
-
       event.data.accepted_qty = event.data.received_qty - event.data.rejected_qty;
-      let amt= event.data.received_qty * event.data.unit_price;
-      event.data.amount = amt.toFixed(2);
+  
+     let  unit = event.data.amount / event.data.received_qty;
+      console.log("amt",event.data.amount)
+      console.log("receive amt", event.data.received_qty)
+      event.data.unit_price = unit.toFixed(2);
+      console.log("chnaged event unit price " +this.unit_price);
       event.data.gst_amount = event.data.amount * event.data .gst / 100;
       event.data.total = (parseFloat(event.data.amount) + parseFloat(event.data.gst_amount)).toFixed(2);
       event.data.rejected_amount = event.data.rejected_qty * event.data.unit_price;
@@ -765,24 +715,7 @@ export class ManageGrnComponent implements OnInit {
       this.totalRejectedQuantity += Number(event.data.rejected_qty);
       this.totalAcceptedQuantity += Number(event.data.accepted_qty);
       this.totalRejectedAmount += Number(event.data.rejected_amount);
-        // this.check_acc_rej(element);
-        // this.check_expiry_date(element);
 
-    // });
-    //   console.log(this.selected_product_list);
-    // this.sub_total = st;
-    // if (this.vendor_state_code == '29') {
-    //   this.sgst = this.total_gst / 2;
-    //   this.cgst = this.total_gst / 2;
-    //   this.igst = 0;
-    // } else {
-    //   this.igst = this.total_gst;
-    //   this.sgst = 0;
-    //   this.cgst = 0;
-    // }
-    // this.sub_total_pack = (parseFloat(this.pack_amount) + parseFloat(this.sub_total));
-    // this.grand_total = (parseFloat(this.pack_amount) + parseFloat(this.sub_total) + parseFloat(this.sgst) + parseFloat(this.cgst) + parseFloat(this.igst));
-    // console.log(this.grand_total)
     this.gridApi.refreshCells({force : true});
     this.calculate_total();
 

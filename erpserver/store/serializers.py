@@ -201,7 +201,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
         fields = ['id', 'store', 'employee_code', 'employee_name', 'phone_number', 'department', 'employee_address',
                   'dob', 'doj', 'salary', 'job_designation', 'admin_rights', 'attendance_id', 'pan_card',
                   'account_number',
-                  'ifsc', 'hrms_id', 'gender', 'employee_category', 'pay_out', 'job_designation', 'grade',
+                  'ifsc', 'hrms_id', 'gender', 'employee_category', 'pay_out', 'job_designation', 'grade','active',
                   'login_access']
 
     def create(self, validated_data):

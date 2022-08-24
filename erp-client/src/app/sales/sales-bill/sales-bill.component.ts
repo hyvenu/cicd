@@ -42,6 +42,7 @@ export class SalesBillComponent implements OnInit {
   multi_service_list: any[];
   selectedPro: any;
   pro_id: any;
+  tot_price: any;
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -464,17 +465,22 @@ export class SalesBillComponent implements OnInit {
     let total_grand:any =0;
     let total_basic_price:any =0;
     let total_gst_value: any =0;
-
     this.invoice_items.forEach(element => {
 
       let net_price:any = (element.price - element.discount)
       let tot_price:any = (net_price * element.quantity )
-      let gst_tot:any =((tot_price * element.tax)/100)
-      let item_tot:any = tot_price + gst_tot;
+      let item_tot = tot_price;
+      if (element.discount > 0){
+        item_tot = item_tot - element.discount;
+      }
+      // let gst_tot:any =((tot_price * element.tax)/100)
+      let gst_tot:any=this.calculate_gst_amount(item_tot,element.tax);
+      // let item_tot:any = tot_price + gst_tot;
 
-      total_gross += parseFloat(element.price);
-      total_basic_price += tot_price;
-      total_gst_value += gst_tot;
+      // total_gross += parseFloat(element.price);
+      
+      total_basic_price += item_tot;
+      total_gst_value +=parseFloat(gst_tot);
 
       total_discount += parseFloat(element.discount);
       total_grand += item_tot;
@@ -483,15 +489,15 @@ export class SalesBillComponent implements OnInit {
       element.item_total = parseFloat(item_tot).toFixed(2);
 
     });
-
-    this.subtotal = parseFloat(total_gross).toFixed(2);
+    this.subtotal = parseFloat(total_basic_price).toFixed(2);
+    // this.subtotal = parseFloat(total_gross).toFixed(2);
     this.gstValue = parseFloat(total_gst_value).toFixed(2);
 
     this.totalDiscount = parseFloat(total_discount).toFixed(2);
     this.grandTotal = parseFloat(total_grand).toFixed(2);
 
     console.log('siub tot',this.subtotal + 'gst', this.gstValue)
-    let includeGST:any = (parseFloat(this.subtotal) + parseFloat(this.gstValue));
+    let includeGST:any = parseFloat(this.subtotal);
     this.selectedTotalGst = parseFloat(includeGST).toFixed(2)
     console.log('inc gst',this.selectedTotalGst)
 
@@ -515,10 +521,17 @@ export class SalesBillComponent implements OnInit {
 
     this.change = Math.ceil(this.change)
     this.balanceAmount = Math.ceil(this.balanceAmount);
+    
 
   }
+  calculate_gst_amount(total_amount,tax) {
+    let i = (100+parseFloat(tax));
+    let j = 100 / i;
+    return  total_amount =  (total_amount -  (total_amount * j)).toFixed(2);
+    console.log("gst amount", total_amount)
 
 
+  }
 
   open_product_name(dialog: TemplateRef<any>, dd) {
     this.inventoryService.getAllProductsList().subscribe(

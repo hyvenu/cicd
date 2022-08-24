@@ -113,22 +113,22 @@ export class PurchaseOrderComponent implements OnInit {
             total_amount:0
   */
   columnDefs: ColDef[] = [
-    {field: 'product_code', headerName : 'Product Code', sortable: true, filter: true},
-    {field: 'product_name', headerName : 'Product Name', sortable: true, filter: true, checkboxSelection: true,pinned: 'left' },
-    {field: 'items_per_box', headerName : 'Box Items', sortable: true, filter: true, editable: false,hide:true},
-    {field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true,editable: true, hide:true},
-    {field: 'qty', headerName : 'Required Qty', sortable: true, filter: true},
-    {field: 'order_qty', headerName : 'Order Qty', sortable: true, filter: true,editable: true},
-    {field: 'finished_qty', headerName : 'Finished Qty', sortable: true, filter: true},
-    {field: 'unit_name', headerName : 'Unit', sortable: true, filter: true},
-    {field: 'delivery_date', headerName : 'Delivery Date', sortable: true, filter: true,editable: true, cellEditor: DatepickerComponent, cellEditorPopup: true},
-    {field: 'unit_price', headerName : 'Unit Price', sortable: true, filter: true, editable: true},
-    {field: 'amount', headerName : 'Amount', sortable: true, filter: true},
-    {field: 'disc_percent', headerName : 'Disc %', sortable: true, filter: true, editable: true},
-    {field: 'disc_amount', headerName : 'Disc Amount', sortable: true, filter: true},
-    {field: 'gst', headerName : 'GST %', sortable: true, filter: true, editable: true},
-    {field: 'gst_amount', headerName : 'GST Amt', sortable: true, filter: true},
-    {field: 'total_amount', headerName : 'Total Amount', sortable: true, filter: true},
+    {field: 'product_code', headerName : 'Product Code', sortable: true, filter: true, minWidth: 200},
+    {field: 'product_name', headerName : 'Product Name', sortable: true, filter: true, checkboxSelection: true,pinned: 'left', minWidth: 200 },
+    {field: 'items_per_box', headerName : 'Box Items', sortable: true, filter: true, editable: false,hide:true, minWidth: 200},
+    {field: 'box_qty', headerName : 'Box Qty', sortable: true, filter: true,editable: true, hide:true, minWidth: 200},
+    {field: 'qty', headerName : 'Required Qty', sortable: true, filter: true, minWidth: 200},
+    {field: 'order_qty', headerName : 'Order Qty', sortable: true, filter: true,editable: true, minWidth: 200},
+    {field: 'finished_qty', headerName : 'Finished Qty', sortable: true, filter: true, minWidth: 200},
+    {field: 'unit_name', headerName : 'Unit', sortable: true, filter: true, minWidth: 200},
+    {field: 'delivery_date', headerName : 'Delivery Date', sortable: true, filter: true,editable: true, cellEditor: DatepickerComponent, cellEditorPopup: true, minWidth: 200},
+    {field: 'unit_price', headerName : 'Unit Price', sortable: true, filter: true, editable: true, minWidth: 200},
+    {field: 'amount', headerName : 'Amount', sortable: true, filter: true, minWidth: 200},
+    {field: 'disc_percent', headerName : 'Disc %', sortable: true, filter: true, editable: true, minWidth: 200},
+    {field: 'disc_amount', headerName : 'Disc Amount', sortable: true, filter: true, minWidth: 200},
+    {field: 'gst', headerName : 'GST %', sortable: true, filter: true, editable: true, minWidth: 200},
+    {field: 'gst_amount', headerName : 'GST Amt', sortable: true, filter: true, minWidth: 200},
+    {field: 'total_amount', headerName : 'Total Amount', sortable: true, filter: true, minWidth: 200},
 
 ];
 
@@ -137,7 +137,6 @@ export class PurchaseOrderComponent implements OnInit {
   rowSelection: string;
   private gridApi;
   private gridColumnApi;
-
 
   constructor(
     private formBuilder: FormBuilder,
