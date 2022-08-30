@@ -467,7 +467,7 @@ export class SalesBillComponent implements OnInit {
     let total_gst_value: any =0;
     this.invoice_items.forEach(element => {
 
-      let net_price:any = (element.price - element.discount)
+      let net_price:any = (element.price)
       let tot_price:any = (net_price * element.quantity )
       let item_tot = tot_price;
       if (element.discount > 0){
@@ -489,16 +489,19 @@ export class SalesBillComponent implements OnInit {
       element.item_total = parseFloat(item_tot).toFixed(2);
 
     });
-    this.subtotal = parseFloat(total_basic_price).toFixed(2);
+    this.subtotal = parseFloat(total_basic_price) - parseFloat(total_gst_value);
     // this.subtotal = parseFloat(total_gross).toFixed(2);
     this.gstValue = parseFloat(total_gst_value).toFixed(2);
-
+    let includeGST:any = parseFloat(this.subtotal);
+    this.selectedTotalGst = this.subtotal + parseFloat(this.gstValue ) 
     this.totalDiscount = parseFloat(total_discount).toFixed(2);
-    this.grandTotal = parseFloat(total_grand).toFixed(2);
+    this.grandTotal = parseFloat(total_grand) ;
+    this.cgst = (parseFloat(this.gstValue)/2).toFixed(2)
+    this.sgst = (parseFloat(this.gstValue)/2).toFixed(2)
+    this.igst = 0
 
     console.log('siub tot',this.subtotal + 'gst', this.gstValue)
-    let includeGST:any = parseFloat(this.subtotal);
-    this.selectedTotalGst = parseFloat(includeGST).toFixed(2)
+   
     console.log('inc gst',this.selectedTotalGst)
 
     if(parseFloat(this.advanceAmount) > parseFloat(this.grandTotal)){

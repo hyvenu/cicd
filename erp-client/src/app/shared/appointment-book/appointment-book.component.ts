@@ -155,11 +155,11 @@ export class AppointmentBookComponent implements OnInit {
     this.dateofdata = new Date(date)
     console.log(this.dateofdata)
     console.log(this.current_date)
-    if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
-      this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date");
-      this.myInputVariable.nativeElement.value = "";
+    // if(moment(this.dateofdata).format("yyyy-MM-DD") < moment(this.current_date).format("yyyy-MM-DD") ){
+    //   this.nbtoastService.danger("Date Of Request  Allows Only Present Or Future Date");
+    //   this.myInputVariable.nativeElement.value = "";
 
-    }
+    // }
 
 
 
