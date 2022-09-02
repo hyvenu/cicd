@@ -10,7 +10,46 @@ import { AdminService } from '../admin.service';
   styleUrls: ['./store.component.scss']
 })
 export class StoreComponent implements OnInit {
-
+  state:{name:string,value:string}[] =[
+    {name:"Andaman and Nicobar Islands", value:"35"},
+    {name:"Andhra Pradesh", value:"28"},
+    {name:"Andhra Pradesh (New)", value:"37"},
+    {name:"Arunachal Pradesh", value:"12"},
+    {name:"Assam ", value:"18"},
+    {name:"Bihar", value:"10"},
+    {name:"Chandigarh ", value:"04"},
+    {name:"Chattisgarh ", value:"22"},
+    {name:"Dadra and Nagar Haveli", value:"26"},
+    {name:"Daman and Diu", value:"25"},
+    {name:"Delhi", value:"07"},
+    {name:"Goa", value:"30"},
+    {name:"Gujarat", value:"24"},
+    {name:"Haryana", value:"06"},
+    {name:"Himachal Pradesh", value:"02"},
+    {name:"Jammu and Kashmir", value:"01"},
+    {name:"Jharkhand", value:"20"},
+    {name:"Karnataka", value:"29"},
+    {name:"Kerala", value:"32"},
+    {name:"Lakshadweep Islands", value:"31"},
+    {name:"Madhya Pradesh", value:"23"},
+    {name:"Maharashtra", value:"27"},
+    {name:"Manipur", value:"14"},
+    {name:"Meghalaya", value:"17"},
+    {name:"Mizoram", value:"15"},
+    {name:"Nagaland", value:"13"},
+    {name:"Odisha", value:"21"},
+    {name:"Pondicherry", value:"34"},
+    {name:"Punjab", value:"03"},
+    {name:"Rajasthan", value:"08"},
+    {name:"Sikkim", value:"11"},
+    {name:"Tamil Nadu", value:"33"},
+    {name:"Telangana", value:"36"},
+    {name:"Tripura", value:"16"},
+    {name:"Uttar Pradesh ", value:"09"},
+    {name:"Uttarakhand", value:"05"},
+    {name:"West Bengal", value:"19"},
+  ]
+  stateCode:any;
   storeForm: FormGroup;
   createFlag = true;
   store_id: any;
@@ -58,6 +97,8 @@ export class StoreComponent implements OnInit {
         storeCityFormControl: ['',[Validators.required]],
         gstFormControl: ['',[Validators.required,Validators.minLength(15),Validators.maxLength(15)]],
         mainBranchFormControl: [''],
+        stateNameFormControl: ['', [Validators.required]],
+        stateCodeFormControl: ['', [Validators.required]],
       }
     )
 
@@ -74,19 +115,30 @@ export class StoreComponent implements OnInit {
           this.storeForm.controls['mainBranchFormControl'].setValue(data.is_head_office);
           this.storeForm.controls['storePhoneNumberFormControl'].setValue(data.store_number);
           this.storeForm.controls['storeEmailFormControl'].setValue(data.email);
+          this.storeForm.controls['stateCodeFormControl'].setValue(data.state_code);
+          this.storeForm.controls['stateNameFormControl'].setValue(data.state_name);
 
         },
         (error) =>{
           this.nbtoastService.danger("Unable to get Store Information")
         }
       )
+      this.onChange();
     }
 
     this.get_store_list();
     
 
   }
-
+  onChange(){
+    this.storeForm.get('stateNameFormControl').valueChanges.subscribe(
+      tt=>{
+        if(tt){
+          let searchInState=this.state.filter(s=>s.name===tt)[0];
+          this.storeForm.get(['stateCodeFormControl']).setValue(searchInState.value);
+        }
+      });
+  }
   saveStore(): void {
     if (this.storeForm.dirty && this.storeForm.valid){
       let formData = new FormData()
@@ -98,6 +150,8 @@ export class StoreComponent implements OnInit {
       formData.append("city",this.storeForm.get(['storeCityFormControl']).value);
       formData.append("gst_no",this.storeForm.get(['gstFormControl']).value);
       formData.append("is_head_office",this.storeForm.get(['mainBranchFormControl']).value);
+      formData.append("state_code",this.storeForm.get(['stateCodeFormControl']).value);
+      formData.append("state_name",this.storeForm.get(['stateNameFormControl']).value);
 
       this.adminService.saveStore(formData).subscribe(
         (data) => {
@@ -125,6 +179,8 @@ export class StoreComponent implements OnInit {
       formData.append("city",this.storeForm.controls['storeCityFormControl'].value);
       formData.append("gst_no",this.storeForm.controls['gstFormControl'].value);
       formData.append("is_head_office",this.storeForm.get(['mainBranchFormControl']).value);
+      formData.append("state_code",this.storeForm.get(['stateCodeFormControl']).value);
+      formData.append("state_name",this.storeForm.get(['stateNameFormControl']).value);
       
       this.adminService.updateStore(this.store_id, formData).subscribe(
         (data) => {
@@ -140,7 +196,6 @@ export class StoreComponent implements OnInit {
     }
     
   }
-
   get_store_list(): void{
     const data = ""
     this.adminService.getStore(data).subscribe(

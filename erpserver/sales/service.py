@@ -840,6 +840,7 @@ class OrderService:
             "customer__customer_name",
             "customer__customer_address",
             "customer__phone_number",
+            "total_gst_amount",
 
         )[0]
 
