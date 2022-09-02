@@ -167,10 +167,10 @@ $box.prop("checked", false);
                   <td style="text-align: center;">IGst: <br><input size="small" style="width: 8em;" step="0.1"  nbInput formControlName="igstFormControl" name="igstFormControl"  value="{{igst}}" placeholder="IGST" readonly></td>
                   <td style="text-align: center;">Total:Include GST <br><input size="small" style="width: 8em;" step="0.1"  nbInput value="{{selectedTotalGst}}"  formControlName="gstTotalFormControl" name="salesNewFormControl" placeholder="INR" [(ngModel)]="selectedTotalGst" readonly></td>
 
-                  <td style="text-align: center;">Discount Amount: <br><input size="small"  style="width: 8em;" value="{{totalDiscount}}"  step="0.1" nbInput formControlName="discountFormControl"  [(ngModel)]="totalDiscount" name="discountFormControl" placeholder="Total Discount" readonly></td>
-
                 </tr>
                 <tr>
+                  <td style="text-align: center;">Discount Amount: <br><input size="small"  style="width: 8em;" value="{{totalDiscount}}"  step="0.1" nbInput formControlName="discountFormControl"  [(ngModel)]="totalDiscount" name="discountFormControl" placeholder="Total Discount" readonly></td>
+
                   <td style="text-align: center;">Grand Total: Incl. GST <br><input size="small"  style="width: 8em;" value="{{grandTotal}}"  step="0.1" nbInput formControlName="grandTotalFormControl"  [(ngModel)]="grandTotal" name="grandTotalFormControl" placeholder="Grand Total" readonly></td>
 
                   <td style="text-align: center;">Advance Amount: <br><input size="small"  style="width: 10em;" value="{{advanceAmount}}"  step="0.1" nbInput formControlName="advanceAmountFormControl" [(ngModel)]="advanceAmount" name="advanceAmountFormControl" placeholder="Advance Amount " readonly></td>
