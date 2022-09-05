@@ -6,16 +6,24 @@ import { AuthGuard } from '../shared/auth.gaurd';
 import { FormsModule } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule, NbListModule, NbMenuModule } from '@nebular/theme';
 import { MainPipe } from '../pipe.module';
+import { ReportViewerComponent } from './report-viewer/report-viewer.component';
+import { ReportsListComponent } from './reports-list/reports-list.component';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { CalendarModule } from 'primeng/calendar';
+import { AccordionModule } from 'primeng/accordion';
 
 
 
 const routes: Routes = [
-  { path: 'ReportsList' , component: ReportHomeComponent,canActivate:[AuthGuard]},
+  { path: 'ReportsList' , component: ReportsListComponent,canActivate:[AuthGuard]},
+  { path: 'ReportViewer' , component: ReportViewerComponent, canActivate:[AuthGuard]},  
 ]
 
 @NgModule({
 
-  declarations: [ReportHomeComponent],
+  declarations: [ReportHomeComponent, ReportViewerComponent, ReportsListComponent],
   imports: [
     CommonModule,
     NbButtonModule,
@@ -26,6 +34,11 @@ const routes: Routes = [
     NbInputModule,
     RouterModule.forRoot(routes),
     MainPipe,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    CalendarModule,
+    AccordionModule
 
   ]
 })
