@@ -35,7 +35,7 @@ class ReportServices:
             to_date = '"' + to_dt + '"'
             
         # Below line applies value of from_date & to_date into string sql_qry.
-        sql_qry = sql_qry1.format(from_date, to_date)
+        sql_qry = sql_qry1.format(from_date=from_date, to_date=to_date)
         print(sql_qry)
         # sql_qry = sql_qry1
 
