@@ -21,6 +21,8 @@ class Store(AuditUuidModelMixin):
     pin_code = models.CharField(max_length=10, null=True, blank=False)
     gst_no = models.CharField(max_length=50, null=True, blank=False)
     is_head_office = models.BooleanField(default=False)
+    state_code = models.IntegerField(null=True, default=0)
+    state_name = models.CharField(max_length=50, default="")
 
     class Meta:
         pass

@@ -18,7 +18,8 @@ enum CheckBoxType { CASH,CARD,UPI,CREDIT,SPLIT, NONE };
 })
 
 export class SalesBillComponent implements OnInit {
-
+  state_code= localStorage.getItem('state_code');
+  
   check_box_type = CheckBoxType;
 
   currentlyChecked: CheckBoxType;
@@ -120,7 +121,7 @@ export class SalesBillComponent implements OnInit {
   packingAmount: any="0";
   sgst: any="0";
   cgst: any="0";
-  igst: any="0";
+  igst: any="0.0";
   termsConditions: any="";
   prNumber: string | Blob="";
   poRaised: string | Blob="";
@@ -152,7 +153,6 @@ export class SalesBillComponent implements OnInit {
   ngOnInit(): void {
     this.user_name = sessionStorage.getItem('first_name');
     console.log(this.user_name);
-
     this.invoiceForm = this.formBuilder.group({
       invoiceCodeFormControl:['',],
       customerNameFormControl: ['',Validators.required],
@@ -160,6 +160,9 @@ export class SalesBillComponent implements OnInit {
       quantityFormControl:['',],
       subTotalFormControl:['',],
       gstFormControl:['',],
+      sgstFormControl:['',],
+      cgstFormControl:['',],
+      igstFormControl:['',],
       gstTotalFormControl:['',],
       discountFormControl:['',],
       grandTotalFormControl:['',],
@@ -239,7 +242,8 @@ export class SalesBillComponent implements OnInit {
       )
     }
     */
-
+    this.state_code =  sessionStorage.getItem('state_code')
+    console.log("state code",this.state_code)
     this.onEvnetChange(this.event);
   }
 
@@ -492,8 +496,24 @@ export class SalesBillComponent implements OnInit {
     this.subtotal = parseFloat(total_basic_price) - parseFloat(total_gst_value);
     // this.subtotal = parseFloat(total_gross).toFixed(2);
     this.gstValue = parseFloat(total_gst_value).toFixed(2);
-    let includeGST:any = parseFloat(this.subtotal);
-    this.selectedTotalGst = this.subtotal + parseFloat(this.gstValue ) 
+
+    if(this.state_code == '29'){
+    this.sgst = this.gstValue/ 2;
+    this.cgst = this.gstValue/ 2;
+    this.igst = 0;
+    console.log("sgst",this.sgst)
+    console.log("cgst",this.cgst)
+    console.log("igst",this.igst)
+    }else{
+      this.sgst = 0;
+      this.cgst = 0;
+      this.igst = this.gstValue;
+      console.log("igst",this.igst)
+    }
+    console.log("sgst",this.sgst)
+    console.log("cgst",this.cgst)
+    console.log("igst",this.igst)
+
     this.totalDiscount = parseFloat(total_discount).toFixed(2);
     this.grandTotal = parseFloat(total_grand) ;
     this.cgst = (parseFloat(this.gstValue)/2).toFixed(2)
@@ -532,8 +552,19 @@ export class SalesBillComponent implements OnInit {
     let j = 100 / i;
     return  total_amount =  (total_amount -  (total_amount * j)).toFixed(2);
     console.log("gst amount", total_amount)
-
-
+    // if (this.selected_vendor !== undefined) {
+    //   if (this.selected_vendor.state_code == '29') {
+    //     this.sgst = total_gst / 2;
+    //     this.cgst = total_gst / 2;
+    //     this.igst = 0
+    //   } else {
+    //     this.igst = total_gst;
+    //     // this.cgst = total_gst/2;
+    //   }
+    // } else {
+    //   this.igst = total_gst;
+    //   ;
+    // }
   }
 
   open_product_name(dialog: TemplateRef<any>, dd) {
@@ -940,6 +971,9 @@ export class SalesBillComponent implements OnInit {
 
     formData.append('discount_price', this.invoiceForm.controls['discountFormControl'].value);
     formData.append('gst_amount', this.invoiceForm.controls['gstFormControl'].value);
+    // formData.append('sgst', this.invoiceForm.controls['sgstFormControl'].value);
+    // formData.append('cgst', this.invoiceForm.controls['cgstFormControl'].value);
+    // formData.append('igst', this.invoiceForm.controls['igstFormControl'].value);
     formData.append('exchange', this.invoiceForm.controls['exchangeFormControl'].value);
     formData.append('cancel_invoice',this.invoiceForm.controls['cancelInvoiceFormControl'].value);
     formData.append('refund',this.invoiceForm.controls['refundFormControl'].value);

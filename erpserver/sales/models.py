@@ -83,9 +83,9 @@ class SalesOrderRequest(AuditUuidModelMixin):
     packing_perct = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     packing_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     # total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    sgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    cgst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    igst = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    sgst = models.DecimalField(max_digits=10, decimal_places=1, default=0,null=True)
+    cgst = models.DecimalField(max_digits=10, decimal_places=1, default=0,null=True)
+    igst = models.DecimalField(max_digits=10, decimal_places=1, default=0,null=True)
 
     # invoice_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     terms_conditions = models.CharField(max_length=2000, null=True)

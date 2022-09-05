@@ -60,6 +60,8 @@ class StoreSerializer(serializers.ModelSerializer):
             "is_head_office",
             "email",
             "store_number",
+             "state_code",
+            "state_name",
         ]
 
 

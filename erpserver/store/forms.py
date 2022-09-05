@@ -21,7 +21,8 @@ class StoreForm(forms.ModelForm):
 
     class Meta:
         model = models.Store
-        fields = ['store_name', 'address', 'pin_code', 'gst_no','city']
+        fields = ['store_name', 'address', 'pin_code', 'gst_no','city', 'state_code',
+            'state_name',]
 
     def clean(self):
         super(StoreForm, self).clean()

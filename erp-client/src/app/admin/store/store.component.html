@@ -20,9 +20,6 @@
                         <div *ngIf="f.storePhoneNumberFormControl.errors?.pattern">Branch Phone Number must be atleast 10 digits</div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="storeAddress">Branch Address <span style="color: red;">*</span></label>
                     <textarea formControlName="storeAddressFormControl" nbInput name="storeAddress" placeholder="Branch Address"
@@ -48,9 +45,7 @@
                     <div *ngIf="submitted && f.storeCityFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.storeCityFormControl.errors.required">City is required</div>
                     </div>
-                </div> &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-
-
+                </div>
                 <div class="form-group col-md-3">
                     <label for="storePinCode">Pin Code <span style="color: red;">*</span></label>
                     <input nbInput  type="text" formControlName="storePinCodeFormControl" (keypress)="keyPress($event)" placeholder="Pin Code" name="storePinCode" 
@@ -59,6 +54,25 @@
                         <div *ngIf="submitted && f.storePinCodeFormControl.errors.required"> Pin Code is Required</div>
                         <div *ngIf="submitted &&  f.storePinCodeFormControl.errors?.pattern ">Pin Code must be 6 numbers </div>
                     </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="stateName">State<span style="color: red;">*</span></label>
+                    <select style="width: 14em;height:2.5em" class="form-control" nbInput
+                    name="stateName" formControlName="stateNameFormControl"
+                    [ngClass]="{ 'is-invalid': submitted && f.stateNameFormControl.errors }" (click)="onChange()" >
+                        <option *ngFor="let item of state" [ngValue]="item.name" >
+                                 {{ item.name}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && f.stateNameFormControl.errors" class="invalid-feedback">
+                        <div *ngIf="f.stateNameFormControl.errors.required">State Name is required</div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="">State Code</label>
+                    <input id="stateCode"  formControlName="stateCodeFormControl" type="text"  [(ngModel)]="stateCode" placeholder="State Code"
+                         class="form-control"  readonly/>
+    
                 </div>
             </div><br>
             <div class="form-row">
