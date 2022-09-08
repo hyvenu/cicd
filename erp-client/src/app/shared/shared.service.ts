@@ -149,4 +149,12 @@ export class SharedService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_dashboard/api/v1/get_daily_status`)
   }
 
+  public getReportsNew() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_reportengine/api/v1/ReportEngineMain/`)
+  }
+
+  public getReportbyIDAndType(id, from_date, to_date) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_reportengine/api/v1/get_report?id=${id}&from_date=${from_date}&to_date=${to_date}`)
+  }
+
 }

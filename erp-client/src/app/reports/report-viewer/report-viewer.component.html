@@ -1,0 +1,101 @@
+<div class="card" style="margin: 50px 0;">
+    <div class="d-flex justify-content-between p-4 m-2" id="header">
+      <div class="logo" style="width: 150px; margin: 25px;">
+        <img src="../../../assets/images/D5N_Logo.jpg" alt="" width="150px">
+      </div>
+      <div class="heading text-center text-uppercase">
+        <h1>D5N</h1>
+        <h4>{{ report_main_header }}</h4>
+        <!-- <h5>{{ report_sub_header }}</h5> -->
+        <h6 *ngIf="from" >{{ from }} to {{ to }}</h6>
+      </div>
+      <div class="address" style="width: 150px; margin: 25px;">
+        <p>BANGALORE, Karnataka</p>
+      </div>
+    </div>
+  
+    <div class="body p-4">
+      <!-- <div class="description">
+        <p>Name : {{ report_name }}</p>
+        <p>ID : {{ report_id }}</p>
+      </div> -->
+  
+      <p-table  #dt [value]="sql_output" 
+      [scrollable]="true" scrollHeight="400px"
+     selectionMode="multiple" [(selection)]="selectedRows"  exportFilename="Report"
+     
+         styleClass="p-datatable-gridlines" [globalFilterFields]="columns" (onFilter)="onFilter($event, dt)" [style]="{'font-size': '14px', 'margin-top': '20px'}">
+  
+          <ng-template pTemplate="caption" >
+              <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 15px;">
+                <div class="flex">
+                  <button pButton label="Clear" class="p-button-outlined mr-2" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                  <!-- <button pButton type="button" label="Click" ></button> -->
+                  <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2"  pTooltip="XLS" tooltipPosition="bottom" style="height:30px;"></button>
+                  <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"  style="height:30px;"></button>
+                </div>
+                <div class="flex">
+                  <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                  </span>
+                </div>
+              </div>
+              <hr>`
+              <div style="display: flex; flex-wrap: wrap;">
+                <!-- <p-calendar [(ngModel)]="from_date"  dateFormat="yy-mm-dd" placeholder="From Date" [inputStyle]="{'width': '350px'}" class="mr-2"></p-calendar>
+                <p-calendar [(ngModel)]="to_date" dateFormat="yy-mm-dd" placeholder="To Date" [inputStyle]="{'width': '350px'}" class="mr-2"></p-calendar> -->
+                <label for="from_date">From Date</label>
+                <input id="from_date" class="from-control" type="date" [(ngModel)]="from_date" placeholder="From Date"/>
+                <label for="to_date">From Date</label>
+                <input id="to_date" class="from-control" type="date" [(ngModel)]="to_date" placeholder="To Date"/>
+                <button pButton type="button" label="Show Data" (click)="showData()" style="white-space: nowrap; margin-left: auto;"></button>
+              </div>
+          </ng-template>
+          <ng-template pTemplate="colgroup" >
+            <colgroup>
+                <col style="width:250px" *ngFor="let header of columns; let i=index" >
+                
+            </colgroup>
+        </ng-template>
+  
+          <ng-template pTemplate="header" >
+              <tr >
+                
+                  <th style="width:250px;" *ngFor="let header of columns; let i=index" pSortableColumn={{columns[i]}}>
+                    {{header}}
+                    <p-sortIcon field={{columns[i]}} ></p-sortIcon> 
+                    <p-columnFilter type="text" field={{columns[i]}} display="menu"></p-columnFilter>
+                    
+                  </th>
+              </tr>
+              <tr >
+                <th *ngFor="let header of columns; let i=index" >
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, header, 'startsWith')" placeholder="Search here" class="p-column-filter">
+                
+                </th>
+              </tr>
+          </ng-template>
+  
+          <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+              <td colspan="16" class="p-4">
+                 No Data Found, Select a Date range
+              </td>
+            </tr>
+          </ng-template>
+  
+          <ng-template pTemplate="body" let-sqloutput>
+              <tr>
+                  <td *ngFor="let column of columns; let i=index">{{ sqloutput[columns[i]] }}</td>
+              </tr>
+          </ng-template>
+  
+          <ng-template pTemplate="footer">
+            <tr>
+              <td *ngFor="let column of columnTotal; let i=index">{{ column }}</td>
+            </tr>
+          </ng-template>
+      </p-table>
+    </div>
+  </div>

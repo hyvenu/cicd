@@ -1,0 +1,12 @@
+<nb-card [size]="'medium'" style="margin: 20px 0;">
+    <nb-card-header>Reports List</nb-card-header>
+    <nb-card-body>
+      <nb-list>
+        <nb-list-item *ngFor="let report of REPORT_LIST" style="background-color: #ceecfd;">
+          <b class="mr-auto mt-2 mt-lg-0">{{ report.report_name }}</b>
+          <button nbButton (click)="goToReportViewer(report)" size="small">View</button>
+        </nb-list-item>
+      </nb-list>
+    </nb-card-body>
+  </nb-card>
+  
