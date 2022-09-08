@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { AdminService } from 'src/app/admin/admin.service';
 import { filter } from 'rxjs/operators';
+import { makeArray } from 'jquery';
 
 @Component({
   selector: 'app-manage-customer',
@@ -59,7 +60,7 @@ export class ManageCustomerComponent implements OnInit {
         title: 'id',
         hide:true
       },
-      appointment__booking_date:{
+      booking_date:{
         title: 'Booking Date',
       },
       service__service_name: {
@@ -136,6 +137,8 @@ customerForm:FormGroup;
   customerList: any;
 
   @ViewChild('form') form;
+  details: any=[];
+  // booking_date: any=[];
   constructor(
     private formBuilder: FormBuilder,
     private nbtoastService: NbToastrService,
@@ -192,37 +195,37 @@ customerForm:FormGroup;
           this.customerForm.controls['gstFormControl'].setValue(data.gst);
           this.customerForm.controls['customerActiveFormControl'].setValue(data.active);
           this.customerForm.controls['customerSourceFormControl'].setValue(data.customer_source);
-          this.adminService.getBookinHistory(param).subscribe(
-            (data) => {
-              let service_items = []
-              data.forEach(element => {
-                element.service_list.forEach(item => {
-                  //this.custBookingData.push(item);
-                  service_items.push(item)
-                });
-              });
-
-              this.custBookingData = service_items
-
-
-              console.log("Customer Booking Data",this.custBookingData)
-            },
-            (error) => {
-              this.nbtoastService.danger("Unable to get customer booking history")
-            }
-          )
-
-
     });
-
-
-
     }
 
     this.adminService.getAllViewbookingList().subscribe(
       (data) => {
         this.allBookingData = data;
         console.log("All Booking Data",this.allBookingData)
+        // console.log("id",data.id)
+        var datas =this.allBookingData.filter(x => x.customer__id === this.customer_id)
+        console.log("payment details",datas);
+        this.allBookingData=datas
+        console.log("id",datas[0].id)
+        const booking_date=datas[0].booking_date;
+        console.log("bookdate",booking_date)
+        this.custBookingData= this.allBookingData
+          this.custBookingData= this.allBookingData
+        console.log("last transaction files",this.custBookingData)
+            this.adminService.getAppointmentDetailsById(datas[0].id).subscribe(
+          (data) => {
+            let service_items = []
+                data.service_list.forEach(item => {
+                  service_items.push(item)
+                });
+            this.custBookingData= service_items
+            let i=this.custBookingData.length
+            for(i=0;i<this.custBookingData.length;i++)
+            this.custBookingData[i]['booking_date']= data.booking_date
+            console.log("book his1",this.custBookingData)
+            
+
+          })
       },
       (error) => {
         this.nbtoastService.danger("Unable to get all booking history")
