@@ -202,16 +202,13 @@ customerForm:FormGroup;
       (data) => {
         this.allBookingData = data;
         console.log("All Booking Data",this.allBookingData)
-        // console.log("id",data.id)
-        var datas =this.allBookingData.filter(x => x.customer__id === this.customer_id)
-        console.log("payment details",datas);
-        this.allBookingData=datas
+        if(this.customer_id !== ''){
+        var datas =data.filter(x => x.customer__id === this.customer_id)
+        data=datas
         console.log("id",datas[0].id)
         const booking_date=datas[0].booking_date;
-        console.log("bookdate",booking_date)
         this.custBookingData= this.allBookingData
-          this.custBookingData= this.allBookingData
-        console.log("last transaction files",this.custBookingData)
+          // this.custBookingData= this.allBookingData
             this.adminService.getAppointmentDetailsById(datas[0].id).subscribe(
           (data) => {
             let service_items = []
@@ -223,9 +220,8 @@ customerForm:FormGroup;
             for(i=0;i<this.custBookingData.length;i++)
             this.custBookingData[i]['booking_date']= data.booking_date
             console.log("book his1",this.custBookingData)
-            
-
           })
+        }
       },
       (error) => {
         this.nbtoastService.danger("Unable to get all booking history")
