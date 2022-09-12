@@ -96,7 +96,7 @@ $box.prop("checked", false);
                         <th>Quantity</th>
                         <th>Unit</th>
                         <th>Sell Price</th>
-                        <th>Disc %</th>
+                        <th>Disc Amount</th>
                         <th>Gst %</th>
                         <th>Gst value</th>
                         <th>Item Total</th>
@@ -109,8 +109,8 @@ $box.prop("checked", false);
                             <td>
                                 <input class="form-control form-control-sm" type="text" #desc readonly  name="{{item.item_name}}" [(ngModel)]="item.item_name"   placeholder="Item Name"  [ngModelOptions]="{standalone: true}"
                                     style="width: 10em;" (input)="calculate_price()"
-                                    (change)="get_value($event,item)"
-                                    (click)="open_product_name(dialog_single_product,item)"
+                              
+                                     
                                 />&nbsp;
                             </td>
                             <td>

@@ -44,6 +44,7 @@ export class SalesBillComponent implements OnInit {
   selectedPro: any;
   pro_id: any;
   tot_price: any;
+  stylist_list: any[];
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -224,6 +225,15 @@ export class SalesBillComponent implements OnInit {
       this.app_id = "";
     }
 
+    this.adminService.getEmployeeList().subscribe(
+      (data) => {
+        this.stylist_list = data;
+      },
+      (error) => {
+          this.nbtoastService.danger("Unable get appointment data");
+      }
+    )
+
     /*
     let customer = this.route.snapshot.queryParams['id']
     if(customer){
@@ -261,7 +271,8 @@ export class SalesBillComponent implements OnInit {
       price:'',
       item_total:'',
       gst_value:'',
-      tax:''
+      tax:'',
+      service_type: 'product',
     }
     this.invoice_items.push(data)
 
@@ -284,7 +295,8 @@ export class SalesBillComponent implements OnInit {
       price:'',
       item_total:'',
       gst_value:'',
-      tax:''
+      tax:'',
+      service_type: 'service',
     }
     this.invoice_items.push(data)
 
@@ -385,7 +397,8 @@ export class SalesBillComponent implements OnInit {
                 discount: 0,
                 item_total: 0,
                 tax: element.service__service_gst,
-                gst_value: 0
+                gst_value: 0,
+                service_type: 'service',
               }
             )
 
@@ -438,7 +451,8 @@ export class SalesBillComponent implements OnInit {
                 discount: 0,
                 item_total: 0,
                 tax: element.service__service_gst,
-                gst_value: 0
+                gst_value: 0,
+                service_type: 'service',
               }
             )
 
@@ -478,7 +492,16 @@ export class SalesBillComponent implements OnInit {
         item_tot = item_tot - element.discount;
       }
       // let gst_tot:any =((tot_price * element.tax)/100)
-      let gst_tot:any=this.calculate_gst_amount(item_tot,element.tax);
+      let gst_tot;
+      // alert(element.service_type);
+      if ( element.service_type == 'product') {
+        gst_tot=this.calculate_gst_amount(item_tot,element.tax);
+      }
+      if ( element.service_type == 'service') {
+        gst_tot=this.calculate_exclusive_gst_amount(item_tot,element.tax);
+        item_tot =  parseFloat(item_tot) + parseFloat(gst_tot);
+      }
+
       // let item_tot:any = tot_price + gst_tot;
 
       // total_gross += parseFloat(element.price);
@@ -546,6 +569,10 @@ export class SalesBillComponent implements OnInit {
     this.balanceAmount = Math.ceil(this.balanceAmount);
     
 
+  }
+  calculate_exclusive_gst_amount(total_amount, tax) {
+    let gst_amount = (total_amount * tax) /100 ;
+    return gst_amount.toFixed(2);
   }
   calculate_gst_amount(total_amount,tax) {
     let i = (100+parseFloat(tax));
@@ -626,6 +653,7 @@ export class SalesBillComponent implements OnInit {
               dd.item_total = parseFloat(total).toFixed(2),
               dd.tax = this.selectedPro.tax,
               dd.gst_value = parseFloat(gstVal).toFixed(2)
+              dd.service_type = 'product'
             }
 
 
@@ -699,7 +727,8 @@ export class SalesBillComponent implements OnInit {
               dd.discount = 0,
               dd.item_total = parseFloat(total).toFixed(2),
               dd.tax = this.selectedPro.service_gst,
-              dd.gst_value = parseFloat(gstVal).toFixed(2)
+              dd.gst_value = parseFloat(gstVal).toFixed(2),
+              dd.service_type = 'service'
             }
 
 
@@ -769,6 +798,7 @@ export class SalesBillComponent implements OnInit {
               dd.item_total = parseFloat(total).toFixed(2),
               dd.tax = this.selectedPro.tax,
               dd.gst_value = parseFloat(gstVal).toFixed(2)
+              dd.service_type = 'product'
             }
 
 
@@ -886,6 +916,7 @@ export class SalesBillComponent implements OnInit {
                item_total :parseFloat(total).toFixed(2),
                tax:element.tax,
                gst_value :parseFloat(gstVal).toFixed(2),
+               service_type : 'product'
 
              })
            }

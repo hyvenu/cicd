@@ -140,6 +140,7 @@ class Customer(AuditUuidModelMixin):
     gst = models.CharField(max_length=255, default="", null=True,blank=True)
     active = models.BooleanField(null=True,default=True)
     customer_source = models.CharField(max_length=255, default=None,null=True,blank=True)
+    branch = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="customer_branch",null=True,blank=True)
 
     class Meta:
         pass
