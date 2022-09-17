@@ -108,7 +108,7 @@ $box.prop("checked", false);
                             <td><button nbButton (click)="remove_item(item);" status="danger" size="small">X</button></td>
 
                             <td>
-                                <input class="form-control form-control-sm" type="text" #desc readonly  name="{{item.item_name}}" [(ngModel)]="item.item_name"   placeholder="Item Name"  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm" type="text" #desc readonly  value="{{item.item_name}}" [(ngModel)]="item.item_name"   placeholder="Item Name"  [ngModelOptions]="{standalone: true}"
                                     style="width: 10em;" (input)="calculate_price()"
                               
                                
@@ -126,32 +126,32 @@ $box.prop("checked", false);
                                 />&nbsp;
                             </td>
                             <td>
-                                <input class="form-control form-control-sm"   name="{{item.unit}}" [(ngModel)]="item.unit" placeholder=""  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm"    [(ngModel)]="item.unit" placeholder=""  [ngModelOptions]="{standalone: true}"
                                 value="{{item.unit}}" size="small" oninput="validity.valid || (value='')"  style="width: 4em;" readonly/>&nbsp;
                             </td>
                             <td>
-                                <input class="form-control form-control-sm"  min="0"  name="{{item.price}}" [(ngModel)]="item.price" placeholder="Price"  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm"  min="0"  [(ngModel)]="item.price" placeholder="Price"  [ngModelOptions]="{standalone: true}"
                                 value="{{item.price}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" />&nbsp;
 
                             </td>
                             <td>
-                              <input class="form-control form-control-sm"  min="0"  name="{{item.discount}}" [(ngModel)]="item.discount" placeholder=""  [ngModelOptions]="{standalone: true}"
+                              <input class="form-control form-control-sm"  min="0"   [(ngModel)]="item.discount" placeholder=""  [ngModelOptions]="{standalone: true}"
                               value="{{item.discount}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" />&nbsp;
 
                           </td>
                             <td>
-                                <input class="form-control form-control-sm"  min="0" type="number" name="{{item.tax}}" [(ngModel)]="item.tax" placeholder=""  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm"  min="0" type="number"  [(ngModel)]="item.tax" placeholder=""  [ngModelOptions]="{standalone: true}"
                                 value="{{item.tax}}" size="small" oninput="validity.valid || (value='')"  (change)="calculate_price()" style="width: 5em;"/>&nbsp;
 
                             </td>
 
                             <td>
-                                <input class="form-control form-control-sm"  min="0"  name="{{item.gst_value}}" [(ngModel)]="item.gst_value" placeholder=""  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm"  min="0"   [(ngModel)]="item.gst_value" placeholder=""  [ngModelOptions]="{standalone: true}"
                                 value="{{item.gst_value}}" size="small" step="0.1" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" readonly/>&nbsp;
 
                             </td>
                             <td>
-                                <input class="form-control form-control-sm"  min="0"  step="0.1" name="{{item.item_total}}" [(ngModel)]="item.item_total" placeholder=""  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm"  min="0"  step="0.1"  [(ngModel)]="item.item_total" placeholder=""  [ngModelOptions]="{standalone: true}"
                                 value="{{item.item_total}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" readonly/>&nbsp;
 
                             </td>

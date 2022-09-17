@@ -5,7 +5,7 @@ import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { Identifiers } from '@angular/compiler';
+
 import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({

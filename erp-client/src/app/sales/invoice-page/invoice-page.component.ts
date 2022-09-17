@@ -431,10 +431,12 @@ printBtn.onclick = function () {
     const rawString: any = [];
     this.invoice_details.order_details.forEach(element => {
 
-      const line1 = element.product__product_name.substr(0, 15) + '  ' +
+      element.product__product_name = element.product__product_name === null? element.service__service_name:element.product__product_name;
+
+      const line1 = element.product__product_name + '  ' +
       Array(element.product__product_name.length < 15 ? 15 - element.product__product_name.length : 0).fill(' ').join('') +
-      parseInt(element.qty.substr(0, 6)).toString() + Array(element.qty.length <= 5 ? 5 - element.qty.length : 0).fill(' ').join('') + '   ' +
-      element.subtotal_amount.substr(0, 8);
+      parseInt(element.qty).toString() + Array(element.qty.toString().length <= 5 ? 5 - element.qty.toString().length : 0).fill(' ').join('') + '   ' +
+      element.subtotal_amount;
       rawString.push(line1);
       rawString.push('\x0A');
       rawString.push(element.product__product_name.substr(15, 30));

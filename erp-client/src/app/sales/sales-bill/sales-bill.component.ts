@@ -657,7 +657,7 @@ export class SalesBillComponent implements OnInit {
               dd.tax = this.selectedPro.tax,
               dd.gst_value = parseFloat(gstVal).toFixed(2)
               dd.service_type = 'product',
-              dd.employee_list = ''
+              dd.employee_list = []
             }
 
 
