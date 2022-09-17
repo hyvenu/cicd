@@ -93,6 +93,7 @@ $box.prop("checked", false);
                       <tr></tr>
                         <th></th>
                         <th>Item Description</th>
+                        <th>Employee/Theraphist</th>
                         <th>Quantity</th>
                         <th>Unit</th>
                         <th>Sell Price</th>
@@ -110,8 +111,13 @@ $box.prop("checked", false);
                                 <input class="form-control form-control-sm" type="text" #desc readonly  name="{{item.item_name}}" [(ngModel)]="item.item_name"   placeholder="Item Name"  [ngModelOptions]="{standalone: true}"
                                     style="width: 10em;" (input)="calculate_price()"
                               
-                                     
+                               
                                 />&nbsp;
+                                   
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-outline-info" (click)="employee_open(stylist_dialog,item)">({{item.employee_list.length}}) View Theraphist</button>
+                                
                             </td>
                             <td>
                                 <input class="form-control form-control-sm" type="text" name="{{item.quantity}}" [(ngModel)]="item.quantity" placeholder=""  [ngModelOptions]="{standalone: true}"
@@ -253,7 +259,41 @@ $box.prop("checked", false);
       </nb-card-footer>
     </nb-card>
   </ng-template>
-
+ 
+  <ng-template #stylist_dialog let-data let-ref="dialogRef" >
+    <nb-card size="large" style="width: 800px;">
+        <nb-card-header>Stylist <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchStylist" /> </nb-card-header>
+        <nb-card-body>
+          <div class="row">
+            <div class="col-md-8">
+              <h5>Employee List</h5>
+              <nb-list>
+                <nb-list-item *ngFor="let item of data.data | search_filter:'employee_name':searchStylist">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i>
+                    <button nbButton (click)="ref.close(item)" size="small">Add</button>
+                </nb-list-item>
+            </nb-list>
+            </div>
+            <div class="col-md-8">
+              <h5>Selected Employee</h5>
+              <nb-list>
+                <nb-list-item *ngFor="let item of data.selected_employee.employee_list">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i>
+                    <button nbButton (click)="remove_employee(data.selected_employee,item)"  size="small">Remove</button>
+                </nb-list-item>
+            </nb-list>
+            </div>
+          </div>
+           
+       
+        
+          
+      </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
   <!-- <ng-template #dialog_service let-data let-ref="dialogRef" >
     <nb-card size="large" >
       <nb-card-header>Service List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchService" /> </nb-card-header>

@@ -509,6 +509,7 @@ class OrderService:
                 sales_order_req.barcode = sales_data['barcode']
                 # so_invoice.disc_amount = item['disc_amount']
                 sales_order_details.gst_amount = item['gst_value']
+                sales_order_details.employee_list = item['employee_list']
                 # sales_order_details.unit = item['unit']
                 # so_invoice.total = item['total']
 
@@ -532,6 +533,7 @@ class OrderService:
                 sales_order_req.barcode = sales_data['barcode']
                 # so_invoice.disc_amount = item['disc_amount']
                 sales_order_details.gst_amount = item['gst_value']
+                sales_order_details.employee_list = item['employee_list']
                 # sales_order_details.unit = item['unit']
                 # so_invoice.total = item['total']
 
