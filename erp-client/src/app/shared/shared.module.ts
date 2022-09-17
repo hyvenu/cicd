@@ -85,7 +85,7 @@ const routes: Routes = [
     NbUserModule,
     NbContextMenuModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     MainPipe.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

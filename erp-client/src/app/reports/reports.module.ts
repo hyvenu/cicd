@@ -32,7 +32,7 @@ const routes: Routes = [
     FormsModule,
     NbMenuModule.forRoot(),
     NbInputModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     MainPipe,
     TableModule,
     ButtonModule,

@@ -57,7 +57,7 @@ const routes: Routes = [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     MainPipe.forRoot(),
     NbInputModule,
     NbLayoutModule,
