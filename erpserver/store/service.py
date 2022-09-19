@@ -328,7 +328,6 @@ class StoreService:
 
     @classmethod
     def get_appointment_details_by_customer(self, cust_id):
-
         app_data_list = AppointmentSchedule.objects.filter(customer_id=cust_id, is_paid=False).all().values(
             'id',
             'is_paid',
@@ -451,9 +450,10 @@ class StoreService:
         return list(app_data_list)
 
     @classmethod
-    def get_all_viewbooking_details(cls):
+    def get_all_viewbooking_details_by_customer(cls,customer_id):
         final_list = []
-        sales_order_details = SalesOrderDetails.objects.all().values(
+        print(customer_id)
+        sales_order_details = SalesOrderDetails.objects.filter(po_order_id__customer_id=customer_id).values(
             "id",
             "booking_id",
             "po_order_id__grand_total",
@@ -496,6 +496,31 @@ class StoreService:
             except:
                 sales_order['appointment_staff_name']= ""
         return list(sales_order_details)
+
+    @classmethod
+    def get_all_viewbooking_details(cls):
+        final_list = []
+        app_data_list = AppointmentForMultipleService.objects.all().values(
+            'id',
+            'appointment_id',
+            'assigned_staff__id',
+            'assigned_staff__employee_name',
+            'appointment_id__booking_date',
+            'end_time',
+            'appointment_id__customer_id__id',
+            'appointment_id__customer_id__customer_name',
+            'start_time',
+            'appointment_id__customer_id__phone_number',
+            'service_id__service_name',
+        )
+        for item in list(app_data_list):
+            print(item)
+            count = AppointmentForMultipleService.objects.filter(appointment_id=item['appointment_id']).count()
+            item['service_count'] = count
+
+        return list(app_data_list)
+
+ 
 
     @classmethod
     def get_booking_details_dashboard(cls):

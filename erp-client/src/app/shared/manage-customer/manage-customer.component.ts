@@ -31,32 +31,32 @@ export class ManageCustomerComponent implements OnInit {
         title: 'id',
         hide:true
       },
-      po_order_id__invoice_no:{
-      title: 'Invoice No',
-      type: 'html',
-        valuePrepareFunction: (cell, row) => {
-          return `<a href="InvoicePage?id=${row.po_order_id__po_number}">${row.po_order_id__invoice_no}</a>`;
-        }
-      },
-      customer_name: {
+      // po_order_id__invoice_no:{
+      // title: 'Invoice No',
+      // type: 'html',
+      //   valuePrepareFunction: (cell, row) => {
+      //     return `<a href="InvoicePage?id=${row.po_order_id__po_number}">${row.po_order_id__invoice_no}</a>`;
+      //   }
+      // },
+      appointment_id__customer_id__customer_name: {
         title: 'Customer Name',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageCustomer?id=${row.customer_id}">${row.customer_name}</a>`;
+          return `<a href="ManageCustomer?id=${row.appointment_id__customer_id__id}">${row.appointment_id__customer_id__customer_name}</a>`;
         }
       },
-      customer_phone_number:{
+      appointment_id__customer_id__phone_number:{
         title: 'Phone Number',
       },
-      booking_date:{
+      appointment_id__booking_date:{
         title: 'Booking Date',
       },
       service_count: {
         title: 'Service Count',
       },
-      po_order_id__grand_total:{
-        title: 'Amount',
-      },
+      // po_order_id__grand_total:{
+      //   title: 'Amount',
+      // },
 
     },
   };
@@ -229,6 +229,12 @@ customerForm:FormGroup;
           this.customerForm.controls['customerActiveFormControl'].setValue(data.active);
           this.customerForm.controls['customerSourceFormControl'].setValue(data.customer_source);
     });
+    this.adminService.getAllViewbookingList_by_Customer(param).subscribe(
+      (data) => {
+        console.log("booking data",data)
+        this.custBookingData=data
+      }
+    );
     }
     this.get_customer_list();
     this.getviewList()
