@@ -45,12 +45,6 @@ export class ManageCustomerComponent implements OnInit {
           return `<a href="ManageCustomer?id=${row.customer_id}">${row.customer_name}</a>`;
         }
       },
-      po_order_id__grand_total:{
-        title: 'Amount',
-        // valuePrepareFunction: (cell, row) => {
-        //   return `<a href="InvoicePage?id=${row.customer_id}">${row.booking_date}</a>`;
-        // }
-      },
       customer_phone_number:{
         title: 'Phone Number',
       },
@@ -59,6 +53,9 @@ export class ManageCustomerComponent implements OnInit {
       },
       service_count: {
         title: 'Service Count',
+      },
+      po_order_id__grand_total:{
+        title: 'Amount',
       },
 
     },
@@ -99,7 +96,7 @@ export class ManageCustomerComponent implements OnInit {
         title: 'End Time',
       },
       appointment_staff_name:{
-        title: 'therapist name',
+        title: 'Therapist name',
 
       },
       po_order_id__grand_total:{
