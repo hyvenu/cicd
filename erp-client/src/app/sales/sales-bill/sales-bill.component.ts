@@ -45,6 +45,7 @@ export class SalesBillComponent implements OnInit {
   pro_id: any;
   tot_price: any;
   stylist_list: any[];
+  isSaving: boolean = true;
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -413,7 +414,7 @@ export class SalesBillComponent implements OnInit {
                 tax: element.service__service_gst,
                 gst_value: 0,
                 service_type: 'service',
-                employee_list: [],
+                employee_list: element.employee_list,
               }
             )
 
@@ -878,7 +879,7 @@ export class SalesBillComponent implements OnInit {
 
 
   saveBill():any {
-
+    this.isSaving = true;
     const formData = new FormData();
     if(this.invoiceForm.controls['customerNameFormControl'].value != "" ){
     formData.append('app_id',this.app_id)
@@ -943,6 +944,7 @@ export class SalesBillComponent implements OnInit {
       (data) => {
         this.billPaid()
         this.advanceAmountUpdate()
+        this.isSaving = false;
         console.log(data)
         this.nbtoastService.success("Invoice Saved Successfully")
 
@@ -953,6 +955,7 @@ export class SalesBillComponent implements OnInit {
 
       },
       (error) =>{
+        this.isSaving = false;
         this.nbtoastService.danger("unable to save");
 
       }

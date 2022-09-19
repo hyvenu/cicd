@@ -218,19 +218,33 @@ class StoreService:
         )
         
         for item in list(app_data_list):
-            item['service_list'] = list(
+            # item['service_list'] \
+            service_list = list(
                 AppointmentForMultipleService.objects.filter(appointment_id=app_id).all().values(
-                    "id",
+                    # "id",
                     "service__id",
                     "service__service_name",
                     "service__price",
                     "service__service_gst",
-                    "assigned_staff__employee_name",
-                    "start_time",
-                    "end_time",
                     "service__unit",
                     "service__unit__PrimaryUnit"
-                ))
+                ).distinct())
+            serv_list = []
+            for serv in service_list:
+                employee_list = AppointmentForMultipleService.objects.filter(appointment_id=app_id,service_id=serv['service__id'])\
+                    .all().values(
+                    "assigned_staff__employee_name",
+                    "assigned_staff__id"
+                )
+                emp_list = [dict(emp_id=emp['assigned_staff__id'],employee_name=emp['assigned_staff__employee_name']) for emp in employee_list]
+                serv['employee_list'] = emp_list
+                serv_list.append(serv)
+
+            item['service_list'] = serv_list
+
+
+
+
 
         return list(app_data_list)    
 
