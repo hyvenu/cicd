@@ -509,6 +509,10 @@ class OrderService:
                 sales_order_req.barcode = sales_data['barcode']
                 # so_invoice.disc_amount = item['disc_amount']
                 sales_order_details.gst_amount = item['gst_value']
+                sales_order_details.therapist1 = item['therapist1']
+                sales_order_details.therapist2 = item['therapist2']
+                sales_order_details.therapist3 = item['therapist3']
+                sales_order_details.therapist4 = item['therapist4']
                 # sales_order_details.unit = item['unit']
                 # so_invoice.total = item['total']
 
@@ -985,7 +989,7 @@ class OrderService:
             "subtotal_amount",
 
         ))
-        return po_data_list              
+        return po_data_list
 
     @classmethod
     def get_po_list(cls):
@@ -1077,6 +1081,7 @@ class OrderService:
                 "barcode",
                 "gst_amount",
                 "subtotal_amount",
+                "po_order_id",
 
             ))
 
@@ -1094,6 +1099,7 @@ class OrderService:
     def get_sales_bill_list(cls):
         pos_data_list = SalesOrderRequest.objects.all().values(
             'id',
+            'customer_id',
             'po_date',
             'po_number',
             "grand_total",

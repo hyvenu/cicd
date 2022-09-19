@@ -387,6 +387,33 @@ class StoreService:
 
         # return list(final_list)
 
+    # @classmethod
+    # def get_app_details_by_customer(self, app_id):
+    #     appointment_data_list = AppointmentSchedule.objects.filter(customer_id=app_id).all().values(
+    #         'id',
+    #         'store_id',
+    #         'booking_date',
+    #         'appointment_status',
+    #         'customer__id',
+    #         'customer__customer_name',
+    #         'customer__phone_number',
+    #         'customer__customer_email',
+    #         'customer__advance_amount'
+    #
+    #     )[0]
+    #
+    #     appointment_data_list['service_list'] = list(
+    #         AppointmentForMultipleService.objects.filter(id=app_id).all().values(
+    #             "id",
+    #             "appointment__id",
+    #             "service__id",
+    #             "service__service_name",
+    #             "assigned_staff__id",
+    #             "assigned_staff__employee_name",
+    #             "start_time",
+    #             "end_time",
+    #         ))
+    #     return appointment_data_list
 
     @classmethod
     def get_viewbooking_details(cls, branch_id):

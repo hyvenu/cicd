@@ -44,6 +44,9 @@ export class SalesBillComponent implements OnInit {
   selectedPro: any;
   pro_id: any;
   tot_price: any;
+  thaerapist: any;
+  employee_list:any=[];
+  searchEmp: any=[];
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -261,7 +264,11 @@ export class SalesBillComponent implements OnInit {
       price:'',
       item_total:'',
       gst_value:'',
-      tax:''
+      tax:'',
+      therapist1:'',
+      therapist2:'',
+      therapist3:'',
+      therapist4:'',
     }
     this.invoice_items.push(data)
 
@@ -284,7 +291,11 @@ export class SalesBillComponent implements OnInit {
       price:'',
       item_total:'',
       gst_value:'',
-      tax:''
+      tax:'',
+      therapist1:'',
+      therapist2:'',
+      therapist3:'',
+      therapist4:'',
     }
     this.invoice_items.push(data)
 
@@ -323,7 +334,91 @@ export class SalesBillComponent implements OnInit {
     console.log(`change event after: ${item.item_description}`)
     console.log(`change event ${JSON.stringify(this.invoice_items)}`)
   }
+  getEmployeeList(){
 
+    return this.inventoryService.getEmployeeList();
+    // console.log("datas",data)
+  }
+  open_employee_name1(dialog: TemplateRef<any>,item) {
+    this.getEmployeeList().subscribe(data => {
+      console.log("check data",data)
+      this.employee_list= data;
+    })
+    this.inventoryService.getEmployeeList().subscribe(
+      (data) => {
+        this.employee_list = data;
+        console.log("employee data", this.employee_list)
+        this.dailog_ref= this.dialogService.open(dialog, { context: this.employee_list })
+        .onClose.subscribe(data => {
+          this.searchEmp=""
+          // console.log(data);
+           item.therapist1 = data.employee_name
+        }
+        );
+  },
+    )
+
+  }
+  open_employee_name2(dialog: TemplateRef<any>,item) {
+    this.getEmployeeList().subscribe(data => {
+      console.log("check data",data)
+      this.employee_list= data;
+    })
+    this.inventoryService.getEmployeeList().subscribe(
+      (data) => {
+        this.employee_list = data;
+        console.log("employee data", this.employee_list)
+        this.dailog_ref= this.dialogService.open(dialog, { context: this.employee_list })
+        .onClose.subscribe(data => {
+          this.searchEmp=""
+          // console.log(data);
+           item.therapist2 = data.employee_name
+        }
+        );
+  },
+    )
+
+  }
+  open_employee_name3(dialog: TemplateRef<any>,item) {
+    this.getEmployeeList().subscribe(data => {
+      console.log("check data",data)
+      this.employee_list= data;
+    })
+    this.inventoryService.getEmployeeList().subscribe(
+      (data) => {
+        this.employee_list = data;
+        console.log("employee data", this.employee_list)
+        this.dailog_ref= this.dialogService.open(dialog, { context: this.employee_list })
+        .onClose.subscribe(data => {
+          this.searchEmp=""
+          // console.log(data);
+           item.therapist3 = data.employee_name
+        }
+        );
+  },
+    )
+
+  }
+  open_employee_name4(dialog: TemplateRef<any>,item) {
+    this.getEmployeeList().subscribe(data => {
+      console.log("check data",data)
+      this.employee_list= data;
+    })
+    this.inventoryService.getEmployeeList().subscribe(
+      (data) => {
+        this.employee_list = data;
+        console.log("employee data", this.employee_list)
+        this.dailog_ref= this.dialogService.open(dialog, { context: this.employee_list })
+        .onClose.subscribe(data => {
+          this.searchEmp=""
+          // console.log(data);
+           item.therapist4 = data.employee_name
+        }
+        );
+  },
+    )
+
+  }
   open(dialog: TemplateRef<any>) {
     //Do not open if app_id is set
     if(this.app_id){ return; }
@@ -339,15 +434,29 @@ export class SalesBillComponent implements OnInit {
        this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
        this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
        this.invoiceForm.controls['advanceAmountFormControl'].setValue(this.customer_object.advance_amount);
-
        this.get_bookingHistory(this.customer_id)
+       console.log("customer_id",this.customer_id)
+//        this.adminService.getAppointmentList().subscribe(
+//         (data1) => {
+// console.log("customer appintment details",data1)
+// if(this.customer_id !== ''){
+//   var datas =data.filter(x => x.customer__id === this.customer_id)
+//   data=datas
+//   console.log("customer app details",datas)
+// }
 
+//         })
     }
     );
 
 
 
   }
+  // function(){
+   
+  //   this.invoiceForm.controls['therapistFormControl'].setValue(this.thaerapist);
+  //   console.log("therapist name",this.thaerapist)
+  // }
 
   get_app_bookingHistory(app_id) {
     console.log("Called APP DEts");
@@ -363,6 +472,7 @@ export class SalesBillComponent implements OnInit {
           this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.appointment_obj.customer__phone_number);
           this.invoiceForm.controls['customerEmailFormControl'].setValue(this.appointment_obj.customer__customer_email);
           this.invoiceForm.controls['advanceAmountFormControl'].setValue(this.appointment_obj.customer__advance_amount);
+         
           this.customer_id = this.appointment_obj.customer__id;
 
 
