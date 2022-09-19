@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<!-- Created with Jaspersoft Studio version 7.8.0.final using JasperReports Library version 6.14.0-2ab0d8625be255bf609c78e1181801213e51db8f  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sales_rpt" pageWidth="1200" pageHeight="595" orientation="Landscape" columnWidth="1160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="14006a3d-8557-454a-8245-f6744efad26d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
-	<property name="ireport.jasperserver.url" value="http://103.154.185.199:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.url" value="http://app.d5ngroups.com:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
 	<property name="ireport.jasperserver.reportUnit" value="/ERP/Reports/RptSalesReport"/>
 	<property name="ireport.jasperserver.report.resource" value="/ERP/Reports/RptSalesReport_files/main_jrxml"/>
@@ -73,6 +73,8 @@
 	<subDataset name="Sales" uuid="6c0e5add-5f35-4006-857b-c640a9e61bf6">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="d5n_DB.xml"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
 		<parameter name="branch_name" class="java.util.ArrayList"/>
 		<parameter name="From_Date" class="java.sql.Date">
 			<parameterDescription><![CDATA[Enter From Date]]></parameterDescription>
@@ -81,34 +83,86 @@
 			<parameterDescription><![CDATA[Enter To Date]]></parameterDescription>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[SELECT  appoinment_schedule.booking_date,
- customers.customer_name,customers.phone_number,
-appm.start_time,appm.end_time,
-sales_orders.grand_total,
-sales_orders.payment_terms,sales_orders.upi_type, sales_orders.transaction_id, 
-group_concat(distinct nullif(service.service_name,'')), employee.employee_name ,
- group_concat(distinct nullif(product.product_name,'')) , 
- group_concat(distinct nullif(category.category_name,''))
-
-
+			<![CDATA[SELECT  DISTINCT 
+    appoinment_schedule.booking_date,
+	customers.customer_name,customers.phone_number,
+	appm.start_time,appm.end_time,
+	order_details.subtotal_amount as subtotal_amount,
+	sales_orders.grand_total,
+	sales_orders.payment_terms,sales_orders.upi_type, sales_orders.transaction_id,
+    group_concat(distinct nullif(service.service_name,'')) as service_name, 
+  
+	(
+      select  group_concat(nullif(employee.employee_name,'')) 
+	  from store_employee as employee JOIN store_appointmentformultipleservice appm1 On employee.id=appm1.assigned_staff_id
+	  where appm1.appointment_id=appoinment_schedule.id Group By appm1.appointment_id
+	) as employee_name,
+	group_concat(distinct nullif(product.product_name,'')) as product_name , 
+    group_concat(distinct nullif(category.category_name,'')) as category_name
  FROM store_appointmentschedule as appoinment_schedule
- inner join store_appointmentformultipleservice as appm on appoinment_schedule.id=appm.appointment_id
- inner join store_storeservices as service on service.id=appm.service_id
- inner join store_employee as employee on employee.id=appm.assigned_staff_id
- INNER join sales_salesorderrequest as sales_orders on sales_orders.customer_id=appoinment_schedule.customer_id
-inner join  sales_salesorderdetails as order_details on sales_orders.id=order_details.po_order_id
+ INNER JOIN store_appointmentformultipleservice as appm on appoinment_schedule.id=appm.appointment_id
+ INNER JOIN store_storeservices as service on service.id=appm.service_id
+ INNER JOIN store_customer as customers on customers.id=appoinment_schedule.customer_id 
+ INNER join store_store as store on store.id=appoinment_schedule.store_id
+ INNER JOIN sales_salesorderrequest as sales_orders 
+ on sales_orders.customer_id=appoinment_schedule.customer_id 
+ and  Date(sales_orders.po_date) =Date(appoinment_schedule.booking_date) 
+ INNER JOIN  sales_salesorderdetails as order_details 
+ on order_details.po_order_id=sales_orders.id
+ and order_details.service_id = appm.service_id
 /* and order_details.product_id is not null; */
- inner join store_customer as customers on customers.id=appoinment_schedule.customer_id
-left join inventory_productmaster as product on product.id=order_details.product_id
-left join inventory_productcategory as category on product.category_id=category.id
- 
- inner join store_store as store on store.id=appoinment_schedule.store_id
- 
+
+ LEFT JOIN inventory_productmaster as product on product.id=order_details.product_id
+ LEFT JOIN inventory_productcategory as category on product.category_id=category.id
+
  where    appoinment_schedule.booking_date between  $P{From_Date} and  $P{To Date}
  and $X{IN,store.store_name,branch_name}
-group by sales_orders.invoice_no,appoinment_schedule.booking_date,
-customers.customer_name,customers.phone_number,appm.start_time,appm.end_time,
-sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales_orders.transaction_id,employee.employee_name]]>
+group by 
+appoinment_schedule.booking_date,customers.customer_name,customers.phone_number,
+appm.start_time,appm.end_time,order_details.subtotal_amount,sales_orders.grand_total,
+sales_orders.payment_terms,sales_orders.upi_type, sales_orders.transaction_id,appoinment_schedule.id,service.service_name
+
+UNION ALL 
+
+SELECT  DISTINCT 
+    appoinment_schedule.booking_date,
+	customers.customer_name,customers.phone_number,
+	appm.start_time,appm.end_time,
+	order_details.subtotal_amount as subtotal_amount,
+	sales_orders.grand_total,
+	sales_orders.payment_terms,sales_orders.upi_type, sales_orders.transaction_id,
+    group_concat(distinct nullif(service.service_name,'')) as service_name, 
+  
+	(
+      select  group_concat(nullif(employee.employee_name,'')) 
+	  from store_employee as employee JOIN store_appointmentformultipleservice appm1 On employee.id=appm1.assigned_staff_id
+	  where appm1.appointment_id=appoinment_schedule.id Group By appm1.appointment_id
+	) as employee_name,
+	group_concat(distinct nullif(product.product_name,'')) as product_name , 
+    group_concat(distinct nullif(category.category_name,'')) as category_name
+ FROM store_appointmentschedule as appoinment_schedule
+ INNER JOIN store_appointmentformultipleservice as appm on appoinment_schedule.id=appm.appointment_id
+ INNER JOIN store_storeservices as service on service.id=appm.service_id
+ INNER JOIN store_customer as customers on customers.id=appoinment_schedule.customer_id 
+ INNER join store_store as store on store.id=appoinment_schedule.store_id
+ INNER JOIN sales_salesorderrequest as sales_orders 
+ on sales_orders.customer_id=appoinment_schedule.customer_id 
+ and  Date(sales_orders.po_date) =Date(appoinment_schedule.booking_date) 
+ INNER JOIN  sales_salesorderdetails as order_details 
+ on order_details.po_order_id=sales_orders.id
+/* and order_details.product_id is not null; */
+
+ INNER JOIN inventory_productmaster as product on product.id=order_details.product_id
+ INNER JOIN inventory_productcategory as category on product.category_id=category.id
+
+ where    appoinment_schedule.booking_date between  $P{From_Date} and  $P{To Date}
+ and $X{IN,store.store_name,branch_name}
+ 
+group by 
+appoinment_schedule.booking_date,customers.customer_name,customers.phone_number,
+appm.start_time,appm.end_time,order_details.subtotal_amount,sales_orders.grand_total,
+sales_orders.payment_terms,sales_orders.upi_type, sales_orders.transaction_id,appoinment_schedule.id,service.service_name
+]]>
 		</queryString>
 		<field name="booking_date" class="java.sql.Date">
 			<property name="com.jaspersoft.studio.field.name" value="booking_date"/>
@@ -119,25 +173,31 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 		<field name="customer_name" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="customer_name"/>
 			<property name="com.jaspersoft.studio.field.label" value="customer_name"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="store_appointmentschedule"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="store_customer"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="phone_number" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="phone_number"/>
 			<property name="com.jaspersoft.studio.field.label" value="phone_number"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="store_appointmentschedule"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="store_customer"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="start_time" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="start_time"/>
 			<property name="com.jaspersoft.studio.field.label" value="start_time"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="store_appointmentschedule"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="store_appointmentformultipleservice"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="end_time" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="end_time"/>
 			<property name="com.jaspersoft.studio.field.label" value="end_time"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="store_appointmentschedule"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="store_appointmentformultipleservice"/>
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="subtotal_amount" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="subtotal_amount"/>
+			<property name="com.jaspersoft.studio.field.label" value="subtotal_amount"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="sales_salesorderdetails"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="grand_total" class="java.math.BigDecimal">
@@ -164,13 +224,9 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 			<property name="com.jaspersoft.studio.field.tree.path" value="sales_salesorderrequest"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="group_concat(distinct nullif(Service.service_name,&apos;&apos;))" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.name">
-				<![CDATA[group_concat(distinct nullif(Service.service_name,''))]]>
-			</property>
-			<property name="com.jaspersoft.studio.field.label">
-				<![CDATA[group_concat(distinct nullif(Service.service_name,''))]]>
-			</property>
+		<field name="service_name" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="service_name"/>
+			<property name="com.jaspersoft.studio.field.label" value="service_name"/>
 		</field>
 		<field name="employee_name" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="employee_name"/>
@@ -178,24 +234,16 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 			<property name="com.jaspersoft.studio.field.tree.path" value="store_employee"/>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="group_concat(distinct nullif(Product.product_name,&apos;&apos;))" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.name">
-				<![CDATA[group_concat(distinct nullif(Product.product_name,''))]]>
-			</property>
-			<property name="com.jaspersoft.studio.field.label">
-				<![CDATA[group_concat(distinct nullif(Product.product_name,''))]]>
-			</property>
+		<field name="product_name" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="product_name"/>
+			<property name="com.jaspersoft.studio.field.label" value="product_name"/>
 		</field>
-		<field name="group_concat(distinct nullif(Category.category_name,&apos;&apos;))" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.name">
-				<![CDATA[group_concat(distinct nullif(Category.category_name,''))]]>
-			</property>
-			<property name="com.jaspersoft.studio.field.label">
-				<![CDATA[group_concat(distinct nullif(Category.category_name,''))]]>
-			</property>
+		<field name="category_name" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="category_name"/>
+			<property name="com.jaspersoft.studio.field.label" value="category_name"/>
 		</field>
 		<variable name="amount" class="java.math.BigDecimal" calculation="Sum">
-			<variableExpression><![CDATA[$F{grand_total}]]></variableExpression>
+			<variableExpression><![CDATA[$F{subtotal_amount}]]></variableExpression>
 		</variable>
 		<group name="booking_date">
 			<groupExpression><![CDATA[$F{booking_date}]]></groupExpression>
@@ -224,17 +272,8 @@ sales_orders.grand_total,sales_orders.payment_terms,sales_orders.upi_type, sales
 		<group name="transaction_id">
 			<groupExpression><![CDATA[$F{transaction_id}]]></groupExpression>
 		</group>
-		<group name="group_concat(distinct nullif(Service.service_name,&apos;&apos;))">
-			<groupExpression><![CDATA[$F{group_concat(distinct nullif(Service.service_name,''))}]]></groupExpression>
-		</group>
 		<group name="employee_name">
 			<groupExpression><![CDATA[$F{employee_name}]]></groupExpression>
-		</group>
-		<group name="group_concat(distinct nullif(Product.product_name,&apos;&apos;))">
-			<groupExpression><![CDATA[$F{group_concat(distinct nullif(Product.product_name,''))}]]></groupExpression>
-		</group>
-		<group name="group_concat(distinct nullif(Category.category_name,&apos;&apos;))">
-			<groupExpression><![CDATA[$F{group_concat(distinct nullif(Category.category_name,''))}]]></groupExpression>
 		</group>
 	</subDataset>
 	<parameter name="Branch_Name" class="java.util.ArrayList"/>
@@ -528,7 +567,7 @@ where $X{IN,store_name,Branch_Name}
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{grand_total}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{subtotal_amount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -612,7 +651,7 @@ where $X{IN,store_name,Branch_Name}
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{group_concat(distinct nullif(Service.service_name,''))}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{service_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -654,7 +693,7 @@ where $X{IN,store_name,Branch_Name}
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{group_concat(distinct nullif(Product.product_name,''))}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -675,7 +714,7 @@ where $X{IN,store_name,Branch_Name}
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Verdana"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{group_concat(distinct nullif(Category.category_name,''))}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

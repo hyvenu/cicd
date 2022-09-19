@@ -93,10 +93,11 @@ $box.prop("checked", false);
                       <tr></tr>
                         <th></th>
                         <th>Item Description</th>
+                        <th>Employee/Theraphist</th>
                         <th>Quantity</th>
                         <th>Unit</th>
                         <th>Sell Price</th>
-                        <th>Disc %</th>
+                        <th>Disc Amount</th>
                         <th>Gst %</th>
                         <th>Gst value</th>
                         <th>Item Total</th>
@@ -111,11 +112,16 @@ $box.prop("checked", false);
                             <td><button nbButton (click)="remove_item(item);" status="danger" size="small">X</button></td>
 
                             <td>
-                                <input class="form-control form-control-sm" type="text" #desc readonly  name="{{item.item_name}}" [(ngModel)]="item.item_name"   placeholder="Item Name"  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm" type="text" #desc readonly  value="{{item.item_name}}" [(ngModel)]="item.item_name"   placeholder="Item Name"  [ngModelOptions]="{standalone: true}"
                                     style="width: 10em;" (input)="calculate_price()"
-                                    (change)="get_value($event,item)"
-                                    (click)="open_product_name(dialog_single_product,item)"
+                              
+                               
                                 />&nbsp;
+                                   
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-outline-info" (click)="employee_open(stylist_dialog,item)">({{item.employee_list.length}}) View Theraphist</button>
+                                
                             </td>
                             <td>
                                 <input class="form-control form-control-sm" type="text" name="{{item.quantity}}" [(ngModel)]="item.quantity" placeholder=""  [ngModelOptions]="{standalone: true}"
@@ -124,32 +130,32 @@ $box.prop("checked", false);
                                 />&nbsp;
                             </td>
                             <td>
-                                <input class="form-control form-control-sm"   name="{{item.unit}}" [(ngModel)]="item.unit" placeholder=""  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm"    [(ngModel)]="item.unit" placeholder=""  [ngModelOptions]="{standalone: true}"
                                 value="{{item.unit}}" size="small" oninput="validity.valid || (value='')"  style="width: 4em;" readonly/>&nbsp;
                             </td>
                             <td>
-                                <input class="form-control form-control-sm"  min="0"  name="{{item.price}}" [(ngModel)]="item.price" placeholder="Price"  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm"  min="0"  [(ngModel)]="item.price" placeholder="Price"  [ngModelOptions]="{standalone: true}"
                                 value="{{item.price}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" />&nbsp;
 
                             </td>
                             <td>
-                              <input class="form-control form-control-sm"  min="0"  name="{{item.discount}}" [(ngModel)]="item.discount" placeholder=""  [ngModelOptions]="{standalone: true}"
+                              <input class="form-control form-control-sm"  min="0"   [(ngModel)]="item.discount" placeholder=""  [ngModelOptions]="{standalone: true}"
                               value="{{item.discount}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" />&nbsp;
 
                           </td>
                             <td>
-                                <input class="form-control form-control-sm"  min="0" type="number" name="{{item.tax}}" [(ngModel)]="item.tax" placeholder=""  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm"  min="0" type="number"  [(ngModel)]="item.tax" placeholder=""  [ngModelOptions]="{standalone: true}"
                                 value="{{item.tax}}" size="small" oninput="validity.valid || (value='')"  (change)="calculate_price()" style="width: 5em;"/>&nbsp;
 
                             </td>
 
                             <td>
-                                <input class="form-control form-control-sm"  min="0"  name="{{item.gst_value}}" [(ngModel)]="item.gst_value" placeholder=""  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm"  min="0"   [(ngModel)]="item.gst_value" placeholder=""  [ngModelOptions]="{standalone: true}"
                                 value="{{item.gst_value}}" size="small" step="0.1" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" readonly/>&nbsp;
 
                             </td>
                             <td>
-                                <input class="form-control form-control-sm"  min="0"  step="0.1" name="{{item.item_total}}" [(ngModel)]="item.item_total" placeholder=""  [ngModelOptions]="{standalone: true}"
+                                <input class="form-control form-control-sm"  min="0"  step="0.1"  [(ngModel)]="item.item_total" placeholder=""  [ngModelOptions]="{standalone: true}"
                                 value="{{item.item_total}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" readonly/>&nbsp;
 
                             </td>
@@ -248,7 +254,7 @@ $box.prop("checked", false);
                 <tr>
 
                     <td colspan="4" style="text-align:center;">
-                        <button nbButton status="success" (click)="saveBill()"  size="small" >Save</button>
+                        <button nbButton status="success" type="submit" (click)="saveBill()"  size="small" >Save</button>
                     </td>
                 </tr>
               </table>
@@ -275,7 +281,41 @@ $box.prop("checked", false);
       </nb-card-footer>
     </nb-card>
   </ng-template>
-
+ 
+  <ng-template #stylist_dialog let-data let-ref="dialogRef" >
+    <nb-card size="large" style="width: 800px;">
+        <nb-card-header>Stylist <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchStylist" /> </nb-card-header>
+        <nb-card-body>
+          <div class="row">
+            <div class="col-md-8">
+              <h5>Employee List</h5>
+              <nb-list>
+                <nb-list-item *ngFor="let item of data.data | search_filter:'employee_name':searchStylist">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i>
+                    <button nbButton (click)="ref.close(item)" size="small">Add</button>
+                </nb-list-item>
+            </nb-list>
+            </div>
+            <div class="col-md-8">
+              <h5>Selected Employee</h5>
+              <nb-list>
+                <nb-list-item *ngFor="let item of data.selected_employee.employee_list">
+                    <i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i>
+                    <button nbButton (click)="remove_employee(data.selected_employee,item)"  size="small">Remove</button>
+                </nb-list-item>
+            </nb-list>
+            </div>
+          </div>
+           
+       
+        
+          
+      </nb-card-body>
+        <nb-card-footer>
+            <button nbButton (click)="ref.close()">Close</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
   <!-- <ng-template #dialog_service let-data let-ref="dialogRef" >
     <nb-card size="large" >
       <nb-card-header>Service List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchService" /> </nb-card-header>

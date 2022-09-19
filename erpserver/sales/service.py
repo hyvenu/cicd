@@ -509,10 +509,9 @@ class OrderService:
                 sales_order_req.barcode = sales_data['barcode']
                 # so_invoice.disc_amount = item['disc_amount']
                 sales_order_details.gst_amount = item['gst_value']
-                sales_order_details.therapist1 = item['therapist1']
-                sales_order_details.therapist2 = item['therapist2']
-                sales_order_details.therapist3 = item['therapist3']
-                sales_order_details.therapist4 = item['therapist4']
+
+                sales_order_details.employee_list = item['employee_list']
+
                 # sales_order_details.unit = item['unit']
                 # so_invoice.total = item['total']
 
@@ -536,6 +535,7 @@ class OrderService:
                 sales_order_req.barcode = sales_data['barcode']
                 # so_invoice.disc_amount = item['disc_amount']
                 sales_order_details.gst_amount = item['gst_value']
+                sales_order_details.employee_list = item['employee_list']
                 # sales_order_details.unit = item['unit']
                 # so_invoice.total = item['total']
 
@@ -867,8 +867,20 @@ class OrderService:
             "barcode",
             "gst_amount",
             "subtotal_amount",
+            "booking_id",
+            "service_id",
+            "employee_list",
 
         ))
+        # get the employee name and append with service name
+
+        if po_data_list['order_details'][0]['employee_list']:
+            emp_list = ''
+            for emp in ast.literal_eval(po_data_list['order_details'][0]['employee_list']):
+                emp_list = emp_list + emp['employee_name'] + ','
+            po_data_list['order_details'][0]['product_name'] = po_data_list['order_details'][0]['product_name'] + ' with ' + emp_list
+            po_data_list['order_details'][0]['service__service_name'] = po_data_list['order_details'][0][
+                                                                   'service__service_name'] + ' with ' + emp_list
         return po_data_list
 
     @classmethod

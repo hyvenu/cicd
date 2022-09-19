@@ -309,6 +309,7 @@ customerForm:FormGroup;
     formdata.append('gst',this.customerForm.controls['gstFormControl'].value)
     formdata.append('active',this.customerForm.controls['customerActiveFormControl'].value)
     formdata.append('customer_source',this.customerForm.controls['customerSourceFormControl'].value)
+    formdata.append('branch_id', sessionStorage.getItem('store_id'))
 
 
     this.adminService.updateCustomer(formdata,this.customer_id).subscribe(
@@ -338,6 +339,7 @@ customerForm:FormGroup;
     formdata.append('gst',this.customerForm.controls['gstFormControl'].value)
     formdata.append('active',this.customerForm.controls['customerActiveFormControl'].value)
     formdata.append('customer_source',this.customerForm.controls['customerSourceFormControl'].value)
+    formdata.append('branch_id', sessionStorage.getItem('store_id'))
 
     this.adminService.SaveCustomer(formdata).subscribe(
       (data)=>{

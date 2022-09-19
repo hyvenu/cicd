@@ -138,10 +138,9 @@ class SalesOrderDetails(AuditUuidModelMixin):
     # amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     # disc_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst_amount = models.DecimalField(max_digits=10, decimal_places=1, default=0)
-    therapist1 = models.CharField(max_length=255, null=True, default=None)
-    therapist2 = models.CharField(max_length=255, null=True, default=None)
-    therapist3 = models.CharField(max_length=255, null=True, default=None)
-    therapist4 = models.CharField(max_length=255, null=True, default=None)
+
+    employee_list = models.CharField(max_length=1000,null=True,blank=True)
+
     # total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     class Meta:

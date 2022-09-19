@@ -11,7 +11,7 @@ from django.db import connection
 
 class ReportServices:
     @classmethod
-    def get_report(cls, data_id, from_dt, to_dt):
+    def get_report(cls, data_id, from_dt, to_dt,branch_id):
         init_df = list(ReportEngineModel.objects.filter(id=data_id).all().values(
             "id",
             "report_name",
@@ -33,9 +33,11 @@ class ReportServices:
             to_date = '"2100-01-01"'
         else:
             to_date = '"' + to_dt + '"'
+        
+        branch_id = "'" +str(branch_id).replace('-','') + "'"
             
         # Below line applies value of from_date & to_date into string sql_qry.
-        sql_qry = sql_qry1.format(from_date=from_date, to_date=to_date)
+        sql_qry = sql_qry1.format(from_date=from_date, to_date=to_date,branch_id=branch_id)
         print(sql_qry)
         # sql_qry = sql_qry1
 
