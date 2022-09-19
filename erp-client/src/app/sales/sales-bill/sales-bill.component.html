@@ -101,6 +101,10 @@ $box.prop("checked", false);
                         <th>Gst %</th>
                         <th>Gst value</th>
                         <th>Item Total</th>
+                        <th>Employee One</th>
+                        <th>Employee two</th>
+                        <th>Employee three</th>
+                        <th>Employee four</th>
 
                     </thead>
                     <tbody>
@@ -155,8 +159,26 @@ $box.prop("checked", false);
                                 value="{{item.item_total}}" size="small" oninput="validity.valid || (value='')" (change)="calculate_price()"  style="width: 5em;" readonly/>&nbsp;
 
                             </td>
-
-
+                            <td>
+                              <input class="form-control form-control-sm"  readonly  name="{{item.therapist1}}" [(ngModel)]="item.therapist1"   placeholder="Employee Name1"  [ngModelOptions]="{standalone: true}"
+                                  style="width: 10em;"  (click)="open_employee_name1(employee_dialog1,item)"
+                              />&nbsp;
+                          </td>
+                          <td>
+                            <input class="form-control form-control-sm"  readonly  name="{{item.therapist2}}" [(ngModel)]="item.therapist2"   placeholder="Employee Name2"  [ngModelOptions]="{standalone: true}"
+                                style="width: 10em;" (click)="open_employee_name2(employee_dialog2,item)"
+                            />&nbsp;
+                        </td>
+                        <td>
+                          <input class="form-control form-control-sm" readonly  name="{{item.therapist3}}" [(ngModel)]="item.therapist3"   placeholder="Employee Name3"  [ngModelOptions]="{standalone: true}"
+                              style="width: 10em;"  (click)="open_employee_name3(employee_dialog3,item)"
+                          />&nbsp;
+                      </td>
+                      <td>
+                      <input class="form-control form-control-sm"  readonly  name="{{item.therapist4}}" [(ngModel)]="item.therapist4"   placeholder="Employee Name4"  [ngModelOptions]="{standalone: true}"
+                                    style="width: 10em;" (click)="open_employee_name4(employee_dialog4,item)"
+                       />&nbsp;
+                    </td>
                         </tr>
                     </tbody>
                     </table>
@@ -416,4 +438,76 @@ $box.prop("checked", false);
             <button nbButton (click)="ref.close()">Close</button>
         </nb-card-footer>
     </nb-card>
+</ng-template>
+<ng-template #employee_dialog1 let-data let-ref="dialogRef">
+  <nb-card size="medium">
+      <nb-card-header>Employee List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchEmp" /></nb-card-header>
+      <nb-card-body>
+          <table class="table table-hover">
+              <tbody>
+                  <tr *ngFor="let item of employee_list| search_filter:'employee_name':searchEmp " (click)="ref.close(item)" >
+                      <td><i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i></td>              
+                      <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                  </tr>
+              </tbody>
+          </table>
+      </nb-card-body>
+      <nb-card-footer>
+          <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+  </nb-card>
+</ng-template>
+<ng-template #employee_dialog2 let-data let-ref="dialogRef">
+  <nb-card size="medium">
+      <nb-card-header>Employee List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchEmp" /></nb-card-header>
+      <nb-card-body>
+          <table class="table table-hover">
+              <tbody>
+                  <tr *ngFor="let item of employee_list| search_filter:'employee_name':searchEmp " (click)="ref.close(item)" >
+                      <td><i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i></td>              
+                      <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                  </tr>
+              </tbody>
+          </table>
+      </nb-card-body>
+      <nb-card-footer>
+          <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+  </nb-card>
+</ng-template>
+<ng-template #employee_dialog3 let-data let-ref="dialogRef">
+  <nb-card size="medium">
+      <nb-card-header>Employee List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchEmp" /></nb-card-header>
+      <nb-card-body>
+          <table class="table table-hover">
+              <tbody>
+                  <tr *ngFor="let item of employee_list| search_filter:'employee_name':searchEmp " (click)="ref.close(item)" >
+                      <td><i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i></td>              
+                      <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                  </tr>
+              </tbody>
+          </table>
+      </nb-card-body>
+      <nb-card-footer>
+          <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+  </nb-card>
+</ng-template>
+<ng-template #employee_dialog4 let-data let-ref="dialogRef">
+  <nb-card size="medium">
+      <nb-card-header>Employee List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchEmp" /></nb-card-header>
+      <nb-card-body>
+          <table class="table table-hover">
+              <tbody>
+                  <tr *ngFor="let item of employee_list| search_filter:'employee_name':searchEmp " (click)="ref.close(item)" >
+                      <td><i class="mr-auto mt-2 mt-lg-0">{{ item.employee_name }} </i></td>              
+                      <td><button nbButton (click)="ref.close(item)" size="small">Select</button></td>
+                  </tr>
+              </tbody>
+          </table>
+      </nb-card-body>
+      <nb-card-footer>
+          <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer>
+  </nb-card>
 </ng-template>

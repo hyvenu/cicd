@@ -5,6 +5,8 @@ import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { AdminService } from 'src/app/admin/admin.service';
 import { filter } from 'rxjs/operators';
 import { makeArray } from 'jquery';
+import { element } from 'protractor';
+import { OrderService } from 'src/app/sales/order.service';
 
 @Component({
   selector: 'app-manage-customer',
@@ -15,6 +17,7 @@ export class ManageCustomerComponent implements OnInit {
 
   allBookingData = [];
   custBookingData = [];
+  check:any;
 
   allBookingSettings = {
     // selectMode: 'multi',
@@ -28,14 +31,21 @@ export class ManageCustomerComponent implements OnInit {
         title: 'id',
         hide:true
       },
-      customer__customer_name: {
+      po_order_id__invoice_no:{
+      title: 'Invoice No',
+      type: 'html',
+        valuePrepareFunction: (cell, row) => {
+          return `<a href="InvoicePage?id=${row.po_order_id__po_number}">${row.po_order_id__invoice_no}</a>`;
+        }
+      },
+      customer_name: {
         title: 'Customer Name',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageCustomer?id=${row.customer__id}">${row.customer__customer_name}</a>`;
+          return `<a href="ManageCustomer?id=${row.customer_id}">${row.customer_name}</a>`;
         }
       },
-      customer__phone_number:{
+      customer_phone_number:{
         title: 'Phone Number',
       },
       booking_date:{
@@ -43,6 +53,9 @@ export class ManageCustomerComponent implements OnInit {
       },
       service_count: {
         title: 'Service Count',
+      },
+      po_order_id__grand_total:{
+        title: 'Amount',
       },
 
     },
@@ -60,10 +73,20 @@ export class ManageCustomerComponent implements OnInit {
         title: 'id',
         hide:true
       },
+      po_order_id__invoice_no:{
+        title: 'Invoice NO',
+        type: 'html',
+        valuePrepareFunction: (cell, row) => {
+          return `<a href="InvoicePage?id=${row.po_order_id__po_number}">${row.po_order_id__invoice_no}</a>`;
+        }
+      },
       booking_date:{
         title: 'Booking Date',
+        // valuePrepareFunction: (cell, row) => {
+        //   return `<a href="InvoicePage?id=${row.customer_id}">${row.booking_date}</a>`;
+        // }
       },
-      service__service_name: {
+      service_name: {
         title: 'Service Name',
       },
       start_time: {
@@ -72,7 +95,13 @@ export class ManageCustomerComponent implements OnInit {
       end_time: {
         title: 'End Time',
       },
+      appointment_staff_name:{
+        title: 'Therapist name',
 
+      },
+      po_order_id__grand_total:{
+        title: 'Amount',
+        },
     },
   };
 
@@ -138,6 +167,11 @@ customerForm:FormGroup;
 
   @ViewChild('form') form;
   details: any=[];
+  amount: any;
+  grand_total: any=[];
+  amount_details: any=[];
+  booking_id: any=[];
+  order_details: any=[];
   // booking_date: any=[];
   constructor(
     private formBuilder: FormBuilder,
@@ -145,7 +179,8 @@ customerForm:FormGroup;
     private dialogService: NbDialogService,
     private routes: Router,
     private route: ActivatedRoute,
-    private adminService:AdminService
+    private adminService:AdminService,
+    private orderService: OrderService,
   ) { }
 
   keyPress(event: any) {
@@ -173,10 +208,8 @@ customerForm:FormGroup;
       customerSourceFormControl:['',],
 
     })
-
-    // this.customerForm.reset();
-
     let param = this.route.snapshot.queryParams['id'];
+  
 
     if(param) {
       this.isCustomer_id = true;
@@ -197,41 +230,29 @@ customerForm:FormGroup;
           this.customerForm.controls['customerSourceFormControl'].setValue(data.customer_source);
     });
     }
-
-    this.adminService.getAllViewbookingList().subscribe(
-      (data) => {
-        this.allBookingData = data;
-        console.log("All Booking Data",this.allBookingData)
-        if(this.customer_id !== ''){
-        var datas =data.filter(x => x.customer__id === this.customer_id)
-        data=datas
-        console.log("id",datas[0].id)
-        const booking_date=datas[0].booking_date;
-        this.custBookingData= this.allBookingData
-          // this.custBookingData= this.allBookingData
-            this.adminService.getAppointmentDetailsById(datas[0].id).subscribe(
-          (data) => {
-            let service_items = []
-                data.service_list.forEach(item => {
-                  service_items.push(item)
-                });
-            this.custBookingData= service_items
-            let i=this.custBookingData.length
-            for(i=0;i<this.custBookingData.length;i++)
-            this.custBookingData[i]['booking_date']= data.booking_date
-            console.log("book his1",this.custBookingData)
-          })
-        }
-      },
-      (error) => {
-        this.nbtoastService.danger("Unable to get all booking history")
-      }
-    )
-
     this.get_customer_list();
+    this.getviewList()
 
   }
-
+  getviewList(){
+    this.adminService.getAllViewbookingList().subscribe(
+      (data) => {
+        console.log("booking data",data)
+        this.allBookingData=data
+        console.log("all booking details",this.allBookingData)
+        if(this.customer_id !== ''){
+          var datas =data.filter(x => x.customer_id === this.customer_id)
+          data=datas
+          console.log("id",datas[0].id)
+          this.custBookingData= this.allBookingData
+            this.custBookingData= this.allBookingData
+              console.log("appointment book details",data)
+              this.custBookingData= data
+              console.log("service items",this.custBookingData)
+          }
+      }
+    );
+    }
   get_customer_list() {
       this.adminService.getCustomerList().subscribe(
         (data)=>{

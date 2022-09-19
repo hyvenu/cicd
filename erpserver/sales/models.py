@@ -138,8 +138,8 @@ class SalesOrderDetails(AuditUuidModelMixin):
     # amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     # disc_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     gst_amount = models.DecimalField(max_digits=10, decimal_places=1, default=0)
-    employee_list = models.CharField(max_length=1000,null=True,blank=True)
 
+    employee_list = models.CharField(max_length=1000,null=True,blank=True)
 
     # total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
