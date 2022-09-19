@@ -429,17 +429,24 @@ class StoreService:
         sales_order_details = SalesOrderDetails.objects.all().values(
             "id",
             "booking_id",
-            "po_order_id__sub_total",
-            "po_order_id__invoice_no"
+            "po_order_id__grand_total",
+            "po_order_id__po_number",
+            "po_order_id__invoice_no",
+            "po_order_id__customer_id"
+
         )
         for sales_order in list(sales_order_details):
             count = AppointmentForMultipleService.objects.filter(appointment_id=sales_order['booking_id']).count()
             sales_order['service_count']= count
             try:
+                customer = Customer.objects.get(id=sales_order['po_order_id__customer_id'])
+                sales_order['customer_id'] = customer.id
+                sales_order['customer_name'] = customer.customer_name
+                sales_order['customer_phone_number'] = customer.phone_number
+            except:
+                print('')
+            try:
                 appointment_schedule=AppointmentSchedule.objects.get(id=sales_order['booking_id'])
-                sales_order['customer_id'] = appointment_schedule.customer.id
-                sales_order['customer_name'] = appointment_schedule.customer.customer_name
-                sales_order['customer_phone_number'] = appointment_schedule.customer.phone_number
                 sales_order['appointment_id'] = appointment_schedule.id
                 sales_order['booking_date'] = appointment_schedule.booking_date
             except:

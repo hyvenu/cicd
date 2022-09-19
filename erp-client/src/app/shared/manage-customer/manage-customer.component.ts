@@ -32,19 +32,20 @@ export class ManageCustomerComponent implements OnInit {
         hide:true
       },
       po_order_id__invoice_no:{
-        title: 'Invoice NO',
-        // valuePrepareFunction: (cell, row) => {
-        //   return `<a href="InvoicePage?id=${row.customer_id}">${row.booking_date}</a>`;
-        // }
+      title: 'Invoice No',
+      type: 'html',
+        valuePrepareFunction: (cell, row) => {
+          return `<a href="InvoicePage?id=${row.po_order_id__po_number}">${row.po_order_id__invoice_no}</a>`;
+        }
       },
       customer_name: {
         title: 'Customer Name',
         type: 'html',
-        // valuePrepareFunction: (cell, row) => {
-        //   return `<a href="ManageCustomer?id=${row.customer__id}">${row.customer__customer_name}</a>`;
-        // }
+        valuePrepareFunction: (cell, row) => {
+          return `<a href="ManageCustomer?id=${row.customer_id}">${row.customer_name}</a>`;
+        }
       },
-      po_order_id__sub_total:{
+      po_order_id__grand_total:{
         title: 'Amount',
         // valuePrepareFunction: (cell, row) => {
         //   return `<a href="InvoicePage?id=${row.customer_id}">${row.booking_date}</a>`;
@@ -77,9 +78,10 @@ export class ManageCustomerComponent implements OnInit {
       },
       po_order_id__invoice_no:{
         title: 'Invoice NO',
-        // valuePrepareFunction: (cell, row) => {
-        //   return `<a href="InvoicePage?id=${row.customer_id}">${row.booking_date}</a>`;
-        // }
+        type: 'html',
+        valuePrepareFunction: (cell, row) => {
+          return `<a href="InvoicePage?id=${row.po_order_id__po_number}">${row.po_order_id__invoice_no}</a>`;
+        }
       },
       booking_date:{
         title: 'Booking Date',
@@ -100,7 +102,7 @@ export class ManageCustomerComponent implements OnInit {
         title: 'therapist name',
 
       },
-      po_order_id__sub_total:{
+      po_order_id__grand_total:{
         title: 'Amount',
         },
     },
@@ -209,9 +211,6 @@ customerForm:FormGroup;
       customerSourceFormControl:['',],
 
     })
-
-    // this.customerForm.reset();
-
     let param = this.route.snapshot.queryParams['id'];
   
 
@@ -244,10 +243,16 @@ customerForm:FormGroup;
         console.log("booking data",data)
         this.allBookingData=data
         console.log("all booking details",this.allBookingData)
-        let service_items = []
-   
-        this.custBookingData=data
-        console.log("customer booking details",this.custBookingData)
+        if(this.customer_id !== ''){
+          var datas =data.filter(x => x.customer_id === this.customer_id)
+          data=datas
+          console.log("id",datas[0].id)
+          this.custBookingData= this.allBookingData
+            this.custBookingData= this.allBookingData
+              console.log("appointment book details",data)
+              this.custBookingData= data
+              console.log("service items",this.custBookingData)
+          }
       }
     );
     }
