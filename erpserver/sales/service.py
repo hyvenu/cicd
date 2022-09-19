@@ -848,7 +848,8 @@ class OrderService:
 
         )[0]
 
-        po_data_list['order_details'] = list(SalesOrderDetails.objects.filter(po_order__po_number=po_id).all().values(
+        # po_data_list['order_details'] \
+        order_details = list(SalesOrderDetails.objects.filter(po_order__po_number=po_id).all().values(
 
             "id",
             # "product__id",
@@ -873,14 +874,18 @@ class OrderService:
 
         ))
         # get the employee name and append with service name
-
-        if po_data_list['order_details'][0]['employee_list']:
-            emp_list = ''
-            for emp in ast.literal_eval(po_data_list['order_details'][0]['employee_list']):
-                emp_list = emp_list + emp['employee_name'] + ','
-            po_data_list['order_details'][0]['product_name'] = po_data_list['order_details'][0]['product_name'] + ' with ' + emp_list
-            po_data_list['order_details'][0]['service__service_name'] = po_data_list['order_details'][0][
-                                                                   'service__service_name'] + ' with ' + emp_list
+        order_list = []
+        for order_det in order_details:
+            if order_det['employee_list']:
+                emp_list = ''
+                for emp in ast.literal_eval(order_det['employee_list']):
+                    emp_list = emp_list + emp['employee_name'] + ','
+                order_det['product_name'] = order_det['product_name'] + ' with ' + emp_list
+                order_det['service__service_name'] = order_det['service__service_name'] + ' with ' + emp_list
+                order_list.append(order_det)
+            else:
+                order_list.append(order_det)
+        po_data_list['order_details'] = order_list
         return po_data_list
 
     @classmethod
