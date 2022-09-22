@@ -38,17 +38,17 @@ export class ManageCustomerComponent implements OnInit {
       //     return `<a href="InvoicePage?id=${row.po_order_id__po_number}">${row.po_order_id__invoice_no}</a>`;
       //   }
       // },
-      appointment_id__customer_id__customer_name: {
+      po_order_id__customer_id__customer_name: {
         title: 'Customer Name',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageCustomer?id=${row.appointment_id__customer_id__id}">${row.appointment_id__customer_id__customer_name}</a>`;
+          return `<a href="ManageCustomer?id=${row.po_order_id__customer_id}">${row.po_order_id__customer_id__customer_name}</a>`;
         }
       },
-      appointment_id__customer_id__phone_number:{
+      po_order_id__customer_id__phone_number:{
         title: 'Phone Number',
       },
-      appointment_id__booking_date:{
+      booking_id__booking_date:{
         title: 'Booking Date',
       },
       service_count: {
@@ -262,7 +262,7 @@ customerForm:FormGroup;
       (data) => {
         console.log("booking data",data)
         this.allBookingData=data
-        console.log("all booking details",this.allBookingData)
+        // console.log("all booking details",this.allBookingData)
       }
     );
     }

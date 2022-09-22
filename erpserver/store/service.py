@@ -468,24 +468,41 @@ class StoreService:
             item['service_count'] = count
         return list(sales_order_details)
 
+    # @classmethod
+    # def get_all_viewbooking_details(cls):
+    #     final_list = []
+    #     app_data_list = AppointmentForMultipleService.objects.all().values(
+    #         'id',
+    #         'appointment_id',
+    #         'assigned_staff__id',
+    #         'assigned_staff__employee_name',
+    #         'appointment_id__booking_date',
+    #         'end_time',
+    #         'appointment_id__customer_id__id',
+    #         'appointment_id__customer_id__customer_name',
+    #         'start_time',
+    #         'appointment_id__customer_id__phone_number',
+    #         'service_id__service_name',
+    #     )
+    #     for item in list(app_data_list):
+    #         count = AppointmentForMultipleService.objects.filter(appointment_id=item['appointment_id']).count()
+    #         item['service_count'] = count
+    #     return list(app_data_list)
+
     @classmethod
     def get_all_viewbooking_details(cls):
         final_list = []
-        app_data_list = AppointmentForMultipleService.objects.all().values(
+        app_data_list = SalesOrderDetails.objects.all().values(
             'id',
-            'appointment_id',
-            'assigned_staff__id',
-            'assigned_staff__employee_name',
-            'appointment_id__booking_date',
-            'end_time',
-            'appointment_id__customer_id__id',
-            'appointment_id__customer_id__customer_name',
-            'start_time',
-            'appointment_id__customer_id__phone_number',
-            'service_id__service_name',
+            'booking_id',
+            "booking_id__booking_date",
+            "po_order_id__customer_id",
+            "po_order_id__customer_id__customer_name",
+            "po_order_id__customer_id__phone_number",
+
         )
         for item in list(app_data_list):
-            count = AppointmentForMultipleService.objects.filter(appointment_id=item['appointment_id']).count()
+            count = AppointmentForMultipleService.objects.filter(appointment_id=item['booking_id']).count()
             item['service_count'] = count
         return list(app_data_list)
 
