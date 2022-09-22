@@ -36,6 +36,7 @@ export class InvoicePageComponent implements OnInit {
   pincode: any;
   phone: any;
   email: any;
+  customer_phone_number: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -159,6 +160,7 @@ printBtn.onclick = function () {
           console.log("invoice date:"+this.invoice_details.po_date)
           this.grandTotal = this.invoice_details.grand_total
           this.customer_name = this.invoice_details.customer__customer_name
+          this.customer_phone_number = this.invoice_details.customer__phone_number
           this.customer_addr = this.invoice_details.customer__customer_address=="null"?'': this.invoice_details.customer__customer_address
           this.store_name = this.invoice_details.store__store_name
           this.invoice_no = this.invoice_details.refund_number
@@ -354,7 +356,7 @@ printBtn.onclick = function () {
     const boldTagOpen = '\x1B' + '\x45' + '\x0D';
     const boldTagClose = '\x1B' + '\x45' + '\x0A';
 
-    const marginLine = '==============================';
+    const marginLine = '========================================';
 
     // return [
     //   { type: 'raw', format: 'image', flavor: 'file', data: this.getBase64Logo() ,
@@ -378,13 +380,13 @@ printBtn.onclick = function () {
       newLine,
       'DATE :' + this.getDateFormat(this.invoice_date),
       newLine,
-      'CUST. :' + this.customer_name,
+      'CUST. :' + this.customer_name + ' PH:' + this.customer_phone_number,
       boldTagClose,
       newLine,
       leftAlign,
       marginLine,
       newLine,
-      'PRD               QTY    PRICE',
+      'PRD                         QTY    PRICE',
       newLine,
       marginLine,
       newLine,
@@ -398,7 +400,7 @@ printBtn.onclick = function () {
       marginLine,
       newLine,
       esc + '!' + '\x00',
-      'TAXABLE AMT. :' + this.invoice_details?.sub_total,
+      'TAXABLE AMT :' + this.invoice_details?.sub_total,
       newLine,
  
       marginLine,
@@ -447,12 +449,12 @@ printBtn.onclick = function () {
       element.product__product_name = element.product__product_name === null? element.service__service_name:element.product__product_name;
 
       const line1 = element.product__product_name + '  ' +
-      Array(element.product__product_name.length < 15 ? 15 - element.product__product_name.length : 0).fill(' ').join('') +
+      Array(element.product__product_name.length < 25 ? 25 - element.product__product_name.length : 0).fill(' ').join('') +
       parseInt(element.qty).toString() + Array(element.qty.toString().length <= 5 ? 5 - element.qty.toString().length : 0).fill(' ').join('') + '   ' +
       element.subtotal_amount;
       rawString.push(line1);
       rawString.push('\x0A');
-      rawString.push(element.product__product_name.substr(15, 30));
+      rawString.push(element.product__product_name.substr(25, 40));
       rawString.push('\x0A');
     });
     return rawString;
