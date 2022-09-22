@@ -5,12 +5,9 @@ import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { Identifiers } from '@angular/compiler';
 import { SharedService } from 'src/app/shared/shared.service';
-
-import { debounceTime, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-designation',

@@ -8,7 +8,6 @@ import { InventoryService } from 'src/app/inventory/inventory.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { Identifiers } from '@angular/compiler';
 import * as moment from 'moment';
 import { parse } from 'date-fns';
 import { environment } from 'src/environments/environment';

@@ -19,8 +19,9 @@ def get_report(request):
     data_id = request.query_params['id']
     from_date = request.query_params['from_date']
     to_date = request.query_params['to_date']
+    branch_id = request.query_params['b_id']
     services = ReportServices()
-    report_data = services.get_report(data_id,from_date,to_date)
+    report_data = services.get_report(data_id,from_date,to_date,branch_id)
     return report_data
 
 # @api_view(['GET'])

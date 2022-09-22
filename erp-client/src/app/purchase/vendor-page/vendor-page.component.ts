@@ -1,4 +1,4 @@
-import { AnimationKeyframesSequenceMetadata } from '@angular/animations';
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { InventoryService } from 'src/app/inventory/inventory.service';
 import { printDiv } from 'src/app/sales/print_div';
 import { PurchaseService } from '../purchase.service';
 import * as moment from 'moment';
-import { ThrowStmt } from '@angular/compiler';
+
 
 
 @Component({

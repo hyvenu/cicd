@@ -44,9 +44,10 @@ export class SalesBillComponent implements OnInit {
   selectedPro: any;
   pro_id: any;
   tot_price: any;
-  thaerapist: any;
-  employee_list:any=[];
-  searchEmp: any=[];
+
+  stylist_list: any[];
+  isSaving: boolean = true;
+
 
   selectCheckBox(targetType: CheckBoxType) {
     // If the checkbox was already checked, clear the currentlyChecked variable
@@ -141,6 +142,7 @@ export class SalesBillComponent implements OnInit {
   change:any=0;
   extra:any;
   desc:any;
+  employee_list = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -220,12 +222,30 @@ export class SalesBillComponent implements OnInit {
       }
     )
 
+    this.adminService.getEmployeeList().subscribe(
+      (data) => {
+        this.employee_list = data;
+      },
+      (error) => {
+          this.nbtoastService.danger("Unable get appointment data");
+      }
+    )
+
     this.app_id = this.route.snapshot.queryParams['app_id']
     if(this.app_id) {
       this.get_app_bookingHistory(this.app_id)
     }else {
       this.app_id = "";
     }
+
+    this.adminService.getEmployeeList().subscribe(
+      (data) => {
+        this.stylist_list = data;
+      },
+      (error) => {
+          this.nbtoastService.danger("Unable get appointment data");
+      }
+    )
 
     /*
     let customer = this.route.snapshot.queryParams['id']
@@ -265,10 +285,8 @@ export class SalesBillComponent implements OnInit {
       item_total:'',
       gst_value:'',
       tax:'',
-      therapist1:'',
-      therapist2:'',
-      therapist3:'',
-      therapist4:'',
+      service_type: 'product',
+      employee_list: [],
     }
     this.invoice_items.push(data)
 
@@ -292,10 +310,9 @@ export class SalesBillComponent implements OnInit {
       item_total:'',
       gst_value:'',
       tax:'',
-      therapist1:'',
-      therapist2:'',
-      therapist3:'',
-      therapist4:'',
+
+      service_type: 'service',
+      employee_list: [],
     }
     this.invoice_items.push(data)
 
@@ -458,6 +475,8 @@ export class SalesBillComponent implements OnInit {
   //   console.log("therapist name",this.thaerapist)
   // }
 
+
+
   get_app_bookingHistory(app_id) {
     console.log("Called APP DEts");
     this.adminService.getAppBookinHistory(app_id).subscribe(
@@ -495,7 +514,9 @@ export class SalesBillComponent implements OnInit {
                 discount: 0,
                 item_total: 0,
                 tax: element.service__service_gst,
-                gst_value: 0
+                gst_value: 0,
+                service_type: 'service',
+                employee_list: element.employee_list,
               }
             )
 
@@ -548,7 +569,9 @@ export class SalesBillComponent implements OnInit {
                 discount: 0,
                 item_total: 0,
                 tax: element.service__service_gst,
-                gst_value: 0
+                gst_value: 0,
+                service_type: 'service',
+                employee_list: [],
               }
             )
 
@@ -588,7 +611,16 @@ export class SalesBillComponent implements OnInit {
         item_tot = item_tot - element.discount;
       }
       // let gst_tot:any =((tot_price * element.tax)/100)
-      let gst_tot:any=this.calculate_gst_amount(item_tot,element.tax);
+      let gst_tot;
+      // alert(element.service_type);
+      if ( element.service_type == 'product') {
+        gst_tot=this.calculate_gst_amount(item_tot,element.tax);
+      }
+      if ( element.service_type == 'service') {
+        gst_tot=this.calculate_exclusive_gst_amount(item_tot,element.tax);
+        item_tot =  parseFloat(item_tot) + parseFloat(gst_tot);
+      }
+
       // let item_tot:any = tot_price + gst_tot;
 
       // total_gross += parseFloat(element.price);
@@ -657,24 +689,15 @@ export class SalesBillComponent implements OnInit {
     
 
   }
+  calculate_exclusive_gst_amount(total_amount, tax) {
+    let gst_amount = (total_amount * tax) /100 ;
+    return gst_amount.toFixed(2);
+  }
   calculate_gst_amount(total_amount,tax) {
     let i = (100+parseFloat(tax));
     let j = 100 / i;
     return  total_amount =  (total_amount -  (total_amount * j)).toFixed(2);
     console.log("gst amount", total_amount)
-    // if (this.selected_vendor !== undefined) {
-    //   if (this.selected_vendor.state_code == '29') {
-    //     this.sgst = total_gst / 2;
-    //     this.cgst = total_gst / 2;
-    //     this.igst = 0
-    //   } else {
-    //     this.igst = total_gst;
-    //     // this.cgst = total_gst/2;
-    //   }
-    // } else {
-    //   this.igst = total_gst;
-    //   ;
-    // }
   }
 
   open_product_name(dialog: TemplateRef<any>, dd) {
@@ -736,6 +759,8 @@ export class SalesBillComponent implements OnInit {
               dd.item_total = parseFloat(total).toFixed(2),
               dd.tax = this.selectedPro.tax,
               dd.gst_value = parseFloat(gstVal).toFixed(2)
+              dd.service_type = 'product',
+              dd.employee_list = []
             }
 
 
@@ -809,7 +834,9 @@ export class SalesBillComponent implements OnInit {
               dd.discount = 0,
               dd.item_total = parseFloat(total).toFixed(2),
               dd.tax = this.selectedPro.service_gst,
-              dd.gst_value = parseFloat(gstVal).toFixed(2)
+              dd.gst_value = parseFloat(gstVal).toFixed(2),
+              dd.service_type = 'service',
+              dd.employee_list = []
             }
 
 
@@ -879,6 +906,8 @@ export class SalesBillComponent implements OnInit {
               dd.item_total = parseFloat(total).toFixed(2),
               dd.tax = this.selectedPro.tax,
               dd.gst_value = parseFloat(gstVal).toFixed(2)
+              dd.service_type = 'product',
+              dd.employee_list = []
             }
 
 
@@ -891,72 +920,6 @@ export class SalesBillComponent implements OnInit {
       }
     )
   }
-
-  // open_single_product(dialog: TemplateRef<any>, item, dd) {
-  //   this.inventoryService.getProductDetails(item.id).subscribe(
-  //     (data) => {
-  //       console.log(data)
-  //       this.selected_product_data = data
-  //       /*  let aa:any =data
-  //        console.log(aa) */
-  //       this.multi_product_list = []
-  //       data.product_price.forEach(element => {
-  //         this.multi_product_list.push({
-  //           ...element,
-  //         })
-  //       });
-  //       console.log(this.multi_product_list)
-
-  //       this.dailog_ref = this.dialogService.open(dialog, { context: this.multi_product_list })
-  //         .onClose.subscribe(data => {
-  //           this.searchProduct = ""
-  //           if(!data) {
-  //             const index: number = this.invoice_items.indexOf(dd);
-  //             if(this.invoice_items[index].item_description == "") {
-  //               this.remove_item(dd);
-  //             }
-  //             return
-  //           }
-  //           this.selectedPro = data
-  //           console.log(this.selectedPro)
-  //           this.pro_id = data.product
-  //           console.log(this.selectedPro.sell_price)
-
-  //           let sellPrice: any = parseFloat(this.selectedPro.unit_price) * this.selectedPro.qty;
-  //           let gstVal: any = (sellPrice * parseFloat(this.selectedPro.tax)) / 100;
-  //           let total: any = sellPrice + gstVal;
-  //           if (this.invoice_items.some(item => item.item_description == this.selected_product.product_name)) {
-  //             const index: number = this.invoice_items.indexOf(dd);
-  //             if(this.invoice_items[index].item_description == "") {
-  //               this.remove_item(dd);
-  //             }
-  //             this.nbtoastService.danger("product name already exist");
-  //           } else {
-  //              let app_id = "";
-  //              if(this.appointment_obj) {
-  //                 app_id = this.appointment_obj.id
-  //              }
-  //             dd.item_id = this.selectedPro.product,
-  //             dd.booking_id = app_id,
-  //             dd.item_description = this.selected_product.product_name
-  //             dd.quantity = this.selectedPro.qty ? this.selectedPro.qty : 0.00,
-  //             dd.unit_id = this.selectedPro.unit,
-  //             dd.unit = this.selectedPro.unit__PrimaryUnit,
-  //             dd.price = this.selectedPro.unit_price
-  //             dd.discount = 0,
-  //             dd.item_total = parseFloat(total).toFixed(2),
-  //             dd.tax = this.selectedPro.tax,
-  //             dd.gst_value = parseFloat(gstVal).toFixed(2)
-
-  //           }
-
-  //           this.calculate_price()
-
-  //         })
-  //     }
-  //   )
-  // }
-
 
   bar_code(){
     let serial_no = this.invoiceForm.controls['barCodeFormControl'].value
@@ -996,6 +959,8 @@ export class SalesBillComponent implements OnInit {
                item_total :parseFloat(total).toFixed(2),
                tax:element.tax,
                gst_value :parseFloat(gstVal).toFixed(2),
+               service_type : 'product',
+               employee_list: [],
 
              })
            }
@@ -1015,32 +980,8 @@ export class SalesBillComponent implements OnInit {
   }
 
 
-  // open_phone_list(dialog: TemplateRef<any>) {
-  //   //Do not open if app_id is set
-  //   if(this.app_id){ return; }
-  //   this.dailog_ref= this.dialogService.open(dialog, { context: this.customer_list })
-  //   .onClose.subscribe(data => {
-  //     this.searchPhoneNo = ""
-  //     if(!data) { return }
-  //     this.invoice_items = []
-  //      this.customer_object = data
-  //      this.customer_id = data.id;
-
-  //      this.invoiceForm.controls['customerNameFormControl'].setValue(this.customer_object.customer_name);
-  //      this.invoiceForm.controls['nameFormControl'].setValue(this.customer_object.customer_name);
-  //      this.invoiceForm.controls['customerMobileNumberFormControl'].setValue(this.customer_object.phone_number);
-  //      this.invoiceForm.controls['customerEmailFormControl'].setValue(this.customer_object.customer_email);
-
-  //      this.get_bookingHistory(this.customer_id)
-
-  //       }
-  //       );
-
-  // }
-
-
   saveBill():any {
-
+    this.isSaving = true;
     const formData = new FormData();
     if(this.invoiceForm.controls['customerNameFormControl'].value != "" ){
     formData.append('app_id',this.app_id)
@@ -1105,6 +1046,7 @@ export class SalesBillComponent implements OnInit {
       (data) => {
         this.billPaid()
         this.advanceAmountUpdate()
+        this.isSaving = false;
         console.log(data)
         this.nbtoastService.success("Invoice Saved Successfully")
 
@@ -1115,6 +1057,7 @@ export class SalesBillComponent implements OnInit {
 
       },
       (error) =>{
+        this.isSaving = false;
         this.nbtoastService.danger("unable to save");
 
       }
@@ -1174,7 +1117,30 @@ export class SalesBillComponent implements OnInit {
 
 }
 
+employee_open(dialog: TemplateRef<any>, item) {
+  this.dailog_ref = this.dialogService.open(dialog, { context: {data:this.employee_list,selected_employee:item} })
+  .onClose.subscribe(data => {
+      
+      if(!item.employee_list.some(elem => elem.employee_name === data.employee_name)){
+        item.employee_list.push({emp_id:data.id,employee_name:data.employee_name});
+      }
+     
+    })
 
+  
+}
+
+remove_employee(emplyeelist,item): void{
+  console.log(emplyeelist.employee_list);
+  const index: number = emplyeelist.employee_list.indexOf(item);
+  
+  if (index !== -1) {
+    emplyeelist.employee_list.splice(index, 1);
+  }
+ 
+  // this.calculate_gst()
+  // this.calculate_totalGst()
+}
 
 
 }

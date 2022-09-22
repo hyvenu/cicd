@@ -171,10 +171,12 @@ class CustomerSerializer(serializers.ModelSerializer):
                   'gst',
                   'active',
                   'advance_amount',
-                  'customer_source']
+                  'customer_source',
+                  'branch',]
 
     def create(self, validated_data):
         validated_data['customer_code'] = generate_customer_code()
+        validated_data['branch_id'] = self.initial_data['branch_id']
         cus = super().create(validated_data)
         return cus
 
