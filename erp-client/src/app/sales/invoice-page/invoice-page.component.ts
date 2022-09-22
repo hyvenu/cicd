@@ -356,7 +356,7 @@ printBtn.onclick = function () {
     const boldTagOpen = '\x1B' + '\x45' + '\x0D';
     const boldTagClose = '\x1B' + '\x45' + '\x0A';
 
-    const marginLine = '========================================';
+    const marginLine = '=============================================';
 
     // return [
     //   { type: 'raw', format: 'image', flavor: 'file', data: this.getBase64Logo() ,
