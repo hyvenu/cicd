@@ -386,7 +386,7 @@ printBtn.onclick = function () {
       newLine,
       'CUST :' + this.customer_name,
       newLine,
-      'PH :' + this.customer_phone_number,
+      'PH :' + this.customer_number,
       boldTagClose,
       newLine,
       leftAlign,
