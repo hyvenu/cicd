@@ -880,8 +880,8 @@ class OrderService:
                 emp_list = ''
                 for emp in ast.literal_eval(order_det['employee_list']):
                     emp_list = emp_list + emp['employee_name'] + ','
-                order_det['product_name'] = order_det['product_name'] + ' with ' + emp_list
-                order_det['service__service_name'] = order_det['service__service_name'] + ' with ' + emp_list
+                order_det['product_name'] = str(order_det['product_name']) + ' with ' + emp_list
+                order_det['service__service_name'] = str(order_det['service__service_name']) + ' with ' + emp_list
                 order_list.append(order_det)
             else:
                 order_list.append(order_det)

@@ -396,6 +396,11 @@ printBtn.onclick = function () {
       '# ITEMS SOLD ' + this.invoice_details.order_details.length,
       newLine,
       marginLine,
+      newLine,
+      esc + '!' + '\x00',
+      'TAXABLE AMT. :' + this.invoice_details?.sub_total,
+      newLine,
+ 
       marginLine,
       newLine,
       esc + '!' + '\x00',

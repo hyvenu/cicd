@@ -230,7 +230,7 @@ customerForm:FormGroup;
           this.customerForm.controls['customerSourceFormControl'].setValue(data.customer_source);
     });
     }
-    this.get_customer_list();
+    // this.get_customer_list();
     this.getviewList()
 
   }
