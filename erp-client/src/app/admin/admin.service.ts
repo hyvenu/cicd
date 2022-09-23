@@ -122,7 +122,9 @@ export class AdminService {
   public getAllViewbookingList(){
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_all_viewbooking_details`, {})
   }
-
+  public getAllViewbookingList_by_Customer(id){
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_all_viewbooking_details_by_customer?id=${id}`)
+  }
 
   // public getAppointmentLists(id){
   //   return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/get_appointment_list/` + id + '/')
