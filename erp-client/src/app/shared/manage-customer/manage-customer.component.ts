@@ -31,32 +31,32 @@ export class ManageCustomerComponent implements OnInit {
         title: 'id',
         hide:true
       },
-      po_order_id__invoice_no:{
-      title: 'Invoice No',
-      type: 'html',
-        valuePrepareFunction: (cell, row) => {
-          return `<a href="InvoicePage?id=${row.po_order_id__po_number}">${row.po_order_id__invoice_no}</a>`;
-        }
-      },
-      customer_name: {
+      // po_order_id__invoice_no:{
+      // title: 'Invoice No',
+      // type: 'html',
+      //   valuePrepareFunction: (cell, row) => {
+      //     return `<a href="InvoicePage?id=${row.po_order_id__po_number}">${row.po_order_id__invoice_no}</a>`;
+      //   }
+      // },
+      po_order_id__customer_id__customer_name: {
         title: 'Customer Name',
         type: 'html',
         valuePrepareFunction: (cell, row) => {
-          return `<a href="ManageCustomer?id=${row.customer_id}">${row.customer_name}</a>`;
+          return `<a href="ManageCustomer?id=${row.po_order_id__customer_id}">${row.po_order_id__customer_id__customer_name}</a>`;
         }
       },
-      customer_phone_number:{
+      po_order_id__customer_id__phone_number:{
         title: 'Phone Number',
       },
-      booking_date:{
+      booking_id__booking_date:{
         title: 'Booking Date',
       },
       service_count: {
         title: 'Service Count',
       },
-      po_order_id__grand_total:{
-        title: 'Amount',
-      },
+      // po_order_id__grand_total:{
+      //   title: 'Amount',
+      // },
 
     },
   };
@@ -80,25 +80,32 @@ export class ManageCustomerComponent implements OnInit {
           return `<a href="InvoicePage?id=${row.po_order_id__po_number}">${row.po_order_id__invoice_no}</a>`;
         }
       },
-      booking_date:{
+      po_order_id__customer_id__customer_name: {
+        title: 'Customer Name',
+        type: 'html',
+      },
+      po_order_id__customer_id__phone_number:{
+        title: 'Phone Number',
+      },
+      booking_id__booking_date:{
         title: 'Booking Date',
         // valuePrepareFunction: (cell, row) => {
         //   return `<a href="InvoicePage?id=${row.customer_id}">${row.booking_date}</a>`;
         // }
       },
-      service_name: {
-        title: 'Service Name',
+      service_count: {
+        title: 'Service Count',
       },
-      start_time: {
-        title: 'Start Time',
-      },
-      end_time: {
-        title: 'End Time',
-      },
-      appointment_staff_name:{
-        title: 'Therapist name',
+      // start_time: {
+      //   title: 'Start Time',
+      // },
+      // end_time: {
+      //   title: 'End Time',
+      // },
+      // appointment_staff_name:{
+      //   title: 'Therapist name',
 
-      },
+      // },
       po_order_id__grand_total:{
         title: 'Amount',
         },
@@ -172,6 +179,7 @@ customerForm:FormGroup;
   amount_details: any=[];
   booking_id: any=[];
   order_details: any=[];
+  customers_id: any=[];
   // booking_date: any=[];
   constructor(
     private formBuilder: FormBuilder,
@@ -229,6 +237,21 @@ customerForm:FormGroup;
           this.customerForm.controls['customerActiveFormControl'].setValue(data.active);
           this.customerForm.controls['customerSourceFormControl'].setValue(data.customer_source);
     });
+    this.adminService.getAllViewbookingList_by_Customer(param).subscribe(
+      (data) => {
+        console.log("booking data",data)
+        // this.custBookingData=data
+        const key='po_order_id__invoice_no'
+        const dataUniqueByKey = [...new Map(data.map(item =>
+          [item[key], item])).values()];
+        
+        console.log(dataUniqueByKey);
+        this.custBookingData=dataUniqueByKey
+        console.log("customers data by invoice details",dataUniqueByKey)
+        this.customers_id=param;
+        console.log("booking datas",this.customers_id)
+      }
+    );
     }
     // this.get_customer_list();
     this.getviewList()
@@ -239,17 +262,7 @@ customerForm:FormGroup;
       (data) => {
         console.log("booking data",data)
         this.allBookingData=data
-        console.log("all booking details",this.allBookingData)
-        if(this.customer_id !== ''){
-          var datas =data.filter(x => x.customer_id === this.customer_id)
-          data=datas
-          console.log("id",datas[0].id)
-          this.custBookingData= this.allBookingData
-            this.custBookingData= this.allBookingData
-              console.log("appointment book details",data)
-              this.custBookingData= data
-              console.log("service items",this.custBookingData)
-          }
+        // console.log("all booking details",this.allBookingData)
       }
     );
     }

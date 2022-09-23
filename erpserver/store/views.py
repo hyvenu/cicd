@@ -208,6 +208,14 @@ def get_all_viewbooking_details(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
+def get_all_viewbooking_details_by_customer(request):
+    store_service = StoreService()
+    customer_id = request.query_params['id']
+    app_res = store_service.get_all_viewbooking_details_by_customer(customer_id)
+    return JsonResponse(app_res, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
 def get_appointment_details_by_id(request):
     store_service = StoreService()
 
@@ -221,8 +229,7 @@ def get_appointment_details_by_id(request):
 def get_appointment_details_by_customer(request, cust_id):
     store_service = StoreService()
     app_obj = store_service.get_appointment_details_by_customer(cust_id)
-    return JsonResponse(app_obj, safe=False)    
-
+    return JsonResponse(app_obj, safe=False)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
