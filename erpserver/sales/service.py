@@ -1114,7 +1114,7 @@ class OrderService:
 
     @classmethod
     def get_sales_bill_list(cls,b_id):
-        pos_data_list = SalesOrderRequest.objects.all(store_id=str(b_id).replace('-','')).order_by('-created').values(
+        pos_data_list = SalesOrderRequest.objects.filter(store_id=str(b_id).replace('-','')).order_by('-created').all().values(
             'id',
             'customer_id',
             'po_date',
@@ -1134,7 +1134,7 @@ class OrderService:
 
     @classmethod
     def get_sales_bill_exchange_list(cls, b_id):
-        pos_data_list = SalesExchange.objects.all(store_id=str(b_id).order_by('-created').replace('-','')).values(
+        pos_data_list = SalesExchange.objects.filter(store_id=str(b_id).replace('-','')).order_by('-created').all().values(
             'id',
             'exchange_number',
             'exchange_date',
@@ -1146,7 +1146,7 @@ class OrderService:
 
     @classmethod
     def get_sales_bill_refund_list(cls, b_id):
-        pos_data_list = SalesRefund.objects.all(store_id=str(b_id).order_by('-created').replace('-','')).values(
+        pos_data_list = SalesRefund.objects.filter(store_id=str(b_id).replace('-','')).order_by('-created').all().values(
             'id',
             'refund_number',
             'refund_date',

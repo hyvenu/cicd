@@ -47,7 +47,6 @@ urlpatterns = (
     path('api/v1/get_all_viewbooking_details_by_customer', views.get_all_viewbooking_details_by_customer, name="get_all_viewbooking_details_by_customer"),
     path('api/v1/get_appointment_details_by_id', views.get_appointment_details_by_id, name="get_appointment_details_by_id"),
     path('api/v1/get_appointment_details_by_customer/<cust_id>/', views.get_appointment_details_by_customer, name="get_appointment_details_by_customer"),
-    path('api/v1/get_app_details_by_customer/<cust_id>/', views.get_app_details_by_customer, name="get_app_details_by_customer"),
 
     path('api/v1/store_services', views.store_services, name="store_services"),
     path('api/v1/delete_service/<id>/', views.delete_service, name="delete_service"),
