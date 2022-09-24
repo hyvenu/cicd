@@ -141,19 +141,22 @@ def delete_po_product(request):
 @permission_classes([IsAuthenticated, ])
 def get_sales_bill_list(request):
     purchase_service = OrderService()
-    pos = list(purchase_service.get_sales_bill_list())
+    b_id = request.query_params['b_id']
+    pos = list(purchase_service.get_sales_bill_list(b_id))
     return JsonResponse(pos, safe=False)     
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
 def get_sales_bill_exchange_list(request):
     purchase_service = OrderService()
-    pos = list(purchase_service.get_sales_bill_exchange_list())
+    b_id = request.query_params['b_id']
+    pos = list(purchase_service.get_sales_bill_exchange_list(b_id))
     return JsonResponse(pos, safe=False)    
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
 def get_sales_bill_refund_list(request):
     purchase_service = OrderService()
-    pos = list(purchase_service.get_sales_bill_refund_list())
+    b_id = request.query_params['b_id']
+    pos = list(purchase_service.get_sales_bill_refund_list(b_id))
     return JsonResponse(pos, safe=False)              
