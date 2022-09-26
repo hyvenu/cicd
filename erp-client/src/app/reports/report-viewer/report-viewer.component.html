@@ -19,8 +19,7 @@
         <p>Name : {{ report_name }}</p>
         <p>ID : {{ report_id }}</p>
       </div> -->
-  
-      <p-table  #dt [value]="sql_output" 
+      <p-table id="data" #dt [value]="sql_output" 
       [scrollable]="true" scrollHeight="400px"
      selectionMode="multiple" [(selection)]="selectedRows"  exportFilename="Report"
      
@@ -85,13 +84,13 @@
             </tr>
           </ng-template>
   
-          <ng-template pTemplate="body" let-sqloutput>
+          <ng-template pTemplate="body" let-sqloutput id="data">
               <tr>
                   <td *ngFor="let column of columns; let i=index">{{ sqloutput[columns[i]] }}</td>
               </tr>
           </ng-template>
   
-          <ng-template pTemplate="footer">
+          <ng-template pTemplate="footer" id="data">
             <tr>
               <td *ngFor="let column of columnTotal; let i=index">{{ column }}</td>
             </tr>
