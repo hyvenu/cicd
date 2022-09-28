@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { SharedService } from 'src/app/shared/shared.service';
@@ -8,6 +8,14 @@ import autoTable from 'jspdf-autotable';
 import * as xlsx from 'xlsx';
 import { Table } from 'primeng/table';
 import { DatePipe } from '@angular/common';
+
+
+
+import * as  XLSX from "xlsx";
+
+
+
+
 
 @Component({
   selector: 'app-report-viewer',
@@ -36,12 +44,15 @@ export class ReportViewerComponent implements OnInit {
   selectedRows: any;
   customExportHeader: any;
   filteredValues: any;
+  Excelfile:"list.xlsx"
   constructor(private routes: Router,
     private route: ActivatedRoute,
     private nbToasterService: NbToastrService,
     private sharedService: SharedService,private datePipe: DatePipe) { }
+   
 
   ngOnInit(): void {
+    
     this.report_id = this.route.snapshot.queryParams['report_id'];
     this.showAllData();
   }
@@ -273,13 +284,25 @@ export class ReportViewerComponent implements OnInit {
     doc.save('report.pdf');
   }
   
-  exportExcel() {
-    const worksheet = xlsx.utils.json_to_sheet(this.sql_output2);
-    const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-    this.saveAsExcelFile(excelBuffer, "products");
-  }
   
+  exportExcel(): void {
+    let element = document.getElementById("data")
+  
+  console.log("element1",element)
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    console.log("wb",wb)
+    console.log("ws",ws)
+
+    XLSX.utils.book_append_sheet(wb,ws, "Sheet1");
+    // XLSX.writeFile(wb,this.Excelfile)
+    const excelBuffer: any=XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, "products");
+    
+ 
+  }
+
   saveAsExcelFile(buffer: any, fileName: string): void {
     let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     let EXCEL_EXTENSION = '.xlsx';
@@ -288,5 +311,21 @@ export class ReportViewerComponent implements OnInit {
     });
     saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
+  // exportExcel() {
+
+  //   const worksheet = xlsx.utils.json_to_sheet(this.sql_output2);
+  //   const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+  //   const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+  //   this.saveAsExcelFile(excelBuffer, "products");
+  // }
+  
+  // saveAsExcelFile(buffer: any, fileName: string): void {
+  //   let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  //   let EXCEL_EXTENSION = '.xlsx';
+  //   const data: Blob = new Blob([buffer], {
+  //       type: EXCEL_TYPE
+  //   });
+  //   saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  // }
 
 }
