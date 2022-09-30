@@ -104,19 +104,13 @@
 
         </form>  <br> <hr> <br><br>
         <nb-card>
-        <div *ngIf = "isCustomer_id; then tab1 else tab2">Is available</div>
+        <div *ngIf = "isCustomer_id; then tab1">Is available</div>
       </nb-card>
   <ng-template #tab1>
     <div style="font-weight:bold; font-size: 16px; color: blue; padding:10px">Booking History</div>
 
           <ng2-smart-table [settings]="custBookingSettings" [source]="custBookingData"></ng2-smart-table>
 
-
-</ng-template>
-<ng-template #tab2>
-  <div style="font-weight:bold; font-size: 16px; color: blue; padding:10px">All Booking History</div>
-
-          <ng2-smart-table [settings]="allBookingSettings" [source]="allBookingData"></ng2-smart-table>
 
 </ng-template>
 

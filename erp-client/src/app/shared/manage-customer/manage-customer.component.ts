@@ -253,19 +253,8 @@ customerForm:FormGroup;
       }
     );
     }
-    // this.get_customer_list();
-    this.getviewList()
-
+    this.get_customer_list();
   }
-  getviewList(){
-    this.adminService.getAllViewbookingList().subscribe(
-      (data) => {
-        console.log("booking data",data)
-        this.allBookingData=data
-        // console.log("all booking details",this.allBookingData)
-      }
-    );
-    }
   get_customer_list() {
       this.adminService.getCustomerList().subscribe(
         (data)=>{
