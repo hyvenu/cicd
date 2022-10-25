@@ -42,6 +42,8 @@ import { ManageEnquiryComponent } from './manage-enquiry/manage-enquiry.componen
 import { ManageEnquiryListComponent } from './manage-enquiry-list/manage-enquiry-list.component';
 import { ManageMembersComponent } from './manage-members/manage-members.component';
 import { ManageMembersListComponent } from './manage-members-list/manage-members-list.component';
+import { SubscriptionPlansComponent } from './subscription-plans/subscription-plans.component';
+import { AgGridAngular, AgGridModule} from 'ag-grid-angular';
 
 const routes: Routes = [
   { path: 'Login' , component: LoginComponent},
@@ -62,11 +64,15 @@ const routes: Routes = [
   { path: 'EnquiryList', component:ManageEnquiryListComponent},
   { path: 'Members', component:ManageMembersComponent},
   { path: 'MembersList', component:ManageMembersListComponent},
+  { path: 'MemberDetails', component:ManageMembersComponent},
+  { path: 'subscriptionplans', component:SubscriptionPlansComponent},
+
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent, DepartmentComponent, DepartmentListComponent, DesignationComponent, DesignationListComponent, ManageEnquiryComponent, ManageEnquiryListComponent, ManageMembersComponent, ManageMembersListComponent],
+  declarations: [LoginComponent, RegisterComponent, HeaderComponent, FooterComponent, StoreSelectComponent, DashboardComponent,AppLoaderComponent,UserProfileComponent, ResetPasswordComponent, AppointmentBookComponent, ManageCustomerComponent, ViewBookingComponent, CalenderComponent, ManageEmployeeComponent, DepartmentComponent, DepartmentListComponent, DesignationComponent, DesignationListComponent, ManageEnquiryComponent, ManageEnquiryListComponent, ManageMembersComponent, ManageMembersListComponent, SubscriptionPlansComponent],
   imports: [
+    AgGridModule.withComponents([]),
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,

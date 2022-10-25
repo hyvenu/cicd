@@ -1,0 +1,74 @@
+<div class="conatiner">
+  <nb-tabset>
+    <nb-tab tabTitle="Subscription Details">
+      <form id="subscriptionForm" [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
+        <nb-card accent="info">
+          <nb-card-header>Add Plan</nb-card-header>
+          <nb-card-body>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="plan_name">Plan Name<span style="color: red;">*</span></label>
+                <input nbInput formControlName="PlanFormControl" name="planName" placeholder="plan Name"
+                  [ngClass]="{ 'is-invalid': submitted && f.PlanFormControl.errors }" class="form-control">
+                <div *ngIf="submitted && f.PlanFormControl.errors" class="invalid-feedback">
+                  <div *ngIf="f.PlanFormControl.errors.required"> Name is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="vendor_name">Plan amount</label>
+                <input nbInput formControlName="planamountFormControl" name="locality" placeholder="Enter"
+                  [ngClass]="{ 'is-invalid': submitted && f.planamountFormControl.errors }" class="form-control">
+                <div *ngIf="submitted && f.planamountFormControl.errors" class="invalid-feedback">
+                  <div *ngIf="f.planamountFormControl.errors.required"> planamount is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="po_date">Validity date<span style="color: red;">*</span></label>
+                <input nbInput formControlName="validitydateFormControl" class="form-control" name="validity_date"
+                  [nbDatepicker]="validity_date" placeholder="Validity Date"
+                  [ngClass]="{ 'is-invalid': submitted && f.validitydateFormControl.errors }" />
+                <div *ngIf="submitted && f.validitydateFormControl.errors" class="invalid-feedback">
+                  <div *ngIf="f.validitydateFormControl.errors.required">validity Date is required</div>
+                </div>
+                <nb-datepicker #validity_date format="DD-MM-yyyy"></nb-datepicker>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="active">
+                  <input type="checkbox" [checked]="true" [(ngModel)]="active" value="true"
+                    formControlName="ActiveFormControl" name="active" id="active" />&nbsp;&nbsp;Active
+                </label>
+              </div>
+            </div>
+          </nb-card-body>
+        </nb-card>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <button nbButton status="success" type="submit" [hidden]="createFlag" (click)="saveInfo()"
+              size="small">Save</button>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <button nbButton status="success" type="submit" *ngIf="createFlag" (click)="saveInfo()"
+              size="small">Update</button>
+          </div>
+        </div>
+      </form>
+    </nb-tab>
+    <nb-tab tabTitle="Plans List">
+      <div class="card mt-2">
+        <div class="card-header">
+          <button class="btn btn-sm btn-success" (click)="onactive()"><i class="fa fa-bars"
+              aria-hidden="true"></i>&nbsp;&nbsp; Active Plans</button>&nbsp;&nbsp;
+          <button class="btn btn-sm btn-danger" (click)="onInactive()"><i class="fa fa-trash"
+              aria-hidden="true"></i>&nbsp;&nbsp; Inactive Plans</button>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <ng2-smart-table [settings]="plansSettings" [source]="rowData"></ng2-smart-table>
+          </div>
+        </div>
+      </div>
+    </nb-tab>
+  </nb-tabset>
+</div>

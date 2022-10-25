@@ -19,6 +19,7 @@ router.register("Appointment", api.AppointmentScheduleViewSet)
 router.register("Employee", api.EmpolyeeViewSet)
 router.register("AppSettings", api.AppSettingViewSet)
 router.register("ReportModule", api.ReportModuleViewSet)
+router.register("subscriptionplan", api.SubscriptionViewSet)
 
 
 urlpatterns = (
@@ -37,6 +38,7 @@ urlpatterns = (
     path('api/v1/update_advance_amount', views.update_advance_amount, name="update_advance_amount"),
     path('api/v1/get_appointment_list', views.get_appointment_list, name="get_appointment_list"),
     path('api/v1/get_employee_list', views.get_employee_list, name="get_employee_list"),
+    path('api/v1/get_employee_list_by_job_id', views.get_employee_list_by_job_id, name="get_employee_list"),
     path('api/v1/get_enquiry_list', views.get_enquiry_list, name="get_enquiry_list"),
     path('api/v1/get_store_list', views.get_store_list, name="get_store_list"),
     path('api/v1/get_store_details', views.get_store_details, name="get_store_details"),

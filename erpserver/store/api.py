@@ -110,3 +110,7 @@ class ReportModuleViewSet(viewsets.ModelViewSet):
             return models.ReportModule.objects.filter(report_name__in=perm,is_active=int(self.request.query_params['is_active'])).all()
         else:
             return models.ReportModule.objects.filter(report_name__in=perm).all()
+
+class SubscriptionViewSet(viewsets.ModelViewSet):
+    queryset = models.SubscriptionDetails.objects.all()
+    serializer_class = serializers.SubscriptionSerializer

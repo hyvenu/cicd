@@ -1,23 +1,28 @@
-<nb-tabset >
+<nb-tabset>
     <nb-tab tabTitle="Create Employee Details">
         <form id="employeeForm" [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="container">
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="employeeCode">Emplyoee Code <span style="color: red;">*</span> </label>
-                    <input type="text" nbInput name="employeeCode" formControlName="employeeCodeFormControl" placeholder="AutoGenerate" [(ngModel)]="code" readonly />
+                    <input type="text" nbInput name="employeeCode" formControlName="employeeCodeFormControl"
+                        placeholder="AutoGenerate" [(ngModel)]="code" readonly />
                 </div>
                 <div class="form-group col-md-4">
                     <label for="employeeName">Employee Name <span style="color: red;">*</span> </label>
-                    <input nbInput name="employeeName" formControlName="employeeNameFormControl" placeholder="Employee Name"
-                    [ngClass]="{ 'is-invalid': submitted && f.employeeNameFormControl.errors }" class="form-control" required/>
+                    <input nbInput name="employeeName" formControlName="employeeNameFormControl"
+                        placeholder="Employee Name"
+                        [ngClass]="{ 'is-invalid': submitted && f.employeeNameFormControl.errors }" class="form-control"
+                        required />
                     <div *ngIf="submitted && f.employeeNameFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.employeeNameFormControl.errors.required">Employee Name is required</div>
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="employeeAddress">Address <span style="color: red;">*</span> </label><br>
-                    <textarea nbInput  name="employeeAddress" class="form-control" placeholder="Address" formControlName="employeeAddressFormControl"
-                     [ngClass]="{ 'is-invalid': submitted && f.employeeAddressFormControl.errors }" required ></textarea>
+                    <textarea nbInput name="employeeAddress" class="form-control" placeholder="Address"
+                        formControlName="employeeAddressFormControl"
+                        [ngClass]="{ 'is-invalid': submitted && f.employeeAddressFormControl.errors }"
+                        required></textarea>
                     <div *ngIf="submitted && f.employeeAddressFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.employeeAddressFormControl.errors.required">Address is required</div>
                     </div>
@@ -26,30 +31,35 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="phoneNumber">Phone Number <span style="color: red;">*</span> </label>
-                    <input nbInput type="text" name="phoneNumber" (keypress)="keyPress($event)" placeholder="Phone Number" formControlName="phoneNumberFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.phoneNumberFormControl.errors  }" required/>
+                    <input nbInput type="text" name="phoneNumber" (keypress)="keyPress($event)"
+                        placeholder="Phone Number" formControlName="phoneNumberFormControl" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.phoneNumberFormControl.errors  }" required />
                     <div *ngIf="submitted && f.phoneNumberFormControl.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.phoneNumberFormControl.errors.required"> Phone Number is Required</div>
-                        <div *ngIf="submitted &&  f.phoneNumberFormControl.errors?.pattern ">Phone number must be at least 10 numbers </div>
+                        <div *ngIf="submitted && f.phoneNumberFormControl.errors.required"> Phone Number is Required
+                        </div>
+                        <div *ngIf="submitted &&  f.phoneNumberFormControl.errors?.pattern ">Phone number must be at
+                            least 10 numbers </div>
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="department">Department Name<span style="color: red;">*</span></label><br>
                     <input nbInput name="Department" formControlName="departmentFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.departmentFormControl.errors  }" placeholder="Department Name " (click)="dep_open(dep_dialog)" (keypress)="dep_open(dep_dialog)" required/>
+                        [ngClass]="{ 'is-invalid': submitted && f.departmentFormControl.errors  }"
+                        placeholder="Department Name " (click)="dep_open(dep_dialog)" (keypress)="dep_open(dep_dialog)"
+                        required />
                     <div *ngIf="submitted && f.departmentFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.departmentFormControl.errors.required">Department Name is required</div>
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="bookingDate">Date Of Birth </label>
-                    <input nbInput name="DOB"  [nbDatepicker]="DOB" placeholder="Date Of Birth " formControlName="DOBFormControl"
-                    [ngClass]="{ 'is-invalid': submitted && f.DOBFormControl.errors  }"
-                     class="form-control"  />
+                    <input nbInput name="DOB" [nbDatepicker]="DOB" placeholder="Date Of Birth "
+                        formControlName="DOBFormControl"
+                        [ngClass]="{ 'is-invalid': submitted && f.DOBFormControl.errors  }" class="form-control" />
                     <div *ngIf="submitted && f.DOBFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.DOBFormControl.errors.required"> DOB is Required</div>
                     </div>
-                    <nb-datepicker #DOB format="yyyy-MM-DD" ></nb-datepicker>
+                    <nb-datepicker #DOB format="yyyy-MM-DD"></nb-datepicker>
                 </div>
                 <!-- <div class="form-group col-md-4">
                     <label for="employeeDepartment">Department Name <span style="color: red;">*</span></label><br>
@@ -63,28 +73,31 @@
             </div><br>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="bookingDate">Date Of Joining  </label>
-                    <input nbInput name="DOJ" placeholder="Date Of Joining " [nbDatepicker]="DOJ"  formControlName="DOJFormControl"
-                    [ngClass]="{ 'is-invalid': submitted && f.DOJFormControl.errors  }"
-                     class="form-control"  />
+                    <label for="bookingDate">Date Of Joining </label>
+                    <input nbInput name="DOJ" placeholder="Date Of Joining " [nbDatepicker]="DOJ"
+                        formControlName="DOJFormControl"
+                        [ngClass]="{ 'is-invalid': submitted && f.DOJFormControl.errors  }" class="form-control" />
                     <div *ngIf="submitted && f.DOJFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.DOJFormControl.errors.required"> DOJ is Required</div>
                     </div>
-                    <nb-datepicker #DOJ format="yyyy-MM-DD" ></nb-datepicker>
+                    <nb-datepicker #DOJ format="yyyy-MM-DD"></nb-datepicker>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="phoneNumber">Salary </label>
-                    <input nbInput type="text" name="Salary" (keypress)="keyPress($event)" placeholder="Salary " [(ngModel)]="salary" formControlName="SalaryFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.SalaryFormControl.errors  }" />
+                    <input nbInput type="text" name="Salary" (keypress)="keyPress($event)" placeholder="Salary "
+                        [(ngModel)]="salary" formControlName="SalaryFormControl" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.SalaryFormControl.errors  }" />
                     <div *ngIf="submitted && f.SalaryFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.SalaryFormControl.errors.required"> Salary is Required</div>
-                       
+
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="jobdes"> Job Designation<span style="color: red;">*</span></label><br>
                     <input nbInput name="jobdes" formControlName="jobDesignationFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.jobDesignationFormControl.errors  }" placeholder="Job Designation " (click)="des_open(des_dialog)" (keypress)="des_open(des_dialog)" required/>
+                        [ngClass]="{ 'is-invalid': submitted && f.jobDesignationFormControl.errors  }"
+                        placeholder="Job Designation " (click)="des_open(des_dialog)" (keypress)="des_open(des_dialog)"
+                        required />
                     <div *ngIf="submitted && f.jobDesignationFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.jobDesignationFormControl.errors.required">Job Designation is required</div>
                     </div>
@@ -94,100 +107,110 @@
                 <div class="form-group col-md-4">
                     <label for="department"> Admin Rights</label><br>
                     <input nbInput name="adminRights" formControlName="adminRightsFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.adminRightsFormControl.errors  }" placeholder="Admin Rights " />
+                        [ngClass]="{ 'is-invalid': submitted && f.adminRightsFormControl.errors  }"
+                        placeholder="Admin Rights " />
                     <div *ngIf="submitted && f.adminRightsFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.adminRightsFormControl.errors.required">Admin Rights is required</div>
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="phoneNumber">Attendance Id</label>
-                    <input nbInput type="text" name="Salary" placeholder="Attendance Id " formControlName="attendanceIdFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.attendanceIdFormControl.errors  }" />
+                    <input nbInput type="text" name="Salary" placeholder="Attendance Id "
+                        formControlName="attendanceIdFormControl" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.attendanceIdFormControl.errors  }" />
                     <div *ngIf="submitted && f.attendanceIdFormControl.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.attendanceIdFormControl.errors.required"> Attendance Id is Required</div>
-                       
+                        <div *ngIf="submitted && f.attendanceIdFormControl.errors.required"> Attendance Id is Required
+                        </div>
+
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="department"> Pancard Number</label><br>
-                    <input nbInput name="panCard" maxlength="10" minlength="10" formControlName="panCardFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.panCardFormControl.errors  }" placeholder="Pancard Number"  />
+                    <input nbInput name="panCard" maxlength="10" minlength="10" formControlName="panCardFormControl"
+                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.panCardFormControl.errors  }"
+                        placeholder="Pancard Number" />
                     <div *ngIf="submitted && f.panCardFormControl.errors" class="invalid-feedback">
                         <div *ngIf="f.panCardFormControl.errors.required">Pancard Number is required</div>
-                        <div *ngIf="submitted &&  f.panCardFormControl.errors.maxlength ">Pan Card No be at least 10 numbers </div>
-                        <div *ngIf="submitted &&  f.panCardFormControl.errors.minlength ">Pan Card No be at least 10 numbers </div>
+                        <div *ngIf="submitted &&  f.panCardFormControl.errors.maxlength ">Pan Card No be at least 10
+                            numbers </div>
+                        <div *ngIf="submitted &&  f.panCardFormControl.errors.minlength ">Pan Card No be at least 10
+                            numbers </div>
                     </div>
                 </div>
-               
+
             </div><br>
 
             <div class="form-row">
-              
-               
+
+
                 <div class="form-group col-md-4">
                     <label for="accountNumber">Account Number </label>
-                    <input nbInput type="text" name="accountNumber" (keypress)="keyPress($event)" [(ngModel)]="account" placeholder="AccountNumber " formControlName="accountNumberFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.accountNumberFormControl.errors  }" />
+                    <input nbInput type="text" name="accountNumber" (keypress)="keyPress($event)" [(ngModel)]="account"
+                        placeholder="AccountNumber " formControlName="accountNumberFormControl" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.accountNumberFormControl.errors  }" />
                     <div *ngIf="submitted && f.accountNumberFormControl.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.accountNumberFormControl.errors.required"> Account Number is Required</div>
-                       
+                        <div *ngIf="submitted && f.accountNumberFormControl.errors.required"> Account Number is Required
+                        </div>
+
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="ifsc">IFSC Code </label>
-                    <input nbInput type="text" name="ifsc" placeholder="IFSC Code " formControlName="ifscFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.ifscFormControl.errors  }" />
+                    <input nbInput type="text" name="ifsc" placeholder="IFSC Code " formControlName="ifscFormControl"
+                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ifscFormControl.errors  }" />
                     <div *ngIf="submitted && f.ifscFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.ifscFormControl.errors.required"> IFSC Code is Required</div>
-                       
+
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="hrm">HRMS Id </label>
-                    <input nbInput type="text" name="hrm"  placeholder="HRMS ID " formControlName="hrmsIdFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.hrmsIdFormControl.errors  }" />
+                    <input nbInput type="text" name="hrm" placeholder="HRMS ID " formControlName="hrmsIdFormControl"
+                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.hrmsIdFormControl.errors  }" />
                     <div *ngIf="submitted && f.hrmsIdFormControl.errors" class="invalid-feedback">
                         <div *ngIf="submitted && f.hrmsIdFormControl.errors.required"> HRMS Id is Required</div>
-                       
+
                     </div>
                 </div>
-     
+
             </div><br>
 
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="gender">Gender</label><br>
-                    <nb-select name="gender"  formControlName="genderFormControl" [(selected)]="selectedGender" >
+                    <nb-select name="gender" formControlName="genderFormControl" [(selected)]="selectedGender">
                         <nb-option *ngFor="let o of options" value="{{o.value}}">
                             {{ o.name }}
                         </nb-option>
                     </nb-select>
                 </div>
-               
+
                 <div class="form-group col-md-4">
                     <label for="phoneNumber">Employee Category </label>
-                    <input nbInput type="text" name="accountNumber"  placeholder="Employee Category " formControlName="employeeCategoryFormControl" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.employeeCategoryFormControl.errors  }" />
+                    <input nbInput type="text" name="accountNumber" placeholder="Employee Category "
+                        formControlName="employeeCategoryFormControl" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.employeeCategoryFormControl.errors  }" />
                     <div *ngIf="submitted && f.employeeCategoryFormControl.errors" class="invalid-feedback">
-                        <div *ngIf="submitted && f.employeeCategoryFormControl.errors.required"> Employee Category is Required</div>
-                       
+                        <div *ngIf="submitted && f.employeeCategoryFormControl.errors.required"> Employee Category is
+                            Required</div>
+
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="vendorType">Pay Out Type</label><br>
-                    <nb-select name="payou"  formControlName="payOutFormControl" [(selected)]="selectedOption" >
+                    <nb-select name="payou" formControlName="payOutFormControl" [(selected)]="selectedOption">
                         <nb-option *ngFor="let o of payout" value="{{o.value}}">
                             {{ o.name }}
                         </nb-option>
                     </nb-select>
                 </div>
-               
-              
+
+
             </div><br>
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="vendorType">Grade</label><br>
-                    <nb-select name="vendorType"  formControlName="gradeFormControl" [(selected)]="selectedGrade" >
+                    <nb-select name="vendorType" formControlName="gradeFormControl" [(selected)]="selectedGrade">
                         <nb-option *ngFor="let o of grade" value="{{o.value}}">
                             {{ o.name }}
                         </nb-option>
@@ -195,7 +218,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="vendorType">Login Access</label><br>
-                    <nb-select name="vendorType"  formControlName="loginAccessFormControl" [(selected)]="selectedLogin" >
+                    <nb-select name="vendorType" formControlName="loginAccessFormControl" [(selected)]="selectedLogin">
                         <nb-option *ngFor="let o of login" value="{{o.value}}">
                             {{ o.name }}
                         </nb-option>
@@ -203,27 +226,25 @@
                 </div>
                 <div class=" form-group col-md-4">
                     <label for="active">Active</label>
-                    <input type="checkbox" [(ngModel)]="active" [checked]="true" formControlName="ActiveFormControl" id="active" name="active"/>
+                    <input type="checkbox" [(ngModel)]="active" [checked]="true" formControlName="ActiveFormControl"
+                        id="active" name="active" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <button nbButton status="success" type="submit" (click)="saveEmployee()" size="small">Save</button>
                 </div>
             </div>
 
-        
-        
-           
-           
-            <div class="form-row">
-                <div class="form-group col-md-2">
-                 <button nbButton status="success" type="submit" (click)= "saveEmployee()" size="small" >Save</button>
-                </div>
-            </div>
-            
         </form>
         <ng-template #dep_dialog let-data let-ref="dialogRef">
             <nb-card size="medium">
-                <nb-card-header>Department List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchDept" /></nb-card-header>
+                <nb-card-header>Department List <input type="text" nbInput size="small" placeholder="Search .."
+                        [(ngModel)]="searchDept" /></nb-card-header>
                 <nb-card-body>
                     <nb-list>
-                        <nb-list-item *ngFor="let item of department_list | search_filter:'department_name':searchDept ">
+                        <nb-list-item
+                            *ngFor="let item of department_list | search_filter:'department_name':searchDept ">
                             <i class="mr-auto mt-2 mt-lg-0">{{ item.department_name }}</i>
                             <button nbButton (click)="ref.close(item)" size="small">Select</button>
                         </nb-list-item>
@@ -234,14 +255,16 @@
                 </nb-card-footer>
             </nb-card>
         </ng-template>
-        
+
 
         <ng-template #des_dialog let-data let-ref="dialogRef">
             <nb-card size="medium">
-                <nb-card-header>Designation List <input type="text" nbInput size="small" placeholder="Search .." [(ngModel)]="searchDes" /></nb-card-header>
+                <nb-card-header>Designation List <input type="text" nbInput size="small" placeholder="Search .."
+                        [(ngModel)]="searchDes" /></nb-card-header>
                 <nb-card-body>
                     <nb-list>
-                        <nb-list-item *ngFor="let item of designation_list | search_filter:'designation_name':searchDes ">
+                        <nb-list-item
+                            *ngFor="let item of designation_list | search_filter:'designation_name':searchDes ">
                             <i class="mr-auto mt-2 mt-lg-0">{{ item.designation_name }}</i>
                             <button nbButton (click)="ref.close(item)" size="small">Select</button>
                         </nb-list-item>
@@ -252,12 +275,12 @@
                 </nb-card-footer>
             </nb-card>
         </ng-template>
-        
+
 
     </nb-tab>
-    <nb-tab tabTitle="Employee List"  >
-        <div class="row" >
+    <nb-tab tabTitle="Employee List">
+        <div class="row">
             <ng2-smart-table [settings]="employeeSettings" [source]="employeeData"></ng2-smart-table>
-            </div>
+        </div>
     </nb-tab>
 </nb-tabset>

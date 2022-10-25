@@ -596,6 +596,32 @@ class StoreService:
         )
         return list(employee_list)
 
+
+    def get_employee_list_by_job_id(self, jid):
+        employee_list = Employee.objects.filter(job_designation_id=jid).all().values(
+            'id',
+            'employee_code',
+            'employee_name',
+            'phone_number',
+            'employee_address',
+            'department__department_name',
+            'dob',
+            'doj',
+            'salary',
+            'admin_rights',
+            'attendance_id',
+            'pan_card',
+            'account_number',
+            'ifsc',
+            'hrms_id',
+            'gender',
+            'employee_category',
+            'pay_out',
+            'grade',
+            'login_access',
+
+        )
+        return list(employee_list)
     def get_enquiry_list(self):
         enquiry_list = Enquiry.objects.all().values(
             'id',

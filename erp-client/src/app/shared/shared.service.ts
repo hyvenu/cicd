@@ -157,4 +157,18 @@ export class SharedService {
     return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_reportengine/api/v1/get_report?id=${id}&from_date=${from_date}&to_date=${to_date}`)
   }
 
+  public saveplan(data) {
+    return this.http.post<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/subscriptionplan/`, data);
+  }
+
+  public getplans() {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/subscriptionplan/`);
+  }
+  public updateplan(data,id) {
+    return this.http.put<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/subscriptionplan/`+ id + '/', data);
+  }
+  public getplanDetails_by_id(id) {
+    return this.http.get<any>(`${environment.BASE_SERVICE_URL}/manage_store/api/v1/subscriptionplan/` + id + '/')
+  }
+
 }

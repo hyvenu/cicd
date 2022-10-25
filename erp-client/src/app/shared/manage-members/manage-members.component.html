@@ -90,7 +90,7 @@
                   
                
                     
-                 
+<!--                  
                     <div class="form-group col-md-4">
                         <label for="vendor_name">Lead Source</label>
                         <input nbInput formControlName="leadSourceFormControl" name="locality" placeholder="Lead Source" 
@@ -98,9 +98,18 @@
                         <div *ngIf="submitted && f.leadSourceFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.leadSourceFormControl.errors.required"> LeacSource  is required</div>
                         </div>
+                    </div> -->
+                    <div class="form-group col-md-4">
+                        <label for="gender">Lead Source<span style="color: red;">*</span></label><br>
+                        <nb-select   formControlName="leadSourceFormControl" name="locality" placeholder="Lead Source"   [(selected)]="selectedLandE" >
+                            <nb-option *ngFor="let o of landE" value="{{o.value}}">
+                                {{ o.name }}
+                            </nb-option>
+                        </nb-select>
                     </div>
                
                 </div><br>
+             
     
                 
             </nb-card-body>
@@ -110,25 +119,25 @@
                 <nb-card-body>
                 <div class="form-row">
                   
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label for="gender">Sales Rep<span style="color: red;">*</span></label><br>
                         <nb-select name="gender"  formControlName="salesRepFormControl" [(selected)]="selectedsalesRep" >
-                            <nb-option *ngFor="let o of salesrep" value="{{o.value}}">
-                                {{ o.name }}
+                            <nb-option *ngFor="let o of sales_list" value="{{o.employee_name}}">
+                                {{ o.employee_name}}
                             </nb-option>
                         </nb-select>
                     </div>
 
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label for="gender">Member Manager<span style="color: red;">*</span></label><br>
                         <nb-select name="gender"  formControlName="MemberManegerFormControl" [(selected)]="selectedManeger" >
-                            <nb-option *ngFor="let o of manage" value="{{o.value}}">
-                                {{ o.name }}
+                            <nb-option *ngFor="let o of employeelist" value="{{o.employee_name}}">
+                                {{ o.employee_name}}
                             </nb-option>
                         </nb-select>
                     </div>
                     
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label for="gender">Batch<span style="color: red;">*</span></label><br>
                         <nb-select name="gender"  formControlName="batchFormControl" [(selected)]="selectedBatch" >
                             <nb-option *ngFor="let o of batch" value="{{o.value}}">
@@ -136,7 +145,14 @@
                             </nb-option>
                         </nb-select>
                     </div>
-                
+                    <div class="form-group col-md-3">
+                        <label for="gender">Personal trainer<span style="color: red;">*</span></label><br>
+                        <nb-select name="gender"  formControlName="personaltraineFormControl" [(selected)]="selectedPT" >
+                            <nb-option *ngFor="let o of employeeData" value="{{o.employee_name}}">
+                                {{ o.employee_name }}
+                            </nb-option>
+                        </nb-select>
+                    </div>
                
                 </div><br>
     
@@ -307,19 +323,64 @@
             
             </nb-card>
 
+            <nb-card accent="info">
+                <nb-card-header>Membership Package</nb-card-header>     
+                <nb-card-body>
+              
+                    <div class="form-row">
+                  
+                        <div class="form-group col-md-3">
+                            <label for="gender">Select Plan<span style="color: red;">*</span></label><br>
+                            <nb-select name="gender"  formControlName="PlanFormControl"  [(selected)]="selectedplan" >
+                                <nb-option *ngFor="let o of rowData" (click)="planamount(o.Plan_amount)" value="{{o.plan_name}}">
+                                    {{ o.plan_name}}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+                        
+                        <div class="form-group col-md-3">
+                            <label for="vendor_name">Plan Amount</label>
+                            <input nbInput formControlName="planamountFormControl"  name="locality" placeholder="Enter plan amount" 
+                            [ngClass]="{ 'is-invalid': submitted && f.planamountFormControl.errors }" class="form-control" readonly>
+                          
+                        </div>
 
+                        <div class="form-group col-md-3">
+                            <label for="vendor_name">Tenure</label>
+                            <input nbInput formControlName="TenureFormControl" type="number" (change)="tenureamount()" name="locality" placeholder="Enter" 
+                            [ngClass]="{ 'is-invalid': submitted && f.TenureFormControl.errors }" class="form-control" >
+                            <div *ngIf="submitted && f.TenureFormControl.errors" class="invalid-feedback">
+                                <div *ngIf="f.TenureFormControl.errors.required"> Tenure   is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="vendor_name">Tenure Amount</label>
+                            <input nbInput formControlName="TenureamountFormControl" name="locality" placeholder="Total amount" 
+                            [ngClass]="{ 'is-invalid': submitted && f.TenureFormControl.errors }"  class="form-control" >
+                          
+                        </div>
+                        </div>
+            </nb-card-body>
+            
+            </nb-card>
 
 
             <div class="form-row">
                 <div class="form-group col-md-2">
-                 <button nbButton status="success" type="submit" (click)= "saveInfo()" size="small" >Save</button>
+                 <button nbButton status="success" type="submit"  (click)= "saveInfo()" size="small" >Save</button>
                 </div>
             </div>
                 
           
             </form>
         </nb-tab>
+        <nb-tab tabTitle="Members List"  >
+            <div class="row" >
+                <ng2-smart-table [settings]="employeeSettings" [source]="memberlist"></ng2-smart-table>
+                </div>
+        </nb-tab>
     </nb-tabset>
+ 
     </div>
 
     <ng-template #dialog_service let-data let-ref="dialogRef" >

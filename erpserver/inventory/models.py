@@ -12,7 +12,7 @@ from store.models import Store
 class ProductCategory(AuditUuidModelMixin):
     # Fields
     category_code = models.CharField(max_length=30, unique=True)
-    category_name = models.CharField(max_length=300, unique=True)
+    category_name = models.CharField(max_length=250, unique=True)
     description = models.CharField(max_length=2000, null=True, blank=True)
     sales_margin = models.IntegerField(default=0, null=True, blank=True)
 
@@ -75,7 +75,7 @@ class ProductBrandMaster(AuditUuidModelMixin):
 class UnitMaster(AuditUuidModelMixin):
     # Fields
     PrimaryUnit = models.CharField(max_length=100, unique=True)
-    SecondaryUnit = models.CharField(max_length=300, unique=True)
+    SecondaryUnit = models.CharField(max_length=250, unique=True)
     PrimaryUnitMeasurement = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     SecondaryUnitMeasurement = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
