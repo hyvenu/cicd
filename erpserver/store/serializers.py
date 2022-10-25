@@ -259,15 +259,22 @@ class MembersDetailsSerializer(serializers.ModelSerializer):
         model = models.MembersDetails
         fields = ['id', 'members_code', 'full_name', 'phone_number', 'customer_email', 'gender',
                   'dob', 'locality', 'vacinated', 'lead_source', 'sales_rep', 'members_maneger', 'batch',
-                  'attendance_id',
+                  'attendance_id','personal_traine',
                   'club_id', 'gst_no', 'emergency_ccontact', 'emergency_number', 'relationship', 'notification', 'sms',
                   'email',
-                  'occupation', 'offical_mail', 'company_name']
+                  'occupation', 'offical_mail', 'company_name','plan_name','Plan_amount','tenure','tenure_amount']
+
 
     def create(self, validated_data):
         validated_data['members_code'] = generate_members_code()
         mem = super().create(validated_data)
         return mem
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SubscriptionDetails
+        fields = ['id', 'plan_name','Plan_amount','validity_date','active']
+
 
 
 class AppointmentScheduleSerializer(serializers.ModelSerializer):

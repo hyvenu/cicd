@@ -253,6 +253,7 @@ class MembersDetails(AuditUuidModelMixin):
     sales_rep = models.CharField(max_length=255, default=None)
     members_maneger = models.CharField(max_length=255, default=None)
     batch = models.CharField(max_length=255, default=None)
+    personal_traine = models.CharField(max_length=255, default=None)
     attendance_id = models.CharField(max_length=255, default=None)
     club_id = models.CharField(max_length=255, default=None)
     gst_no = models.CharField(max_length=255, default=None)
@@ -265,12 +266,29 @@ class MembersDetails(AuditUuidModelMixin):
     occupation = models.CharField(max_length=255, default=None)
     offical_mail = models.CharField(max_length=255, default=None)
     company_name = models.CharField(max_length=255, default=None)
+    plan_name = models.CharField(max_length=255, default=None)
+    Plan_amount = models.IntegerField(null=True, blank=True, default=0, )
+    tenure = models.CharField(max_length=255, default=None)
+    tenure_amount = models.CharField(max_length=255, default=None)
 
     class Meta:
         pass
 
     def __str__(self):
         return str(self.pk)
+
+class SubscriptionDetails(AuditUuidModelMixin):
+    plan_name = models.CharField(max_length=255, default=None)
+    Plan_amount = models.IntegerField(null=True, blank=True, default=0,)
+    validity_date = models.CharField(max_length=255, default=None)
+    active = models.BooleanField(default=True, null=True)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
 
 
 

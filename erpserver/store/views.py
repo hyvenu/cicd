@@ -258,6 +258,20 @@ def get_employee_list(request):
     employee_list = store_service.get_employee_list(branch_id)
     return JsonResponse(employee_list, safe=False)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def get_employee_list_by_job_id(request):
+    store_service = StoreService()
+    # appo_id = request.query_params['id']
+    # app_id = appo_id.lstrip()
+    # app_obj = store_service.get_appointment_details_byid(app_id)
+
+    job_id = request.query_params["id"]
+
+    job_id = job_id.lstrip()
+    employee_list = store_service.get_employee_list_by_job_id(job_id)
+    return JsonResponse(employee_list, safe=False)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
