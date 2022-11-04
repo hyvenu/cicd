@@ -356,7 +356,7 @@ printBtn.onclick = function () {
     const boldTagOpen = '\x1B' + '\x45' + '\x0D';
     const boldTagClose = '\x1B' + '\x45' + '\x0A';
 
-    const marginLine = '=============================================';
+    const marginLine = '--------------------------------';
 
     // return [
     //   { type: 'raw', format: 'image', flavor: 'file', data: this.getBase64Logo() ,
@@ -373,9 +373,10 @@ printBtn.onclick = function () {
       esc + '!' + '\x00',
       this.address,
       newLine,
-      'GST :' + this.gst,
+      leftAlign,
+      'GST:' + this.gst,
       newLine,
-      'PH  :' + this.phone,
+      'PH:' + this.phone,
       newLine,
       this.invoice_details?.user_id,
       newLine,
@@ -384,29 +385,29 @@ printBtn.onclick = function () {
       newLine,
       'DATE :' + this.getDateFormat(this.invoice_date),
       newLine,
-      'CUST :' + this.customer_name,
-      newLine,
-      'PH :' + this.customer_number,
+      leftAlign,
+      'CUST:' + this.customer_name, 
+      ' PH:' + this.customer_number,
       boldTagClose,
       newLine,
       leftAlign,
       marginLine,
       newLine,
-      'PRD                         QTY    PRICE',
+      'Services            QTY  PRICE  ',
       newLine,
       marginLine,
       newLine,
       ...this.productRawList(),
       newLine,
+      // marginLine,
+      // newLine,
+      // esc + '!' + '\x00',
+      // '# ITEMS SOLD ' + this.invoice_details.order_details.length,
+      // newLine,
       marginLine,
       newLine,
       esc + '!' + '\x00',
-      '# ITEMS SOLD ' + this.invoice_details.order_details.length,
-      newLine,
-      marginLine,
-      newLine,
-      esc + '!' + '\x00',
-      'TAXABLE AMT :' + this.invoice_details?.sub_total,
+      'SUB TOTAL :' + this.invoice_details?.sub_total,
       newLine,
  
       marginLine,
@@ -417,18 +418,18 @@ printBtn.onclick = function () {
       'SGST :' + (this.invoice_details?.total_gst_amount/2).toFixed(2),
       newLine,
       marginLine,
+      // newLine,
+      // esc + '!' + '\x05',
+      // 'GST :' + this.invoice_details?.total_gst_amount,
       newLine,
-      esc + '!' + '\x05',
-      'GST :' + this.invoice_details?.total_gst_amount,
-      newLine,
-      'TOTAL :' + this.grandTotal,
+      'GRAND TOTAL :' + this.grandTotal,
       newLine,
       esc + '!' + '\x00',
       marginLine,
       newLine,
-      'TANS ID :' + this.invoice_details?.transaction_id,
-      newLine,
       'PAYMENT MODE :' + this.invoice_details?.payment_terms,
+      newLine,
+      'TANS ID :' + this.invoice_details?.transaction_id,
       newLine,
       marginLine,
       newLine,
@@ -454,20 +455,20 @@ printBtn.onclick = function () {
 
       element.product__product_name = element.product__product_name === null? element.service__service_name:element.product__product_name;
 
-      const line1 = element.product__product_name + '  ' +
-      Array(element.product__product_name.length < 25 ? 25 - element.product__product_name.length : 0).fill(' ').join('') +
-      parseInt(element.qty).toString() + Array(element.qty.toString().length <= 5 ? 5 - element.qty.toString().length : 0).fill(' ').join('') + '   ' +
+      const line1 = element.product__product_name.substr(0, 20) + ' ' +
+      Array(element.product__product_name.length < 20 ? 20 - element.product__product_name.length : 0).fill(' ').join('') +
+      parseInt(element.qty).toString().substring(0,2) + Array(element.qty.toString().length <= 2 ? 2 - element.qty.toString().length : 0).fill(' ').join('') + ' ' +
       element.subtotal_amount;
       rawString.push(line1);
       rawString.push('\x0A');
-      rawString.push(element.product__product_name.substr(25, 40));
+      rawString.push(element.product__product_name.substr(20, 40));
       rawString.push('\x0A');
     });
     return rawString;
   }
 
   getDateFormat(date): any {
-    return moment(date).format('YYYY-MM-DD hh:mm:ss');
+    return moment(date).format('DD-MM-YYYY hh:mm:ss');
   }
   getBase64Logo(): any{
     return 'http://localhost:4200/assets/images/logobw.png';
