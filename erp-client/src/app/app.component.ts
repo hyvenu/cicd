@@ -89,6 +89,29 @@ export class AppComponent implements OnInit {
         link: 'Calendar',
         icon:'calendar'
        },
+       {
+        title: 'GYM',
+        expanded: false,
+        icon:'arrowhead-right',
+        children: [
+          {
+            title: 'Enquiry',
+            link: 'EnquiryList',
+            icon:'arrowhead-right',
+          },
+          {
+            title: 'Add Subscription Plans ',
+            link: 'subscriptionplans',
+            icon:'arrowhead-right',
+          },
+          {
+            title: 'Manage Members ',
+            link: 'Members',
+            icon:'arrowhead-right',
+          },
+        ]
+
+     },
       {
       title: 'Admin',
       expanded: false,
@@ -100,21 +123,7 @@ export class AppComponent implements OnInit {
           icon:'home',
           hidden: this.check_permission('store.view_storeuser')
         },
-        {
-          title: 'Enquiry',
-          link: 'EnquiryList',
-          icon:'arrowhead-right',
-        },
-        {
-          title: 'Add Subscription Plans ',
-          link: 'subscriptionplans',
-          icon:'arrowhead-right',
-        },
-        {
-          title: 'Manage Members ',
-          link: 'Members',
-          icon:'arrowhead-right',
-        },
+   
      
         {
           title: 'Services',
