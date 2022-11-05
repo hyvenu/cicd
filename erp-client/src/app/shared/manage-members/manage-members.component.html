@@ -58,10 +58,11 @@
                         <div class="form-group col-md-4">
                             <label for="vendor_name">Locality</label>
                             <input nbInput formControlName="localityFormControl" name="locality" placeholder="Locality" 
-                            [ngClass]="{ 'is-invalid': submitted && f.localityFormControl.errors }" class="form-control" >
-                            <div *ngIf="submitted && f.localityFormControl.errors" class="invalid-feedback">
+                           class="form-control" >
+                           <!-- [ngClass]="{ 'is-invalid': submitted && f.localityFormControl.errors }" -->
+                            <!-- <div *ngIf="submitted && f.localityFormControl.errors" class="invalid-feedback">
                                 <div *ngIf="f.localityFormControl.errors.required"> Locality  is required</div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="form-group col-md-4">
                             <label for="po_date">Date Of Birth <span style="color: red;">*</span></label>
@@ -168,28 +169,31 @@
                     <div class="form-group col-md-4">
                         <label for="vendor_name">Attendance Id</label>
                         <input nbInput formControlName="AttendanceIdFormControl" name="locality" placeholder="Attendance Id" 
-                        [ngClass]="{ 'is-invalid': submitted && f.AttendanceIdFormControl.errors }" class="form-control" >
-                        <div *ngIf="submitted && f.AttendanceIdFormControl.errors" class="invalid-feedback">
+                      class="form-control" >
+                      <!-- [ngClass]="{ 'is-invalid': submitted && f.AttendanceIdFormControl.errors }"  -->
+                        <!-- <div *ngIf="submitted && f.AttendanceIdFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.AttendanceIdFormControl.errors.required"> Attendance Id  is required</div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="form-group col-md-4">
                         <label for="vendor_name">Club Id</label>
                         <input nbInput formControlName="clubIdFormControl" name="locality" placeholder="Club Id" 
-                        [ngClass]="{ 'is-invalid': submitted && f.clubIdFormControl.errors }" class="form-control" >
-                        <div *ngIf="submitted && f.clubIdFormControl.errors" class="invalid-feedback">
+                   class="form-control" >
+                   <!-- [ngClass]="{ 'is-invalid': submitted && f.clubIdFormControl.errors }" -->
+                        <!-- <div *ngIf="submitted && f.clubIdFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.clubIdFormControl.errors.required"> CLub Id  is required</div>
-                        </div>
+                        </div> -->
                     </div>
                     
                     <div class="form-group col-md-4">
                         <label for="vendor_name">GST No</label>
                         <input nbInput formControlName="gstNoFormControl" name="locality" placeholder="Gst No" 
-                        [ngClass]="{ 'is-invalid': submitted && f.gstNoFormControl.errors }" class="form-control" >
-                        <div *ngIf="submitted && f.gstNoFormControl.errors" class="invalid-feedback">
+                         class="form-control" >
+                         <!-- [ngClass]="{ 'is-invalid': submitted && f.gstNoFormControl.errors }" -->
+                        <!-- <div *ngIf="submitted && f.gstNoFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.gstNoFormControl.errors.required"> GST NO  is required</div>
-                        </div>
+                        </div> -->
                     </div>
             
                
@@ -227,10 +231,11 @@
                     <div class="form-group col-md-4">
                         <label for="vendor_name">Relation Ship</label>
                         <input nbInput formControlName="relationShipFormControl" name="locality" placeholder="Relation ship" 
-                        [ngClass]="{ 'is-invalid': submitted && f.relationShipFormControl.errors }" class="form-control" >
-                        <div *ngIf="submitted && f.relationShipFormControl.errors" class="invalid-feedback">
+   class="form-control" >
+   <!-- [ngClass]="{ 'is-invalid': submitted && f.relationShipFormControl.errors }" -->
+                        <!-- <div *ngIf="submitted && f.relationShipFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.relationShipFormControl.errors.required"> Relationship   is required</div>
-                        </div>
+                        </div> -->
                     </div>
             
                
@@ -271,6 +276,7 @@
                                 {{ o.name }}
                             </nb-option>
                         </nb-select>
+                   
                     </div>
                
                
@@ -309,10 +315,11 @@
                     <div class="form-group col-md-4">
                         <label for="vendor_name">Company Name</label>
                         <input nbInput formControlName="companyNameFormControl" name="locality" placeholder="Relation ship" 
-                        [ngClass]="{ 'is-invalid': submitted && f.companyNameFormControl.errors }" class="form-control" >
-                        <div *ngIf="submitted && f.companyNameFormControl.errors" class="invalid-feedback">
+                        class="form-control" >
+                        <!-- [ngClass]="{ 'is-invalid': submitted && f.companyNameFormControl.errors }" -->
+                        <!-- <div *ngIf="submitted && f.companyNameFormControl.errors" class="invalid-feedback">
                             <div *ngIf="f.companyNameFormControl.errors.required">Company   is required</div>
-                        </div>
+                        </div> -->
                     </div>
             
                
@@ -341,12 +348,12 @@
                         <div class="form-group col-md-3">
                             <label for="vendor_name">Plan Amount</label>
                             <input nbInput formControlName="planamountFormControl"  name="locality" placeholder="Enter plan amount" 
-                            [ngClass]="{ 'is-invalid': submitted && f.planamountFormControl.errors }" class="form-control" readonly>
-                          
+                          class="form-control" readonly>
+                          <!-- [ngClass]="{ 'is-invalid': submitted && f.planamountFormControl.errors }" -->
                         </div>
 
                         <div class="form-group col-md-3">
-                            <label for="vendor_name">Tenure</label>
+                            <label for="vendor_name">Tenure<span style="color: red;">*</span></label>
                             <input nbInput formControlName="TenureFormControl" type="number" (change)="tenureamount()" name="locality" placeholder="Enter" 
                             [ngClass]="{ 'is-invalid': submitted && f.TenureFormControl.errors }" class="form-control" >
                             <div *ngIf="submitted && f.TenureFormControl.errors" class="invalid-feedback">
@@ -356,7 +363,7 @@
                         <div class="form-group col-md-3">
                             <label for="vendor_name">Tenure Amount</label>
                             <input nbInput formControlName="TenureamountFormControl" name="locality" placeholder="Total amount" 
-                            [ngClass]="{ 'is-invalid': submitted && f.TenureFormControl.errors }"  class="form-control" >
+                           class="form-control" >
                           
                         </div>
                         </div>

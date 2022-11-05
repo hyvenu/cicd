@@ -331,7 +331,7 @@ export class ManageMembersComponent implements OnInit {
           // window.location.reload();
           //  this.ngOnInit()
           this.membersForm.reset();
-
+          window.location.reload()
 
 
 
@@ -382,10 +382,13 @@ export class ManageMembersComponent implements OnInit {
 
       this.adminService.SaveMember(formdata).subscribe(
         (data) => {
+       
           this.nbtoastService.success("Members Saved Successfully")
           // this.routes.navigate(["/MembersList"]);
           // this.ngOnInit()
-          this.membersForm.reset()
+             this.membersForm.reset()
+          window.location.reload()
+        
 
 
 
