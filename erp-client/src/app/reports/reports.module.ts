@@ -13,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { AccordionModule } from 'primeng/accordion';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 
 
@@ -38,7 +39,8 @@ const routes: Routes = [
     ButtonModule,
     InputTextModule,
     CalendarModule,
-    AccordionModule
+    AccordionModule,
+    MultiSelectModule,
 
   ]
 })
