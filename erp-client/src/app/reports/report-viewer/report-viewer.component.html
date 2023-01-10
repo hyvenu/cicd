@@ -32,6 +32,25 @@
                   <!-- <button pButton type="button" label="Click" ></button> -->
                   <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2"  pTooltip="XLS" tooltipPosition="bottom" style="height:30px;"></button>
                   <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"  style="height:30px;"></button>
+                  
+            <p-multiSelect [options]="filtered_obj_columns" optionLabel="name" [(ngModel)]="selectedColumns"
+              defaultLabel="Select a column" class="multiselect-custom" [filter]="true" [showClear]="true"
+              [virtualScroll]="true" [itemSize]="50" (onChange)="onChangeHandler($event)" optionValue="value" display="chip">
+
+              <ng-template let-value pTemplate="selectedItems">
+                <div class="country-item country-item-value" *ngFor="let option of selectedColumns">
+                  <div>{{option}}</div>
+                </div>
+                <div *ngIf="!selectedColumns || selectedColumns.length === 0" class="country-placeholder">
+                  Select Columns
+                </div>
+              </ng-template>
+              <ng-template let-value pTemplate="item">
+                <div class="country-item">
+                  <div>{{value.name}}</div>
+                </div>
+              </ng-template>
+            </p-multiSelect>
                 </div>
                 <div class="flex">
                   <span class="p-input-icon-left ml-auto">

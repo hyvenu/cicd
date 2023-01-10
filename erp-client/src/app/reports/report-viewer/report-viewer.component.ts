@@ -37,14 +37,20 @@ export class ReportViewerComponent implements OnInit {
   to_date: any;
   from: any;
   to: any;
-
+  filtered_columns: any = [];
+  filtered_sql_output2: any = [];
+  filtered_obj_columns: any = [];
   columns: any;
   headerColumns: any;
   sales: any;
   selectedRows: any;
   customExportHeader: any;
+  to_filter_column: any;
+  selectedColumns: any = [];
+  filtered_sql_output: any;
   filteredValues: any;
   Excelfile:"list.xlsx"
+  
   constructor(private routes: Router,
     private route: ActivatedRoute,
     private nbToasterService: NbToastrService,
@@ -67,6 +73,13 @@ export class ReportViewerComponent implements OnInit {
 
         this.sql_output = data.sql_output;
         this.columns = Object.keys(this.sql_output);
+        this.columns.forEach((ele) => {
+          this.filtered_obj_columns.push({ name: ele, value: ele })
+        })
+        console.log("columns header",this.filtered_obj_columns)
+        this.to_filter_column = data.sql_output
+        this.length = this.sql_output[this.columns[0]].length;
+        this.column_needs_total = data.numerical_columns;
         this.length = this.sql_output[this.columns[0]].length;
         this.column_needs_total = data.numerical_columns;
 
@@ -184,7 +197,57 @@ export class ReportViewerComponent implements OnInit {
     table.clear();
     this.showAllData();
   }
+  onChangeHandler(event) {
+    console.log("sujan", event.value)
+    const _ = require('lodash');
+    this.filtered_sql_output = _.pick(this.to_filter_column, event.value)
+    this.filtered_columns = Object.keys(this.filtered_sql_output);
+    //Numerical columns total 
+    this.columnTotal = [];
+    for (let i = 0; i < this.filtered_columns.length; i++) {
+      let sum: any = 0;
+      if (this.column_needs_total.find(element => element == this.filtered_columns[i])) {
+        for (let j = 0; j < this.filtered_sql_output[this.filtered_columns[i]].length; j++) {
+          sum += Number(this.filtered_sql_output[this.filtered_columns[i]][j]);
+        }
+        sum = Math.round(sum * 100) / 100;
+      }
+      else {
+        sum = '';
+      }
+      this.columnTotal.push(sum);
+      console.log("selected column total",this.columnTotal)
+    }
+    this.columnTotal[0] = 'TOTAL';
 
+    // Converting the filtered_sql_output for the primeng table
+    let converted_sql_output = [[]];
+    for (let i = 0; i < this.length; ++i) {
+      let row = [];
+      for (let j = 0; j < this.filtered_columns.length; ++j) {
+        row[this.filtered_columns[j]] = this.filtered_sql_output[this.filtered_columns[j]][i];
+      }
+      converted_sql_output.push(row);
+    }
+    converted_sql_output.shift();
+    this.filtered_sql_output = converted_sql_output;
+    // Converting the filtered_sql_output again for the exportPdf()
+    let double_converted_output = [[]];
+    this.filtered_sql_output2 = this.filtered_sql_output;
+    for (let i = 0; i < this.length; i++) {
+      let row = [];
+      for (let j = 0; j < this.filtered_columns.length; j++) {
+        row[j] = this.filtered_sql_output2[i][this.filtered_columns[j]];
+      }
+      double_converted_output.push(row);
+    }
+    double_converted_output.shift();
+    this.filtered_sql_output2 = double_converted_output;
+    if (this.selectedColumns.length == 0) {
+      this.filtered_sql_output2 = []
+    }
+
+  }
 
   onFilter(event, dt) {
     this.filteredValues = event.filteredValue;
@@ -255,10 +318,11 @@ export class ReportViewerComponent implements OnInit {
     
   
     autoTable(doc, {
-      head: [this.headerColumns],
+      // head: [this.headerColumns],
+      head: [this.filtered_columns.length > 0 ? this.filtered_columns : this.headerColumns],
+      body: this.filtered_sql_output2.length > 0 ? this.filtered_sql_output2 : this.sql_output2,
       
-      
-      body: this.sql_output2,
+      // body: this.sql_output2,
       foot: [this.columnTotal],
       showFoot: 'lastPage',
       styles: {
