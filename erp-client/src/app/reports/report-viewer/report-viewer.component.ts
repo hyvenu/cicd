@@ -104,7 +104,7 @@ export class ReportViewerComponent implements OnInit {
           }
           this.columnTotal.push(sum);
         }
-        this.columnTotal[0] = 'TOTAL';
+        // this.columnTotal[0] = 'TOTAL';
 
         // Converting the sql_output for the primeng table
         let converted_sql_output = [[]];
@@ -163,7 +163,7 @@ export class ReportViewerComponent implements OnInit {
           }
           this.columnTotal.push(sum);
         }
-        this.columnTotal[0] = 'TOTAL';
+        // this.columnTotal[0] = 'TOTAL';
   
         // Converting the sql_output for the primeng table
         let converted_sql_output = [[]];
@@ -218,7 +218,7 @@ export class ReportViewerComponent implements OnInit {
       this.columnTotal.push(sum);
       console.log("selected column total",this.columnTotal)
     }
-    this.columnTotal[0] = 'TOTAL';
+    // this.columnTotal[0] = 'TOTAL';
 
     // Converting the filtered_sql_output for the primeng table
     let converted_sql_output = [[]];
@@ -269,7 +269,7 @@ export class ReportViewerComponent implements OnInit {
       }
       this.columnTotal.push(sum);
     }
-    this.columnTotal[0] = 'TOTAL';
+    // this.columnTotal[0] = 'TOTAL';
   
     // Converting the sql_output again for the exportPdf() 
     let double_converted_output = [[]];
