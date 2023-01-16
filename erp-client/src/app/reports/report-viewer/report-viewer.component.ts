@@ -136,6 +136,7 @@ export class ReportViewerComponent implements OnInit {
   }
 
   showData() {
+    this.filtered_obj_columns=[];
     this.from_date = this.datePipe.transform(this.from_date, 'yyyy-MM-dd');
     this.to_date = this.datePipe.transform(this.to_date, 'yyyy-MM-dd');
     this.from = this.from_date;
