@@ -3,9 +3,9 @@ pipeline {
     agent any 
 
     stages {
-        stage('Build') { 
+        stage('Checkout') { 
             steps { 
-                sh 'make' 
+                checkout([$class: 'GitSCM', branches: [[name: '*/${BRANCH}']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins_ssh-key', url: 'git@github.com:CraftYourIdea/ERP-Project.git']]]) 
             }
         }
         stage('Test'){
@@ -19,20 +19,5 @@ pipeline {
                 sh 'make publish'
             }
         }
-    }
-}
-// Script //
-node {
-    stage('Build') {
-        sh 'make'
-    }
-
-    stage('Test') {
-        sh 'make check'
-        junit 'reports/**/*.xml'
-    }
-
-    stage('Deploy') {
-        sh 'make publish'
     }
 }
