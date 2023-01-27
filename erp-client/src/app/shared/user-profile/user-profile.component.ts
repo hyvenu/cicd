@@ -22,9 +22,9 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.first_name = sessionStorage.getItem('first_name');
-    this.email = sessionStorage.getItem('email');
-    this.phone = sessionStorage.getItem('phone_number');
+    this.first_name = localStorage.getItem('first_name');
+    this.email = localStorage.getItem('email');
+    this.phone = localStorage.getItem('phone_number');
   }
 
   Goto(data:any)
@@ -58,7 +58,7 @@ export class UserProfileComponent implements OnInit {
         {
           this.nbtoastService.success("Phone changed successfully");
           this.phone = phone;
-          sessionStorage.setItem('phone_number',phone);
+          localStorage.setItem('phone_number',phone);
         }
        else
        {

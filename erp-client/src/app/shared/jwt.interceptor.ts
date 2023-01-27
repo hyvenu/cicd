@@ -15,7 +15,7 @@ export class JwtInterceptor implements HttpInterceptor {
         //handle your auth error or rethrow
         if (err.status === 401 || err.status === 403) {
             //navigate /delete cookies or whatever
-            sessionStorage.clear();
+            localStorage.clear();
             console.log('clear');
             this.router.navigateByUrl(`/Login`);
             // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
@@ -25,10 +25,10 @@ export class JwtInterceptor implements HttpInterceptor {
     }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        const currentUser = sessionStorage.getItem('user_id');
-        const token = sessionStorage.getItem('accessToken');
+        const currentUser = localStorage.getItem('user_id');
+        const token = localStorage.getItem('accessToken');
         console.log("access");
-        if(!sessionStorage.getItem('store_id') && currentUser && token){
+        if(!localStorage.getItem('store_id') && currentUser && token){
           this.router.navigateByUrl('/StoreSelect');
         }
         if (currentUser && token) {
@@ -39,7 +39,7 @@ export class JwtInterceptor implements HttpInterceptor {
             });
             request = request.clone({
               params: (request.params ? request.params : new HttpParams())
-                         .set('b_id', sessionStorage.getItem('store_id')) /*.... add new params here .....*/
+                         .set('b_id', localStorage.getItem('store_id')) /*.... add new params here .....*/
             });
         }
 
@@ -47,7 +47,7 @@ export class JwtInterceptor implements HttpInterceptor {
             catchError((err: HttpErrorResponse) => {
             this._loading.setLoading(false, request.url);
               if (err.status === 401) {
-                sessionStorage.clear();
+                localStorage.clear();
                 this.router.navigate(['Login'], { queryParams: { returnUrl: this.router.url } });
                 return throwError(err.error.detail);
               } else if (err.status === 0) {

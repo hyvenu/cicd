@@ -156,7 +156,7 @@ export class SalesBillComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user_name = sessionStorage.getItem('first_name');
+    this.user_name = localStorage.getItem('first_name');
     console.log(this.user_name);
     this.invoiceForm = this.formBuilder.group({
       invoiceCodeFormControl:['',],
@@ -265,7 +265,7 @@ export class SalesBillComponent implements OnInit {
       )
     }
     */
-    this.state_code =  sessionStorage.getItem('state_code')
+    this.state_code =  localStorage.getItem('state_code')
     console.log("state code",this.state_code)
     this.onEvnetChange(this.event);
   }

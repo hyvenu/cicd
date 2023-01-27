@@ -51,7 +51,7 @@ export class CalenderComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.store_id = sessionStorage.getItem('store_id')
+    this.store_id = localStorage.getItem('store_id')
     this.get_employee(this.getDateOnly(true, ""));
 
   }

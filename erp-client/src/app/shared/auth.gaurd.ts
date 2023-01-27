@@ -22,9 +22,9 @@ export class AuthGuard implements CanActivate{
   //    }
   //    return this.router.createUrlTree(['/Login'])
   //  }));
-     if (sessionStorage.getItem('user_id'))
+     if (localStorage.getItem('user_id'))
      {
-        if (sessionStorage.getItem('user_id') &&  sessionStorage.getItem('store_id'))
+        if (localStorage.getItem('user_id') &&  localStorage.getItem('store_id'))
         {
           return true;
         }else{

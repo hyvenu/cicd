@@ -61,7 +61,7 @@ export class OrderListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const order_data  = { 'store_id': sessionStorage.getItem('store_id')}
+    const order_data  = { 'store_id': localStorage.getItem('store_id')}
     this.orderService.getPOList().subscribe(
       (data) => {
           this.data = data;

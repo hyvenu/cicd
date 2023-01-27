@@ -326,13 +326,13 @@ export class PurchaseOrderComponent implements OnInit {
         }
       )
     } else {
-      //this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
-      this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
-      console.log(this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name')))
+      //this.purchaseOrderForm.controls['userFormControl'].setValue(localStorage.getItem('first_name'));
+      this.purchaseOrderForm.controls['userFormControl'].setValue(localStorage.getItem('first_name'));
+      console.log(this.purchaseOrderForm.controls['userFormControl'].setValue(localStorage.getItem('first_name')))
     }
 
-      //this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
-    this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
+      //this.purchaseOrderForm.controls['userFormControl'].setValue(localStorage.getItem('first_name'));
+    this.purchaseOrderForm.controls['userFormControl'].setValue(localStorage.getItem('first_name'));
     console.log(this.purchaseOrderForm.controls['userFormControl'].value)
 
     this.calculate_total();
@@ -1016,7 +1016,7 @@ calculate(event) {
           if(this.purchaseOrderForm.controls['poNumberFormControl'].value){
             formdata.append('store_id', this.store_id);
           }else{
-            formdata.append('store_id', sessionStorage.getItem("store_id"));
+            formdata.append('store_id', localStorage.getItem("store_id"));
           }
 
           formdata.append('terms_conditions', this.purchaseOrderForm.controls['termsConditionFormControl'].value);

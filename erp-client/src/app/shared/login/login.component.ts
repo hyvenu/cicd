@@ -44,11 +44,11 @@ export class LoginComponent implements OnInit {
 
       this.Service.loginUser(user).subscribe((data)=>
       {
-       sessionStorage.setItem('user_id',data.user_id);
-       sessionStorage.setItem("accessToken",data.access);
-       sessionStorage.setItem("first_name",data.first_name);
-       sessionStorage.setItem("email",user.email);
-       sessionStorage.setItem("phone_number",data.phone_number);
+        localStorage.setItem('user_id',data.user_id);
+        localStorage.setItem("accessToken",data.access);
+        localStorage.setItem("first_name",data.first_name);
+        localStorage.setItem("email",user.email);
+        localStorage.setItem("phone_number",data.phone_number);
       //  if( this.returnUrl){
       //     window.location.href= this.returnUrl;
       //  }else{
