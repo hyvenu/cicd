@@ -115,7 +115,7 @@ export class RefundComponent implements OnInit {
   ngOnInit(): void {
     // let invoice = this.route.snapshot.queryParams['id']
     this.change=0
-    this.user_name = sessionStorage.getItem('first_name');
+    this.user_name = localStorage.getItem('first_name');
     console.log(this.user_name)
 
 
@@ -347,7 +347,7 @@ export class RefundComponent implements OnInit {
     formData.append('terms_conditions', this.termsConditions)
 
 
-    formData.append('store_id', sessionStorage.getItem('store_id'))
+    formData.append('store_id', localStorage.getItem('store_id'))
     formData.append('grand_total', this.grandTotal)
     // formData.append('card', this.refundForm.controls['cardFormControl'].value);
     // formData.append('cash', this.refundForm.controls['cashFormControl'].value);

@@ -42,9 +42,9 @@ export class HeaderComponent implements OnInit {
         });
 
             
-    this.store_name = sessionStorage.getItem('store_name') ;
-    this.store_city = sessionStorage.getItem('store_city')
-    this.user_name = sessionStorage.getItem('first_name');
+    this.store_name = localStorage.getItem('store_name') ;
+    this.store_city = localStorage.getItem('store_city')
+    this.user_name = localStorage.getItem('first_name');
     this.userSub = this.sharedservice.userSubject.subscribe(user => {
 
       this.isAuthenticated = !!user;

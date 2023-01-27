@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   items: NbMenuItem[];
 
   ngOnInit(): void {
-        this.store_name = sessionStorage.getItem('store_name');
+        this.store_name = localStorage.getItem('store_name');
         this.sharedService.getUserPermissionList().subscribe(
         (data) =>{
            this.permissionsService.loadPermissions(data);
@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
            console.log(this.permissionsService.hasPermission("store.view_store"));
            this.roleService.addRoles(data);
            setTimeout(()=> this.create_menu(),100);
-
         },
         (error) =>{
            console.log("Unable to load permissions");
@@ -56,7 +55,7 @@ export class AppComponent implements OnInit {
   }
 
   checkLogin():any {
-    if(sessionStorage.getItem('user_id') && sessionStorage.getItem('store_id')){
+    if(localStorage.getItem('user_id') && localStorage.getItem('store_id')){
       return true;
     }else{
       return false;

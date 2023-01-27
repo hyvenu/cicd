@@ -18,7 +18,7 @@ export class ResetPasswordComponent implements OnInit {
 
   resetPassword(form: NgForm)
   {
-    if (sessionStorage.getItem('user_id')) {
+    if (localStorage.getItem('user_id')) {
       if (form.valid) {
         let oldPassword = form.controls['oldpassword'].value;
         let password = form.controls['password'].value;
@@ -26,7 +26,7 @@ export class ResetPasswordComponent implements OnInit {
         if(password == confirmPassword)
         {
           this.verifyPassword = false;
-          let email = sessionStorage.getItem("email");
+          let email = localStorage.getItem("email");
           let resetData = {
             username:email,
             old_password:oldPassword,
