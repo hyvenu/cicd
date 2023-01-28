@@ -121,7 +121,7 @@ export class ManageEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store_id = localStorage.getItem('store_id')
+    this.store_id = sessionStorage.getItem('store_id')
 
     this.employeeForm = this.formBuilder.group({
       employeeCodeFormControl: ['', []],

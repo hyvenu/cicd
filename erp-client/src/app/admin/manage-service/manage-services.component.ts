@@ -61,7 +61,7 @@ export class ManageServiceComponent implements OnInit {
               private nbtoastService: NbToastrService,
               private dialogService: NbDialogService,
               private routes: Router) {
-                  this.store_id = localStorage.getItem('store_id')
+                  this.store_id = sessionStorage.getItem('store_id')
                }
 
   ngOnInit(): void {

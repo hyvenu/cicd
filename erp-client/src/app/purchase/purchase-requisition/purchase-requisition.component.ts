@@ -124,10 +124,10 @@ export class PurchaseRequisitionComponent implements OnInit {
   ngOnInit(): void {
     this.IsPRInfo = true;
     this.selected_product_list = [];
-    console.log(localStorage.getItem("first_name"));
-    this.login_user = localStorage.getItem("first_name");
-    this.store_name = localStorage.getItem("store_name");
-    this.store_id = localStorage.getItem("store_id");
+    console.log(sessionStorage.getItem("first_name"));
+    this.login_user = sessionStorage.getItem("first_name");
+    this.store_name = sessionStorage.getItem("store_name");
+    this.store_id = sessionStorage.getItem("store_id");
     // this.login_user = localStorage.getItem("first_name");
     // this.store_name = localStorage.getItem("store_name");
     // this.store_id = localStorage.getItem("store_id");

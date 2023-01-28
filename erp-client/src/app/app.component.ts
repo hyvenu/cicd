@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   items: NbMenuItem[];
 
   ngOnInit(): void {
-        this.store_name = localStorage.getItem('store_name');
+        this.store_name = sessionStorage.getItem('store_name');
         this.sharedService.getUserPermissionList().subscribe(
         (data) =>{
            this.permissionsService.loadPermissions(data);
@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
   }
 
   checkLogin():any {
-    if(localStorage.getItem('user_id') && localStorage.getItem('store_id')){
+    if(sessionStorage.getItem('user_id') && sessionStorage.getItem('store_id')){
       return true;
     }else{
       return false;

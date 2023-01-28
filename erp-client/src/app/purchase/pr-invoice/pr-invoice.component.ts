@@ -44,7 +44,7 @@ export class PrInvoiceComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.store_id = localStorage.getItem('store_id');
+    this.store_id = sessionStorage.getItem('store_id');
     // console.log(this.store_id)
 
     const printBtn: HTMLElement = document.getElementById('print');
