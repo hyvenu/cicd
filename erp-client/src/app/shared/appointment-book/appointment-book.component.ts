@@ -395,7 +395,7 @@ export class AppointmentBookComponent implements OnInit {
       // form_data.append('customer',this.cus_id)
     }
 
-    form_data.append('store',localStorage.getItem('store_id'));
+    form_data.append('store',sessionStorage.getItem('store_id'));
     form_data.append('customer',this.customer_id)
     form_data.append('services',JSON.stringify(this.selected_product_list));
     form_data.append('booking_date', moment(this.bookingForm.controls['bookingDateFormControl'].value).format("YYYY-MM-DD"));

@@ -199,7 +199,7 @@ export class ManageGrnComponent implements OnInit {
     });
     let param = this.route.snapshot.queryParams['id'];
     console.log("current_date",this.current_date)
-    this.store_id = localStorage.getItem('store_id');
+    this.store_id = sessionStorage.getItem('store_id');
     if (param) {
       this.purchaseService.getGRNDetails(param).subscribe(
         (data) => {

@@ -73,7 +73,7 @@ export class SalesOrderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store_id = localStorage.getItem('store_id');
+    this.store_id = sessionStorage.getItem('store_id');
     this.purchaseOrderForm = this.formBuilder.group(
       {
         poTypeFormControl: ['', [Validators.required]],
@@ -143,7 +143,7 @@ export class SalesOrderComponent implements OnInit {
          }
        )
     }else{
-      this.purchaseOrderForm.controls['userFormControl'].setValue(localStorage.getItem('first_name'));
+      this.purchaseOrderForm.controls['userFormControl'].setValue(sessionStorage.getItem('first_name'));
     }
 
     // this.salesService.getVendorList().subscribe(
