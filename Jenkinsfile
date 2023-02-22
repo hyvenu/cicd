@@ -3,7 +3,7 @@ pipeline {
     agent any 
 
     stages {
-        stage('Build') { 
+        stage('dependency_check') { 
             steps { 
                 dependencyCheck additionalArguments: '', odcInstallation: 'OWASP-dependency-check', skipOnScmChange: true 
             }
