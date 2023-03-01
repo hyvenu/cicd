@@ -1,4 +1,6 @@
 FROM python:3
+RUN pip install django==3.1.1
+
 
 COPY . .
 
