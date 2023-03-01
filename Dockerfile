@@ -1,3 +1,9 @@
 FROM python:3
-RUN python3 -m venv venv
-RUN source venv/bin/activate
+WORKDIR /d5n_cicd/cicd
+COPY . .
+RUN pip install -r Requirements
+RUN python manage.py makemigrations
+RUN python manage.py migrate
+
+EXPOSE 8000
+CMD["python","manage.py","runserver","0.0.0.0:8000"]
